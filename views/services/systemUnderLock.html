@@ -1,0 +1,95 @@
+<!-- CUSTOMER CONTROL ACCESS SERVICE FORM -->
+<div id="underLockSystem" class="modal fade bd-example-modal-lg" data-keyboard="false" data-backdrop="static" style="top: 120px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal" ng-click="getContractsByCustomerIdFn(customerFound.idClient,'assign')" ><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-key"></i> SISTEMA BAJO LLAVE :: 
+            		<span class="text-uppercase" style="font-weight: 600;">CONTRATRO </span> - [ 
+            		<span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;">{{contract.sysUnderLock.numeroContrato}}</span>
+            		]</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+    			<form class="form-horizontal" name="fContractSystemLock" novalidate>
+    				<label style="padding-left: 15px;">Sistema Bajo Llave</label>
+		            <div class="well-checkbox form-group col-md-12 col-xs-12">
+		            	<div class="col-md-4 col-xs-4 col-md-offset-3 col-xs-offset-3">
+		                	<input id="isUnderLock1" class="radio-tass radio-tass-3x" type="radio" name="isUnderLock" value="1" ng-model="contract.sysUnderLock.isSystemUnderLock" required autofocus>
+		                    <label for="isUnderLock1" class="radio-tass-label">
+		                      <span>Si</span>
+		                    </label>
+		                </div>
+		                <div class="col-md-4 col-xs-4">
+		                	<input id="isUnderLock2" class="radio-tass radio-tass-3x" type="radio" name="isUnderLock" value="0" ng-model="contract.sysUnderLock.isSystemUnderLock" required autofocus>
+		                    <label for="isUnderLock2" class="radio-tass-label">
+		                      <span>No</span>
+		                    </label> 
+		                </div>
+		            </div>
+		            <div class="clearfix"> </div>
+					<div ng-if="contract.sysUnderLock.isSystemUnderLock==1" class="form-group col-md-12"> 
+						<!-- COMPANY -->                          
+					    <div class="col-md-6 col-lg-4 col-md-offset-2">
+							<div class="col-md-12 col-sm-6 col-xs-6 item">
+								<div class="hero-widget well well-sm">
+					            	<div class="icon">
+					                 	<i class="fas fa-users-cog" 
+						                 ng-class="contract.sysUnderLock.companyHasKeys?'icon-bg-warning':'icon-bg-disabled'"></i>
+					            	</div>
+					            	<div class="text">
+					                	<span class="text-muted text-uppercase text-box">LLAVES EN TASS</span>
+					            	</div>
+					            	<div class="options">
+								        <label class="switch switch-3x">
+								          <input type="checkbox" class="warning sysProfChecks" ng-model="contract.sysUnderLock.companyHasKeys" id="companyHasKeys">
+								          <span class="slider slider-3x round"></span>
+								        </label>
+					            	</div>
+					        	</div>
+							</div>
+					    </div>
+					    <!-- CUSTOMER -->
+					    <div class="col-md-6 col-lg-4" >
+							<div class="col-md-12 col-sm-6 col-xs-6 item">
+								<div class="hero-widget well well-sm">
+					            	<div class="icon">
+					                 	<i class="fas fa-user-tie" 
+						                 ng-class="contract.sysUnderLock.customerHasKeys?'icon-bg-warning':'icon-bg-disabled'"></i>
+					            	</div>
+					            	<div class="text">
+					                	<span class="text-muted text-uppercase text-box">LLAVES EN CLIENTE</span>
+					            	</div>
+					            	<div class="options">
+								        <label class="switch switch-3x">
+								          <input type="checkbox" class="warning sysProfChecks" ng-model="contract.sysUnderLock.customerHasKeys" id="customerHasKeys">
+								          <span class="slider slider-3x round"></span>
+								        </label>
+					            	</div>
+					        	</div>
+							</div>
+					    </div>				    
+					</div>
+					<div class="clearfix"> </div>
+					<!-- Observaciones Generales -->
+					<div ng-if="contract.sysUnderLock.isSystemUnderLock==1" class="form-group col-md-12">
+					  <label class="col-md-12 col-xs-12" >Aclaración</label> 
+							<textarea style="resize: none;" name="ObserGenerales" rows="3" placeholder="indique una Aclaración." class="form-control" ng-model="contract.sysUnderLock.comment_systemUnderLock" required="true"></textarea>							
+					</div>
+				</form>
+			</div>			
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button ng-if="contract.sysUnderLock.new" type="submit" ng-click="switchCustomersFn('contract', contract.sysUnderLock, 'underLock-add');" ng-disabled="fContractSystemLock.$invalid " class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                        <button ng-if="contract.sysUnderLock.update" type="submit" ng-click="switchCustomersFn('contract', contract.sysUnderLock, 'underLock-update');" ng-disabled="fContractSystemLock.$invalid " class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Actualizar</button>
+                        <a data-dismiss="modal" ng-click="getContractsByCustomerIdFn(customerFound.idClient,'assign')" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>	            

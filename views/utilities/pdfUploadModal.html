@@ -1,0 +1,23 @@
+<!-- PDF VIEWER Modal -->
+<div class="modal fade" id="pdfUploadModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+           <!-- <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>-->
+            <h3 class="modal-title"><i class="fas fa-file-invoice"></i> {{fileList.name}}
+                <div class="col-xs-4 col-sm-4 col-md-4 pull-right">
+                    <button type="submit" ng-click="modalConfirmation('upload_billing_ticket',0, fileList)" ng-disabled="fileList.uploadStatus" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="fas fa-cloud-upload-alt"></i> </span>Subir</button>
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div></h3>
+        </div>
+          <div class="modal-body">
+            <div id="pdfObjectViewer" class="form-group col-md-12" style="height: 800px;">
+            </div>
+          </div>
+          <div class="clearfix"> </div>
+        </div>
+    </div>
+  </div>
+  <!-- //PDF VIEWER Modal -->

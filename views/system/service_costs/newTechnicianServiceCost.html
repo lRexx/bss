@@ -1,0 +1,85 @@
+<div id="newTechServiceCost" style="top: 130px;" class="modal fade bd-example-modal-lg" style="top: 110px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="product-success fas fa-dollar-sign"></i> NUEVO COSTO DE SERVICIO TECNICO</h3>
+          </div>
+        <div class="modal-body"  style="overflow-y: scroll;">
+          <!-- FORM CONTAINER-->
+          <form class="form-horizontal" name="fNewTechServiceCost" novalidate>
+            <fieldset>
+              <!-- Form Profile Name -->
+              <div class="form-group col-md-6" ng-class="
+                    {	'has-success': 
+                      technician_services.new.idServiceTechnicianKf!='' && fNewTechServiceCost.tech_service.$valid,
+                      'has-error':  
+                      (technician_services.new.idServiceTechnicianKf=='' || technician_services.new.idServiceTechnicianKf==undefined) && fNewTechServiceCost.tech_service.$touched,
+                    }">
+                <label style="padding-left: 15px;">Servicio Técnico</label>  
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fas fa-screwdriver"></i></span>
+                      <select name="tech_service" 
+                          class="form-control"
+                          ng-change="getTypeOfMaintenanceByTechServiceIdFn(technician_services.new.idServiceTechnicianKf)"
+                          ng-options="item.idServiceTechnician as item.description for item in rsTechServicesData" 
+                          ng-model="technician_services.new.idServiceTechnicianKf"  ng-required="true" autofocus >
+                        <option class="text-uppercase" value="">Selecciona un tipo</option>
+                      </select>
+                    </div>
+                  </div>
+              </div>
+              <!-- Maintenance -->
+              <!--ng-options="item.idDepartment as item.departmentFloor for item in ListDpto"-->
+              <div class="form-group col-md-6" ng-class="
+                    {	'has-success': 
+                      technician_services.new.idTipoMantenimientoKf!='' && fNewTechServiceCost.maintenance_type.$valid,
+                      'has-error':  
+                      (technician_services.new.idTipoMantenimientoKf=='' || technician_services.new.idTipoMantenimientoKf==undefined) && fNewTechServiceCost.maintenance_type.$touched,
+                    }">
+                <label style="padding-left: 15px;">Tipo de mantenimiento</label>  
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fas fa-screwdriver"></i></span>
+                      <select name="maintenance_type" 
+                          class="form-control"
+                          ng-options="item.idTypeMaintenance as item.typeMaintenance for item in rsTypeOfMaintenanceData" 
+                          ng-model="technician_services.new.idTipoMantenimientoKf"  ng-required="true" autofocus >
+                        <option class="text-uppercase" value="">Selecciona un tipo</option>
+                      </select>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-group col-md-6" ng-class="
+              {	'has-success': 
+                technician_services.new.cost!='' && fNewTechServiceCost.technician_cost.$valid,
+                'has-error':  
+                (technician_services.new.cost=='' || technician_services.new.cost==undefined) && fNewTechServiceCost.technician_cost.$touched,
+              }">
+                <label class="clf-size clf-p-left">Costo</label>  
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fas fa-dollar-sign"></i></span>
+                      <input  name="technician_cost" autofocus="true" style="text-align: right;" placeholder="$0,00" class="form-control input--decimal" ng-model="technician_services.new.cost" ng-keydown="fnLoadPhoneMask()" type="text" required autofocus/>
+                    </div>
+                  </div>
+              </div>
+            </fieldset>
+          </form>
+          <div class="clearfix"> </div> 
+        </div>
+        <!-- Actions Button ng-click="newSysProfileFn()"-->
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <button type="submit" ng-click="mainSwitchFn('techServicesCosts','addTechServiceCost', technician_services.new, null)" ng-disabled="fNewTechServiceCost.$invalid" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

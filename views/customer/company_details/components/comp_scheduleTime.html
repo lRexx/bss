@@ -1,0 +1,57 @@
+<!-- SCHEDULE TIME CUSTOMERS -->
+<div id="companyDetails_scheduleTimeDetails" tabindex="-1" class="modal fade modal-dialog-centered in" role="dialog">
+    <div class="modal-dialog modal-md" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title"><i class="fas fa-calendar-alt"></i> HORARIO DE ATENCION</h4>
+          </div>
+        <div class="modal-body">
+          <div class="clearfix"> </div>                
+          <!-- Schedule Atention -->
+            <div ng-if="customer.companyDetails.idClientTypeFk!='5'" class=" col-md-12">
+              <div class="well-checkbox" style="margin-left: 0px; margin-right: 0px; font-size: 18px;">
+                  <table>
+                    <tr ng-if="companyDetails_list_schedule_atention_details.length>0" ng-repeat="item in companyDetails_list_schedule_atention_details">
+                      <td style="font-size: 17px; padding-top: 17px; width: 5%;">
+                        <span class="text-muted text-uppercase text-box">{{item.day}}</span>
+                      </td>
+                      <td style="font-size: 11px; padding-left: 10px;">
+                        <label class="from-left-from-label-2">desde</label>     
+                        <label class="from-middle-to-label-2">hasta</label>
+                        <label class="from-middle-from-label-2">desde</label>     
+                        <label class="from-rigth-to-label-2">hasta</label>
+                        <div class="form-group form-inline">                  
+                          <input style="width:22%" id="contact_fromAm-{{item.id}}" readonly="true" class=" from-left-box-2 input--time" placeholder="{{item.fronAm}}" type="text" />
+
+                          <input style="width: 22%;" id="contact_toAm-{{item.id}}" readonly="true" class=" from-left-box-2 input--time" placeholder="{{item.toAm}}" type="text"  />
+
+                          <input style="width: 22%;" id="contact_fromPm-{{item.id}}" readonly="true" class=" from-left-box-2 input--time" placeholder="{{item.fronPm}}" type="text" />
+
+                          <input style="width: 22%;" id="contact_toPm-{{item.id}}" readonly="true" class=" from-left-box-2 input--time" placeholder="{{item.toPm}}" type="text" />
+                        </div>
+                      </td>                                   
+                    </tr> 
+                    <tr ng-if="companyDetails_list_schedule_atention_details.length==0" >
+                      <td colspan="5"><div class="col-md-12 col-md-offset-2"><span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">Horarios de atencion No Registrados</span></div>
+                      </td>
+                    </tr>                                
+                  </table>   
+                </div>
+            </div>
+          <!-- Schedule Atention -->              
+          <div class="clearfix"> </div> 
+        </div>
+        <!-- Actions Button ng-click="newSysProfileFn()"-->
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // SCHEDULE TIME CUSTOMERS -->

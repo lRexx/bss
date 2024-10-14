@@ -1,0 +1,93 @@
+<!-- Schedule Atention -->
+<div class="well-checkbox" style="margin-left: 0px; margin-right: 0px;">
+	<label class="from-left-from-label" >HORARIO DE ATENCION </label>
+  	<table>
+        <tr ng-repeat="item in list_schedule">
+        	<td style="padding-top: 11px; width: 1%;">
+                <label class="switch switch-3x">
+                    <input type="checkbox" class="success" ng-change="enabledNextBtn();" ng-click="item.id>=1?setScheduleTimeFn(item, 'update'):''" ng-required="!item.selected" ng-model="item.selected" id="modCheck-{{item.id}}">
+                    <span class="slider slider-3x flat"></span>
+                </label>
+          	</td>
+          	<td style="font-size: 11px; padding-top: 11px; width: 5%;">
+          		<span class="text-muted text-uppercase text-box">{{item.day}}</span>
+          	</td>
+          	<td style="font-size: 11px; padding-left: 10px;">
+					<label class="from-left-from-label">desde</label>  		
+			  		<label class="from-middle-to-label">hasta</label>
+			  		<label class="from-middle-from-label">desde</label>  		
+			  		<label class="from-rigth-to-label">hasta</label>
+          		<div class="form-group form-inline">
+					<!--placeholder="07:00" -->           									  	
+				  	<input 
+				  	style="width: 23.4%" 
+				  	name="fromAm-{{item.id}}" 
+				  	ng-disabled="!item.selected" 
+				  	autofocus="true" 
+				  	class="from-left-box input--time" 
+				  	ng-class="{
+		  					  'input-success': 
+		  					  item.fronAm!='' && item.fronAm!=undefined && item.selected
+	  					  }" 
+				  	ng-keydown="fnLoadPhoneMask();" 
+				  	ng-required="!item.selected" 
+				  	ng-model="item.fronAm" 
+				  	type="text" 
+				  	ng-keyup="enabledNextBtn();" 
+				  	autofocus/>
+					<!--placeholder="12:00" --> 
+				  	<input 
+				  	style="width: 23.4%" 
+				  	name="toAm-{{item.id}}" 
+				  	ng-disabled="!item.selected" 
+				  	autofocus="true" 
+				  	class="from-left-box input--time"
+  					  	ng-class="{
+		  					  'input-success': 
+		  					  item.toAm!='' && item.toAm!=undefined && item.selected
+	  					  }"  
+				  	ng-keydown="fnLoadPhoneMask();" 
+				  	ng-required="!item.selected" 
+				  	ng-model="item.toAm"  
+				  	type="text" 
+				  	ng-keyup="item.toAm.length==5?setScheduleTimeFn(item, 'new'):'';enabledNextBtn();" 
+				  	autofocus/>
+					<!--placeholder="14:00" --> 
+				  	<input 
+				  	style="width: 23.4%"  
+				  	name="fromPm-{{item.id}}" 
+				  	ng-disabled="!item.selected" 
+				  	autofocus="true" 
+				  	class="from-left-box input--time"
+				  	ng-class="{
+		  					  'input-success': 
+		  					  item.fronPm!='' && item.fronPm!=undefined  && item.selected
+	  					  }"   
+				  	ng-keydown="fnLoadPhoneMask();" 
+				  	ng-required="!item.selected" 
+				  	ng-model="item.fronPm"  
+				  	type="text" 
+				  	ng-keyup="enabledNextBtn();" 
+				  	autofocus/>
+					<!--placeholder="18:00" --> 
+				  	<input 
+				  	style="width: 23.4%"  
+				  	name="toPm-{{item.id}}" 
+				  	ng-disabled="!item.selected" 
+				  	autofocus="true" 
+				  	class="from-left-box input--time"
+				  	ng-class="{
+		  					  'input-success': 
+		  					  item.toPm!='' && item.toPm!=undefined && item.selected
+	  					  }"  
+				  	ng-keydown="fnLoadPhoneMask();" 
+				  	ng-required="!item.selected" 
+				  	ng-model="item.toPm"  
+				  	type="text" 
+				  	ng-keyup="item.toPm.length==5?setScheduleTimeFn(item, 'new'):'';enabledNextBtn();" 
+				  	autofocus/>												  													  
+				 </div>
+          	</td>				                          	
+        </tr>          
+		</table>   
+</div>

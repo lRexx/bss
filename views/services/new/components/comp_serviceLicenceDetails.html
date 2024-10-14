@@ -1,0 +1,271 @@
+<!-- APP MONITOR USER LICENCE FORM -->
+<div id="serviceLicenceDetails" class="modal fade bd-example-modal-md" data-keyboard="false" data-backdrop="static" role="dialog" ng-init="getOperatingSystemListFn()">
+  	<div class="modal-dialog modal-md" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title">
+            		<span ng-if="isListCustomerService"><i class="product-success far fa-address-book"></i> 
+            		VER LICENCIA</span>
+            		<span ng-if="!isListCustomerService"><i class="product-success far fa-address-book"></i> 
+            		ASIGNAR LICENCIA</span>
+            	</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+    			<form class="form-horizontal" name="fServiceUserLicenceDetails">
+		            <div ng-if="service.idClientTypeFk=='2'" class="form-group col-md-12 col-xs-12 n-padding-r">
+		            	<div ng-if="!isListCustomerService" class="col-md-12 col-xs-12"><label class="clf-size clf-p-left">Destino de la Licencia</label></div>
+		            	<div ng-if="isListCustomerService" class="col-md-12 col-xs-12"><label class="clf-size clf-p-left">Licencia asociada a</label></div>
+		            	<div ng-repeat="item in rsDestinationLicenceListData"
+		            		ng-class="{
+		            				'col-md-5 col-xs-5 n-padding-l n-padding-r': item.idDetinationOfLicense=='1',
+		            				'col-md-3 col-xs-3 n-padding-l n-padding-r': item.idDetinationOfLicense=='2',
+		            				'col-md-4 col-xs-4 n-padding-l n-padding-r': item.idDetinationOfLicense=='3',
+		            			}">
+		                	<input id="destinoLicencia{{$index}}" class="radio-2x" type="radio" name="destinoLicencia" value="{{item.idDetinationOfLicense}}" ng-model="service.users.idDetinationOfLicenseFk" required ng-disabled="isListCustomerService" autofocus>
+		                    <label style="font-size: 80%;" for="destinoLicencia{{$index}}" class="radio-2x-label">
+		                      <span>{{item.detinationOfLicense}}</span>
+		                    </label>
+		                </div>
+		            </div>
+		            <!-- Address for customer Particular -->
+		            <div ng-if="service.idClientTypeFk=='5'" class="form-group col-md-12 col-xs-12" ng-class="
+							{	'has-success': 
+								service.users.idParticularAddressFk!='' && fServiceUserLicenceDetails.addressParticular.$valid,
+							 	'has-error':  
+								(service.users.idParticularAddressFk=='' || service.users.idParticularAddressFk==undefined) && fServiceUserLicenceDetails.addressParticular.$touched,
+							}">
+		            	<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Direccion del particular</label></div>
+		            	<div ng-repeat="item in service.users.list_address_particular" class="col-md-4 col-xs-12">
+		                	<input id="addressParticular{{$index}}" class="radio-2x" type="radio" name="addressParticular" value="{{item.idAddressParticular}}" ng-model="service.users.idParticularAddressFk" required autofocus>
+		                    <label data-toggle="tooltip" data-placement="top" title="{{item.clarification}}" class="radio-2x-label">
+          						<label for="addressParticular{{$index}}" style="cursor: pointer;font-size: 100%;padding-top: 8px;">{{item.address | uppercase}}</label>
+          						<i ng-if="item.idTipoInmuebleFk==1" class="fas fa-building" data-toggle="tooltip" data-placement="bottom" title="Departamento">&nbsp;</i>
+          						<i ng-if="item.idTipoInmuebleFk==2" class="fas fa-home" data-toggle="tooltip" data-placement="bottom" title="Casa">&nbsp;</i>
+          						<i ng-if="item.idTipoInmuebleFk==3" class="fas fa-store-alt" data-toggle="tooltip" data-placement="bottom" title="Local">&nbsp;</i>
+		                    </label>
+		                </div>			                
+		            </div>		            
+					<!-- Deparments for customer building -->
+					<!--<div ng-if="(service.idClientTypeFk=='2') && (service.users.idDetinationOfLicenseFk=='1')" class="form-group col-md-12 n-padding-l n-padding-r" ng-class="
+												  			{	'has-success': 
+												  				service.users.idDepartmentList!='' &&
+												  				service.users.idDepartmentList!=undefined &&
+												  				 fServiceUserLicenceDetails.deparment_registered.$valid,
+												  			 	'has-error':  
+												  				(service.users.idDepartmentList=='' || service.users.idDepartmentList==undefined) && fServiceUserLicenceDetails.deparment_registered.$touched,
+												  			}">
+					  	<label style="padding-left: 25px;">Departamento</label>  
+					    <div class="col-xs-12 selectContainer">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+						  		<select name="deparment_registered" 
+						  				class="form-control" 
+						  				ng-options="item as item.Depto for item in rsBuildingDepartmentsData" 
+						  				ng-required="true"
+						  				ng-model="service.users.idDepartmentList" autofocus >
+								    <option value="">Selecciona un departamento</option>
+							    </select>
+						    </div>
+					  </div>
+					</div>-->
+					<div ng-if="(service.idClientTypeFk=='2') && (service.users.idDetinationOfLicenseFk=='1')" class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
+								  			{	'has-success': 
+								  				service.license_departments.selected!=undefined && fServiceUserLicenceDetails.deparment_registered.$valid,
+								  			 	'has-error':  
+								  				(service.license_departments.selected==undefined) && fServiceUserLicenceDetails.deparment_registered.$touched,
+								  			}">
+						<div class="col-xs-12 selectContainer">
+						    <div class="input-group">
+						      <span class="input-group-addon"><i class="fas fa-lock-open"></i></span>
+						        <ui-select 
+						        	name="deparment_registered"
+						        	theme="bootstrap"
+						        	ng-change="loadUsersAssociatedToDepto(service.license_departments.selected);"
+						         	ng-model="service.license_departments.selected"
+						         	ng-disabled="isListCustomerService"
+						         	ng-required="(service.idClientTypeFk=='2' && service.users.idDetinationOfLicenseFk=='1')">
+						            <ui-select-match placeholder="Selecciona un departamento" >{{$select.selected.Depto}}</ui-select-match>
+						            <ui-select-choices class="ui-select-choices" repeat="item in rsBuildingDepartmentsData | filter: $select.search">
+						                <div ng-bind-html="item.Depto | highlight: $select.search"></div>
+						            </ui-select-choices>
+						            <ui-select-no-choice>
+									    No hay resultados, contacte area de soporte.
+								  	</ui-select-no-choice>
+						        </ui-select>
+						    </div>
+						</div>
+					</div>					
+					<div ng-if="service.users.idDetinationOfLicenseFk!=null || (service.idClientTypeFk!='2' && service.idClientTypeFk!='5')" class="form-group col-md-4">
+						<label ng-if="service.isSysUser" class="clf-p-left">Selecionar usuario</label>
+					</div>
+					<div ng-if="(!isListCustomerService && service.users.idDetinationOfLicenseFk!=null) || (service.idClientTypeFk!='2' && service.idClientTypeFk!='5')" class="form-group col-md-7 text-danger">
+				    	<label class="switch switch-1x">
+				    		<input type="checkbox" 
+				    		class="success" 
+				    		ng-change="service.sysUser.selected=undefined;" 
+				    		ng-model="service.isSysUser"
+				    		ng-disabled="isListCustomerService"
+				    		id="isSysUser" 
+				    		style="margin: 0px !important; display: inherit !important;">
+							<span class="slider slider-1x flat"></span>
+						</label>
+						<label for="serviceSysUser" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Usuario del sistema web</label>
+					</div>    				
+    				<!-- System user -->    				
+					<div class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
+								  			{	'has-success': 
+								  				service.sysUser.selected!=undefined && fServiceUserLicenceDetails.service_sysUser.$valid,
+								  			 	'has-error':  
+								  				(service.sysUser.selected==undefined) && fServiceUserLicenceDetails.service_sysUser.$touched,
+								  			}">
+						<div ng-if="service.isSysUser" class="col-xs-12 selectContainer">
+						    <div class="input-group">
+						      <span class="input-group-addon"><i class="fas fa-lock-open"></i></span>
+						        <ui-select 
+						        	name="service_sysUser"
+						        	theme="bootstrap"
+						        	ng-change="loadSeletedSysUserFields(service.sysUser.selected);"
+						         	ng-model="service.sysUser.selected"
+						         	ng-disabled="isListCustomerService"
+						         	ng-required="service.isSysUser">
+						            <ui-select-match placeholder="Selecciona un usuario" >{{$select.selected.fullNameUser}}</ui-select-match>
+						            <ui-select-choices class="ui-select-choices" repeat="item in rsList.clientUser | filter: $select.search">
+						                <div ng-bind-html="item.fullNameUser | highlight: $select.search"></div>
+						                <small ng-bind-html="item.emailUser | highlight: $select.search"></small>
+						                <small class="label label-default" ng-bind-html="item.nameProfile | highlight: $select.search"></small>
+						                    
+						            </ui-select-choices>
+						            <ui-select-no-choice>
+									    No hay resultados, contacte area de soporte.
+								  	</ui-select-no-choice>
+						        </ui-select>
+						    </div>
+						</div>
+					</div>
+					<!-- Nombre de Usuario -->						  
+					<div ng-if="(!service.isSysUser && service.users.idDetinationOfLicenseFk!=null) || (service.idClientTypeFk!='2' && service.idClientTypeFk!='5')" class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.users.fullName!='' && fServiceUserLicenceDetails.serviceUserLicenceName.$valid,
+								 	'has-error':  
+									(service.users.fullName=='' || service.users.fullName==undefined) && fServiceUserLicenceDetails.serviceUserLicenceName.$touched,
+								}">
+						<label class="clf-p-left">Nombre y Appelido</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-user"></i></span>
+				    			<input name="serviceUserLicenceName" id="serviceUserLicenceName" type="text" class="form-control" ng-required="true" ng-disabled="service.isSysUser || isListCustomerService" ng-model="service.users.fullName" />
+				    		</div>
+				    	</div>
+					</div>					
+					<!-- Mail -->						  
+					<div ng-if="((service.users.idDetinationOfLicenseFk!='' && service.users.idDetinationOfLicenseFk!=null && service.users.idDetinationOfLicenseFk!=undefined && service.idClientTypeFk==2) || (service.users.idDetinationOfLicenseFk==null && service.idClientTypeFk!=2 ))" class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.users.email!='' && fServiceUserLicenceDetails.serviceUserLicenceMail.$valid,
+								 	'has-error':  
+									(service.users.email=='' || service.users.email==undefined) && fServiceUserLicenceDetails.serviceUserLicenceMail.$touched,
+								}">
+					  	<label style="padding-left: 15px;">Correo</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-envelope"></i></span>
+				    			<input name="serviceUserLicenceMail" type="email" class="form-control" ng-required="true" ng-disabled="service.isSysUser || isListCustomerService" ng-model="service.users.email" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- phone -->					  
+					<div ng-if="((service.users.idDetinationOfLicenseFk!='' && service.users.idDetinationOfLicenseFk!=null && service.users.idDetinationOfLicenseFk!=undefined && service.idClientTypeFk==2) || (service.users.idDetinationOfLicenseFk==null && service.idClientTypeFk!=2 ))" class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.users.phone!='' && fServiceUserLicenceDetails.serviceUserLicencePhone.$valid,
+								 	'has-error':  
+									(service.users.phone=='' || service.users.phone==undefined) && fServiceUserLicenceDetails.serviceUserLicencePhone.$touched,
+								}">
+					  	<label style="padding-left: 15px;">Telefono</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+				    			<input name="serviceUserLicencePhone" type="text" class="form-control input--phone" ng-keydown="fnLoadPhoneMask()" ng-required="true" ng-disabled="isListCustomerService" ng-model="service.users.phone" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- Number of user or password -->
+					<div ng-if="(service.idApplicationFk!=null && (service.users.idDetinationOfLicenseFk!=null || service.users.idDetinationOfLicenseFk==null))" class="form-group col-md-12 n-padding-l n-padding-r" ng-class="
+							{	'has-success': 
+								(service.users.userNumbPasswd!='' && service.users.userNumbPasswd!=undefined) && fServiceUserLicenceDetails.serviceUserLicencePhoneNumberUserOrPasswd.$valid,
+							 	'has-error':  
+								(service.users.userNumbPasswd=='' || service.users.userNumbPasswd==undefined) && fServiceUserLicenceDetails.serviceUserLicencePhoneNumberUserOrPasswd.$touched,
+							}">
+					  	<label ng-if="service.idApplicationFk=='1'" style="padding-left: 15px;">Numero de Usuario</label>
+					  	<label ng-if="service.idApplicationFk=='2'" style="padding-left: 15px;">Numero de Clave</label>
+						  <div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-key"></i></span>
+								<input name="serviceUserLicencePhoneNumberUserOrPasswd" type="text" ng-disabled="isListCustomerService" class="form-control" ng-model="service.users.userNumbPasswd" ng-required="service.idApplicationFk<='2'" />
+						  </div>
+						</div>
+					</div>					
+					<!-- Secret word -->
+					<div ng-if="((service.users.idDetinationOfLicenseFk!='' && service.users.idDetinationOfLicenseFk!=null && service.users.idDetinationOfLicenseFk!=undefined && service.idClientTypeFk==2) || (service.users.idDetinationOfLicenseFk==null && service.idClientTypeFk!=2 ))" class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.users.keyword!='' && fServiceUserLicenceDetails.serviceLicenceSecretWord.$valid,
+								 	'has-error':  
+									(service.users.keyword=='' || service.users.keyword==undefined) && fServiceUserLicenceDetails.serviceLicenceSecretWord.$touched,
+								}">
+					  	<label style="padding-left: 15px;">Palabra Clave</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-key"></i></span>
+				    			<input id="serviceLicenceSecretWord" type="text" class="form-control" ng-disabled="isListCustomerService" ng-required="true" ng-model="service.users.keyword" />
+				    		</div>
+				    	</div>
+					</div>					
+					<!-- Operating System -->					  
+		            <div ng-if="((service.users.idDetinationOfLicenseFk!='' && service.users.idDetinationOfLicenseFk!=null && service.users.idDetinationOfLicenseFk!=undefined && service.idClientTypeFk==2) || (service.users.idDetinationOfLicenseFk==null && service.idClientTypeFk!=2 ))" class="form-group col-md-12 col-xs-12 n-padding-r n-padding-l">
+		            	<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Sistema Operativo</label></div>
+		            	<div ng-repeat="item in rsTypeOperatingSystemListData" class="col-md-6 col-xs-12">
+		                	<input id="serviceLicenceOS{{$index}}" class="radio-2x" type="radio" ng-disabled="isListCustomerService" name="serviceLicenceOS" value="{{item.idSistemaOperativo}}" ng-model="service.users.idOS" required autofocus>
+		                    <label for="serviceLicenceOS{{$index}}" class="radio-2x-label">
+		                      	<span>{{item.descripcion}} 
+		                      		<span ng-if="item.idSistemaOperativo=='1'" ng-class="{'has-success': service.users.idOS!='' && fServiceUserLicenceDetails.serviceLicenceOS.$valid}"><i class="fab fa-apple"></i></span>
+		                      		<span ng-if="item.idSistemaOperativo=='2'" ng-class="{'has-success': service.users.idOS!='' && fServiceUserLicenceDetails.serviceLicenceOS.$valid}"><i class="fab fa-android"></i></span>
+		                      	</span>
+		                    </label>
+		                </div>
+		            </div>
+					<!-- Perfil -->					  
+					<div ng-if="((service.users.idDetinationOfLicenseFk!='' && service.users.idDetinationOfLicenseFk!=null && service.users.idDetinationOfLicenseFk!=undefined && service.idClientTypeFk==2) || (service.users.idDetinationOfLicenseFk==null && service.idClientTypeFk!=2 ))" class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.users.profileUser!='' && fServiceUserLicenceDetails.serviceUserLicenceProfile.$valid,
+								 	'has-error':  
+									(service.users.profileUser=='' || service.users.profileUser==undefined) && fServiceUserLicenceDetails.serviceUserLicenceProfile.$touched,
+								}">  
+					  	<label style="padding-left: 15px;">Perfil</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+				    			<input name="serviceUserLicenceProfile" type="text" ng-required="true" ng-disabled="isListCustomerService" class="form-control" ng-model="service.users.profileUser" />
+				    		</div>
+				    	</div>
+					</div>
+				</form>
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button ng-if="!isListCustomerService && !service.isUserLicenceEdit" type="submit" ng-click="processUserLicenceFn(service.users, 'new')" ng-disabled="fServiceUserLicenceDetails.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
+                        	<span>Asignar</span>
+                        </button>
+                        <button ng-if="!isListCustomerService && service.isUserLicenceEdit" type="submit" ng-click="processUserLicenceFn(service.users, 'update')" ng-disabled="fServiceUserLicenceDetails.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
+                        	<span>Actualizar</span>
+                        </button>                        
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>				

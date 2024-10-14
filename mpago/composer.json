@@ -1,0 +1,15 @@
+{
+    "name": "asremis/mpago",
+    "description": "proyecto mercado pago as remis",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jorge Gutierrez",
+            "email": "jorguti58@gmail.com"
+        }
+    ],
+    "require": {
+        "mercadopago/sdk": "0.5.2"
+    }
+}

@@ -1,0 +1,238 @@
+<!-- MANAGE SERVICES-->
+<div class="col-md-12 n-padding-l n-padding-r" ng-init="">
+  <div class="panel panel-default padding-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">GESTION DE SERVICIOS </h3>
+    </div>
+    <div class="panel-body">
+        <div ng-show="!searchCustomerFound" class="form-group col-lg-12 n-padding-l n-padding-r" >
+          <div class="col-md-12 col-xs-12">
+            <div class="col-md-2 col-xs-2" ><label class="clf-size">Buscar Cliente</label></div>
+            <div class="col-md-1 col-xs-2">
+              <label class="switch switch-2x" for="strict-search">
+                  <input type="checkbox" class="success" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-model="customerSearch.strict" id="strict-search">
+                  <span class="slider slider-2x flat"></span>
+              </label>
+            </div>
+            <div class="col-md-7 col-xs-7 n-padding-l" style="margin-top: 0.2%;margin-left: -3.5% !important;">
+              <label ng-if="customerSearch.strict" style="cursor: pointer;" class="badge badge-success">Busquéda exacta</label>
+              <label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
+            </div>
+          </div>
+          <div class="row n-margin-l n-margin-r">  
+            <div ng-class="col-md-12">
+              <div class="col-md-2 col-xs-5">
+                  <input id="typeClientAll" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-checked="true" name="typeClient" value="" ng-model="customerSearch.typeClient" required autofocus>
+                  <label for="typeClientAll" class="radio-2x-label">
+                    <span>Todos</span>
+                  </label>
+                </div>
+                <div class="col-md-2 col-xs-5">
+                  <input id="typeClient1" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="1" ng-model="customerSearch.typeClient" required autofocus>
+                  <label for="typeClient1" class="radio-2x-label">
+                    <span>Administracion</span>
+                  </label>
+                </div>
+                <div class="col-md-2 col-xs-5">
+                  <input id="typeClient2" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="2" ng-model="customerSearch.typeClient" required autofocus>
+                  <label for="typeClient2" class="radio-2x-label">
+                    <span>Edificio</span>
+                  </label> 
+                </div>
+                <div class="col-md-2 col-xs-5">
+                  <input id="typeClient3" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="3" ng-model="customerSearch.typeClient" required autofocus>
+                  <label for="typeClient3" class="radio-2x-label">
+                    <span>Empresa</span>
+                  </label> 
+                </div>
+                <div class="col-md-2 col-xs-5">
+                  <input id="typeClient4" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="4" ng-model="customerSearch.typeClient" required autofocus>
+                  <label for="typeClient4" class="radio-2x-label">
+                    <span>Sucursal</span>
+                  </label> 
+                </div>
+                <div class="col-md-2 col-xs-5">
+                  <input id="typeClient5" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="5" ng-model="customerSearch.typeClient" required autofocus>
+                  <label for="typeClient5" class="radio-2x-label">
+                    <span>Particular</span>
+                  </label> 
+                </div>
+            </div>
+          </div>
+          <div class="clearfix"> </div>
+          <div class="input-group s-ui-width s-ui-m-left">
+            <input type="text" name="customerSearch" 
+                id="customerSearch" 
+                ng-model="customerSearch.name"
+                ng-keydown="$event.keyCode === 13 && findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)"
+                class="form-control input-lg input-font-size text-uppercase input-search"
+                move-to-list input-selector="'.input-search'"
+                list-items-selector="'.list-group li'"
+                required="true" />
+            <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0" style="height: 0px;" >
+              <li tabindex="0" id="customerList-{{$index}}" class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="switchCustomersFn('loadCustomerFields', item);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && switchCustomersFn('loadCustomerFields', item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+            </ul>
+          </div>
+        </div>
+        <div ng-show="searchCustomerFound" class="pull-left col-md-12 n-padding-l n-padding-r">
+            <div  class="panel panel-default">
+                <div class="panel-heading">
+                  <button type="button" class="close" data-toggle="tooltip" data-placement="top" title="Cerrar" ng-click="closeServicePanel()"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                  <h3 class="panel-title">CLIENTE</h3>
+                </div>
+                <div class="panel-body">
+                  <!-- CUSTOMER COLUMN -->
+                  <div  class="col-md-8 col-xs-8 well-checkbox n-margin-r n-margin-l customer-frame">
+                    <!-- LEFT COLUMN -->
+                    <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
+                      <div class="col-md-12 col-xs-12"><span class="badge badge-default">sistema web</span><span> N° de Cliente : {{customerFound.idClient}}</span></div>                      
+                      <div class="col-md-12 col-xs-12"><span>Nombre: {{customerFound.name | uppercase}}</span></div>
+                      <div ng-if="customerFound.idClientType!='5'" class="col-md-12 col-xs-12"><span>Dirección: {{customerFound.address | uppercase}}</span></div>
+                      <div ng-if="customerFound.idClientType=='5'" class="col-md-12 col-xs-12"><span>Dirección: {{customerFound.billing_information_details.businessAddress | uppercase}}</span></div>
+                      <div ng-if="customerFound.idClientType=='5'" class="col-md-12 col-xs-12"><span>Mail: {{customerFound.mail}}</span></div>
+                      <div ng-if="customerFound.idClientType=='2' || customerFound.idClientType=='4'" class="col-md-12 col-xs-12">
+                        <span ng-if="customerFound.idClientType=='2'">Administracion: {{customerFound.companyBusinessName}}</span>
+                        <span ng-if="customerFound.idClientType=='4'">Empresa: {{customerFound.companyBusinessName}}</span>
+                      </div>
+                      <div ng-if="customerFound.idClientType!='5'" class="col-md-12 col-xs-12">
+                        <span ng-if="customerFound.zona!=null">Zona: {{customerFound.zona.n_zona}} - {{customerFound.zona.descripcion | uppercase}}</span>
+                        <span ng-if="customerFound.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
+                      </div>
+                    </div>
+                    <!-- RIGHT COLUMN -->
+                    <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
+                      <div class="col-md-12 col-xs-12">
+                        <span class="badge badge-default">sistema de gestion</span>
+                        <span ng-if="customerFound.idClientAssociated_SE!=null"> N° de Cliente : {{customerFound.idClientAssociated_SE}}</span>
+                        <span ng-if="customerFound.idClientAssociated_SE==null"> N° de Cliente : <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-default">n/a</label></span>
+                      </div>
+                      <div class="col-md-12 col-xs-12"><span>Tipo de Cliente: {{customerFound.ClientType | uppercase}}</span></div>
+                      <div ng-if="customerFound.idClientType=='1' || customerFound.idClientType=='3'" class="col-md-12 col-xs-12"><span>Razón Social: {{customerFound.businessName | uppercase}}</span></div>
+                      <div ng-if="customerFound.idClientType=='1' || customerFound.idClientType=='3'" class="col-md-12 col-xs-12"><span>CUIT: {{customerFound.CUIT}}</span></div>
+                      <div class="col-md-12 col-xs-12"><span>IVA: {{customerFound.billing_information_details.typeTax | uppercase}}</span></div>
+                      <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12 col-xs-12">
+                        <div class="col-md-12 col-xs-12 n-padding-l" >
+                          <span>Estatus Servicios:</span>
+                          <button data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customerFound.servicesStatustURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
+                          <a data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerFound.servicesStatustURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
+                        </div>
+                      </div>
+                    </div>
+
+                  </div>
+                  <div  class="col-md-4 col-xs-4">
+                      <!-- NEW CONTRACT -->
+                      <div class="col-md-4 col-xs-6">
+                        <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="NUEVO CONTRATO" ng-click="switchCustomersFn('contract', customerFound, 'new_contract_windows');">
+                          <div class="depto-icon">
+                                <span><i class="default-sys-color fas fa-file-signature"></i></span>
+                          </div>
+                          <div class="text-badge">
+                              <span class="registered-customer badge badge-light"> NUEVO CONTRATO </span>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- //NEW CONTRACT -->
+                      <!-- NEW SERVICE -->
+                      <div class="col-md-4 col-xs-6">
+                        <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="NUEVO SERVICIO" ng-click="switchCustomersFn('services', customerFound, 'select_contract_first', '');">
+                          <div class="depto-icon">
+                                <span><i class="default-sys-color fas fa-wrench"></i></span>
+                          </div>
+                          <div class="text-badge">
+                              <span class="registered-customer badge badge-light"> NUEVO SERVICIO </span>
+                          </div>
+                        </div>
+                      </div>
+                      <!-- INITIAL PRICE & KEYS "-->
+                      <div class="col-md-4 col-xs-6">
+                        <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="ENTREGA INICIAL" ng-click="switchCustomersFn('customers', customerFound, 'new_enableInitialKeys', '');">
+                          <div class="depto-icon">
+                            <div ng-if="customerFound.initial_delivery.length>0" class="ribbon ribbon-top-right" 
+                              ng-class="{
+                                  'ribbon-success':customerFound.initial_delivery.length==1 && !customerFound.initial_delivery[0].expiration_state, 
+                                  'ribbon-warning':customerFound.initial_delivery.length==1 && customerFound.initial_delivery[0].expiration_state}">
+                              <span ng-if="customerFound.initial_delivery.length==1 && !customerFound.initial_delivery[0].expiration_state">Activo</span>
+                              <span ng-if="customerFound.initial_delivery.length==1 && customerFound.initial_delivery[0].expiration_state">Expirado</span>
+                            </div>
+                                <span><i class="default-sys-color fas fa-key"></i></span>
+                          </div>
+                          <div class="text-badge">
+                              <span class="registered-customer badge badge-light">ENTREGA INICIAL </span>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                  <!-- CONTRACT LIST -->
+                  <div class="col-md-12 n-padding-l n-padding-r">
+                    <label class="clf-size from-left-from-label" style="margin-left: 6em; padding-bottom: 15px;">CONTRATOS</label>
+                    <div ng-include="'views/services/list/listContracts.html'"></div>
+                  </div>
+                  <!--<div class="col-md-12">
+                    <label class="clf-size from-left-from-label" style="margin-left: 6em; padding-bottom: 15px;">SERVICIOS</label>
+                    <div ng-include="'views/services/list/listServices.html'"></div>
+                  </div>-->
+                </div>
+                <!-- //NEW SERVICE -->
+                <div class="modal-footer">
+                  <div class="row">
+                      <div class="col-xs-3 col-sm-1 col-md-1">
+                            <button type="button" ng-click="closeServicePanel()" class="btn btn-labeled btn-success">
+                              <span class="btn-label"><i class="fas fa-search"></i></span>Buscar nuevo cliente</button>
+                      </div>
+                  </div>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div ng-include="'views/services/systemUnderLock.html'"></div>
+<div ng-include="'views/services/list/listServicesUserLicense.html'"></div>
+<div ng-include="'views/services/list/listCameras.html'"></div>
+<div ng-include="'views/services/list/usersServicesDVR.html'"></div>
+
+
+<div ng-include="'views/services/new/components/ControlAcess/formRegisterAccessControl.html'"></div>
+<div ng-include="'views/services/new/components/Alarm/formRegisterAlarm.html'"></div>
+<div ng-include="'views/services/new/components/AppMonitor/formRegisterAppMonitor.html'"></div>
+<div ng-include="'views/services/new/components/Cameras/formRegisterCameras.html'"></div>
+<div ng-include="'views/services/new/components/Totem/formRegisterTotem.html'"></div>
+<div ng-include="'views/services/new/components/Internet/formRegisterInternet.html'"></div>
+
+
+<div ng-include="'views/services/update/components/ControlAcess/formUpdateAccessControl.html'"></div>
+<div ng-include="'views/services/update/components/Alarm/formUpdateAlarm.html'"></div>
+<div ng-include="'views/services/update/components/AppMonitor/formUpdateAppMonitor.html'"></div>
+<div ng-include="'views/services/update/components/Cameras/formUpdateCameras.html'"></div>
+<div ng-include="'views/services/update/components/Totem/formUpdateTotem.html'"></div>
+<div ng-include="'views/services/update/components/Internet/formUpdateInternet.html'"></div>
+
+<div ng-include="'views/services/new/components/comp_serviceModuleConnectionDetails.html'"></div>
+<div ng-include="'views/services/new/components/comp_serviceModuleZoneDetails.html'"></div>
+<div ng-include="'views/services/new/components/comp_serviceLoadSeletedZoneDetails.html'"></div>
+<div ng-include="'views/services/new/components/comp_serviceAlarmDetails.html'"></div>
+<div ng-include="'views/services/new/components/Alarm/comp_peopleDetails.html'"></div>
+
+<div ng-include="'views/services/new/components/comp_serviceProductDetails.html'"></div>
+<div ng-include="'views/services/new/components/comp_serviceUserDetails.html'"></div>
+<div ng-include="'views/services/new/components/comp_serviceLicenceDetails.html'"></div>
+<div ng-include="'views/services/new/components/comp_contractSelect.html'"></div>
+<div ng-include="'views/services/new/components/comp_serviceSelect.html'"></div>
+
+<div ng-include="'views/services/new/formRegisterContract.html'"></div>
+<div ng-include="'views/services/new/components/comp_serviceUnits.html'"></div>
+<div ng-include="'views/services/update/formUpdateContract.html'"></div>
+<div ng-include="'views/services/update/components/comp_serviceUnits.html'"></div>
+<div ng-include="'views/services/new/activationDateContract.html'"></div>
+<div ng-include="'views/services/update/formContractDetails.html'"></div>
+<div ng-include="'views/services/enableInitialKeys.html'"></div>
+<div ng-include="'views/utilities/pdfViewerModal.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-include="'views/utilities/modalConfirmationCustom.html'"></div>
+<div ng-include="'views/services/serviceDownDetails.html'"></div>
+<div ng-include="'views/services/contracts/contractDownDetails.html'"></div>
+<div ng-include="'views/services/contracts/terminateContract.html'"></div>
+<div ng-include="'views/services/getApprovedUsers.html'"></div>
+
+<div ng-include="'views/services/selectPdfType.html'"></div>

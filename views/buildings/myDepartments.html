@@ -1,0 +1,74 @@
+<!-- MANAGE MY DEPARTMENTS-->
+<div class="col-md-12 n-padding-l n-padding-r">
+    <div  class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">MIS DEPARTAMENTOS</h3>
+      </div>
+      <!--DEPARTMENTS PANEL -->
+      <div id="custRegistered" class="panel-body">
+        <!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
+        <div class="n-padding-l n-padding-r">
+            <div ng-if="myDepartamentlist.length > 0" class="row">
+                <div ng-repeat="item in myDepartamentlist"  class="col-md-3">
+                    <div class="widget-head-color-box lazur-bg p-lg text-center card-customer lazur-bg" style="background-color: #23c5c84b !important;">
+                        <div class="m-b-md">
+                            <h2 class="font-bold no-margins text-uppercase" style="color: #555555">
+                            {{item.floor}}-{{item.departament}}
+                            </h2>
+                            <span ng-if="(sysLoggedUser.idTypeTenantKf=='1' && item.isAprobatedAdmin=='1' && item.isRequesLowByProp!='1') || (sysLoggedUser.idTypeTenantKf=='2' && sysLoggedUser.isDepartmentApproved=='1' && (sysLoggedUser.isRequesLowByTenant!='1'))" style="font-size: 10px" class="label label-success"><i class="fas fa-check-circle"></i> Activo</span>
+                            <span ng-if="(sysLoggedUser.idTypeTenantKf=='1' && item.isAprobatedAdmin!='1' && item.isRequesLowByProp!='1') || (sysLoggedUser.idTypeTenantKf=='2' && (sysLoggedUser.isDepartmentApproved==null || sysLoggedUser.isDepartmentApproved=='0') && (sysLoggedUser.isRequesLowByTenant==null || sysLoggedUser.isRequesLowByTenant=='0'))" style="font-size: 10px" class="label label-warning"><i class="fas fa-exclamation-triangle"></i> Aprobación Pendiente </span>
+                            <span ng-if="(sysLoggedUser.idTypeTenantKf=='1' && item.isRequesLowByProp=='1') || (sysLoggedUser.idTypeTenantKf=='2' && sysLoggedUser.isRequesLowByTenant=='1')" style="font-size: 10px" class="label label-warning"><i class="fas fa-exclamation-triangle"></i> Baja Solicitada </span>
+                        </div>
+                        <i style="color: #fff; font-weight: bold; font-size:76px" class="fas fa-home img-circle circle-border m-b-md" alt="profile"></i>
+                        <div class="row">
+                            <button ng-disabled="(sysLoggedUser.idTypeTenantKf=='1' && item.isRequesLowByProp=='1') || (sysLoggedUser.idTypeTenantKf=='1' && item.isAprobatedAdmin!='1' && item.isRequesLowByProp!='1') || (sysLoggedUser.idTypeTenantKf=='2' && ((sysLoggedUser.isDepartmentApproved==null || sysLoggedUser.isDepartmentApproved=='0') || sysLoggedUser.isRequesLowByTenant=='1'))" ng-click="switchBuildingFn('departmentTenants', item)" type="button" class="btn btn-primary btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Ver Habitantes asociados">
+                                <span ng-if="item.tenants.length>=1" class="badge"  ng-class="
+                                    {  'badge badge-warning':  
+                                        item.tenants.length==0,
+                                    }">{{item.tenants.length}}</span> 
+                                Habitantes</button>
+                            <button ng-if="sysLoggedUser.idTypeTenantKf=='1'" ng-disabled="(sysLoggedUser.idTypeTenantKf=='1' && item.isRequesLowByProp=='1') || (sysLoggedUser.idTypeTenantKf=='1' && item.isAprobatedAdmin!='1' && item.isRequesLowByProp!='1') || (sysLoggedUser.idTypeTenantKf=='2' && ((sysLoggedUser.isDepartmentApproved==null || sysLoggedUser.isDepartmentApproved=='0') || sysLoggedUser.isRequesLowByTenant=='1'))" ng-click="switchBuildingFn('departmentKeys', item)" type="button" class="btn btn-primary btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Ver Llaveros asociados">
+                                <span class="badge" ng-class="
+                                    {  'badge badge-warning':  
+                                        item.keys.length==0,
+                                    }">{{item.keys.length}}</span>
+                            Llaveros</button>
+                        </div>
+                        <div class="row" style="padding-top: 1%;">
+                            <button ng-if="sysLoggedUser.idTypeTenantKf!=null" ng-disabled="(sysLoggedUser.idTypeTenantKf=='1' && item.isRequesLowByProp=='1') || (sysLoggedUser.idTypeTenantKf=='1' && item.isAprobatedAdmin!='1' && item.isRequesLowByProp!='1') || (sysLoggedUser.idTypeTenantKf=='2' && ((sysLoggedUser.isDepartmentApproved==null || sysLoggedUser.isDepartmentApproved=='0') || sysLoggedUser.isRequesLowByTenant=='1'))" ng-click="switchBuildingFn('newTenant', item)" type="button" class="btn btn-success btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Nuevo Habitante">
+                                <i class="fas fa-user-plus"></i>
+                            </button>
+                            <button ng-if="sysLoggedUser.idTypeTenantKf!=null" ng-disabled="(sysLoggedUser.idTypeTenantKf=='1' && item.isRequesLowByProp=='1') || (sysLoggedUser.idTypeTenantKf=='2' && ((sysLoggedUser.isDepartmentApproved==null || sysLoggedUser.isDepartmentApproved=='0') || sysLoggedUser.isRequesLowByTenant=='1'))" ng-click="modalConfirmation('removet', 0, sysLoggedUser, item)" type="button" class="btn btn-danger btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Solicitar Baja">
+                                <i class="fas fa-trash"></i>
+                            </button>
+                            <!--<span class="badge badge-default">610 Followers</span>-->
+                        </div>
+                    </div>
+                    <div class="widget-text-box">
+                        <h4 class="media-heading">Unidad: <span class="label label-default">{{item.categoryDepartament}}</span></h4>
+                        <p>{{item.address}}</p>
+                        <!--<div class="text-right">
+                            <a class="btn btn-xs btn-default"><i class="fa fa-thumbs-up"></i> Like </a>
+                            <a class="btn btn-xs btn-primary"><i class="fa fa-heart"></i> Love</a>
+                            <a class="btn btn-xs btn-success"><i class="fa fa fa-envelope"></i> Message</a>
+                            <a class="btn btn-xs btn-info"><i class="fa fa fa-phone"></i> Call</a>
+                        </div>-->
+                    </div>
+                </div>
+            </div>
+            <div ng-show="myDepartamentlist.length == 0" class="alert alert-warning" role="alert">
+                <strong>INFO: </strong>No tiene departamentos asociados.
+                    <button data-toggle="tooltip" data-placement="right" title="Asociar un departamento"  ng-click="switchBuildingFn('buildingSecCode', null)" type="button" ng-click="" class="btn btn-labeled btn-sm btn-success">
+                        <span class="btn-label"><i title="Registrar" class="fas fa-user-plus"></i> </span>Asociar</button>
+            </div>
+        </div>
+        <div class="clear-fix"></div>
+        <!-- TABLE LIST WHERE IS DISPLAYED THE DEPARTMENTS -->
+        <div ng-if="select.admins.selected!=undefined && select.buildings.selected!=undefined && ListDpto.length>0" class="pull-left col-md-12 n-padding-r">
+            <div ng-include="'views/buildings/list/listDepartments.html'"></div>
+        </div>
+      </div>
+    </div>
+</div>
+<div ng-include="'views/buildings/list/listDepartmentKeys.html'"></div>
+<div ng-include="'views/buildings/list/listDepartmentTenants.html'"></div>

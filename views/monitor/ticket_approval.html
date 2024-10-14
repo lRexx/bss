@@ -1,0 +1,186 @@
+<!-- APPROVAL TICKET -->
+<div  ng-if="approval!=undefined" class="col-md-10 col-md-offset-1">
+  <div class="panel padding-panel" ng-class="{'panel-warning':(tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11'), 'panel-success':(tkupdate.idStatusTicketKf!='2' && tkupdate.idStatusTicketKf!='9' && tkupdate.idStatusTicketKf!='11' && tkupdate.idStatusTicketKf=='3')}">
+    <div class="panel-heading">
+        <h3 class="modal-title">
+            <i ng-if="tkupdate.idTypeTicketKf==1" class="fas fa-key"></i>
+            <i ng-if="tkupdate.idTypeTicketKf==2" class="fas fa-key"></i>
+            <i ng-if="tkupdate.idTypeTicketKf==3" class="fas fa-wrench"></i>
+        [{{tkupdate.codTicket}}] - <span class="label" ng-class="{  
+            'label-default': 
+            tkupdate.idStatusTicketKf=='8',
+            'label-success':  
+            tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='5',
+            'label-warning':  
+            tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11' || tkupdate.idStatusTicketKf=='7',
+            'label-danger':  
+            tkupdate.idStatusTicketKf=='6',
+          }" >{{tkupdate.typeticket.TypeTicketName}}</span>
+    </div>
+    <div class="panel-body">
+        <div  class="col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
+            <!-- TICKET DETAILS -->
+            <div  class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame">
+                <!-- LEFT COLUMN -->
+                <div class="col-md-6 col-xs-6 n-padding-l n-padding-r">
+                  <div class="col-md-12 col-xs-12">
+                    <span> N° de Ticket: {{tkupdate.codTicket}}</span>
+                  </div>
+                  <div class="col-md-12"><span>Realizado por: {{tkupdate.userMadeBy.fullNameUser}}</span> <span data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userMadeBy.nameProfile}}</span></div>                  
+                  <div class="col-md-12">
+                      <span>Estado: 
+                      <span ng-if="tkupdate.isCancelRequested=='1' || tkupdate.isCancelRequested!='1'" class="label" ng-class="{  
+                        'label-default': 
+                        tkupdate.idStatusTicketKf=='8',
+                        'label-success':  
+                        tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='5',
+                        'label-warning':  
+                        tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11' || tkupdate.idStatusTicketKf=='7',
+                        'label-danger':  
+                        tkupdate.idStatusTicketKf=='6',
+                      }">{{tkupdate.statusTicket.statusName}}</span>
+                      </span>
+                  </div>
+                </div>
+                <!-- RIGHT COLUMN -->
+                <div class="col-md-6 col-xs-6 n-padding-l n-padding-r">
+                  <div ng-if="tkupdate.building!=null && tkupdate.building!=undefined" class="col-md-12"><span> Consorcio: {{tkupdate.building.name}}</span></div>
+                  <div ng-if="tkupdate.idTypeRequestFor=='1' && tkupdate.building!=null && tkupdate.building!=undefined" class="col-md-12"><span> Departamento: </span>
+                    <span class="label label-default text-uppercase">{{tkupdate.department.floor}}-{{tkupdate.department.departament}}</span>
+                    <span data-toggle="tooltip" data-placement="rigth"  title="Autorización de propietario pendiente" ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.department.isAprobatedAdmin!=1 && tkupdate.department.idUserKf==tkupdate.userRequestBy.idUser && (tkupdate.userRequestBy.idProfileKf=='3' || tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='1'" class="label label-warning text-uppercase"><i class="fas fa-lock"></i></span>
+                    <span data-toggle="tooltip" data-placement="rigth"  title="Autorización de Habitante pendiente" ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.userRequestBy.isDepartmentApproved==null && (tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='5' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='2'" class="label label-warning text-uppercase"><i class="fas fa-lock"></i></span>
+                    <span data-toggle="tooltip" data-placement="rigth"  title="Autorizado" ng-if="(tkupdate.department.isAprobatedAdmin==1 && tkupdate.department.idUserKf==tkupdate.userRequestBy.idUser && (tkupdate.userRequestBy.idProfileKf=='3' || tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='1') || (tkupdate.userRequestBy.isDepartmentApproved!=null && (tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='5' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='2')" class="label label-success text-uppercase"><i class="fas fa-user-check"></i></span>
+                  </div>
+                  <div ng-if="tkupdate.idTypeRequestFor!='1'" class="col-md-12"><span> Tipo: </span><span class="label label-default text-uppercase">{{tkupdate.typeRequestFor.name}}</span></div>
+                  <!--<div class="col-md-12"><span> Costo: </span>
+                    <span style="color:rgb(250, 107, 107);background: #fff;border-radius: 10px;padding-left: 5px; padding-right: 5px; font-size: 18px;" ng-if="tkupdate.total!=null && tkupdate.total!=undefined && tkupdate.total!='NaN'">{{tkupdate.total | number:2}}</span>
+                    <span ng-if="tkupdate.total==null || tkupdate.total==undefined || tkupdate.total=='NaN'" class="label label-default">n/a</span>
+                  </div>-->
+                  <div class="col-md-12"><span>Creado: </span><span>{{ tkupdate.created_at | toDate | date:'dd-MM-yyyy HH:mm:ss' }}</span></div>
+                  <div ng-if="tkupdate.delivery_schedule_at!=null" class="col-md-12"><span>Entrega estimada: </span><span>{{ tkupdate.delivery_schedule_at | toDate | date:'dd-MM-yyyy' }}</span></div>
+                  <div ng-if="tkupdate.delivered_at!=null" class="col-md-12">
+                    <span ng-if="tkupdate.idTypeDeliveryKf=='1'">Retiro realizado: </span>
+                    <span ng-if="tkupdate.idTypeDeliveryKf=='2'">Entrega realizada: </span>
+                    <span>{{ tkupdate.delivered_at | toDate | date:'dd-MM-yyyy' }}</span></div>
+                </div>
+            </div>
+            <!-- USER DETAILS -->
+            <!--<legend style="text-align: left;">Usuario</legend> -->
+            <div  class="col-md-12 well-checkbox n-margin-l customer-frame">
+                <div class="col-md-12 n-padding-l n-padding-r">
+                    <div class="col-md-12 col-xs-12">
+                        <span> Solicitado por/para: </span>
+                        <span>{{tkupdate.userRequestBy.fullNameUser}}</span>
+                        <span style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userRequestBy.nameProfile}}</span>
+                    </div>
+                </div>
+                <div class="col-md-6 n-padding-l n-padding-r">
+                    <div class="col-md-12">
+                        <span>DNI: </span>
+                        <span>{{tkupdate.userRequestBy.dni}}</span>                        
+                    </div>
+                    <div class="col-md-12">
+                        <span> Correo:</span>
+                        <span ng-if="tkupdate.userRequestBy.emailUser!=null || tkupdate.userRequestBy.emailUser!=undefined">{{tkupdate.userRequestBy.emailUser}}</span>
+                        <span style="font-size: 75%;" ng-if="tkupdate.userRequestBy.emailUser==null || tkupdate.userRequestBy.emailUser==undefined" class="label label-warning text-uppercase">No especificado</span>
+                    </div>
+                </div>
+                <!-- RIGHT COLUMN -->
+                <div class="col-md-6 n-padding-l n-padding-r">
+
+                    <div class="col-md-12">
+                        <span> Telefono Movil:</span>
+                        <span ng-if="tkupdate.userRequestBy.phoneNumberUser!=null || tkupdate.userRequestBy.phoneNumberUser!=undefined">{{tkupdate.userRequestBy.phoneNumberUser}}</span>
+                        <span style="font-size: 75%;" ng-if="tkupdate.userRequestBy.phoneNumberUser==null || tkupdate.userRequestBy.phoneNumberUser==undefined" class="label label-warning text-uppercase">No especificado</span>
+                    </div>
+                    <div class="col-md-12">
+                        <span> Telefono Local:</span>
+                        <span ng-if="tkupdate.userRequestBy.phoneLocalNumberUser!=null || tkupdate.userRequestBy.phoneLocalNumberUser!=undefined">{{tkupdate.userRequestBy.phoneLocalNumberUser}}</span>
+                        <span style="font-size: 75%;" ng-if="tkupdate.userRequestBy.phoneLocalNumberUser==null || tkupdate.userRequestBy.phoneLocalNumberUser==undefined" class="label label-warning text-uppercase">No especificado</span>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="(tkupdate.idStatusTicketKf!='2' && tkupdate.idStatusTicketKf!='9' && tkupdate.idStatusTicketKf!='11' && (tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf!='3'))" class="col-md-12">
+                <div class="alert alert-success" role="alert">
+                  <strong>INFO:</strong> El Ticket ya ha sido Aprobado satisfactoriamente.
+                </div>
+            </div>
+        </div>
+        <div ng-if="(sysLoggedUser.idProfileKf==1 && tkupdate.department.isAprobatedAdmin!=1 && tkupdate.department.idUserKf==tkupdate.userRequestBy.idUser && (tkupdate.userRequestBy.idProfileKf=='3' || tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='1') || 
+        (sysLoggedUser.idProfileKf==1 && tkupdate.userRequestBy.isDepartmentApproved==null && (tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='5' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='2')" class="col-md-12">
+            <div class="alert alert-info" role="alert">
+              <strong>INFO:</strong> El Habitante sera asociado y autorizado con la aprobación del pedido.
+            </div>
+        </div>
+    </div>
+    <!-- Actions Button -->
+    <div class="modal-footer">
+        <div class="row">
+            <!--<div ng-if="!tkupdate.idUserApprovedTicket" class="col-xs-6 col-sm-3 col-md-2">
+                <!--button type="submit" ng-click="sysUpdateFn()" ng-disabled="fUpdateUser.$invalid || ownerFound || emailFound" class="btn btn-labeled btn-success">
+                    <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Actualizar</button>
+                <a ng-if="tkupdate.idTypeTicket>0 && (sessionidProfile==1 || sessionidProfile==4)" type="button" ng-click="tkupdate.idUserApprovedTicket? null : sysApproveTicketFn(tkupdate.idTicket, sessionIdUser);" class="btn btn-labeled btn-success" ng-disabled="tkupdate.idUserApprovedTicket || tkupdate.idUserCancelTicket">
+                    <span class="btn-label"><i class="fas fa-check"></i></span>Aprobar</a>
+            </div>-->
+            <!--<div ng-if="tkupdate.idTypeTicket<=1" ng-class="!tkupdate.idUserApprovedTicket && tkupdate.idTypeTicket!=3?'col-xs-6 col-sm-3 col-md-2':'col-xs-6 col-sm-3 col-md-2'">
+                <a ng-if="tkupdate.idTypeTicket==1 && tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6" type="button" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested || tkupdate.isChangeDeliverylRequested ? null : openTicketFn(tkupdate, 1);" class="btn btn-labeled btn-warning" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested || tkupdate.isChangeDeliverylRequested">
+                    <span class="btn-label"><i class="fas fa-truck"></i></span>Envio</a>
+            </div>-->
+            <!--<div ng-class="tkupdate.idUserApprovedTicket && tkupdate.idTypeTicket==3?'col-xs-6 col-sm-6 col-md-4':'col-xs-6 col-sm-3 col-md-2'">
+                <a ng-if="tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6" data-dismiss="modal" type="button" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested ? null : openTicketFn(tkupdate, 2);"  class="btn btn-labeled btn-danger" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested || tkupdate.isChangeDeliverylRequested">
+                    <span class="btn-label" ><i class="fas fa-ban"></i></span>Cancelar</a>
+            </div>-->
+            <div class="col-xs-12 col-sm-12 col-md-12 pull-right">
+                <!-- APPROVE TICKET -->
+                <a ng-if="(tkupdate.idStatusTicketKf==2 || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11') && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && tkupdate.isCancelRequested!='1'" id="approveTicket" ng-click="tkupdate.isCancelRequested?'':mainSwitchFn('approveTicket', tkupdate)" type="button" class="btn btn-labeled btn-success">
+                    <span class="btn-label"><i class="fas fa-check"></i></span>Aprobar</a>
+                <!-- CANCEL TICKET -->
+                <a ng-if="((tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1) ||  (tkupdate.idStatusTicketKf==10 && tkupdate.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" id="cancelTicket" ng-click="modalConfirmation('cancel_sys',0, tkupdate)" type="button" class="btn btn-labeled btn-danger">
+                    <span class="btn-label"><i class="fas fa-ban"></i></span>Rechazar</a>
+                <a ng-if="(approval.user.idTypeTenantKf=='1' && approval.department.isAprobatedAdmin=='1' && approval.department.idUserKf!=null) || 
+                (approval.user.idTypeTenantKf=='2' && approval.user.isDepartmentApproved!=null && approval.user.idDepartmentKf!=null && approval.user.isRequesLowByTenant!='1')" id="close" ng-click="switchBuildingFn('closeApproval', null)" type="button" class="btn btn-labeled btn-danger">
+                    <span class="btn-label"><i class="fas fa-ban"></i></span>Cerrar</a>
+            </div> 
+        </div>
+    </div>
+  </div>
+</div>
+<div  ng-if="approval==undefined" class="col-md-10 col-md-offset-1">
+    <div class="panel panel-warning padding-panel">
+      <div class="panel-heading">
+          <h3 class="modal-title"><i class="fas fa-exclamation-triangle"></i>
+              <span class="text-uppercase" style="font-weight: 600;color: #0F2A37 !important;"> BSS Seguridad</span></h3>
+      </div>
+        <div class="panel-body">
+            <div class="col-md-12" style="margin-top: 20px !important;">
+                <div class="alert alert-info" role="alert">
+                <strong>INFO:</strong> La Solicitud de Aprobacion es invalida.
+                </div>
+            </div>
+            <div class="clearfix"> </div> 
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a ng-click="switchBuildingFn('closeApproval', null)" data-toggle="tooltip" data-placement="top" title="cerrar" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-show="serviceResponse.status==404 && sysLoggedUser.idProfileKf!=0" class="col-md-6 col-md-offset-3">
+  <div class="panel panel-warning padding-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">ESTATUS DEL CLIENTE</h3>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-10 col-md-offset-1">
+          <div ng-show="(customerStatus.IsInDebt!=undefined || customerStatus.IsInDebt==null) && sysLoggedUser.idProfileKf!=0" class="alert alert-warning" role="alert">
+            <strong>INFO:</strong>Cliente no encontrado, intente nuevamente o contacte el area tecnica.
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,43 @@
+<!-- CUSTOMER CONTRACT FORM -->
+<div id="activationDateContractWindows" class="modal fade bd-example-modal-md" role="dialog">
+  	<div class="modal-dialog modal-md" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-tasks"></i> APROBAR CONTRACTO</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+    			<form class="form-horizontal" name="fServiceApprovalContract">			
+					<!-- Activation Date -->						  
+					<div class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									contract.activateDate.fechaFirmaActivacion!='' && fServiceApprovalContract.serviceContractApproval.$valid,
+								 	'has-error':  
+									(contract.activateDate.fechaFirmaActivacion=='' || contract.activateDate.fechaFirmaActivacion==undefined) && fServiceApprovalContract.serviceContractApproval.$touched,
+								}">
+					  	<label style="padding-left: 15px;">Fecha de Aprobación</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+				    			<input name="serviceContractApproval" type="text" ng-keydown="fnLoadPhoneMask()" class="form-control input--date" ng-required="true" ng-model="contract.tmpFechaFirmaActivacion" />
+				    		</div>
+				    	</div>
+					</div>					
+				</form>
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 pull-right">
+                        <button type="submit" ng-click=" modalConfirmation('sign_and_enable_contract', 0, contract.activateDate);" ng-disabled="fServiceApprovalContract.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
+                        	<span>Aprobar & Activar</span>
+                        </button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>				

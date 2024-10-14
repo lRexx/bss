@@ -1,0 +1,39 @@
+<table id="tableSysUser" class="table table-striped table-bordered table-condensed table-list table-responsive">
+    <thead style=" background: #4d5d6f; color: white;">
+      <tr style="text-align: center;">
+          <th><i class="fas fa-user"></i> Usuario / <i class="glyphicon glyphicon-envelope"></i> Correo</th>
+          <th><i class="glyphicon glyphicon-user"> </i> Nombres</th>
+          <!--<th><i class="glyphicon glyphicon-phone"> </i> Tlf Movil</th>
+          <th><i class="glyphicon glyphicon-earphone"> </i> Tlf Fijo</th>-->
+          <th><i class="fas fa-id-card-alt"></i> Perfil</th>
+          <th><i class="fas fa-user-tag"></i> Role</th>
+          <th><i class="glyphicon icon-flag"> </i> Status</th>
+          <th><i class="glyphicon icon-calendar"> </i> Registrado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="animate-repeat" style="align-content: center;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+        <td><span class="label label-info">{{item.idUser}}</span>&nbsp;&nbsp;{{item.emailUser}}</td>
+        <td ng-trim="true">{{item.fullNameUser}}</td>
+        <td ng-if="item.idProfileKf==1">System</td>
+        <td ng-if="item.idProfileKf!=1">N/A</td>
+        <td style="align-content: center;" ng-if="item.name"><label class="label label-default">{{item.name}}</label></td>
+        <td> <!-- TD to Admins -->
+            <label ng-if="item.idStatusKf==1" class="label label-success">ACTIVO
+            </label>
+            <label ng-if="item.idStatusKf==0" class="label label-warning">INACTIVO
+            </label>
+            <label ng-if="item.idStatusKf==-1" class="label label-danger"><del>ELIMINADO</del>
+            </label>
+        </td>
+        <td>{{item.dateCreated | dateToISO | date:'MM/dd/yyyy'}}</td>
+        <td>
+          <button ng-click="selectUserDataFn(item);" data-toggle="tooltip" data-placement="right" title="Editar usuario" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-info btn-xs"><i class="fas fa-user-edit"></i></button>
+          <button ng-if="item.idStatusKf==0 " ng-click="sysFunctionsUser('enabled',item)" data-toggle="tooltip" data-placement="right" title="Activar usuario" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-success btn-xs"><i class="far fa-check-circle"></i></button>
+          <button ng-if="item.idStatusKf>0" ng-click="sysFunctionsUser('disabled',item)" data-toggle="tooltip" data-placement="right" title="Desactivar usuario" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-warning btn-xs"><i class="fas fa-user-slash"></i></button>
+          <button ng-if="item.idStatusKf>0" ng-click="modalConfirmation('removeu', 0, item)" data-toggle="tooltip" data-placement="right" title="Eliminar usuario" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-danger btn-xs"><i class="fas fa-user-times"></i></button>
+        </td>
+      </tr>
+       <!--<tr ng-if="searchboxfilter.length==0" class="animate-repeat" style="align-content: center;">no items found</tr>-->
+    </tbody>
+</table>

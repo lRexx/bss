@@ -1,0 +1,58 @@
+        <div class="nav-side-menu">
+        	<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+            <div class="menu-list">      
+                <ul id="menu-content" class="menu-content collapse out">
+                    <li ng-click="sysConfig('sys','dash','open')">
+                      <a href="">
+                      <i class="fas fa-sitemap fa-lg"></i> Dashboard
+                      </a>
+                    </li>
+    
+                    <li  data-toggle="collapse" data-target="#accounts" >
+                      <a href=""><i class="fa fa-users fa-lg"></i> Cuentas <span class="arrow"></span></a>
+                    </li>
+                    <ul class="sub-menu collapse" id="accounts">
+                        <li ng-click="sysConfig('customers','user','dash')"><a href="">Usuarios</a></li>
+                        <li ng-click="sysConfig('customers','att','dash')"><a href="">Encargados</a></li>
+                        <li ng-click="sysConfig('customers','tenant','dash')"><a href="">Habitantes</a></li>
+                    </ul>
+                    <li data-toggle="collapse" data-target="#service" class="collapsed">
+                      <a href=""><i class="fa fa-globe fa-lg"></i> Servicios <span class="arrow"></span></a>
+                    </li>  
+                    <ul class="sub-menu collapse" id="service">
+                      <li ng-click="sysConfig('sys','services', 'open')">Gestios de Costos</li>
+                      <li ng-click="sysConfig('sys','zones', 'dash')">Gestion de Zonas</li>
+                    </ul>
+                    <li data-toggle="collapse" data-target="#config_sys" class="collapsed">
+                      <a href=""><i class="fa fa-globe fa-lg"></i> Configuraciones<span class="arrow"></span></a>
+                    </li>  
+                    <ul class="sub-menu collapse" id="config_sys">
+                      <li ng-click="sysConfig('sys','smtp', 'open')">SMTP Mail</li>
+                      <li ng-click="sysConfig('sys','mails', 'open')">Correos alternos</li>
+                    </ul>                    
+                   <li data-toggle="collapse" data-target="#sysusers" class="collapsed">
+                      <a href=""><i class="fas fa-users-cog fas-lg"></i>Usuarios del Sistema <span class="arrow"></span></a>
+                    </li>  
+                    <ul class="sub-menu collapse" id="sysusers">
+                      <li ng-click="sysConfig('sys','sysUsers', 'dash')">Usuarios del Sistema</li>
+                      <li ng-click="sysConfig('sys','sysProfile', 'dash')">Perfiles</li>
+                      <li ng-click="sysConfig('sys','sysProfile', 'newProfile')">Nuevo perfil</li>
+                      <li ng-click="sysConfig('sys','sysProfile', 'updProfile2');">Cambiar perfil</li>
+                    </ul>
+                   <li data-toggle="collapse" data-target="#products" class="collapsed">
+                      <a href=""><i class="fas fa-th"></i>Productos <span class="arrow"></span></a>
+                    </li>  
+                    <!--<ul class="sub-menu collapse" id="products">
+                      <li ng-click="sysConfig('sys','products', 'listProducts')">Listado de Productos</li>
+                      <li ng-click="sysConfig('sys','products', 'newProduct')">Nuevo Producto</li>
+                    </ul>-->
+                    <li data-toggle="collapse" data-target="#report" class="collapsed">
+                      <a href=""><i class="fas fa-chart-pie"></i> Reportes <span class="arrow"></span></a>
+                    </li>
+                    <ul class="sub-menu collapse" id="new">
+                      <li></li>
+                      <li>New Report</li>
+                    </ul>
+                </ul>
+         	</div>
+    	</div>

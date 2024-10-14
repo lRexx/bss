@@ -1,0 +1,211 @@
+<!-- THIRD PERSON REGISTER FORM -->
+<div id="RegisterThirdPerson" class="modal fade bd-example-modal-lg" style="top: 150px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title"><i class="product-success fas fa-user"></i> DATOS DE TERCERA PERSONA</h3>
+            </div>
+            <div class="modal-body" style="overflow-y: scroll;" >
+                <!-- Third Person -->
+                <form class="form-horizontal" name="fThirdPerson" novalidate>
+                    <div ng-if="ticket.delivery.idTypeDeliveryKf && ticket.delivery.whoPickUp.id=='3'">
+                        <!-- Names Third Person -->
+                        <div class="form-group col-md-12 n-padding-l n-padding-r" ng-class="
+                        {	'has-success': 
+                            ticket.delivery.thirdPerson.fullNameUser!='' && fThirdPerson.fullNameUser.$valid,
+                            'has-error':  
+                            (ticket.delivery.thirdPerson.fullNameUser=='' || ticket.delivery.thirdPerson.fullNameUser==undefined) && fThirdPerson.fullNameUser.$touched,
+                        }">
+                        <label style="padding-left: 15px;" >Nombres y Apellidos</label> 
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                    <input name="fullNameUser" placeholder="Nombres y Apellidos" class="form-control" ng-model="ticket.delivery.thirdPerson.fullNameUser" type="text" required autofocus />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Address for customer when is not a building registered already -->
+                        <div ng-if="ticket.delivery.idTypeDeliveryKf==2" class="form-group col-md-10" ng-class="
+                            {	'has-success': 
+                                ticket.delivery.thirdPerson.streetName!='' && ticket.delivery.thirdPerson.streetName!=undefined && fThirdPerson.third_address_streetName.$valid,
+                                'has-error': 
+                                (ticket.delivery.thirdPerson.streetName=='' || ticket.delivery.thirdPerson.streetName==undefined) && fThirdPerson.third_address_streetName.$touched
+                            }">
+                            <label style="padding-left: 15px;">Calle</label> 
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
+                                    <input type="text" 
+                                        id="third_address_streetName" 
+                                        name="third_address_streetName" 
+                                        ng-disabled="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))"
+                                        ng-model="ticket.delivery.thirdPerson.streetName" 
+                                        placeholder="Calle"
+                                        class="form-control text-uppercase" 
+                                        ng-required="true" />
+                                </div>
+                        </div>
+                        <div ng-if="ticket.delivery.idTypeDeliveryKf==2" class="form-group col-md-2" ng-class="
+                            {	'has-success': 
+                                ticket.delivery.thirdPerson.streetNumber!='' && ticket.delivery.thirdPerson.streetNumber!=undefined && fThirdPerson.third_address_street_number.$valid,
+                                'has-error': 
+                                (ticket.delivery.thirdPerson.streetNumber=='' || ticket.delivery.thirdPerson.streetNumber==undefined) && fThirdPerson.third_address_street_number.$touched
+                            }">
+                            <label style="padding-left: 15px;">Altura</label> 
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
+                                    <input type="text" 
+                                        id="third_address_street_number" 
+                                        name="third_address_street_number" 
+                                        ng-disabled="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))"
+                                        ng-model="ticket.delivery.thirdPerson.streetNumber" 
+                                        placeholder="Altura"
+                                        class="form-control" 
+                                        ng-required="true" />
+                                </div>
+                        </div>
+                        <div ng-if="ticket.delivery.idTypeDeliveryKf==2" class="form-group col-md-6" ng-class="
+                                {	'has-success':
+                                    (ticket.delivery.thirdPerson.floor!='' && ticket.delivery.thirdPerson.floor!=undefined && fThirdPerson.numberOfFloor.$valid),
+                                    'has-error': 
+                                    (ticket.delivery.thirdPerson.floor.length==0 && ticket.delivery.thirdPerson.floor.length<1) && fThirdPerson.numberOfFloor.$touched || 
+                                    (ticket.delivery.thirdPerson.floor=='' || ticket.delivery.thirdPerson.floor==undefined) && fThirdPerson.numberOfFloor.$touched
+                                }">
+                                <label style="padding-left: 25px;">Piso (opcional)</label>  
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-building"></i></span>
+                                    <input name="numberOfFloor" 
+                                            class="form-control text-uppercase input--floor" 
+                                            placeholder="Piso"
+                                            ng-model="ticket.delivery.thirdPerson.floor" type="text"
+                                            ng-keydown="fnLoadPhoneMask(); enabledNextBtn();"
+                                            allow-typing="^(pb|PB)|^([0-9]|[\d]){1,2}\b$" autofocus >
+                            </div>
+                        </div>	
+                        <!-- department number for a building that is going to register as a Non-customer -->
+                        <div ng-if="ticket.delivery.idTypeDeliveryKf==2" class="form-group col-md-6" ng-class="
+                                {	'has-success': 
+                                    (ticket.delivery.thirdPerson.department.length>=1 && fThirdPerson.nameDepto.$valid),
+                                    'has-error': 
+                                    (ticket.delivery.thirdPerson.department.length==0 && ticket.delivery.thirdPerson.department.length<1) && fThirdPerson.nameDepto.$touched || 
+                                    (ticket.delivery.thirdPerson.department=='' || ticket.delivery.thirdPerson.department==undefined) && fThirdPerson.nameDepto.$touched
+                                }">
+                                <label style="padding-left: 25px;">Departamento (opcional)</label>  
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                    <input name="nameDepto" 
+                                            class="form-control text-uppercase input--depto" 
+                                            placeholder="Depto" 
+                                            ng-model="ticket.delivery.thirdPerson.department" type="text"
+                                            ng-keydown="fnLoadPhoneMask(); enabledNextBtn();"
+                                            allow-typing="^([a-zA-Z]|[\d])|^([0-9]|[\d]){1,4}\b$" autofocus >
+                            </div>
+                        </div>
+                        <!-- State List-->
+                        <div ng-if="ticket.delivery.idTypeDeliveryKf==2" class="form-group col-md-6" ng-class="
+                            {	'has-success': 
+                                ticket.delivery.thirdPerson.province.selected!=undefined && fThirdPerson.province.$valid,
+                                'has-error':  
+                                (ticket.delivery.thirdPerson.province.selected==undefined) && fThirdPerson.province.$touched,
+                            }">
+                        <label style="padding-left: 15px;">Provincia</label> 
+                            <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                                        <ui-select name="province" 
+                                                    class="dropdown-select" 
+                                                    ng-disabled="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))"
+                                                    ng-model="ticket.delivery.thirdPerson.province.selected"  
+                                                    ng-change="getLocationByIdFn(ticket.delivery.thirdPerson.province.selected.idProvince); getCurrentAddrVal(ticket.delivery.thirdPerson.province.selected, ticket.delivery.thirdPerson.location.selected); enabledNextBtn();" 
+                                                    required="true" autofocus>
+                                            <ui-select-match placeholder="Seleccione una provincia">{{$select.selected.province | uppercase}}</ui-select-match>
+                                            <ui-select-choices repeat="item in rsStatesData | filter:provincesAllowed  | filter: $select.search">
+                                            <div ng-bind-html="item.province | uppercase | highlight: $select.search"></div>
+                                                <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+                                                <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+                                            </ui-select-choices>
+                                            <ui-select-no-choice>
+                                                No hay resultados, contacte are de soporte.
+                                            </ui-select-no-choice>
+                                        </ui-select>
+                            </div>
+                        </div>
+                        <!-- Localidad list-->
+                        <div ng-if="ticket.delivery.idTypeDeliveryKf==2" class="form-group col-md-6" ng-class="
+                            {	'has-success': 
+                                ticket.delivery.thirdPerson.location.selected!=undefined && fThirdPerson.localidad.$valid,
+                                'has-error':  
+                                (ticket.delivery.thirdPerson.location.selected==undefined) && fThirdPerson.localidad.$touched,
+                            }">
+                        <label style="padding-left: 15px;">Localidad</label> 
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                                    <ui-select name="localidad" 
+                                                class="dropdown-select" 
+                                                ng-model="ticket.delivery.thirdPerson.location.selected"
+                                                ng-disabled="((ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))) || !ticket.delivery.thirdPerson.province.selected.idProvince  && !ticket.delivery.thirdPerson.nameAddress)" 
+                                                required="true" 
+                                                ng-change="mainSwitchFn('checkThirdPersonLocation', ticket.delivery.thirdPerson.location.selected); enabledNextBtn();" 
+                                                autofocus>
+                                        <ui-select-match placeholder="Seleccione una localidad">{{$select.selected.location | uppercase}}</ui-select-match>
+                                        <ui-select-choices repeat="item in rsLocations_All | filter: $select.search">
+                                        <div ng-bind-html="item.location | uppercase | highlight: $select.search"></div>
+                                            <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+                                            <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+                                        </ui-select-choices>
+                                        <ui-select-no-choice>
+                                            No hay resultados, contacte are de soporte.
+                                        </ui-select-no-choice>
+                                    </ui-select>
+                            </div>
+                        </div>
+                        <!-- DNI Third Person-->
+                        <div class="form-group col-md-6 n-padding-l n-padding-r" ng-class="
+                        {	'has-success': 
+                            ticket.delivery.thirdPerson.dni!='' && fThirdPerson.dniUser.$valid,
+                            'has-error':  
+                            (ticket.delivery.thirdPerson.dni=='' || ticket.delivery.thirdPerson.dni==undefined) && fThirdPerson.dniUser.$touched,
+                        }">
+                        <label style="padding-left: 15px;">DNI</label>
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
+                                    <input id="dniUser" name="dniUser" ng-blur="sysCheck4Duplicates(ticket.delivery.thirdPerson.dni, 'dni');" placeholder="Documento de identidad" class="form-control input--dni" ng-model="ticket.delivery.thirdPerson.dni"  type="text" ng-keydown="fnLoadPhoneMask();" required autofocus />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Contact Phone Third Person -->
+                        <div class="form-group col-md-6 n-padding-l n-padding-r" ng-class="{
+                            'has-success': 
+                                ticket.delivery.thirdPerson.movilPhone!='' && ticket.delivery.thirdPerson.movilPhone!=null  && fThirdPerson.movilPhone.$valid,
+                            'has-warning':
+                                !ticket.delivery.thirdPerson.movilPhone && ticket.delivery.thirdPerson.movilPhone,
+                            'has-error':
+                                !ticket.delivery.thirdPerson.movilPhone && fThirdPerson.movilPhone.$touched,
+                            }">
+                        <label style="padding-left: 15px;">Telefono contacto</label>
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                    <input name="movilPhone" ng-minlength="8" class="form-control input--phone" ng-model="ticket.delivery.thirdPerson.movilPhone" type="text" autofocus  ng-keydown="fnLoadPhoneMask();" ng-required="ticket.delivery.thirdPerson.movilPhone==''" />
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="clearfix"> </div> 
+            </div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="mainSwitchFn('setThirdPersonData', ticket.delivery.thirdPerson, null)" ng-disabled="fThirdPerson.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Guardar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // THIRD PERSON REGISTER FORM -->

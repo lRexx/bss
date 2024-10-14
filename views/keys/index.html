@@ -1,0 +1,165 @@
+<!-- MANAGE KEYS-->
+<div class="col-md-12 n-padding-l n-padding-r">
+  <div class="panel panel-default padding-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">GESTION DE LLAVEROS </h3>
+    </div>
+    <div class="panel-body">
+      <div class="col-md-2 col-xs-12">
+        <!-- NEW IMPORT KEY FILE -->
+        <div class="col-md-12 col-xs-4">
+          <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="NUEVA LISTA" ng-click="switchKeysFn('newKeyFile', null)">
+            <div class="depto-icon">
+                  <span><i class="product-success fas fa-list-alt"></i></span>
+            </div>
+            <div class="text">
+                <h4 class="text-muted"><span class="badge badge-light"><i class="fas fa-plus"></i> NUEVA LISTA </span></h4>
+            </div>
+          </div>
+        </div>
+        <!-- //NEW IMPORT KEY FILE -->
+        <!-- UPLOAD IMPORT KEY FILE -->
+        <div class="col-md-12 col-xs-4">
+          <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="IMPORTAR LISTA" ng-click="switchKeysFn('importKeyFileWindow', null)">
+            <div class="depto-icon">
+                  <span><i class="product-success fas fa-cloud-upload-alt"></i></span>
+            </div>
+            <div class="text">
+              <h4 class="text-muted"><span class="badge badge-light"><i class="fas fa-arrow-circle-up"></i> IMPORTAR LISTA </span></h4>
+            </div>
+          </div>
+        </div>
+        <!-- //UPLOAD IMPORT KEY FILE -->
+        <!-- LIST KEYS -->
+        <div class="col-md-12 col-xs-4">
+          <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="LLAVEROS" ng-click="switchKeysFn('list', null)">
+            <div class="depto-icon">
+                  <span><i class="product-success fas fa-th-list"></i></span>
+            </div>
+            <div class="text">
+                <h4 class="text-muted"><span class="badge badge-light"><i class="fas fa-eye"></i> LLAVEROS </span></h4>
+            </div>
+          </div>
+        </div>
+        <!-- //LIST KEYS -->
+      </div>
+      <div class="col-md-10 col-xs-12 n-padding-r">
+        <div>
+          <div ng-if="sysContent=='listKeys'" class="pull-left col-md-12 n-padding-r">
+            <div  class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 class="panel-title">LLAVEROS</h3>
+                </div>
+                  <!--KEY LIST PANEL -->
+                  <div id="keyList" class="panel-body">
+                    <!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
+                    <div ng-if="rsKeyListsData.length>0" class="col-md-12 n-padding-l n-padding-r" style="padding-bottom: 5px;">
+                            <!-- Building Name-->
+                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-9" style="z-index: 1000;">
+                                  <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" >
+                                      <label style="padding-left: 15px;">Edificio</label>
+                                      <div class="input-group s-ui-width s-ui-m-left">
+                                          <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+                                          <input type="text" name="customerSearch" 
+                                              id="customerSearch" 
+                                              ng-model="customerSearch.name"
+                                              ng-keydown="findCustomerFn(customerSearch.name, null, false);"
+                                              class="form-control text-uppercase" 
+                                              move-to-list input-selector="'.input-search'"
+                                              list-items-selector="'.list-group li'"
+                                              placeholder="Presione Enter para buscar..."
+                                              style="border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+                                              required="true" />
+                                          <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.name!=undefined || customerSearch.name!=null)" style="height: 0px;" >
+                                              <li tabindex="0" id="customerList-{{$index}}"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item, false);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+                                          </ul>
+                                      </div>
+                                  </div>
+                            </div>
+                            <!-- Departments of the building selected"-->
+                            <div class="col-md-3 col-sm-3 col-xs-6">
+                              <label style="padding-left: 15px;">Departamento</label>  
+                              <div class="col-xs-12 selectContainer">
+                                  <div class="input-group" style="padding-bottom: 2%;">
+                                      <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                      <select name="department" 
+                                              class="form-control text-uppercase"
+                                              ng-disabled="select.buildings.selected==undefined"
+                                              ng-change="search(select.filterCategoryKey, select.buildings.selected.address, select.department, searchboxfilter, true);"
+                                              ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
+                                              ng-model="select.department" autofocus >
+                                          <option value="">Todos</option>
+                                      </select>
+                                  </div>
+                                  <!-- <button ng-click="getAllKeysFn(true)" data-toggle="tooltip" data-placement="top" title="Actualizar lista" type="button" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>-->
+                              </div>
+                            </div>
+                  </div>
+                  <div ng-if="rsKeyListsData.length>0" class="col-md-12 n-padding-l n-padding-r">
+                      <div ng-if="rsKeyListsData.length>0" class="form-group col-lg-12 n-padding-l n-padding-r" style="margin-top: 15px;">
+                        <!--<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Categoria</label></div>-->
+                        <div class="row n-margin-l n-margin-r">  
+                          <div ng-class="col-md-12">
+                              <div class="col-md-10 col-xs-10">
+                                <input id="categoryKeyAll" class="radio-2x categoryTypeAll" type="radio" ng-click="select.filterCategoryKey=undefined; search(undefined, select.buildings.selected.address, select.department, searchboxfilter, true)" ng-checked="true" name="categoryType" value="undefined" autofocus>
+                                <label for="categoryKeyAll" class="radio-2x-label">
+                                  <span>Todos</span>
+                                </label>
+                              </div>
+                              <div class="col-md-2 col-xs-2 pull-right">
+                                <!-- New Key button -->
+                                <button ng-click="switchKeysFn('newSingle', null)" style="margin-left: 0.5px;" data-toggle="tooltip" data-placement="top" title="Nueva Llave" type="button" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="fas fa-key"></i> </span>Nuevo</button> 
+                              </div>
+                              <div ng-repeat="item in rsCategoryKeyChainsData" class="col-md-2 col-sm-6 col-xs-6">
+                                <input id="categoryKey-{{item.idCategory}}" class="radio-2x" type="radio" ng-click="search(select.filterCategoryKey, select.buildings.selected.address, select.department, searchboxfilter, true)" name="categoryType" value="{{item.name}}" ng-model="select.filterCategoryKey" autofocus>
+                                <label for="categoryKey-{{item.idCategory}}" class="radio-2x-label">
+                                  <span>{{item.name}}</span>
+                                </label>
+                              </div>
+                          </div>
+                        </div>
+                      </div>
+                  </div>
+                    <div class="clear-fix"></div>
+                    <!-- TABLE LIST WHERE IS DISPLAYED THE CUSTOMER -->
+                    <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/keys/list/listKeys.html'"></div>
+                    <!-- PAGINATION -->
+                    <div ng-if="rsKeyListsData.length>=10" style="text-align: center;">
+                          <!--<dir-pagination-controls
+                            max-size="10"
+                            direction-links="true"
+                            boundary-links="true" >
+                        </dir-pagination-controls>-->
+                        <div ng-if="rsKeyListsData.length>10" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
+                          <!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'"-->
+                          <!--<div class="col-md-3 col-sm-3">
+                              <div class="input-group">
+                                <label>Registros por pagina</label>
+                                  <select  name="itemPerPage" 
+                                            ng-disabled="rsKeyListsData.status==404"
+                                            ng-change="groupToPages(itemPerPage)"
+                                            class="form-control" 
+                                            ng-model="itemPerPage">
+                                      <option value="10" >10</option>
+                                      <option value="25" >25</option>
+                                      <option value="50" >50</option>
+                                  </select>
+                              </div>
+                          </div>-->
+                    </div>
+                    <!-- //PAGINATION -->
+            </div>
+          </div>
+        </div>
+    </div>
+    </div>
+  </div>
+</div>
+
+<div ng-include="'views/keys/newKey.html'"></div>
+<div ng-include="'views/keys/newKeyFile.html'"></div>
+<div ng-include="'views/keys/editKey.html'"></div>
+<div ng-include="'views/keys/attachKeyFile.html'"></div>
+<div ng-include="'views/keys/keyDetails.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>

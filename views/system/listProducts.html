@@ -1,0 +1,74 @@
+<table id="tableProducts"  class="table table-striped table-bordered table-condensed table-list table-responsive">
+    <thead style=" background: #4d5d6f; color: white;">
+      <tr style="text-align: center;">
+          <th><i class="fas fa-file"> </i> ID</th>
+          <th><i class="fas fa-info-circle"> </i> Descripcion</th>
+          <th><i class="glyphicon icon-flag"> </i> Codigo de Fabrica</th>
+          <th><i class="glyphicon icon-cogs"> </i> Marca</th>
+          <th><i class="glyphicon icon-cogs"> </i> Modelo</th>
+          <th><i class="glyphicon icon-cogs"> </i> # Serie de Fabrica</th>
+          <th><i class="glyphicon icon-cogs"> </i> # Serie de Interno</th>
+          <th><i class="glyphicon icon-cogs"> </i> Expiracion</th>
+          <th><i class="glyphicon icon-cogs"> </i> Control de horario</th>
+          <th><i class="glyphicon icon-cogs"> </i> Precio</th>
+          <th><i class="glyphicon icon-cogs"> </i> Estatus</th>
+          
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="align-content: center;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+          <td ng-trim="true"><bold>{{item.idProduct}}</bold></td>
+
+          <td ng-trim="true">{{item.descriptionProduct}}</td>
+          <td ng-trim="true">{{item.codigoFabric}}</td>
+          <td ng-trim="true">{{item.brand}}</td>
+          <td ng-trim="true">{{item.model}}</td>
+          <td ng-trim="true" class="c-allign-td">
+              <label ng-if="item.isNumberSerieFabric==1" class="label label-success">SI</label>
+              <label ng-if="item.isNumberSerieFabric==0" class="label label-warning">NO</label>
+          </td>
+          <td ng-trim="true" class="c-allign-td">
+              <label ng-if="item.isNumberSerieInternal==1" class="label label-success">SI</label>
+              <label ng-if="item.isNumberSerieInternal==0" class="label label-warning">NO</label>
+          </td>
+          <td ng-trim="true" class="c-allign-td">
+              <label ng-if="item.isDateExpiration==1" class="label label-success">SI</label>
+              <label ng-if="item.isDateExpiration==0" class="label label-warning">NO</label>
+          </td>
+
+          <td ng-trim="true" class="c-allign-td">
+              <label ng-if="item.isControlSchedule==1" class="label label-success">SI</label>
+              <label ng-if="item.isControlSchedule==0" class="label label-warning">NO</label>
+              <label ng-if="item.isControlSchedule==null" class="label label-warning">N/A</label>
+          </td>
+          <td ng-trim="true">{{item.priceFabric}}</td>
+          <td ng-trim="true" class="c-allign-td"> <!-- STATUS -->
+              <label ng-if="item.idStatusFk==1" class="label label-success">ACTIVO
+              </label>
+              <label ng-if="item.idStatusFk==0" class="label label-warning">INACTIVO
+              </label>
+              <label ng-if="item.idStatusFk==-1" class="label label-danger"><del>ELIMINADO</del>
+              </label>
+          </td>
+          <td>
+            <div class="btn-group pull-right">
+              <button ng-click="selectProductDataFn(item);" ng-disabled="item.idStatus==-1" type="button" class="btn btn-info btn-sm">Opciones</button>
+              <button ng-disabled="item.idStatus==-1" type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+                <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="" ng-click="selectProductDataFn(item);" ><i title="Modificar Producto" class="glyphicon glyphicon-edit"></i>  Editar</a></li>
+                <!--<li ng-if="item.idStatus<=0 "><a href="" ng-click="sysProfileFn('enabled',item.idProfiles)"><i title="Activar Perfil" class="glyphicon glyphicon-remove-circle"></i> Activar</a></li>
+                <li ng-if="item.idStatus>0"><a href="" ng-click="delteSysProfileFn('disabled',item.idProfiles)"><i title="Desactivar Perfil" class="glyphicon glyphicon-remove-circle"></i> Desactivar</a></li>-->
+                <li ng-if="item.idStatusFk>0" role="presentation">
+                              <div class="divider"></div>
+                      </li>
+                <li ng-if="item.idStatusFk>0"><a href="" ng-click="modalConfirmation('removeProduct', 0, item)"><i title="Eliminar Producto" class="glyphicon glyphicon-trash"></i> Eliminar</a></li>
+              </ul>
+            </div>
+          </td>
+          <!--<td>{{item.dateCreated | dateToISO | date:'MM/dd/yyyy'}}</td>-->
+      </tr>
+    </tbody>
+</table>
+

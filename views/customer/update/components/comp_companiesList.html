@@ -1,0 +1,60 @@
+<!-- Administration list-->  
+<!--<div class="form-group col-md-12" ng-class="
+								  			{	'has-success': 
+								  				customer.select.company.selected!=undefined && fUpdateCustomer.update_admin_id.$valid,
+								  			 	'has-error':  
+								  				(customer.select.company.selected==undefined) && fUpdateCustomer.update_admin_id.$touched,
+								  			}"> 
+	<label class="clf-p-left">
+	<span ng-if="customer.update.idClientTypeFk==2">Administracion del Edificio </span>
+	<span style="padding-right: 9em;" ng-if="customer.update.idClientTypeFk==4">Empresa</span><button style="margin-left: 80px;" 
+	ng-disabled="customer.select.company.selected==undefined && customer.select.company.selected.idClient==''"  ng-click="getCustomersByIdFn('details_company', customer.select.company.selected.idClient, 'show')" class="btn btn-xs btn-success"><i class="fas fa-info-circle"></i> Detalles</button> </label>  				                  
+	<div class="input-group">
+	    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+	        <ui-select name="update_admin_id" 
+	        		theme="bootstrap"
+	        		ng-change="getCompanyDataFn(customer.select.company.selected); enabledNextBtn();" 
+	        		ng-disabled="customer.update.idClientTypeFk==4 || rsCustomerSelectData.status==404?true:false" 
+	        		ng-model="customer.select.company.selected" 
+	        		ng-required="(customer.update.idClientTypeFk==2 || customer.update.idClientTypeFk==4) && !customer.update.isNotCliente" 
+	        		autofocus>
+	            <ui-select-match placeholder="Seleccione una opci&#243n">{{$select.selected.businessName | uppercase}}</ui-select-match>
+	            <ui-select-choices group-by="'ClientType'" repeat="item in rsCustomerSelectData | filter:filterCustomerByType | filter: $select.search">
+	              <div ng-bind-html="item.businessName | highlight: $select.search"></div>
+	              <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+	              <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>
+	            </ui-select-choices>
+	            <ui-select-no-choice>
+	             	<span ng-if="rsCustomerSelectData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados</span>
+	              	<span ng-if="rsCustomerSelectData.status==404"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados</span>
+			  	</ui-select-no-choice>
+	        </ui-select>
+	</div>
+</div>-->
+<div class="form-group col-md-12 col-xs-12 col-sm-12" ng-if="(customer.update.idClientTypeFk==2 || customer.update.idClientTypeFk==4)" ng-class="
+{	'has-success': 
+	customer.select.company.selected!=undefined && fUpdateCustomer.update_admin_id.$valid,
+	 'has-error':  
+	(customer.select.company.selected==undefined) && fUpdateCustomer.update_admin_id.$touched,
+}"> 
+	<label class="clf-p-left">
+	<span ng-if="customer.update.idClientTypeFk==2">Administracion del Edificio </span>
+	<span style="padding-right: 9em;" ng-if="customer.update.idClientTypeFk==4">Empresa</span><button style="margin-left: 80px;" 
+		ng-disabled="customer.select.company.selected==undefined && customer.select.company.selected.idClient==''"  ng-click="getCustomersByIdFn('details_company', customer.select.company.selected.idClient, 'show')" class="btn btn-xs btn-success"><i class="fas fa-info-circle"></i> Detalles</button> </label>
+	<div class="input-group">
+		<span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+		<input type="text" name="update_admin_id" 
+			id="customerSearchAddress"
+			ng-model="customerSearch.address"
+			ng-keydown="findCustomerFn(customerSearch.address, null, false);"
+			class="form-control text-uppercase" 
+			move-to-list input-selector="'.input-search'"
+			list-items-selector="'.list-group li'"
+			placeholder="Presione Enter para buscar..."
+			style="z-index: 11; border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+			ng-required="true" />
+		<ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.address!=undefined || customerSearch.address!=null)" style="height: 0px;" >
+			<li tabindex="0" id="customerList-{{$index}}" style="z-index: 10;"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+		</ul>
+	</div>
+</div>

@@ -1,0 +1,42 @@
+<!-- Authorized Users -->
+<div id="companyDetails_usersAllowedDetails" style="top: 130px;" tabindex="-1" class="modal fade modal-dialog-centered in" style="top: 130px;" role="dialog">
+    <div class="modal-dialog modal-md" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="fas fa-user-shield"></i> USUARIOS AUTORIZADOS</h3>
+          </div>
+        <div class="modal-body">
+          <!-- FORM CONTAINER-->
+          <div class="col-md-12">
+            <div  class="well-checkbox n-margin-r n-margin-l" style="margin-bottom: 15px;">
+                <table ng-if="companyDetails_list_users.length>0">
+                  <tr ng-repeat="user in companyDetails_list_users">
+                    <td style="width: 60%"><span class="text-muted text-uppercase text-box">{{user.fullNameUser}} </span></td>
+                    <td style="width: 40%">
+                      <label ng-if="user.idStatusKf==1" class="label label-success">{{user.statusTenantName | uppercase}}</label>
+                      <label ng-if="user.idStatusKf!=1" class="label label-danger">{{user.statusTenantName | uppercase}}</label> 
+                    </td>
+                    <td style="width: 5%; padding-bottom: 5px; padding-right: 2px;">
+                      <button data-toggle="tooltip" data-placement="top" title="vista rapida" ng-click="showCurrentUserInfoFn(user.idUserFk)" class="btn btn-sm btn-info"><i style="font-size: 14px;" class="fas fa-info-circle"></i></button>
+                    </td>                    
+                    </tr>
+                </table>
+                <div ng-if="companyDetails_list_users.length==0" class="text-uppercase banner-no-rows banner-no-rows-warning banner-no-rows-padding-1"><h5 style="text-align: center;"><i class="fas fa-exclamation-triangle"> </i> No hay usuarios autorizados.</h5></div>
+            </div>          
+          </div>
+        </div>
+        <div class="clearfix"> </div>
+      <!-- Actions Button ng-click="newSysProfileFn()"-->
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // Authorized Users -->

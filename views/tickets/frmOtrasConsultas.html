@@ -1,0 +1,87 @@
+<!-- USER REQUEST OTHER QUERIES  ruother=Register Request User Other Queries-->
+<div class="container">
+	<div class="panel panel-default padding-panel">
+		<div class="panel-heading">
+			<h3 class="panel-title">OTRAS CONSULTAS</h3>
+		</div>
+		<div class="panel-body">
+			<!-- FORM CONTAINER-->
+	    	<form class="form-horizontal" name="frmOther" ng-submit="newTicket('other')">
+				<fieldset>
+				<!-- Select Type of Service -->
+				   
+				<div class="form-group"> 
+				  <label class="col-md-4 control-label">Tipo de Consulta</label>
+				    <div class="col-md-4 selectContainer">
+					    <div class="input-group">
+					        <span class="input-group-addon"><i class="glyphicon glyphicon-pushpin"></i></span>
+							    <select name="idTypeOutherKf" class="form-control" placeholder="Tipo de Consulta" ng-options="item.idTypeOuther as item.TypeOuther for item in listTypeQuery" ng-model="o.idTypeOutherKf" required autofocus ><option value="">Selecione una opcion</option></select>
+					  	</div>
+					</div>
+				</div>
+				<!-- Address for Onwers-->      
+				<div class="form-group" ng-if="sessionidProfile==3">
+				  	<label class="col-md-4 control-label">Direcci&#243n del Consorcio</label>
+					    <div class="col-md-4">
+						    <div class="input-group">
+						        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+						  		<select name="idAddressAtt" class="form-control"  ng-options="item.idAdress as item.nameAdress for item in ListTenantAddress" ng-required="sessionidProfile==3" ng-model="select.idAddressAtt" autofocus >
+								    <option value="">Seleccione un consorcio</option>
+							    </select>
+						    </div>
+					  	</div>
+				</div>
+				<!-- Admins List address -->
+				<div class="form-group" ng-show="sessionidProfile!=3 && (sessionidTypeTenant==0 || sessionidTypeTenant==null)">
+				  <label ng-show="sessionidProfile==2" class="col-md-4 control-label">Direccion Sucursal</label>
+				  <label ng-show="sessionidProfile==1" class="col-md-4 control-label">Direccion Sucursal o Consorcio</label>
+				  <label ng-show="sessionidProfile==4" class="col-md-4 control-label">Direccion de Consorcio</label>   
+				    <div class="col-md-4">
+					    <div class="input-group">
+					        <span class="input-group-addon"><i class="glyphicon icon-building"></i></span>
+                            <ui-select name="idAddressAtt" ng-required="sessionidProfile!=3 && (sessionidTypeTenant==0 || sessionidTypeTenant==null)" ng-model="selectIdAddressKf.selected" autofocus>
+			                  	<ui-select-match placeholder="Seleccione una direccion">{{$select.selected.nameAdress}}</ui-select-match>
+			                    <ui-select-choices repeat="item in listOffice | filter: $select.search">
+			                      <div ng-bind-html="item.nameAdress | highlight: $select.search"></div>
+			                        <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+			                        <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+			                    </ui-select-choices>
+			                </ui-select>
+					    </div>
+				  	</div>
+				</div>
+				<!-- Email who is requesting the contact ticket-->
+				<div class="form-group">
+				 <label class="col-md-4 control-label">E-Mail</label>  
+				   <div class="col-md-4">
+				    <div class="input-group">
+				    	<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+				  		<input name="o_email" placeholder="E-Mail" class="form-control" ng-model="o.email"  type="email" required autofocus readonly />
+				    </div>
+				  </div>
+				</div>
+				<!-- Form query description -->
+
+				<div class="form-group">
+				  <label class="col-md-4 control-label" >Descripci&#243n</label> 
+				  	<div class="col-md-4">
+						<div class="input-group">
+					  		<textarea name="o_detail" style="resize: vertical;" rows="10" cols="45" placeholder="Especifique aqui el servicio a solicitar." class="form-control" ng-model="o.detail" required autofocus ></textarea>
+						</div>
+				  	</div>
+				</div>
+
+				<!-- Actions Button -->
+				<div class="form-group">
+				  <label class="col-md-4 control-label"></label>
+				  <div class="col-md-4">
+				    <button type="submit" class="btn btn-primary" >Enviar <!--<span class="glyphicon glyphicon-ok"></span>--></button>
+				  </div>
+				</div>
+
+				</fieldset>
+			</form>
+			<div class="clearfix"> </div> 
+		</div>
+	</div>
+</div>

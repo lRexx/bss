@@ -1,0 +1,15 @@
+<!-- Zone -->
+<div ng-if="customer.new.idClientTypeFk!='' && customer.new.idClientTypeFk!=undefined" class="form-group col-md-12" ng-class="
+		{	'has-success': 
+			customer.new.zone!='' && fNewCustomer.zone.$valid,
+		 	'has-error':  
+			(customer.new.idZonaFk=='' || customer.new.idZonaFk==undefined) && fNewCustomer.zone.$touched,
+		}"> 
+  	<label style="padding-left: 15px;">Zona</label>
+	    <div class="input-group">
+    		<span class="input-group-addon"><i class="fas fa-map-marker-alt"></i></span>
+	    	<select name="zone" class="form-control"  ng-options="item.idZona as item.n_zona + ' - ' + (item.descripcion | uppercase) for item in rsZonesData" ng-change="enabledNextBtn();" ng-model="customer.new.idZonaFk" required autofocus >
+		    	<option value="">Selecciona una zona</option>
+	    	</select>
+	  	</div>
+</div> 

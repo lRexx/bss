@@ -1,0 +1,56 @@
+<div id="getApprovedUser" class="modal fade bd-example-modal-lg" style="top: 150px;" role="dialog">
+    <div class="modal-dialog modal-md" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="fas fa-file-alt"></i> Usuarios Autorizados</h3>
+          </div>
+        <div class="modal-body">
+            <div  class="col-md-12 n-padding-l n-padding-r">
+                    <div class="form-group col-md-6 col-md-offset-2 col-xs-12" ng-repeat="user in authorizedUserListRs">
+                        <button type="submit" ng-click="switchCustomersFn('general', user, 'request_approval_code')" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="fas fa-user"></i> </span>{{user.emailUser}} <span class="badge badge-warning">{{user.name}}</span></button>
+                    </div>
+            </div>
+            <div class="clearfix"> </div> 
+        </div>   
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                </div>           
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- Modal Confirmation -->
+<div class="modal fade" id="confirmCodeModal" tabindex="-1" role="dialog" style="top: 190px;" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header modal-header-sec-code">
+          <h5 class="modal-title modal-title-sec-code" id="ModalLabel">Soporte BSS </h5>
+        </div>
+        <div class="modal-body modal-body-sec-code">
+              <form name="frmSecCode" class="form-horizontal" autocomplete="off" novalidate>
+                  <div class="form-group" ng-class="{'has-error': frmSecCode.checkCode.$dirty && frmSecCode.checkCode.$invalid, 'has-success': inputTokenCode!='' && frmSecCode.checkCode.$valid}">
+                        <div class="form-group col-md-12 col-xs-12 n-padding-r n-padding-l">
+                            <label>Codigo de Seguridad</label> 
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                                <input id="checkCode" name="checkCode" class="form-control" ng-model="inputTokenCode" required autofocus autocomplete="off" />
+                            </div>
+                        </div>
+                  </div>
+              </form>
+        </div>
+        <div class="modal-footer">
+          <button type="button" ng-click="switchCustomersFn('general', inputTokenCode, 'validate_token_code')" class="btn btn-success">Validar</button>
+          <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- //Modal Confirmation -->

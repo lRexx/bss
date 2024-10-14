@@ -1,0 +1,33 @@
+ <!-- Modal Confirmation -->
+ <div class="modal fade" id="showModalEmailChange" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-v-align" role="document">
+      <div class="modal-content">
+        <div class="modal-header"style="padding: 10px !important; background-color: #c9302c;">
+          <h5 class="modal-title" id="ModalLabel" style="font-weight: 600;">BSS Seguridad <a ng-click="modalConfirmationMenu('closeRequest',0,null)" class="close"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"></i></a></h5>
+        </div>
+        <div class="modal-body">
+          <table>
+            <tr>
+              <td style="vertical-align: middle;">
+                <h2>Importante: </h2>
+              </td>
+            </tr>
+            <tr>
+                <td style="vertical-align: middle;">
+                  <span style="color: red;">Debe verificar la nueva dirección de correo por medio del link que recibira a continuación. </span>
+                </td>
+            </tr>
+          </table>
+        </div>
+        <div class="modal-footer">
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                <a ng-click="modalConfirmationMenu('closeRequest',0,null)" type="button" class="btn btn-labeled btn-danger">
+                    <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- //Modal Confirmation -->

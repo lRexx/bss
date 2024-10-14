@@ -1,0 +1,40 @@
+<!-- Phones List -->
+<label class="clf-p-left">Telefonos de contactos <button style="margin-left: 115px;" ng-disabled="contactPhones.phoneContact==undefined || contactPhones.phoneContact.length<=0 || contactPhones.phoneContact.length<8 || contactPhones.phoneTag=='' || contactPhones.phoneTag==undefined" ng-click="addPhoneNumFn(contactPhones, 'new')" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button> </label>  
+<div class="input-group">
+	<span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>  
+	<select style="width: 43%; padding-left: 2px; font-size: 12px;" name="contactName" class="form-control text-uppercase" ng-disabled="(customer.new.idClientTypeFk==5)" ng-change="enabledNextBtn()" ng-model="contactPhones.phoneTag" ng-required="list_phones.length==0" autofocus >
+	    	<option class="text-uppercase" value="">Tipo</option>
+	    	<option class="text-uppercase" value="fijo comercial">Fijo Comercial</option>
+        	<option class="text-uppercase" value="fijo guardia">Fijo Guardia</option>
+        	<option class="text-uppercase" value="movil comercial">Movil Comercial</option>
+        	<option class="text-uppercase" value="movil guardia">Movil Guardia</option>
+	    	<option class="text-uppercase" value="urgente">Urgente</option>
+			<option class="text-uppercase" value="proveedores">Proveedores</option>
+			<option class="text-uppercase" value="administrador">Administrador/a</option>
+  	<input style="width: 57%" id="contactNumbers" name="contact_numbers" autofocus="true" ng-disabled="(customer.new.idClientTypeFk==5 && contactPhones.phoneTag=='') || (customer.new.idClientTypeFk!=5 && contactPhones.phoneTag=='')" ng-blur="enabledNextBtn();" class="form-control input--phone-no-format" ng-blur="fnLoadPhoneMask();" ng-keydown="fnLoadPhoneMask()" ng-model="contactPhones.phoneContact" type="text" ng-required="list_phones.length==0" autofocus/>
+</div>
+<div class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+  	<table ng-if="list_phones.length>0">
+    	<tr ng-repeat="phone in list_phones">
+      		<td style="width: 50%">
+      			<span class="text-muted text-box">
+      				<label ng-if="phone.phoneTag=='fijo comercial'" style="font-size: 100%" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+      				<label ng-if="phone.phoneTag=='fijo guardia'" style="font-size: 100%" class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+              		<label ng-if="phone.phoneTag=='movil comercial'" style="font-size: 100%" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+              		<label ng-if="phone.phoneTag=='movil guardia'" style="font-size: 100%" class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+              		<label ng-if="phone.phoneTag=='comercial'" style="font-size: 100%" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+					<label ng-if="phone.phoneTag=='proveedores'" style="font-size: 100%" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+					<label ng-if="phone.phoneTag=='administrador'" style="font-size: 100%" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+              		<label ng-if="phone.phoneTag=='guardia'" style="font-size: 100%" class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+      				<label ng-if="phone.phoneTag=='urgente'" style="font-size: 100%" class="label label-danger">{{phone.phoneTag | uppercase}}</label>
+      			</span>
+      		</td>					                    	
+      		<td style="width: 150%"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{phone.phoneContact}}</label></span></td>
+          	<td style="padding-bottom: 5px;">
+            	<button data-toggle="tooltip" data-placement="right" title="Eliminar" ng-click="removePhoneNumFn(phone); enabledNextBtn();" class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></button>
+
+          	</td>
+      	</tr>
+  	</table>
+  	<div ng-if="list_phones.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay telefonos cargados</h5></div>
+</div>

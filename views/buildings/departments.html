@@ -1,0 +1,15 @@
+<!-- MANAGE DEPARTMENTS-->
+<div class="col-md-12 n-padding-l n-padding-r">
+    <div  class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">DEPARTAMENTOS</h3>
+      </div>
+      <!--DEPARTMENTS PANEL -->
+      <div class="panel-body">
+        <!-- TABLE LIST WHERE IS DISPLAYED THE DEPARTMENTS -->
+        <div ng-if="select.admins.selected!=undefined && select.buildings.selected!=undefined && ListDpto.length>0" class="pull-left col-md-12 n-padding-r">
+            <div ng-include="'views/buildings/list/listDepartments.html'"></div>
+        </div>
+      </div>
+    </div>
+</div>

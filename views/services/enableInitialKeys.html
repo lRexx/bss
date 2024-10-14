@@ -1,0 +1,118 @@
+<!-- USER REGISTER FORM -->
+<div id="enableInitialKeys" class="modal fade bd-example-modal-md" style="top: 30px;" role="dialog">
+    <div class="modal-dialog modal-md" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title"><i class="product-success fas fa-key"></i> HABILITAR ENTREGA INICIAL
+                    <!--<span style="margin-top: -0.4em;" class="badge badge-success" ng-if="users.new.idProfileKf.idProfile"><i class="fas fa-check-circle"></i> {{users.new.idProfileKf.nameProfile}}</span>-->
+                </h3>
+            </div>
+            <div class="modal-body h-400px"  style="overflow-y: scroll;padding-top:40px">
+                <!-- FORM CONTAINER-->
+                <form class="form-horizontal" name="fInitialKey" novalidate>
+                    <fieldset>
+                        <div class="form-group">
+                            <!-- End_date -->
+                            <div class="form-group col-md-12 col-md-12 col-xs-12" ng-class="
+                            {'has-success': 
+                                customer.update.expirationDate!='' && customer.update.expirationDate!=null && fInitialKey.bonus_end_date.$valid,
+                            'has-error':  
+                                (customer.update.expirationDate=='' || customer.update.expirationDate==undefined) && fInitialKey.bonus_end_date.$touched,
+                            }">
+                                <label style="padding-left: 15px;">Fecha de finalización</label>
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span ng-click="open_end_date()" class="input-group-addon"><i ng-click="open_end_date()" class="far fa-calendar-alt"></i></span>
+                                        <input 
+                                        ng-click="open_end_date()" 
+                                        type="text" 
+                                        name="bonus_end_date"
+                                        class="form-control" 
+                                        ng-disabled="customerFound.initial_delivery.length>=1"
+                                        uib-datepicker-popup="{{format}}" 
+                                        ng-model="customer.update.expirationDate" 
+                                        is-open="popup_end_date.opened"  
+                                        ng-required="true"
+                                        close-text="Cerrar" 
+                                        clear-text="Borrar"
+                                        current-text="Hoy"
+                                        alt-input-formats="altInputFormats" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="{
+                                'has-success': 
+                                    customer.update.initial_qtty!='' && customer.update.initial_qtty!=null && customer.update.initial_qtty>0  && fInitialKey.mainQttyKeys.$valid,
+                                'has-error':
+                                    (!customer.update.initial_qtty || customer.update.initial_qtty==undefined || customer.update.initial_qtty==0) &&  fInitialKey.mainQttyKeys.$touched,
+                                }">
+                                <label style="padding-left: 15px;">N° de Llaves para cada unidad</label>  
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-sort-numeric-up-alt"></i></span>
+                                        <input 
+                                            name="mainQttyKeys" 
+                                            ng-minlength="0" 
+                                            ng-disabled="customerFound.initial_delivery.length>=1"
+                                            class="form-control input--number" 
+                                            ng-model="customer.update.initial_qtty"  
+                                            type="text" 
+                                            ng-blur="fnLoadPhoneMask();" 
+                                            ng-keydown="fnLoadPhoneMask();" autofocus />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="form-group ol-md-12 col-sm-12 col-xs-12" ng-class="{
+                                'has-success': 
+                                    customer.update.initial_price!='' && customer.update.initial_price!=null && customer.update.initial_price>0  && fInitialKey.mainKeyPrice.$valid,
+                                'has-error':
+                                    (!customer.update.initial_price || customer.update.initial_price==undefined || customer.update.initial_price==0) &&  fInitialKey.mainKeyPrice.$touched,
+                                }">
+                                <label style="padding-left: 15px;">Precio</label>  
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-dollar-sign"></i></span>
+                                        <input 
+                                            name="mainKeyPrice" 
+                                            ng-minlength="0" 
+                                            class="form-control input--decimal" 
+                                            placeholder="$0,00"
+                                            ng-disabled="customerFound.initial_delivery.length>=1"
+                                            ng-model="customer.update.initial_price"  
+                                            type="text" 
+                                            ng-blur="fnLoadPhoneMask();" 
+                                            ng-keydown="fnLoadPhoneMask();" autofocus />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                    </fieldset>
+                </form>
+                <div class="clearfix"> </div> 
+            </div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-12 pull-right">
+                        <button ng-if="customerFound.initial_delivery.length==0" type="submit" ng-click="modalConfirmation('add_enable_initial_keys', 0, customerFound);" ng-disabled="fServiceApprovalContract.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
+                        	<span>Enviar</span>
+                        </button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>
+                            <span ng-if="customerFound.initial_delivery.length==0" >Cancelar</span>
+                            <span ng-if="customerFound.initial_delivery.length>=1" >Cerrar</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // USER REGISTER FORM -->

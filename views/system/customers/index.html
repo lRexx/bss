@@ -1,0 +1,133 @@
+<!-- MANAGE CUSTOMERS-->
+<div class="col-md-12 n-padding-l n-padding-r">
+  <!--REGISTERED CUSTOMER PANEL -->
+  <div id="custRegistered" ng-if="sysContent=='registeredCustomers'" class="panel-body">
+    <!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
+    <div  class="row">
+      <div ng-if="select.filterTypeOfClient=='' || select.filterTypeOfClient==undefined" class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
+            <!-- Filter Search -->
+            <!-- Filter Search ng-keydown="$event.keyCode === 13 && select.filterTypeOfClient==undefined && (!customerSearch.strict || customerSearch.strict)?getCustomersByNameFn(customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict):offlineSearch(rsCustomerListData,customerSearch.searchFilter, customerSearch.isInDebt,null,customerSearch.strict)"  -->
+            <div class="col-md-12 col-sm-12 col-xs-12 ">
+              <div class="form-group col-md-2 col-sm-3 col-xs-6 n-padding-l n-padding-r">
+                <label style="padding-left: 15px;">Busquéda de cliente:</label>
+              </div>
+                <div ng-if="select.filterTypeOfClient=='' || select.filterTypeOfClient==undefined" class="form-group col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
+                  <div class="col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
+                    <div class="col-md-12 col-xs-12 n-padding-r">
+                      <label class="switch switch-2x" for="strict-search">
+                          <input type="checkbox" class="success" 
+                            ng-disabled="" 
+                            ng-click="getCustomersByNameFn($parent.customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict)" 
+                            ng-model="customerSearch.strict" 
+                            id="strict-search">
+                          <span class="slider slider-2x flat"></span>
+                      </label>
+                      <label ng-if="customerSearch.strict" style="cursor: pointer; margin-top: -3%;" class="badge badge-success">Busquéda exacta</label>
+                      <label ng-if="!customerSearch.strict" style="cursor: pointer; margin-top: -3%;" class="badge badge-warning">Busquéda exacta</label>
+                    </div>
+                  </div>
+              </div>
+              <div class="input-group col-md-12 col-xs-12 search-box-rule">
+                  <input 
+                  type="text" 
+                  class="form-control text-uppercase" 
+                  ng-disabled="select.filterTypeOfClient!=undefined && (rsCustomerListData.status==404 || rsCustomerListData.length==0)"
+                  ng-keydown="$event.keyCode === 13 && getCustomersByNameFn($parent.customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict)"  
+                  ng-model="customerSearch.searchFilter" 
+                  placeholder="Presione Enter para buscar..." >
+                  <span style="cursor: pointer;" ng-click="getCustomersByNameFn($parent.customerSearch.searchFilter, customerSearch.isInDebt, customerSearch.strict)" class="input-group-addon"><i class="fas fa-search"></i></span>
+              </div>
+            </div>
+            <div class="col-md-12 col-sm-12 col-xs-12 ">
+              <row>
+                <div ng-if="select.filterTypeOfClient==undefined || select.filterTypeOfClient.idClientType==null || select.filterTypeOfClient.idClientType==''" ng-class="col-md-12">
+                  <div class="col-md-2 col-xs-6">
+                    <input id="typeClientAll" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="getCustomersListByTypeFn(customerSearch.typeClient)" ng-checked="true" name="typeClient" value="" ng-model="customerSearch.typeClient" required="" autofocus="" checked="checked" style="">
+                    <label for="typeClientAll" class="radio-2x-label">
+                      <span>Todos</span>
+                    </label>
+                  </div>
+                  <div class="col-md-2 col-xs-6">
+                    <input id="typeClient1" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="getCustomersListByTypeFn(customerSearch.typeClient)" name="typeClient" value="1" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
+                    <label for="typeClient1" class="radio-2x-label">
+                      <span>Administracion</span>
+                    </label>
+                  </div>
+                  <div class="col-md-2 col-xs-6">
+                    <input id="typeClient2" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="getCustomersListByTypeFn(customerSearch.typeClient)" name="typeClient" value="2" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
+                    <label for="typeClient2" class="radio-2x-label">
+                      <span>Edificio</span>
+                    </label> 
+                  </div>
+                  <div class="col-md-2 col-xs-6">
+                    <input id="typeClient3" class="radio-2x ng-not-empty ng-dirty ng-valid ng-valid-required ng-touched" type="radio" ng-click="getCustomersListByTypeFn(customerSearch.typeClient)" name="typeClient" value="3" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
+                    <label for="typeClient3" class="radio-2x-label">
+                      <span>Empresa</span>
+                    </label> 
+                  </div>
+                  <div class="col-md-2 col-xs-6">
+                    <input id="typeClient4" class="radio-2x ng-not-empty ng-valid ng-valid-required ng-dirty ng-touched" type="radio" ng-click="getCustomersListByTypeFn(customerSearch.typeClient)" name="typeClient" value="4" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
+                    <label for="typeClient4" class="radio-2x-label">
+                      <span>Sucursal</span>
+                    </label> 
+                  </div>
+                  <div class="col-md-2 col-xs-6">
+                    <input id="typeClient5" class="radio-2x ng-not-empty ng-valid ng-valid-required ng-dirty ng-valid-parse ng-touched" type="radio" ng-click="getCustomersListByTypeFn(customerSearch.typeClient)" name="typeClient" value="5" ng-model="customerSearch.typeClient" required="" autofocus="" style="">
+                    <label for="typeClient5" class="radio-2x-label">
+                      <span>Particular</span>
+                    </label> 
+                  </div>
+                </div>
+              </row>
+              <row>
+                <div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-12 col-xs-12">
+                  <legend style="text-align: left;">Cantidad a mostrar</legend>
+                  <rzslider rz-slider-model="slider.value" rz-slider-options="slider.options"></rzslider>
+              </div>
+              </row>
+              <div class="col-md-10 col-sm-10 col-xs-10 " style="margin-top: 1%;">
+                  <label class="switch switch-2x" for="customer-select-list">
+                    <input type="checkbox" class="success" ng-click="mainSwitchFn('customers','checkList', select.checkList.selected)"  ng-model="select.checkList.selected" id="customer-select-list">
+                    <span class="slider slider-2x flat"></span>
+                  </label>
+                  <span style="cursor: pointer; margin-top: -2.5%;" class="badge ng-scope" ng-class="{'badge-success':select.checkList.selected}">Seleccionar todos clientes de la pagina: {{pagination.pageIndex}}</span>
+                  <button ng-click="mainSwitchFn('customers','process_list', rsCustomerListData)" ng-if="select.checkList.selected || listItemSelected" data-toggle="tooltip" data-placement="bottom" title="crear" type="button" style="margin-left: 20px; margin-top: -2em;"   class="btn btn-xs btn-success"><i class="fas fa-tools"></i> Crear servicios</button>
+              </div>
+              <div class="col-md-2 col-sm-2 col-xs-2 " style="margin-top: 2%;">
+                <button ng-click="modalConfirmation('createService4AllCustomers', 0 , customerSearch.typeClient)" data-toggle="tooltip" ng-disabled="select.checkList.selected || listItemSelected" data-placement="bottom" title="crear" type="button" style="margin-left: 20px; margin-top: -2em;"   class="btn btn-sm btn-warning"><i class="fas fa-tools"></i> Crear servicios masivo</button>
+              </div>
+              <div class="clear-fix"></div>
+              <!-- TABLE LIST WHERE IS DISPLAYED THE CUSTOMER -->
+              <div ng-include="'views/system/customers/list/listCustomers.html'" style="margin-top: 0.4% !important;"></div>
+              <!-- PAGINATION -->
+                <div ng-if="rsCustomerListData.length>0" style="text-align: center;">
+                      <!--<dir-pagination-controls
+                        max-size="10"
+                        direction-links="true"
+                        boundary-links="true" >
+                    </dir-pagination-controls>-->
+                    <div style="text-align: center;" ng-include="'views/pagination/pager-tpl-v3.html'"></div>
+                      <!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'"-->
+                      <!--<div class="col-md-3 col-sm-3">
+                          <div class="input-group">
+                            <label>Registros por pagina</label>
+                              <select  name="itemPerPage" 
+                                      ng-disabled="rsCustomerListData.status==404"
+                                      ng-change="groupToPages(itemPerPage)"
+                                      class="form-control" 
+                                      ng-model="itemPerPage">
+                                  <option value="10" >10</option>
+                                  <option value="25" >25</option>
+                                  <option value="50" >50</option>
+                              </select>
+                          </div>
+                      </div>-->
+                </div>
+              <!-- //PAGINATION -->
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>

@@ -1,0 +1,104 @@
+<!-- USER PROFILE FORM -->
+<div id="ProfileModalUser" style="top: 130px;" ng-controller="UsersCtrl" class="modal fade modal-dialog-centered" role="dialog">
+  		<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-address-card"></i> PERFIL DE USUARIO
+					<span style="margin-top: -0.4em;" class="badge badge-success" ng-if="profile.idStatusKf=='1'"><i class="fas fa-check-circle"></i> {{profile.statusTenantName}}</span>
+					<span style="margin-top: -0.4em;" class="badge badge-warning" ng-if="profile.idStatusKf=='0'"><i class="fas fa-exclamation-triangle"></i> {{profile.statusTenantName}}</span>
+				</h3>
+        	</div>
+				
+				
+    		<div class="modal-body">
+				<!-- FORM CONTAINER-->
+				<form class="form-horizontal" name="fUserProfile"  autocomplete="off" novalidate>
+					<!-- Select profile -->
+					<div class="col-md-6 form-group"> 
+					  	<label style="padding-left: 15px;">Perfil</label>
+					    <div class="col-md-12 selectContainer">
+						    <div class="input-group">
+						        <span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+								    <span class="form-control disabled readonly">{{profile.nameProfile}}</span>
+						  	</div>
+						</div>
+					</div>
+					<!-- Company List-->
+					<div ng-show="sessionidProfile==2 || sessionidProfile==4" class="col-md-6 form-group">
+						<label style="padding-left: 15px;">Empresa</label>  
+					    <div class="col-md-12">
+						    <div class="input-group">
+						        <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+						  		<span class="form-control disabled">{{sessionNameCompany}}</span>
+						    </div>
+					  	</div>
+					</div>
+					<!-- Form First Name -->
+					<div class="col-md-6 form-group">
+					  <label style="padding-left: 15px;">Nombres</label>  
+						  <div class="col-md-12">
+							  <div class="input-group">
+								  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+								  <input  id="profileNames" name="profileNames" autofocus="true" placeholder="Nombre" class="form-control" ng-model="profile.fullNameUser"  type="text" autofocus required />
+							  </div>
+						  </div>
+					</div>
+					<!-- DNI-->
+					<div class="col-md-6 form-group">
+						<label style="padding-left: 15px;">Documento de identidad (DNI)</label>  
+						  <div class="col-md-12">
+						   <div class="input-group">
+							   <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+								 <input name="profileDNI" placeholder="DNI" class="form-control" ng-model="profile.dni"  type="dni" autofocus readonly />
+						   </div>
+						 </div>
+				   </div>					
+					<!-- Text Mail-->
+					<div class="col-md-6 form-group">
+					 	<label style="padding-left: 15px;">E-Mail</label>  
+					   	<div class="col-md-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+						  		<input name="profileEmail" placeholder="E-Mail" class="form-control" ng-model="profile.emailUser"  type="email" autofocus required />
+						    </div>
+					  	</div>
+					</div>
+					<!-- Text Phone-->
+					<div class="col-md-6 form-group">
+					  	<label style="padding-left: 15px;">Telefono Fijo</label>  
+					    <div class="col-md-12">
+						    <div class="input-group">
+						        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+						  		<input name="phoneLocal" ng-keydown="fnLoadPhoneMask()" placeholder="1112345678" class="form-control input--local" ng-model="profile.phoneLocalNumberUser"  type="text" ng-required="profile.MovilPhoneNumber==''"  autofocus />
+						    </div>
+					  	</div>
+					</div>
+					<!-- Text Phone-->
+					<div class="col-md-6 form-group">
+					  	<label style="padding-left: 15px;">Telefono Movil</label>  
+					    <div class="col-md-12">
+						    <div class="input-group">
+						        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+						  		<input name="MovilPhoneNumber" ng-keydown="fnLoadPhoneMask()" placeholder="91112345678" class="form-control input--movil" ng-model="profile.phoneNumberUser"  type="text" ng-required="profile.PhonelocalNumber==''"  autofocus />
+						    </div>
+					  	</div>
+					</div>
+				</form>
+				<div class="clearfix"> </div>
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="modalConfirmationMenu('updateSysUser', 0, profile)" ng-disabled="fUserProfile.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+<div ng-include="'views/utilities/modalEmailChange.html'"></div>

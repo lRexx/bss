@@ -1,0 +1,170 @@
+<div class="container">
+	<div ng-if="!redirect2NewPwd && !redirect2RestorePwd && !redirect2Register && !redirect2MainApp && !sysToken" ng-init="launchLoader();">
+		<div class="main_content">
+		   <div class="backbox">
+			      <div>
+			      	<div class="loginMsg">
+			        	<div class="textcontent1">
+					        <p class="title">Tenes cuenta de usuario?</p>
+					        <p>Ingresa con tu correo y clave.</p>
+					        <button ng-click="fnLoginToggle(2);"><i class="glyphicon glyphicon-log-in"></i> LOGIN</button>
+					    </div>
+			        </div>
+			        <div class="signupMsg">
+			        	<div class="textcontent2">
+			          		<p class="title">No estás registrado?</p>
+			          		<p>Solo Clientes Autorizados</p>
+			          		<button ng-click="fnLoginToggle(1);"><i class="glyphicon glyphicon-log-in"></i> REGISTRO</button>
+			          	</div>
+			        </div>
+			      </div>
+		   </div>
+		    <!-- backbox -->
+		    <div class="frontbox">
+				    <div  ng-show="loginUser" class="login"><!-- USER LOGIN FORM -->
+				        <img id="comp-k1xl6bdlimgimage" class="sys-logo" data-type="image" itemprop="image" src="../images/logo.png">
+				        <h5>Usuarios Registrados</h5>
+				        <form name="frmLogin" class="form-horizontal" id="frmLogin" autocomplete="off" ng-submit="sysCheck4Duplicates();">
+					        <div class="form-group">
+					        	<div class="inner-addon right-addon">
+					          		<input 
+					          			id="loginEmail" 
+					          			type="text" 
+					          			ng-model="login.email" 
+										data-html="true"
+										data-popover-content="#popover_mail"
+					          			class="form-input" 
+					          			ng-blur="inputCheckCss('loginemail');" 
+					          			name="loginemail" autofocus required>
+					          		<label>DNI / Email</label>
+					          		<i class="glyphicon glyphicon-envelope"></i>
+					          		<span class="bar"></span>
+					          	</div>
+						    </div>
+							<!-- ************************************************* -->
+							<!-- Content for Popover Wrong Password -->
+							<div id="popover_mail" class="hidden">
+								<div class="popover-heading">BSS Seguridad</div>
+								
+								<div class="popover-body"><p>Ha realizado <label class='label label-danger'>{{mailCheckCount+1}}</label> intentos fallidos de ingreso con el dni/correo<br><span class="font-bold">{{login.email}}</span><br><br> Desea realizar el registro de usuario? </p>
+								</div>
+							</div>
+							<!-- ************************************************* -->
+						    <div class="form-group">
+					        	<div class="inner-addon right-addon">
+						          	<input 
+						          	id="loginpassword"
+						          	type="{{passwordFieldType}}" 
+						          	ng-model="login.passwd" 
+									data-html="true"
+									ng-click="togglePasswordVisibility()"
+									data-popover-content="#popover_pwd"
+						          	ng-blur="inputCheckCss('loginpassword');" 
+						          	class="form-input" 
+						          	name="loginpassword" autofocus required style="cursor: pointer;">
+						          	<label>Contrase&#241a</label>
+									<i class="glyphicon" ng-class="{'glyphicon-eye-open':passwordFieldType === 'text', 'glyphicon-eye-close':passwordFieldType === 'password'}"></i>
+					          		<span class="bar"></span>
+						        </div>
+					        </div>
+					        	<p id="forgotpwd" class="forgotpwd"><a href="/forgotpwd">Olvidastes tu clave?</a></p>
+					        	<button class="btn btn-primary pull-right"  >LOG IN <i class="glyphicon glyphicon-arrow-right"></i></button>
+			          	</form>
+				    </div>
+					<!-- ************************************************* -->
+					<!-- Content for Popover Wrong Password -->
+					<div id="popover_pwd" class="hidden">
+						<div class="popover-heading">BSS Seguridad</div>
+						
+						<div class="popover-body"><p>Ha ingresado en <label class='label label-danger'>{{mailCheckCount+1}}</label> oportunidades la clave incorrecta.<br><br> Desea restablecer la Contrase&#241a de su cuenta? </p>
+						</div>
+					</div>
+			    	<!-- ************************************************* -->
+			    	<!-- REGISTER FORM CHECK -->
+			      	<div ng-show="signupUser" class="signup">
+				        <img id="comp-k1xl6bdlimgimage" class="sys-logo" data-type="image" itemprop="image" src="../images/logo.png">
+				        <h5>Nuevo usuario</h5><br><br>
+				        <form name="frmSignUpCheck" class="form-horizontal" id="frmSignUpCheck" ng-submit="sysCheckBeforeSignup()">
+					        <div class="form-group">
+					        	<div class="inner-addon right-addon">
+					          		<input 
+					          		id="signupemail" 
+					          		type="text" 
+				          			data-content="<p>El dni/correo <bold>{{signup.email}}</bold> se encuentra registrado en nuestro sistema.<br><br> Desea restablacer su clave? </p>"
+				          			class="form-input"
+					          		ng-blur="inputCheckCss('signupemail')" 
+					          		required 
+					          		ng-model="signup.email" 
+					          		name="signupemail" 
+					          		autofocus required>
+					          		<label>DNI / Email</label>
+					          		<i class="glyphicon glyphicon-envelope"></i>
+					          		<span class="bar"></span>
+					          	</div>
+					        </div>
+					        <div class="spacing"></div>
+					        <button type="submit" class="btn btn-primary pull-right">Siguiente <i class="glyphicon glyphicon-arrow-right"></i></button>
+					    </form>
+			      	</div>
+		      		<!-- ************************************************* -->
+		    </div>
+		    <!-- frontbox -->
+		</div>
+	</div>
+	<div ng-if="redirect2NewPwd || redirect2RestorePwd || redirect2Register" class="verticalAllign">
+		<div class="col-md-12">
+			<div class="hero-widget alert well-sm alert-success">
+				<div class="icon">
+	 				<i class="glyphicon glyphicon-lock"></i>
+				</div>
+				<div class="text">
+	    			<h2 ng-if="redirect2NewPwd" class="text-success">Estas siendo redireccionado para generar una nueva clave.</h2>
+	    			<h2 ng-if="redirect2RestorePwd" class="text-success">Estas siendo redireccionado para resteblecer tu cuenta.</h2>
+	    			<h2 ng-if="redirect2Register" class="text-success">Estas siendo redireccionado para crear tu cuenta de usuario.</h2>
+				</div>
+				<div class="options">
+	    			<p data-toggle="tooltip" data-placement="bottom" title="{{time2Redirect+1}}" class="btn btn-primary btn-sm">Redireccionando en <span class="badge badge-light"> {{time2Redirect+1}}</span></p>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- Modal Confirmation -->
+<div class="confirmModal modal fade" id="confirmRequestModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="ModalLabel">BSS Seguridad </h5>
+      </div>
+      <div class="modal-body">
+        <p>{{msg1}}</p>
+        <p>{{msg2}}</p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" ng-click="modalConfirmation('{{swOption}}')" class="btn btn-success">Si</button>
+        <button type="button" class="btn btn-danger" data-dismiss="modal">No</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- //Modal Confirmation -->
+<!-- Modal Notification -->
+<div class="modal fade" id="notificationModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+      	<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+        <h5 class="modal-title" id="ModalLabel">BSS Seguridad </h5>
+      </div>
+      <div class="modal-body">
+        <p>{{msg1}}</p>
+        <p><bold>{{msg2}}</bold></p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-danger" data-dismiss="modal">Cerrar</button>
+      </div>
+    </div>
+  </div>
+</div>
+<!-- //Modal Notification -->
+<div ng-include="'views/login/select_login_user.html'"></div>

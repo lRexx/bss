@@ -1,0 +1,124 @@
+<div class="col-md-12 n-padding-l n-padding-r">
+  	<div class="panel panel-success padding-panel n-margin-t">
+	    <div class="panel-heading">
+	      <h3 class="panel-title">ADMINISTRACION NUEVA</h3>
+	    </div>
+	    <div class="panel-body n-padding-l n-padding-r n-margin-l n-margin-r">	
+			<div class="col-md-12">
+				<!-- Administration list-->  
+				<div class="form-group col-md-12" ng-class="
+												  			{	'has-success': 
+												  				customer.select.company.selected!=undefined,
+												  			 	'has-error':  
+												  				customer.select.company.selected==undefined,
+												  			}">
+					<div class="input-group">
+					    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+					        <ui-select 
+					        		name="new_admin_id" 
+					        		theme="bootstrap"
+					        		ng-change="switchCustomersFn('getNewAdmin', customer.select.company.selected)" 
+					        		ng-disabled="rsCustomerAdminListData.status==404" 
+					        		ng-model="customer.select.company.selected">
+					            <ui-select-match placeholder="Seleccione una opci&#243n">{{$select.selected.name | uppercase}}</ui-select-match>
+					            <!-- group-by="'ClientType'" -->
+					            <ui-select-choices  repeat="item in rsCustomerAdminListData | filter:{idClientTypeFk:1} | filter: $select.search">
+					              <div ng-bind-html="item.name | highlight: $select.search"></div>
+					              <small>Tipo de Cliente: </small><small ng-bind-html="item.ClientType | highlight: $select.search"></small>
+					              <!--<small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+					            </ui-select-choices>
+					            <ui-select-no-choice>
+					             	<span ng-if="rsCustomerAdminListData.length==null || rsCustomerAdminListData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados</span>
+					              	<span ng-if="rsCustomerAdminListData.status==404"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados</span>
+							  	</ui-select-no-choice>
+					        </ui-select>
+					</div>
+				</div>
+				<div ng-if="customer.select.company.selected!=undefined" class="col-md-12">
+				  	<div id="accordion">
+					    <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+					    	<!-- MAIL USERS -->
+					      	<div class="panel panel-success">
+						        <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-target="#collapseNewOne" aria-expanded="true" aria-controls="collapseOne" style="cursor: pointer;">
+						          <h4 class="panel-title">
+						            <span role="button" data-toggle="collapse" data-target="#collapseNewOne" aria-expanded="true" aria-controls="collapseOne">CORREOS</span>
+						            <span class="badge pull-right"> {{customer.newAdmin.list_emails.length}}</span>
+						          </h4>
+						        </div>
+						        <div id="collapseNewOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+						          <div class="panel-body">
+						            <table ng-if="customer.newAdmin.list_emails.length>0">
+						              <tr ng-repeat="mail in customer.newAdmin.list_emails" style="font-size: 16px;">
+						                <td style="width: 25%; padding: 8px;">
+						                  <span class="text-muted text-box">
+						                    <label ng-if="mail.idTipoDeMailFk<='4'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 100%; cursor: pointer;" class="label label-default">
+						                      <i ng-if="mail.idTipoDeMailFk=='1'" class="fas fa-key"></i>
+						                      <i ng-if="mail.idTipoDeMailFk=='2'" class="fas fa-tools"></i>
+						                      <i ng-if="mail.idTipoDeMailFk=='3'" class="fas fa-file-invoice-dollar"></i>
+						                      <i ng-if="mail.idTipoDeMailFk=='4'" class="fas fa-paste"></i>
+						                    </label>
+						                    <label ng-if="mail.idTipoDeMailFk=='5'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 100%" class="label label-warning"><i class="fas fa-envelope"></i></label>
+						                    <label ng-if="mail.idTipoDeMailFk=='6'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 100%" class="label label-danger"><i class="fas fa-envelope"></i></label>
+						                  </span>
+						                </td>                               
+						                <td style="width: 75%; padding: 8px;"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{mail.mailContact}}</label></span></td>
+						              </tr>
+						            </table>
+						            <div ng-if="customer.newAdmin.list_emails.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay correos cargados</h5></div>    
+						          </div>
+						        </div>
+					      	</div>
+					      	<!-- PHONES USERS -->
+					      	<!--<div class="panel panel-success">
+						        <div class="panel-heading" role="tab" id="headingTwo" data-toggle="collapse" data-target="#collapseNewTwo" aria-expanded="false" aria-controls="collapseTwo" style="cursor: pointer;">
+						          <h4 class="panel-title">
+						            <span role="button" data-toggle="collapse" data-target="#collapseNewTwo" aria-expanded="false" aria-controls="collapseTwo">TELEFONOS</span>
+						            <span class="badge pull-right"> {{customer.newAdmin.list_phone_contact.length}}</span>
+						          </h4>
+						        </div>
+						        <div id="collapseNewTwo" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingTwo">
+						          	<div class="panel-body">
+						                <table ng-if="customer.newAdmin.list_phone_contact.length>0">
+						                  <tr ng-repeat="phone in customer.newAdmin.list_phone_contact" style="font-size: 16px;">
+						                      <td style="width: 55%; padding-left: 1.8em; padding-bottom: 0.5em;">
+						                        <span class="text-muted text-box">
+						                          <label ng-if="phone.phoneTag=='comercial'" style="font-size: 100%; cursor: pointer;" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+						                          <label ng-if="customer.newAdmin.idClientTypeFk=='5'" style="font-size: 100%; cursor: pointer;" class="label text-uppercase label-default">{{phone.phoneTag | uppercase}}</label>
+						                          <label ng-if="phone.phoneTag=='guardia'" style="font-size: 100%; cursor: pointer;" class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+						                          <label ng-if="phone.phoneTag=='urgente'" style="font-size: 100%; cursor: pointer;" class="label label-danger">{{phone.phoneTag | uppercase}}</label>
+						                        </span>
+						                      </td>                               
+						                      <td style="width: 40%; padding-bottom: 0.5em;"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{phone.phoneContact}}</label></span></td>
+						                  </tr>                           
+						                </table>
+						            	<div ng-if="customer.newAdmin.list_phone_contact.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Tel&#233;fonos cargados</h5></div>        	
+						          	</div>
+						        </div>
+					      	</div>-->
+					      	<!-- AUTH USERS -->
+					      	<div class="panel panel-success">
+						        <div class="panel-heading" role="tab" id="headingThree" data-toggle="collapse" data-target="#collapseNewThree" aria-expanded="false" aria-controls="collapseThree" style="cursor: pointer;">
+						          <h4 class="panel-title">
+						            <span role="button" data-toggle="collapse" data-target="#collapseNewThree" aria-expanded="false" aria-controls="collapseThree">USUARIOS AUTORIZADOS</span>
+						            <span class="badge pull-right"> {{customer.newAdmin.list_client_user.length}}</span>
+						          </h4>
+						        </div>
+						        <div id="collapseNewThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingThree">
+					          		<div class="panel-body">
+						              	<table ng-if="customer.newAdmin.list_client_user.length>0">
+						                	<tr ng-repeat="user in customer.newAdmin.list_client_user">
+						                  		<td style="width: 90%; padding: 8px;"><span class="text-muted text-uppercase text-box">{{user.fullNameUser}} </span></td>
+						                  		<td style="width: 10%; padding: 8px;"><button data-toggle="tooltip" data-placement="top" title="Ver usuario" ng-click="showCurrentUserInfoFn(user.idUserFk)" class="btn btn-sm btn-info"><i style="font-size: 14px;" class="fas fa-info-circle"></i></button></td>
+						                  	</tr>
+						              	</table>
+						              	<div ng-if="customer.newAdmin.list_client_user.length==0" class="text-uppercase banner-no-rows banner-no-rows-warning banner-no-rows-padding-1"><h5 style="text-align: center;"><i class="fas fa-exclamation-triangle"> </i> No hay usuarios autorizados.</h5></div>
+					          		</div>
+						        </div>
+					      	</div>
+					    </div>
+				  	</div>
+				</div>					
+			</div>	
+	    </div>
+  	</div>
+</div>				

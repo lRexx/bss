@@ -1,0 +1,116 @@
+<!-- CUSTOMER CONTRACT FORM -->
+<div id="serviceUserDetails" class="modal fade bd-example-modal-md" role="dialog">
+  	<div class="modal-dialog modal-md" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-wrench"></i> DATOS DE USUARIO DVR</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+    			<form class="form-horizontal" name="fServiceUserDetails"> 				
+					<!-- Nombre de Usuario -->						  
+					<div class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									service.users.name!='' && fServiceUserDetails.serviceUserName.$valid,
+								 	'has-error':  
+									(service.users.name=='' || service.users.name==undefined) && fServiceUserDetails.serviceUserName.$touched,
+								}">
+					  	<label style="padding-left: 15px;">Nombre de usuario</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-user"></i></span>
+				    			<input name="serviceUserName" id="serviceUserName" type="text" ng-disabled="isListCustomerService" class="form-control" ng-required="true" ng-disabled="service.new.isSysUser" ng-model="service.users.name" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- Usuario -->					  
+					<div class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									service.users.user!='' && fServiceUserDetails.serviceUser.$valid,
+								 	'has-error':  
+									(service.users.user=='' || service.users.user==undefined) && fServiceUserDetails.serviceUser.$touched,
+								}">
+					  	<label style="padding-left: 15px;">Usuario</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-user"></i></span>
+				    			<input name="serviceUser" id="serviceUser" type="text" ng-disabled="isListCustomerService" class="form-control" ng-required="true" ng-model="service.users.user" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- Password -->					  
+					<div class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									service.users.pass!='' && fServiceUserDetails.serviceUserPass.$valid,
+								 	'has-error':  
+									(service.users.pass=='' || service.users.pass==undefined) && fServiceUserDetails.serviceUserPass.$touched,
+								}">  
+					  	<label style="padding-left: 15px;">Clave</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-key"></i></span>
+				    			<input name="serviceUserPass" type="text" ng-required="true" ng-disabled="isListCustomerService" class="form-control" ng-model="service.users.pass" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- Perfil -->					  
+					<div class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									service.users.profile!='' && fServiceUserDetails.serviceUserProfile.$valid,
+								 	'has-error':  
+									(service.users.profile=='' || service.users.profile==undefined) && fServiceUserDetails.serviceUserProfile.$touched,
+								}">  
+					  	<label style="padding-left: 15px;">Perfil</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+				    			<input name="serviceUserProfile" type="text" ng-required="true" ng-disabled="isListCustomerService" class="form-control" ng-model="service.users.profile" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- QR -->
+					<!--<div class="form-group col-md-6" ng-class="
+								{	'has-success': 
+									service.users.qrCode!='' && fServiceUserDetails.serviceUserQR.$valid,
+								 	'has-error':  
+									(service.users.qrCode=='' || service.users.qrCode==undefined) && fServiceUserDetails.serviceUserQR.$touched,
+								}">
+					  	<div class="panel panel-default">
+						    <div class="panel-heading">
+						      <h3 class="panel-title">QR File</h3>
+						    </div>
+						    <div class="panel-body">
+							    	<label for="serviceUserQR" style="cursor: pointer;">	
+										<input id="serviceUserQR" name="serviceUserQR" ng-disabled="isListCustomerService" accept="image/*" onchange="angular.element(this).scope().loadAttachedFilesFn(this)" type="file" class="form-control" ng-model="service.users.qrCode" style="display: none;" />
+										<div class="thumbnail">
+									        <img ng-if="previewData.length==0 && (service.users.qrBase64==undefined || service.users.qrBase64==null)" src="images/nopictureselected.png" style="width:auto">
+											<img ng-if="previewData.length>0 && (service.users.qrBase64==undefined || service.users.qrBase64==null)" ng-src="{{data.src}}" ng-repeat="data in previewData track by $index" class="thumbnail box-center" style="width:auto">
+											<img ng-if="previewData.length==0 && (service.users.qrBase64!=undefined || service.users.qrBase64!=null)" ng-src="{{service.users.qrBase64}}" class="thumbnail box-center" style="width:auto"> 
+									        <div class="caption">
+									          	<p ng-if="previewData.length>=0">Seleciona una imagen de tipo  jpg|png|jpeg</p>
+	          									<div ng-if="invalidTypeOf" class="alert alert-warning" role="alert"><strong><i class="glyphicon glyphicon-remove-sign">&nbsp </i>El tipo de archivo {{fileTypeOf}}:</strong> no esta permitido, {{invalidTypeOf}}.
+								        		</div>
+									        </div>
+									    </div>							
+									</label>				    	
+						   	</div>
+						</div>
+					</div>-->
+				</form>
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button ng-if="isNewCustomerService || isUpdateCustomerService" type="submit" ng-click="modalConfirmation('addNewDVRUser',0,service.users,null)" ng-disabled="fServiceUserDetails.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
+                        	<span>Asignar</span>
+                        </button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>				

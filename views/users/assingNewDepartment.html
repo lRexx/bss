@@ -1,0 +1,128 @@
+<!-- USER REGISTER DEPTO FORM -->
+<div id="SetUserDepartment" class="modal fade bd-example-modal-lg" style="top: 150px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title"><i class="product-success fas fa-house-user"></i> NUEVO DEPARTAMENTO
+                    <!--<span style="margin-top: -0.4em;" class="badge badge-success" ng-if="tmp.data.idProfileKf.idProfile"><i class="fas fa-check-circle"></i> {{tmp.data.idProfileKf.nameProfile}}</span>-->
+                </h3>
+            </div>
+            <div class="modal-body"  style="overflow-y: scroll; height:250px">
+                <form class="form-horizontal" name="fAssignNewDepto" novalidate>
+                    <fieldset>
+                    <!-- List Address For Users-->
+                    <div class="col-md-12 col-sm-12 col-xs-12 " ng-if="(users.new.idProfileKf.idProfile==2 || users.new.idProfileKf.idProfile==3 || users.new.idProfileKf.idProfile==4 || users.new.idProfileKf.idProfile==5 ||users.new.idProfileKf.idProfile==6) || (users.update.idProfileKf==2 || users.update.idProfileKf==3 || (users.update.idProfileKf==5 && userDepartamentList.length==0) || users.update.idProfileKf==4 || users.update.idProfileKf==6)" ng-class="
+                        {	'has-success': 
+                            customerSearch.address!=undefined && customerSearch.address!=undefined && fAssignNewDepto.customerSearchAddress.$valid,
+                            'has-error':  
+                            (customerSearch.address==undefined) && customerSearch.address==undefined && fAssignNewDepto.customerSearchAddress.$touched,
+                            'col-md-6 col-xs-6 col-sm-6': ListDpto.length>0,
+                        }">
+                        <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r">
+                            <label style="padding-left: 15px;">Consorcio</label>
+                        <div class="input-group s-ui-width s-ui-m-left">
+                            <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+                            <input type="text" name="customerSearchAddress" 
+                                id="customerSearchAddress"
+                                ng-model="customerSearch.address"
+                                ng-keydown="findCustomerFn(customerSearch.address, users.new.idProfileKf.idProfile, 'setAddress');"
+                                class="form-control text-uppercase" 
+                                move-to-list input-selector="'.input-search'"
+                                list-items-selector="'.list-group li'"
+                                placeholder="Presione Enter para buscar..."
+                                style="z-index: 2100; border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+                                ng-required="users.update.idProfileKf==2 || users.update.idProfileKf==4 || users.update.idProfileKf==6" />
+                            <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.address!=undefined || customerSearch.address!=null)" style="height: 0px; z-index: 2000;" >
+                                <li tabindex="0" id="customerList-{{$index}}" style="z-index: 2000;"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item, 'setAddress');" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+                            </ul>
+                        </div>
+                        </div>
+                    </div>
+                    <div class="form-group col-md-12" ng-if="hhhhh"  ng-class="
+                        {	'has-success': 
+                            select.address.selected!=undefined && fAssignNewDepto.user_address.$valid,
+                            'has-error':  
+                            (select.address.selected==undefined) && fAssignNewDepto.user_address.$touched,
+                            'col-md-12':
+                            (select.address.selected==undefined) && fAssignNewDepto.user_address.$touched,
+                            'col-md-6':
+                            select.address.selected!=undefined && fAssignNewDepto.user_address.$valid
+                        }">
+                        <label style="padding-left: 15px;">Direcci&#243n</label>  
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
+                            <ui-select name="user_address"  
+                                        ng-required="((tmp.data.idProfileKf.idProfile==3) || (tmp.data.idProfileKf.idProfile==4) || (tmp.data.idProfileKf.idProfile==5) || (tmp.data.idProfileKf.idProfile==6))" 
+                                        ng-change="getDeptoListByAddress(select.address.selected.idClient);select.departmentList=null;"
+                                        ng-model="select.address.selected" autofocus>
+                                <ui-select-match  placeholder="Todos">{{$select.selected.address}}</ui-select-match>
+                                    <ui-select-choices repeat="item in rsCustomerListSelectData | filter:filterCustomerByType | filter: $select.search">
+										<div ng-bind-html="item.address | highlight: $select.search"></div>
+                                        <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+										<small>Provincia: </small><small class="label label-default"  ng-bind-html="item.province | highlight: $select.search"></small>
+                                        
+									</ui-select-choices>
+									<ui-select-no-choice>
+										<span ng-if="rsCustomerListSelectData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay edificios registrados</span>
+									</ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- List Department-->
+                    <!-- ng-change="tmp.data.idProfileKf.idProfile==6 && att.ownerOption==1 ? deptoHasOwner(null, tmp.data.idTypeAttKf, select.departmentList):deptoHasOwner(tmp.data.idProfileKf.idProfile, null, select.departmentList)"  -->
+                    <div ng-if="select.address.selected!=undefined" class="form-group col-md-6" ng-class="
+                        {	'has-success': 
+                            select.departmentList!='' &&
+                            select.departmentList!=undefined &&
+                             fAssignNewDepto.department.$valid,
+                             'has-error':  
+                            (select.departmentList=='' || select.departmentList==undefined) && fAssignNewDepto.department.$touched,
+                        }">
+                        <label style="padding-left: 15px;">Departamento</label>  
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                <select name="department" 
+                                        class="form-control text-uppercase"
+                                        ng-disabled="select.address.selected==undefined"
+                                        ng-change="checkDeptoOwner(select.departmentList.idClientDepartament)"
+                                        ng-options="item as item.floor+'-'+item.departament for item in ListDpto" 
+                                        ng-required="select.address.selected!=undefined" 
+                                        ng-model="select.departmentList" autofocus >
+                                    <option value=""></option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="(ownerFound && tmp.data.idProfileKf.idProfile==3) || (ownerFound && (tmp.data.idProfileKf.idProfile==4 || tmp.data.idProfileKf.idProfile==6) && att.ownerOption==1)" class="col-md-12">
+                        <div class="alert alert-danger" role="alert">
+                            <strong><i class="fas fa-ban">&nbsp </i>ATENCION: </strong>el Departamento ya tiene propietario.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                    </fieldset>
+                </form>
+                <div class="clearfix"> </div> 
+            </div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="userDepartmentListFn(select.departmentList, tmp.data, 'add')" ng-disabled="fAssignNewDepto.$invalid || ownerFound" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asignar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+

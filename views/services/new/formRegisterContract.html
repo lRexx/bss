@@ -1,0 +1,271 @@
+<!-- CUSTOMER CONTRACT FORM -->
+<div id="RegisterCustomerContract" class="modal fade bd-example-modal-lg" style="top: 130px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-file-signature"></i> NUEVO CONTRATO</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll; padding-bottom: 0px;">
+				<!-- FORM CONTAINER-->
+				<form class="form-horizontal" name="fCustomerNewContract" novalidate>
+					<fieldset>
+					<!-- Sign Date -->
+					<div class="col-md-6" >
+						<div class="form-group col-md-12 col-xs-12" ng-class="
+									{	'has-success': 
+										contract.new.dateOfSign!='' && fCustomerNewContract.contractDate.$valid,
+										'has-error':  
+										(contract.new.dateOfSign=='' || contract.new.dateOfSign==undefined) && fCustomerNewContract.contractDate.$touched,
+									}">
+							<label>Fecha de vigencia</label>
+							<div class="input-group">
+								<input 
+									ng-click="open1()" 
+									type="text" 
+									id="inputDatePick"
+									name="contractDate"
+									ng-change="mainSwitchFn('search', null)"
+									class="form-control" 
+									uib-datepicker-popup="{{format}}" 
+									ng-model="contract.new.dateOfSign" 
+									is-open="popup1.opened"  
+									custom-class="getCreatedDayClass(date, mode)"
+									ng-required="true" 
+									close-text="Cerrar" 
+									clear-text="Borrar"
+									current-text="Hoy"
+									alt-input-formats="altInputFormats" />
+								<span ng-click="open1()" class="input-group-addon">
+								<i ng-click="open1()" class="far fa-calendar-alt"></i>
+								</span>
+							</div>
+						</div>
+					</div>
+					<!-- Contract Number -->
+					<div class="form-group col-md-6" ng-class="
+								{	'has-success': 
+									contract.new.code!='' && contract.new.dateCodeDigits!='' && fCustomerNewContract.ContractCode.$valid && fCustomerNewContract.dateCodeDigits.$valid,
+								 	'has-error':  
+									(contract.new.code=='' || contract.new.code==undefined) && fCustomerNewContract.ContractCode.$touched || (contract.new.dateCodeDigits=='' || contract.new.dateCodeDigits==undefined) && fCustomerNewContract.dateCodeDigits.$touched,
+								}">
+					  <label style="padding-left: 15px;">N° de Contraro</label>  
+						  <div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+								<input style="width: 25%" id="customerID" name="customer_ID" autofocus="true" class="form-control"  ng-required="true" ng-model="contract.new.idClientFk" type="text" ng-readonly="true" />  
+								<input type="text" style="width: 50%" name="ContractCode" class="form-control input-contract-number" ng-keydown="fnLoadPhoneMask();" ng-required="true" ng-model="contract.new.code" ng-change="validateServiceListItemsFn()"  />
+								<!--<select style="width: 50%" name="ContractCode" class="form-control"  ng-required="true" ng-model="contract.new.code" ng-change="validateServiceListItemsFn()" autofocus >
+								    	<option class="text-uppercase" value="">Selecci&#243n codigo</option>
+										<option class="text-uppercase" value="2C-4-I"> 2C-4-I</option>
+										<option class="text-uppercase" value="2C-8-I"> 2C-8-I</option>
+										<option class="text-uppercase" value="2C-16-I"> 2C-16-I</option>
+										<option class="text-uppercase" value="2C-32-I"> 2C-32-I</option>
+										<option class="text-uppercase" value="1C"> 1C</option>
+										<option class="text-uppercase" value="AD1C"> AD1C</option>
+										<option class="text-uppercase" value="AS1C"> AS1C</option>
+										<option class="text-uppercase" value="INTER"> INTER</option>
+										<option class="text-uppercase" value="5C-4"> 5C-4</option>
+										<option class="text-uppercase" value="5C-8"> 5C-8</option>
+										<option class="text-uppercase" value="5C-16"> 5C-16</option>
+										<option class="text-uppercase" value="5C-32"> 5C-32</option>
+										<option class="text-uppercase" value="6C-4"> 6C-4</option>
+										<option class="text-uppercase" value="6C-8"> 6C-8</option>
+										<option class="text-uppercase" value="6C-16"> 6C-16</option>
+										<option class="text-uppercase" value="6C-32"> 6C-32</option>
+										<option class="text-uppercase" value="7C-4"> 7C-4</option>
+										<option class="text-uppercase" value="7C-8"> 7C-8</option>
+										<option class="text-uppercase" value="7C-16"> 7C-16</option>
+										<option class="text-uppercase" value="7C-32"> 7C-32</option>
+										<option class="text-uppercase" value="3NC/APP"> 3NC/APP</option>
+										<option class="text-uppercase" value="2NC"> 2NC</option>
+										<option class="text-uppercase" value="2NC/APP"> 2NC/APP</option>
+										<option class="text-uppercase" value="1NC"> 1NC</option>
+										<option class="text-uppercase" value="1V"> 1V</option>
+										<option class="text-uppercase" value="2V"> 2V</option>
+										<option class="text-uppercase" value="1NC/APP"> 1NC/APP</option>
+										<option class="text-uppercase" value="4NC"> 4NC</option>
+										<option class="text-uppercase" value="5NC"> 5NC</option>
+										<option class="text-uppercase" value="6NC"> 6NC</option>
+										<option class="text-uppercase" value="4/1PNC"> 4/1PNC</option>
+										<option class="text-uppercase" value="4/1NC"> 4/1NC</option>
+										<option class="text-uppercase" value="4/2PNC"> 4/2PNC</option>
+										<option class="text-uppercase" value="4/3NC"> 4/3NC</option>
+										<option class="text-uppercase" value="4/3PNC"> 4/3PNC</option>
+										<option class="text-uppercase" value="5/2NC"> 5/2NC</option>
+										<option class="text-uppercase" value="5/3NC"> 5/3NC</option>
+										<option class="text-uppercase" value="5/4NC"> 5/4NC</option>
+										<option class="text-uppercase" value="2NM"> 2NM</option>
+										<option class="text-uppercase" value="2NM/APP"> 2NM/APP</option>
+										<option class="text-uppercase" value="1NM"> 1NM</option>
+										<option class="text-uppercase" value="1NM/APP"> 1NM/APP</option>
+										<option class="text-uppercase" value="4NM"> 4NM</option>
+										<option class="text-uppercase" value="AN-INTER"> AN-INTER</option>
+										<option class="text-uppercase" value="AN-APP"> AN-APP</option>
+										<option class="text-uppercase" value="AN-LTE"> AN-LTE</option>
+										<option class="text-uppercase" value="1C-I"> 1C-I</option>
+										<option class="text-uppercase" value="1C-IC"> 1C-IC</option>
+										<option class="text-uppercase" value="2C-4"> 2C-4</option>
+										<option class="text-uppercase" value="2C-4-IC"> 2C-4-IC</option>
+										<option class="text-uppercase" value="2C-8"> 2C-8</option>
+										<option class="text-uppercase" value="2C-8-IC"> 2C-8-IC</option>
+										<option class="text-uppercase" value="2C-16"> 2C-16</option>
+										<option class="text-uppercase" value="2C-16-IC"> 2C-16-IC</option>
+										<option class="text-uppercase" value="2C-32"> 2C-32</option>
+										<option class="text-uppercase" value="2C-32-IC"> 2C-32-IC</option>
+										<option class="text-uppercase" value="3C"> 3C</option>
+										<option class="text-uppercase" value="4C-4"> 4C-4</option>
+										<option class="text-uppercase" value="6C-4-IC"> 6C-4-IC</option>
+										<option class="text-uppercase" value="6C-8-IC"> 6C-8-IC</option>
+										<option class="text-uppercase" value="6C-16-IC"> 6C-16-IC</option>
+										<option class="text-uppercase" value="6C-32-IC"> 6C-32-IC</option>
+										<option class="text-uppercase" value="7C-4-IC"> 7C-4-IC</option>
+										<option class="text-uppercase" value="7C-8-IC"> 7C-8-IC</option>
+										<option class="text-uppercase" value="EST-C-I"> EST-C-I</option>
+										<option class="text-uppercase" value="EST-C-IC"> EST-C-IC</option>
+										<option class="text-uppercase" value="AD-C-EST"> AD-C-EST</option>
+										<option class="text-uppercase" value="W-BDP"> W-BDP</option>
+										<option class="text-uppercase" value="W-BDP-APP"> W-BDP-APP</option>
+										<option class="text-uppercase" value="1M"> 1M</option>
+										<option class="text-uppercase" value="AD1M"> AD1M</option>
+										<option class="text-uppercase" value="AS1M"> AS1M</option>
+										<option class="text-uppercase" value="2M"> 2M</option>
+										<option class="text-uppercase" value="3M"> 3M</option>
+										<option class="text-uppercase" value="4M"> 4M</option>
+										<option class="text-uppercase" value="6M"> 6M</option>
+										<option class="text-uppercase" value="7M"> 7M</option>-->
+							    </select>
+							  	<input style="width: 25%" id="dateCodeDigits" name="dateCodeDigits" autofocus="true" class="form-control input--date-number" ng-pattern="pattOnlyNumbersX6" ng-keydown="fnLoadPhoneMask()" ng-model="contract.new.dateCodeDigits" ng-required="true" type="text" autofocus/>
+						  </div>
+						</div>
+					</div>
+					<!-- Contract Type-->
+					<!--ng-options="item.idDepartment as item.departmentFloor for item in ListDpto"-->
+					<div class="form-group col-md-6" ng-class="
+								{	'has-success': 
+									contract.new.contratoType!='' && fCustomerNewContract.contract_type.$valid,
+								 	'has-error':  
+									(contract.new.contratoType=='' || contract.new.contratoType==undefined) && fCustomerNewContract.contract_type.$touched,
+								}">
+					  <label style="padding-left: 15px;">Forma de contratacion</label>  
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-border-style"></i></span>
+						  		<select name="contract_type" 
+						  				class="form-control"
+						  				ng-options="item.idTypeContrato as item.description for item in rsTypeOfContractsData"
+						  				ng-model="contract.new.contratoType" ng-change="validateServiceListItemsFn()"  ng-required="true" autofocus >
+								    <option class="text-uppercase" value="">Selecciona una forma</option>    
+							    </select>
+						    </div>
+					  	</div>
+					</div>
+					<!-- Maintenance -->
+					<!--ng-options="item.idDepartment as item.departmentFloor for item in ListDpto"-->
+					<div class="form-group col-md-6" ng-class="
+								{	'has-success': 
+									contract.new.maintenanceType!='' && fCustomerNewContract.contract_mnt_type.$valid,
+								 	'has-error':  
+									(contract.new.maintenanceType=='' || contract.new.maintenanceType==undefined) && fCustomerNewContract.contract_mnt_type.$touched,
+								}">
+					  <label style="padding-left: 15px;">Tipo de mantenimiento</label>  
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-screwdriver"></i></span>
+						  		<select name="contract_mnt_type" 
+						  				class="form-control"
+						  				ng-options="item.idTypeMaintenance as item.typeMaintenance for item in rsTypeOfMaintenanceData | filter: {idTypeMaintenance: '!3'}" 
+						  				ng-model="contract.new.maintenanceType" ng-change="validateServiceListItemsFn()"  ng-required="true" autofocus >
+								    <option class="text-uppercase" value="">Selecciona un tipo</option>
+							    </select>
+						    </div>
+					  	</div>
+					</div>
+					<!-- SERVICES -->
+					<div class="form-group form-inline col-md-12">
+					    <label style="padding-left: 15px;">Servicios
+					    	<button style="margin-left: 120px;" data-toggle="tooltip" data-placement="right" title="Agregar servicio" ng-click="switchCustomersFn('contract', contract.new, 'assign_contract_new_service');" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button>
+							<!--<button style="margin-left: 120px;" data-toggle="tooltip" data-placement="right" title="Agregar servicio test" ng-click="switchCustomersFn('services', customerFound, 'new_service');" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Servicio Test</button>-->
+					    </label>
+					</div>
+					<div class="form-group col-md-12" style="padding:10px 10px 0px 10px;">
+						<div ng-if="list_services_tmp.length>=1" ng-repeat="srvs in list_services_tmp" class="col-md-6" style="margin:5px 0px 25px 0px;">
+					    	<div class="col-xs-12 srvs-widget well well-md n-margin-b n-padding-l n-padding-r" ng-class="{'well-default':(srvs.item_contracted==undefined || srvs.item_contracted==null || srvs.items_contracted==undefined || srvs.items_contracted==null) && srvs.serviceItems.length==0,
+					    	 'well-warning':srvs.item_contracted==srvs.item_used && srvs.serviceItems.length>0 || srvs.item_available<=0 && srvs.serviceItems.length>0,
+					    	 'well-success':srvs.item_available>0
+					    	}">
+		                        <div class="col-md-2 srvs-icon">
+		                            <span><i ng-class="{
+												'fas fa-door-open': srvs.idServiceType=='1',
+												'fas fa-network-wired': srvs.idServiceType=='2',
+												'fas fa-video': srvs.idServiceType=='3' || srvs.idServiceType=='4',
+												'fas fa-bell': srvs.idServiceType=='5',
+												'fas fa-code-branch': srvs.idServiceType=='6',
+												'srvs-icon-default-i':(srvs.item_contracted==undefined || srvs.item_contracted==null || srvs.items_contracted==undefined || srvs.items_contracted==null) && srvs.serviceItems.length==0,
+					    	 					'srvs-icon-warning-i':srvs.item_contracted==srvs.item_used && srvs.serviceItems.length>0 || srvs.item_available<=0 && srvs.serviceItems.length>0,
+					    	 					'srvs-icon-success-i':srvs.item_available>0												
+											   }"></i>
+									</span>
+		                        </div>
+								<div class="col-md-10 text-badge" style="margin-top: 10px;">
+									<span class="srvs-panel-head" ng-class="{												
+												'srvs-panel-head-default':(srvs.item_contracted==undefined || srvs.item_contracted==null || srvs.items_contracted==undefined || srvs.items_contracted==null) && srvs.serviceItems.length==0,
+					    	 					'srvs-panel-head-warning':srvs.item_contracted==srvs.item_used && srvs.serviceItems.length>0 || srvs.item_available<=0 && srvs.serviceItems.length>0,
+					    	 					'srvs-panel-head-success':srvs.item_available>0												
+											   }"> {{srvs.serviceName | uppercase}}</span>
+								</div>
+								<div ng-if="(srvs.item_contracted==undefined || srvs.item_contracted==null || srvs.items_contracted==undefined || srvs.items_contracted==null) && srvs.serviceItems.length==0" class="col-md-12 text-badge col-md-offset-1">
+									<span  style="margin-top: -0.4em;" class="badge badge-default"><i class="fas fa-info-circle"></i> Servicio no contratado</span>
+								</div>
+								<!--<div class="col-md-2 text-badge" style="margin-top: 10px;">
+									<span ng-if="srvs.serviceItems.length>0" ng-click="isCollapsed = !isCollapsed" class="glyphicon" style="margin-left: 20px;" data-toggle="collapse" data-target="#{{srvs.idServiceType}}" data-toggle="tooltip" data-placement="right" title="ver items" ng-class="{'glyphicon-chevron-up':!isCollapsed,'glyphicon-chevron-down':isCollapsed}"></span>
+								</div>-->
+								<!--<div id="{{srvs.idServiceType}}" class="col-md-12 collapse">-->
+							        <table>
+										<tr ng-repeat="item in srvs.serviceItems">
+							              	<td style="width: 1%;padding: 0 10px 0 10px;"><label style="font-size: 75%" class="label label-default">{{$index+1}}</label></td>
+							              	<td ng-if="srvs.idServiceType=='1' || srvs.idServiceType=='3' || srvs.idServiceType=='4'" style="width: 20%; padding-top: 7px;">
+							              		<span class="text-muted text-box">
+							              			<label style="font-size: 100%;">{{item.itemName | uppercase}}</label><span ng-if="item.itemAclaracion!=null && item.itemAclaracion!=undefined" class="badge badge-warning">{{ item.itemAclaracion }}</span>
+							              		</span>
+							              	</td>
+							              	<td ng-if="srvs.idServiceType=='2' || srvs.idServiceType=='5' || srvs.idServiceType=='6'" style="width: 40%; padding-top: 7px;"><span class="text-muted text-box">
+							              		<label style="font-size: 100%;">{{item.itemName | uppercase}}</label></span>
+							              	</td>
+							              	<td ng-if="srvs.idServiceType=='1' || srvs.idServiceType=='3' || srvs.idServiceType=='4'" style="width: 10%;"><span class="text-muted text-box">
+							              		<label class="badge badge-default" data-toggle="tooltip" data-placement="top" title="Contratadas" style="cursor: pointer;font-size: 100%;margin-top: 8px;">{{item.qtty | uppercase}}</label>
+							              		<label class="badge badge-warning" data-toggle="tooltip" data-placement="top" title="Usadas" style="cursor: pointer;font-size: 100%;margin-top: 8px;">{{item.used | uppercase}}</label>
+							              	</td>
+							              	<td ng-if="srvs.idServiceType=='2' || srvs.idServiceType=='5' || srvs.idServiceType=='6'" style="width: 20%; padding-top: 7px;"><span class="text-muted text-box">
+							              		<label ng-if="item.used==1" class="font-size-18px" data-toggle="tooltip" data-placement="right" title="Servicio contratado en uso" style="cursor: pointer;font-size: 100%;"><i class="text-success far fa-check-circle"></i></label>
+							              		<label ng-if="item.used==0" class="font-size-18px" data-toggle="tooltip" data-placement="right" title="Servicio contratado disponible" style="cursor: pointer;font-size: 100%;"><i class="text-warning far fa-check-circle"></i></label></span>
+							              	</td>
+								          	<td style="padding-bottom: 5px; width: 10%; cursor: pointer;">
+								            	<button ng-disabled="item.used>=1 || srvs.items_available==0 || srvs.cameras_available==0" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeServiceItemFn(srvs, item)" class="btn btn-xs btn-danger"><i class="fas fa-minus-circle"></i></button>
+								          	</td>
+							            </tr>
+							        </table>
+								<!--</div>-->
+					    	</div>
+						</div>
+					  	<div ng-if="list_services_tmp.length==0" class="col-md-6 col-md-offset-3 text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay servicios creados</h5></div>                                
+					</div>
+					</fieldset>
+				</form>
+				<div class="clearfix"> </div> 
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="switchCustomersFn('contract', null, 'add');" ng-disabled="fCustomerNewContract.$invalid || !serviceItemListOk" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- // CUSTOMER CONTRACT FORM -->

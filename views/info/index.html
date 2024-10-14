@@ -1,0 +1,111 @@
+<!-- STATUS CUSTOMER-->
+<div ng-show="serviceResponse.status==200 && (customerStatus.IsInDebt!=undefined || customerStatus.IsInDebt==null) && sysLoggedUser.idProfileKf!=0" class="col-md-10 col-md-offset-1">
+  <div class="panel" style="margin-top: 5%!important" ng-class="
+    {'panel-success': customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null, 'panel-danger': customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'}">
+    <div class="panel-heading">
+      <h3 class="panel-title" ng-if="checkStatus.client" style="font-size: 100%;">INFORMACIÓN DEL CLIENTE
+        <label ng-if="customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null" class="label label-success text-uppercase" style="font-size: 70%;"> <i class="far fa-check-circle"></i> habilitado</label></h3>
+    </div>
+    <div class="panel-body n-padding-l n-padding-r">
+          <div ng-if="checkStatus.client" class="col-md-12">
+            <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
+              <div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+                <legend>Administración</legend>
+                <p class="media-heading"><h4><b>{{customerStatus.administration_details[0].name}}</b></h4></p>
+                <div id="accordion">
+                  <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                    <!-- MAIL LIST -->
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-target="#collapseCurrentOne" aria-expanded="true" aria-controls="collapseOne" style="cursor: pointer;">
+                        <h4 class="panel-title">
+                          <span role="button" data-toggle="collapse" data-target="#collapseCurrentOne" aria-expanded="true" aria-controls="collapseOne" class="collapsed-font">CORREOS</span>
+                          <span class="badge pull-right"> {{customerStatus.administration_details[0].list_emails.length}}</span>
+                        </h4>
+                      </div>
+                      <div id="collapseCurrentOne" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body n-padding-l n-padding-r">
+                          <div ng-include="'views/info/list/mailList.html'"></div>
+                        </div>
+                      </div>
+                    </div>
+                    <!-- PHONE LIST -->
+                    <div class="panel panel-default">
+                      <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-target="#collapseCurrentThree" aria-expanded="true" aria-controls="collapseOne" style="cursor: pointer;">
+                        <h4 class="panel-title">
+                          <span role="button" data-toggle="collapse" data-target="#collapseCurrentThree" aria-expanded="true" aria-controls="collapseOne" class="collapsed-font">TELÉFONOS</span>
+                          <span class="badge pull-right"> {{customerStatus.administration_details[0].list_phone_contact.length}}</span>
+                        </h4>
+                      </div>
+                      <div id="collapseCurrentThree" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                        <div class="panel-body n-padding-l">
+                          <div ng-include="'views/info/list/phoneList.html'"></div>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+          </div>
+          <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
+            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r"></div>
+              <legend>Consorcio</legend>
+              <p class="media-heading"><h4><b>{{customerStatus.address}}</b></h4></p>
+              <!--<p class="media-heading"><b>Provincia:</b> <p>{{customerStatus.province}}</p></p>
+              <p class="media-heading"><b>Provincia:</b> <p>{{customerStatus.location}}</p></p>
+              <h4 class="media-heading">Estado: 
+                <span ng-if="customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null" class="label label-success text-uppercase font-size-12px"> <i class="far fa-check-circle"></i> habilitado</span>
+                <span ng-if="customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'"  class="label label-danger text-uppercase font-size-12px"><i class="far fa-times-circle"></i> inhabilitado</span>
+              </h4>-->
+              <div id="accordion">
+                <div class="panel-group" id="accordion" role="tablist" aria-multiselectable="false">
+                  <!-- ATTENDANT LIST -->
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-target="#collapseAttendants" aria-expanded="true" aria-controls="collapseOne" style="cursor: pointer;">
+                      <h4 class="panel-title">
+                        <span role="button" data-toggle="collapse" data-target="#collapseAttendants" aria-expanded="true" aria-controls="collapseOne" class="collapsed-font">ENCARGADOS</span>
+                        <span class="badge pull-right"> {{attendantListByAddress.length}}</span>
+                      </h4>
+                    </div>
+                    <div id="collapseAttendants" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                      <div class="panel-body" ng-class="{'n-padding-l n-padding-r': attendantListByAddress.length>0}">
+                        <div ng-include="'views/info/list/attendantList.html'"></div>
+                      </div>
+                    </div>
+                  </div>
+                  <!-- DEPARTMENT LIST & TENANT -->
+                  <div class="panel panel-default">
+                    <div class="panel-heading" role="tab" id="headingOne" data-toggle="collapse" data-target="#collapseDepartments" aria-expanded="true" aria-controls="collapseOne" style="cursor: pointer;">
+                      <h4 class="panel-title">
+                        <span role="button" data-toggle="collapse" data-target="#collapseDepartments" aria-expanded="true" aria-controls="collapseOne" class="collapsed-font">DEPARTAMENTOS</span>
+                        <span class="badge pull-right"> {{ListDpto.length}}</span>
+                      </h4>
+                    </div>
+                    <div id="collapseDepartments" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+                      <div class="panel-body n-padding-l n-padding-r">
+                        <div ng-include="'views/info/list/departmentList.html'"></div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div
+            </div>
+          </div>
+        </div>
+
+  </div>
+</div>
+<div ng-if="checkStatus.client" ng-show="serviceResponse.status==404 && sysLoggedUser.idProfileKf!=0" class="col-md-6 col-md-offset-3">
+  <div class="panel panel-warning padding-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">INFORMACIÓN DEL CLIENTE</h3>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-10 col-md-offset-1">
+          <div ng-show="(customerStatus.IsInDebt!=undefined || customerStatus.IsInDebt==null) && sysLoggedUser.idProfileKf!=0" class="alert alert-warning" role="alert">
+            <span class="font-size-12px"><strong>INFO:</strong>Cliente no encontrado, intente nuevamente o contacte el area tecnica.</span>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>

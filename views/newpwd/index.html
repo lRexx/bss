@@ -1,0 +1,153 @@
+<!-- NEW PASWD FORM -->
+<div class="container" ng-show="!redirectSuccessfull" ng-init="launchLoader();">
+	<div class="col-xs-12 col-sm-8 col-md-8 ">
+		<div class="newPwdForm">
+		  	<div class="panel panel-default panel-primary">
+		      	<div class="panel-heading" style="background-color: rgba(35, 100, 132, 0.66); border-color: rgba(35, 100, 132, 0.66);">
+		      		<a href="/login" class="close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></a>
+		        	<h3 class="modal-title">Nueva Clave</h3>
+		    	</div>
+				<div class="panel-body">
+						<!-- FORM CONTAINER-->
+						<form name="frmNewPwd" class="form-horizontal" autocomplete="off" role="form" novalidate>
+							<div class="form-group">
+								<div class="col-md-12">
+									<div class="inner-addon right-addon">
+								  		<input 
+								  			id="pwd1" 
+								  			name="pwd1" 
+								  			aria-describedby="passwordHelpBlock1" 
+								  			class="form-input" 
+								  			ng-blur="inputCheckCss('pwd1', 'i');" 
+								  			ng-model="new.pwd1" 
+								  			type="password" 
+								  			autofocus
+											ng-keyup="regexChecker(new.pwd1)"
+								  			required
+								  			no-spaces
+								  			password-confirm match-target="new.pwd2"/>
+								  		<label>Contrase&#241a nueva</label> 
+								  		<i ng-if="!frmNewPwd.pwd1.$valid && !frmNewPwd.pwd2.$valid" class="glyphicon glyphicon-lock"></i>
+								  		<!--<i ng-if="!new.pwd1 && !new.pwd2 && new.pwd2==new.pwd1" class="glyphicon glyphicon-ok i-success"></i>
+								  		<i ng-if="new.pwd2!=new.pwd1" class="glyphicon glyphicon-remove i-danger"></i>-->
+								  		<i style="color: #5cb85c; font-size: 1.4em;" ng-if="frmNewPwd.pwd1.$valid && frmNewPwd.pwd2.$valid" class="glyphicon glyphicon-ok"></i>
+								  		
+										<span class="bar"></span>
+								    </div>
+								    <small id="passwordHelpBlock1" class="form-text text-muted">
+										<span class="bg-success" ng-if="regexRules.lowerChar && regexRules.uperChar && regexRules.numberChar && regexRules.specialChar && regexRules.minChar && frmNewPwd.pwd2.$error.match-target">Confirma la clave en el siguiente campo</span>
+									</small>
+					  			</div>
+							</div>
+							<div class="form-group" ng-class="new.pwd2!=new.pwd1?'has-error':'has-success'">
+								<div class="col-md-12">
+									<div class="inner-addon right-addon">
+								  		<input 
+							  				id="pwd2" 
+								  			name="pwd2" 
+								  			aria-describedby="passwordHelpBlock2" 
+								  			class="form-input" 
+								  			ng-blur="inputCheckCss('pwd2', 'i');" 
+								  			ng-model="new.pwd2" 
+								  			type="password" 
+								  			autofocus
+								  			required
+								  			no-spaces
+								  			password-confirm match-target="new.pwd1" />
+								  		<label>Confirme su Contrase&#241a</label> 
+								  		<i ng-if="!frmNewPwd.pwd1.$valid && !frmNewPwd.pwd2.$valid" class="glyphicon glyphicon-lock"></i>
+								  		<i style="color: #5cb85c; font-size: 1.4em;" ng-if="frmNewPwd.pwd1.$valid && frmNewPwd.pwd2.$valid" class="glyphicon glyphicon-ok"></i>
+								  		<span class="bar"></span>
+								    </div>
+								    <small  id="passwordHelpBlock2" class="form-text text-muted">
+										<span class="bg-danger" ng-show="frmNewPwd.pwd2.$error.match-target && frmNewPwd.pwd2.$touched">Las claves no coinciden, por favor verificar.</span>
+									</small>
+					  			</div>
+							</div>
+		            	</form>
+					</div>
+					<br>
+		            <div class="panel-footer">
+		                <div class="row">
+		                    <div class="col-xs-12 col-sm-12 col-md-6">
+		                        <button 
+		                        	type="submit" 
+		                        	ng-click="sysRequestNewPwd()" 
+		                        	ng-disabled="!regexRules.lowerChar || !regexRules.uperChar || !regexRules.numberChar || !regexRules.specialChar || !regexRules.minChar || frmNewPwd.pwd1.$error.match-target || frmNewPwd.pwd2.$error.match-target" 
+		                        	class="btn btn-labeled btn-success">
+		                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i></span>Enviar</button>
+		                        <a href="/login" type="button" class="btn btn-labeled btn-danger">
+		                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+		                    </div>
+		                </div>
+		            </div>
+
+	        </div>
+		</div>
+	</div>
+	<div class="col-xs-12 col-sm-4 col-md-4 ">
+		<div class="newPwdRules">
+		  	<div class="panel panel-default panel-primary">
+				<div class="panel-body">
+					<ul class="ulPwdRules">
+						<li>
+							<span class="form-text">
+								<i 
+									ng-class="{
+										'success-Rules': 
+											regexRules.lowerChar && (frmNewPwd.pwd1.$error.match-target || !frmNewPwd.pwd1.$error.match-target), 
+										'danger-Rules': 
+											!regexRules.lowerChar
+											}"
+									class="iPwdRules glyphicon glyphicon-ok-circle">
+								</i> Contiene un caracter en minuscula</span></li>
+						<li>
+							<span class="form-text">
+								<i 
+									ng-class="{
+										'success-Rules': 
+											regexRules.uperChar && (frmNewPwd.pwd1.$error.match-target || !frmNewPwd.pwd1.$error.match-target), 
+										'danger-Rules': 
+											!regexRules.uperChar
+											}"
+									class="iPwdRules glyphicon glyphicon-ok-circle">
+								</i> Contiene un caracter en mayuscula</span></li>
+						<li>
+							<span class="form-text">
+								<i 
+									ng-class="{
+										'success-Rules': 
+											regexRules.numberChar && (frmNewPwd.pwd1.$error.match-target || !frmNewPwd.pwd1.$error.match-target), 
+										'danger-Rules': 
+											!regexRules.numberChar
+											}"
+									class="iPwdRules glyphicon glyphicon-ok-circle">
+								</i> Contiene un caracter numerico</span></li>
+						<li>
+							<span class="form-text">
+								<i 
+									ng-class="{
+										'success-Rules': 
+											regexRules.specialChar && (frmNewPwd.pwd1.$error.match-target || !frmNewPwd.pwd1.$error.match-target), 
+										'danger-Rules': 
+											!regexRules.specialChar
+											}"
+									class="iPwdRules glyphicon glyphicon-ok-circle">
+								</i> Contiene un caracter especial</span></li>
+						<li>
+							<span class="form-text">
+								<i 
+									ng-class="{
+										'success-Rules': 
+											regexRules.minChar && (frmNewPwd.pwd1.$error.match-target || !frmNewPwd.pwd1.$error.match-target), 
+										'danger-Rules': 
+											!regexRules.minChar
+											}"
+									class="iPwdRules glyphicon glyphicon-ok-circle">
+								</i> Contiene al menos de 8 caracteres</span></li>
+					</ul>
+				</div>
+	        </div>
+		</div>
+	</div>
+</div>

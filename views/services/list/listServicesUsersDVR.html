@@ -1,0 +1,48 @@
+<!-- LIST OF DVR USER -->
+<table  id="tableUseLicences" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover">
+    <thead style=" background: #4d5d6f; color: white;">
+      <tr style="text-align: center;">
+          <th width="2%" class="media-middle text-center"># 
+            <!--<span ng-click="sort_by('idDepartmentFk')" class="glyphicon sort-icon" ng-show="sortingOrder=='idDepartmentFk'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>-->
+          </th>
+          <th width="5%" class="media-middle text-center" ><i class="fas fa-users-cog"> </i></th>
+          <!--<th width="5%" class="media-middle text-center" ><i class="fas fa-qrcode"> </i></th>-->
+          <th width="45%" class="media-middle text-center"><i class="glyphicon glyphicon-user" > </i> Nombres</th>
+          <th width="15%" class="media-middle text-center"><i class="glyphicon glyphicon-user" > </i> Usuario</th>
+          <th width="15%" class="media-middle text-center"><i class="glyphicon glyphicon-user" > </i> Clave</th> 
+            <!--<span ng-click="sort_by('fullName')"class="glyphicon sort-icon" ng-show="sortingOrder=='fullName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>-->
+          <th width="13%"class="media-middle text-center">Opciones</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Show if there is customer registered -->
+      <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">-->
+        <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="user in list_user">
+        <td class="media-middle text-center"><span>{{$index+1}}</span></td>
+        <!-- USER SYSTEM -->
+        <td ng-trim="true" class="media-middle text-center" >
+          <span ng-if="user.idClientFk" data-toggle="tooltip" data-placement="top" title="Usuario del sistema" class="font-size-18px" style="color: #5cb85c">
+              <i class="text-success fas fa-check-circle"></i>
+          </span>          
+          <span ng-if="!user.idClientFk" style="font-size: 75%;" data-toggle="tooltip" data-placement="top" title="No Registrado" class="text-warning media-middle text-center font-size-18px"><i class="fas fa-lightbulb"></i></span>
+        </td>
+        <!--<td class="media-middle text-center">
+          <span ng-if="user.qrCode" style="font-size: 75%;" class="btn qrcode btn-xs btn-warning" data-img={{user.qrCode}} title="Codigo QR"><i class="fas fa-eye"></i></span>
+          <span ng-if="!user.qrCode" style="font-size: 75%;" data-toggle="tooltip" data-placement="top" title="No QR asociado" class="text-warning media-middle text-center font-size-18px"><i class="fas fa-exclamation-triangle"></i></span>          
+        </td> -->       
+        <!--NAMES -->
+        <td ng-click="loadSelectedUserDVRFn(user)" ng-trim="true"> <span class="media-middle font-size-18px"> {{user.name}}</span></td>
+        <!--Username -->
+        <td ng-trim="true" class="media-middle text-center"><span class="text-muted text-box">{{user.user}}</span></td>
+        <!--Password -->
+        <td ng-trim="true" class="media-middle text-center"><span class="text-muted text-box">{{user.pass}}</span></td>        
+        <td class="media-middle text-center">
+           <button style="font-size: 70%" data-toggle="tooltip" data-placement="top" title="PDF" ng-click="selectApp(user, service);" class="btn btn-xs btn-success"><i class="fas fa-file-pdf"></i></button>
+          <button style="font-size: 70%" data-toggle="tooltip" data-placement="top" title="Ver" ng-click="loadSelectedUserDVRFn(user);" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i></button>
+          <button ng-if="!isListCustomerService" style="font-size: 70%" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeServiceUserDetailsFn(user);" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
+
+        </td>        
+      </tr>
+    </tbody>
+</table> 
+<!-- //LIST OF DVR USER -->

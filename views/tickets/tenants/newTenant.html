@@ -1,0 +1,176 @@
+<!-- TENANT REGISTER FORM -->
+<div id="RegisterTenant" class="modal fade bd-example-modal-lg" style="top: 150px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title"><i class="product-success fas fa-user"></i> NUEVO 
+                    <span class="badge badge-default font-size-18px" ng-if="tenant.new.idTypeTenantKf==1">PROPIETARIO</span>
+                    <span class="badge badge-default font-size-18px" ng-if="tenant.new.idTypeTenantKf==2">HABITANTE</span>
+                    <span> :: EN EL DEPARTAMENTO: <span class="badge badge-default font-size-18px">{{tenant.new.depto}}</span></span></h3>
+            </div>
+            <div class="modal-body" style="overflow-y: scroll;" >
+                <!-- FORM CONTAINER-->
+                <form class="form-horizontal" name="fNewTenant" novalidate>
+                    <fieldset>
+                    <!-- Select profile -->
+                    <div class="form-group col-md-12" ng-show="sessionidProfile!=2 && sessionidProfile!=3"
+                    ng-class="
+                    {	'has-success': 
+                        tenant.new.idTypeTenantKf!='' && fNewTenant.idTypeTenantKf.$valid,
+                        'has-error':  
+                        (tenant.new.idTypeTenantKf=='' || tenant.new.idTypeTenantKf==undefined) && fNewTenant.idTypeTenantKf.$touched,
+                    }"> 
+                        <label style="padding-left: 15px;">Perfil</label>
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-id-card-alt"></i></span>
+                                    <select id="idTypeTenantKf" name="idTypeTenantKf" class="form-control" ng-readonly="ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')" ng-disabled="ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')" ng-change="checkDeptoOwner(tenant.new.idDepartmentKf)" ng-options="item.idTypeTenant as item.typeTenantName for item in lisTypeTenant" ng-model="tenant.new.idTypeTenantKf" autofocus >
+                                        <option value=""></option>
+                                    </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="ownerFound" class="form-group row n-margin-t n-margin-b">
+                        <div ng-if="ownerFound" class="form-group n-margin-t n-margin-b col-md-12">
+                            <div class="alert alert-danger" role="alert">
+                                <strong><i class="fas fa-ban">&nbsp </i>ATENCION: </strong>el departamento ya posee un propietario registrado.
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text DNI-->
+                    <div class="form-group col-md-6" ng-class="
+                    {	'has-success': 
+                        tenant.new.dni!='' && fNewTenant.dniUser.$valid,
+                        'has-error':  
+                        (tenant.new.dni=='' || tenant.new.dni==undefined) && fNewTenant.dniUser.$touched,
+                    }">
+                    <label style="padding-left: 15px;">DNI</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
+                                <input id="dniUser" name="dniUser" ng-blur="sysCheck4Duplicates(tenant.new.dni, 'dni');" placeholder="Documento de identidad" class="form-control input--dni" ng-model="tenant.new.dni"  type="text" ng-keydown="fnLoadPhoneMask();" required autofocus />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text Mail-->
+                    <div class="form-group col-md-6" ng-class="
+                        {	'has-success': 
+                            tenant.new.mail!='' && fNewTenant.emailUser.$valid,
+                            'has-error':  
+                            (tenant.new.mail=='' || tenant.new.mail==undefined) && fNewTenant.emailUser.$touched,
+                        }">
+                        <label style="padding-left: 15px;">E-Mail</label>
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                    <input name="emailUser" ng-blur="sysCheck4Duplicates(tenant.new.mail, 'mail');" placeholder="E-Mail" class="form-control" ng-model="tenant.new.mail"  type="email" required autofocus />
+                                </div>
+                            </div>
+                    </div>
+                    <div ng-if="sysDNIRegistered || sysEmailRegistered" class="form-group row n-margin-t n-margin-b">
+                        <div ng-if="sysDNIRegistered && tenant.new.idTypeTenantKf!='1'" class="form-group n-margin-t n-margin-b" ng-class="{
+                            'col-md-6':
+                                sysDNIRegistered && sysEmailRegistered,
+                            'col-md-12':
+                                sysDNIRegistered && !sysEmailRegistered,
+                                }">
+                            <div class="alert alert-danger" role="alert">
+                                <strong><i class="fas fa-ban">&nbsp </i>ATENCION: </strong>el numero de documento ingresado se encuentra registrado.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <!--<span aria-hidden="true">&times;</span> -->
+                                </button>
+                            </div>
+                        </div>
+                        <div ng-if="sysEmailRegistered && tenant.new.idTypeTenantKf!='1'" class="form-group n-margin-t n-margin-b" ng-class="{
+                            'col-md-6':
+                                sysDNIRegistered && sysEmailRegistered,
+                            'col-md-12':
+                                !sysDNIRegistered && sysEmailRegistered,
+                                }">
+                            <div class="alert alert-warning" role="alert">
+                                <strong><i class="fas fa-exclamation-triangle">&nbsp </i>ATENCION: </strong>la direccion de correo ingresada se encuentra registrada.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <!--<span aria-hidden="true">&times;</span> -->
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form First & Last Name -->
+                    <div class="form-group col-md-12" ng-class="
+                    {	'has-success': 
+                        tenant.new.fullname!='' && fNewTenant.fullname.$valid,
+                        'has-error':  
+                        (tenant.new.fullname=='' || tenant.new.fullname==undefined) && fNewTenant.fullname.$touched,
+                    }">
+                    <label style="padding-left: 15px;" >Nombres y Apellidos</label> 
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input name="fullname" placeholder="Nombres y Apellidos" class="form-control" ng-model="tenant.new.fullname" type="text" required autofocus />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text Phone-->
+                    <div class="form-group col-md-6" ng-class="{
+                        'has-success': 
+                            tenant.new.phonelocalNumberUser!='' && tenant.new.phonelocalNumberUser!=null  && fNewTenant.phoneLocal.$valid,
+                        'has-warning':
+                            !tenant.new.phonelocalNumberUser && tenant.new.phoneMovilNumberUser,
+                        'has-error':
+                            !tenant.new.phoneMovilNumberUser && !tenant.new.phonelocalNumberUser && fNewTenant.phoneLocal.$touched,
+                        }">
+                    <label style="padding-left: 15px;">Telefono Fijo</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                <input name="phoneLocal" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phonelocalNumberUser" type="text" autofocus  ng-keydown="fnLoadPhoneMask();" ng-required="tenant.new.phoneMovilNumberUser==''" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text Phone-->
+                    <div class="form-group col-md-6" ng-class="{
+                        'has-success': 
+                            tenant.new.phoneMovilNumberUser!='' && tenant.new.phoneMovilNumberUser!=null  && fNewTenant.phoneMovil.$valid,
+                        'has-warning':
+                            !tenant.new.phoneMovilNumberUser && tenant.new.phonelocalNumberUser,
+                        'has-error':
+                            !tenant.new.phonelocalNumberUser && !tenant.new.phoneMovilNumberUser && fNewTenant.phoneMovil.$touched,
+                        }">
+                    <label style="padding-left: 15px;">Telefono Movil</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                <input name="phoneMovil" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phoneMovilNumberUser"  type="text"  ng-keydown="fnLoadPhoneMask();" ng-required="tenant.new.phonelocalNumberUser==''" autofocus />
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="ownerFound && (tenant.new.idTypeTenantKf.idProfile==3) || ownerFound && (tenant.new.idTypeTenantKf.idProfile==6 && att.ownerOption==1)" class="col-md-12">
+                        <div class="alert alert-danger" role="alert">
+                            <strong><i class="fas fa-ban">&nbsp </i>ATENCION: </strong>el Departamento ya posee propietario.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                    </fieldset>
+                </form>
+                <div class="clearfix"> </div> 
+            </div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button ng-if="( !sysDNIRegistered || sysDNIRegistered ) && isNewTenant && tenant.new.idTypeTenantKf.idProfile!='1'" type="submit" ng-click="mainSwitchFn('addTenant', tenant.new, null)" ng-disabled="fNewTenant.$invalid || ownerFound || sysDNIRegistered" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Registrar</button>
+                        <button ng-if="( sysDNIRegistered ) && isNewTenant && tenant.new.idTypeTenantKf=='1'" type="submit" ng-click="mainSwitchFn('associateTenant', tenant.new, null)" ng-disabled="fNewTenant.$invalid || (sysDNIRegistered && tenant.new.idTypeTenantKf!='1')" class="btn btn-labeled btn-success">
+                                <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asociar</button>
+                        <a ng-click="modalConfirmation('closeWindow', 0, null)" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // TENANT REGISTER FORM -->

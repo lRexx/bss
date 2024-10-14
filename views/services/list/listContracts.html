@@ -1,0 +1,382 @@
+<!-- LIST OF CONTRACTS -->
+<table ng-if="rsContractsListByCustomerIdData.length>0"  id="tableServices" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
+    <thead style=" background: #4d5d6f; color: white;">
+      <tr class="text-center">
+          <th style="vertical-align: middle;" class="media-middle text-center" width="12%"><i class="far fa-eye"> </i> Servicios</th>
+          <th style="vertical-align: middle;" class="media-middle text-center" width="11%"><i class="fas fa-file-contract"> </i> Contrato</th>
+          <th style="vertical-align: middle;" class="media-middle text-center" width="9%"><i class="fas fa-door-open" > </i> Acceso</th>
+          <th style="vertical-align: middle;" class="media-middle text-center" width="9%"><i class="fas fa-network-wired"> </i> Internet</th>
+          <th style="vertical-align: middle;" class="media-middle text-center" width="9%"><i class="fas fa-video"> </i> Totem</th>
+          <th style="vertical-align: middle;" class="media-middle text-center" width="7%"><i class="fas fa-video"> </i> Camaras</th>
+          <th style="vertical-align: middle;" class="media-middle text-center" width="7%"><i class="fas fa-bell"> </i> Alarmas</th>
+          <th style="vertical-align: middle;" class="media-middle text-center" width="7%"><i class="fas fa-code-branch"> </i> App Monitoreo</th>
+          <th style="vertical-align: middle;" class="media-middle text-center" width="7%"><i class="glyphicon icon-calendar"> </i> Vigencia</th>
+          <th style="vertical-align: middle;" class="media-middle text-center" width="7%"><i class="fas fa-calendar-check"> </i> Firma</th>
+          <th style="vertical-align: middle;" class="media-middle text-center" width="5%"><i class="glyphicon icon-flag"> </i> Status</th>
+          <th style="vertical-align: middle;" class="media-middle text-center" width="7%"><i class="fas fa-key"> </i> Bajo Llave</th>
+          <!--<th style="vertical-align: middle;" class="media-middle text-center" width="10%"><i class="fas fa-ellipsis-h"> </i> Acciones</th>-->
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat-start="contract in rsContractsListByCustomerIdData"> 
+        <td style="vertical-align: middle;" ng-click="" class="media-middle text-center">
+          <button type="button" 
+                  data-toggle="tooltip" 
+                  data-placement="bottom" 
+                  title="Ver servicios" 
+                  ng-click="selectTableRow($index, contract.idContrato, 'service')" 
+                  class="btn btn-xs" 
+                  ng-class="dayDataCollapse[$index]?'btn-info':'btn-success'">
+                  <i ng-if="dayDataCollapse[$index]" class="glyphicon glyphicon-plus"></i>
+                  <i ng-if="!dayDataCollapse[$index]" class="glyphicon glyphicon-minus"></i>
+            <span class="show-tag-1">&nbsp;Ver</span> <span class="show-tag-2"></span>
+          </button>
+          <div class="btn-group">
+            <button type="button" class="btn btn-info  btn-sm btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fas fa-bars"></i>
+            <span class="caret"></span>
+         </button>
+         <ul class="dropdown-menu" role="menu">
+           <li ng-if="contract.idStatusFk<0">
+             <a href="" ng-click="switchCustomersFn('contract', contract, 'info');" data-toggle="tooltip" data-placement="bottom" title="Editar contrato" type="button"><i class="font-size-18px text-warning far fa-eye"></i>  Ver Contrato</a>
+           </li>
+           <li ng-if="contract.idStatusFk>=0">
+             <a href="" ng-click="switchCustomersFn('contract', contract, 'edit');" data-toggle="tooltip" data-placement="bottom" title="Editar contrato" type="button"><i class="font-size-18px text-primary fas fa-pen-square"></i>  Editar Contrato</a>
+           </li>
+           <li ng-if="contract.idStatusFk>=0 && (contract.isSystemUnderLock==undefined || contract.isSystemUnderLock==null)" role="presentation"><div class="divider"></div>
+           <li ng-if="contract.idStatusFk>=0 && (contract.isSystemUnderLock==undefined || contract.isSystemUnderLock==null)" class="dropdown-item"><a href="" ng-click="switchCustomersFn('contract', contract, 'underLock-assign');" data-toggle="tooltip" data-placement="bottom" title="Asignar Sistema Bajo Llave" type="button"><i class="font-size-18px text-success fas fa-key"></i> Sistema Bajo Llave</a></li>               
+           <li ng-if="contract.idStatusFk>=0 && (contract.isSystemUnderLock=='0' || contract.isSystemUnderLock=='1')" role="presentation"><div class="divider"></div>
+           <li ng-if="contract.idStatusFk>=0 && (contract.isSystemUnderLock=='0' || contract.isSystemUnderLock=='1')" class="dropdown-item"><a href="" ng-click="switchCustomersFn('contract', contract, 'underLock-edit');" data-toggle="tooltip" data-placement="bottom" title="Editar Sistema Bajo Llave" type="button"><i class="font-size-18px text-warning fas fa-key"></i> Sistema Bajo Llave</a></li>              
+           <li ng-if="contract.fechaFirmaActivacion!='' && contract.fechaFirmaActivacion!=null && contract.idStatusFk==0"  role="presentation"><div class="divider"></div>
+           <li ng-if="contract.fechaFirmaActivacion!='' && contract.fechaFirmaActivacion!=null && contract.idStatusFk==0"  class="dropdown-item">
+             <a href="" ng-click="modalConfirmation('contract_enable', 0, contract)" data-toggle="tooltip" data-placement="bottom" title="Activar" type="button"><i class="font-size-18px text-success fas fa-check-circle"></i> Activar</a></li>
+           <li ng-if="(contract.fechaFirmaActivacion=='' || contract.fechaFirmaActivacion==null) && contract.idStatusFk==0" role="presentation"><div class="divider"></div>
+           <li ng-if="(contract.fechaFirmaActivacion=='' || contract.fechaFirmaActivacion==null) && contract.idStatusFk==0" class="dropdown-item"><a href="" ng-click="switchCustomersFn('contract', contract, 'approveContractWindow');" data-toggle="tooltip" data-placement="bottom" title="Firmar & Activar" type="button"><i class="font-size-18px fas fa-calendar-check"></i> Firmar & Activar</a></li>
+           <li ng-if="contract.idStatusFk>0" role="presentation"><div class="divider"></div>
+           <li ng-if="contract.idStatusFk>0" class="dropdown-item">
+             <a href="" ng-click="modalConfirmation('contract_disable', 0, contract)" data-toggle="tooltip" data-placement="bottom" title="Desactivar" type="button"><i class="font-size-18px text-danger fas fa-ban"></i> Desactivar</a>
+           </li>
+           <li ng-if="contract.idStatusFk>=0" role="presentation"><div class="divider"></div>
+             <li ng-if="contract.idStatusFk>=0" class="dropdown-item">
+               <a href="" ng-click="modalConfirmation('contract_remove', 0, contract)" data-toggle="tooltip" data-placement="bottom" title="Dar Baja" type="button"><i class="font-size-18px text-danger fas fa-minus-square"></i> Dar de baja</a>
+             </li>
+         </ul>
+       </div>
+        </td>
+        <td style="vertical-align: middle;" class="media-middle text-center"><span data-toggle="tooltip" data-placement="bottom" title="Ver detalles del contrato" ng-click="switchCustomersFn('contract', contract, 'info');" ng-trim="true">{{contract.numeroContrato}}</span></td>
+
+        <td style="vertical-align: middle;" ng-repeat="service in contract.services"  ng-click="contract.idStatusFk>=0?switchCustomersFn('services', service, 'start_new_service'):'';" ng-trim="true" class="media-middle text-center">
+          <span ng-if="service.item_contracted > 0" >
+            <span data-toggle="tooltip" data-placement="bottom" title="Contratado" class="font-size-18px" style="color: #5cb85c">
+              <i ng-if="service.item_contracted>0" class="text-success fas fa-check-circle"></i>
+              <!--<i ng-if="service.items_contracted=='1' && service.idServiceType!='5' && service.idServiceType!='6'" class="text-warning fas fa-exclamation-triangle"></i>-->
+              <i  ng-if="((service.idServiceType=='5' || service.idServiceType=='6') && ((service.item_contracted>0 && service.item_available<=0) || (service.items_contracted>0 && service.items_available<=0)))"  data-toggle="tooltip" data-placement="top" title="Limite Alcanzado" class="product-success fas fa-lightbulb"></i>
+            </span>
+            <span data-toggle="tooltip" data-placement="bottom" title="{{service.serviceName}} CONTRATADOS" class="label label-default" ng-if="(service.idServiceType=='2')">{{service.item_contracted}}</span>
+            <span data-toggle="tooltip" data-placement="bottom" title="{{service.serviceName}} CONTRATADOS" class="label label-default" ng-if="(service.idServiceType!='2' && service.idServiceType!='5' && service.idServiceType!='6')">{{service.items_contracted}}</span>              
+            <span data-toggle="tooltip" 
+                data-placement="bottom" 
+                title="{{service.serviceName}} DISPONIBLES" 
+                class="label text-muted" 
+                ng-class="
+                          { 'label-success': 
+                            (service.items_contracted==service.items_available || service.items_available>=2) && (service.idServiceType=='1' || service.idServiceType=='3' || service.idServiceType=='4'),
+                            'label-warning':  
+                            service.items_available==1 && (service.idServiceType=='1' || service.idServiceType=='3' || service.idServiceType=='4'),
+                            'label-danger':  
+                            service.items_available==0 && (service.idServiceType=='1' || service.idServiceType=='3' || service.idServiceType=='4')
+                          }" 
+                ng-if="(service.idServiceType=='1' || service.idServiceType=='3' || service.idServiceType=='4')">{{service.items_available}}
+            </span>
+            <span data-toggle="tooltip" 
+                data-placement="bottom" 
+                title="{{service.serviceName}} DISPONIBLES" 
+                class="label text-muted" 
+                ng-class="
+                          { 'label-success': 
+                            (service.item_contracted==service.item_available || service.item_available>=2),
+                            'label-warning':  
+                            service.item_available==1,
+                            'label-danger':  
+                            service.item_available==0
+                          }" 
+                ng-if="(service.idServiceType=='2')">{{service.item_available}}
+            </span>
+          </span>
+          <span data-toggle="tooltip" data-placement="bottom" title="No Contratado" class="text-danger media-middle text-center font-size-18px" ng-if="service.item_contracted<=0 || service.service_items==undefined"><i class="fas fa-times-circle"></i></span>
+        </td>
+        <td style="vertical-align: middle;" ng-trim="true" class="media-middle text-center" >{{contract.fechaFirmaVigencia | date:'dd/MM/yyyy'}}</td>
+        <td style="vertical-align: middle;" ng-trim="true" ng-if="contract.fechaFirmaActivacion=='' || contract.fechaFirmaActivacion!=undefined || contract.fechaFirmaActivacion!=null" class="media-middle text-center" >{{contract.fechaFirmaActivacion}}</td>
+        <td style="vertical-align: middle;" ng-trim="true" ng-if="contract.fechaFirmaActivacion==undefined || contract.fechaFirmaActivacion==null" class="media-middle text-center" ><label class="text-uppercase label label-warning">sin firmar</label></td>
+        <td style="vertical-align: middle;" ng-trim="true" ng-click="" class="media-middle text-center">
+          <label ng-if="contract.idStatusFk==1" class="label label-success">ACTIVO</label>
+          <label ng-if="contract.idStatusFk==0" class="label label-warning">INACTIVO</label>
+          <label ng-if="contract.idStatusFk==-1" class="label label-danger">ELIMINADO</label>
+        </td>
+        <td style="vertical-align: middle;" ng-trim="true" ng-click="" class="media-middle text-center">
+          <div data-toggle="tooltip" data-placement="top" title="{{contract.comment_systemUnderLock}}" class="row-fluid">
+            <!--<span class="font-size-18px" ng-if="contract.isSystemUnderLock=='1'" data-toggle="tooltip" data-placement="bottom" title="Sistema bajo llave"><i class="text-success fas fa-shield-alt"></i></span>-->
+            <span class="font-size-18px" ng-if="contract.isSystemUnderLock=='0'" data-toggle="tooltip" data-placement="bottom" title="Sin sistema bajo llave"><i class="text-danger fas fa-window-close"></i> <span class="text-muted font-size-12px"></span></span>
+            <span class="font-size-18px" ng-if="contract.isSystemUnderLock==undefined" data-toggle="tooltip" data-placement="bottom" title="No asignado"><i class="text-warning fas fa-exclamation-triangle"> </i> <span class="text-muted font-size-12px"></span></span>
+            <span class="font-size-18px" ng-if="contract.customerHasKeys=='1'" data-toggle="tooltip" data-placement="bottom" title="Llaves en cliente"><i class="text-success fas fa-check-circle"></i> <span><i class="fas fa-user-tie"></i></span></span>
+            <span class="font-size-18px" ng-if="contract.companyHasKeys=='1'" data-toggle="tooltip" data-placement="bottom" title="Llaves en TASS"><i class="text-success fas fa-check-circle"></i> <span><i class="fas fa-users-cog"></i></span></span>
+            <span class="font-size-18px" ng-if="contract.customerHasKeys=='0'" data-toggle="tooltip" data-placement="bottom" title="No Llaves en cliente"><i class="text-warning fas fa-exclamation-triangle"></i> <span><i class="fas fa-user-tie"></i></span></span>
+            <span class="font-size-18px" ng-if="contract.companyHasKeys=='0'" data-toggle="tooltip" data-placement="bottom" title="No Llaves en TASS"><i class="text-warning fas fa-exclamation-triangle"></i> <span><i class="fas fa-users-cog"></i></span></span>
+          </div>
+        </td>
+        <!--<td style="vertical-align: middle;" ng-trim="true" ng-click="">
+          <!--<button ng-if="contract.isSystemUnderLock==undefined || contract.isSystemUnderLock==null" ng-click="switchCustomersFn('contract', contract, 'underLock-assign');" data-toggle="tooltip" data-placement="bottom" title="Asignar Sistema Bajo Llave" type="button" class="btn btn-success btn-xs"><i class="fas fa-key"></i></button>
+
+          <button ng-if="contract.isSystemUnderLock=='0' || contract.isSystemUnderLock=='1'" ng-click="switchCustomersFn('contract', contract, 'underLock-edit');" data-toggle="tooltip" data-placement="bottom" title="Editar Sistema Bajo Llave" type="button" class="btn btn-warning btn-xs"><i class="fas fa-key"></i></button>
+
+          <button ng-click="switchCustomersFn('contract', contract, 'edit');" data-toggle="tooltip" data-placement="bottom" title="Editar" type="button" class="btn btn-warning btn-xs"><i class="far fa-edit"></i></button>
+
+          <button ng-if="(contract.fechaFirmaActivacion=='' || contract.fechaFirmaActivacion==null) && contract.idStatusFk==0 " ng-click="switchCustomersFn('contract', contract, 'approveContractWindow');" data-toggle="tooltip" data-placement="bottom" title="Firmar & Activar" type="button" class="btn btn-success btn-xs"><i class="fas fa-calendar-check"></i></button>
+
+          <button ng-if="contract.fechaFirmaActivacion!='' && contract.fechaFirmaActivacion!=null && contract.idStatusFk==0 " ng-click="modalConfirmation('contract_enable', 0, contract)" data-toggle="tooltip" data-placement="bottom" title="Activar" type="button" class="btn btn-success btn-xs"><i class="fas fa-check-circle"></i></button>
+
+          <button ng-if="contract.idStatusFk>0" ng-click="modalConfirmation('contract_disable', 0, contract)" data-toggle="tooltip" data-placement="bottom" title="Desactivar" type="button" class="btn btn-danger btn-xs"><i class="fas fa-ban"></i></button>-->
+          <!--<div class="btn-group">
+               <button type="button" class="btn btn-info  btn-sm btn-xs dropdown-toggle" data-toggle="dropdown">
+               <span class="caret"></span> Acciones
+            </button>
+            <ul class="dropdown-menu" role="menu">
+              <li ng-if="contract.idStatusFk<0">
+                <a href="" ng-click="switchCustomersFn('contract', contract, 'info');" data-toggle="tooltip" data-placement="bottom" title="Editar contrato" type="button"><i class="font-size-18px text-warning far fa-eye"></i>  Ver Contrato</a>
+              </li>
+              <li ng-if="contract.idStatusFk>=0">
+                <a href="" ng-click="switchCustomersFn('contract', contract, 'edit');" data-toggle="tooltip" data-placement="bottom" title="Editar contrato" type="button"><i class="font-size-18px text-primary fas fa-pen-square"></i>  Editar Contrato</a>
+              </li>
+              <li ng-if="contract.idStatusFk>=0 && (contract.isSystemUnderLock==undefined || contract.isSystemUnderLock==null)" role="presentation"><div class="divider"></div>
+              <li ng-if="contract.idStatusFk>=0 && (contract.isSystemUnderLock==undefined || contract.isSystemUnderLock==null)" class="dropdown-item"><a href="" ng-click="switchCustomersFn('contract', contract, 'underLock-assign');" data-toggle="tooltip" data-placement="bottom" title="Asignar Sistema Bajo Llave" type="button"><i class="font-size-18px text-success fas fa-key"></i> Sistema Bajo Llave</a></li>               
+              <li ng-if="contract.idStatusFk>=0 && (contract.isSystemUnderLock=='0' || contract.isSystemUnderLock=='1')" role="presentation"><div class="divider"></div>
+              <li ng-if="contract.idStatusFk>=0 && (contract.isSystemUnderLock=='0' || contract.isSystemUnderLock=='1')" class="dropdown-item"><a href="" ng-click="switchCustomersFn('contract', contract, 'underLock-edit');" data-toggle="tooltip" data-placement="bottom" title="Editar Sistema Bajo Llave" type="button"><i class="font-size-18px text-warning fas fa-key"></i> Sistema Bajo Llave</a></li>              
+              <li ng-if="contract.fechaFirmaActivacion!='' && contract.fechaFirmaActivacion!=null && contract.idStatusFk==0"  role="presentation"><div class="divider"></div>
+              <li ng-if="contract.fechaFirmaActivacion!='' && contract.fechaFirmaActivacion!=null && contract.idStatusFk==0"  class="dropdown-item">
+                <a href="" ng-click="modalConfirmation('contract_enable', 0, contract)" data-toggle="tooltip" data-placement="bottom" title="Activar" type="button"><i class="font-size-18px text-success fas fa-check-circle"></i> Activar</a></li>
+              <li ng-if="(contract.fechaFirmaActivacion=='' || contract.fechaFirmaActivacion==null) && contract.idStatusFk==0" role="presentation"><div class="divider"></div>
+              <li ng-if="(contract.fechaFirmaActivacion=='' || contract.fechaFirmaActivacion==null) && contract.idStatusFk==0" class="dropdown-item"><a href="" ng-click="switchCustomersFn('contract', contract, 'approveContractWindow');" data-toggle="tooltip" data-placement="bottom" title="Firmar & Activar" type="button"><i class="font-size-18px fas fa-calendar-check"></i> Firmar & Activar</a></li>
+              <li ng-if="contract.idStatusFk>0" role="presentation"><div class="divider"></div>
+              <li ng-if="contract.idStatusFk>0" class="dropdown-item">
+                <a href="" ng-click="modalConfirmation('contract_disable', 0, contract)" data-toggle="tooltip" data-placement="bottom" title="Desactivar" type="button"><i class="font-size-18px text-danger fas fa-ban"></i> Desactivar</a>
+              </li>
+              <li ng-if="contract.idStatusFk>=0" role="presentation"><div class="divider"></div>
+                <li ng-if="contract.idStatusFk>=0" class="dropdown-item">
+                  <a href="" ng-click="modalConfirmation('contract_remove', 0, contract)" data-toggle="tooltip" data-placement="bottom" title="Dar Baja" type="button"><i class="font-size-18px text-danger fas fa-minus-square"></i> Dar de baja</a>
+                </li>
+            </ul>
+          </div>
+        </td>-->
+      </tr>
+      <!-- **************************************************** -->
+      <!-- *                                                  * -->
+      <!-- *      SHOW SERVICE LIST OF CONTRACT SELECTED      * -->
+      <!-- *                                                  * -->
+      <!-- **************************************************** -->
+      <tr collapse="dayDataCollapse[$index]" ng-repeat-end="">
+          <td colspan="13">
+            <div class="panel panel-default">
+              <div class="panel-heading">
+                <h3 class="panel-title"><i class="fas fa-list"></i> LISTADO DE SERVICIOS DEL CONTRATO <bold> {{contract.numeroContrato}}</bold></h3>
+              </div>
+              <div class="panel-body" style="padding: 0 !important;">
+                <table ng-if="rsServicesListByContractsIdData.length>0" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover">
+                    <thead style=" background: #4d5d6f; color: white;">
+                      <tr >
+                          <th style="vertical-align: middle;" class="media-middle text-center" width="8%" >ID</th>
+                          <th style="vertical-align: middle;" class="media-middle text-center" width="13%" ><i class="fas fa-wrench"></i> Servicio</th>
+                          <th style="vertical-align: middle;" class="media-middle text-center" width="63%" ><i class="fas fa-info-circle"></i> Descripción</th>
+                          <th style="vertical-align: middle;" class="media-middle text-center" width="8%" ><i class="glyphicon icon-calendar"> </i>Activacion</th>
+                          <th style="vertical-align: middle;" class="media-middle text-center" width="8%" ><i class="glyphicon icon-calendar"> </i>Baja</th>
+                          <!--<th style="vertical-align: middle;" class="media-middle text-center" width="5%"><i class="fas fa-ellipsis-h"> </i> Acciones</th>-->
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr style="align-content: center; cursor: pointer;" ng-repeat="srv in rsServicesListByContractsIdData">
+                          <td style="vertical-align: middle;" class="media-middle text-center">{{srv.idClientServices}}
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-info  btn-sm btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fas fa-bars"></i>
+                              <span class="caret"></span>
+                             </button>
+                             <ul class="dropdown-menu" role="menu">
+                                <li>
+                                  <a ng-if="srv.dateDown==null || srv.dateDown==''" href="" ng-click="switchCustomersFn('services', srv, 'edit');"><i class="text-warning fas fa-edit"></i> Editar</a>
+                                  <a ng-if="srv.dateDown!=null && srv.dateDown!=''" href="" ng-click="switchCustomersFn('services', srv, 'edit');"><i class="text-warning far fa-eye"></i> Ver</a>
+                                </li>
+                                <li ng-if="(srv.dateDown==null || srv.dateDown=='') && srv.idTipeServiceFk=='3' || srv.idTipeServiceFk=='4'" role="presentation"><div class="divider"></div>
+                                <li ng-if="(srv.dateDown==null || srv.dateDown=='') && srv.idTipeServiceFk=='3' || srv.idTipeServiceFk=='4'" class="dropdown-item"><a href="" ng-click="switchCustomersFn('services', srv, 'listCameras');" data-toggle="tooltip" data-placement="bottom" title="Ver camaras" type="button"><i class="fas fa-video"></i> Ver camaras</a></li>               
+                                <li ng-if="(srv.dateDown==null || srv.dateDown=='') && srv.idTipeServiceFk=='3' || srv.idTipeServiceFk=='4'" role="presentation"><div class="divider"></div>
+                                <li ng-if="(srv.dateDown==null || srv.dateDown=='') && srv.idTipeServiceFk=='3' || srv.idTipeServiceFk=='4'" class="dropdown-item"><a href="" ng-click="switchCustomersFn('services', srv, 'userDVR');" data-toggle="tooltip" data-placement="bottom" title="Ver Usuarios" type="button"><i class="far fa-address-book"></i> Ver Usuarios</a></li>               
+                                <li ng-if="(srv.dateDown==null || srv.dateDown=='') && srv.idTipeServiceFk=='6' && srv.tb_user_license_array.length>0" role="presentation"><div class="divider"></div>
+                                <li ng-if="(srv.dateDown==null || srv.dateDown=='') && srv.idTipeServiceFk=='6' && srv.tb_user_license_array.length>0" class="dropdown-item"><a href="" ng-click="switchCustomersFn('services', srv, 'userLicense');" data-toggle="tooltip" data-placement="bottom" title="Ver licencias" type="button"><i class="far fa-address-book"></i> Ver licencias</a></li>
+                                <li ng-if="srv.dateDown==null || srv.dateDown==''" role="presentation"><div class="divider"></div>
+                                <li ng-if="(srv.dateDown==null || srv.dateDown=='') && contract.idStatusFk>=0" class="dropdown-item">
+                                  <a href="" ng-click="modalConfirmation('service_remove', 0, srv, contract)" data-toggle="tooltip" data-placement="bottom" title="Dar Baja" type="button"><i class="text-danger fas fa-minus-square"></i> Dar de baja</a>
+                                </li>                 
+                             </ul>
+                            </div></td>
+                          <td style="vertical-align: middle;" class="media-middle text-center">{{srv.clientTypeServices}}</td>
+                          <td ng-click="switchCustomersFn('services', srv, 'edit');"> 
+                            <span ng-if="srv.idTipeServiceFk=='1'">
+                              <span>
+                                <i class="fas fa-door-open" ></i> Puerta: <label class="text-uppercase label label-default">{{srv.titulo}}</label> | </span>
+                                <span ng-if="srv.idDoorFk=='7'" class="text-warning">{{srv.aclaration}} </span>
+                                <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-laptop"></i>| Dispositivo:
+                                  <label data-toggle="tooltip" data-placement="top" title="Marca" class="text-uppercase label label-default">{{srv.idAccessControlFk_array[0].brand}}</label> 
+                                  <label data-toggle="tooltip" data-placement="top" title="Modelo" class="text-uppercase label label-primary">{{srv.idAccessControlFk_array[0].model}}</label> | </span>
+                                <!--<span><i class="fas fa-key"></i> Dispositivos de apertura: 
+                                  <label data-toggle="tooltip" data-placement="top" title="Cantidad de dispositivos" class="text-uppercase label label-primary">{{srv.tb_open_devices_access_control_array.length}}</label> | </span>-->
+                                <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-search-location"></i> Ubicacion del gabinete: <label class="text-uppercase label label-default">{{srv.locationGabinet}}</label></span>
+                                <span ng-if="srv.dateDown!=null && srv.dateDown!=''"><label class="text-uppercase label label-warning">Servicio ha sido dado de baja.</label></span>
+                                <span ng-if="srv.idReasonTypeKf!=null"><label class="text-uppercase label label-danger">{{srv.reasonDown}}</label></span>
+                            </span>
+                            <span ng-if="srv.idTipeServiceFk=='2'">
+                              <span>
+                                <i class="fas fa-network-wired"></i> Tipo: <label class="text-uppercase label label-default">{{srv.nombre}}</label> | </span>                                                            
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-broadcast-tower"></i> Proveedor:  <label class="text-uppercase label label-default">{{srv.idInternetCompanyFk_array[0].internetCompany}}</label></span>
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-tachometer-alt"></i> Servicio: <label class="text-uppercase label label-default">{{srv.idServiceFk_array[0].typeInternet}}</label></span>
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-arrow-alt-circle-right"></i> Servicios Asociados: 
+                                <span ng-if="srv.dateDown==null || srv.dateDown=='' && srv.idServiceAsociateFk_array.length>0" ng-repeat="(key, value) in srv.idServiceAsociateFk_array | orderBy:'idTipeServiceFk' | groupBy: 'idTipeServiceFk'">
+                                    <label ng-if="key=='1'" class="text-uppercase label label-default">Control de acceso</label>
+                                    <label ng-if="key=='2'" class="text-uppercase label label-default">Internet</label>
+                                    <label ng-if="key=='3'" class="text-uppercase label label-default">Totem</label>
+                                    <label ng-if="key=='4'" class="text-uppercase label label-default">Camaras</label>
+                                    <label ng-if="key=='5'" class="text-uppercase label label-default">Alarma</label>
+                                    <label ng-if="key=='6'" class="text-uppercase label label-default">App monitor</label>
+                                  <span class="badge badge-success">{{value.length}}</span>
+                                </span>
+                                <span ng-if="srv.dateDown==null || srv.dateDown=='' && srv.idServiceAsociateFk_array.length==0">
+                                  <label class="text-uppercase label label-warning">No Asociados</label>
+                                </span>
+                              </span>
+                              <span ng-if="srv.dateDown!=null && srv.dateDown!=''"><label class="text-uppercase label label-warning">Servicio ha sido dado de baja.</label></span>
+                              <span ng-if="srv.idReasonTypeKf!=null"><label class="text-uppercase label label-danger">{{srv.reasonDown}}</label></span>
+                            </span>
+                            <!-- CAMERAS & TOTEM SERVICES -->
+                            <span ng-if="srv.idTipeServiceFk=='4' || srv.idTipeServiceFk=='3'">
+                              <span> <label class="text-uppercase label label-default">{{srv.name}}</label> | </span>
+                              <span ng-if="srv.idTipeServiceFk=='3' && srv.dateDown==null || srv.dateDown==''">
+                                <span><i class="fas fa-video"></i> Empresa de monitoreo: <label class="text-uppercase label label-default">{{srv.idCompanyFk_array[0].monitorCompany}}</label> | </span>                               
+                                <span><i class="fas fa-cubes"></i> Tipo de totem: <label class="text-uppercase label label-default">{{srv.idTotenModelFk_array[0].totenModel}}</label> | </span>
+                              </span>
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-video"></i> DVR/NVR Canales:  <label class="text-uppercase label label-warning">{{srv.maxCamera}}</label> | </span>
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-video"></i> Camaras instaladas:  
+                                <label ng-if="srv.tb_cameras_array" class="text-uppercase label label-success">{{srv.tb_cameras_array.length}}</label>
+                                <label ng-if="srv.tb_cameras_totem_array" class="text-uppercase label label-success">{{srv.tb_cameras_totem_array.length}}</label>
+                              </span>
+                              <span ng-if="srv.dateDown!=null && srv.dateDown!=''"><label class="text-uppercase label label-warning">Servicio ha sido dado de baja.</label></span>
+                              <span ng-if="srv.idReasonTypeKf!=null"><label class="text-uppercase label label-danger">{{srv.reasonDown}}</label></span>
+                            </span>
+                            <!-- ALARM SERVICE -->
+                            <span ng-if="srv.idTipeServiceFk=='5'">
+                              <span> <label class="text-uppercase label label-default">{{srv.name}}</label> | </span>
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-video"></i> Empresa de monitoreo: <label class="text-uppercase label label-default">{{srv.companyMonitor_array[0].monitorCompany}}</label> | </span> 
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="far fa-dot-circle"></i> Sensores: Zonas totales:  <label class="text-uppercase label label-warning">{{srv.countZoneIntaled}}</label></span>
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"> Zonas Asignadas: <label class="text-uppercase label label-success">{{srv.tb_sensors_alarm_array.length}}</label></span>
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-plug"></i> Modulo de conexion: 
+                                <span ng-if="srv.tb_tipo_conexion_remoto_array!=undefined && srv.tb_tipo_conexion_remoto_array.length>0" ng-repeat="connType in srv.tb_tipo_conexion_remoto_array">
+                                  <label class="text-uppercase label label-success">{{connType.descripcion}}</label>
+                                </span>
+                                <span ng-if="srv.tb_tipo_conexion_remoto_array==undefined || srv.tb_tipo_conexion_remoto_array==0">
+                                  <label class="text-uppercase label label-warning">No asignado</label>
+                                </span>
+                              </span>
+                              <span ng-if="srv.dateDown!=null && srv.dateDown!=''"><label class="text-uppercase label label-warning">Servicio ha sido dado de baja.</label></span>
+                              <span ng-if="srv.idReasonTypeKf!=null"><label class="text-uppercase label label-danger">{{srv.reasonDown}}</label></span>
+                            </span>
+                            <!-- SMART PANIC SERVICE -->
+                            <span ng-if="srv.idTipeServiceFk=='6'">
+                              <span> <label class="text-uppercase label label-default">{{srv.name}}</label> | </span>
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-video"></i> Empresa de monitoreo: <label class="text-uppercase label label-default">{{srv.idCompanyMonitorFK_array[0].monitorCompany}}</label> | </span> 
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-users"></i> Licencias habilitadas:  <label class="text-uppercase label label-warning">{{srv.countNewLicense}}</label></span>
+                              <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-user-check"></i> Licencias Asignadas: <label class="text-uppercase label label-success">{{srv.tb_user_license_array.length}}</label></span> 
+                              <!--<span ng-if="customerFound.idClientTypeFk=='5'"><i class="fas fa-arrow-alt-circle-right"></i> Destino de las licencias: <label class="text-uppercase label label-success">{{srv.idParticularAddressFk_array[0].address}}</label></span> 
+                              <span ng-if="customerFound.idClientTypeFk=='5'">
+                                <i ng-if="srv.idParticularAddressFk_array[0].idTipoInmuebleFk==1" class="fas fa-building" data-toggle="tooltip" data-placement="bottom" title="Departamento">&nbsp;</i>
+                                <i ng-if="srv.idParticularAddressFk_array[0].idTipoInmuebleFk==2" class="fas fa-home" data-toggle="tooltip" data-placement="bottom" title="Casa">&nbsp;</i>
+                                <i ng-if="srv.idParticularAddressFk_array[0].idTipoInmuebleFk==3" class="fas fa-store-alt" data-toggle="tooltip" data-placement="bottom" title="Local">&nbsp;</i> Departamento: 
+                                <label class="text-uppercase label label-success" data-toggle="tooltip" data-placement="top" title="{{srv.idParticularAddressFk_array[0].clarification}}">{{srv.idParticularAddressFk_array[0].depto}}</label>
+                              </span>-->
+                              <!--<span ng-if="customerFound.idClientTypeFk=='2'"><i class="fas fa-arrow-alt-circle-right"></i> Destino de las licencias: <label class="text-uppercase label label-success">{{srv.idDetinationOfLicenseFk_array[0].detinationOfLicense}}</label></span>
+                              <span ng-if="customerFound.idClientTypeFk=='2'"><i class="fas fa-building"></i> Departamento: <label class="text-uppercase label label-success">{{srv.idDepartmentFk_array[0].departament}} - {{srv.idDepartmentFk_array[0].floor}}</label></span>-->
+                              <span ng-if="srv.dateDown!=null && srv.dateDown!=''"><label class="text-uppercase label label-warning">Servicio ha sido dado de baja.</label></span>
+                              <span ng-if="srv.idReasonTypeKf!=null"><label class="text-uppercase label label-danger">{{srv.reasonDown}}</label></span>
+                            </span>
+                          </td>
+                          <td style="vertical-align: middle;" class="show-column-table media-middle text-center">{{srv.dateUp | date:'dd/MM/yyyy'}}</td>
+                          <td style="vertical-align: middle;" ng-trim="true" ng-if="srv.dateDown!=null && srv.dateDown!=''" class="media-middle text-center" >{{srv.dateDown | date:'dd/MM/yyyy'}}</td>
+                          <td style="vertical-align: middle;" ng-trim="true" ng-if="srv.dateDown==null || srv.dateDown==''" class="media-middle text-center" ><label class="text-uppercase label label-default">-</label></td>                          
+                          <!--<td>{{item.dateCreated}}</td>-->
+                          <!--<td style="vertical-align: middle;" ng-trim="true" ng-click="">
+                            <div class="btn-group">
+                              <button type="button" class="btn btn-info  btn-sm btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fas fa-bars"></i>
+                              <span class="caret"></span>
+                             </button>
+                             <ul class="dropdown-menu" role="menu">
+                                <li>
+                                  <a ng-if="srv.dateDown==null || srv.dateDown==''" href="" ng-click="switchCustomersFn('services', srv, 'edit');"><i class="text-warning fas fa-edit"></i> Editar</a>
+                                  <a ng-if="srv.dateDown!=null && srv.dateDown!=''" href="" ng-click="switchCustomersFn('services', srv, 'edit');"><i class="text-warning far fa-eye"></i> Ver</a>
+                                </li>
+                                <li ng-if="srv.dateDown==null || srv.dateDown==''" ng-if="srv.idTipeServiceFk=='3' || srv.idTipeServiceFk=='4'" role="presentation"><div class="divider"></div>
+                                <li ng-if="srv.dateDown==null || srv.dateDown==''" ng-if="srv.idTipeServiceFk=='3' || srv.idTipeServiceFk=='4'" class="dropdown-item"><a href="" ng-click="switchCustomersFn('services', srv, 'listCameras');" data-toggle="tooltip" data-placement="bottom" title="Ver camaras" type="button"><i class="fas fa-video"></i> Ver camaras</a></li>               
+                                <li ng-if="srv.dateDown==null || srv.dateDown==''" ng-if="srv.idTipeServiceFk=='3' || srv.idTipeServiceFk=='4'" role="presentation"><div class="divider"></div>
+                                <li ng-if="srv.dateDown==null || srv.dateDown==''" ng-if="srv.idTipeServiceFk=='3' || srv.idTipeServiceFk=='4'" class="dropdown-item"><a href="" ng-click="switchCustomersFn('services', srv, 'userDVR');" data-toggle="tooltip" data-placement="bottom" title="Ver Usuarios" type="button"><i class="far fa-address-book"></i> Ver Usuarios</a></li>               
+                                <li ng-if="srv.dateDown==null || srv.dateDown==''" ng-if="srv.idTipeServiceFk=='6' && srv.tb_user_license_array.length>0" role="presentation"><div class="divider"></div>
+                                <li ng-if="srv.dateDown==null || srv.dateDown==''" ng-if="srv.idTipeServiceFk=='6' && srv.tb_user_license_array.length>0" class="dropdown-item"><a href="" ng-click="switchCustomersFn('services', srv, 'userLicense');" data-toggle="tooltip" data-placement="bottom" title="Ver licencias" type="button"><i class="far fa-address-book"></i> Ver licencias</a></li>
+                                <li ng-if="srv.dateDown==null || srv.dateDown==''" role="presentation"><div class="divider"></div>
+                                <li ng-if="srv.dateDown==null || srv.dateDown==''" ng-if="contract.idStatusFk>=0" class="dropdown-item">
+                                  <a href="" ng-click="modalConfirmation('service_remove', 0, srv, contract)" data-toggle="tooltip" data-placement="bottom" title="Dar Baja" type="button"><i class="text-danger fas fa-minus-square"></i> Dar de baja</a>
+                                </li>                 
+                             </ul>
+                            </div>
+                          </td>-->
+                      </tr>
+                    </tbody>
+                </table>
+                <div ng-if="rsServicesListByContractsIdData.length==0"  class="col-md-12">
+                  <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
+                    <h5 class="col-md-offset-4"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">No hay servicios registrados o asociados.</span></h5>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </td>
+      </tr>
+      <tr ng-if="rsContractsListByCustomerIdData.length==0" >
+          <td colspan="13">
+          </td>
+      </tr>
+       <!--<tr ng-if="searchboxfilter.length==0" class="animate-repeat" style="align-content: center;">no items found</tr>-->
+    </tbody>
+</table>
+<div ng-if="rsContractsListByCustomerIdData.length==0" class="col-md-12">
+  <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
+    <h5 class="col-md-offset-4"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">No hay contratos registrados o asociados.</span></h5>
+  </div>
+</div>
+<!-- <div class="col-md-12 col-sm-12 col-xs-12"> 
+  PHONES 
+  <div ng-click="" class="col-md-3" style="margin-bottom: 1em;">
+      <div class="card-customer">
+        <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+            <i class="glyphicon glyphicon-earphone"></i>
+        </div>
+        <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
+                        'sticky-success': 
+                        customer.details.list_phone_contact.length>0,
+                        'sticky-warning':  
+                        customer.details.list_phone_contact.length==0,
+                      }">
+          <span ng-if="customer.details.list_phone_contact.length>0">
+            <i class="fas fa-check-circle"></i>
+          </span>
+          <span ng-if="customer.details.list_phone_contact.length==0" data-toggle="tooltip" data-placement="top" title="No hay telefonos">
+            <i class="fas fa-exclamation-triangle"></i>
+          </span>                    
+        </div>
+        <div class="col-md-12 card-title">
+          <h4 class="text-uppercase right">Telefonos</h4>
+        </div>
+      </div>
+  </div>
+</div>-->
+<!-- //LIST OF CONTRACTS -->

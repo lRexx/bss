@@ -1,0 +1,161 @@
+<!-- THIRD PERSON REGISTER FORM -->
+<div id="RegisterDeliveryToOtherAddress" class="modal fade bd-example-modal-lg" style="top: 150px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title"><i class="product-success fas fa-map-marked-alt"></i> DIRECCIÓN DE ENTREGA</h3>
+            </div>
+            <div class="modal-body" style="overflow-y: scroll; height: 300px;" >
+                <!-- Third Person -->
+                <form class="form-horizontal" name="fOtherAddress" novalidate>
+                    <div ng-if="ticket.delivery.idTypeDeliveryKf==2 && (ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id=='1')">
+                        <!-- Address for customer when is not a building registered already -->
+                        <div class="form-group col-md-10" ng-class="
+                            {	'has-success': 
+                                ticket.delivery.otherAddress.streetName!='' && ticket.delivery.otherAddress.streetName!=undefined && fOtherAddress.third_address_streetName.$valid,
+                                'has-error': 
+                                (ticket.delivery.otherAddress.streetName=='' || ticket.delivery.otherAddress.streetName==undefined) && fOtherAddress.third_address_streetName.$touched
+                            }">
+                            <label style="padding-left: 15px;">Calle</label> 
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
+                                    <input type="text" 
+                                        id="third_address_streetName" 
+                                        name="third_address_streetName" 
+                                        ng-model="ticket.delivery.otherAddress.streetName" 
+                                        placeholder="Calle"
+                                        class="form-control text-uppercase" 
+                                        ng-required="true" />
+                                </div>
+                        </div>
+                        <div class="form-group col-md-2" ng-class="
+                            {	'has-success': 
+                                ticket.delivery.otherAddress.streetNumber!='' && ticket.delivery.otherAddress.streetNumber!=undefined && fOtherAddress.third_address_street_number.$valid,
+                                'has-error': 
+                                (ticket.delivery.otherAddress.streetNumber=='' || ticket.delivery.otherAddress.streetNumber==undefined) && fOtherAddress.third_address_street_number.$touched
+                            }">
+                            <label style="padding-left: 15px;">Altura</label> 
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
+                                    <input type="text" 
+                                        id="third_address_street_number" 
+                                        name="third_address_street_number" 
+                                        ng-model="ticket.delivery.otherAddress.streetNumber" 
+                                        placeholder="Altura"
+                                        class="form-control" 
+                                        ng-required="true" />
+                                </div>
+                        </div>
+                        <div ng-if="ticket.delivery.idTypeDeliveryKf==2" class="form-group col-md-6" ng-class="
+                                {	'has-success':
+                                    (ticket.delivery.otherAddress.floor!='' && ticket.delivery.otherAddress.floor!=undefined && fOtherAddress.numberOfFloor.$valid),
+                                    'has-error': 
+                                    (ticket.delivery.otherAddress.floor.length==0 && ticket.delivery.otherAddress.floor.length<1) && fOtherAddress.numberOfFloor.$touched || 
+                                    (ticket.delivery.otherAddress.floor=='' || ticket.delivery.otherAddress.floor==undefined) && fOtherAddress.numberOfFloor.$touched
+                                }">
+                                <label style="padding-left: 25px;">Piso (opcional)</label>  
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-building"></i></span>
+                                    <input name="numberOfFloor" 
+                                            class="form-control text-uppercase input--floor" 
+                                            placeholder="Piso"
+                                            ng-model="ticket.delivery.otherAddress.floor" type="text"
+                                            ng-keydown="fnLoadPhoneMask(); enabledNextBtn();"
+                                            allow-typing="^(pb|PB)|^([0-9]|[\d]){1,2}\b$" autofocus >
+                            </div>
+                        </div>	
+                        <!-- department number for a building that is going to register as a Non-customer -->
+                        <div ng-if="ticket.delivery.idTypeDeliveryKf==2" class="form-group col-md-6" ng-class="
+                                {	'has-success': 
+                                    (ticket.delivery.otherAddress.department.length>=1 && fOtherAddress.nameDepto.$valid),
+                                    'has-error': 
+                                    (ticket.delivery.otherAddress.department.length==0 && ticket.delivery.otherAddress.department.length<1) && fOtherAddress.nameDepto.$touched || 
+                                    (ticket.delivery.otherAddress.department=='' || ticket.delivery.otherAddress.department==undefined) && fOtherAddress.nameDepto.$touched
+                                }">
+                                <label style="padding-left: 25px;">Departamento (opcional)</label>  
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                    <input name="nameDepto" 
+                                            class="form-control text-uppercase input--depto" 
+                                            placeholder="Depto" 
+                                            ng-model="ticket.delivery.otherAddress.department" type="text"
+                                            ng-keydown="fnLoadPhoneMask(); enabledNextBtn();"
+                                            allow-typing="^([a-zA-Z]|[\d])|^([0-9]|[\d]){1,4}\b$" autofocus >
+                            </div>
+                        </div>
+                        <!-- State List-->
+                        <div ng-if="ticket.delivery.idTypeDeliveryKf==2" class="form-group col-md-6" ng-class="
+                            {	'has-success': 
+                                ticket.delivery.otherAddress.province.selected!=undefined && fOtherAddress.province.$valid,
+                                'has-error':  
+                                (ticket.delivery.otherAddress.province.selected==undefined) && fOtherAddress.province.$touched,
+                            }">
+                        <label style="padding-left: 15px;">Provincia</label> 
+                            <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                                        <ui-select name="province" 
+                                                    class="dropdown-select" 
+                                                    ng-model="ticket.delivery.otherAddress.province.selected"  
+                                                    ng-change="getLocationByIdFn(ticket.delivery.otherAddress.province.selected.idProvince); getCurrentAddrVal(ticket.delivery.otherAddress.province.selected, ticket.delivery.otherAddress.location.selected); enabledNextBtn();" 
+                                                    required="true" autofocus>
+                                            <ui-select-match placeholder="Seleccione una provincia">{{$select.selected.province | uppercase}}</ui-select-match>
+                                            <ui-select-choices repeat="item in rsStatesData | filter:provincesAllowed | filter: $select.search">
+                                            <div ng-bind-html="item.province | uppercase | highlight: $select.search"></div>
+                                                <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+                                                <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+                                            </ui-select-choices>
+                                            <ui-select-no-choice>
+                                                No hay resultados, contacte are de soporte.
+                                            </ui-select-no-choice>
+                                        </ui-select>
+                            </div>
+                        </div>
+                        <!-- Localidad list-->
+                        <div ng-if="ticket.delivery.idTypeDeliveryKf==2" class="form-group col-md-6" ng-class="
+                            {	'has-success': 
+                                ticket.delivery.otherAddress.location.selected!=undefined && fOtherAddress.localidad.$valid,
+                                'has-error':  
+                                (ticket.delivery.otherAddress.location.selected==undefined) && fOtherAddress.localidad.$touched,
+                            }">
+                        <label style="padding-left: 15px;">Localidad</label> 
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                                    <ui-select name="localidad" 
+                                                class="dropdown-select" 
+                                                ng-model="ticket.delivery.otherAddress.location.selected" 
+                                                ng-disabled="!ticket.delivery.otherAddress.province.selected.idProvince  && !ticket.delivery.otherAddress.nameAddress" 
+                                                required="true" 
+                                                ng-change="mainSwitchFn('checkThirdPersonLocation', ticket.delivery.otherAddress.location.selected); enabledNextBtn();" 
+                                                autofocus>
+                                        <ui-select-match placeholder="Seleccione una localidad">{{$select.selected.location | uppercase}}</ui-select-match>
+                                        <ui-select-choices repeat="item in rsLocations_All | filter: $select.search">
+                                        <div ng-bind-html="item.location | uppercase | highlight: $select.search"></div>
+                                            <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+                                            <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+                                        </ui-select-choices>
+                                        <ui-select-no-choice>
+                                            No hay resultados, contacte are de soporte.
+                                        </ui-select-no-choice>
+                                    </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+                <div class="clearfix"> </div> 
+            </div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="mainSwitchFn('setDeliveryToOtherAddress', ticket.delivery.otherAddress, selectedUserToDelivery)" ng-disabled="fOtherAddress.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Guardar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // THIRD PERSON REGISTER FORM -->

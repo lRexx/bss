@@ -1,0 +1,891 @@
+<!-- USER REQUEST KEY UP FORM  rukeyup=Register Key Up-->
+<div class="panel panel-default">
+	<div class="panel-heading">
+		<h3 class="panel-title"><i class="product-success fas fa-file-upload">&nbsp</i>ALTA DE LLAVE - {{mySwitch}}</h3>
+	</div>
+	<div class="panel-body">
+		<div ng-if="sysLoggedUser.idProfileKf!=0">
+			<form class="form-horizontal" name="fkeyup" novalidate>
+				<div ng-switch on="mySwitch">
+					<fieldset class="animate-switch" ng-switch-when="PASO 1: DIRECCIÓN">
+						<div class="row">
+							<!-- Company Name-->
+							<div ng-if="sysLoggedUser.idProfileKf=='none'" class="form-group col-md-6">
+								<label style="padding-left: 15px;">Administración</label>
+								<div class="col-xs-12 selectContainer">
+									<div class="input-group">
+									<span class="input-group-addon"><i class="icon-suitcase"></i></span>
+										<ui-select 
+											name="admins"
+											ng-change="ticket.optionTypeSelected.name=undefined;select.buildings.selected=undefined;getBuildingListFn(select.admins.selected); enabledNextBtn();"
+											ng-disabled="sysLoggedUser.idProfileKf!='1'"
+											ng-model="select.admins.selected" 
+											on-select="onSelectCallback()" >
+										<ui-select-match allow-clear="true" placeholder="Selecione una opción" >{{$select.selected.name | uppercase}}</ui-select-match>
+											<ui-select-choices repeat="item in administrationList | filter: $select.search">
+												<div ng-bind-html="item.name | highlight: $select.search"></div>
+												<small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+											</ui-select-choices>
+											<ui-select-no-choice>
+												<span ng-if="administrationList.length > 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay Administraciones registradas</span>
+											</ui-select-no-choice>
+										</ui-select>
+									</div>
+								</div>
+							</div>
+
+							<div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-lg-12 n-padding-l n-padding-r">
+								<div class="col-md-12 col-xs-12">
+								  <div class="col-md-2 col-xs-2" ><label class="clf-size">Buscar Cliente</label></div>
+								  <div class="col-md-1 col-xs-2">
+									<label class="switch switch-2x" for="strict-search">
+										<input type="checkbox" class="success" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-model="customerSearch.strict" id="strict-search">
+										<span class="slider slider-2x flat"></span>
+									</label>
+								  </div>
+								  <div class="col-md-7 col-xs-7 n-padding-l" style="margin-top: 0.2%;margin-left: -3.5% !important;">
+									<label ng-if="customerSearch.strict" style="cursor: pointer;" class="badge badge-success">Busquéda exacta</label>
+									<label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
+								  </div>
+								</div>
+								<div class="row n-margin-l n-margin-r">  
+								  <div ng-class="col-md-12">
+									<div class="col-md-2 col-xs-5">
+										<input id="typeClientAll" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-checked="true" name="typeClient" value="" ng-model="customerSearch.typeClient" required autofocus>
+										<label for="typeClientAll" class="radio-2x-label">
+											<span>Todos</span>
+										</label>
+									</div>
+									<div class="col-md-2 col-xs-5">
+										<input id="typeClient1" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="1" ng-model="customerSearch.typeClient" required autofocus>
+										<label for="typeClient1" class="radio-2x-label">
+											<span>Administracion</span>
+										</label>
+									</div>
+									<div class="col-md-2 col-xs-5">
+										<input id="typeClient2" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="2" ng-model="customerSearch.typeClient" required autofocus>
+										<label for="typeClient2" class="radio-2x-label">
+											<span>Edificio</span>
+										</label> 
+									</div>
+									<!--<div class="col-md-2 col-xs-5">
+										<input id="typeClient3" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="3" ng-model="customerSearch.typeClient" required autofocus>
+										<label for="typeClient3" class="radio-2x-label">
+											<span>Empresa</span>
+										</label> 
+									</div>
+									<div class="col-md-2 col-xs-5">
+										<input id="typeClient4" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="4" ng-model="customerSearch.typeClient" required autofocus>
+										<label for="typeClient4" class="radio-2x-label">
+											<span>Sucursal</span>
+										</label> 
+									</div>
+									<div class="col-md-2 col-xs-5">
+										<input id="typeClient5" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="5" ng-model="customerSearch.typeClient" required autofocus>
+										<label for="typeClient5" class="radio-2x-label">
+											<span>Particular</span>
+										</label> 
+									</div>-->
+								  </div>
+								</div>
+							</div>
+							<div ng-if="sysLoggedUser.idProfileKf=='1'" class="clearfix"> </div>
+							<div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-r" ng-class="{'col-md-6 col-xs-6 col-sm-6': buildingList.length>0}">
+								<label style="padding-left: 15px" ng-show="buildingList.length>=0">{{customerFound.ClientType}}</label>
+								<div class="input-group s-ui-width s-ui-m-left">
+									<span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+									<input type="text" name="customerSearch" 
+										id="customerSearch" 
+										ng-model="customerSearch.name"
+										ng-keydown="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict);"
+										class="form-control text-uppercase" 
+										move-to-list input-selector="'.input-search'"
+										list-items-selector="'.list-group li'"
+										placeholder="Presione Enter para buscar..."
+										style="border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+										required="true" />
+									<ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.name!=undefined || customerSearch.name!=null)" style="height: 0px; z-index: 2000;" >
+										<li tabindex="0" id="customerList-{{$index}}"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+									</ul>
+								</div>
+							</div>
+							<!-- Text Address for Admins & TASS
+							ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && listOffices.length>0 && (customerSearch.name!='' || customerSearch.name!=undefined || customerSearch.name!=null) "
+						-->
+							<div ng-if="(sysLoggedUser.idProfileKf!=1 && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected && buildingList.length>0) || (sysLoggedUser.idProfileKf==1 && buildingList.length>0)" class="form-group n-padding-l" ng-class="
+								{	'col-md-6': 
+									sysLoggedUser.idProfileKf=='1',
+									'col-md-12':  
+									sysLoggedUser.idProfileKf!='1',
+								}">
+								<label style="padding-left: 15px;">Consorcio</label>
+								<div class="col-xs-12 selectContainer">
+									<div class="input-group">
+									<span class="input-group-addon"><i class="icon-suitcase"></i></span>
+										<ui-select 
+											name="buildings"
+											ng-change="mainSwitchFn('loadBuildingData', select.buildings.selected, null); ticket.idClientDepartament=undefined; enabledNextBtn();"
+											ng-disabled="buildingList.length==0"
+											ng-model="select.buildings.selected">
+										<ui-select-match allow-clear="true" placeholder="Selecione una opción" >{{$select.selected.name | uppercase}}</ui-select-match>
+											<ui-select-choices repeat="item in buildingList | filter: $select.search">
+												<div ng-bind-html="item.name | highlight: $select.search"></div>
+												<small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+											</ui-select-choices>
+											<ui-select-no-choice>
+												<span ng-if="buildingList.length == 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay consorcios asociados</span>
+											</ui-select-no-choice>
+										</ui-select>
+									</div>
+								</div>
+							</div>
+							<!-- SELECT DE OPTION TYPE TO CONTINUE WITH THE REQUEST-->
+							<div ng-if="(sysLoggedUser.idProfileKf==1 && select.buildings.selected!=undefined)||(select.buildings.selected.IsInDebt!='1' && select.buildings.selected!=undefined && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected)" class="col-md-12 col-xs-12" style="padding-bottom: 2em;">
+								<!-- NEW TICKET -->
+								<div class="col-md-6">
+									<button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);enabledNextBtn();" id="department" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.optionTypeSelected.name=='department', 'btn-primary': ticket.optionTypeSelected.name==undefined || ticket.optionTypeSelected.name!='department'}">
+										<i class="glyphicon glyphicon-home"></i> Departamento</button>
+								</div>
+								<!-- //NEW TICKET -->
+								<!-- SERVICES COST -->
+								<div class="col-md-6">
+									<button ng-click="setOptionType($event); mainSwitchFn('autoSelectDoors', null, null);enabledNextBtn();" id="building" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.optionTypeSelected.name=='building', 'btn-primary': ticket.optionTypeSelected.name==undefined || ticket.optionTypeSelected.name!='building'}">
+										<i class="icon-building"></i> Edificio</button>
+								</div>
+								<!-- //SERVICES COST -->
+							</div>
+							<!-- Address for Onwers/Tenants-->
+							<div class="form-group" ng-if="sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==5 || (((sysLoggedUser.idProfileKf==4 && isHomeSelected) || sysLoggedUser.idProfileKf==6) && sysLoggedUser.idTypeTenantKf!=null)">
+								<!-- TABLE LIST WHERE IS DISPLAYED THE DEPARTMENTS -->
+								<div ng-include="'views/tickets/list/listDepartments.html'"></div>
+							</div>
+						</div>
+						<!-- OPTION DEPARTMENTS-->
+						<div ng-show="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && ticket.optionTypeSelected.name=='department' && select.buildings.selected!=undefined && !isHomeSelected">
+							<div class="col-md-12" style="padding: 10px !important;">
+								<div class="well well-md" ng-class="{'well-success': ticket.idClientDepartament!=undefined && ticket.idClientDepartament!='' && ticket.idClientDepartament!=null && ticket.idClientDepartament!=0}">
+									<div class="panel-body n-padding-l n-padding-r">
+										<!--*********DEPARTAMENTOS ***********-->
+										<!-- Select Department -->
+										<div ng-show="!dptoNotFound" class="form-group"> 
+											<label class="col-md-4 control-label font-size-18px">Departamento</label>
+											<div class="col-md-4 selectContainer">
+												<div class="input-group">
+													<span style="cursor: pointer;" class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+													<select ng-model="ticket.idClientDepartament" ng-change="enabledNextBtn(); mainSwitchFn('changeDepartment', null, null);" ng-disabled="dptoNotFound!=false" class="form-control" ng-options=" item as item.Depto for item in ListDpto "  required autofocus >
+														<option value="" >Seleccione</option>
+														</select>
+														<!--<span style="cursor: pointer;" ng-click="mainSwitchFn('search_and_list', null)" ng-show="sysLoggedUser.idProfileKf==3 && ticket.radioButtonDepartment==2 || sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && ticket.radioButtonDepartment!=0" class="input-group-addon"><a><i class="glyphicon glyphicon-search"></i> Buscar</a></span>-->
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- OPTION BUILDING-->
+						<div ng-show="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && ticket.optionTypeSelected.name=='building' && select.buildings.selected!=undefined">
+							<div class="col-md-12" style="padding: 10px !important;">
+								<div class="well well-md" ng-class="{'well-success': ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding!='' && ticket.radioButtonBuilding!=null && ticket.radioButtonBuilding!=0}">
+									<div class="panel-body n-padding-l n-padding-r">
+										<!--*********************EDIFICIO *******************************-->
+										<div class="form-check form-check-inline">
+												<div class="col-md-12 n-padding-l n-padding-r">
+													<div ng-class="{'col-md-4 col-xs-4 col-md-offset-1': sysLoggedUser.idProfileKf=='4','col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='1'}">
+														<input id="typeOption1" type="radio" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" name="typeOption" value="1" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<label for="typeOption1" class="radio-custom-label">
+															<span >Encargado titular / Otros</span>
+														</label> 
+													</div>
+													<div ng-class="{'col-md-4 col-xs-4': sysLoggedUser.idProfileKf=='4','col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='1'}">
+														<input id="typeOption2" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="2" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<label for="typeOption2" class="radio-custom-label">
+															<span>Administración del consorcio</span>
+														</label>
+													</div>
+													<div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-2">
+														<input id="typeOption4" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="4" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<label for="typeOption4" class="radio-custom-label">
+															<span>Stock</span>
+														</label>
+													</div>
+													<div ng-class="{'col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='4','col-md-2 col-xs-2': sysLoggedUser.idProfileKf=='1'}">
+														<input id="typeOption3" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="3" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<label for="typeOption3" class="radio-custom-label">
+															<span>Reserva</span>
+														</label>
+													</div>
+													<div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-2">
+														<input id="typeOption5" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="5" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<label for="typeOption5" class="radio-custom-label">
+															<span>Apertura</span>
+														</label>
+													</div>
+												<!--<label class="col-xs-4">
+													<input ng-click="  enabledNextBtn(3); typeOption=3" type="radio" name="typeOption" value="3" ng-model="typeOption" required autofocus>
+														<code>Otros</code>
+												</label>-->
+											</div>
+										</div>
+										<!-- Request made for Building Selected in the First Step-->
+										<div ng-show="ticket.radioButtonBuilding==2 && ticket.radioButtonBuilding!=undefined" class="container-fluid">
+											<div  class="row">
+												<div class="col-md-8 col-md-offset-2">
+													<div class="alert alert-info" role="alert">
+														<span style="text-align: center;" class="font-size-18px"><i class="fas fa-bell"></i> La solicitud sera asignada a la Administración <span class="font-size-18px" style="font-weight: bold;">{{customerSearch.name.name}}</span></span>
+													</div>
+												</div>
+											</div>
+										</div>
+										<!-- Request made for Building Selected in the First Step-->
+										<div ng-show="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding!=1 && ticket.radioButtonBuilding!=2" class="container-fluid">
+											<div  class="row">
+												<div class="col-md-8 col-md-offset-2">
+													<div class="alert alert-info" role="alert">
+														<span style="text-align: center;" class="font-size-18px"><i class="fas fa-bell"></i> La solicitud sera asignada al Consorcio <span class="font-size-18px" style="font-weight: bold;">{{select.buildings.selected.name}}</span></span>
+													</div>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset class="animate-switch" ng-switch-when="PASO 2: LLAVEROS DE LA SOLICITUD">
+						<div class="row" ng-show="ticket.optionTypeSelected.name=='department'">
+							<div class="container-fluid justify-content-md-center">
+								<legend style="text-align: center;">Solicitante</legend>
+								<div class="panel-body n-padding-l n-padding-r">
+									<!--*********DEPARTAMENTOS ***********-->
+									<div ng-if="sysLoggedUser.idProfileKf" class="n-padding-l n-padding-r">
+										<div class="form-check form-check-inline">
+											<div class="col-md-12 n-padding-l n-padding-r">
+												<div class="col-md-4 col-xs-4 col-xs-offset-2">
+													<input id="typeTenant1" class="radio-custom" type="radio" ng-click="(sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5' || (((sysLoggedUser.idProfileKf=='4' && isHomeSelected) || sysLoggedUser.idProfileKf=='6') && (sysLoggedUser.idTypeTenantKf=='1' || sysLoggedUser.idTypeTenantKf=='2')))?mainSwitchFn('selectedRequestKeyOwnerUser', sysLoggedUser, null):mainSwitchFn('list_tenants', null, null); enabledNextBtn();" name="typeTenant" value="1" ng-model="ticket.radioButtonDepartment" required autofocus>
+													<label for="typeTenant1" class="radio-custom-label">
+														<span ng-show="(sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5' || ((sysLoggedUser.idProfileKf==4 || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf=='6') && (sysLoggedUser.idTypeTenantKf=='1' || sysLoggedUser.idTypeTenantKf=='2')))">{{sysLoggedUser.fullNameUser}}</span>
+														<span ng-show="(sysLoggedUser.idProfileKf==1) || (sysLoggedUser.idProfileKf==4 && !isHomeSelected)">Propietario 
+															<span ng-if="ticket.radioButtonDepartment==1 && selectedRequestKeyOwnerUser!=undefined" class="label font-size-16px label-custom-1">{{selectedRequestKeyOwnerUser.fullNameUser}} <button ng-if="sysLoggedUser.idProfileKf=='1' || (sysLoggedUser.idProfileKf=='4' && !isHomeSelected)" ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
+															<span ng-if="ticket.radioButtonDepartment==1 && selectedRequestKeyOwnerUser==undefined" class="label font-size-16px label-custom-2">No asignado <button ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
+														</span>
+													</label>
+												</div>
+												<div class="col-md-4 col-xs-4 col-xs-offset-2">
+													<input id="typeTenant2" class="radio-custom" ng-click="mainSwitchFn('list_tenants', null); enabledNextBtn();" type="radio" name="typeTenant" value="2" ng-model="ticket.radioButtonDepartment" required autofocus>
+													<label for="typeTenant2" class="radio-custom-label">
+														<!--<span ng-show="sysLoggedUser.idProfileKf==5 || (sysLoggedUser.idProfileKf==6 && sysLoggedUser.idTypeTenantKf==2)">{{sysLoggedUser.fullNameUser}}</span>-->
+														<span ng-show="sysLoggedUser.idProfileKf!=5 || (sessionidProfil!=6 && sysLoggedUser.idTypeTenantKf!=1)">Habitante
+															<span ng-if="ticket.radioButtonDepartment==2 && selectedRequestKeyOwnerUser!=undefined" class="label font-size-16px label-custom-1">{{selectedRequestKeyOwnerUser.fullNameUser}} <button ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
+															<span ng-if="ticket.radioButtonDepartment==2 && selectedRequestKeyOwnerUser==undefined" class="label font-size-16px label-custom-2">No asignado <button ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
+														</span>
+													</label> 
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+                        <div class="row">
+                            <div ng-if="rsKeyProductsData.length>0" class="container-fluid justify-content-md-center">
+								<legend style="text-align: center;">Llaves disponibles</legend>
+                                <!-- List Open Devices Products For RESERVA-->
+                                <div  class="form-group col-md-6 n-padding-r"  ng-class="
+                                    {	'has-success': 
+                                        select.products.selected!=undefined && fkeyup.products.$valid,
+                                        'has-error':  
+                                        (select.products.selected==undefined) && fkeyup.products.$touched
+                                    }">
+                                    <label style="padding-left: 15px;">Llavero </label>  
+                                    <div class="col-xs-12 selectContainer">
+                                        <div class="input-group"> 
+                                            <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                            <ui-select
+                                                    name="products"  
+                                                    ng-required="true"
+                                                    ng-change="enabledNextBtn();"
+                                                    ng-model="select.products.selected" autofocus>
+                                                <ui-select-match  allow-clear="true" placeholder="Todos">{{$select.selected.descriptionProduct}}</ui-select-match>
+                                                <ui-select-choices repeat="item in rsKeyProductsData | filter: {idProductClassificationFk:19} | filter: $select.search">
+                                                    <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+                                                    <small>Modelo: </small><small class="label label-default"  ng-bind-html="item.model | highlight: $select.search"></small>
+													<small>Precio: </small><small class="label label-warning"  ng-bind-html="item.priceFabric | highlight: $select.search"></small>
+                                                </ui-select-choices>
+                                                <ui-select-no-choice>
+                                                    <span ng-if="rsKeyProductsData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay llaveros asociados.</span>
+                                                </ui-select-no-choice>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                               	<!-- Input Amount of keys that will be added to the request Apply Only for TASS -->
+							   	<div ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3'))" class="form-group col-md-2 n-padding-l"  ng-class="
+							   {	'has-success': 
+							   		ticket.keyQtty!=undefined && ticket.keyQtty!=0 && fkeyup.ticket_keyQtty.$valid,
+								   'has-error':  
+								   (ticket.keyQtty==undefined || ticket.keyQtty==0) && fkeyup.products.$touched
+							   }">
+							   <label style="padding-left: 15px;">Cantidad </label>  
+							   <div class="col-xs-12 selectContainer">
+								   <div class="input-group"> 
+									   <span class="input-group-addon"><i class="fas fa-key"></i></span>
+									   <input type="text" 
+									   id="ticket_keyQtty" 
+									   name="ticket_keyQtty" 
+									   ng-model="ticket.keyQtty" 
+									   placeholder="Cantidad"
+									   ng-keydown="fnLoadPhoneMask();"
+									   class="form-control input--number--2" 
+									   ng-required="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3'))" />
+								   </div>
+							   </div>
+						   		</div>
+								<button ng-show="temporary-disabled" ng-if="((ticket.radioButtonDepartment==1 || ticket.radioButtonDepartment==2) && (selectedRequestKeyOwnerUser!=undefined && selectedRequestKeyOwnerUser!=null))" style="margin-top:2em;" data-toggle="tooltip" data-placement="top" title="Asignar usuario"  ng-click="mainSwitchFn('list_depto_tenant', null)" type="button" 
+									class="btn btn-labeled btn-sm " ng-class="{'btn-info':selectedUser==undefined, 'btn-warning':selectedUser!=undefined}">
+									<span ng-if="selectedUser==undefined" class="btn-label"><i class="fas fa-user-tag"></i> </span>
+									<span ng-if="selectedUser!=undefined" class="btn-label"><i class="fas fa-check-square"></i> </span>
+									<span ng-if="selectedUser!=undefined">Usuario seleccionado</span>
+									<span ng-if="selectedUser==undefined">Seleccionar Usuario</span>
+								</button>
+								<button ng-if="ticket.radioButtonBuilding=='1'" style="margin-top:2em;" data-toggle="tooltip" data-placement="top" title="Asignar Encargado"  ng-click="mainSwitchFn('list_attendants', null)" type="button" 
+									class="btn btn-labeled btn-sm " ng-class="{'btn-info':selectedUser==undefined, 'btn-warning':selectedUser!=undefined}">
+									<span ng-if="selectedUser==undefined" class="btn-label"><i class="fas fa-user-tag"></i> </span>
+									<span ng-if="selectedUser!=undefined" class="btn-label"><i class="fas fa-check-square"></i> </span>
+									<span ng-if="selectedUser!=undefined">Encargado seleccionado</span>
+									<span ng-if="selectedUser==undefined">Seleccionar Encargado</span>
+								</button>
+								<button ng-if="ticket.optionTypeSelected.name=='department' || (ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3'))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar Llave" 
+								ng-disabled="((ticket.optionTypeSelected.name=='department' && ((selectedRequestKeyOwnerUser==undefined || selectedRequestKeyOwnerUser==null) || select.products.selected==undefined || list_doors.length==0)) || 
+											  (ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1' && (select.products.selected==undefined || list_doors.length==0 || selectedUser==undefined)) ||
+											  (ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='2' && select.products.selected==undefined || list_doors.length==0)||
+											  (ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='3' && select.products.selected==undefined || list_doors.length==0))"  
+								ng-click="mainSwitchFn('addKeyFieldsToList', select.products.selected, rsCustomerAccessControlDoors)" type="button" class="btn btn-labeled btn-sm btn-success">
+									<span class="btn-label"><i class="fas fa-plus"></i> </span>Agregar</button>
+								<button ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3'))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar Llave" 
+								ng-disabled="((ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='4' && (select.products.selected==undefined || list_doors.length==0)) ||
+											  (ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='5' && select.products.selected==undefined || list_doors.length==0))"  
+								ng-click="mainSwitchFn('setKeysToList', select.products.selected, rsCustomerAccessControlDoors)" type="button" class="btn btn-labeled btn-sm btn-success">
+									<span class="btn-label"><i class="fas fa-plus"></i> </span>Agregar</button>
+							</div>
+							<div ng-if="rsKeyProductsData.length==0" class="container-fluid justify-content-md-center">
+								<legend style="text-align: center;">Llaves disponibles</legend>
+								<div class="col-md-12 col-xs-12 form-group n-padding-l n-padding-r">
+									<div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Llaves disponibles</h5></div>
+								</div>
+							</div>
+						</div>
+						<div class="col-md-6 col-xs-12 form-group n-padding-l n-padding-r">
+							<legend style="text-align: center;">Puertas disponibles</legend>
+							<!-- NEW TICKET -->
+							<div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+								<div ng-if="rsCustomerAccessControlDoors.length>0" class="form-group col-md-3 col-xs-6 bg-warning " ng-repeat="door in rsCustomerAccessControlDoors" style="margin-bottom: 0px !important; margin-left: 2px !important; margin-top: 5px !important;">
+									<div class="col-md-12 col-xs-12 well-door" style="cursor: pointer;">
+										<div class="door-icon">
+											<span><i class="product-success fas " ng-class="{'fa-door-open text-success':door.selected, 'fa-door-closed':!door.selected}"></i></span>
+										</div>
+										<div class="text-badge">
+											<span class="new-customer badge badge-light"> {{door.titulo}} </span><br><span class="badge badge-warning">{{door.itemAclaracion}}</span><br>
+											<label class="switch switch-2x" for="allowDoor-{{door.idAccessControlDoor}}">
+												<input type="checkbox" class="success" ng-change="addDoorOpenList(door)" ng-model="door.selected" id="allowDoor-{{door.idAccessControlDoor}}">
+												<span class="slider slider-2x flat"></span>
+											</label>
+										</div>
+									</div>
+								</div>
+								<div ng-if="rsCustomerAccessControlDoors.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Puertas disponibles</h5></div>
+							</div>
+						</div>
+						<!--LLAVES A SOLICITAR-->
+						<div class="col-md-6 col-xs-12 form-group">
+							<legend style="text-align: center;">Llaves a solicitar</legend>
+							<div class="col-md-12" ng-if="deliveryCostFree==1">
+								<div class="alert alert-success" style="border: 3px solid;border-radius: 15px;" role="alert">
+									<span style="text-align: center; padding-right: 5px;" class="">
+										<span><i class="fas fa-award"></i></span>
+										<span> El pedido ya cuenta con <i class="fas fa-truck"></i> envío Gratis!!</span>
+									</span>
+								</div>
+							</div>
+							<div class="form-group">
+								<table ng-if="list_keys.length>0" class="table table-striped table-bordered table-list table-responsive table-hover fade in">
+									<thead class="dpto-t-head">
+										<tr>
+											<th width="5px" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "> N°</th>
+											
+											<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Llavero</th>
+											<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Precio</th>
+											<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
+											<th ng-if="ticket.optionTypeSelected.name=='department' || ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
+											<!--<th ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-user"></i> Usuario </th>-->
+											<th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-door-open"></i> Puertas</th>
+											<th class="dpto-th-head " style="text-align: center;"><i class="fas fa-ellipsis-h"></i></th>
+										</tr>
+									</thead>
+									<tbody style="overflow: auto;">
+										<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="tckt in list_keys">
+											<td style="vertical-align: middle;text-align: center;"><span class="font-size-18px">{{$index+1}}</span></td>
+											<td>{{tckt.key.descriptionProduct}} <span class="badge badge-warning">{{tckt.key.brand}}</span></td>
+											<td style="vertical-align: middle;text-align: right;">$ {{tckt.key.priceFabric | number : 2}}</td>
+											<td ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
+												<span class="label label-default">{{tckt.key.categoryName}}</span>
+											</td>
+											<td style="vertical-align: middle;text-align: center;">
+												<span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1'">
+													<span class="font-size-18px" style="color: #5cb85c">
+														<i class="text-success fas fa-user-tie"></i>
+													</span>
+													<span class="label label-default">{{tckt.user.nameProfile}}</span>
+												</span>
+												<span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && tckt.key.idCategoryKf!=5 && tckt.key.idCategoryKf!=6">
+													<span class="label label-default">Consorcio</span>
+												</span>
+												<span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='2' && tckt.key.idCategoryKf==5">
+													<span class="label label-default">Administracíon</span>
+												</span>
+												<span ng-if="ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')">
+													<span data-toggle="tooltip" data-placement="right" title="Departamento" class="font-size-18px" style="color: #5cb85c">
+														<i class="text-success fas fa-house-user"></i>
+													</span>
+													<span class="label label-default">{{ticket.idClientDepartament.Depto}}</span>
+												</span>
+											</td>
+											<!--<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;"> 
+												<span ng-if="tckt.user!=undefined && tckt.user!=null" data-toggle="tooltip" data-placement="right" title="Asignado" class="font-size-18px" style="color: #5cb85c">
+													<i class="text-success fas fa-check-circle"></i>
+												</span>
+												<span ng-if="tckt.user==undefined || tckt.user==null" data-toggle="tooltip" data-placement="right" title="No asignado" class="text-danger media-middle text-center font-size-18px">
+													<i class="fas fa-times-circle"></i>
+												</span>
+											</td>-->
+											<td style="vertical-align: middle;text-align: center;">
+												<span ng-if="tckt.doors.length>0" data-toggle="tooltip" data-placement="bottom" title="Puertas a Habilitar" class="label label-success">
+													{{tckt.doors.length}}
+												</span>
+											</td>
+											<td style="vertical-align: middle;text-align: center;">
+												<button ng-click="mainSwitchFn('deleteKeyFieldsToList', tckt, null)" data-toggle="tooltip" data-placement="bottom" title="Remover" class="btn btn-xs btn-danger" type="button"><i class="fas fa-window-close"> </i></button>
+											</td>
+										</tr>
+									</tbody>
+								</table>
+								<div ng-if="list_keys.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay llaveros cargados al pedido</h5></div>
+							</div>
+						</div>
+					</fieldset>
+					<fieldset class="animate-switch" ng-switch-when="PASO 3: MÉTODO DE ENVÍO O ENTREGA">
+						<div class="row">
+							<div class="container-fluid justify-content-md-center">
+								<legend style="text-align: center;">Método</legend>
+								<div class="panel-body n-padding-l n-padding-r">
+									<!--*********TIPO DE ENTREGA ***********-->
+									<div class="n-padding-l n-padding-r">
+										<div class="form-check form-check-inline">
+											<div class="col-md-12 n-padding-l n-padding-r">
+												<div ng-repeat="item in typedelivery | filter:checkDeliveryMethod" class="col-md-4 col-xs-4" ng-class="
+													{
+														'col-md-offset-2 col-xs-offset-2':(ticket.building.isStockInOffice!=null && ticket.building.isStockInOffice!='0'),
+														'col-md-offset-4 col-xs-offset-4':(ticket.building!=undefined && (ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))))
+													}">
+													<input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom" type="radio" ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
+													<label for="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom-label">
+														<span>{{item.typeDelivery}}</span>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div ng-if="ticket.delivery.idTypeDeliveryKf!=null" class="form-group">
+							<!-- Select of Who pick up the request -->
+							<legend ng-if="ticket.delivery.idTypeDeliveryKf==1" style="text-align: center;">Quien retira</legend>
+							<legend ng-if="ticket.delivery.idTypeDeliveryKf==2" style="text-align: center;">Quien recibe</legend>
+							<div class="col-md-6 col-md-offset-3" ng-disable="sysLoggedUser.idProfileKf!=2" ng-show="ticket.delivery.idTypeDeliveryKf && sysLoggedUser.idProfileKf!=2">
+								<div class="col-md-10 col-md-offset-1 col-xs-12 input-group">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+										<select name="whoPickUp" class="form-control" required ng-change="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" ng-options="item as item.fullNameUser group by item.type for item in whoPickUpList" ng-model="ticket.delivery.whoPickUp" autofocus >
+											<option value=""></option>
+										</select>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div class="container-fluid justify-content-md-center">
+							<!-- Select Type of Delivery -->   
+							<!-- <div class="form-group col-md-6"> 
+								<label class="col-xs-12 col-md-offset-1">Tipo de Entrega</label>
+								<div class="col-md-10 col-md-offset-1 input-group">
+									<span class="input-group-addon"><i class="glyphicon icon-truck"></i></span>
+										<select name="idTypeDeliveryKf" ng-change="getTotalService(); getAllAttendant(selectIdAddressKf.selected.idAdress); delivery.nameAtt=null; select.whoPickUp=Null" class="form-control"  ng-options="item.idTypeDelivery as item.typeDelivery for item in typedelivery" ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus >
+										<option value=""></option>
+										</select>
+								</div>
+							</div>-->
+
+							<!-- SHOW THE OWNER WHOM PICKUP OR RECEIVED THE KEY -->
+							<div ng-if="ticket.delivery.idTypeDeliveryKf!=undefined && 
+							(((ticket.delivery.whoPickUp.id!=undefined && ticket.delivery.whoPickUp.id==2 && selectedDeliveryAttendant!=undefined) || (ticket.delivery.whoPickUp.id!=undefined && ticket.delivery.whoPickUp.id==3 && selectedDeliveryAttendant==undefined)) || ticket.delivery.whoPickUp.idUser!=undefined)"  class="form-group col-md-12">
+									<div class="col-md-12">
+										<div class="alert alert-success" style="border: 3px solid;border-radius: 15px;" role="alert">
+											<span style="text-align: center;" class="">
+												<table>
+													<tbody>
+														<tr>
+															<td style="padding-right: 5px;">
+																<span>El Pedido</span>
+																<span ng-if="ticket.delivery.idTypeDeliveryKf==1"> sera retirado en la oficina</span>
+																<span ng-if="ticket.delivery.idTypeDeliveryKf==2"> sera entregado en el domicilio</span>
+															</td>
+															<td style="padding-right: 5px;"> 
+																<span ng-if="ticket.delivery.idTypeDeliveryKf==1 && ticket.delivery.idDeliveryTo==null" class="label label-default"> Carlos Calvo 3430</span>
+																<span ng-if="(ticket.optionTypeSelected.name=='building' || ticket.optionTypeSelected.name=='department') && ticket.radioButtonBuilding==1 && ticket.delivery.idTypeDeliveryKf==2 && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.building.name}}</span>
+																<span ng-if="(ticket.optionTypeSelected.name=='building' || ticket.optionTypeSelected.name=='department') && (ticket.radioButtonBuilding==2 || ticket.radioButtonBuilding==3) && ticket.delivery.idTypeDeliveryKf==2 && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.administration.address}}</span>
+																<span ng-if="(ticket.optionTypeSelected.name=='department') && ticket.delivery.idTypeDeliveryKf==2 && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.building.name}}</span>
+																<span ng-if="ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.idDeliveryTo==2 && (ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==1)" class="label label-default"> {{ticket.delivery.otherAddress.streetName | uppercase}} {{ticket.delivery.otherAddress.streetNumber}}</span>
+																<span ng-if="ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.idDeliveryTo==null && ticket.delivery.whoPickUp.id==3" class="label label-default"> {{ticket.delivery.thirdPerson.streetName | uppercase}} {{ticket.delivery.thirdPerson.streetNumber}}</span>
+															</td>
+															<td ng-show="ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
+																<span ng-if="ticket.delivery.idTypeDeliveryKf==1"> por </span>
+																<span ng-if="ticket.delivery.idTypeDeliveryKf==2"> a </span>
+															</td>
+															<td ng-show="ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
+																<span class="label label-default"> {{ticket.delivery.deliveryTo.fullNameUser}}</span>
+																<span ng-if="ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==2" class="badge badge-warning"> {{ticket.delivery.deliveryTo.nameProfile}}</span>
+																<span ng-if="ticket.delivery.whoPickUp.id==3" class="badge badge-warning"> Tercera Persona</span>
+															</td>
+															<td ng-if="(ticket.delivery.whoPickUp.id==undefined && ticket.delivery.idDeliveryTo==2)"><span class="font-size-16px"><button ng-click="mainSwitchFn('deliveryToOtherAddress', ticket.delivery, 2);" data-toggle="tooltip" data-placement="right" title="Editar" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i class="fas fa-edit"></i> </span><span class="sr-only">Editar</span></button></span></td>
+															<td ng-if="(ticket.delivery.whoPickUp.id==3)"><span class="font-size-16px"><button ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null);" data-toggle="tooltip" data-placement="right" title="Editar" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i class="fas fa-edit"></i> </span><span class="sr-only">Editar</span></button></span></td>
+															<td ng-if="ticket.delivery.whoPickUp.id==2"><span class="font-size-16px"><button ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null);" data-toggle="tooltip" data-placement="right" title="Seleccionar otro" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span></td>
+														</tr>
+													</tbody>
+												</table>
+											</span>
+										</div>
+										<div ng-if="ticket.delivery.idTypeDeliveryKf==1" class="map">
+											<iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.232853486263!2d-58.416303984395746!3d-34.62355548045449!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccafee49fa1b5%3A0x808f35e44a65bc21!2sCarlos+Calvo+3430%2C+C1230ABH+CABA!5e0!3m2!1ses-419!2sar!4v1500993405506" width="1280" height="600" allowfullscreen=""></iframe>	
+										</div>
+									</div>
+							</div>
+							<!-- **********************************************************************************************-->
+
+
+							<!-- **********************************************************************************************-->
+
+						</div>
+					</fieldset>
+					<fieldset ng-init="mainSwitchFn('setCosts', null, null)" class="animate-switch" ng-switch-when="PASO 4: MÉTODO DE PAGO">
+						<div class="row">
+							<div class="container-fluid justify-content-md-center">
+								<legend style="text-align: center;">Método de Pago</legend>
+								<div class="panel-body n-padding-l n-padding-r">
+									<!--*********TIPO DE ENTREGA ***********-->
+									<div class="n-padding-l n-padding-r">
+										<div class="form-check form-check-inline">
+											<div class="col-md-12 col-md-offset-2">
+												<div ng-if="ticket.building.chargeForExpenses!=0 && ticket.building.chargeForExpenses!=null && ticket.building.chargeForExpenses!=undefined" class="well col-md-3 col-xs-3" ng-class="{
+														'well-success': 
+														ticket.cost.idTypePaymentKf=='1',
+														}">
+													<input id="idTypePaymentKf-1" class="radio-custom" type="radio" ng-disabled="ticket.building.chargeForExpenses!=1" ng-click="mainSwitchFn('setPaymentType', null, null); enabledNextBtn();" name="idTypePaymentKf" value="1" ng-value="1" ng-model="ticket.cost.idTypePaymentKf" required autofocus>
+													<label for="idTypePaymentKf-1" class="radio-custom-label" style="margin-top: 4%; height: 47px;" ng-class="{'radio-custom-label-disabled':ticket.building.chargeForExpenses!=1}">
+														<span ng-if="ticket.optionTypeSelected.name=='department'">Abono por expensas
+															<span ng-if="ticket.building.chargeForExpenses==1" class="badge badge-success">Habilitado</span>
+															<span ng-if="ticket.building.chargeForExpenses!=1" class="badge badge-warning">No disponible</span>
+														</span>
+														<span ng-if="ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3'">Pago en Abono
+															<span ng-if="ticket.building.chargeForExpenses==1" class="badge badge-success">Habilitado</span>
+															<span ng-if="ticket.building.chargeForExpenses!=1" class="badge badge-warning">No disponible</span>
+														</span>
+													</label>
+												</div>
+												<div class="well col-md-3 col-xs-3" style="padding-right: 0px !important;" ng-class="{
+														'well-success': 
+														ticket.cost.idTypePaymentKf=='2',
+														'col-md-offset-2':
+														ticket.building.chargeForExpenses!=1,
+														'col-md-offset-1':
+														ticket.building.chargeForExpenses==1,
+														}">
+													<input id="idTypePaymentKf-2" class="radio-custom" type="radio" ng-disabled="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='3'" ng-click="mainSwitchFn('setPaymentType', null, null); enabledNextBtn();" name="idTypePaymentKf" value="2" ng-value="2" ng-checked="ticket.building.chargeForExpenses=='0'" ng-model="ticket.cost.idTypePaymentKf" required autofocus>
+													<label for="idTypePaymentKf-2" class="radio-custom-label" ng-class="{'radio-custom-label-disabled':ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='3'}">
+														<span><img id="comp-k1xl6bdlimgimage" class="mp-logo" data-type="image" itemprop="image" src="images/mp_logo.png"></span>
+													</label>
+												</div>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div>
+						<div ng-if="sysLoggedUser.idProfileKf==1" class="container-fluid justify-content-md-center col-md-12 ng-scope">
+							<div class="panel panel-warning">
+							  <div class="panel-heading"><span class="blink">Notificar al usuario</span></div>
+								  <div class="panel-body">
+									  <div class="form-check form-check-inline">
+										<div class="col-md-3 col-md-offset-3 col-xs-3 col-xs-offset-3">
+											  <input id="sendnotify1" class="radio-custom" ng-model="ticket.userNotify" ng-click="mainSwitchFn('sendNotification', ticket.userNotify, null)" type="radio" value="1" required autofocus>
+											  <label for="sendnotify1" class="radio-custom-label">
+												  <span>SI</span>
+											  </label>
+										  </div>
+										  <div class="col-md-3 col-xs-3">
+											  <input id="sendnotify2" class="radio-custom" ng-model="ticket.userNotify" ng-click="mainSwitchFn('sendNotification', ticket.userNotify, null)" type="radio" value="0" required autofocus>
+											  <label for="sendnotify2" class="radio-custom-label">
+												  <span>NO</span>
+											  </label> 
+										  </div>
+									  </div>
+								  </div>
+							</div>
+						</div>
+						<!-- Observaciones Adicionales -->
+						<div class="row">
+							<!-- Form Special Request sru= Special Request Up -->
+							<div style="margin-left: 15px; padding-right: 40px;" class="form-group col-md-12">
+								<label class="col-xs-12" >Observaciones Adicionales</label> 
+								<div class="col-md-12 col-xs-12 input-group">
+									<textarea style="resize: vertical;" name="sruTenant" rows="4" placeholder="Describa aqui si desea realizar una solicitud especial." class="form-control" ng-model="ticket.description" ></textarea>
+								</div>
+							</div>
+						</div>
+						<!-- Linea de costos de servicios y total del pedido -->
+						<div class="row" >
+							<div class="col-md-12 "> 
+								<legend style="text-align: center;">Costos de Servicios</legend>
+									<div class="col-md-3 col-xs-3">
+										<div class="input-group pull-right">
+											<span class="input-group-addon">Gestión</span>
+											<input ng-disabled="sysLoggedUser.idProfileKf!='1'" id="inputService" title="Gestion Sin Costo" ng-blur="mainSwitchFn('recalculateCosts', costs.service.cost, 'service');" data-placement="bottom" data-content="El costo esta incluido en el Abono del Mantenimiento." style="text-align: right;"  name="costs.service.cost" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.service.cost" value="{{costs.service.cost  | currency }}"  type="text" required autofocus />
+										</div>
+									</div>
+									<div class="col-md-3 col-xs-3">
+										<div class="input-group pull-right">
+											<span class="input-group-addon">Llaves</span>
+											<input ng-disabled="sysLoggedUser.idProfileKf!='1'"  style="text-align: right;" name="costs.keys" ng-blur="mainSwitchFn('recalculateCosts', costs.keys.cost, 'keys');" autofocus="true" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.keys.cost" value="{{costs.keys.cost  | currency }}"  type="text" required autofocus />
+										</div>
+									</div>
+									<div class="col-md-3 col-xs-3">
+										<div class="input-group pull-right">
+											<span class="input-group-addon">Envío</span>
+											<input ng-disabled="sysLoggedUser.idProfileKf!='1'" id="inputDelivery" title="Envio sin Costo" style="text-align: right;" name="costs.delivery" ng-blur="mainSwitchFn('recalculateCosts', costs.delivery.cost, 'delivery');" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.delivery.cost" value="{{costs.delivery.cost  | currency }}" type="text" required autofocus />
+										</div>
+									</div>
+									<div class="col-md-3 col-xs-3"> 
+										<div class="input-group pull-right">
+											<span class="input-group-addon">Total</span>
+											<input disabled style="text-align: right"; name="costs.total" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()"  ng-model="costs.total" value="{{costs.total  | currency }}"  type="text" required autofocus />
+										</div>
+									</div>
+							</div>
+						</div>
+						<br><br>
+					</fieldset>
+					<fieldset ng-init="mainSwitchFn('setCosts', null, null)" class="animate-switch" ng-switch-when="VERIFICAR Y CONFIRMAR">
+						<div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+							<table class="table table-bordered table-condensed table-list table-responsive">
+								<tbody>
+									<tr>
+                                        <td colspan="4" style="background-color: #f2f2f2;font-size: 18px;">Datos de la Solicitud</td>
+                                    </tr>
+                                    <tr>
+										<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Realizado por</td>
+										<td style="width: 40%;">{{sysLoggedUser.fullNameUser}}
+											<span class="badge badge-warning">{{sysLoggedUser.nameProfile}}</span>
+										</td>
+										<td style="width: 12%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Solicitado por</td>
+										<td ng-if="ticket.optionTypeSelected.name=='department' && ticket.radioButtonDepartment!=undefined && ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'">{{selectedRequestKeyOwnerUser.fullNameUser}}
+											<span  class="badge badge-warning">{{selectedRequestKeyOwnerUser.nameProfile}}</span>
+											<span ng-if="selectedRequestKeyOwnerUser.idProfileKf!=3 && selectedRequestKeyOwnerUser.idProfileKf!=5 && selectedRequestKeyOwnerUser.idTypeTenantKf!=null" class="badge badge-warning">{{selectedRequestKeyOwnerUser.typeTenantName}}</span>
+										</td>
+										<td ng-if="ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2')">{{ticket.administration.name}}
+											<span ng-if="ticket.radioButtonBuilding!=undefined && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2')" class="badge badge-warning">{{ticket.administration.ClientType}}</span>
+										</td>
+										<td ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2'">{{sysLoggedUser.fullNameUser}}
+											<span class="badge badge-warning">{{sysLoggedUser.nameProfile}}</span>
+										</td>
+									</tr>
+    								<tr>
+										<td style="width: 12%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Fecha de solicitud</td><td>{{ticket.requestDate | date:'dd-MM-yyyy / HH:mm'}} </td>
+										<td style="width: 12%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Solicitado para</td>
+										<td ng-if="ticket.radioButtonDepartment!=undefined && (ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')">Departamento
+											<span ng-if="ticket.radioButtonDepartment!=undefined && ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'" class="badge badge-warning">{{ticket.idClientDepartament.Depto}}</span>
+										</td>
+										<td ng-if="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='1'">Encargado</td>
+										<td ng-if="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='2'">Administración</td>
+										<td ng-if="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2'">Consorcio</td>
+									</tr>
+								</tbody>
+								<tbody>
+									<tr>
+                                        <td colspan="4" style="background-color: #f2f2f2;font-size: 18px;">Detalles - Dirección</td>
+                                    </tr>
+                                    <tr>
+										<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Administracíon</td><td>{{ticket.administration.name}}</td>
+										<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Consorcio</td><td>{{ticket.building.name}}</td>
+									</tr>
+								</tbody>
+								<!-- KEYS REQUESTED -->
+								<tbody>
+									<tr>
+                                        <td colspan="4" style="background-color: #f2f2f2;font-size: 18px;">Llaves solicitadas</td>
+                                    </tr>
+									<tr>
+										<td colspan="4">
+											<table ng-if="list_keys.length>0" class="table table-striped table-bordered table-list table-responsive table-hover fade in">
+												<thead class="dpto-t-head">
+													<tr>
+														<th width="5px" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> N°</th>
+														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Llavero</th>
+														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Precio</th>
+														<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
+														<th ng-if="ticket.optionTypeSelected.name=='department' || ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
+														<!--<th ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-user"></i> Usuario </th>-->
+														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-door-open"></i> Puertas</th>
+													</tr>
+												</thead>
+												<tbody style="overflow: auto;">
+													<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="tckt in list_keys">
+														<td style="vertical-align: middle;text-align: center;"><span class="font-size-18px">{{$index+1}}</span></td>
+														<td>{{tckt.key.descriptionProduct}} <span class="badge badge-warning">{{tckt.key.brand}}</span></td>
+														<td style="vertical-align: middle;text-align: right;">$ {{tckt.key.priceFabric | number : 2}}</td>
+														<td ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
+															<span class="label label-default">{{tckt.key.categoryName}}</span>
+														</td>
+														<td style="vertical-align: middle;text-align: center;">
+															<span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1'">
+																<span class="font-size-18px" style="color: #5cb85c">
+																	<i class="text-success fas fa-user-tie"></i>
+																</span>
+																<span class="label label-default">{{tckt.user.nameProfile}}</span>
+															</span>
+															<span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && tckt.key.idCategoryKf!=5 && tckt.key.idCategoryKf!=6">
+																<span class="label label-default">Consorcio</span>
+															</span>
+															<span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='2' && tckt.key.idCategoryKf==5">
+																<span class="label label-default">Administracíon</span>
+															</span>
+															<span ng-if="ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')">
+																<span data-toggle="tooltip" data-placement="right" title="Departamento" class="font-size-18px" style="color: #5cb85c">
+																	<i class="text-success fas fa-house-user"></i>
+																</span>
+																<span class="label label-default">{{ticket.idClientDepartament.Depto}}</span>
+															</span>
+														</td>
+														<!--<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;"> 
+															<span ng-if="tckt.user!=undefined && tckt.user!=null" data-toggle="tooltip" data-placement="right" title="Asignado" class="font-size-18px" style="color: #5cb85c">
+																<i class="text-success fas fa-check-circle"></i>
+															</span>
+															<span ng-if="tckt.user!=undefined && tckt.user!=null" class="label label-default">{{tckt.user.fullNameUser}}</span>
+															<span ng-if="tckt.user==undefined || tckt.user==null" data-toggle="tooltip" data-placement="right" title="No asignado" class="text-danger media-middle text-center font-size-18px">
+																<i class="fas fa-times-circle"></i>
+															</span>
+														</td>-->
+														<td style="vertical-align: middle;text-align: center;">
+															<span ng-if="tckt.doors.length>0" data-toggle="tooltip" data-placement="bottom" title="Puertas a Habilitar" class="label label-success">
+																{{tckt.doors.length}}
+															</span>
+														</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+								</tbody>
+								<!-- DELIVERY METHOD -->
+								<tbody>
+									<tr>
+                                        <td colspan="4" style="background-color: #f2f2f2;font-size: 18px;">Detalles del Envío</td>
+                                    </tr>
+                                    <tr>
+										<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Método</td>
+										<td ng-if="ticket.delivery.idTypeDeliveryKf=='1'">Retiro en Oficina</td>
+										<td ng-if="ticket.delivery.idTypeDeliveryKf=='2'">Entrega en Domicilio 
+											<span ng-if="(ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.idDeliveryTo==1) || (ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.whoPickUp.id==2)" class="badge badge-warning">Asociado </span>
+											<span ng-if="(ticket.optionTypeSelected.name=='building' || ticket.optionTypeSelected.name=='department') && ticket.radioButtonBuilding==1 && ticket.delivery.idTypeDeliveryKf==2 && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.building.name}}</span>
+											<span ng-if="(ticket.optionTypeSelected.name=='building' || ticket.optionTypeSelected.name=='department') && (ticket.radioButtonBuilding==2 || ticket.radioButtonBuilding==3) && ticket.delivery.idTypeDeliveryKf==2 && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.administration.address}}</span>
+											<span ng-if="(ticket.optionTypeSelected.name=='department') && ticket.delivery.idTypeDeliveryKf==2 && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.building.name}}</span>
+											<span ng-if="ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.idDeliveryTo==2 && (ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==1)" class="badge badge-warning">Otro </span>
+											<span ng-if="ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.idDeliveryTo==2 && (ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==1)" class="label label-default"> {{ticket.delivery.otherAddress.streetName | uppercase}} {{ticket.delivery.otherAddress.streetNumber}}</span>
+											<span ng-if="ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.idDeliveryTo==null && ticket.delivery.whoPickUp.id==3" class="label label-default"> {{ticket.delivery.thirdPerson.streetName | uppercase}} {{ticket.delivery.thirdPerson.streetNumber}}</span>
+										</td>
+										<td ng-if="ticket.delivery.idTypeDeliveryKf==null">Proceso interno</td>
+										<td ng-if="ticket.delivery.idTypeDeliveryKf=='1'" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Quien retira</td>
+										<td ng-if="ticket.delivery.idTypeDeliveryKf=='2'" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Quien recibe</td>
+										<td ng-if="ticket.delivery.idTypeDeliveryKf!=null">{{ticket.delivery.deliveryTo.fullNameUser}} 
+											<span ng-if="ticket.delivery.whoPickUp.id!=3 && (ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==2)" class="badge badge-warning">{{ticket.delivery.deliveryTo.nameProfile}}</span>
+											<span ng-if="ticket.delivery.whoPickUp.id==3" class="badge badge-warning">Tercera Persona</span>
+											<span ng-if="ticket.delivery.deliveryTo.idProfileKf!=3 && ticket.delivery.deliveryTo.idProfileKf!=5 && ticket.delivery.deliveryTo.idTypeTenantKf!=null" class="badge badge-warning">{{ticket.delivery.deliveryTo.typeTenantName}}</span>
+										</td>
+										<td ng-if="ticket.delivery.idTypeDeliveryKf==null" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Procesado por</td>
+										<td ng-if="ticket.delivery.idTypeDeliveryKf==null">
+											<span class="badge badge-warning">TASS</span>
+										</td>
+									</tr>
+								</tbody>
+								<!-- PAYMENT METHOD -->
+								<tbody>
+									<tr>
+                                        <td colspan="10" style="background-color: #f2f2f2;font-size: 18px;">Metodo de Pago</td>
+                                    </tr>
+                                    <tr>
+										<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;vertical-align: middle;">Método</td>
+										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf==null"><img data-type="image" itemprop="image" style="width: 100px;height: 34px;" src="https://devtass.sytes.net/images/logo_2.png"></td>
+										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='1' && ticket.optionTypeSelected.name=='department'">Abono por expensas</td>
+										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='1' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3')">Pago en Abono</td>
+										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='2'"><img data-type="image" itemprop="image" src="images/mp_logo.png" style="width: 100px;"></td>
+									</tr>
+								</tbody>
+								<!-- COSTS -->
+								<tbody>
+									<tr>
+                                        <td colspan="10" style="background-color: #f2f2f2;font-size: 18px;">Detalles de Costos</td>
+                                    </tr>
+									<tr>
+										<td colspan="10">
+											<table class="table table-bordered table-condensed table-list table-responsive" style="margin-bottom: 0px !important;">
+												<tbody style="text-align: right;">
+													<tr>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Gestión</td><td>$ {{ticket.cost.service | number : 2 }}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Llaves</td><td>$ {{ticket.cost.keys | number : 2 }}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Envío</td><td>$ {{ticket.cost.delivery | number : 2 }}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Total</td><td>$ {{ticket.cost.total | number : 2 }}</td>
+													</tr>
+												</tbody>
+											</table>
+										</td>
+									</tr>
+								</tbody>
+							</table>
+						</div>
+					</fieldset>
+				</div>
+				<!-- Actions Button -->
+				<div class="modal-footer">
+					<div class="row">
+						<div class="col-xs-6 col-sm-6 col-md-6 pull-right">
+							<button type="submit" ng-click="modalConfirmation('tup', 0, ticket);" ng-show="(ticketRegistered!=undefined && ticketRegistered!=null) || !hasNextStep()" ng-disabled="fkeyup.$invalid" class="btn btn-labeled btn-success">
+								Completar Pedido<span class="btn-label-right"><i class="glyphicon glyphicon-send"></i> </span></button>
+
+							<button ng-click="incrementStep(); enabledNextBtn();" ng-disabled="formValidated!=true" ng-show="btnShow" class="btn btn-labeled btn-primary">
+								Siguiente<span class="btn-label-right"><i class="fas fa-arrow-circle-right"></i></span></button>
+						</div>
+						<div class="col-xs-1 col-sm-1 col-md-1 pull-left">
+								<button type="button" ng-click="decrementStep();" ng-show="(ticketRegistered!=undefined && ticketRegistered!=null) || btnBack" class="btn btn-labeled btn-primary">
+								<span class="btn-label"><i class="fas fa-arrow-circle-left"></i></span>Atras</button>
+						</div>
+					</div>
+				</div>
+			</form>
+		</div>
+	</div>
+</div>
+<div ng-include="'views/tickets/delivery/setDeliveryToOtherAddress.html'"></div>
+<div ng-include="'views/tickets/delivery/deliveryAddressType.html'"></div>
+<div ng-include="'views/tickets/list/deliveryAttendantList.html'"></div>
+<div ng-include="'views/tickets/delivery/thirdPerson.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-include="'views/utilities/showModalRequestStatus.html'"></div>
+<div ng-include="'views/utilities/modalConfirmationCustom.html'"></div>

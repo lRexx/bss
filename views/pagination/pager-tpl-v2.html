@@ -1,0 +1,21 @@
+<!-- pager -->
+<ul ng-if="pagedItems.length" class="pagination">
+  <li ng-class="{disabled:currentPage === 0}">
+    <a ng-click="firstPage()" aria-label="First" style="cursor: pointer;"><span aria-hidden="true"><i class="fas fa-angle-double-left"></i> Primera</span></a>
+  </li>  
+  <li ng-class="{disabled:currentPage === 0}">
+    <a ng-click="prevPage()" aria-label="Previous" style="cursor: pointer;"><span aria-hidden="true"><i class="fas fa-chevron-left"></i> Anterior</span></a>
+  </li>
+  <!--<li ng-repeat="page in vm.pager.pages" ng-class="{active:vm.pager.currentPage === page}">
+    <a ng-click="vm.setPage(page)">{{page}}</a>
+  </li>-->
+  <li><span style="background-color: #28a745;color: #fff;">{{currentPage+1}} / {{pagedItems.length}}</span></li>
+  <li ng-class="{disabled:currentPage == pagedItems.length - 1}">
+    <a ng-click="nextPage()" aria-label="Next" style="cursor: pointer;">
+      <span aria-hidden="true">Siguiente <i class="fas fa-chevron-right"></i></span></a>
+  </li>
+  <li ng-class="{disabled:currentPage == pagedItems.length - 1}">
+    <a ng-click="lastPage()" aria-label="Last" style="cursor: pointer;">
+      <span aria-hidden="true">Ultima <i class="fas fa-angle-double-right"></i></span></a>
+  </li>
+</ul>

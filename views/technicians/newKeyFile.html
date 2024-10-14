@@ -1,0 +1,192 @@
+<!-- USER REGISTER FORM -->
+<div id="newKeysFile" class="modal fade bd-example-modal-lg" style="top: 30px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title"><i class="product-success fas fa-key"></i> NUEVA LISTA DE LLAVEROS A EXPORTAR
+                    <!--<span style="margin-top: -0.4em;" class="badge badge-success" ng-if="users.new.idProfileKf.idProfile"><i class="fas fa-check-circle"></i> {{users.new.idProfileKf.nameProfile}}</span>-->
+                </h3>
+            </div>
+            <div class="modal-body"  style="overflow-y: scroll;" ng-class="{'h-400px': keys.file.address.selected==undefined || keys.file.address.selected=='', 'h-auto-px': keys.file.address.selected!=undefined}">
+                <!-- FORM CONTAINER-->
+                <form class="form-horizontal" name="fNewKeyFile" novalidate>
+                    <fieldset>
+                        <div class="row">
+                            <div class="form-group">
+                                <!-- List Address of Buildings-->
+                                <div  class="col-md-8"  ng-class="
+                                    {	'has-success': 
+                                        keys.file.address.selected!=undefined && fNewKeyFile.building_address.$valid,
+                                        'has-error':  
+                                        (keys.file.address.selected==undefined) && fNewKeyFile.building_address.$touched
+                                    }">
+                                    <label style="padding-left: 15px;">Consorcio</label>  
+                                    <div class="col-xs-12 selectContainer">
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
+                                        <ui-select name="building_address"
+                                                    ng-required="true"
+                                                    ng-change="keys.file.address.selected!=undefined && keys.file.products.selected!=undefined && keys.file.mainQttyKeys>0?generateKeyListFn(keys.file):''; list_depto_floors=[]"
+                                                    ng-model="keys.file.address.selected" autofocus>
+                                            <ui-select-match  allow-clear="true" placeholder="Todos">{{$select.selected.address}}</ui-select-match>
+                                                <ui-select-choices repeat="item in buildingCustomerList | filter: $select.search">
+                                                    <div ng-bind-html="item.address | highlight: $select.search"></div>
+                                                    <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+                                                    <small>Provincia: </small><small class="label label-default"  ng-bind-html="item.province | highlight: $select.search"></small>
+                                                </ui-select-choices>
+                                                <ui-select-no-choice>
+                                                    <span ng-if="rsCustomerListSelectData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay edificios registrados</span>
+                                                </ui-select-no-choice>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-4" ng-class="{
+                                    'has-success': 
+                                        keys.file.mainQttyKeys!='' && keys.file.mainQttyKeys!=null && keys.file.mainQttyKeys>0  && fNewKeyFile.mainQttyKeys.$valid,
+                                    'has-error':
+                                        (!keys.file.mainQttyKeys || keys.file.mainQttyKeys==undefined || keys.file.mainQttyKeys==0) &&  fNewKeyFile.mainQttyKeys.$touched,
+                                    }">
+                                    <label style="padding-left: 15px;">N° de Llaves para cada unidad</label>  
+                                    <div class="col-xs-12">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-sort-numeric-up-alt"></i></span>
+                                            <input 
+                                                name="mainQttyKeys" 
+                                                ng-minlength="0" 
+                                                class="form-control input--number" 
+                                                ng-model="keys.file.mainQttyKeys"  
+                                                type="text" 
+                                                ng-blur="fnLoadPhoneMask();" 
+                                                ng-keydown="fnLoadPhoneMask();"
+                                                ng-keyup="keys.file.address.selected!=undefined && keys.file.products.selected!=undefined && keys.file.mainQttyKeys>0?generateKeyListFn(keys.file):''" autofocus />
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <!-- List Open Devices Products For ALL-->
+                                <div  class="col-md-10"  ng-class="
+                                    {	'has-success': 
+                                        keys.file.products.selected!=undefined && fNewKeyFile.products.$valid,
+                                        'has-error':  
+                                        (keys.file.products.selected==undefined) && fNewKeyFile.products.$touched
+                                    }">
+                                    <label style="padding-left: 15px;">Dispositivos de Apertura <span class="badge badge-warning">TODOS</span></label>  
+                                    <div class="col-xs-12 selectContainer">
+                                        <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-key"></i></span> 
+                                        <ui-select name="products"  
+                                                    ng-required="true"
+                                                    ng-change="keys.file.address.selected!=undefined && keys.file.products.selected!=undefined && keys.file.mainQttyKeys>0?setProductKeysForAll(keys.file.products.selected):'';"
+                                                    ng-model="keys.file.products.selected" autofocus>
+                                            <ui-select-match  allow-clear="true" placeholder="Todos">{{$select.selected.descriptionProduct}}</ui-select-match>
+                                                <ui-select-choices repeat="item in rsProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
+                                                    <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+                                                    <small>Modelo: </small><small class="label label-default"  ng-bind-html="item.model | highlight: $select.search"></small>
+                                                    <small>Tipo: </small><small class="label label-default" ng-bind-html="item.classification | highlight: $select.search"></small>
+                                                </ui-select-choices>
+                                                <ui-select-no-choice>
+                                                    <span ng-if="rsProductsData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay productos cargados</span>
+                                                </ui-select-no-choice>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-md-2"><br>
+                                    <button ng-if="list_depto_floors.length==0 || keys.file.address.selected==undefined || keys.file.products.selected==undefined || keys.file.mainQttyKeys==''" type="button" ng-click="generateKeyListFn(keys.file)" ng-disabled="keys.file.address.selected==undefined || keys.file.products.selected==undefined || keys.file.mainQttyKeys==0" class="btn btn-labeled btn-warning">
+                                        <span class="btn-label"><i class="fas fa-cog"></i> </span>Generar
+                                    </button>
+                                    <button ng-if="list_depto_floors.length>0 && keys.file.address.selected!=undefined && keys.file.products.selected!=undefined && keys.file.mainQttyKeys>0" type="button" ng-click="modalConfirmation('downloadFile', 0 , list_depto_floors)" ng-disabled="keys.file.address.selected==undefined || keys.file.products.selected==undefined || keys.file.mainQttyKeys==0 || list_depto_floors.length==0" class="btn btn-labeled btn-success">
+                                        <span class="btn-label"><i class="fas fa-file-excel"></i> </span>Descargar
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <!-- List Open Devices Products For RESERVA-->
+                                <div  class="col-md-6"  ng-class="
+                                    {	'has-success': 
+                                        select.products2.selected!=undefined && fNewKeyFile.products2.$valid,
+                                        'has-error':  
+                                        (select.products2.selected==undefined) && fNewKeyFile.products2.$touched
+                                    }">
+                                    <label style="padding-left: 15px;">Dispositivos de Apertura <span class="badge badge-warning">RESERVA</span></label>  
+                                    <div class="col-xs-12 selectContainer">
+                                        <div class="input-group"> 
+                                            <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                            <ui-select
+                                                    name="products2"  
+                                                    ng-required="true"
+                                                    ng-change="keys.file.address.selected!=undefined && select.products2.selected!=undefined?setProductKeyToDepto('re', select.products2.selected):'';"
+                                                    ng-model="select.products2.selected" autofocus>
+                                                <ui-select-match  allow-clear="true" placeholder="Todos">{{$select.selected.descriptionProduct}}</ui-select-match>
+                                                <ui-select-choices repeat="item in rsProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
+                                                    <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+                                                    <small>Modelo: </small><small class="label label-default"  ng-bind-html="item.model | highlight: $select.search"></small>
+                                                    <small>Tipo: </small><small class="label label-default" ng-bind-html="item.classification | highlight: $select.search"></small>
+                                                </ui-select-choices>
+                                                <ui-select-no-choice>
+                                                    <span ng-if="rsProductsData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay productos cargados</span>
+                                                </ui-select-no-choice>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                                <!-- List Open Devices Products For COCHERAS -->
+                                <div  class="col-md-6"  ng-class="
+                                    {	'has-success': 
+                                        select.products3.selected!=undefined && fNewKeyFile.products3.$valid,
+                                        'has-error':  
+                                        (select.products3.selected==undefined) && fNewKeyFile.products3.$touched
+                                    }">
+                                    <label style="padding-left: 15px;">Dispositivos de Apertura <span class="badge badge-warning">COCHERAS</span></label>
+                                    <div class="col-xs-12 selectContainer">
+                                        <div class="input-group"> 
+                                            <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                            <ui-select
+                                                    name="products3"  
+                                                    ng-required="true"
+                                                    ng-change="keys.file.address.selected!=undefined && select.products3.selected!=undefined?setProductKeyToDepto('co', select.products3.selected):'';"
+                                                    ng-model="select.products3.selected" autofocus>
+                                                <ui-select-match  allow-clear="true" placeholder="Todos">{{$select.selected.descriptionProduct}}</ui-select-match>
+                                                <ui-select-choices repeat="item in rsProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
+                                                    <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+                                                    <small>Modelo: </small><small class="label label-default"  ng-bind-html="item.model | highlight: $select.search"></small>
+                                                    <small>Tipo: </small><small class="label label-default" ng-bind-html="item.classification | highlight: $select.search"></small>
+                                                </ui-select-choices>
+                                                <ui-select-no-choice>
+                                                    <span ng-if="rsProductsData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay productos cargados</span>
+                                                </ui-select-no-choice>
+                                            </ui-select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group col-md-12">
+                                <div class="alert alert-info" role="alert">
+                                    <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                        <span aria-hidden="true">&times;</span>
+                                    </button>
+                                    <strong><i class="far fa-lightbulb"></i>&nbsp </i>Info: Formas de asignar el N° de llaves en un consorcio.<br></strong>
+                                    <span>- N° de Llaves para cada unidad.</span><br>
+                                    <span>- N° de Llaves por piso.</span><br>
+                                    <span>- N° de Llaves por unidad.</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div ng-if="list_depto_floors.length>0 && keys.file.address.selected!=undefined && keys.file.products.selected!=undefined && keys.file.mainQttyKeys>0" ng-include="'views/keys/list/listDepartments.html'"></div>
+                    </fieldset>
+                </form>
+                <div class="clearfix"> </div> 
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // USER REGISTER FORM -->

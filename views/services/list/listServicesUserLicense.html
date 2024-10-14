@@ -1,0 +1,102 @@
+<!-- Licencias de Usuario -->
+<div id="serviceUserLicenseList" style="top: 130px;" class="modal fade modal-dialog-centered in" style="top: 130px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="product-success far fa-address-book"></i>
+                <span class="text-uppercase">LICENCIAS DE USUARIO</span></h3>
+          </div>
+        <div class="modal-body">
+          <div class="form-group col-md-12">
+            <div class="col-md-3">
+              <span ng-if="service.numbOfLicenceSet>0 && isCollapsed">
+                <label class="label label-default">Pedidas :&nbsp;</label>&nbsp;
+                <label class="label" ng-class="{
+                'label-success':  service.numbOfLicenceSet>0,
+                'label-warning':  service.numbOfLicenceRemains==0 }">{{service.numbOfLicenceSet}}</label>
+              </span>
+            </div>
+            <div class="col-md-3">
+              <span ng-if="service.numbOfLicenceSet>0 && isCollapsed">
+                <label class="label label-default">Disponibles:&nbsp;</label>&nbsp;
+                <label class="label" ng-class="{
+                'label-success':  service.numbOfLicenceRemains>1,
+                'label-warning':  service.numbOfLicenceRemains==1,
+                'label-danger':   service.numbOfLicenceRemains==0 }">{{service.numbOfLicenceRemains}}</label>
+              </span>
+            </div>              
+            <div class="col-md-3">
+              <span ng-if="service.numbOfLicenceSet>0 && isCollapsed">
+                <label class="label label-default">Asignadas:&nbsp;</label>&nbsp;
+                <label class="label" ng-class="{
+                'label-success':  list_user_licence.length>0,
+                'label-warning':  list_user_licence.length==0}">{{list_user_licence.length}}</label>
+              </span>
+            </div>
+          </div>
+          <div class="form-group col-md-12">
+            <!-- Licence Assigned List -->
+            <!-- Licence Assigned List -->
+            <!-- Licence Assigned to Admin/company -->
+            <div ng-if="list_company_user_licence.length>0" class="form-group col-md-12 n-padding-l n-padding-r">
+              <div class="col-md-12">
+                  <div class="panel panel-default padding-panel">
+                    <div class="panel-heading">
+                      <h3 class="panel-title">Licencias Asignadas a la Administración o Encargados </h3>
+                    </div>
+                    <div class="panel-body">
+                    <div ng-include="'views/services/list/userLicencesListByCompany.html'"></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- Licence Assigned to Departments -->
+            <div ng-if="list_depto_user_licence.length>0" class="form-group col-md-12 n-padding-l n-padding-r" ng-class="{'margin-top-4em':list_company_user_licence.length>0}">
+              <div class="col-md-12">
+                  <div class="panel panel-default padding-panel">
+                    <div class="panel-heading">
+                        <h3 class="panel-title">
+                          <div class="col-md-8" style="margin-top: 0.4em;">Licencias en departamentos</div>
+                      <!-- Deparments for customer building -->
+                        <div class="input-group col-md-4">
+                          <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                          <select name="deparment_registered_list" 
+                              class="form-control input-sm"
+                              ng-change="search(service.idDepartmentList, '', true);"
+                              ng-options="item.idDepto as item.Depto for item in rsBuildingDepartmentsData" 
+                              ng-required="false"
+                              ng-model="service.idDepartmentList" autofocus >
+                            <option value="">Filtrar por departamento</option>
+                          </select>
+                        </div>
+                        </h3>
+                    </div>
+                    <div class="panel-body">
+                    <div ng-include="'views/services/list/userLicencesListByDepto.html'"></div>
+                                <!-- PAGINATION -->
+                    <div ng-if="list_depto_user_licence.length>=7" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
+                                <!-- //PAGINATION -->                     
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="form-group col-md-12">
+              <div ng-if="list_user_licence.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Licencias cargadas</h5>
+              </div>
+            </div>
+          </div>
+          <div class="clearfix"> </div> 
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // Licencias de Usuario -->

@@ -1,0 +1,137 @@
+<!-- LIST OF KEYS -->
+<table ng-if="rsKeyListsData.length>0"  id="tableKeys" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
+    <thead style=" background: #4d5d6f; color: white;">
+      <tr style="text-align: center;">
+          <th width="5%" ng-click="sort_by('idKeychain')">ID 
+            <span class="glyphicon sort-icon" ng-show="sortingOrder=='idClient'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th width="30%" ng-click="sort_by('descriptionProduct')"><i class="fas fa-file-alt"> </i> Descripción 
+            <span class="glyphicon sort-icon" ng-show="sortingOrder=='name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th width="13%" style="vertical-align: middle;text-align: center;" ng-click="sort_by('businessName')"><i class="fas fa-house-user"> </i> Unidad <span class="glyphicon sort-icon" ng-show="sortingOrder=='businessName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <!--<th width="20%"><i class="glyphicon glyphicon-envelope"> </i> Emails</th>-->
+          <th width="10%" style="vertical-align: middle;text-align: center;" ng-click="sort_by('categoryKeychain')"><i class="glyphicon icon-flag"> </i> Tipo <span class="glyphicon sort-icon" ng-show="sortingOrder=='ClientType'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th width="10%" style="vertical-align: middle;text-align: center;" ng-click="sort_by('codigo')"><i class="fas fa-qrcode"> </i> Codigo <span class="glyphicon sort-icon" ng-show="sortingOrder=='ClientType'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          </th>
+          <th width="10%" style="vertical-align: middle;text-align: center;"><i class="fas fa-user-tie"> </i> Usuario</th>
+          <th width="10%" style="vertical-align: middle;text-align: center;"><i class="fas fa-user-tag"> </i> Inquilino</th>
+          <th ><i class="fas fa-ellipsis-h"> </i> Opciones</th>
+          <!--<th><i class="glyphicon icon-calendar"> </i> Registrado</th>-->
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Show if there are Keys registered -->
+      <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+        <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;"  dir-paginate="item in rsCustomerListData|orderBy:idClient:reverse|filter:searchboxfilter|itemsPerPage:10">-->
+        <td class="media-middle text-center" ng-click="switchCustomersFn('details_customer', item, 'show');">
+        	{{item.idKeychain}}
+              <!--<span ng-if="
+              ((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (!item.idAddresKf && !item.idAdress) && !item.idDepartmentKf)" class="badge badge-notify">
+                <i data-toggle="tooltip" data-placement="right" title="Direccion y Depto incompletos" class="fas fa-map-marked-alt"> <i class="fas fa-home"></i></i>
+              </span>
+              <span ng-if="
+              ((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (item.idAddresKf || item.idAdress) && !item.idDepartmentKf)" class="badge badge-notify">
+                <i data-toggle="tooltip" data-placement="right" title="Depto. No seleccionado." class="fas fa-home"></i>
+              </span>
+              <span ng-if="
+              (!item.phoneLocalNumberUser && !item.phoneNumberUser)" class="badge badge-notify">
+              <i data-toggle="tooltip" data-placement="right" title="No posee numeros de tlf" class="fas fa-phone-slash"></i>
+              </span>-->
+          <!-- (item.idProfileKf==2 && (!item.idCompanyKf && !item.idCompany)) || 
+               (item.idProfileKf==4 && (!item.idCompanyKf && !item.idCompany)) || 
+               (item.idProfileKf==6 && ((!item.idCompanyKf && !item.idCompany) ||
+               (!item.idAddresKf && !item.idAdress)|| !item.idDepartmentKf-->
+        </td>
+        <!--DESCRIPCION -->
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.descriptionProduct}} <label class="label label-default">{{item.model}}</label></td>
+        <!-- BUSINESS NAME -->
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" ng-if="item.idCategoryKf == 1" style="vertical-align: middle;text-align: center;"><label class="label label-default text-uppercase">{{item.Depto}}</label>
+          <label ng-if="item.addressA" class="label label-success text-uppercase" data-toggle="tooltip" data-placement="right" title="{{item.addressA}}" style="cursor: pointer"><i class="fas fa-map-marked-alt"></i></label>
+          <label ng-if="item.addressB" class="label label-success text-uppercase" data-toggle="tooltip" data-placement="right" title="{{item.addressB}}" style="cursor: pointer"><i class="fas fa-map-marked-alt"></i></label>
+        </td>
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" ng-if="item.idCategoryKf != 1" style="vertical-align: middle;text-align: center;"><label class="label label-default text-uppercase">{{item.categoryKeychain}}</label>
+          <label ng-if="item.addressA" class="label label-success text-uppercase" data-toggle="tooltip" data-placement="right" title="{{item.addressA}}" style="cursor: pointer"><i class="fas fa-map-marked-alt"></i></label>
+          <label ng-if="item.addressB" class="label label-success text-uppercase" data-toggle="tooltip" data-placement="right" title="{{item.addressB}}" style="cursor: pointer"><i class="fas fa-map-marked-alt"></i></label>
+        </td>
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.categoryKeychain}}</td>
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.codigo}}</td>
+        <!--<td>
+          <span ng-if="item.mailFronKey" ng-mouseover="showMe=true" ng-mouseleave="showMe=false" class="mailList"><i data-toggle="tooltip" data-placement="top" title="Mail Llaveros" class="fas fa-key"></i> <span ng-if="showMe" data-toggle="tooltip" data-placement="top" title="Click para Copiar" class=" mailListItem" ngclipboard data-clipboard-text="{{item.mailFronKey}}"> {{item.mailFronKey}}</span></span>
+
+          <span ng-if="item.mailServiceTecnic" ng-mouseover="showMe=true" ng-mouseleave="showMe=false" class="mailList"><i data-toggle="tooltip" data-placement="top" title="Mail servicios t&#233;cnico" class="fas fa-tools"></i> <span ng-if="showMe" data-toggle="tooltip" data-placement="top" title="Click para Copiar" class="mailListItem" ngclipboard data-clipboard-text="{{item.mailServiceTecnic}}"> {{item.mailServiceTecnic}}</span></span>
+
+          <span ng-if="item.mailCollection" ng-mouseover="showMe=true" ng-mouseleave="showMe=false" class="mailList"><i data-toggle="tooltip" data-placement="top" title="Mail Cobranzas" class="fas fa-dollar-sign"></i> <span ng-if="showMe" data-toggle="tooltip" data-placement="top" title="Click para Copiar" class="mailListItem" ngclipboard data-clipboard-text="{{item.mailCollection}}"> {{item.mailCollection}}</span></span>
+        </td>-->
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-if="item.idUserKf==undefined || item.idUserKf==null || item.idUserKf!=undefined" ng-trim="true" style="vertical-align: middle;text-align: center;">
+            <span>
+                <span ng-if="item.idUserKf!=undefined && item.idUserKf!='' && item.idUserKf!='0'" data-toggle="tooltip" data-placement="bottom" title="Llave asociada a usuario" class="font-size-18px" style="color: #5cb85c">
+                    <i class="text-success fas fa-check-circle"></i>
+                </span>
+                <span ng-if="item.idUserKf==undefined || item.idUserKf==null || item.idUserKf=='' || item.idUserKf=='0'"  data-toggle="tooltip" data-placement="bottom" title="Llave no asociada a usuario" class="font-size-18px" style="color: #5cb85c">
+                    <i  class="product-warning fas fa-lightbulb"></i>
+                </span>
+            </span>
+        </td>
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-if="item.isKeyTenantOnly==undefined || item.isKeyTenantOnly==null || item.isKeyTenantOnly!=undefined" ng-trim="true" style="vertical-align: middle;text-align: center;">
+            <span>
+                <span ng-if="item.isKeyTenantOnly!=undefined && item.isKeyTenantOnly!='' && item.isKeyTenantOnly!='0'" data-toggle="tooltip" data-placement="bottom" title="Llave solo para inquilino" class="font-size-18px" style="color: #5cb85c">
+                    <i class="text-success fas fa-check-circle"></i>
+                </span>
+                <span ng-if="item.isKeyTenantOnly==undefined || item.isKeyTenantOnly==null || item.isKeyTenantOnly=='' || item.isKeyTenantOnly=='0'"  data-toggle="tooltip" data-placement="bottom" title="Llave no asignada para solo inquilinos" class="font-size-18px" style="color: #5cb85c">
+                    <i  class="product-warning fas fa-lightbulb"></i>
+                </span>
+            </span>
+        </td>
+        <td ng-click="">
+        	<!--<div class="btn-group">
+		           <button type="button" class="btn btn-info  btn-sm btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fas fa-bars"></i>
+		           <span class="caret"></span>
+              </button>
+              <ul class="dropdown-menu" role="menu">
+                <li>
+                  <a href="" ng-click="switchKeysFn('editKey', item);"><i title="Modificar Datos" class="fas fa-user-edit"></i>  Editar</a>
+                </li>
+                <li ng-if="item.idClientTypeFk==2" role="presentation"><div class="divider"></div>
+                <li ng-if="item.idClientTypeFk==2" class="dropdown-item"><a href="" ng-click="switchCustomersFn('securityCode', item);"><i title="Servicios" class="fas fa-exchange-alt"></i> Generar codigo seguridad</a></li>
+                <li ng-if="item.idClientTypeFk==2" role="presentation"><div class="divider"></div>
+                <li ng-if="item.idClientTypeFk==2" class="dropdown-item"><a href="" ng-click="switchCustomersFn('adminChange', item);"><i title="Servicios" class="fas fa-exchange-alt"></i> Cambio de Administración</a></li>
+                <li role="presentation"><div class="divider"></div>
+                <!--<li><a href="" ng-click="switchCustomersFn('enabled', item)"><i title="Activar Usuario" class="far fa-check-circle"></i> Activar</a></li>
+                <li role="presentation"><div class="divider"></div>
+                <li><a href="" ng-click="switchCustomersFn('disabled',item)"><i title="Desactivar Usuario" class="fas fa-times-circle"></i> Desactivar</a></li>
+                <li role="presentation"><div class="divider"></div></li>-->
+                <!--<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('remove', item)"><i title="Eliminar Usuario" class="fas fa-user-times"></i> Eliminar</a></li>
+                <li role="presentation"><div class="divider"></div>-->
+        				<!--<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('switchToServices', item);"><i title="Servicios" class="fas fa-globe"></i> Servicios</a></li>
+        				<li role="presentation"><div class="divider"></div></li>-->
+        				<!--<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('allowedUsers', item)"><i title="Usuarios autorizados" class="fas fa-user-check"></i> Asignar a usuario</a></li>-->
+        				<!--<li role="presentation"><div class="divider"></div></li>
+        				<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('uploadFiles', item)"><i title="Subir archivos" class="fas fa-paperclip"></i> Subir archivos</a>
+                </li>
+
+              </ul>
+          </div>-->
+          <button ng-click="switchKeysFn('editKey', item);" class="btn btn-success  btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Editar Llave"><i class="fas fa-edit"></i></button>
+          <!--<button ng-click="switchCustomersFn('phonesandschedule', item)" class="btn btn-success  btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Ver telefonos & horario"><i class="glyphicon glyphicon-earphone"></i></button>
+          <button ng-click="switchCustomersFn('seemails', item)" class="btn btn-info btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Ver correos"><i class="fas fa-envelope-open-text"></i></button>
+          <button ng-if="item.idClientTypeFk==2" ng-click="switchCustomersFn('departments', item)" class="btn btn-warning btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Ver departamentos"><i class="far fa-building"></i></button>
+          <button ng-if="item.idClientTypeFk==5" ng-click="switchCustomersFn('particularAddress', item)" class="btn btn-success btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Direcciones asociadas"><i class="fas fa-map-marker-alt"></i></button>
+          <button ng-if="item.files_uploaded.length>0" ng-click="switchCustomersFn('listFiles', item)" class="btn btn-success btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Ver archivos"><i class="fas fa-photo-video"></i></button>
+          <button ng-if="item.idClientTypeFk==2" ng-click="switchCustomersFn('adminChange', item)" class="btn btn-success btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Cambio de administracion"><i class="fas fa-exchange-alt"></i></button>-->
+          <!--<button ng-if="item.idClientTypeFk!=5" ng-click="switchCustomersFn('allowedUsers', item)" class="btn btn-success btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Usuarios autorizados"><i class="fas fa-lock-open"></i></button>
+          <button ng-click="switchCustomersFn('uploadFiles', item)" class="btn btn-success btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Subir archivos"><i title="Subir archivos" class="fas fa-paperclip"></i></button>-->
+
+        </td>
+      </tr>
+      
+    </tbody>
+</table>
+<!-- Show if there is not Keys registered -->
+<div ng-if="rsKeyListsData.length==0" class="col-md-12">
+  <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
+    <h5 class="col-md-offset-4"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">No hay Llaveros registrados.</span></h5>
+  </div>
+</div>
+<!-- LIST OF KEYS -->

@@ -1,0 +1,43 @@
+<!-- Listado de camaras -->
+<div id="serviceCamerasList" style="top: 130px;" class="modal fade modal-dialog-centered in" style="top: 130px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="product-success fas fa-video"></i>
+                <span class="text-uppercase">SERVICIO {{service.update.clientTypeServices}} - LISTADO DE CAMARAS</span></h3>
+          </div>
+        <div class="modal-body">
+            <div class="col-md-12">
+              <div class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+                  <table ng-if="list_cameras.length>0">
+                    <tr ng-repeat="camera in list_cameras">
+                      <td style="width: 1%; padding: 0 10px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
+                        <td style="width: 55%"><span  style="font-size: 85%" class="text-muted text-uppercase text-box">
+                        <span style="font-size: 100%" data-toggle="tooltip" data-placement="top" title="Marca" class="label label-default"><i class="text-warning fas fa-tag"> </i> {{camera.brand | uppercase}}</span>
+                        <!--<span class="label label-default">{{camera.model | uppercase}}</span>-->{{camera.descriptionProduct | uppercase}} </span></td>
+                        <td style="width: 15%"><span class="text-muted text-box" style="font-size: 100%">Puerto:<label class="label label-default">{{camera.portCamera | uppercase}}</label></span></td>
+                        <!--<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca:<label style="font-size: 85%" class="label label-default">{{camera.brand | uppercase}}</label></span></td>-->
+                          <td style="padding-bottom: 5px; width: 15%">
+                            <button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(camera)" ng-disabled="!camera.idCameraFk" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+
+                          </td>
+                      </tr>
+                  </table>
+                  <div ng-if="list_cameras.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay camaras cargadas</h5></div>
+              </div>                
+            </div>
+          <div class="clearfix"> </div> 
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // Listado de camaras -->

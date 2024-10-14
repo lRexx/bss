@@ -1,0 +1,140 @@
+<!-- MANAGE MY DEPARTMENTS-->
+<div class="col-md-12 n-padding-l n-padding-r">
+    <div  class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">HOME</h3>
+      </div>
+      <!--DEPARTMENTS PANEL -->
+      <div class="panel-body">
+        <!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
+        <div class="col-md-2 col-xs-4 n-padding-r">
+            <!--  -->
+            <div ng-if="sysLoggedUser.idTypeTenantKf=='1' || sysLoggedUser.idProfileKf=='4'" >
+                <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="ASOCIAR NUEVO DEPARTAMENTO" ng-click="switchBuildingFn('buildingSecCode', null)">
+                    <div class="depto-icon">
+                        <span><i class="product-success fas fa-plus"></i></span>
+                    </div>
+                    <div class="text">
+                        <h4 class="text-muted"><span class="badge "  ng-class="sysSubContent=='associateNewDepartment'? 'badge-success' : 'badge-light'"> NUEVO DEPTO </span></h4>
+                    </div>
+                </div>
+            <!-- // -->
+            <!--  -->
+            </div>
+            <div>
+                <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="MIS DEPARTAMENTOS" ng-click="switchBuildingFn('myDepartments', null)">
+                    <div class="depto-icon">
+                        <span><i class="product-success fas fa-house-user"></i></span>
+                    </div>
+                    <div class="text">
+                    <h4 class="text-muted"><span class="badge" ng-class="sysSubContent=='myDepartments'? 'badge-success' : 'badge-light'"><i class="fas fa-eye"></i> DEPARTAMENTOS </span></h4>
+                    </div>
+                </div>
+            <!-- // -->
+            </div>
+        </div>
+        <!--<div  class="row">
+            <div class="container-fluid justify-content-md-center col-md-10 col-md-offset-3">
+                <div class="col-md-6">
+                  <div class="depto-widget well well-md">
+                    <div class="depto-icon">
+                          <span ng-if="!sessionIdDeparmentKf && (!sessionisDepartmentApproved || sessionisDepartmentApproved==0)" data-toggle="tooltip" data-placement="right" title="Departamento no asignado">
+                            <i class="depto-primary glyphicon glyphicon-home"></i>
+                          </span>
+                          <span ng-if="sessionIdDeparmentKf && (!sessionisDepartmentApproved || sessionisDepartmentApproved==0)" data-toggle="tooltip" data-placement="right" title="Pendiente autorizacion">
+                            <i class="depto-warning glyphicon glyphicon-home"></i>
+                          </span>
+                          <span ng-if="sessionIdDeparmentKf && sessionisDepartmentApproved" data-toggle="tooltip" data-placement="right" title="Departamento Aprobado">
+                            <i class=" depto-success glyphicon glyphicon-home"></i>
+                          </span>
+                    </div>
+                    <!-- IF THERE IS A DEPARTMENT ASSIGNED --
+                    <div ng-if="sessionidAddress && sessionIdDeparmentKf">
+                      <div class="text">
+                          <h4 class="text-muted">Consorcio: <span class="badge badge-light">{{sessionNameAdress}}</span></h4>
+                      </div>
+                      <div >
+                        <h5 class="text-muted">Departamento: 
+                          <span class="badge badge-light">{{deptoTenant}}</span>
+                            <span ng-if="!sessionisDepartmentApproved || sessionisDepartmentApproved==0" class="badge badge-warning">
+                              <i data-toggle="tooltip" data-placement="bottom" title="Pendiente autorizacion" class="fas fa-info-circle">
+                              </i>
+                            </span>
+                            <span ng-if="sessionisDepartmentApproved" class="badge badge-success">
+                              <i data-toggle="tooltip" data-placement="bottom" title="Departamento Aprobado" class="fas fa-check">
+                              </i>
+                            </span>
+                            <button ng-if="sessionisDepartmentApproved" type="button" ng-click="modalConfirmation('removet', 0, sysLoggedUser)" class="pull-right btn btn-sm btn-danger">
+                              <i data-toggle="tooltip" data-placement="bottom" title="Darme de baja" class="fas fa-trash-alt">
+                              </i>
+                            </button>
+                            <button ng-if="!sessionisDepartmentApproved || sessionisDepartmentApproved==0" type="button" ng-click="refresSession(sessionMail)" class="pull-right btn btn-sm btn-primary">
+                              <i data-toggle="tooltip" data-placement="bottom" title="Actualizar" class="fas fa-redo-alt">
+                              </i>
+                            </button>
+                        </h5>
+                      </div>
+                    </div>
+                    <!-- THERE IS NOT A DEPARTMENT ASSIGNED --
+                    <div ng-if="!sessionidAddress && !sessionIdDeparmentKf">
+                      <div class="text">
+                          <h4 class="text-muted"><span class="badge badge-light"> No asociado</span></h4>
+                          <button type="button" ng-click="modalCodeConfirmation()" class="btn btn-sm btn-primary">
+                          <i data-toggle="tooltip" data-placement="bottom" title="Asociar un Nuevo departamento" class="fas fa-plus">
+                          </i>  Departamento
+                          </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div ng-if="sysCheckResult && !sessionIdDeparmentKf && !sessionidAddress" class="container-fluid justify-content-md-center col-md-12">
+                <form class="form-horizontal" name="frmDpto" ng-submit="sysAssignDep2Tenant()">
+                      <fieldset>
+                        <!-- Address for Owner--
+                        <div ng-show="sessionidProfile==3 || sessionidProfile==5 || sessionidProfile==6" class="form-group col-md-6">
+                           <label style="padding-left: 15px;">Consorcio</label>
+                              <div class="col-xs-12">
+                                <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                  <input name="idAddressAtt" readonly="true" class="form-control" ng-model="manage.idAddrName" type="text" required autofocus />
+                                </div>
+                              </div>
+                        </div>
+                        <!-- Select Department --
+                        <div ng-show="sessionidProfile==3 || sessionidProfile==5 || sessionidProfile==6" class="form-group col-md-4">
+                          <label style="padding-left: 15px;">Departamento</label>
+                            <div class="col-xs-12 selectContainer">
+                              <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon icon-building"></i></span>
+                                  <select id="idDepartmentKf" ng-model="select.idDepartmentKf"  ng-disabled="dptoNotFound!=false" class="form-control" ng-options="x.idDepartment as x.departmentFloor for x in ListDpto " required autofocus >
+                                    <option value="">Seleccione</option>
+                                  </select>
+                              </div>
+                          </div>
+                        </div>
+                        <!-- Actions Button --
+                        <div ng-show="sessionidProfile==3 || sessionidProfile==5 || sessionidProfile==6" class="form-group col-md-2">
+                          <br>
+                          <div class="col-xs-12">
+                            <button type="submit" class="btn btn-primary" ng-disabled="dptoNotFound!=false" >Asociar</button>
+                          </div>
+                        </div>
+                      </fieldset>
+                </form>
+              </div>
+        </div>-->
+        <div class="clear-fix"></div>
+        <div class="col-md-10 col-xs-8 n-padding-l n-padding-r">
+            <div>
+              <div ng-if="sysSubContent=='associateNewDepartment' && newDeparment && sysCheckResult" class="col-md-12 n-padding-l n-padding-r">
+                <div ng-include="'views/buildings/associateNewDepartment.html'"></div>
+              </div>
+              <div ng-if="sysSubContent=='myDepartments'" class="col-md-12">
+                <div ng-include="'views/buildings/myDepartments.html'"></div>
+              </div>
+            </div>
+          </div>
+      </div>
+    </div>
+</div>

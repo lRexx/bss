@@ -1,0 +1,167 @@
+<!-- CUSTOMER REGISTER FORM -->
+<div id="UpdateModalCustomer" class="modal fade bd-example-modal-lg" style="top: 10px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" ng-click="modalConfirmation('closeCustomerWindow', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="fas fa-pen-square"></i> CLIENTE: 
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;">{{customer.update.idClient}}</span> :: 
+                <span class="text-uppercase" style="font-weight: 600;">{{customer.update.name}}</span><!-- [
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.update.idClientTypeFk==1">Administracion</span>
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.update.idClientTypeFk==2">Edificio</span>
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.update.idClientTypeFk==3">Empresa</span>
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.update.idClientTypeFk==4">Sucursal</span>
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.update.idClientTypeFk==5">Particular</span>]-->
+                <label ng-if="customer.update.IsInDebt==0 || customer.update.IsInDebt==null" class="label label-success">HABILITADO</label>
+                <label ng-if="customer.update.IsInDebt==1 && customer.update.IsInDebt!=null" class="label label-warning">INHABILITADO</label>
+              </h3>
+          </div>
+        <div class="modal-body" style="overflow-y: scroll;padding-left: 0px;padding-right: 0px;">
+        <!-- FORM CONTAINER-->
+        <form name="fUpdateCustomer" novalidate>
+          <div ng-switch on="mySwitch">
+            <fieldset class="animate-switch" ng-switch-when="PASO 1">
+              <!-- Left Colunm -->
+              <div ng-class="customer.update.idClientTypeFk==undefined || customer.update.idClientTypeFk==''?'col-md-12': 'col-md-6'" style="padding-right: 0px;">
+                <div class="row-fluid">
+                <!-- Customer Type -->
+                <div ng-include="'views/customer/update/components/comp_customerType.html'"></div> 
+                <!-- Customer Type of Inmueble -->
+                <div ng-include="'views/customer/update/components/comp_typeOfInmueble.html'"></div>
+                <div ng-if="customer.update.idClientTypeFk!=undefined && customer.update.idClientTypeFk!=''" class="form-group col-md-12" ng-class="
+                    { 'has-success': 
+                      customer.update.idClientAssociated_SE!='' && fUpdateCustomer.uidClientAssociated_SE.$valid,
+                    }">
+                  <label style="padding-left: 15px;">Numero de cliente (Sistema de Gestion) - opcional</label>  
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fas fa-file-invoice"></i></span>
+                        <input  name="uidClientAssociated_SE" autofocus="true" placeholder="numero de cliente" class="form-control" ng-model="customer.update.idClientAssociated_SE" ng-blur="enabledNextBtn();"  type="text" autofocus/>
+                      </div>
+                </div>                  
+                  <!--<div style="margin-top: 2em;" class="form-group form-inline col-md-6" ng-if="(customer.update.idClientTypeFk==4 || customer.update.idClientTypeFk==5) && customer.update.idClientTypeFk!='' && customer.update.typeInmueble==1">
+                    <table>
+                      <tr>
+                        <td style="padding-top: 5px; width: 1%;">
+                                        <label class="switch switch-1x">
+                                          <input type="checkbox" class="success" ng-required="customer.update.idClientTypeFk==2 || customer.update.idClientTypeFk==4" ng-change="getCompanyDataFn(selectCustomerAdministrationId.selected);" ng-model="customer.update.isNotCliente" id="checkbuttonBuilding">
+                                          <span class="slider slider-1x flat"></span>
+                                        </label>
+                        </td>
+                                      <td style="font-weight: 600; width: 5%;">
+                                        <label for="checkbuttonBuilding" style="cursor: pointer;">Edificio cliente</label>
+                                      </td>
+                      </tr>
+                    </table>
+
+                      <input id="radiobuttonBuilding" type="checbox" name="radiobuttonBuilding" class="radio-customers" ng-model="customer.update.isNotCliente" required autofocus>                      
+                    </div>-->                   
+                </div>                  
+                <!-- Customer Basic Inputs -->
+                <div ng-if="customer.update.idClientTypeFk!='' && customer.update.idClientTypeFk!=undefined" ng-include="'views/customer/update/components/comp_customerBasicInputs.html'"></div>  
+                <!-- Address list-->
+                <div ng-if="customer.update.idClientTypeFk!='' && customer.update.idClientTypeFk!=undefined && customer.update.idClientTypeFk!='5'" ng-include="'views/customer/update/components/comp_addressInputs.html'"></div>
+                <!-- DIRECCIONES DE UN PARTICULAR -->
+                <div ng-if="customer.update.idClientTypeFk==5" ng-include="'views/customer/update/components/comp_particularAddress.html'"></div>   
+                <!-- Administration list-->
+                <div ng-if="(customer.update.idClientTypeFk==2 || customer.update.idClientTypeFk==4)" ng-include="'views/customer/update/components/comp_companiesList.html'"></div>
+                <!-- Zone -->
+                <div ng-if="customer.update.idClientTypeFk==2 || customer.update.idClientTypeFk==4" ng-include="'views/customer/update/components/comp_zoneInput.html'"></div>
+              </div>
+              <!-- Right Colunm -->
+              <div ng-class="customer.update.idClientTypeFk==undefined || customer.update.idClientTypeFk==''?'col-md-12': 'col-md-6'">
+                <!-- Zone -->
+                <div ng-if="customer.update.idClientTypeFk!=2 && customer.update.idClientTypeFk!=4 && customer.update.idClientTypeFk!=5" ng-include="'views/customer/update/components/comp_zoneInput.html'"></div>                 
+                <!-- website -->
+                <div ng-if="customer.update.idClientTypeFk!='' && customer.update.idClientTypeFk!=undefined && customer.update.idClientTypeFk!=2 && customer.update.idClientTypeFk!=4 && customer.update.idClientTypeFk!=5" class="form-group col-md-12">
+                  <label style="padding-left: 15px;">Pagina web</label>  
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="fas fa-code"></i></span>
+                        <input  name="typeOtherAtt" autofocus="true" class="form-control" placeholder="website.com" ng-model="customer.update.pageWeb"  type="text" autofocus/>
+                      </div>
+                </div>
+                <!-- Particular Inputs Fields -->
+                <div ng-if="customer.update.idClientTypeFk==5" ng-include="'views/customer/update/components/comp_particularInputs.html'"></div>                                  
+                      <!-- Schedule Atention -->
+                        <div ng-if="customer.update.idClientTypeFk!='' && customer.update.idClientTypeFk!=undefined && customer.update.idClientTypeFk!=5" class="col-md-12" ng-include="'views/customer/update/components/comp_scheduleTime.html'"></div> 
+                <!-- mail default -->
+                <!--
+                <div class="form-group col-md-12">
+                  <label style="padding-left: 15px;" >Mail principal</label> 
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                        <input name="mailCustomer"  ng-blur="checkEmail('mailCustomer'); enabledNextBtn(); customer.update.mail=emailFound==true?'':customer.update.mail" placeholder="indique mail" class="form-control" ng-model="customer.update.mail" type="email" required autofocus />
+                    </div>
+                    <br>
+                    <div ng-if="emailFound && customer.update.mail && msgTimer && mailCustomer" class="alert alert-warning" role="alert">
+                            <strong><i class="fas fa-exclamation-circle">&nbsp </i>INFO: </strong><br>correo registrado en el usuario, <strong>{{mailFoundNameUser}}</strong>.
+                        </div>          
+                </div>-->                                 
+              </div>    
+            </fieldset>
+            <fieldset class="animate-switch" ng-init="enabledNextBtn();" ng-switch-when="PASO 2">
+              <!-- Left Colunm -->
+              <div class="col-md-6" ng-if="customer.update.idClientTypeFk!=5">   
+                <!-- Mails -->
+                <div ng-include="'views/customer/update/components/comp_customerMails.html'"></div>
+                <!-- Phones List -->                
+                <div ng-include="'views/customer/update/components/comp_phonesList.html'"></div>    
+                <!-- allowed users -->
+                <div ng-include="'views/customer/update/components/comp_allowedUserList.html'"></div>          
+              </div>
+              <!-- Right Colunm -->
+              <div ng-class="{'col-md-6':customer.update.idClientTypeFk!=5, 'col-md-6 col-md-offset-3': customer.update.idClientTypeFk==5 }">
+                <!-- Coments fields -->
+                <div ng-if="customer.update.idClientTypeFk!=5" ng-include="'views/customer/update/components/comp_comments.html'"></div>
+                <!-- PAYMENT FIELDS -->
+                <div ng-if="customer.update.idClientTypeFk==5" ng-include="'views/customer/update/components/comp_paymentInputsFields.html'">
+                </div>
+              </div>                
+            </fieldset>
+            <fieldset  class="animate-switch" ng-switch-when="DEPARTAMENTOS">
+              <div class="col-md-12">
+                <!-- DEPARTMENTS -->            
+                <div ng-if="customer.update.idClientTypeFk==2" class="col-md-12 n-padding-l n-padding-r" style="padding-right: 0px;" ng-include="'views/customer/update/components/comp_departmentList.html'">                        
+                      </div>                
+              </div>
+            </fieldset>             
+            <fieldset ng-switch-when="FINALIZAR">
+              <div class="col-md-6 col-md-offset-3">
+                <!-- PAYMENT FIELDS -->
+                <div ng-if="(customer.update.idClientTypeFk!=5)" ng-include="'views/customer/update/components/comp_paymentInputsFields.html'">
+                </div>
+              </div>
+            </fieldset>         
+          </div>
+        </form>
+        <div class="clearfix"> </div> 
+      </div>   
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-6 col-sm-6 col-md-6 pull-right">
+                      <button type="submit" 
+                          ng-click="switchCustomersFn('update', customer.update)" 
+                          ng-show="!hasNextStep() || (customer.update.idClientTypeFk==5 && stepIndexTmp==1)" 
+                          ng-disabled="fUpdateCustomer.$invalid" 
+                          class="btn btn-labeled btn-success">
+                          Enviar<span class="btn-label-right"><i class="glyphicon glyphicon-send"></i> </span></button>                        
+                        <!--enabledNextBtn(); loadFieldsTo2Step(); ng-disabled="formValidated!=true"-->
+                      <button ng-click="enabledNextBtn(); incrementStep(); loadFieldsTo2Step('update');" ng-if="((customer.update.idClientTypeFk==5 && stepIndexTmp==0) || (customer.update.idClientTypeFk!=5 && btnShow))" class="btn btn-labeled btn-primary">
+                          Siguiente<span class="btn-label-right"><i class="fas fa-arrow-circle-right"></i></span></button>
+                </div>
+                <div class="col-xs-1 col-sm-1 col-md-1 pull-left">
+                     <button type="button" ng-click="decrementStep();" ng-show="btnBack" class="btn btn-labeled btn-primary">
+                        <span class="btn-label"><i class="fas fa-arrow-circle-left"></i></span>Atras</button>
+                </div>              
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // CUSTOMER REGISTER FORM -->
+<div ng-if="!isNewCustomer" ng-include="'views/customer/update/components/comp_buildingUnits.html'"></div>
+<div ng-if="!isNewCustomer" ng-include="'views/customer/update/components/comp_functionalUnits.html'"></div>
+<div ng-if="!isNewCustomer" ng-include="'views/customer/update/components/comp_create_particular_address.html'"></div>
+<div ng-if="!isNewCustomer" ng-include="'views/customer/update/components/comp_addrLat_Lon.html'"></div>
+<div ng-if="!isNewCustomer" ng-include="'views/customer/update/components/comp_allowedUserInfo.html'"></div>
+<div ng-if="!isNewCustomer" ng-include="'views/customer/new/components/newDeptoCustomerNotClient.html'"></div>
+

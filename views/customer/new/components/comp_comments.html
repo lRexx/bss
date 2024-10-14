@@ -1,0 +1,22 @@
+<!-- Comments for keyorder -->
+<div class="form-group col-md-12" ng-if="(customer.new.idClientTypeFk==1 || customer.new.idClientTypeFk==2)" >
+  <label class="col-xs-12" >Observaciones de pedidos de llaveros</label> 
+		<textarea style="resize: none;" name="observationOrderKey" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="customer.new.observationOrderKey" ></textarea>
+</div>							
+
+<!-- Comments for technical services -->
+<div class="form-group col-md-12" ng-if="(customer.new.idClientTypeFk!=5)">
+  <label class="col-xs-12" >Observaciones de servicios t&#233;cnicos</label> 
+		<textarea style="resize: none;" name="observationSericeTecnic" rows="3" ng-disabled="(customer.new.idClientTypeFk==5)" placeholder="indique las Observaciones." class="form-control" ng-model="customer.new.observationSericeTecnic" ng ></textarea>
+</div>										
+
+<!-- Comments for payments -->
+<div class="form-group col-md-12" ng-if="(customer.new.idClientTypeFk!=5)">
+  <label class="col-xs-12" >Observaciones de  Cobranzas</label> 
+		<textarea style="resize: none;" name="sruTenant" rows="3" ng-disabled="(customer.new.idClientTypeFk==5)" placeholder="indique las Observaciones." class="form-control" ng-model="customer.new.observationCollection" ></textarea>
+</div>
+<!-- General Comments -->
+<div class="form-group col-md-12" ng-if="(customer.new.idClientTypeFk!=5)">
+  <label class="col-xs-12">Observaciones Generales</label> 
+		<textarea style="resize: none;" name="observation" rows="3" ng-disabled="(customer.new.idClientTypeFk==5)" placeholder="indique las Observaciones." class="form-control" ng-model="customer.new.observation" ></textarea>
+</div>

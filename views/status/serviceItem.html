@@ -1,0 +1,593 @@
+<!-- Modal Members Type -->
+<div id="selectServiceItem" class="modal fade modal-dialog-centered" role="dialog">
+	<div class="modal-dialog modal-xs" >
+	    <div class="modal-content">
+	    	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title">{{serviceSelected.winName | uppercase}}
+            	</h3>
+        	</div>
+	    	<div class="modal-body n-padding-l n-padding-r">
+				<!-- SERVICE DETAILS-->
+                    <div  class="col-md-12 service-status">
+                        <legend>Detalles del servicio</legend>
+                        <!-- CONTROL ACCESS SERVICES -->
+                        <div ng-if="serviceSelected.idTipeServiceFk=='1'" class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="door"><i class="fas fa-door-open" ></i>Puerta: <label class="text-uppercase label label-default">{{serviceSelected.titulo}}</label></span>
+                                <span ng-if="serviceSelected.idDoorFk=='7'" class="text-warning">{{serviceSelected.aclaration}} </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="device"><i class="fas fa-laptop"></i>Dispositivo:
+                                    <!--<label data-toggle="tooltip" data-placement="top" title="Marca" class="text-uppercase label label-default">{{serviceSelected.idAccessControlFk_array[0].brand}}</label>--> 
+                                    <label data-toggle="tooltip" data-placement="top" title="Modelo" class="text-uppercase label label-primary">{{serviceSelected.idAccessControlFk_array[0].model}}</label>
+                                </span>
+                            </div>
+                                <!--<span><i class="fas fa-key"></i> Dispositivos de apertura: 
+                                <label data-toggle="tooltip" data-placement="top" title="Cantidad de dispositivos" class="text-uppercase label label-primary">{{serviceSelected.tb_open_devices_access_control_array.length}}</label> | </span>-->
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="location"><i class="fas fa-search-location"></i> Ubicacion: 
+                                    <label class="text-uppercase label label-default">{{serviceSelected.locationGabinet}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="mnt-type"><i class="fas fa-search-location"></i> Tipo de mantenimiento: 
+                                    <label class="text-uppercase label label-default">{{serviceSelected.idTypeMaintenanceFk_array[0].typeMaintenance}}</label>
+                                </span>
+                            </div>
+                            <!-- SERVICE PRODUCTS-->
+                            <!-- Control_de_Acceso: entranceReader -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Lector de entrada</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
+                                        <input name="service_entranceReader" type="text" class="form-control" ng-model="serviceSelected.idInputReaderFk_array[0].descriptionProduct" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Control_de_Acceso: lock -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Cerradura</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-lock"></i></span>
+                                        <input name="service_locked" type="text" class="form-control" ng-model="serviceSelected.lock_array[0].descriptionProduct" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Control_de_Acceso: powerSupply -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Fuente</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-plug"></i></span>
+                                        <input name="service_powerSupply" type="text" class="form-control" ng-model="serviceSelected.idFontFk_array[0].descriptionProduct" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Control_de_Acceso: exitReader -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label ng-if="!serviceSelected.isOuputButom">Lector de salida</label>
+                                <label ng-if="serviceSelected.isOuputButom">Pulsador de salida</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
+                                        <input name="service_entranceReader" type="text" class="form-control" ng-model="serviceSelected.ouputReader_array[0].descriptionProduct" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-12  n-padding-l n-padding-r">
+                                <legend>Dispositivos de Apertura</legend>
+                                <div class="n-padding-t n-padding-b" ng-class="{'n-padding-l n-padding-r':list_open_devices.length>0}" style="margin-left: 0px;margin-right: 0px;">
+                                    <table ng-if="list_open_devices.length>0" class="tbl-open-devices">
+                                    <tr ng-repeat="device in list_open_devices" style="line-height: 2;">
+                                        <td style="width: 5%;"><label class="label label-default">{{$index+1}}</label></td>
+                                        <td style="width: auto" class="colum-desc"><span class="text-muted text-uppercase text-box">{{device.classification | uppercase}} </span></td>
+                                        <!--<td style="width: 15%"><span class="text-muted text-box">Modelo:<label class="label label-default">{{device.model | uppercase}}</label></span></td>-->
+                                        <td style="width: auto"><label data-toggle="tooltip" data-placement="top" title="Marca" class="label label-default"><i class="text-warning fas fa-tag"> </i> {{device.brand | uppercase}}</label></td>
+                                        <!--<td style="padding-bottom: 5px;">
+                                        <button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(device)" ng-disabled="!device.idOpenDevice" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i></button>
+                                        </td>-->
+                                        </tr>
+                                    </table>
+                                    <div ng-if="list_open_devices.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay dispositivos de apertura cargados</h5></div>
+                            </div>
+                            </div>
+                            <div class="col-md-12  n-padding-l n-padding-r">
+                                <legend>Baterias instaladas</legend>
+                                <div class="n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+                                    <table ng-if="list_batteries.length>0">
+                                    <tr ng-repeat="battery in list_batteries">
+                                        <td style="width: 0%; padding: 0 10px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
+                                            <td style="width: 55%"><span style="font-size: 85%" class="text-muted text-uppercase text-box">{{battery.descriptionProduct | uppercase}} </span></td>
+                                            <td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Modelo: <label style="font-size: 85%" class="label label-default">{{battery.model | uppercase}}</label></span></td>
+                                            <td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca: <label style="font-size: 85%" class="label label-default">{{battery.brand | uppercase}}</label></span></td>
+                                            <td style="padding-bottom: 5px; width: 15%">
+                                                <!--<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(battery)" ng-disabled="!battery.idBatteryFk" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+                                                <button ng-if="battery.idBatteryFk" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeSubItemProductDetailsFn(battery)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>-->
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div ng-if="list_batteries.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay baterias cargadas</h5></div>
+                                </div>
+                            </div>
+                            <!-- Control_de_Acceso: EmergencyButton -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Pulsador de Emergencia</label>
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-square"></i></span>
+                                        <input name="service_emergencyButton" type="text" class="form-control" ng-model="serviceSelected.idEmergencyButtonFk_array[0].descriptionProduct" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Control_de_Acceso: TurnOffKeyboard -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Tecla de apagado</label>
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-keyboard"></i></span>
+                                        <input name="service_TurnOffKey" type="text" class="form-control" ng-model="serviceSelected.idShutdownKeyFk_array[0].descriptionProduct" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- INTERNET SERVICES -->
+                        <div ng-if="serviceSelected.idTipeServiceFk=='2'" class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="net-type"><i class="fas fa-network-wired"></i> Tipo: 
+                                    <label class="text-uppercase label label-default">{{serviceSelected.nombre}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="isp-provider"><i class="fas fa-broadcast-tower"></i> Proveedor:  
+                                    <label class="text-uppercase label label-default">{{serviceSelected.idInternetCompanyFk_array[0].internetCompany}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="isp-type"><i class="fas fa-tachometer-alt"></i> Servicio: 
+                                    <label class="text-uppercase label label-default">{{serviceSelected.idServiceFk_array[0].typeInternet}}</label>
+                                </span>
+                            </div>
+                            <!--<div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="services-associated"><i class="fas fa-arrow-alt-circle-right"></i> Servicios Asociados: 
+                                    <span ng-if="serviceSelected.idServiceAsociateFk_array.length>0" ng-repeat="(key, value) in serviceSelected.idServiceAsociateFk_array | orderBy:'idTipeServiceFk' | groupBy: 'idTipeServiceFk'"><br>
+                                        <label ng-if="key=='1'" class="text-uppercase label label-default">Control de acceso</label>
+                                        <label ng-if="key=='2'" class="text-uppercase label label-default">Internet</label>
+                                        <label ng-if="key=='3'" class="text-uppercase label label-default">Totem</label>
+                                        <label ng-if="key=='4'" class="text-uppercase label label-default">Camaras</label>
+                                        <label ng-if="key=='5'" class="text-uppercase label label-default">Alarma</label>
+                                        <label ng-if="key=='6'" class="text-uppercase label label-default">App monitor</label>
+                                        <span class="badge badge-success">{{value.length}}</span>
+                                    </span>
+                                    <span ng-if="serviceSelected.idServiceAsociateFk_array.length==0">
+                                        <label class="text-uppercase label label-warning">No Asociados</label>
+                                    </span>
+                                </span>
+                            </div>-->
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="mnt-type"><i class="fas fa-search-location"></i> Tipo de mantenimiento: 
+                                    <label class="text-uppercase label label-default">{{serviceSelected.idTypeMaintenanceFk_array[0].typeMaintenance}}</label>
+                                </span>
+                            </div>
+                            <!-- SERVICE PRODUCTS-->
+                            <!-- INTERNET: Modem -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Modem</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
+                                        <input name="service_modem" type="text" class="form-control" ng-model="serviceSelected.idModemInternetFk_array[0].descriptionProduct" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- INTERNET: Router -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Router</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-wifi"></i></span>
+                                        <input name="service_router" type="text" class="form-control" ng-model="serviceSelected.idRouterInternetFk_array[0].descriptionProduct" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Control_de_Acceso: powerSupply -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Puerto de programaci&#243;n</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+                                        <input name="service_programPort" type="text" class="form-control" ng-model="serviceSelected.port" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- INTERNET: Service Associated -->
+                            <div class="col-md-12  n-padding-l n-padding-r">
+                                <legend>Servicios Asociados</legend>
+                                <div class="n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+                                    <table ng-if="rsServicesListByCustomerIdData.length>0">
+                                    <tr ng-repeat="item in rsServicesListByCustomerIdData | filter:filterAssociatedServices">
+                                        <td style="width: 0%; padding: 0 10px 0 10px;"><label style="font-size: 80%" class="label label-default">{{item.idClientServices}}</label></td>
+                                            <td style="width: 55%">
+                                                <span ng-if="item.idTipeServiceFk=='1'" style="font-size: 85%" class="text-muted text-uppercase text-box">Puerta {{item.service[0].titulo | uppercase}} {{item.service[0].name | uppercase}}</span>
+                                                <span ng-if="item.idTipeServiceFk!='1'" style="font-size: 85%" class="text-muted text-uppercase text-box">{{item.service[0].titulo | uppercase}} {{item.service[0].name | uppercase}}</span>
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div ng-if="rsServicesListByCustomerIdData.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay servicios asociados</h5></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 ">
+                                <legend>VPN</legend>
+                                <div class="n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+                                    <span ng-if="serviceSelected.userAdmin!='' && serviceSelected.userAdmin!=undefined" class="badge" ng-class="{'badge-success': serviceSelected.userAdmin!='' && serviceSelected.userAdmin!='', 'badge-warning': serviceSelected.userAdmin=='' || serviceSelected.userAdmin==null }">
+                                        <i class="fas fa-check-circle"></i><span> Usuario</span>
+                                    </span>
+                                    <span class="badge" ng-class="{'badge-success': serviceSelected.passAdmin!='' && serviceSelected.passAdmin!='', 'badge-warning': serviceSelected.passAdmin=='' || serviceSelected.passAdmin==null}">
+                                        <i class="fas fa-check-circle"></i><span> Contraseña</span>
+                                    </span>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 ">
+                                <legend>WIFI</legend>
+                                <div class="n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+                                    <span ng-if="serviceSelected.userWifi!='' && serviceSelected.userWifi!=undefined" class="badge" ng-class="{'badge-success': serviceSelected.userWifi!='' && serviceSelected.userWifi!='', 'badge-warning': serviceSelected.userWifi=='' || serviceSelected.userWifi==null}">
+                                        <i class="fas fa-check-circle"></i><span> Usuario</span>
+                                    </span>
+                                    <span class="badge" ng-class="{'badge-success': serviceSelected.passWifi!='' && serviceSelected.passWifi!='', 'badge-warning': serviceSelected.passWifi=='' || serviceSelected.passWifi==null}">
+                                        <i class="fas fa-check-circle"></i><span> Contraseña</span>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- CAMERAS & TOTEM SERVICES -->
+                        <div ng-if="serviceSelected.idTipeServiceFk=='4' || serviceSelected.idTipeServiceFk=='3'" class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="camera-service">
+                                    <label class="text-uppercase label label-default">{{serviceSelected.name}}</label>
+                                </span>
+                            </div>
+                            <div ng-if="serviceSelected.idTipeServiceFk=='3'" class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="monitor-company"><i class="fas fa-video"></i> Empresa de monitoreo
+                                    <label class="text-uppercase label label-default">{{serviceSelected.idCompanyFk_array[0].monitorCompany}}</label>
+                                </span>
+                            </div>
+                            <div ng-if="serviceSelected.idTipeServiceFk=='3'" class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="totem-type"><i class="fas fa-cubes"></i> Tipo de totem 
+                                    <label class="text-uppercase label label-default">{{serviceSelected.idTotenModelFk_array[0].totenModel}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="camera-dvr"><i class="fas fa-video"></i> DVR/NVR Canales 
+                                    <label class="text-uppercase label label-warning">{{serviceSelected.maxCamera}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="camera-installed"><i class="fas fa-video"></i> Camaras instaladas
+                                    <label ng-if="serviceSelected.tb_cameras_array" class="text-uppercase label label-success">{{serviceSelected.tb_cameras_array.length}}</label>
+                                    <label ng-if="serviceSelected.tb_cameras_totem_array" class="text-uppercase label label-success">{{serviceSelected.tb_cameras_totem_array.length}}</label>
+                                </span>
+                            </div>
+                            <!-- SERVICE PRODUCTS-->
+                            <!-- DVR -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>DVR/NVR</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-video"></i></span>
+                                        <span name="service_dvr" type="text" class="form-control" ng-disabled="true" >{{serviceSelected.idDvr_nvrFk_array[0].brand}} {{serviceSelected.idDvr_nvrFk_array[0].descriptionProduct}} </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- LOCATION -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>UBICACIÓN</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-map-marker-alt"></i></span>
+                                        <span name="service_dvr_location" type="text" class="form-control" ng-disabled="true" >{{serviceSelected.location}} </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <legend>Backups de Energia</legend>
+                                <div class="n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+                                    <table ng-if="list_batteries.length>0">
+                                        <tr ng-repeat="battery in list_batteries">
+                                            <td style="width: 0%; padding: 0 10px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
+                                            <td style="width: 55%"><span style="font-size: 85%" class="text-muted text-uppercase text-box">{{battery.descriptionProduct | uppercase}} </span></td>
+                                            <td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Modelo: <label style="font-size: 85%" class="label label-default">{{battery.model | uppercase}}</label></span></td>
+                                            <td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca: <label style="font-size: 85%" class="label label-default">{{battery.brand | uppercase}}</label></span></td>
+                                            <td style="padding-bottom: 5px; width: 15%">
+                                                <!--<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(battery)" ng-disabled="!battery.idBatteryFk" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+                                                <button ng-if="battery.idBatteryFk" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeSubItemProductDetailsFn(battery)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>-->
+
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div ng-if="list_batteries.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay baterias cargadas</h5></div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <legend>Camaras</legend>
+                                <div class="n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+                                    <table ng-if="list_cameras.length>0">
+                                        <tr ng-repeat="camera in list_cameras">
+                                          <td style="width: 1%; padding: 0 10px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
+                                            <td style="width: 55%"><span  style="font-size: 85%" class="text-muted text-uppercase text-box">
+                                            <span style="font-size: 100%" data-toggle="tooltip" data-placement="top" title="Marca" class="label label-default">{{camera.brand | uppercase}}</span>
+                                            <!--<span class="label label-default">{{camera.model | uppercase}}</span>-->{{camera.descriptionProduct | uppercase}} </span></td>
+                                            <td style="width: 15%"><span class="text-muted text-box" style="font-size: 100%">Puerto: <label class="label label-default">{{camera.portCamera | uppercase}}</label></span></td>
+                                            <!--<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca:<label style="font-size: 85%" class="label label-default">{{camera.brand | uppercase}}</label></span></td>-->
+                                              <!--<td style="padding-bottom: 5px; width: 15%">
+                                                <button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(camera)" ng-disabled="!camera.idCameraFk" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+                                              </td>-->
+                                          </tr>
+                                      </table>
+                                      <div ng-if="list_cameras.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay camaras cargadas</h5></div>
+                                </div>
+                            </div>
+                            <div class="col-md-12  n-padding-l n-padding-r">
+                                <legend>Usuarios DVR/NVR</legend>
+                                <div class="n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+                                    <table  id="tableUseLicences" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover">
+                                        <thead style=" background: #4d5d6f; color: white;">
+                                          <tr style="text-align: center;">
+                                              <th width="2%" class="media-middle text-center"># 
+                                                <!--<span ng-click="sort_by('idDepartmentFk')" class="glyphicon sort-icon" ng-show="sortingOrder=='idDepartmentFk'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>-->
+                                              </th>
+                                              <th width="5%" class="media-middle text-center" ><i class="fas fa-users-cog"> </i></th>
+                                              <th width="5%" class="media-middle text-center" ><i class="fas fa-qrcode"> </i></th>
+                                              <th width="45%" class="media-middle text-center">Nombres</th>
+                                              <th width="15%" class="media-middle text-center">Usuario</th>
+                                              <th width="15%" class="media-middle text-center">Clave</th> 
+                                              <!--<span ng-click="sort_by('fullName')"class="glyphicon sort-icon" ng-show="sortingOrder=='fullName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>-->
+                                              <!--<th width="13%"class="media-middle text-center">Opciones</th>-->
+                                          </tr>
+                                        </thead>
+                                        <tbody>
+                                          <!-- Show if there is customer registered -->
+                                          <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">-->
+                                            <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="user in list_user">
+                                            <td class="media-middle text-center"><span>{{$index+1}}</span></td>
+                                            <!-- USER SYSTEM -->
+                                            <td ng-trim="true" class="media-middle text-center" >
+                                              <span ng-if="user.idClientFk" data-toggle="tooltip" data-placement="top" title="Usuario del sistema" class="font-size-18px" style="color: #5cb85c">
+                                                  <i class="text-success fas fa-check-circle"></i>
+                                              </span>          
+                                              <span ng-if="!user.idClientFk" style="font-size: 75%;" data-toggle="tooltip" data-placement="top" title="No Registrado" class="text-warning media-middle text-center font-size-18px"><i class="fas fa-lightbulb"></i></span>
+                                            </td>
+                                            <td class="media-middle text-center">
+                                              <span ng-if="user.qrCode" style="font-size: 75%;" class="btn qrcode btn-xs btn-warning" data-img={{user.qrCode}} title="Codigo QR"><i class="fas fa-eye"></i></span>
+                                              <span ng-if="!user.qrCode" style="font-size: 75%;" data-toggle="tooltip" data-placement="top" title="No QR asociado" class="text-warning media-middle text-center font-size-18px"><i class="fas fa-exclamation-triangle"></i></span>          
+                                            </td>        
+                                            <!--NAMES -->
+                                            <td ng-click="loadSelectedUserDVRFn(user)" ng-trim="true"> <span class="media-middle font-size-18px"> {{user.name}}</span></td>
+                                            <!--Username -->
+                                            <td ng-trim="true" class="media-middle text-center"><span class="text-muted text-box">{{user.user}}</span></td>
+                                            <!--Password -->
+                                            <td ng-trim="true" class="media-middle text-center"><span class="text-muted text-box">{{user.pass}}</span></td>        
+                                            <!--<td class="media-middle text-center">
+                                               <button style="font-size: 70%" data-toggle="tooltip" data-placement="top" title="PDF" ng-click="generatePDF(user, service);" class="btn btn-xs btn-success"><i class="fas fa-file-pdf"></i></button>
+                                              <button style="font-size: 70%" data-toggle="tooltip" data-placement="top" title="Ver" ng-click="loadSelectedUserDVRFn(user);" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i></button>
+                                              <button ng-if="!isListCustomerService" style="font-size: 70%" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeServiceUserDetailsFn(user);" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
+                                    
+                                            </td>  -->      
+                                          </tr>
+                                        </tbody>
+                                    </table> 
+                                      <div ng-if="list_user.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay usuarios cargadas</h5></div>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- ALARM SERVICE -->
+                        <div ng-if="serviceSelected.idTipeServiceFk=='5'" class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="alarm-service">
+                                    <label class="text-uppercase label label-default">{{serviceSelected.name}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="monitor-company"><i class="fas fa-video"></i> Empresa de monitoreo
+                                    <label class="text-uppercase label label-default">{{serviceSelected.companyMonitor_array[0].monitorCompany}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="alarm-sensors"><i class="fas fa-dot-circle"></i> Sensores (Zonas)</span>
+                            </div>
+                            <div class="col-md-6 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="alarm-zone-total"><i class="fas fa-video"></i> Total:
+                                    <label class="text-uppercase label label-warning">{{serviceSelected.countZoneIntaled}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-6 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="alarm-zone-installed"><i class="fas fa-video"></i> Asignadas:
+                                    <label class="text-uppercase label label-success">{{serviceSelected.tb_sensors_alarm_array.length}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="alarm-conn"><i class="fas fa-video"></i> Modulo de conexion: 
+                                    <span ng-if="serviceSelected.tb_tipo_conexion_remoto_array!=undefined && serviceSelected.tb_tipo_conexion_remoto_array.length>0" ng-repeat="connType in serviceSelected.tb_tipo_conexion_remoto_array">
+                                        <label class="text-uppercase label label-success">{{connType.descripcion}}</label>
+                                        <label ng-if="connType.idTipoConexionRemoto=='1'" class="text-uppercase label label-default">{{connType.company}}</label>
+                                        
+                                    </span>
+                                    <span ng-if="serviceSelected.tb_tipo_conexion_remoto_array==undefined || serviceSelected.tb_tipo_conexion_remoto_array==0">
+                                        <label class="text-uppercase label label-warning">No asignado</label>
+                                    </span>
+                                </span>
+                            </div>
+                            <!-- Alarm Panel -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Panel de alarma</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-desktop"></i></span>
+                                        <span name="service_dvr" type="text" class="form-control service_dvr" ng-disabled="true" >({{serviceSelected.panelAlarm_array[0].brand}}) {{serviceSelected.panelAlarm_array[0].descriptionProduct}} </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Teclado de Alarma -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Teclado de Alarma</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-keyboard"></i></span>
+                                        <span name="service_alarm_panel" type="text" class="form-control service_alarm_panel" ng-disabled="true" >({{serviceSelected.keyboardAlarm_array[0].brand}}) {{serviceSelected.keyboardAlarm_array[0].descriptionProduct}} </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <legend>Backups de Energia</legend>
+                                <div class="n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+                                    <table ng-if="list_batteries.length>0">
+                                        <tr ng-repeat="battery in list_batteries">
+                                            <td style="width: 0%; padding: 0 10px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
+                                            <td style="width: 55%"><span style="font-size: 85%" class="text-muted text-uppercase text-box">{{battery.descriptionProduct | uppercase}} </span></td>
+                                            <td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Modelo: <label style="font-size: 85%" class="label label-default">{{battery.model | uppercase}}</label></span></td>
+                                            <td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca: <label style="font-size: 85%" class="label label-default">{{battery.brand | uppercase}}</label></span></td>
+                                            <td style="padding-bottom: 5px; width: 15%">
+                                                <!--<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(battery)" ng-disabled="!battery.idBatteryFk" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+                                                <button ng-if="battery.idBatteryFk" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeSubItemProductDetailsFn(battery)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>-->
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <div ng-if="list_batteries.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay baterias cargadas</h5></div>
+                                </div>
+                            </div>
+							<!-- Alarmas: Sensores de alarma -->
+							<div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <legend>Sensores</legend>
+								<div class="well-checkbox n-padding-t n-padding-b" ng-class="{'n-padding-l n-padding-r':list_sensors.length>0}" style="margin-left: 0px;margin-right: 0px;">
+								  	<table ng-if="list_sensors.length>0">
+                                        <tr>
+                                            <td>
+                                                <div ng-repeat="sensor in list_sensors" style="line-height: 2em;">
+                                                    <div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+                                                        <!-- NUMERO DE ZONA -->
+                                                        <div class="col-md-3 col-xs-3" style="padding: 0 10px 5px 10px;" class="media-middle text-center"><label data-toggle="tooltip" data-placement="top" title="N° de Zona" style="font-size: 75%;" class="label label-default"><i class="text-warning fas fa-grip-horizontal"></i> Zona: {{sensor.numberZoneSensor}}</label></div>
+                                                        <!-- SENSOR Y MARCA -->
+                                                        <div class="col-md-7 col-xs-7"><span style="font-size: 90%" data-toggle="tooltip" data-placement="top" title="{{sensor.sensorDetails.descriptionProduct | uppercase}}" class="text-uppercase text-box">{{sensor.sensorDetails.classification | uppercase}} <label data-toggle="tooltip" data-placement="top" title="Modelo" style="font-size: 75%;" class="label label-default">{{sensor.sensorDetails.model | uppercase}}</label></span></div>
+                                                        <!-- WIRELES SENSOR -->
+                                                        <div class="col-md-2 col-xs-2" ng-if="sensor.isWirelessSensor" class="media-middle text-center" style="padding: 0 10px 5px 10px;"><label data-toggle="tooltip" data-placement="top" title="Sensor Inalámbrico" style="font-size: 75%;" class="label label-default"><i class="text-warning fas fa-wifi"></i></label></div>
+                                                    </div>
+                                                    <div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+
+                                                        <!-- PUERTO DE CAMERA -->
+                                                        <div class="col-md-2 col-xs-2" style="padding: 0 10px 5px 10px;" ng-if="sensor.portCamera!=undefined" class="media-middle text-center"><label data-toggle="tooltip" data-placement="top" title="Puerto de Camara" style="font-size: 75%" class="label label-default"><i class="text-warning fas fa-video"> </i> {{sensor.portCamera | uppercase}}</label></div>                                                        
+                                                        <!-- NUMERO DE ZONA DE TAMPER -->
+                                                        <div class="col-md-4 col-xs-4" style="padding: 0 10px 5px 10px;" class="media-middle text-center">
+                                                            <label ng-if="sensor.nroZoneTamper!=null" data-toggle="tooltip" data-placement="top" title="N° de Zona de Tamper" style="font-size: 75%;" class="label label-default"><i class="text-warning fas fa-grip-horizontal"></i> Tamper: {{sensor.nroZoneTamper}}</label>
+                                                            <label ng-if="sensor.nroZoneTamper==null" data-toggle="tooltip" data-placement="top" title="Tamper No asociado" style="font-size: 75%;" class="label label-default"><i class="text-warning fas fa-grip-horizontal"></i> Tamper: <i class="text-warning fas fa-exclamation-triangle"></i></label>
+                                                        </div>
+                                                        <!-- UBICACION -->
+                                                        <div class="col-md-6 col-xs-6" class="media-middle"><label data-toggle="tooltip" data-placement="top" title="Ubicación" style="font-size: 75%;" class="label label-default"><i class="text-warning fas fa-compass"> </i> {{sensor.locationLon | uppercase}}</label></div>
+                                                    </div>
+                                                </div>
+                                            </td>
+                                        </tr>
+								  	</table>
+								  	<div ng-if="list_sensors.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay sensores cargados</h5></div>
+								</div>						  	
+							</div>	
+                        </div>
+                        <!-- SMART PANIC SERVICE -->
+                        <div ng-if="serviceSelected.idTipeServiceFk=='6'" class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details">
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="monitor-service">
+                                    <label class="text-uppercase label label-default">{{serviceSelected.name}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="monitor-company"><i class="fas fa-video"></i> Empresa de monitoreo
+                                    <label class="text-uppercase label label-default">{{serviceSelected.idCompanyMonitorFK_array[0].monitorCompany}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="monitor-sensors"><i class="fas fa-users"></i> Licencias</span>
+                            </div>
+                            <div class="col-md-6 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="monitor-license-total"><i class="fas fa-users"></i> Solicitadas:
+                                    <label class="text-uppercase label label-warning">{{serviceSelected.countNewLicense}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-6 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="monitor-license-asigned"><i class="fas fa-user-check"></i> Asignadas:
+                                    <label class="text-uppercase label label-success">{{serviceSelected.tb_user_license_array.length}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="monitor-sucribeNumber"><i class="fas fa-video"></i> N° de Abonado
+                                    <label class="text-uppercase label label-default">{{serviceSelected.sucribeNumber}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <span class="monitor-app-name"><i class="fab fa-microsoft"></i> Aplicación
+                                    <label class="text-uppercase label label-default">{{serviceSelected.idApplicationFk_array[0].applicationName}}</label>
+                                </span>
+                            </div>
+                            <div class="col-md-12 col-xs-12 n-padding-l n-padding-r srv-details n-padding-t n-padding-b">
+                                <legend>Licencias asignadas</legend>
+                                <div class="panel-body n-padding-r n-padding-l">
+                                    <!-- LIST OF USER LICENCES -->
+                                    <table  id="tableUseLicences" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover">
+                                        <thead style=" background: #4d5d6f; color: white;">
+                                        <tr style="text-align: center;">
+                                            <th width="10%" class="media-middle text-center">Depto 
+                                                <span class="glyphicon sort-icon" ng-show="sortingOrder=='idDepartmentFk'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                            </th>
+                                            <th width="20%" class="media-middle text-center"> Perfil</th>
+                                            <th width="60%">Nombres 
+                                                <span class="glyphicon sort-icon" ng-show="sortingOrder=='fullName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+                                            </th>
+                                            <th width="5%"class="media-middle text-center" data-toggle="tooltip">S.O</th>
+                                            <!--<th><i class="glyphicon icon-calendar"> </i> Registrado</th>-->
+                                        </tr>
+                                        </thead>
+                                        <tbody>
+                                        <!-- Show if there is customer registered -->
+                                        <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in list_user_licence_idDepartmentList">
+                                            <td class="media-middle text-center">{{item.depto}}</td>
+                                            <td class="media-middle colunm-profile" ng-class="{'text-left': item.idUserFk, 'text-center': !item.idUserFk}">
+                                                <span ng-if="item.idUserFk" data-toggle="tooltip" data-placement="top" title="Usuario Registrado" class="font-size-18px" style="color: #5cb85c">
+                                                    <i class="text-success fas fa-check-circle"></i>
+                                                </span>
+                                                <span ng-if="item.idUserFk">{{item.nameProfile}}</span>
+                                                <span ng-if="!item.idUserFk" data-toggle="tooltip" data-placement="top" title="No Registrado" class="text-warning media-middle text-center font-size-18px" ng-if="service.item_contracted<=0 || service.service_items==undefined"><i class="fas fa-exclamation-triangle"></i></span>
+                                            </td>
+                                            <!--NAMES -->
+                                            <td ng-click="loadSelectedUserLicenceFn(item)" class="colunm-name" ng-trim="true"> <span class="media-middle font-size-18px"> {{item.fullName}}</span></td>
+                                            <!-- Operating System -->
+                                            <td ng-trim="true" class="media-middle text-center colunm-os">
+                                                <span class="text-muted text-box" ng-if="item.idOS=='1'" data-toggle="tooltip" data-placement="top" title="Apple iOS">
+                                                    <span class="font-size-18px"><i class="text-default fab fa-apple"></i></span>
+                                                </span>
+                                                <span class="text-muted text-box" ng-if="item.idOS=='2'" data-toggle="tooltip" data-placement="top" title="Android">
+                                                    <span class="font-size-18px"><i class="text-default fab fa-android"></i></span> 
+                                                </span>
+                                            </td>      
+                                        </tr>
+                                        </tbody>
+                                    </table> 
+                                    <!-- //LIST OF USER LICENCES -->
+                                </div>
+                            </div>
+                        </div>
+				    </div>
+                    <div class="clearfix"> </div> 
+			</div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- //Modal Members Type -->

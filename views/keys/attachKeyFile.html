@@ -1,0 +1,112 @@
+<!-- Attached Key File -->
+<div id="attachKeyFile" class="modal fade " role="dialog" style="margin-top: 130px;">
+    <div class="modal-dialog modal-md" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="product-success fas fa-paperclip"></i> IMPORTAR LISTA DE LLAVES 
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;">{{customer.upload.idClient}}</span>
+                <span class="text-uppercase" style="font-weight: 600;">{{customer.upload.name}}</span>
+              </h3>
+          </div>
+        <div class="modal-body">
+        <!-- FORM CONTAINER-->
+        <form class="form-horizontal" name="fAttachKeyFile" novalidate>
+          <fieldset>
+          	<div class="form-group col-md-12 col-sm-12">
+              <div class="clf-size clf-p-left">
+                <button for="uploadCustomerfiles" class="btn btn-sm m-l btn-file btn-warning">Seleccionar archivo
+                    <input id="uploadKeyFiles" name="uploadKeyFiles" type="file" class="form-control" accept="*/*" onchange="angular.element(this).scope().loadFilesFn(this)" ng-model="filesInput" />
+                </button>
+              </div>
+            </div>
+          	<div ng-if="fileList.length>0" class="form-group " style="margin-top: 20px;">
+                <table style="border: 0 !important;">
+                    <tbody>
+                        <tr ng-repeat="item in fileList">
+                            <td style="vertical-align: middle; padding-left: 20px;" width="20%">
+                              <a href="" class="thumbnail" ng-class="
+                                { 'thumbnail-success': 
+                                  item.uploadStatus==true,
+                                  'thumbnail-warning': 
+                                  item.uploadStatus==false,
+                                  'thumbnail-danger':  
+                                  item.uploadStatus==null,
+                                }">
+                                <img ng-src="{{item.src}}" class="img-responsive" ng-if="item.type.substr(0,5)=='image'"/>
+                                <img src="images/pdf-thumb.png" class="img-responsive" ng-if="item.type=='application/pdf'"/>
+                                <img src="images/doc-thumb.png" class="img-responsive" ng-if="item.type=='application/vnd.openxmlformats-officedocument.wordprocessingml.document' || item.type=='application/msword'"/>
+                                <img src="images/excel-thumb.png" class="img-responsive" ng-if="item.type=='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || item.type=='application/vnd.ms-excel'"/>
+                              </a>
+                            </td>
+                            <td style="vertical-align: middle; padding-left: 30px;" width="80%">
+                              <span>
+                                <label class="label label-default">Nombre:</label>&nbsp;<strong>{{ item.name }}</strong>
+                              </span><br>
+                              <span>
+                                <label class="label label-default">Tamaño:</label>&nbsp;<strong>{{ item.size/1024/1024 | number:2 }} MB</strong>
+                              </span><br>
+                              <span>
+                                <label class="label label-default">Fecha:</label>&nbsp;<strong>{{ item.lastModified | date:'MM/dd/yyyy'}}</strong>
+                              </span><br>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+          	</div>          
+          </fieldset>
+        </form>
+        <div class="clearfix"> </div> 
+      </div>
+      <!-- Actions Button ng-click="newSysProfileFn()"-->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button ng-if="fileList.length>0" type="submit" ng-click="modalConfirmation('uploadFile', 0 ,fileList[0])" ng-disabled="" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="fas fa-cloud-upload-alt"></i> </span>Subir</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+  </div>
+</div>
+<!-- // Upload Customer Files -->
+<!-- Edit FileName Modal -->
+<div class="modal fade" id="editItemTitleModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header"style="padding: 10px !important; background-color: rgba(255, 188, 87, 0.66);">
+            <button ng-click="customer.upload.editFileTitle = !customer.upload.editFileTitle;" type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button><h5 class="modal-title" id="ModalLabel" style="font-weight: 600;"><i class="fas fa-pencil-alt"></i> Editar nombre del archivo</h5>
+          </div>
+          <div class="modal-body">
+            <div class="form-group col-md-12" ng-class="
+                { 'has-success': 
+                  item.fileTitle!='' && fAttachCustFiles.fileTitle.$valid,
+                  'has-error':  
+                  (item.fileTitle=='' || item.fileTitle==undefined) && fAttachCustFiles.fileTitle.$touched,
+                }">
+              <div class="col-xs-12">
+                <div class="input-group">
+                  <span class="input-group-addon"><i class="fas fa-file-upload"></i></span>
+                  <input id="fileTitle" name="fileTitle" type="text" class="form-control" ng-disabled="!customer.upload.editFileTitle" ng-required="customer.upload.editFileTitle" ng-model="item.fileTitle" />
+                </div>
+              </div>
+            </div>
+          </div>
+      <div class="clearfix"> </div>
+          <div class="modal-footer">
+              <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <button type="submit" ng-click="customer.upload.editFileTitle = !customer.upload.editFileTitle; saveItem()"class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Modificar</button>
+                    <a ng-click="customer.upload.editFileTitle = !customer.upload.editFileTitle;" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                </div>
+              </div>
+          </div>
+        </div>
+    </div>
+  </div>
+  <!-- //Edit FileName Modal -->

@@ -1,0 +1,54 @@
+<!-- Customer Name -->
+<div class="form-group col-md-12" ng-if="(customer.new.idClientTypeFk!=2 && customer.new.idClientTypeFk!=4)" ng-class="
+		{	'has-success': 
+			customer.new.name!='' && fNewCustomer.cname.$valid,
+		 	'has-error':  
+			(customer.new.name=='' || customer.new.name==undefined) && fNewCustomer.cname.$touched,
+		}">
+  <label style="padding-left: 15px;">Nombre</label>  
+		  <div class="input-group">
+			  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+			  <input  name="cname" autofocus="true" placeholder="Nombre" class="form-control" ng-model="customer.new.name" ng-blur="enabledNextBtn();"  type="text" ng-required="(customer.new.idClientTypeFk!=2 && customer.new.idClientTypeFk!=4)" autofocus/>
+		  </div>
+</div>					
+<!-- Agent -->
+<div class="form-group col-md-12" ng-if="(customer.new.idClientTypeFk!=2 && customer.new.idClientTypeFk!=4)" ng-class="
+		{	'has-success': 
+			customer.new.idAgentFk!='' && fNewCustomer.Agent.$valid,
+		 	'has-error':  
+			(customer.new.idAgentFk=='' || customer.new.idAgentFk==undefined) && fNewCustomer.Agent.$touched,
+		}" > 
+  	<label style="padding-left: 15px;">Agente</label>
+	    <div class="input-group">
+    		<span class="input-group-addon"><i class="fas fa-cogs"></i></span>
+	    	<select name="Agent" class="form-control"  ng-options="item.idAgent as item.agent for item in rsAgentsData" ng-change="enabledNextBtn();" ng-model="customer.new.idAgentFk" ng-required="(customer.new.idClientTypeFk!=2 && customer.new.idClientTypeFk!=4)" autofocus >
+		    	<option value="">Seleccione una opci&#243n</option>
+	    	</select>
+	  	</div>
+</div>
+<!-- Company razon social Name -->
+<div ng-if="(customer.new.idClientTypeFk==1 || customer.new.idClientTypeFk==3)" class="form-group col-md-12" ng-class="
+		{	'has-success': 
+			customer.new.businessName!='' && fNewCustomer.razonsocial.$valid,
+		 	'has-error':  
+			(customer.new.businessName=='' || customer.new.businessName==undefined) && fNewCustomer.razonsocial.$touched,
+		}">
+  	<label style="padding-left: 15px;">Raz&#243n Social</label>  
+  		<div class="input-group">
+	  <span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+	  <input  name="razonsocial" autofocus="true" placeholder="Raz&#243n Social" class="form-control" ng-model="customer.new.businessName" ng-blur="enabledNextBtn();"  type="text" required autofocus/>
+  		</div>
+</div>	
+<!-- Company CUIT -->
+<div ng-if="(customer.new.idClientTypeFk==1 || customer.new.idClientTypeFk==3)" class="form-group col-md-12" ng-class="
+		{	'has-success': 
+			customer.new.CUIT!='' && fNewCustomer.cuit.$valid,
+		 	'has-error':  
+			(customer.new.CUIT=='' || customer.new.CUIT==undefined) && fNewCustomer.cuit.$touched,
+		}">
+  	<label style="padding-left: 15px;">CUIT</label>  
+  		<div class="input-group">
+  			<span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+			<input  name="cuit" autofocus="true" placeholder="CUIT" class="form-control" ng-model="customer.new.CUIT"  type="text"  ng-blur="enabledNextBtn();" ng-required="(customer.new.idClientTypeFk==1 || customer.new.idClientTypeFk==3)" autofocus/>
+		</div>
+</div>

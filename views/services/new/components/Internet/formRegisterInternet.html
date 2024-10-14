@@ -1,0 +1,365 @@
+<!-- CUSTOMER CONTRACT FORM -->
+<div id="RegisterInternetService" class="modal fade bd-example-modal-lg" data-keyboard="false" data-backdrop="static" style="top: 0px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" ng-click="modalConfirmation('closeServiceWindow', 0, service.new)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-wrench"></i> NUEVO SERVICIO INTERNET</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+				<!-- FORM CONTAINER-->
+				<form class="form-horizontal" name="fCustomerNewService" novalidate>
+					<fieldset>
+						<!-- INTERNET: Tipo de internet -->
+						<div class="form-group col-md-6" ng-class="
+									{	'has-success': 
+										service.new.idTypeInternetFk!='' && fCustomerNewService.service_internetType.$valid,
+									 	'has-error':  
+										(service.new.idTypeInternetFk=='' || service.new.idTypeInternetFk==undefined) && fCustomerNewService.service_internetType.$touched,
+									}">
+						  <label style="padding-left: 15px;">Tipo</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-network-wired"></i></span>
+									<select id="service_internetType" name="service_internetType"  class="form-control" ng-model="service.new.idTypeInternetFk"
+									ng-options="item.idAccCrtlDoor as item.itemName for item in rsContractItemListData | filter:filterContractAvailableItems(item)" autofocus >
+									    <option class="text-uppercase" value="">Selecciona un tipo</option>
+								    </select>
+							  </div>
+							</div>
+						</div>	
+						<!-- INTERNET: Type -->
+						<div class="form-group col-md-6" ng-class="
+									{	'has-success': 
+										service.new.idContratoFk!='' && fCustomerNewService.service_contract.$valid,
+									 	'has-error':  
+										(service.new.idContratoFk=='' || service.new.idContratoFk==undefined) && fCustomerNewService.service_contract.$touched,
+									}">
+						  <label style="padding-left: 15px;">Contrato asociado</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<select name="service_contract" 
+									class="form-control" 
+									ng-options="item.idContrato as item.numeroContrato for item in rsCustomerContractListData" ng-model="service.new.idContratoFk"
+									ng-change="switchContractService(service.new);" required="true" autofocus >
+									    <option class="text-uppercase" value="">Selecciona un contrato</option>
+								    </select>
+							  </div>
+							</div>
+						</div>
+						<!-- INTERNET: Maintenance Type -->
+						<div class="form-group col-md-6" >  
+						  	<label style="padding-left: 15px;">Tipo de mantenimiento</label>
+						    <div class="col-xs-12 ">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-screwdriver"></i></span>
+					    			<input name="service_mnt_type" type="text" ng-disabled="true" class="form-control" ng-model="service.new.MntType" />
+					    		</div>
+					    	</div>
+						</div>
+						<!-- INTERNET: Maintenance Type -->
+						<div class="form-group col-md-6" ng-class="
+									{	'has-success': 
+										service.new.idInternetCompanyFk!='' && fCustomerNewService.service_internetCompany.$valid,
+									 	'has-error':  
+										(service.new.idInternetCompanyFk=='' || service.new.idInternetCompanyFk==undefined) && fCustomerNewService.service_internetCompany.$touched,
+									}">
+						  <label style="padding-left: 15px;">Empresa</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<select name="service_internetCompany" 
+									class="form-control" 
+									ng-options="item.idInternetCompany as item.internetCompany for item in rsInternetCompanyListData" ng-model="service.new.idInternetCompanyFk"
+									required="true" autofocus >
+									    <option class="text-uppercase" value="">Selecciona una empresa</option>
+								    </select>
+							  </div>
+							</div>
+						</div>
+						<!-- INTERNET: plan list -->
+						<div class="form-group col-md-6" ng-class="
+									{	'has-success': 
+										service.new.idServiceFk!='' && fCustomerNewService.service_internetPlan.$valid,
+									 	'has-error':  
+										(service.new.idServiceFk=='' || service.new.idServiceFk==undefined) && fCustomerNewService.service_internetPlan.$touched,
+									}">
+						  <label style="padding-left: 15px;">Servicios</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<select name="service_internetPlan" 
+									class="form-control" 
+									ng-options="item.idTypeInternet as item.typeInternet for item in rsInternetPlanListData" ng-model="service.new.idServiceFk"
+									required="true" autofocus >
+									    <option class="text-uppercase" value="">Selecciona una empresa</option>
+								    </select>
+							  </div>
+							</div>
+						</div>
+						<!-- INTERNET: control of access -->
+						<div class="form-group col-md-6" ng-class="
+								  			{	'has-success': 
+								  				service.modem.selected!=undefined && fCustomerNewService.service_modem.$valid,
+								  			 	'has-error':  
+								  				(service.modem.selected==undefined) && fCustomerNewService.service_modem.$touched,
+								  			}">
+						  	<div class="col-md-6"><label style="padding-left: 15px;">MODEM </label> </div>
+						  	<div class="pull-right col-md-4 n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.modem.selected==undefined" ng-click="compServiceProductDetailsFn(service.modem.selected, productListType.MODEM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						  	<button ng-if="service.modem.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.modem.selected, productListType.MODEM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div> 
+						    <div class="col-xs-12 selectContainer">							   
+							    <div class="input-group">
+					              <span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
+					              <ui-select name="service_modem"  
+					              			 ng-change="compServiceProductDetailsFn(service.modem.selected, productListType.MODEM, null)" 
+					              			 ng-model="service.modem.selected"
+					              			 ng-required="true"
+					              			 ng-disabled="service.modem.selected!=undefined"
+					              			 theme="bootstrap" autofocus>
+					                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
+					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.MODEM | filter: $select.search">
+					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
+					                    </ui-select-choices>
+					                    <ui-select-no-choice>
+										    No hay resultados, contacte are de soporte.
+									  	</ui-select-no-choice>
+					                </ui-select>
+					            </div>
+						  	</div>
+						</div>
+						<!-- Internet: Start_date -->
+						<div class="form-group col-md-6 col-md-6 col-xs-6">
+							<label style="padding-left: 15px;">Fecha de baja</label>
+							<div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+									<input 
+									ng-click="open_end_date()" 
+									type="text" 
+									name="service_end_date"
+									class="form-control" 
+									uib-datepicker-popup="{{format}}" 
+									ng-model="service.new.dateDown" 
+									is-open="popup_end_date.opened"  
+									ng-required="false"
+									ng-disabled="true"
+									close-text="Cerrar" 
+									clear-text="Borrar"
+									current-text="Hoy"
+									alt-input-formats="altInputFormats" />
+								</div>
+							</div>
+						</div>
+						<!-- Internet: End_date -->
+						<div class="form-group col-md-6 col-md-6 col-xs-6">
+							<label style="padding-left: 15px;">Fecha de baja</label>  
+							<div class="col-xs-12">
+								<div class="input-group">
+									<span ng-click="open_end_date()" class="input-group-addon"><i ng-click="open_end_date()" class="far fa-calendar-alt"></i></span>
+									<input 
+									ng-click="open_end_date()" 
+									type="text" 
+									name="service_end_date"
+									class="form-control" 
+									uib-datepicker-popup="{{format}}" 
+									ng-model="service.new.dateDown" 
+									is-open="popup_end_date.opened"  
+									ng-required="false"
+									ng-disabled="true"
+									close-text="Cerrar" 
+									clear-text="Borrar"
+									current-text="Hoy"
+									alt-input-formats="altInputFormats" />
+								</div>
+							</div>
+						</div>	
+						<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk>='3'" class="form-group col-md-6" ng-class="
+									{	'has-success': 
+										service.new.numberLine!='' && fCustomerNewService.service_numberLine.$valid,
+									 	'has-error':  
+										(service.new.numberLine=='' || service.new.numberLine==undefined) && fCustomerNewService.service_numberLine.$touched,
+									}">
+						  <label style="padding-left: 15px;">N° de Linea</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
+									<input name="service_numberLine" type="text" class="form-control" ng-model="service.new.numberLine" />
+							  </div>
+							</div>
+						</div>
+						<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk>='3'" class="form-group col-md-6" ng-class="
+									{	'has-success': 
+										service.new.numberChip!='' && fCustomerNewService.service_numberChip.$valid,
+									 	'has-error':  
+										(service.new.numberChip=='' || service.new.numberChip==undefined) && fCustomerNewService.service_numberChip.$touched,
+									}">
+						  <label style="padding-left: 15px;">N° de Chip</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
+									<input name="service_numberChip" type="text" class="form-control" ng-model="service.new.numberChip" />
+							  </div>
+							</div>
+						</div>
+						<!-- INTERNET: Service Associated -->
+						<div class="form-group col-md-6" ng-class="
+								{	'has-success': 
+									service.new.idServiceAsociateFk!='' && fCustomerNewService.service_customerServiceList.$valid,
+								 	'has-error':  
+									(service.new.idServiceAsociateFk=='' || service.new.idServiceAsociateFk==undefined) && fCustomerNewService.service_customerServiceList.$touched,
+								}">
+						  <label style="padding-left: 15px;">Servicios Asociados</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-wrench"></i></span>
+									<select style="height: 182px;" name="service_customerServiceList" class="form-control" ng-options="item.idClientServices as item.idClientServices+' - '+item.clientTypeServices+' ('+item.service[0].titulo+''+item.service[0].name+')' for item in rsServicesListByCustomerIdData | filter:filterAssociatedServices" ng-model="service.new.idServiceAsociateFk" autofocus multiple>
+									    <option class="text-uppercase" value="">Selecciona una opci&#243;n</option>
+								    </select>
+							  </div>
+							</div>
+						</div>
+						<!-- INTERNET: control of access -->
+						<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk<='2'" class="form-group col-md-6" ng-class="
+								  			{	'has-success': 
+								  				service.router.selected!=undefined && fCustomerNewService.service_router.$valid,
+								  			 	'has-error':  
+								  				(service.router.selected==undefined) && fCustomerNewService.service_router.$touched,
+								  			}">
+						  <div class="col-md-6">
+						  	<label style="padding-left: 15px;">Router conectado </label></div>
+						  <div class="pull-right col-md-4  n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.router.selected==undefined" ng-click="compServiceProductDetailsFn(service.router.selected, productListType.ROUTER)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						  	<button ng-if="service.router.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.router.selected, productListType.ROUTER, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+						    <div class="col-xs-12 selectContainer">
+							    <div class="input-group">
+					              <span class="input-group-addon"><i class="fas fa-wifi"></i></span>
+					              <ui-select name="service_router"  
+					              			 ng-change="compServiceProductDetailsFn(service.router.selected, productListType.ROUTER, null)" 
+					              			 ng-model="service.router.selected"
+					              			 ng-required="true"
+					              			 ng-disabled="service.router.selected!=undefined"
+					              			 theme="bootstrap" autofocus>
+					                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
+					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.ROUTER | filter: $select.search">
+					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                    </ui-select-choices>
+					                    <ui-select-no-choice>
+										    No hay resultados, contacte are de soporte.
+									  	</ui-select-no-choice>
+					                </ui-select>
+					            </div>
+						  	</div>
+						</div>
+						<!-- INTERNET: Program Port -->
+						<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk<='2'" class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Puerto de programaci&#243;n</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+									<input name="service_programPort" type="text" class="form-control" ng-model="service.new.port" />
+							  </div>
+							</div>
+						</div>
+						<!-- INTERNET: Program Port -->
+						<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk<='2'" class="form-group col-md-6" ng-class="
+									{	'has-success': 
+										service.new.macAddr!='' && fCustomerNewService.service_macAddress.$valid,
+									 	'has-error':  
+										(service.new.macAddr=='' || service.new.macAddr==undefined) && fCustomerNewService.service_macAddress.$touched,
+									}">
+						  <label style="padding-left: 15px;">Mac Address de Router</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+									<input name="service_macAddress" type="text" ng-keydown="fnLoadPhoneMask()" class="form-control input-macaddr" ng-model="service.new.macAddr" />
+							  </div>
+							</div>
+						</div>
+						<div class="col-md-12">
+							<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk<='2'"class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
+								<div class="form-group col-md-12 text-badge"> <h4>Usuario Admin del Router</h4></div>
+								<div class="form-group col-md-12">
+								  <label style="padding-left: 15px;">Usuario Admin</label>  
+									  <div class="col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fas fa-user"></i></span>
+											<input name="service_userAdmin" type="text" class="form-control" ng-model="service.new.userAdmin" />
+									  </div>
+									</div>
+								</div>
+								<div class="form-group col-md-12">
+								  <label style="padding-left: 15px;">Clave Admin</label>  
+									  <div class="col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fas fa-key"></i></span>
+											<input name="service_passAdmin" type="text" class="form-control" ng-model="service.new.passAdmin" />
+									  </div>
+									</div>
+								</div>
+							</div>
+							<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk=='1'" class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
+								<div class="form-group col-md-6 text-badge"> <h4>Wifi BSS</h4></div>
+								<div class="form-group col-md-12">
+								  <label style="padding-left: 15px;">Usuario BSS</label>  
+									  <div class="col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fas fa-user"></i></span>
+											<input name="service_userTass" type="text" class="form-control" ng-model="service.new.userWifi" />
+									  </div>
+									</div>
+								</div>
+								<div class="form-group col-md-12">
+								  <label style="padding-left: 15px;">Clave BSS</label>  
+									  <div class="col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fas fa-key"></i></span>
+											<input name="service_passTass" type="text" class="form-control" ng-model="service.new.passWifi" />
+									  </div>
+									</div>
+								</div>
+							</div>
+							<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk=='2'" class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
+								<div class="form-group col-md-6 text-badge"> <h4>Wifi Cliente</h4></div>
+								<div class="form-group col-md-12">
+								  <label style="padding-left: 15px;">Usuario CLIENTE</label>  
+									  <div class="col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fas fa-user"></i></span>
+											<input name="service_userCliente" type="text" class="form-control" ng-model="service.new.userAdmin" />
+									  </div>
+									</div>
+								</div>
+								<div class="form-group col-md-12">
+								  <label style="padding-left: 15px;">Clave CLIENTE</label>  
+									  <div class="col-xs-12">
+										<div class="input-group">
+											<span class="input-group-addon"><i class="fas fa-key"></i></span>
+											<input name="service_passCliente" type="text" class="form-control" ng-model="service.new.passAdmin" />
+									  </div>
+									</div>
+								</div>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+				<div class="clearfix"> </div> 
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="modalConfirmation('newService', 0, service.new)" ng-disabled="fCustomerNewService.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                        <a ng-click="modalConfirmation('closeServiceWindow', 0, service.new)" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- // CUSTOMER CONTRACT FORM -->

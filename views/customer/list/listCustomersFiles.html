@@ -1,0 +1,72 @@
+<!-- Customer Attached Files -->
+<div id="listCustomerFiles" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="product-success fas fa-paperclip"></i> LISTA DE ARCHIVOS :: CLIENTE: 
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;">{{customer.files.idClient}}</span> :: 
+                <span class="text-uppercase" style="font-weight: 600;">{{customer.files.name}}</span>
+              </h3>
+          </div>
+        <div class="modal-body">
+          <div ng-if="customer.files.files_uploaded.length>0" class="n-padding-l n-padding-r" style="margin-top: 20px;">
+            <ul class="file-list file-list-5">
+              <li ng-repeat="file in customer.files.files_uploaded">
+                <a data-toggle="tooltip" data-placement="top" title="{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}" ng-if="file.typeFile.substr(0,5)=='image'" class="thumbnail" ng-click="openLightboxModal(customer.files.files_uploaded, $index)">
+                  <img ng-src="{{file.urlFile}}" />               
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}" ng-if="file.typeFile=='application/pdf'" ng-click="openPDFModalViewer(file)" class="thumbnail">
+                  <img src="images/pdf-thumb.png" ng-if="file.typeFile=='application/pdf'"/>
+                </a>
+                <a data-toggle="tooltip" data-placement="top" title="{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}" ng-if="file.typeFile.substr(0,5)!='image' && file.typeFile!='application/pdf'" class="thumbnail">
+                  <img src="images/doc-thumb.png" ng-if="file.typeFile=='application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.typeFile=='application/msword'"/>
+                  <img src="images/excel-thumb.png" ng-if="file.typeFile=='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.typeFile=='application/vnd.ms-excel'"/>                 
+                </a>
+                <div class="caption">
+                  <span class="label label-default">{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}</span><br/><br/>
+                  <button type="button" data-toggle="tooltip" data-placement="bottom" title="Bajar archivo" class="btn btn-success btn-xs" ng-click="downloadFile(file)">
+                      <i class="fas fa-cloud-download-alt"></i>
+                  </button>
+                  <button ng-if="file.typeFile.substr(0,5)=='image'" type="button" data-toggle="tooltip" data-placement="bottom" title="Ver archivo" class="btn btn-warning btn-xs" ng-click="openLightboxModal(customer.files.files_uploaded, $index)">
+                      <i class="far fa-eye"></i>
+                  </button>
+                  <button ng-if="file.typeFile=='application/pdf'" type="button" data-toggle="tooltip" data-placement="bottom" title="Ver archivo" class="btn btn-warning btn-xs" ng-click="openPDFModalViewer(file)">
+                      <i class="far fa-eye"></i>
+                  </button>
+                  <button type="button" data-toggle="tooltip" data-placement="bottom" title="Eliminar archivo" class="btn btn-danger btn-xs" ng-click="modalConfirmation('deleteSingleFile', 0, file)" >
+                      <i class="fas fa-trash-alt"></i>
+                  </button>                   
+                </div>                  
+              </li>
+            </ul>            
+          </div>
+        </div>
+        <!-- Actions Button ng-click="newSysProfileFn()"-->
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                  <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                      <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // Upload Customer Files -->
+<!-- PDF VIEWER Modal -->
+<div class="modal fade" id="pdfViewerModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <button style="padding: 10px;" type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+          <div class="clearfix"> </div>
+          <div class="modal-body">
+            <div id="pdfobject" class="form-group col-md-12" style="height: 800px;">
+            </div>
+          </div>
+          <div class="clearfix"> </div>
+        </div>
+    </div>
+  </div>
+  <!-- //PDF VIEWER Modal -->

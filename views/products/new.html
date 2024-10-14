@@ -1,0 +1,190 @@
+<!-- NEW PRODUCT -->
+<div id="newProduct" style="top: 130px;" class="modal fade bd-example-modal-lg" style="top: 130px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title">NUEVO PRODUCTO</h3>
+          </div>
+        <div class="modal-body"  style="overflow-y: scroll;">
+          <!-- FORM CONTAINER-->
+          <form class="form-horizontal" name="fNewProduct" novalidate>
+            <fieldset>
+              <!-- Form Profile Name -->
+              <div class="form-group col-md-6">
+                <label class="clf-size clf-p-left">Descripción del Producto</label>  
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fas fa-info-circle"></i></span>
+                      <input  name="description" autofocus="true" placeholder="Descripcion" class="form-control" ng-model="new.product.descriptionProduct"  type="text" required autofocus/>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="clf-size clf-p-left">Código del Fabricante</label>  
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+                      <input  name="fabricCode" autofocus="true" placeholder="Codigo del Fabricante" class="form-control" ng-model="new.product.codigoFabric"  type="text" required autofocus/>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="clf-size clf-p-left">Marca</label>  
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fas fa-box"></i></span>
+                      <input  name="brand" autofocus="true" placeholder="Marca" class="form-control" ng-model="new.product.brand"  type="text" required autofocus/>
+                    </div>
+                  </div>
+              </div>
+              <div class="form-group col-md-6">
+                <label class="clf-size clf-p-left">Modelo</label>  
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                      <input  name="model" autofocus="true" placeholder="Modelo" class="form-control" ng-model="new.product.model"  type="text" required autofocus/>
+                    </div>
+                  </div>
+              </div>
+              <!-- List Procuts Classification-->
+              <div class="form-group col-md-6">
+                <label class="clf-size clf-p-left">Clasificación del Producto</label>  
+                  <div class="col-xs-12 selectContainer">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                      <select name="ProductsClassif" 
+                          class="form-control" 
+                          ng-change="new.product.diviceOpening=null; removeAllDevices(); new.product.isControlSchedule=false;"  
+                          ng-options="item.idProductClassification as item.classification for item in rsClasProductsData" 
+                          required autofocus
+                          ng-model="new.product.idProductClassificationFk" autofocus >
+                        <option value=""></option>
+                      </select>
+                    </div>
+                  </div>
+              </div>
+              <!-- Product Price input -->
+              <div class="form-group col-md-6">
+                <label class="clf-size clf-p-left">Precio</label>  
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                      <input  name="price" autofocus="true" placeholder="Precio" class="form-control" ng-model="new.product.priceFabric"  type="text" required autofocus/>
+                    </div>
+                  </div>
+              </div>
+              <!-- -->
+              <div class=" col-md-6 col-sm-6 ">
+                <div class="well-checkbox">
+                  <table>
+                    <tr>
+                      <td style="width: 200%"><span class="text-muted text-uppercase text-box">Número serie Fabricante</span></td>
+                          <td>
+                            <label class="switch switch-3x">
+                                <input type="checkbox" class="success"ng-model="new.product.isNumberSerieFabric" id="isNumberSerieFabric">
+                                <span class="slider slider-3x flat"></span>
+                            </label>
+                          </td>
+                      </tr>
+                    <tr>
+                      <td style="width: 200%"><span class="text text-muted text-uppercase text-box">Número serie Interno</span></td>
+                          <td>
+                            <label class="switch switch-3x">
+                                <input type="checkbox" class="success"ng-model="new.product.isNumberSerieInternal" id="isNumberSerieInternal">
+                                <span class="slider slider-3x flat"></span>
+                            </label>
+                          </td>
+                      </tr>
+                    <tr>
+                      <td style="width: 200%"><span class="text-muted text-uppercase text-box">Fecha vencimiento</span></td>
+                          <td>
+                            <label class="switch switch-3x">
+                                <input type="checkbox" class="success"ng-model="new.product.isDateExpiration" id="isDateExpiration">
+                                <span class="slider slider-3x flat"></span>
+                            </label>
+                          </td>
+                      </tr>
+                  </table>   
+                </div>
+              </div>
+              <!-- SCHEDULE CONTROL -->
+              <div ng-if="new.product.idProductClassificationFk==1" class=" col-md-6 col-sm-6">
+                <div class="well-checkbox">
+                  <table>
+                    <tr>
+                      <td style="width: 200%"><span class="text-muted text-uppercase text-box">Control de Horario </span></td>
+                          <td>
+                            <label class="switch switch-3x">
+                                <input type="checkbox" class="success"ng-model="new.product.isControlSchedule" id="isControlSchedule" ng-required="new.product.idProductClassificationFk==1">
+                                <span class="slider slider-3x flat"></span>
+                            </label>
+                          </td>
+                      </tr>
+                  </table>
+                </div>
+              </div>
+              <!-- OPEN DEVICES ONLY -->
+              <div ng-if="new.product.idProductClassificationFk==19" class=" col-md-6 col-sm-6">
+                <div class="well-checkbox">
+                  <table>
+                    <tr>
+                      <td style="width: 200%"><span class="text-muted text-uppercase text-box">Solicita Número </span></td>
+                          <td>
+                            <label class="switch switch-3x">
+                                <input type="checkbox" class="success"ng-model="new.product.isRequestNumber" id="isRequestNumberOpenDevice">
+                                <span class="slider slider-3x flat"></span>
+                            </label>
+                          </td>
+                      </tr>
+                  </table>
+                </div>
+              </div>              
+              <!-- List of Open Devices Procuts-->
+              <!--<div ng-if="new.product.idProductClassificationFk==3000000" class="form-group col-md-6">
+                 <label class="clf-size clf-p-left">Dispositivos de Apertura <span style="margin-left: 100px;"> <button ng-disabled="diviceOpening==0 || diviceOpening==undefined || list_divices.length==1 " ng-click="addDeviceOpeningFn(diviceOpening)" class="btn btn-sm btn-success">Agregar</button></label>  
+                  <div class="col-xs-12 selectContainer">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+                      <select name="diviceOpening" 
+                          class="form-control" 
+                          ng-change="" 
+                          ng-disabled="list_divices.length==1" 
+                          ng-options="item as item.diviceOpening for item in rsOpenDeviceProductsData" 
+                          ng-required="new.product.idProductClassificationFk==3"
+                          autofocus
+                          ng-model="diviceOpening" autofocus >
+                        <option value=""></option>
+                      </select>
+                    </div>
+                  </div>
+                 <div ng-if="list_divices.length>0" class="well-checkbox n-padding-t n-padding-b" style="margin-top: 20px;">
+                  <table>
+                    <tr ng-repeat="device in list_divices">
+                      <td style="width: 200%"><span class="text-muted text-uppercase text-box">{{device.diviceOpening}} </span></td>
+                          <td style="padding-bottom: 5px;">
+                            <button ng-click="removeDeviceOpeningFn(device)" class="btn btn-sm btn-danger">Eliminar</button>
+                          </td>
+                      </tr>
+                  </table>
+                </div>
+              </div>-->
+            </fieldset>
+          </form>
+          <div class="clearfix"> </div> 
+        </div>
+        <!-- Actions Button ng-click="newSysProfileFn()"-->
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <button type="submit" ng-click="addNewProductFn()" ng-disabled="fNewProduct.$invalid" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // NEW PRODUCT -->

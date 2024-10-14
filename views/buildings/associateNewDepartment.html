@@ -1,0 +1,46 @@
+<!-- MANAGE DEPARTMENTS-->
+<div class="col-md-12 n-padding-r">
+    <div  class="panel panel-default">
+      <div class="panel-heading">
+        <h3 class="panel-title">ASOCIAR NUEVO DEPARTAMENTO</h3>
+      </div>
+        <!-- NEW DEPARTMENT PANEL -->
+        <div class="panel-body">
+            <div class="container-fluid justify-content-md-center col-md-12">
+                <form class="form-horizontal" name="frmDpto" ng-submit="switchBuildingFn('assignDepartmentToLoggedUser', null)">
+                    <fieldset>
+                        <!-- Address for Owner-->
+                        <div class="form-group col-md-6">
+                        <label style="padding-left: 15px;">Consorcio</label>
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                <input name="idAddressAtt" readonly="true" class="form-control" ng-model="manage.idAddrName" type="text" required autofocus />
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Select Department -->
+                        <div class="form-group col-md-4">
+                        <label style="padding-left: 15px;">Departamento</label>
+                            <div class="col-xs-12 selectContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon icon-building"></i></span>
+                                    <select id="idDepartmentKf" ng-model="select.depto"  ng-disabled="dptoNotFound!=false" class="form-control text-uppercase" ng-options="item as item.floor+'-'+item.departament for item in ListDptoTenant " required autofocus >
+                                        <option value="">Seleccione</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                        <!-- Actions Button -->
+                        <div class="form-group col-md-2">
+                        <br>
+                        <div class="col-xs-12">
+                            <button type="submit" class="btn btn-primary" ng-disabled="dptoNotFound!=false" >Asociar</button>
+                        </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

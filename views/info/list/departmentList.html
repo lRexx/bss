@@ -1,0 +1,117 @@
+<table class="table table-striped table-bordered table-list table-responsive table-hover fade in" style="border: 0 !important;">
+    <thead style=" background: #4d5d6f; color: white;">
+        <tr>
+            <th width="20%" style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;"><i class="fas fa-users-cog"></i> Gestión</th>
+            <!--<th>ID</th>-->
+            <th width="40%" style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;"><i class="fas fa-home"></i> Unidad</th>
+        </tr>
+    </thead>
+    <tbody>
+        <!-- Shows the department List by the Selected Address-->
+        <tr style="align-content: center; cursor: pointer;" ng-repeat-start="item in ListDpto | toArray:false | filter: idStatusFk | filter: (!!select.depto || undefined) && {Depto:select.depto}:true | filter: (!!select.floor || undefined) && {floor:select.floor}:true">
+            <td class="td-depto media-middle">
+                <div class="btn-group">
+                    <button type="button" ng-disabled="(sysLoggedUser.idProfileKf==3||sysLoggedUser.idProfileKf==6) && item.isAprobatedAdmin!=1" ng-click="selectTableRow($index, item, 'depto');" class="btn btn-sm" ng-class="dayDataCollapse[$index]?'btn-info':'btn-success'">
+                    <i ng-if="dayDataCollapse[$index]" title="Ver Habitantes" class="categoryDepartament glyphicon glyphicon-plus"></i>
+                    <i ng-if="!dayDataCollapse[$index]" title="Ver Habitantes" class="glyphicon glyphicon-minus"></i>
+                    <span ng-if="item.categoryDepartament!='Porteria' || item.categoryDepartament=='Porteria'"><span class="show-tag-1">&nbsp;Ver </span> <span class="show-tag-2"></span></span>
+                    </button>
+                </div>
+                <!--<div ng-if="((sysLoggedUser.idProfileKf!=5 && item.idUserKf==null || item.idUserKf==0) || (sysLoggedUser.idProfileKf!=5 || item.idUserK>0))" class="btn-group">
+                    <button data-toggle="tooltip" data-placement="right" title="Nuevo Habitante" ng-if="item.categoryDepartament.indexOf('Porteria')<0 || item.categoryDepartament.indexOf('Porteria')>=0" ng-disabled="(sysLoggedUser.idProfileKf==3||sysLoggedUser.idProfileKf==6) && item.isAprobatedAdmin!=1" type="button" ng-click="selectMembersTypeFn(item);" class="btn btn-sm btn-info">
+                    <i class="fas fa-user-plus"></i><span class="show-tag-1">&nbsp;Nuevo</span> <span class="show-tag-2"></span></button>
+                </div>
+                <div ng-if="(((sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && item.idUserKf==null || item.idUserKf==0) || (sysLoggedUser.idProfileKf!=5 || item.idUserK>0))" class="btn-group">
+                    <button data-toggle="tooltip" data-placement="right" title="Asignar Habitante" ng-if="item.categoryDepartament.indexOf('Porteria')<0 || item.categoryDepartament.indexOf('Porteria')>=0" type="button" ng-click="switchBuildingFn('listUsersToAssign', item); " class="btn btn-sm btn-info">
+                    <i class="fas fa-user-tag"></i> <span class="show-tag-1">&nbsp;Asignar</span> <span class="show-tag-2"></span></button>
+                </div>-->
+            </td>
+            <!--<td>{{item.idDepartment}}</td>-->
+            <td class="td-depto media-middle font-size-18px" style="vertical-align: middle;text-align: center;">{{item.Depto}}</td>            
+        </tr>
+        <!-- Show the tenant & owner List by the Department selected -->
+        <tr ng-if="selectTable.option=='depto'" collapse="dayDataCollapse[$index]" ng-repeat-end="">
+            <td colspan="2" class="n-padding-l n-padding-r">
+                <div ng-show="tenantNotFound" class="alert alert-warning" role="alert">
+                    <strong>INFO: </strong>No hay Habitantes registrados en el departamento seleccionado.
+                </div>
+                <div ng-if="tenantNotFound!=true && sysLoggedUser.idProfileKf!=0" class="panel panel-default">
+                    <table  class="table table-striped table-bordered table-list table-responsive table-hover fade in">
+                        <thead style=" background: #4d5d6f; color: white;">
+                            <tr >
+                                <th width="42%" style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;"><i class="glyphicon glyphicon-user"> </i> Nombres</th>
+                                <th width="58%" style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;"><i class="glyphicon glyphicon-earphone"> </i> Telefonos</th>
+                                <!--<th><i class="glyphicon glyphicon-envelope"> </i> Correo</th>-->
+                                <!--<th width="20%" style="vertical-align: middle;text-align: center;">Perfil</th>-->
+                                <!--<th width="15%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Status</th>-->
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr style="align-content: center;" ng-repeat="tenant in listTenant | filter: (!!filterTenant || undefined) && {idTypeTenantKf: filterTenant} | filter: (!!searchboxfilter || undefined) && searchboxfilter">
+                                <td ng-trim="true" style="vertical-align: middle;" class="table-user-column-font">{{tenant.fullNameUser}} <span class="badge badge-warning" style="font-size: 60%;">{{tenant.nameProfile}}</span></td>
+                                <td class="table-phone-column-font">
+                                <span ng-if="tenant.phoneLocalNumberUser">
+                                    <!--<i class="glyphicon glyphicon-phone"></i>-->
+                                    <span ng-click="modalConfirmation('trigger_call',0,tenant,tenant.phoneNumberUser)">{{tenant.phoneLocalNumberUser}} </span><button data-toggle="tooltip" data-placement="top" title="Copiar" ngclipboard data-clipboard-text="{{tenant.phoneLocalNumberUser}}" class="btn btn-xs btn-success" style="cursor: pointer;"><i style="font-size: 14px;" class="fas fa-copy"></i></button>
+                                </span>
+                                    <br ng-if="tenant.phoneLocalNumberUser">
+                                <span ng-if="tenant.phoneNumberUser">
+                                    <!--<i class="glyphicon glyphicon-earphone"></i>-->
+                                    <span ng-click="modalConfirmation('trigger_call',0,tenant,tenant.phoneNumberUser)">{{tenant.phoneNumberUser}} </span><button data-toggle="tooltip" data-placement="top" title="Copiar" ngclipboard data-clipboard-text="{{tenant.phoneNumberUser}}" class="btn btn-xs btn-success" style="cursor: pointer;"><i style="font-size: 14px;" class="fas fa-copy"></i></button>
+                                </span>
+                                </td>
+                                <!--<td>{{tenant.emailTenant}}</td>-->
+                                <!--<td ng-trim="true" style="vertical-align: middle; text-align: center; font-size: 80%;">{{tenant.nameProfile}} <span ng-if="tenant.idProfileKf==4 || tenant.idProfileKf==6" class="label label-default" style="font-size: 80%;">{{tenant.typeTenantName}}</span>
+                                </td>-->
+                                <!--<td ng-trim="true" style="vertical-align: middle; text-align: center;">
+                                    <span  ng-if="tenant.idStatusKf==1 && (tenant.isRequesLowByTenant!=1 || item.isRequesLowByProp!=1) && 
+                                                (((tenant.idProfileKf==3 || tenant.idProfileKf==4 || tenant.idProfileKf==6) && tenant.idTypeTenantKf==1 && tenant.idUser==item.idUserKf && item.isAprobatedAdmin!=null && item.isAprobatedAdmin!=0) ||
+                                                ((tenant.idProfileKf==5 || tenant.idProfileKf==6) && tenant.idTypeTenantKf==2 && tenant.isDepartmentApproved==1))" class="text-uppercase label label-success">
+                                        {{tenant.statusTenantName}}
+                                    </span>
+                                    <span  ng-if="tenant.idStatusKf==0 && (tenant.isRequesLowByTenant!=1 || item.isRequesLowByProp!=1) && 
+                                                (((tenant.idProfileKf==3 || tenant.idProfileKf==4|| tenant.idProfileKf==6) && tenant.idTypeTenantKf==1 && tenant.idUser==item.idUserKf && item.isAprobatedAdmin!=null && item.isAprobatedAdmin!=0) || 
+                                                ((tenant.idProfileKf==5 || tenant.idProfileKf==6) && tenant.idTypeTenantKf==2 && tenant.isDepartmentApproved==1))" class="text-uppercase label label-warning" >
+                                        {{tenant.statusTenantName}}
+                                    </span>
+                                    <span  ng-if="tenant.idStatusKf<0 && (tenant.isRequesLowByTenant!=1 || item.isRequesLowByProp!=1) && 
+                                                (((tenant.idProfileKf==3 || tenant.idProfileKf==4|| tenant.idProfileKf==6) && tenant.idTypeTenantKf==1 && tenant.idUser==item.idUserKf && item.isAprobatedAdmin!=null && item.isAprobatedAdmin!=0) || 
+                                                ((tenant.idProfileKf==5 || tenant.idProfileKf==6) && tenant.idTypeTenantKf==2 && tenant.isDepartmentApproved==1)) " class="text-uppercase label label-danger">
+                                        {{tenant.statusTenantName}}
+                                    </span>
+                                    <span ng-if="((tenant.idProfileKf==3 || tenant.idProfileKf==6) && tenant.idTypeTenantKf==1 && item.isAprobatedAdmin==null || item.isAprobatedAdmin==0) || ((tenant.idProfileKf==6 || tenant.idProfileKf==6) && tenant.idTypeTenantKf==2 && tenant.isDepartmentApproved==null || tenant.isDepartmentApproved==0)" style="padding-top: 5px; padding-bottom: 5px; margin-top: 10px; text-align: center;" class="text-danger alert alert-warning"><i class="fas fa-lock"></i> No Autorizado</span>
+                                    <!--<ul ng-show="tenant.idStatusKf==0 || sysLoggedUser.idProfileKf==1" class="dropdown-menu">
+                                    <li><a ng-click="enabledTenant(tenant.idUser)" ng-if="tenant.idStatusKf<1"><i title="Activar" class="glyphicon glyphicon-ok-circle"> </i> Activar</a></li>
+                                    <li><a ng-click="disabledTenant(tenant.idUser)" ng-if="tenant.idStatusKf>0 && sysLoggedUser.idProfileKf!=3"><i title="desactivar" class="glyphicon glyphicon-ban-circle"></i> Desactivar</a></li>
+                                    </ul>-->
+                                    
+                                <!--</td>-->
+                                <!--<td ng-trim="true" style="vertical-align: middle; text-align: center;" class="show-column-table">{{tenant.dateCreated  | dateToISO | date:'MM/dd/yyyy'}}</td>-->
+                                <!--<td>{{tenant.dateCreated}}</td>-->
+                                <!--<td ng-trim="true" ng-click="">
+                                    <div class="btn-group">
+                                            <button type="button" class="btn btn-info  btn-sm btn-xs dropdown-toggle" data-toggle="dropdown">
+                                            <span class="caret"></span> Acciones
+                                        </button>
+                                        <ul class="dropdown-menu" role="menu">
+                                        <li>
+                                            <a href="" ng-click="switchBuildingFn('edit', tenant);" data-toggle="tooltip" data-placement="bottom" title="Editar" type="button"><i class="font-size-18px text-primary fas fa-pen-square"></i>  Editar</a>
+                                        </li>
+                                        <li ng-if="((tenant.idProfileKf==3 || tenant.idProfileKf==4 || tenant.idProfileKf==6) && tenant.idTypeTenantKf==1 && (item.isAprobatedAdmin==null || item.isAprobatedAdmin==0))" role="presentation"><div class="divider"></div>
+                                        <li ng-if="((tenant.idProfileKf==3 || tenant.idProfileKf==4 || tenant.idProfileKf==6) && tenant.idTypeTenantKf==1 && (item.isAprobatedAdmin==null || item.isAprobatedAdmin==0))" class="dropdown-item"><a href="" ng-click="modalConfirmation('approveDepto', 0, tenant)" data-toggle="tooltip" data-placement="bottom" title="Autorizar propietario" type="button"><i class="font-size-18px text-success fas fa-user-lock"></i> Autorizar</a></li>
+                                        <li ng-if="((tenant.idProfileKf==5 || tenant.idProfileKf==4 || tenant.idProfileKf==6) && tenant.idTypeTenantKf==2 && (tenant.isDepartmentApproved==null || tenant.isDepartmentApproved==0))" role="presentation"><div class="divider"></div>
+                                        <li ng-if="((tenant.idProfileKf==5 || tenant.idProfileKf==4 || tenant.idProfileKf==6) && tenant.idTypeTenantKf==2 && (tenant.isDepartmentApproved==null || tenant.isDepartmentApproved==0))" class="dropdown-item"><a href="" ng-click="modalConfirmation('approveDepto', 0, tenant)" data-toggle="tooltip" data-placement="bottom" title="Autorizar habitante" type="button"><i class="font-size-18px text-success fas fa-user-lock"></i> Autorizar</a></li>
+                                        <li role="presentation"><div class="divider"></div>
+                                        <li class="dropdown-item"><a href="" ng-click="modalConfirmation('removet', 0, tenant)" data-toggle="tooltip" data-placement="bottom" title="Eliminar" type="button"><i class="font-size-18px text-danger fas fa-window-close"></i> Eliminar</a></li>
+                                        </ul>
+                                    </div>
+                                </td>-->
+                            </tr>
+                        </tbody>
+                    </table>
+
+                </div>
+            </td>
+        </tr>
+    </tbody>
+</table>

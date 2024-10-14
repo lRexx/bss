@@ -1,0 +1,206 @@
+<!-- checkbox where it can select if it is building customer already registere -->
+<div class="form-group col-md-12 n-padding-l n-padding-r" 
+	ng-if="(customer.details.idClientTypeFk!=2 && customer.details.idTipoInmuebleFk!='' && customer.details.idTipoInmuebleFk!=undefined) || customer.details.idClientTypeFk==2" 
+	ng-class="{
+			'well-checkbox': customer.details.idClientTypeFk!=2,
+		   	'well-checkbox-success': (customer.details.idClientTypeFk!=2 && !customer.details.isNotCliente && fUpdateCustomer.numberOfFloor.$valid && fUpdateCustomer.customer_address.$valid && fUpdateCustomer.nameDepto.$valid && fUpdateCustomer.update_province.$valid && fUpdateCustomer.update_Localidad.$valid) || (customer.details.idClientTypeFk!=2 && customer.details.isNotCliente && fUpdateCustomer.customer_address_registered.$valid && fUpdateCustomer.deparment_registered.$valid)
+		   }" 
+  	style="width: auto;" >
+	<div ng-if="(customer.details.idClientTypeFk!=2) && customer.details.idClientTypeFk!='' && customer.details.idTipoInmuebleFk==1" style="margin-left: 120px;">
+    	<label class="switch switch-1x">
+    		<input type="checkbox"
+    		ng-disabled="customer.details.idClientTypeFk==4?true:false" 
+    		class="success" 
+    		ng-required="customer.details.idClientTypeFk==4 || customer.details.idClientTypeFk==5" 
+    		ng-change="enabledNextBtn(); customer.select.main.address.selected=undefined; customer.select.main.province.selected=undefined; customer.select.main.location.selected=undefined; customer.select.main.department='';customer.details.floor=''; customer.details.department=''; customer.details.nameAddress=''" 
+    		ng-model="customer.details.isNotCliente" 
+    		id="checkbuttonBuilding" 
+    		style="margin: 0px !important; display: inherit !important;">
+			<span class="slider slider-1x flat"></span>
+		</label>
+  		<label for="checkbuttonBuilding" style="cursor: pointer; font-weight: 600;">Edificio Registrado</label>
+	</div>
+	<!-- Address for customer when is not a building registered already -->
+	<div class="form-group col-md-12" ng-if="(customer.details.idClientTypeFk==2) || ((customer.details.idClientTypeFk!=2) && customer.details.idTipoInmuebleFk!='1')" ng-class="
+								  			{	'has-success': 
+								  				addrrSelected && fUpdateCustomer.customer_address.$valid,
+								  			 	'has-error': 
+								  				(customer.details.nameAddress.length==0 && customer.details.nameAddress.length<1) && !addrrSelected && fUpdateCustomer.customer_address.$touched || 
+								  				(customer.details.nameAddress=='' || customer.details.nameAddress==undefined) && (!addrrSelected || addrrSelected) && fUpdateCustomer.customer_address.$touched ||
+								  				customer.details.nameAddress!='' && !addrrSelected && fUpdateCustomer.customer_address.$touched
+								  			}">
+      	<label style="padding-left: 15px;">Direcci&#243n
+      	</label> 
+      	<div class="input-group">
+      		<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
+			<input type="text" 
+			ng-disabled="customer.details.idClientTypeFk==4?true:false"
+			id="customer_address" 
+			name="customer_address" 
+			ng-model="customer.details.nameAddress" 
+			placeholder="Direcci&#243n" 
+			ng-keyup="getAddressByNameFn(customer.details.nameAddress,'main');" 
+			class="form-control" 
+			ng-required="(customer.details.idClientTypeFk==2) || ((customer.details.idClientTypeFk!=2) && !customer.details.isNotCliente && customer.details.idTipoInmuebleFk!='')" />
+      	</div>			                  	
+		<ul class="list-group" ng-if="rsAddress_API_Data_Main.length>0">
+			<li class="list-group-item" ng-repeat="item in rsAddress_API_Data_Main" ng-click="searchAddressByNameFn(item, 'address', 'main')">{{item.calle.nombre}} {{item.altura.valor}}, {{item.provincia.nombre}}</li>
+		</ul>
+	</div>
+	<!-- floor number for a building that is going to register as a Non-customer -->
+	<div class="form-group col-md-6" ng-if="((customer.details.idClientTypeFk!=2) && !customer.details.isNotCliente && customer.details.idTipoInmuebleFk==1)" ng-class="
+			  			{	'has-success': 
+			  				customer.details.floor.length>=1 && fUpdateCustomer.numberOfFloor.$valid,
+			  				'has-error': 
+			  				(customer.details.floor.length==0 && customer.details.floor.length<1) && fUpdateCustomer.numberOfFloor.$touched || 
+			  				(customer.details.floor=='' || customer.details.floor==undefined) && fUpdateCustomer.numberOfFloor.$touched
+			  			}">
+	  	<label style="padding-left: 25px;">Piso</label>  
+	    <div class="input-group">
+	    	<span class="input-group-addon"><i class="fas fa-building"></i></span>
+	  		<input name="numberOfFloor"
+	  				ng-disabled="customer.details.idClientTypeFk==4 || customer.details.isNotCliente || customer.details.nameAddress==''?true:false" 
+	  				class="form-control input--number" 
+	  				placeholder="Piso"
+	  				ng-required="(!customer.details.isNotCliente)" 
+	  				ng-model="customer.details.floor" type="text" ng-keydown="fnLoadPhoneMask(); enabledNextBtn();" autofocus >
+	    </div>
+	</div>	
+	<!-- department number for a building that is going to register as a Non-customer -->												
+	<div class="form-group col-md-6" ng-if="((customer.details.idClientTypeFk!=2) && !customer.details.isNotCliente && customer.details.idTipoInmuebleFk==1)" ng-class="
+			  			{	'has-success': 
+			  				customer.details.department.length>=1 && fUpdateCustomer.nameDepto.$valid,
+			  				'has-error': 
+			  				(customer.details.department.length==0 && customer.details.department.length<1) && fUpdateCustomer.nameDepto.$touched || 
+			  				(customer.details.department=='' || customer.details.department==undefined) && fUpdateCustomer.nameDepto.$touched
+			  			}">
+	  	<label style="padding-left: 25px;">Departamento</label>  
+	    <div class="input-group">
+	    	<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+	  		<input name="nameDepto" 
+	  				class="form-control text-uppercase" 
+	  				placeholder="Depto"
+	  				ng-disabled="customer.details.idClientTypeFk==4 || customer.details.isNotCliente || customer.details.nameAddress==''?true:false"  
+	  				ng-required="(!customer.details.isNotCliente)" 
+	  				ng-model="customer.details.department" type="text"
+	  				ng-keydown="enabledNextBtn();"
+	  				allow-typing="^([a-zA-Z]|[\d]){1,3}\b$" autofocus >
+	    </div>
+	</div>		
+	<!-- Address for customer differents than building -->
+	<!-- Address for customer branch & Particular where the building is registered already -->
+	<div class="form-group col-md-12 n-padding-l n-padding-r" ng-if="(customer.details.idClientTypeFk!=2) && customer.details.idClientDepartamentFk!=null && customer.details.idTipoInmuebleFk=='1'" ng-class="
+								  			{	'has-success': 
+								  				customer.select.main.address.selected!=undefined && fUpdateCustomer.customer_address_registered.$valid,
+								  			 	'has-error':  
+								  				(customer.select.main.address.selected==undefined) && fUpdateCustomer.customer_address_registered.$touched,
+								  			}">
+	  <label style="padding-left: 25px;">Direcci&#243n</label>  
+	    <div class="col-sm-12">
+		    <!-- ######################################################################################################### -->
+		    <div class="input-group">
+              	<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+	          	<ui-select name="customer_address_registered"  
+	          			 ng-required="(customer.details.idClientTypeFk!=2) && customer.details.isNotCliente" 
+	          			 ng-change="getBuildingsDeptosFn(customer.select.main.address.selected.idClient); enabledNextBtn(); customer.select.main.department=''" 
+	          			 ng-disabled="customer.details.idClientTypeFk==4?true:false" 
+	          			 ng-model="customer.select.main.address.selected"
+	          			 theme="bootstrap" autofocus>
+	              <ui-select-match placeholder="Selecciona un edificio">{{$select.selected.address | uppercase}}</ui-select-match>
+	                <ui-select-choices repeat="item in rsBuildingAddressData | filter: $select.search">
+	                  <div ng-bind-html="item.address | highlight: $select.search"></div>
+	                    <small ng-bind-html="item.province | highlight: $select.search"></small>
+	                    <small> (</small><small ng-bind-html="item.location | highlight: $select.search"></small><small>)</small>
+	                </ui-select-choices>
+	                <ui-select-no-choice>
+					    No hay resultados, contacte are de soporte.
+				  	</ui-select-no-choice>
+	            </ui-select>
+           	</div>
+        </div>
+	</div>
+	<!-- Address for customer Particular -->
+	<!-- Deparments for customer compnay & Particular -->									
+	<div class="form-group col-md-12 n-padding-l n-padding-r" ng-if="(customer.details.idClientTypeFk!=2) && customer.details.idClientDepartamentFk!=null && customer.details.idTipoInmuebleFk=='1'" ng-class="
+								  			{	'has-success': 
+								  				customer.select.main.department!='' &&
+								  				customer.select.main.department!=undefined &&
+								  				 fUpdateCustomer.deparment_registered.$valid,
+								  			 	'has-error':  
+								  				(customer.select.main.department=='' || customer.select.main.department==undefined) && fUpdateCustomer.deparment_registered.$touched,
+								  			}">
+	  	<label style="padding-left: 25px;">Departamento</label>  
+	    <div class="col-xs-12 selectContainer">
+		    <div class="input-group">
+		    	<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+		  		<select name="deparment_registered" 
+		  				class="form-control" 
+		  				ng-disabled="customer.details.idClientTypeFk==4 || !customer.details.isNotCliente || customer.select.main.address.selected==undefined?true:false"  
+		  				ng-options="item.idDepto as item.Depto for item in rsBuildingDepartmentsData" 
+		  				ng-required="(customer.details.idClientTypeFk!=2) && customer.details.isNotCliente"
+		  				ng-change="enabledNextBtn();" 
+		  				ng-model="customer.select.main.department" autofocus >
+				    <option value="">Selecciona un departamento</option>
+			    </select>
+		    </div>
+	  </div>
+	</div>
+	<!-- // Deparments for customer compnay & Particular -->
+	<!-- State List-->
+    <div class="form-group col-md-12" ng-if="(customer.details.idClientTypeFk==2) || ((customer.details.idClientTypeFk!=2))" ng-class="
+								  			{	'has-success': 
+								  				customer.select.main.province.selected!=undefined && fUpdateCustomer.update_province.$valid,
+								  			 	'has-error':  
+								  				(customer.select.main.province.selected==undefined) && fUpdateCustomer.update_province.$touched,
+								  			}">
+      <label style="padding-left: 15px;">Provincia</label> 
+        <div class="input-group">
+                <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                    <ui-select name="update_province" 
+                    			class="dropdown-select" 
+                    			ng-disabled="customer.details.idClientTypeFk==4?true:false"
+                    			ng-model="customer.select.main.province.selected"  
+                    			ng-change="getAddressIdByNameFn(customer.select.main.province.selected.province, 'main');getLocationByIdFn(customer.select.main.province.selected.idProvince); getCurrentAddrVal(customer.select.main.province.selected, customer.select.main.location.selected); enabledNextBtn();" 
+                    			required="(customer.details.idClientTypeFk==2) || ((customer.details.idClientTypeFk!=2) && !customer.details.isNotCliente && customer.details.idTipoInmuebleFk!='')" autofocus>
+                        <ui-select-match placeholder="Seleccione una provincia">{{$select.selected.province | uppercase}}</ui-select-match>
+                        <ui-select-choices repeat="item in rsStatesData | filter: $select.search">
+                          <div ng-bind-html="item.province | uppercase | highlight: $select.search"></div>
+                            <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+                            <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+                        </ui-select-choices>
+	                    <ui-select-no-choice>
+						    No hay resultados, contacte are de soporte.
+					  	</ui-select-no-choice>                        
+                    </ui-select>
+        </div>
+    </div>    														
+	<!-- Localidad list-->
+    <div class="form-group col-md-12" ng-if="(customer.details.idClientTypeFk==2) || ((customer.details.idClientTypeFk!=2))" ng-class="
+								  			{	'has-success': 
+								  				customer.select.main.location.selected!=undefined && fUpdateCustomer.update_Localidad.$valid,
+								  			 	'has-error':  
+								  				(customer.select.main.location.selected==undefined) && fUpdateCustomer.update_Localidad.$touched,
+								  			}">
+      <label style="padding-left: 15px;">Localidad</label> 
+        <div class="input-group">
+                <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                    <ui-select name="update_Localidad" 
+                    			class="dropdown-select" 
+                    			ng-model="customer.select.main.location.selected" 
+                    			ng-disabled="customer.details.idClientTypeFk==4 || (!customer.select.main.province.selected.idProvince  && !customer.details.nameAddress)?true:false" 
+                    			required="(customer.details.idClientTypeFk==2) || ((customer.details.idClientTypeFk!=2) && !customer.details.isNotCliente && customer.details.idTipoInmuebleFk!='')" 
+                    			ng-change="getCurrentAddrVal(customer.select.main.province.selected, customer.select.main.location.selected); enabledNextBtn();" 
+                    			autofocus>
+                        <ui-select-match placeholder="Seleccione una localidad">{{$select.selected.location | uppercase}}</ui-select-match>
+                        <ui-select-choices repeat="item in rsLocations_All | filter: $select.search">
+                          <div ng-bind-html="item.location | uppercase | highlight: $select.search"></div>
+                            <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+                            <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+                        </ui-select-choices>
+	                    <ui-select-no-choice>
+						    No hay resultados, contacte are de soporte.
+					  	</ui-select-no-choice>                        
+                    </ui-select>
+        </div>
+    </div>
+</div>

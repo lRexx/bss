@@ -1,0 +1,108 @@
+<!-- Modal Floor & Depto -->
+<div id="newDeptoCustomerNotClient" style="top: 210px;" class="modal fade modal-dialog-centered" role="dialog">
+	<div class="modal-dialog modal-md" >
+	    <div class="modal-content">
+	    	<div class="modal-header">
+          		<button type="button" class="close" ng-click="closeDepto2CustomerNotClient();"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title">
+		            <span  class="card-depto-span"><i class="fas fa-house-user"></i> Nuevo Departamento </span>
+            	</h3>
+        	</div>
+	    	<div class="modal-body" style="height: 140px">
+				<!-- FORM CONTAINER-->
+				<form name="fNewDeptoCustomerNotCliente" novalidate>
+					<!-- Type Of Unit -->									
+					<div class="form-group col-md-12 n-padding-l n-padding-r" ng-class="
+												  			{	'has-success': 
+												  				customer.notClient.idCategoryDepartamentFk!='' &&
+												  				customer.notClient.idCategoryDepartamentFk!=undefined &&
+												  				 fNewDeptoCustomerNotCliente.deparment_type.$valid,
+												  			 	'has-error':  
+												  				(customer.notClient.idCategoryDepartamentFk=='' || customer.notClient.idCategoryDepartamentFk==undefined) && fNewDeptoCustomerNotCliente.deparment_type.$touched,
+												  			}">
+					  	<label style="padding-left: 15px;">Tipo de Unidad</label>
+					    <div class="col-xs-12 selectContainer">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+						  		<select name="deparment_type" 
+						  				class="form-control"
+						  				ng-change="customer.notClient.department=''; customer.notClient.floor=''; setNewDeptoFloor(customer.notClient.idCategoryDepartamentFk);"
+						  				ng-options="item.idCategoryDepartament as item.categoryDepartament for item in rsCategoryDeptoData" 
+						  				ng-required="(customer.notClient.isNotCliente=='1')"
+						  				ng-model="customer.notClient.idCategoryDepartamentFk" autofocus >
+								    <option value="">Selecciona un tipo</option>
+							    </select>
+						    </div>
+					  	</div>
+					</div>
+				<!-- floor number for a building that is going to register as a Non-customer -->
+					<div ng-if="customer.notClient.idCategoryDepartamentFk!='' && customer.notClient.idCategoryDepartamentFk!=undefined" class="form-group col-md-6" ng-class="
+							  			{	'has-success':
+							  				(customer.notClient.floor.length==2 && customer.notClient.floor!='' && fNewDeptoCustomerNotCliente.numberOfFloor.$valid) || 
+							  				((customer.notClient.floor.length==2 || customer.notClient.floor>0) && fNewDeptoCustomerNotCliente.numberOfFloor.$valid),
+							  				'has-error': 
+							  				(customer.notClient.floor.length==0 && customer.notClient.floor.length<1) && fNewDeptoCustomerNotCliente.numberOfFloor.$touched || 
+							  				(customer.notClient.floor=='' || customer.notClient.floor==undefined) && fNewDeptoCustomerNotCliente.numberOfFloor.$touched
+							  			}">
+					  	<label style="padding-left: 15px;">Piso</label>  
+					    <div class="input-group">
+					    	<span class="input-group-addon"><i class="fas fa-building"></i></span>
+					  		<input name="numberOfFloor" 
+					  				class="form-control text-uppercase input--floor" 
+					  				placeholder="Piso" 
+					  				ng-disabled="customer.notClient.idCategoryDepartamentFk!='1' && customer.notClient.idCategoryDepartamentFk!='5' && customer.notClient.idCategoryDepartamentFk!='6'"
+					  				ng-required="(customer.notClient.isNotCliente=='1')"
+					  				ng-model="customer.notClient.floor" type="text"
+					  				ng-keydown="fnLoadPhoneMask();setNewDeptoFloor(customer.notClient.idCategoryDepartamentFk);"
+					  				allow-typing="^(pb|PB)|^([0-9]|[\d]){1,2}\b$" autofocus >
+					    </div>
+					</div>	
+					<!-- department number for a building that is going to register as a Non-customer -->												
+					<div ng-if="customer.notClient.idCategoryDepartamentFk!='' && customer.notClient.idCategoryDepartamentFk!=undefined" class="form-group col-md-6" ng-class="
+							  			{	'has-success': 
+							  				(customer.notClient.department.length>=1 && fNewDeptoCustomerNotCliente.nameDepto.$valid),
+							  				'has-error': 
+							  				(customer.notClient.department.length==0 && customer.notClient.department.length<1) && fNewDeptoCustomerNotCliente.nameDepto.$touched || 
+							  				(customer.notClient.department=='' || customer.notClient.department==undefined) && fNewDeptoCustomerNotCliente.nameDepto.$touched
+							  			}">
+					  	<label style="padding-left: 15px;">Departamento</label>  
+					    <div class="input-group">
+					    	<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+					  		<input name="nameDepto" 
+					  				class="form-control text-uppercase input--depto" 
+					  				placeholder="Depto" 
+					  				ng-required="(customer.notClient.isNotCliente=='1')"
+					  				ng-disabled="customer.notClient.idCategoryDepartamentFk=='5'" 
+					  				ng-model="customer.notClient.department" type="text"
+					  				ng-keydown="fnLoadPhoneMask(); enabledNextBtn();"
+					  				allow-typing="^([a-zA-Z]|[\d])|^([0-9]|[\d]){1,4}\b$" autofocus >
+					    </div>
+					</div>	
+				</form>
+			</div>
+			<div class="clearfix"> </div>
+			<div class="form-group col-md-12">
+				<span class="label label-default text-uppercase">Pisos segun Tipo de unidad</span>
+			</div>
+			<div class="form-group col-md-12">				
+				<span class="label label-warning">CO</span><span class="label label-default">CHERA</span>
+				<span class="label label-warning">LO</span><span class="label label-default">CAL</span>			
+				<span class="label label-warning">BA</span><span class="label label-default">ULERA</span>
+			</div>
+			<div class="clearfix"> </div>
+	        <div class="modal-footer">
+	            <div class="row">
+	                <div class="col-xs-6 col-sm-6 col-md-6 pull-right">
+	                	<button 
+		                	type="submit" 	
+		                	ng-click="addDepto2NotClientCustomer(customer.notClient)" 
+		                	ng-disabled="fNewDeptoCustomerNotCliente.$invalid" 
+		                	class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>	                        
+	                </div>           
+	            </div>
+	        </div>										
+		</div>
+	</div>
+</div>
+<!-- //Modal Floor & Depto -->

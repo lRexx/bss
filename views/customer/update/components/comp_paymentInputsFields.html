@@ -1,0 +1,197 @@
+<div class=" col-md-12 n-padding-l n-padding-r well-checkbox" ng-init="allowAction.edit.businessNameBilling=true; allowAction.edit.cuitBilling=true; allowAction.edit.nameAddress=true;allowAction.edit.province=true;allowAction.edit.location=true" >
+	<label class="clf-size from-left-from-label" style="margin-left: 6em; padding-bottom: 15px;">DATOS DE FACTURACION</label><br>
+	<div class="form-group col-md-12" ng-class="
+		{	'has-success': 
+			customer.update.billing_information_details.businessNameBilling!='' && fUpdateCustomer.payment_businessNameBilling.$valid,
+		 	'has-error':  
+			(customer.update.billing_information_details.businessNameBilling=='' || customer.update.billing_information_details.businessNameBilling==undefined) && fUpdateCustomer.payment_businessNameBilling.$touched,
+		}">
+	  <label style="padding-left: 15px;" >Razon Social </label>
+			<div class="input-group">
+		  		<span class="input-group-addon">
+		  			<i ng-if="(customer.update.isNotCliente=='0' && (customer.update.idClientTypeFk!=2 || !allowAction.edit.businessNameBilling)) || (customer.update.isNotCliente=='1' && customer.update.idClientTypeFk=='2')" class="glyphicon glyphicon-user"></i>
+		  			<i 	style="color: #f0ad4e; font-size:20px; cursor: pointer;" 
+		  				ng-if="(customer.update.isNotCliente=='0') && (customer.update.idClientTypeFk=='2' && allowAction.edit.businessNameBilling && (customer.update.billing_information_details.businessNameBilling!='' || customer.update.billing_information_details.businessNameBilling!=undefined || customer.update.billing_information_details.businessNameBilling==undefined))" 
+		  				ng-click="allowAction.edit.businessNameBilling=false" 
+		  				class="fas fa-pen-square" 
+		  				data-toggle="tooltip" 
+		  				data-placement="left" 
+		  				title="Editar"></i>
+		  		</span>
+		  		<input ng-disabled="customer.update.isNotCliente=='0' && (customer.update.idClientTypeFk=='2' && allowAction.edit.businessNameBilling)?true:false" name="payment_businessNameBilling" placeholder="razon social" class="form-control" ng-model="customer.update.billing_information_details.businessNameBilling" type="text" required autofocus />
+			</div>								  	
+	</div>
+	<div class="form-group col-md-12" ng-class="
+		{	'has-success': 
+			customer.update.billing_information_details.cuitBilling!='' && fUpdateCustomer.payment_cuitBilling.$valid,
+		 	'has-error':  
+			(customer.update.billing_information_details.cuitBilling=='' || customer.update.billing_information_details.cuitBilling==undefined) && fUpdateCustomer.payment_cuitBilling.$touched,
+		}">								  
+	  <label style="padding-left: 15px;" >CUIT</label> 
+			<div class="input-group">
+		  		<span class="input-group-addon">
+		  			<i ng-if="(customer.update.isNotCliente=='0' && (customer.update.idClientTypeFk!=2 || !allowAction.edit.cuitBilling)) || (customer.update.isNotCliente=='1' && customer.update.idClientTypeFk=='2')" class="glyphicon glyphicon-user"></i>
+					<i 	style="color: #f0ad4e; font-size:20px; cursor: pointer;" 
+						ng-if="(customer.update.isNotCliente=='0') && (customer.update.idClientTypeFk=='2' && allowAction.edit.cuitBilling && (customer.update.billing_information_details.cuitBilling!='' || customer.update.billing_information_details.cuitBilling!=undefined))" 
+						ng-click="allowAction.edit.cuitBilling=false" 
+						class="fas fa-pen-square" 
+						data-toggle="tooltip" 
+						data-placement="left" 
+						title="Editar"></i>		  			
+		  		</span>
+		  		<input 
+		  		ng-disabled="customer.update.isNotCliente=='0' && (customer.update.idClientTypeFk=='2' && allowAction.edit.cuitBilling)?true:false" 
+		  		name="payment_cuitBilling" 
+		  		placeholder="CUIT" 
+		  		class="form-control" 
+		  		ng-model="customer.update.billing_information_details.cuitBilling" 
+		  		type="text" 
+		  		required autofocus />
+			</div>								  	
+	</div>
+	<!-- Cost Center -->
+	<div class="form-group col-md-12" ng-class="
+			{	'has-success': 
+				customer.update.billing_information_details.idCostCenterFk!='' && fUpdateCustomer.payment_costCenterBilling.$valid,
+				'has-error':  
+				(customer.update.billing_information_details.idCostCenterFk=='' || customer.update.billing_information_details.idCostCenterFk==undefined) && fUpdateCustomer.payment_costCenterBilling.$touched,
+			}" > 
+		<label style="padding-left: 15px;">Centro de Costo</label>
+			<div class="input-group">
+				<span class="input-group-addon">
+					<i ng-if="(customer.update.isNotCliente=='0' && (customer.update.idClientTypeFk!=2 || !allowAction.edit.costCenterBilling)) || (customer.update.isNotCliente=='1' && customer.update.idClientTypeFk=='2')" class="fas fa-chart-line"></i>
+					<i 	style="color: #f0ad4e; font-size:20px; cursor: pointer;" 
+					  ng-if="(customer.update.isNotCliente=='0') && (customer.update.idClientTypeFk=='2' && allowAction.edit.costCenterBilling && (customer.update.billing_information_details.idCostCenterFk!='' || customer.update.billing_information_details.idCostCenterFk!=null || customer.update.billing_information_details.idCostCenterFk!=undefined))" 
+					  ng-click="allowAction.edit.costCenterBilling=false" 
+					  class="fas fa-pen-square" 
+					  data-toggle="tooltip" 
+					  data-placement="left" 
+					  title="Editar"></i>		  			
+				</span>
+				<select ng-disabled="customer.update.isNotCliente=='0' && (customer.update.idClientTypeFk=='2' && allowAction.edit.costCenterBilling)?true:false"  name="payment_costCenterBilling" class="form-control"  ng-options="item.idCostCenter as item.costCenter for item in rsCostCenterData" ng-change="enabledNextBtn();" ng-model="customer.update.billing_information_details.idCostCenterFk" ng-required="true" autofocus >
+					<option value="">Seleccione una opci&#243n</option>
+				</select>
+			</div>
+	</div>
+	<div class="form-group col-md-12" ng-class="
+								  			{	'has-success': 
+								  				addrrSelected && fUpdateCustomer.payment_direccion.$valid,
+								  			 	'has-error': 
+								  				(!addrrSelected && fUpdateCustomer.payment_direccion.$touched) || 
+								  				(customer.update.billing_information_details.nameAddress.length==0 && customer.update.billing_information_details.nameAddress.length<1) && !addrrSelected && fUpdateCustomer.payment_direccion.$touched || 
+								  				(customer.update.billing_information_details.nameAddress=='' || customer.update.billing_information_details.nameAddress==undefined) && (!addrrSelected || addrrSelected) && fUpdateCustomer.payment_direccion.$touched ||
+								  				customer.update.billing_information_details.nameAddress!='' && !addrrSelected && fUpdateCustomer.payment_direccion.$touched
+								  			}">
+	  	<label style="padding-left: 15px;">Direcci&#243n</label> 
+	  	<div class="input-group">
+	  		<span class="input-group-addon">
+	  			<i ng-if="customer.update.idClientTypeFk!=2 || !allowAction.edit.nameAddress" class="fas fa-map-marked-alt"></i>
+				<i 	style="color: #f0ad4e; font-size:20px; cursor: pointer;" 
+					ng-if="customer.update.idClientTypeFk=='2' && allowAction.edit.nameAddress && (customer.update.billing_information_details.nameAddress!='' || customer.update.billing_information_details.nameAddress!=undefined)" 
+					ng-click="allowAction.edit.nameAddress=false" 
+					class="fas fa-pen-square" 
+					data-toggle="tooltip" 
+					data-placement="left" 
+					title="Editar"></i>		  			
+	  		</span> 
+			<input type="text"
+			ng-disabled="customer.update.idClientTypeFk=='2' && allowAction.edit.nameAddress?true:false"  
+			name="payment_direccion" 
+			ng-model="customer.update.billing_information_details.nameAddress" 
+			placeholder="Direcci&#243n" 
+			ng-keydown="$event.keyCode === 13 && getAddressByNameFn(customer.update.billing_information_details.nameAddress, customer.select.payment.province.selected.idProvinceAPIGobFk, 'payment')"
+			class="form-control" 
+			required="true" />
+			<span data-toggle="tooltip" data-placement="top" title="Buscar" style="cursor: pointer;" ng-click="getAddressByNameFn(customer.update.billing_information_details.nameAddress, customer.select.payment.province.selected.idProvinceAPIGobFk, 'payment');" class="input-group-addon"><i class="fas fa-search-location"></i></span>			
+	  	</div>			                  	
+		<ul class="list-group" ng-if="rsAddress_API_Data_Payment.length>0">
+			<li class="list-group-item" ng-repeat="item in rsAddress_API_Data_Payment" ng-click="fillData('address', 'payment', item)">{{item.calle.nombre}} {{item.altura.valor}}, {{item.provincia.nombre}}, {{item.localidad_censal.nombre}}</li>
+		</ul>
+	</div>	
+	<!-- State List-->
+	<div class="form-group col-md-12"  ng-class="
+								  			{	'has-success': 
+								  				customer.select.payment.province.selected.idProvince!=undefined && fUpdateCustomer.payment_provincia.$valid,
+								  			 	'has-error':  
+								  				(customer.select.payment.province.selected.idProvince==undefined) && fUpdateCustomer.payment_provincia.$touched,
+								  			}">
+	  <label style="padding-left: 15px;">Provincia</label> 
+	    <div class="input-group">
+	        <span class="input-group-addon">
+	  			<i ng-if="(customer.update.isNotCliente=='0' && (customer.update.idClientTypeFk!=2 || !allowAction.edit.province)) || (customer.update.isNotCliente=='1' && customer.update.idClientTypeFk=='2')" class="fas fa-map-marked-alt"></i>
+				<i 	style="color: #f0ad4e; font-size:20px; cursor: pointer;" 
+					ng-if="(customer.update.isNotCliente=='0') && (customer.update.idClientTypeFk=='2' && allowAction.edit.province && (customer.select.payment.province.selected!=undefined || customer.select.payment.province.selected==undefined))" 
+					ng-click="allowAction.edit.province=false" 
+					class="fas fa-pen-square" 
+					data-toggle="tooltip" 
+					data-placement="left" 
+					title="Editar"></i>	
+	        </span>
+	            <ui-select 	name="payment_provincia"
+	            			class="dropdown-select"
+	            			ng-disabled="customer.update.isNotCliente=='0' && ((customer.update.idClientTypeFk=='2' && allowAction.edit.province) || !customer.update.billing_information_details.nameAddress)?true:false"  
+	                  		ng-model="customer.select.payment.province.selected"
+	                  		ng-change="getLocationByIdFn(customer.select.payment.province.selected.idProvince)" autofocus>
+	                <ui-select-match placeholder="Seleccione una provincia">{{$select.selected.province | uppercase}}</ui-select-match>
+	                <ui-select-choices repeat="item in rsStatesData | filter: $select.search">
+	                  <div ng-bind-html="item.province | highlight: $select.search"></div>
+	                    <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+	                    <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+	                </ui-select-choices>
+                    <ui-select-no-choice>
+					    No hay resultados, contacte are de soporte.
+				  	</ui-select-no-choice>	                
+	            </ui-select>
+	    </div>
+	</div>													
+	<!-- Localidad list-->
+	<div class="form-group col-md-12" ng-class="
+								  			{	'has-success': 
+								  				customer.select.payment.location.selected.idLocation!=undefined && fUpdateCustomer.payment_localidad.$valid,
+								  			 	'has-error':  
+								  				(customer.select.payment.location.selected.idLocation==undefined) && fUpdateCustomer.payment_localidad.$touched,
+								  			}">
+	  <label style="padding-left: 15px;">Localidad</label> 
+	    <div class="input-group">
+	            <span class="input-group-addon">
+	  			<i ng-if="(customer.update.isNotCliente=='0' && (customer.update.idClientTypeFk!=2 || !allowAction.edit.location)) || (customer.update.isNotCliente=='1' && customer.update.idClientTypeFk=='2')" class="fas fa-map-marked-alt"></i>
+				<i 	style="color: #f0ad4e; font-size:20px; cursor: pointer;" 
+					ng-if="(customer.update.isNotCliente=='0') && (customer.update.idClientTypeFk=='2' && allowAction.edit.location && (customer.select.payment.location.selected!=undefined || customer.select.payment.location.selected==undefined))" 
+					ng-click="allowAction.edit.location=false" 
+					class="fas fa-pen-square" 
+					data-toggle="tooltip" 
+					data-placement="left" 
+					title="Editar"></i>	            	
+	            </span>
+	                <ui-select 	name="payment_localidad" 
+	                			class="dropdown-select"
+	                			ng-disabled="customer.update.isNotCliente=='0' && ((customer.update.idClientTypeFk=='2' && allowAction.edit.location) || !customer.select.payment.province.selected.idProvince)?true:false"   
+	                      		ng-model="customer.select.payment.location.selected" autofocus>
+	                    <ui-select-match placeholder="Seleccione una localidad">{{$select.selected.location | uppercase}}</ui-select-match>
+	                    <ui-select-choices repeat="item in rsLocations_All | filter: $select.search">
+	                      <div ng-bind-html="item.location | highlight: $select.search"></div>
+	                        <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+	                        <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+	                    </ui-select-choices>
+	                    <ui-select-no-choice>
+						    No hay resultados, contacte are de soporte.
+					  	</ui-select-no-choice>	                    
+	                </ui-select>
+	    </div>
+	</div> 									
+	<!-- Type of IVA -->
+	<div class="form-group col-md-12" ng-class="
+								  			{	'has-success': 
+								  				customer.update.billing_information_details.idTypeTaxFk!=undefined && fUpdateCustomer.payment_typeOfIVA.$valid,
+								  			 	'has-error':  
+								  				(customer.update.billing_information_details.idTypeTaxFk==undefined) && fUpdateCustomer.payment_typeOfIVA.$touched,
+								  			}"> 
+	  <label style="padding-left: 15px;">Tipo de IVA</label>
+		    <div class="input-group">
+		    		<span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+			    	<select name="payment_typeOfIVA" class="form-control"  ng-options="item.idTypeTax as item.typeTax for item in rsTypeOfIVAData" ng-model="customer.update.billing_information_details.idTypeTaxFk" required autofocus>
+				    	<option value="">Seleccione una opci&#243n</option>
+			    	</select>
+		  	</div>
+	</div>
+</div>

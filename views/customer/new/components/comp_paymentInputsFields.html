@@ -1,0 +1,135 @@
+<div class=" col-md-12 n-padding-l n-padding-r well-checkbox">
+	<label class="clf-size from-left-from-label" style="margin-left: 6em; padding-bottom: 15px;">DATOS DE FACTURACION</label><br>
+	<div class="form-group col-md-12" ng-class="
+		{	'has-success': 
+			customer.new.billing_information_details.businessNameBilling!='' && fNewCustomer.payment_businessNameBilling.$valid,
+		 	'has-error':  
+			(customer.new.billing_information_details.businessNameBilling=='' || customer.new.billing_information_details.businessNameBilling==undefined) && fNewCustomer.payment_businessNameBilling.$touched,
+		}">
+	  <label style="padding-left: 15px;" >Razon Social</label> 
+			<div class="input-group">
+		  		<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+		  		<input name="payment_businessNameBilling" placeholder="razon social" class="form-control" ng-model="customer.new.billing_information_details.businessNameBilling" type="text" required autofocus />
+			</div>								  	
+	</div>
+	<div class="form-group col-md-12" ng-class="
+		{	'has-success': 
+			customer.new.billing_information_details.cuitBilling!='' && fNewCustomer.payment_cuitBilling.$valid,
+		 	'has-error':  
+			(customer.new.billing_information_details.cuitBilling=='' || customer.new.billing_information_details.cuitBilling==undefined) && fNewCustomer.payment_cuitBilling.$touched,
+		}">								  
+	  <label style="padding-left: 15px;" >CUIT</label> 
+			<div class="input-group">
+		  		<span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+		  		<input name="payment_cuitBilling" placeholder="CUIT" class="form-control" ng-model="customer.new.billing_information_details.cuitBilling" type="text" required autofocus />
+			</div>								  	
+	</div>
+	<!-- Cost Center -->
+	<div class="form-group col-md-12" ng-class="
+			{	'has-success': 
+				customer.new.billing_information_details.idCostCenterFk!='' && fNewCustomer.payment_costCenterBilling.$valid,
+				'has-error':  
+				(customer.new.billing_information_details.idCostCenterFk=='' || customer.new.billing_information_details.idCostCenterFk==undefined) && fNewCustomer.payment_costCenterBilling.$touched,
+			}" > 
+		<label style="padding-left: 15px;">Centro de Costo</label>
+			<div class="input-group">
+				<span class="input-group-addon"><i class="fas fa-chart-line"></i></span>
+				<select name="payment_costCenterBilling" class="form-control"  ng-options="item.idCostCenter as item.costCenter for item in rsCostCenterData" ng-change="enabledNextBtn();" ng-model="customer.new.billing_information_details.idCostCenterFk" ng-required="(customer.new.idClientTypeFk!=2 && customer.new.idClientTypeFk!=4)" autofocus >
+					<option value="">Seleccione una opci&#243n</option>
+				</select>
+			</div>
+	</div>
+	<div class="form-group col-md-12" ng-class="
+								  			{	'has-success': 
+								  				addrrSelected && fNewCustomer.payment_direccion.$valid,
+								  			 	'has-error': 
+								  				(!addrrSelected && fNewCustomer.payment_direccion.$touched) || 
+								  				(customer.new.billing_information_details.nameAddress.length==0 && customer.new.billing_information_details.nameAddress.length<1) && !addrrSelected && fNewCustomer.payment_direccion.$touched || 
+								  				(customer.new.billing_information_details.nameAddress=='' || customer.new.billing_information_details.nameAddress==undefined) && (!addrrSelected || addrrSelected) && fNewCustomer.payment_direccion.$touched ||
+								  				customer.new.billing_information_details.nameAddress!='' && !addrrSelected && fNewCustomer.payment_direccion.$touched
+								  			}">
+	  	<label style="padding-left: 15px;">Direcci&#243n</label> 
+	  	<div class="input-group">
+	  		<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
+			<input type="text" 
+			name="payment_direccion" 
+			ng-model="customer.new.billing_information_details.nameAddress" 
+			placeholder="Direcci&#243n" 
+			ng-keydown="$event.keyCode === 13 && getAddressByNameFn(customer.new.billing_information_details.nameAddress, customer.select.payment.province.selected.idProvinceAPIGobFk, 'payment')"
+			class="form-control" 
+			required="true" />
+			<span data-toggle="tooltip" data-placement="top" title="Buscar" style="cursor: pointer;" ng-click="getAddressByNameFn(customer.new.billing_information_details.nameAddress, customer.select.payment.province.selected.idProvinceAPIGobFk, 'payment');" class="input-group-addon"><i class="fas fa-search-location"></i></span> 
+	  	</div>			                  	
+		<ul class="list-group" ng-if="rsAddress_API_Data_Payment.length>0">
+			<li class="list-group-item" ng-repeat="item in rsAddress_API_Data_Payment" ng-click="fillData('address', 'payment',item)">{{item.calle.nombre}} {{item.altura.valor}}, {{item.provincia.nombre}}, {{item.localidad_censal.nombre}}</li>
+		</ul>
+	</div>	
+	<!-- State List-->
+	<div class="form-group col-md-12"  ng-class="
+								  			{	'has-success': 
+								  				customer.select.payment.province.selected.idProvince!=undefined && fNewCustomer.payment_provincia.$valid,
+								  			 	'has-error':  
+								  				(customer.select.payment.province.selected.idProvince==undefined) && fNewCustomer.payment_provincia.$touched,
+								  			}">
+	  <label style="padding-left: 15px;">Provincia</label> 
+	    <div class="input-group">
+	        <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+	            <ui-select 	name="payment_provincia" 
+	            			class="dropdown-select"
+	            			ng-disabled="!customer.new.billing_information_details.nameAddress" 
+	                  		ng-model="customer.select.payment.province.selected"
+	                  		ng-change="getLocationByIdFn(customer.select.payment.province.selected.idProvince)" autofocus>
+	                <ui-select-match placeholder="Seleccione una provincia">{{$select.selected.province | uppercase}}</ui-select-match>
+	                <ui-select-choices repeat="item in rsStatesData | filter: $select.search">
+	                  <div ng-bind-html="item.province | highlight: $select.search"></div>
+	                    <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+	                    <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+	                </ui-select-choices>
+                    <ui-select-no-choice>
+					    No hay resultados, contacte are de soporte.
+				  	</ui-select-no-choice>	                
+	            </ui-select>
+	    </div>
+	</div>													
+	<!-- Localidad list-->
+	<div class="form-group col-md-12" ng-class="
+								  			{	'has-success': 
+								  				customer.select.payment.location.selected.idLocation!=undefined && fNewCustomer.payment_localidad.$valid,
+								  			 	'has-error':  
+								  				(customer.select.payment.location.selected.idLocation==undefined) && fNewCustomer.payment_localidad.$touched,
+								  			}">
+	  <label style="padding-left: 15px;">Localidad</label> 
+	    <div class="input-group">
+	            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+	                <ui-select 	name="payment_localidad" 
+	                			class="dropdown-select"
+	                			ng-disabled="!customer.select.payment.province.selected.idProvince" 
+	                      		ng-model="customer.select.payment.location.selected" autofocus>
+	                    <ui-select-match placeholder="Seleccione una localidad">{{$select.selected.location | uppercase}}</ui-select-match>
+	                    <ui-select-choices repeat="item in rsLocations_All | filter: $select.search">
+	                      <div ng-bind-html="item.location | highlight: $select.search"></div>
+	                        <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+	                        <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+	                    </ui-select-choices>
+	                    <ui-select-no-choice>
+						    No hay resultados, contacte are de soporte.
+					  	</ui-select-no-choice>	                    
+	                </ui-select>
+	    </div>
+	</div> 									
+	<!-- Type of IVA -->
+	<div class="form-group col-md-12" ng-class="
+								  			{	'has-success': 
+								  				customer.new.billing_information_details.idTypeTaxFk!=undefined && fNewCustomer.payment_typeOfIVA.$valid,
+								  			 	'has-error':  
+								  				(customer.new.billing_information_details.idTypeTaxFk==undefined) && fNewCustomer.payment_typeOfIVA.$touched,
+								  			}"> 
+	  <label style="padding-left: 15px;">Tipo de IVA</label>
+		    <div class="input-group">
+		    		<span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+			    	<select name="payment_typeOfIVA" class="form-control"  ng-options="item.idTypeTax as item.typeTax for item in rsTypeOfIVAData" ng-model="customer.new.billing_information_details.idTypeTaxFk" required autofocus>
+				    	<option value="">Seleccione una opci&#243n</option>
+			    	</select>
+		  	</div>
+	</div>
+</div>

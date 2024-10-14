@@ -1,0 +1,58 @@
+<!-- MANAGE TICKETS-->
+<div class="col-md-12 n-padding-l n-padding-r">
+    <div class="panel panel-default padding-panel">
+      <div class="panel-heading">
+        <h3 class="panel-title">PEDIDOS </h3>
+      </div>
+      <div class="panel-body n-padding-l n-padding-r">
+        <div class="col-md-2 col-xs-4 n-padding-r">
+            <!-- NEW TICKET -->
+              <div class="col-md-12 col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="NUEVO TICKET" ng-click="(sysLoggedUser.idProfileKf=='4' && sysLoggedUser.idTypeTenantKf==null) || (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='3' ||  sysLoggedUser.idProfileKf=='5')?mainSwitchFn('selectTicketType', null):mainSwitchFn('selectPlace', null)">
+                <div class="depto-icon">
+                      <span><i class="product-success fas fa-clipboard-list"></i></span>
+                </div>
+                <div class="text-badge">
+                    <span class="new-customer badge badge-light"><i class="fas fa-plus"></i> NUEVO PEDIDO </span>
+                </div>
+              </div>
+            <!-- //NEW TICKET -->
+            <!-- SERVICES COST -->
+              <div class="col-md-12 col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="VER COSTOS DE SERVICIOS" ng-click="mainSwitchFn('costServices', null)">
+                <!-- <div class="ribbon ribbon-top-right"><span>proximamente</span></div>-->
+                <div class="depto-icon">
+                      <span><i class="product-success glyphicon icon-dollar"></i></span>
+                </div>
+                <div class="text-badge">
+                    <span class="registered-customer badge badge-light"><i class="fas fa-eye"></i> COSTOS </span>
+                </div>
+              </div>
+            <!-- //SERVICES COST -->
+        </div>
+        <div class="col-md-10 col-xs-8 n-padding-r">
+          <div> 
+            <div ng-if="sysContent=='tickets' && sysSubContent=='newKeyRequest'" class="pull-left col-md-12 col-xs-12 n-padding-l">
+              <div ng-include="'views/tickets/requests/newKeyRequest.html'"></div>
+            </div>
+            <div ng-if="sysContent=='tickets' && sysSubContent=='removeKeyRequest'" class="pull-left col-md-12 col-xs-12 n-padding-l">
+              <div ng-include="'views/tickets/requests/removeKeyRequest.html'"></div>
+            </div>
+            <div ng-if="sysContent=='services' && sysSubContent=='costs'" class="pull-left col-md-12 col-xs-12 n-padding-l">
+              <div ng-include="'views/tickets/costServices.html'"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+</div>
+<div ng-include="'views/tickets/selectPlace.html'"></div>
+<div ng-include="'views/tickets/selectType.html'"></div>
+<div ng-include="'views/tickets/list/tenantListByDepto.html'"></div>
+<div ng-include="'views/tickets/list/tenantList.html'"></div>
+<div ng-include="'views/tickets/list/attendantList.html'"></div>
+<div ng-include="'views/tickets/tenants/newTenant.html'"></div>
+<div ng-include="'views/tickets/tenants/editTenant.html'"></div>
+<div ng-include="'views/tickets/attendants/newAttendant.html'"></div>
+<div ng-include="'views/tickets/attendants/editAttendant.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-include="'views/utilities/customerNotificationModal.html'"></div>
+<div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>

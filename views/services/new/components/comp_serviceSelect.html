@@ -1,0 +1,27 @@
+<!-- SELECT CONTRACT LIST -->
+<div id="SelectServiceWindows" style="top: 210px;" class="modal fade modal-dialog-centered" role="dialog">
+	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content" style="background-color: #fff0; border: 0px solid #9990;">
+	    	<div class="modal-body" style="padding: 0px;">
+				<!-- FORM CONTAINER-->
+				<div class="col-md-12"> 
+					<!-- Department-->                         
+				    <div ng-if="item.service_items.length>0" ng-repeat="item in tmpServiceList.services" class="col-md-4 card-depto-colum" ng-click="switchCustomersFn('services', item, 'start_new_service', item.idServiceType);">
+				        <div class="card-depto cyan white-text text-center">
+				            <div class="card-depto-content">
+				                <i ng-if="item.idServiceType=='1'" class="fas fa-door-open"></i>
+								<i ng-if="item.idServiceType=='2'" class="fas fa-network-wired"></i>
+								<i ng-if="item.idServiceType=='3'" class="fas fa-video"></i>
+								<i ng-if="item.idServiceType=='4'" class="fas fa-video"></i>
+								<i ng-if="item.idServiceType=='5'" class="fas fa-bell"></i>
+								<i ng-if="item.idServiceType=='6'" class="fas fa-code-branch"></i>
+				            </div>
+				            <span class="font-size-12px">{{item.serviceName}}</span>
+				        </div>
+				    </div>				   
+				</div>
+			</div>							
+		</div>
+	</div>
+</div>
+<!-- //SELECT CONTRACT LIST-->

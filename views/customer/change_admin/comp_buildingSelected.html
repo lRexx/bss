@@ -1,0 +1,331 @@
+<!-- CUSTOMER COLUMN -->
+<div>
+  <div class="col-md-12 well-checkbox n-margin-r n-margin-l customer-frame" style="line-height: 2.5em;" ng-init="cleanCollapsedFn()" ng-class="{'n-padding-l n-padding-r customer-frame-margin-b':confirmAdminDataChange}">
+    <div class="col-md-12 pull-left" style="margin-top: -10px;" ng-class="{'col-md-6':confirmAdminDataChange,'col-md-12':!confirmAdminDataChange}">
+      <span class="srvs-panel-head text-uppercase" style="font-size: 18px !important;">{{customer.buildingSelected.ClientType}} </span>
+      <span class="text-uppercase" style="font-size: 18px !important; font-weight: 600;color: #f0ad4e !important;"> {{customer.buildingSelected.address}}</span>    
+    </div>
+    <div ng-if="confirmAdminDataChange" class="col-md-6 n-padding-l" style="margin-top: -10px;">
+      <span class="badge badge-default">Administración</span><span data-toggle="tooltip" data-placement="top" title="{{customer.newAdmin.name}}"> {{customer.newAdmin.name | limitTo: 18 }}{{customer.newAdmin.name.length > 18 ? '...' : ''}} <span style="font-size: 10px" class="badge  badge-success">Nueva</span></span>
+    </div>
+    <div class="col-md-6 col-xs-12">
+      <span class="badge badge-default">sistema web</span><span> N° de Cliente : {{customer.buildingSelected.idClient}}</span>
+    </div>
+    <div class="col-md-6 col-xs-12 n-padding-l">
+      <span class="badge badge-default">sistema de gestion</span>
+      <span ng-if="customer.buildingSelected.idClientAssociated_SE!=null"> N° de Cliente : {{customer.buildingSelected.idClientAssociated_SE}}</span>
+      <span ng-if="customer.buildingSelected.idClientAssociated_SE==null"> N° de Cliente : <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-default">n/a</label></span>
+    </div>
+    <div ng-if="!confirmAdminDataChange" class="row" style="margin-top: 100px; line-height: 1.8em !important;">
+          <!-- EMAILS -->
+          <!--<div class="col-md-4 n-padding-l n-padding-r">
+            <div class="col-md-12">
+              <div class="input-group">
+                <button type="button" ng-class="!isCollapsed1 ? 'btn-success' : 'btn-primary'" class="btn btn-xs" style="padding: 5px;" ng-click="isCollapsed1 = !isCollapsed1 "><i class="fas fa-envelope-open-text"></i> CORREOS
+                <span class="glyphicon" style="margin-left: 20px;" ng-class="{'glyphicon-chevron-up':!isCollapsed1,'glyphicon-chevron-down':isCollapsed1}"></span></button>
+              </div>
+            </div>
+            <div class="col-md-2 text-badge" style="margin-top: 10px;">
+
+            </div>          
+            <div class="clearfix"> </div> 
+            <div ng-if="!isCollapsed1" class="well-checkbox">
+              <table ng-if="customer.buildingSelected.list_emails.length>0">
+                <tr ng-repeat="mail in customer.buildingSelected.list_emails">
+                  <td>
+                    <span class="text-muted text-box">
+                      <label ng-if="mail.idTipoDeMailFk<='4'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style=" cursor: pointer;" class="label label-default">
+                        <i ng-if="mail.idTipoDeMailFk=='1'" class="fas fa-key"></i>
+                        <i ng-if="mail.idTipoDeMailFk=='2'" class="fas fa-tools"></i>
+                        <i ng-if="mail.idTipoDeMailFk=='3'" class="fas fa-file-invoice-dollar"></i>
+                        <i ng-if="mail.idTipoDeMailFk=='4'" class="fas fa-paste"></i>
+                      </label>
+                      <label ng-if="mail.idTipoDeMailFk=='5'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 70%" class="label label-warning"><i class="fas fa-envelope"></i></label>
+                      <label ng-if="mail.idTipoDeMailFk=='6'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 70%" class="label label-danger"><i class="fas fa-envelope"></i></label>
+                    </span>
+                  </td>                               
+                  <td><span class="text-muted text-box"><label style="font-size: 70%" class="label label-info">{{mail.mailContact}}</label></span></td>
+                </tr>
+              </table>
+              <div ng-if="customer.buildingSelected.list_emails.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay correos cargados</h5>
+              </div>
+            </div>
+          </div>-->
+          <div class="col-md-6" style="padding-right: 10px;padding-left: 10px;">
+            <div ng-click="isCollapsed1 = !isCollapsed1" data-toggle="collapse" data-target="#buildingMails" class="col-xs-12 srvs-widget well well-md well-warning n-margin-b">
+              <div class="col-md-2 srvs-icon">
+                <span><i class="fas fa-envelope-open-text"></i>
+                </span>
+              </div>
+              <div ng-click="isCollapsed1 = !isCollapsed1" data-toggle="collapse" data-target="#buildingMails" class="col-md-8 text-badge" style="margin-top: 10px;">
+                <span class="srvs-panel-head text-uppercase"> correos</span>
+              </div>
+              <div ng-click="isCollapsed1 = !isCollapsed1" data-toggle="collapse" data-target="#buildingMails" class="col-md-2 text-badge" style="margin-top: 10px;">
+                <span ng-click="isCollapsed1 = !isCollapsed1" class="glyphicon chevron-icon" data-toggle="collapse" data-target="#buildingMails"  data-toggle="tooltip" data-placement="top" title="ver correos" ng-class="{'glyphicon-chevron-up':!isCollapsed1,'glyphicon-chevron-down':isCollapsed1}"></span>
+              </div>
+              <div id="buildingMails" class="col-md-12 collapse">
+                <table ng-if="customer.buildingSelected.list_emails.length>0">
+                  <tr ng-repeat="mail in customer.buildingSelected.list_emails">
+                    <td>
+                      <span class="text-muted text-box">
+                        <label ng-if="mail.idTipoDeMailFk<='4'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 70%; cursor: pointer;" class="label label-default">
+                          <i ng-if="mail.idTipoDeMailFk=='1'" class="fas fa-key"></i>
+                          <i ng-if="mail.idTipoDeMailFk=='2'" class="fas fa-tools"></i>
+                          <i ng-if="mail.idTipoDeMailFk=='3'" class="fas fa-file-invoice-dollar"></i>
+                          <i ng-if="mail.idTipoDeMailFk=='4'" class="fas fa-paste"></i>
+                        </label>
+                        <label ng-if="mail.idTipoDeMailFk=='5'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 70%" class="label label-warning"><i class="fas fa-envelope"></i></label>
+                        <label ng-if="mail.idTipoDeMailFk=='6'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 70%" class="label label-danger"><i class="fas fa-envelope"></i></label>
+                      </span>
+                    </td>                               
+                    <td><span class="text-muted text-box"><label style="font-size: 70%; color: #f0ad4e">{{mail.mailContact}}</label></span></td>
+                  </tr>
+                </table>
+                <div ng-if="customer.buildingSelected.list_emails.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5 style="text-align: center;"><i class="fas fa-exclamation-triangle"> </i> No hay correos cargados</h5>
+                </div>                   
+              </div>
+            </div>              
+          </div>        
+          <!-- PHONES -->
+          <!--<div class="col-md-4 n-padding-l n-padding-r">
+            <div class="col-md-12">
+              <div class="input-group">
+                <button type="button" ng-class="!isCollapsed2 ? 'btn-success' : 'btn-primary'" class="btn btn-xs" style="padding: 5px;" ng-click="isCollapsed2 = !isCollapsed2 "><i class="glyphicon glyphicon-earphone"></i> TELEFONOS <span data-toggle="tooltip" data-placement="bottom" title="Usuarios autorizados" class="badge "> {{customer.buildingSelected.list_phone_contact.length}}</span></button>
+              </div>
+            </div>
+            <div class="clearfix"> </div> 
+            <div ng-if="!isCollapsed2" class="well-checkbox">
+              <table>
+                <tr ng-if="customer.buildingSelected.list_phone_contact.length>0" ng-repeat="phone in customer.buildingSelected.list_phone_contact">
+                  <td style="text-align: left; ">
+                    <span class="text-muted text-box">
+                      <label ng-if="phone.phoneTag=='comercial'" style="font-size: 65%; " class="label label-default">{{phone.phoneTag | uppercase}}</label>
+                      <label ng-if="phone.phoneTag=='guardia'"   style="font-size: 65%; " class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+                      <label ng-if="phone.phoneTag=='urgente'"   style="font-size: 65%; " class="label label-danger">{{phone.phoneTag | uppercase}}</label>
+                    </span>
+                  </td>                               
+                  <td style=""><span class="text-muted text-box"><label style="font-size: 70%" class="label label-info">{{phone.phoneContact}}</label></span>
+                  </td>
+                </tr>
+                <tr ng-if="customer.buildingSelected.list_phone_contact.length==0" >
+                  <td colspan="5"><div class="col-md-12 col-md-offset-4"><span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">Tel&#233;fonos No Registrados</span></div>
+                  </td>
+                </tr>                            
+              </table>
+            </div>
+          </div>
+          <div class="col-md-4" style="padding-right: 10px;padding-left: 10px;">
+            <div ng-click="isCollapsed2 = !isCollapsed2" data-toggle="collapse" data-target="#buildingPhones" class="col-xs-12 srvs-widget well well-md well-warning n-margin-b">
+              <div class="col-md-2 srvs-icon">
+                <span><i class="glyphicon glyphicon-earphone"></i>
+                </span>
+              </div>
+              <div ng-click="isCollapsed2 = !isCollapsed2" data-toggle="collapse" data-target="#buildingPhones" class="col-md-8 text-badge" style="margin-top: 10px;">
+                <span class="srvs-panel-head text-uppercase"> tel&#233;fonos</span>
+              </div>
+              <div ng-click="isCollapsed2 = !isCollapsed2" data-toggle="collapse" data-target="#buildingPhones" class="col-md-2 text-badge" style="margin-top: 10px;">
+                <span ng-click="isCollapsed2 = !isCollapsed2" class="glyphicon chevron-icon" data-toggle="collapse" data-target="#buildingPhones"  data-toggle="tooltip" data-placement="top" title="ver telefonos" ng-class="{'glyphicon-chevron-up':!isCollapsed2,'glyphicon-chevron-down':isCollapsed2}"></span>
+              </div>
+              <div id="buildingPhones" class="col-md-12 collapse">
+                <table ng-if="customer.buildingSelected.list_phone_contact.length>0">
+                  <tr ng-repeat="phone in customer.buildingSelected.list_phone_contact">
+                    <td style="text-align: left; ">
+                      <span class="text-muted text-box">
+                        <label ng-if="phone.phoneTag=='comercial'" style="font-size: 65%; " class="label label-default">{{phone.phoneTag | uppercase}}</label>
+                        <label ng-if="phone.phoneTag=='guardia'"   style="font-size: 65%; " class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+                        <label ng-if="phone.phoneTag=='urgente'"   style="font-size: 65%; " class="label label-danger">{{phone.phoneTag | uppercase}}</label>
+                      </span>
+                    </td>                               
+                    <td style=""><span class="text-muted text-box"><label style="font-size: 70%; color: #f0ad4e">{{phone.phoneContact}}</label></span>
+                    </td>
+                  </tr>                            
+                </table>
+                <div ng-if="customer.buildingSelected.list_phone_contact.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5 style="text-align: center;"><i class="fas fa-exclamation-triangle"> </i> No hay Tel&#233;fonos cargados</h5>
+                </div>                   
+              </div>
+            </div>              
+          </div>-->
+          <!-- AUTHORIZED USERS -->
+          <!--<div class="col-md-4 n-padding-l n-padding-r">
+            <div class="col-md-12">
+              <div class="input-group">
+                <button type="button" ng-class="!isCollapsed3 ? 'btn-success' : 'btn-primary'" class="btn btn-xs" style="padding: 5px;" ng-click="isCollapsed3 = !isCollapsed3 "><i class="fas fa-user-check"></i> USUARIOS AUTORIZADOS <span class="badge "> {{customer.buildingSelected.list_client_user.length}}</span></button>
+              </div>
+            </div>
+            <div class="clearfix"> </div> 
+            <div ng-if="!isCollapsed3" class="well-checkbox">
+                <table ng-if="customer.buildingSelected.list_client_user.length>0">
+                  <tr ng-repeat="user in customer.buildingSelected.list_client_user">
+                    <td><span class="text-muted text-uppercase text-box" style="font-size: 90%;">{{user.fullNameUser}} </span></td>
+                    <td style="width: 10%; padding-bottom: 5px; padding-right: 2px;"><button data-toggle="tooltip" data-placement="top" title="Ver detalles usuario" ng-click="showCurrentUserInfoFn(user.idUserFk)" class="btn btn-sm btn-info"><i style="font-size: 100%;" class="fas fa-info-circle"></i></button></td>
+                    </tr>
+                </table>
+                <div ng-if="customer.buildingSelected.list_client_user.length==0" class="text-uppercase banner-no-rows banner-no-rows-warning banner-no-rows-padding-1"><h5 style="text-align: center;"><i class="fas fa-exclamation-triangle"> </i> No hay usuarios autorizados.</h5>
+                </div>              
+            </div>
+          </div>-->
+          <div class="col-md-6" style="padding-right: 10px;padding-left: 10px;">
+            <div ng-click="isCollapsed3 = !isCollapsed3" data-toggle="collapse" data-target="#buildingAuthUsers" class="col-xs-12 srvs-widget well well-md well-warning n-margin-b">
+              <div class="col-md-2 srvs-icon">
+                <span><i class="fas fa-user-check"></i>
+                </span>
+              </div>
+              <div ng-click="isCollapsed3 = !isCollapsed3" data-toggle="collapse" data-target="#buildingAuthUsers" class="col-md-8 text-badge" style="margin-top: 10px;">
+                <span class="srvs-panel-head text-uppercase"> autorizados</span>
+              </div>
+              <div ng-click="isCollapsed3 = !isCollapsed3" data-toggle="collapse" data-target="#buildingAuthUsers" class="col-md-2 text-badge" style="margin-top: 10px;">
+                <span ng-click="isCollapsed3 = !isCollapsed3" class="glyphicon chevron-icon" data-toggle="collapse" data-target="#buildingAuthUsers" data-toggle="tooltip" data-placement="top" title="ver usuarios" ng-class="{'glyphicon-chevron-up':!isCollapsed3,'glyphicon-chevron-down':isCollapsed3}"></span>
+              </div>
+              <div id="buildingAuthUsers" class="col-md-12 collapse">
+                <table ng-if="customer.buildingSelected.list_client_user.length>0">
+                  <tr ng-repeat="user in customer.buildingSelected.list_client_user">
+                    <td><span class="text-muted text-uppercase text-box" style="font-size: 90%; color: #f0ad4e">{{user.fullNameUser}} </span></td>
+                    <td style="width: 10%; padding-bottom: 5px; padding-right: 2px;"><button data-toggle="tooltip" data-placement="top" title="Ver detalles usuario" ng-click="showCurrentUserInfoFn(user.idUserFk)" class="btn btn-xs btn-info"><i style="font-size: 100%;" class="fas fa-info-circle"></i></button></td>
+                    </tr>
+                </table>
+                <div ng-if="customer.buildingSelected.list_client_user.length==0" class="text-uppercase banner-no-rows banner-no-rows-warning banner-no-rows-padding-1"><h5 style="text-align: center;"><i class="fas fa-exclamation-triangle"> </i> No hay usuarios autorizados.</h5>
+                </div>                  
+              </div>
+            </div>              
+          </div>          
+    </div>
+    <div ng-if="!confirmAdminDataChange" class="row" style="padding-top: 15px; line-height: 1.8em !important;">
+      <!-- Comments for keyorder -->
+      <div class="form-group col-md-6" >
+        <label class="col-xs-12" >Observaciones de pedidos de llaveros</label> 
+          <textarea style="resize: none;" name="observationOrderKey" rows="3" ng-disabled="true"  class="form-control" ng-model="customer.buildingSelected.observationOrderKey" placeholder="{{customer.buildingSelected.observationOrderKey==''?'No hay observaciones': customer.buildingSelected.observationOrderKey}}" ></textarea>
+      </div>              
+
+      <!-- Comments for technical services -->
+      <div class="form-group col-md-6">
+        <label class="col-xs-12" >Observaciones de servicios t&#233;cnicos</label> 
+          <textarea style="resize: none;" name="observationSericeTecnic" rows="3" ng-disabled="true" class="form-control" ng-model="customer.buildingSelected.observationSericeTecnic" placeholder="{{customer.buildingSelected.observationSericeTecnic==''?'No hay observaciones': customer.buildingSelected.observationSericeTecnic}}" ></textarea>
+      </div>                    
+
+      <!-- Comments for payments -->
+      <div class="form-group col-md-6">
+        <label class="col-xs-12" >Observaciones de  Cobranzas</label> 
+          <textarea style="resize: none;" name="sruTenant" rows="3" ng-disabled="true" class="form-control" ng-model="customer.buildingSelected.observationCollection" placeholder="{{customer.buildingSelected.observationCollection==''?'No hay observaciones': customer.buildingSelected.observationCollection}}"></textarea>
+      </div>
+      <!-- General Comments -->
+      <div class="form-group col-md-6">
+        <label class="col-xs-12">Observaciones Generales</label> 
+          <textarea style="resize: none;" name="observation" rows="3" ng-disabled="true" class="form-control" ng-model="customer.buildingSelected.observation" placeholder="{{customer.buildingSelected.observation==''?'No hay observaciones': customer.buildingSelected.observation}}"></textarea>
+      </div>      
+    </div>
+  </div>
+  <!-- VERIFICATION -->
+  <!-- NEW -->
+  <div ng-if="confirmAdminDataChange" class="form col-md-12" style="line-height: 1.8em !important;">
+    <!-- MAILS -->
+    <div class="col-md-6" style="padding-right: 10px;padding-left: 10px;">
+      <div class="col-xs-12 srvs-widget well well-md well-success n-margin-b">
+        <div class="col-md-2 srvs-icon srvs-icon-success">
+          <span><i class="fas fa-envelope-open-text"></i>
+          </span>
+        </div>
+        <div class="col-md-8 text-badge" style="margin-top: 10px;">
+          <span class="srvs-panel-head text-uppercase"> correos</span>
+        </div>
+        <div id="buildingMails" class="col-md-12">
+          <table ng-if="buildingNewData.list_emails.length>0">
+            <tr ng-repeat="mail in buildingNewData.list_emails">
+              <td style="width: 5%">
+                <span class="text-muted text-box">
+                  <label ng-if="mail.idTipoDeMailFk<='4'" data-toggle="tooltip" data-placement="right" title="Mail para {{mail.typeName | uppercase}}" style=" cursor: pointer; font-size: 90% !important;" class="label label-default">
+                    <i ng-if="mail.idTipoDeMailFk=='1'" class="fas fa-key"></i>
+                    <i ng-if="mail.idTipoDeMailFk=='2'" class="fas fa-tools"></i>
+                    <i ng-if="mail.idTipoDeMailFk=='3'" class="fas fa-file-invoice-dollar"></i>
+                    <i ng-if="mail.idTipoDeMailFk=='4'" class="fas fa-paste"></i>
+                  </label>
+                  <label ng-if="mail.idTipoDeMailFk=='5'" data-toggle="tooltip" data-placement="right" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 100%" class="label label-warning"><i class="fas fa-envelope"></i></label>
+                  <label ng-if="mail.idTipoDeMailFk=='6'" data-toggle="tooltip" data-placement="right" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 100%" class="label label-danger"><i class="fas fa-envelope"></i></label>
+                </span>
+              </td>                               
+              <td style="width: 80%"><span class="text-muted text-box"><label style="font-size: 100%; color: #f0ad4e">{{mail.mailContact}}</label></span></td>
+              <td class="pull-right" ng-if="mail.idClientFk!=undefined && customer.buildingSelected.idClient!=mail.idClientFk"><span data-toggle="tooltip" data-placement="top" title="{{customer.newAdmin.name}}" style="font-size: 10px" class="badge  badge-success">Nueva</span></span></td>              
+            </tr>
+          </table>
+          <div ng-if="buildingNewData.list_emails.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5 style="text-align: center;"><i class="fas fa-exclamation-triangle"> </i> No hay correos cargados</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- PHONES -->
+    <!--<div class="col-md-4" style="padding-right: 10px;padding-left: 10px;">
+      <div class="col-xs-12 srvs-widget well well-md well-success n-margin-b">
+        <div class="col-md-2 srvs-icon srvs-icon-success">
+          <span><i class="glyphicon glyphicon-earphone"></i>
+          </span>
+        </div>
+        <div class="col-md-8 text-badge" style="margin-top: 10px;">
+          <span class="srvs-panel-head text-uppercase"> tel&#233;fonos</span>
+        </div>
+        <div id="buildingPhones" class="col-md-12">
+          <table ng-if="buildingNewData.list_phone_contact.length>0">
+            <tr ng-repeat="phone in buildingNewData.list_phone_contact">
+              <td style="text-align: left; ">
+                <span class="text-muted text-box">
+                  <label ng-if="phone.phoneTag=='comercial'" style="font-size: 80%; " class="label label-default">{{phone.phoneTag | uppercase}}</label>
+                  <label ng-if="phone.phoneTag=='guardia'"   style="font-size: 80%; " class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+                  <label ng-if="phone.phoneTag=='urgente'"   style="font-size: 80%; " class="label label-danger">{{phone.phoneTag | uppercase}}</label>
+                </span>
+              </td>                               
+              <td style=""><span style="padding: 10px;" class="text-muted text-box"><label style="font-size: 100%; color: #f0ad4e">{{phone.phoneContact}}</label></span></td>
+              <td ng-if="phone.idClientFk!=undefined && customer.buildingSelected.idClient!=phone.idClientFk"><span data-toggle="tooltip" data-placement="top" title="{{customer.newAdmin.name}}" style="font-size: 10px" class="badge  badge-success">Nueva</span></span></td>
+            </tr>                            
+          </table>
+          <div ng-if="buildingNewData.list_phone_contact.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5 style="text-align: center;"><i class="fas fa-exclamation-triangle"> </i> No hay Tel&#233;fonos cargados</h5>
+          </div>
+        </div>
+      </div>
+    </div>-->
+    <!-- AUTH USERS -->
+    <div class="col-md-6" style="padding-right: 10px;padding-left: 10px;">
+      <div class="col-xs-12 srvs-widget well well-md well-success n-margin-b">
+        <div class="col-md-2 srvs-icon srvs-icon-success">
+          <span><i class="fas fa-user-check"></i>
+          </span>
+        </div>
+        <div class="col-md-8 text-badge" style="margin-top: 10px;">
+          <span class="srvs-panel-head text-uppercase"> autorizados</span>
+        </div>
+        <div id="buildingAuthUsers" class="col-md-12">
+          <table ng-if="buildingNewData.list_client_user.length>0">
+            <tr ng-repeat="user in buildingNewData.list_client_user">
+              <td style="width: 80%"><span class="text-muted text-uppercase text-box" style="font-size: 90%; color: #f0ad4e">{{user.fullNameUser}} </span></td>         
+              <td style="width: 10%; padding-bottom: 5px; padding-right: 2px;"><button data-toggle="tooltip" data-placement="top" title="Ver usuario" ng-click="showCurrentUserInfoFn(user.idUserFk)" class="btn btn-xs btn-info"><i style="font-size: 100%;" class="fas fa-info-circle"></i></button></td>
+              <td class="pull-right" ng-if="user.idClientFk!=undefined && customer.buildingSelected.idClient!=user.idClientFk"><span data-toggle="tooltip" data-placement="top" title="{{customer.newAdmin.name}}" style="font-size: 10px" class="badge badge-success">Nueva</span></span></td>
+              </tr>
+          </table>
+          <div ng-if="buildingNewData.list_client_user.length==0" class="text-uppercase banner-no-rows banner-no-rows-warning banner-no-rows-padding-1"><h5 style="text-align: center;"><i class="fas fa-exclamation-triangle"> </i> No hay usuarios autorizados.</h5>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div ng-if="confirmAdminDataChange" class="form col-md-12" style="padding-top: 15px; line-height: 1.8em !important;">
+    <!-- Comments for keyorder -->
+    <div class="form-group col-md-6" >
+      <label class="col-xs-12" >Observaciones de pedidos de llaveros</label> 
+        <textarea style="resize: none;" name="observationOrderKey" rows="3" ng-disabled="false"  class="form-control" ng-model="buildingNewData.observationOrderKey" placeholder="{{buildingNewData.observationOrderKey==''?'No hay observaciones': buildingNewData.observationOrderKey}}" ></textarea>
+    </div>              
+
+    <!-- Comments for technical services -->
+    <div class="form-group col-md-6">
+      <label class="col-xs-12" >Observaciones de servicios t&#233;cnicos</label> 
+        <textarea style="resize: none;" name="observationSericeTecnic" rows="3" ng-disabled="false" class="form-control" ng-model="buildingNewData.observationSericeTecnic" placeholder="{{buildingNewData.observationSericeTecnic==''?'No hay observaciones': buildingNewData.observationSericeTecnic}}" ></textarea>
+    </div>                    
+
+    <!-- Comments for payments -->
+    <div class="form-group col-md-6">
+      <label class="col-xs-12" >Observaciones de  Cobranzas</label> 
+        <textarea style="resize: none;" name="sruTenant" rows="3" ng-disabled="false" class="form-control" ng-model="buildingNewData.observationCollection" placeholder="{{buildingNewData.observationCollection==''?'No hay observaciones': buildingNewData.observationCollection}}"></textarea>
+    </div>
+    <!-- General Comments -->
+    <div class="form-group col-md-6">
+      <label class="col-xs-12">Observaciones Generales</label> 
+        <textarea style="resize: none;" name="observation" rows="3" ng-disabled="false" class="form-control" ng-model="buildingNewData.observation" placeholder="{{buildingNewData.observation==''?'No hay observaciones': buildingNewData.observation}}"></textarea>
+    </div>      
+  </div>  
+</div>

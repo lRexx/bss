@@ -1,0 +1,57 @@
+<!-- STATUS CUSTOMER-->
+<div ng-show="serviceResponse.status==200" class="col-md-4 col-md-offset-4">
+  <div class="panel panel-success padding-panel" style="margin-top: 5%!important">
+    <div class="panel-heading">
+      <h3 class="panel-title">BSS Seguridad</h3>
+    </div>
+    <div class="panel-body">
+      <div class="col-md-12">
+        <div style="text-align: center;">
+          <div class="circle-loader">
+            <div class="checkmark draw"></div>
+          </div>
+        </div>
+      </div>
+      <div class="col-md-12">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="alert alert-success" role="alert">
+            <span class="font-size-12px">Su correo electronico ha sido validado de forma satisfactoria.</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <!-- Actions Button -->
+    <div class="modal-footer">
+      <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+            <a href="/login" type="button" class="btn btn-labeled btn-primary">
+              <span class="btn-label"><i class="glyphicon glyphicon-send"></i></span>Volver a Login</a>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-show="serviceResponse.status==404" class="col-md-6 col-md-offset-3">
+  <div class="panel panel-danger padding-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">BSS Seguridad</h3>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-10 col-md-offset-1">
+          <div class="alert alert-danger" role="alert">
+            <span class="font-size-12px"><strong>Importante:</strong> El Token ya ha sido validado, en caso contrario contacte el area de soporte.</span>
+          </div>
+        </div>
+    </div>
+    <!-- Actions Button -->
+    <div class="modal-footer">
+      <div class="row">
+          <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+            <a href="/login" type="button" class="btn btn-labeled btn-primary">
+              <span class="btn-label"><i class="glyphicon glyphicon-send"></i></span>Volver a Login</a>
+          </div>
+      </div>
+    </div>
+  </div>
+</div>
+<div ng-include="'views/status/serviceItem.html'"></div>

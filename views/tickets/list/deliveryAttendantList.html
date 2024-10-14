@@ -1,0 +1,70 @@
+<!-- LIST USER TO ASSIGN MODAL -->
+<div id="deliveryAttendantList" class="modal fade bd-example-modal-lg" style="top: 150px;" tabindex="-1" role="dialog">
+    <div class="modal-dialog modal-lg" >
+    <!-- Modal content-->
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title"><i class="product-success fas fa-list"></i> ENCARGADOS ASOCIADOS AL CONSORCIO</h3>
+            </div>
+            <div class="modal-body">
+                <div ng-if="attendantListByAddress.length > 0">
+                    <table class="table table-striped table-bordered table-list table-responsive table-hover fade in">
+                        <thead class="dpto-t-head">
+                            <tr>
+                                <th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "> ID</th>
+                                <th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="far fa-id-card"></i> DNI</th>
+                                <th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-user"> </i> Nombres</th>
+                                <!--<th>Tlf Movil</th>
+                                <th>Tlf Local</th> pre-scrollable-->
+                                <th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="glyphicon glyphicon-envelope"></i> Correo</th>
+                                <th class="dpto-th-head" style="border-right: 1px solid #ddd !important; "><i class="fas fa-id-card-alt"></i> </i> Perfil</th>
+                                <th class="dpto-th-head " style="text-align: center;"><i class="glyphicon icon-flag"> </i> Status</th>
+                            </tr>
+                        </thead>
+                        <tbody style="overflow: auto;">
+                            <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="item in attendantListByAddress">
+                                <td><button ng-click="mainSwitchFn('setDeliveryAttendant', item);"  title="Seleccionar" class="btn btn-sm btn-primary"><i class="fas fa-check-square">&nbsp</i>{{item.idUser}}</button></td>
+                                <td ng-click="mainSwitchFn('setDeliveryAttendant', item);" >{{item.dni}}</td>
+                                <td ng-click="mainSwitchFn('setDeliveryAttendant', item);" >{{item.fullNameUser}}</td>
+                                <!--<td>{{item.phoneNumberUser}}</td>
+                                <td>{{item.phoneLocalNumberUser}}</td>-->
+                                <td ng-click="mainSwitchFn('setDeliveryAttendant', item);" >{{item.emailUser}}</td>
+                                <td ng-click="mainSwitchFn('setDeliveryAttendant', item);" ng-if="(item.idProfileKf!=null && item.idProfileKf!=undefined && item.idProfileKf!='' && item.idProfileKf!='6')" style="vertical-align: middle;text-align: center;">
+                                    <label class="label label-default text-uppercase">{{item.nameProfile}}</label>
+                                </td>
+                                <td ng-click="mainSwitchFn('setDeliveryAttendant', item);"  style="vertical-align: middle; text-align: center;" ng-if="(item.idProfileKf!=null && item.idProfileKf!=undefined && item.idProfileKf!='' && item.idProfileKf=='6')">
+                                    <label class="label label-default text-uppercase">{{item.nameProfile}}</label>
+                                    <label ng-if="item.idTypeTenantKf!=null" class="badge badge-warning text-uppercase" style="font-size: 70%!important">{{item.typeTenantName}}</label>
+                                    <label ng-if="item.idTypeTenantKf==null" class="badge badge-warning text-uppercase" style="font-size: 70%!important">{{item.nameTypeAttendant}}</label>
+                                </td>
+                                <td ng-click="mainSwitchFn('setDeliveryAttendant', item);"  style="vertical-align: middle;text-align: center;">
+                                    <label ng-if="item.idStatusKf==1" class="label label-success text-uppercase">{{item.statusTenantName}}</label>
+                                    <label ng-if="item.idStatusKf==0" class="label label-warning text-uppercase">{{item.statusTenantName}}</label>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <div ng-if="attendantListByAddress==undefined || attendantListByAddress.length == 0">
+                    <div class="col-md-12 text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
+                        <span class="col-md-offset-4" style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);"><i class="fas fa-exclamation-triangle"> </i> No hay resultados.</span>
+                    </div>
+                </div>
+                <div class="clearfix"> </div> 
+            </div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <a ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6" ng-click="mainSwitchFn('newAttendant', ticket.idClientDepartament, null)" type="button" class="btn btn-labeled btn-primary">
+                            <span class="btn-label"><i class="fas fa-user-plus"></i></span>Nuevo</a>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // LIST USER TO ASSIGN MODAL -->

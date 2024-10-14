@@ -1,0 +1,131 @@
+<!-- Modal Building Unit -->
+<div id="updateServiceUnit" style="top: 210px;" class="modal fade modal-dialog-centered" role="dialog" ng-init="getTypeOfServicesFn(); getInternetTypesFn(); getAccessCtrlDoorListFn();">
+	<div class="modal-dialog modal-md" >
+	    <div class="modal-content">
+	    	<div class="modal-header">
+            	<h3 class="modal-title">SERVICIO</h3>
+        	</div>
+	    	<div class="modal-body">
+				<!-- FORM CONTAINER-->
+				<div class="form-group col-md-12" ng-class="{
+					'col-md-6': service.update.serviceType.idClientTypeServices!='' && service.update.serviceType.idClientTypeServices!=undefined && service.update.serviceType.idClientTypeServices!='1' && service.update.serviceType.idClientTypeServices!='5' && service.update.serviceType.idClientTypeServices!='6'
+			}"> 
+				  	<div class="col-md-8"><label>Servicios</label></div>
+				  	<div class="pull-right col-md-4"><button ng-if="service.update.serviceType.idClientTypeServices=='5' || service.update.serviceType.idClientTypeServices=='6'" ng-disabled="service.update.serviceType.idClientTypeServices!='' && service.update.serviceType.idClientTypeServices!=undefined && service.update.serviceType.idClientTypeServices!='5' && service.update.serviceType.idClientTypeServices!='6'" ng-click="addServiceArrFn('new', service.update)" class="btn btn-xs btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
+				    <div class="col-xs-12 input-group">
+			    		<span class="input-group-addon"><i class="fas fa-screwdriver"></i></span>
+				    	<select id="serviceType" name="serviceType" class="form-control" ng-change="service.update.serviceItems=null" ng-options="item as item.clientTypeServices for item in rsServiceTypeData" ng-model="service.update.serviceType" required autofocus >
+					    	<option value="">Selecciona un servicio</option>
+				    	</select>
+				  	</div>
+				</div>
+				<!-- Control Access -->
+				<div ng-if="service.update.serviceType.idClientTypeServices=='1'" class="form-group col-md-6"> 
+				  	<div class="col-md-8"><label>Puerta de acceso</label></div>				  	
+				    <div class="col-xs-12 input-group">
+			    		<span class="input-group-addon"><i class="fas fa-door-open"></i></span>
+				    	<select id="serviceDoor" name="serviceDoor" class="form-control" ng-change="checkDoor(service.update.serviceItems.accCrtlDoor)" ng-options="item as item.titulo for item in rsAccCrtlDoorListData" ng-model="service.update.serviceItems.accCrtlDoor" ng-required="service.update.serviceType.idClientTypeServices=='2'" autofocus >
+					    	<option value="">Selecciona una puerta</option>
+				    	</select>
+				  	</div>
+				</div>				
+				<!-- Cameras or Door Qtty-->
+				<div ng-if="service.update.serviceType.idClientTypeServices=='1' || service.update.serviceType.idClientTypeServices=='3' || service.update.serviceType.idClientTypeServices=='4'" class="form-group col-md-6" style="margin-top: -0.6%;">
+					<!-- Item Label -->
+					<div class="col-md-8  n-padding-r">
+						<label ng-if="(service.update.serviceType.idClientTypeServices=='3' || service.update.serviceType.idClientTypeServices=='4')">Cantidad de camaras</label>
+						<label ng-if="(service.update.serviceType.idClientTypeServices=='1')">Cantidad de puertas</label>
+					</div>
+					<div ng-if="service.update.serviceType.idClientTypeServices=='1' || service.update.serviceType.idClientTypeServices=='3' || service.update.serviceType.idClientTypeServices=='4'" class="pull-right col-md-4">
+						<button ng-disabled="(service.update.serviceType.idClientTypeServices=='1' && service.update.serviceItems.accCrtlDoor==null) || ((service.update.serviceType.idClientTypeServices=='3' || service.update.serviceType.idClientTypeServices=='4') && (service.update.serviceItems.qtty==undefined || service.update.serviceItems.qtty==''))" ng-click="addServiceArrFn('new', service.update)" class="btn btn-xs btn-success"><i class="fas fa-plus"></i> Agregar</button>
+					</div>					
+					<div class="col-xs-12 input-group">
+						<span class="input-group-addon">
+							<i ng-if="service.update.serviceType.idClientTypeServices=='3' || service.update.serviceType.idClientTypeServices=='4'" class="fas fa-video"></i>
+							<i ng-if="service.update.serviceType.idClientTypeServices=='1'" class="fas fa-door-closed"></i>
+						</span>
+					  	<input id="itemQtty" name="itemQtty" autofocus="true" class="form-control input--number" ng-pattern="pattOnlyNumbersX2" ng-keydown="fnLoadPhoneMask()" ng-model="service.update.serviceItems.qtty" type="text" ng-disabled="service.update.serviceItems.accCrtlDoor.idAccessControlDoor=='7'" ng-required="camera_list.length==0" autofocus/>
+					</div>
+				</div>
+
+				<!-- Control Access Aclaration -->
+				<!--<div ng-if="service.update.serviceType.idClientTypeServices=='1' && service.update.serviceItems.accCrtlDoor.idAccessControlDoor=='7'" class="form-group col-md-12">
+				  <label style="padding-left: 15px;">Aclaracion <button ng-if="service.update.serviceType.idClientTypeServices=='1' && service.update.serviceItems.accCrtlDoor.idAccessControlDoor=='7'" style="margin-left: 320px;" ng-disabled="service.update.serviceItems.itemAclaracion==null || service.update.serviceItems.accCrtlDoor==null" ng-click="addServiceArrFn('new', service.update)" class="btn btn-xs btn-success"><i class="fas fa-plus"></i> Agregar</button></label>  
+				    <div class="input-group">
+				        <span class="input-group-addon"><i class="far fa-sticky-note"></i></span>
+				  		<input name="serviceItemAclaration" class="form-control" ng-model="service.update.serviceItems.itemAclaracion" type="text" autofocus ng-required="service.update.serviceType.idClientTypeServices=='1'" />
+				    </div>
+				</div>-->
+				<!-- Internet Service -->
+				<div ng-if="service.update.serviceType.idClientTypeServices=='2'" class="form-group col-md-6" style="margin-top: -0.6%;"> 
+				  	<label style="padding-left: 15px;">Tipo <button style="margin-left: 125px;" ng-disabled="service.update.serviceItems.internetType==undefined || service.update.serviceItems.internetType==''" ng-click="addServiceArrFn('new', service.update)" class="btn btn-xs btn-success"><i class="fas fa-plus"></i> Agregar</button></label>
+				    <div class="input-group">
+			    		<span class="input-group-addon"><i class="fas fa-network-wired"></i></span>
+				    	<select name="serviceInternetType" class="form-control" ng-options="item as item.nombre for item in rsInternetTypesData" ng-model="service.update.serviceItems.internetType" ng-required="service.update.serviceType.idClientTypeServices=='2'" autofocus >
+					    	<option value="">Selecciona un tipo</option>
+				    	</select>
+				  	</div>
+				</div>
+				<!-- Control Access Aclaration -->
+				<div ng-if="service.update.serviceType.idClientTypeServices=='1' && itemAclaracionEdit" class="form-group col-md-12">
+					<label style="padding-left: 15px;">Aclaracion </label>  
+					  <div class="input-group">
+						  <span class="input-group-addon"><i class="far fa-sticky-note"></i></span>
+							<input name="serviceItemAclaration" class="form-control" ng-model="list_services_tmp[0].newitemAclaracion" type="text" autofocus ng-required="service.new.serviceType.idClientTypeServices=='1'" />
+					  </div>
+				</div>
+				<div ng-if="service.update.serviceType.idClientTypeServices!='' && service.update.serviceType.idClientTypeServices!=undefined && service.update.serviceType.idClientTypeServices!='5' && service.update.serviceType.idClientTypeServices!='6'" class="form-group col-md-12">
+					<div class="well-checkbox" style="margin-left: 0px;margin-right: 0px;">
+					  	<table ng-if="list_services_tmp.length>0" ng-repeat="service in list_services_tmp | filter: (!!service.update.serviceType.idClientTypeServices || undefined) && {idServiceType:service.update.serviceType.idClientTypeServices}">
+					    	<tr ng-repeat="item in service.serviceItems" class="tr-space-5">
+					    		<td style="width: 30%;padding: 0 10px 0 10px;"><label style="font-size: 100%" class="label label-default">{{$index+1}}</label></td>
+					      		<td style="width: 35%">
+					      			<span class="text-muted text-box">
+					      				<label style="font-size: 100%" class="label label-default">{{item.itemName | uppercase}}</label>
+					      			</span>
+					      		</td>
+					      		<!-- ACLARATION -->
+								<td style="cursor: pointer;">
+									<!--<span ng-if="item.itemAclaracion!=null" uib-popover-html="'<span>{{item.itemAclaracion}}</span>'" popover-placement="right" popover-title="Aclaracion" popover-trigger="mouseenter" class="text-muted text-box"><i style="font-size: 120%" class="far fa-sticky-note"></i></span>-->
+									<span ng-if="item.itemAclaracion!=null && item.qtty!=undefined" class="badge badge-warning">{{item.itemAclaracion}}</span>
+								</td>
+								<td style="width: 20%">
+					          		<!-- EDIT BUTTON -->
+									  <button ng-if="item.idAccCrtlDoor=='7' && !item.itemAclaracionEdit && (item.itemAclaracion==null || item.qtty==undefined)" data-toggle="tooltip" data-placement="right" title="Editar" ng-click="contractServiceItemEditFn('edit', service, item)" class="btn btn-xs btn-warning"><i class="fas fa-edit"></i></button>
+									  <!-- SAVE BUTTON -->
+									  <button ng-if="item.idAccCrtlDoor=='7' && item.itemAclaracionEdit && (item.itemAclaracion==null || item.qtty==undefined)" ng-click="contractServiceItemEditFn('assign', service, item)" data-toggle="tooltip" data-placement="right" title="Guardar" class="btn btn-xs btn-success"><i class="fas fa-save"></i></button>										
+								</td>
+								<!-- QTTY -->
+					      		<td ng-if="!item.serviceItemEdit" style="width: 20%"><span ng-if="item.qtty!=null" class="text-muted text-box"><label style="font-size: 100%" data-toggle="tooltip" data-placement="left" title="cantidad" class="label label-info">{{item.qtty}}</label></span></td>
+					      		<td ng-if="item.serviceItemEdit" style="width: 20%"><input id="itemQttyEdit" name="itemQttyEdit" autofocus="true" class="form-control input--number" ng-pattern="pattOnlyNumbersX2" ng-keydown="fnLoadPhoneMask()" ng-model="serviceItems.qtty" type="text" ng-required="true" style="width: 60%;" autofocus/></td>
+					          	<td>
+					          		<!-- EDIT BUTTON -->
+					            	<button ng-if="(!item.serviceItemEdit && (service.idServiceType!='2' && service.idServiceType!='5' && service.idServiceType!='6')) && item.idAccCrtlDoor!='7'" data-toggle="tooltip" data-placement="right" title="Editar" ng-click="contractServiceItemEditFn('edit', service, item)" class="btn btn-xs btn-warning"><i class="fas fa-edit"></i></button>
+					            	<!-- SAVE BUTTON -->
+					            	<button ng-if="item.serviceItemEdit" ng-click="contractServiceItemEditFn('assign', service, item)" data-toggle="tooltip" ng-disabled="serviceItems.qtty<=0" data-placement="right" title="Guardar" class="btn btn-xs btn-success"><i class="fas fa-save"></i></button>
+					            	<!-- DELETE BUTTON -->
+									<!--<button ng-if="(((service.idServiceType!='2' && service.idServiceType!='5' && service.idServiceType!='6') && ((item.available > 0 && (item.used==0 || item.used=='0')) || item.available != '0' && (item.used==0 || item.used!=''))) || ((service.idServiceType!='1' && service.idServiceType!='3' && service.idServiceType!='4') && item.used == 0))"  data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeServiceItemFn(service, item)" class="btn btn-xs btn-danger"><i class="fas fa-minus-circle"></i></button>-->					            	
+					          	</td>
+					      	</tr>
+					  	</table>
+					  	<div ng-if="list_services_tmp.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay item cargados</h5></div>
+					</div>
+				</div>
+				<!--<div class="well col-md-12">
+					<pre>{{list_services_tmp | json}}</pre>
+				</div>-->
+			<div class="clearfix"> </div> 						
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+						<a data-dismiss="modal" type="button" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Continuar</a>                            
+                    </div>
+                </div>
+            </div>			
+		</div>
+	</div>
+</div>
+<!-- //Modal Building Unit -->

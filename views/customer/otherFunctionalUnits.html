@@ -1,0 +1,64 @@
+<!-- Other Functional Units -->
+<div id="otherFuntionalUnits" style="top: 130px;" class="modal fade modal-dialog-centered in bd-example-modal-lg" style="top: 130px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title">Otras Unidades Funcionales</h3>
+          </div>
+        <div class="modal-body">
+        <!-- FORM CONTAINER-->
+        <form class="form-horizontal" name="fOtherFunctUnits" novalidate>
+          <fieldset>
+          	<div class="col-md-6 col-sm-6">
+                <!-- Unit Label -->
+                <div class="form-group col-md-12" > 
+                    <label style="padding-left: 15px;">Identificador</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                        <input type="text" name="Agent" class="form-control" ng-model="otherFU.identificador" required autofocus >
+                      </div>
+                </div>     
+                <!-- Unit Desiption -->
+                <div class="form-group col-md-12" > 
+                    <label style="padding-left: 15px;">Descripcion</label>
+                      <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                        <input type="text" name="Agent" class="form-control" ng-model="otherFU.description" required autofocus >
+                      </div>
+                </div>    
+                <button title="Agregar Unidad Funcional" ng-disabled="fOtherFunctUnits.$invalid" ng-click="otherFunctionalUnitsFn('add', otherFU)" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button>                                         
+          	</div>
+            <div class="col-md-6 col-sm-6">
+                  <div  class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;margin-top: 23px;height: 300px;">
+                    <table ng-if="list_ofu.length>0">
+                      <tr ng-repeat="ouf in list_ofu">                              
+                          <td style="width: 20%;padding-left: 20px;"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info"><i class="fas fa-boxes"></i> UF:</label></span></td>
+                          <td style="width: 10%;padding: 0 10px 0 10px;"><label style="font-size: 100%" class="label label-default"> {{ouf.identificador | uppercase}}</label></td>
+                            <td style="width: 10%;padding-bottom: 5px;">
+                              <button data-toggle="tooltip" data-placement="right" title="Eliminar" ng-click="otherFunctionalUnitsFn('remove', ouf)" class="btn btn-sm btn-danger">
+                                <i class="fas fa-trash-alt"></i></button>
+                            </td>                                                                         
+                        </tr>
+                    </table>                            
+                  </div>              
+            </div>
+          </fieldset>
+        </form>
+        <div class="clearfix"> </div> 
+      </div>
+      <!-- Actions Button ng-click="newSysProfileFn()"-->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" data-dismiss="modal" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+  </div>
+</div>
+<!-- // Other Functional Units -->

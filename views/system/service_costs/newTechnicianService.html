@@ -1,0 +1,100 @@
+<div id="newTechService" style="top: 130px;" class="modal fade bd-example-modal-lg" style="top: 110px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="product-success fas fa-tools"></i> NUEVO SERVICIO TECNICO</h3>
+          </div>
+        <div class="modal-body"  style="overflow-y: scroll;">
+          <!-- FORM CONTAINER-->
+          <form class="form-horizontal" name="fNewTechService" novalidate>
+            <fieldset>
+              <!-- Form Profile Name -->
+              <div class="form-group col-md-6 col-sm-6 col-xs-12" ng-class="
+                  {	'has-success': 
+                    technician_services.new.description!='' && fNewTechService.description.$valid,
+                    'has-error':  
+                    (technician_services.new.description=='' || technician_services.new.description==undefined) && fNewTechService.description.$touched,
+                  }">
+                <label class="clf-size clf-p-left">Descripción o nombre del servicio</label>  
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="far fa-sticky-note"></i></span>
+                      <input  name="description" autofocus="true" placeholder="" class="form-control text-uppercase" ng-model="technician_services.new.description"  type="text" required autofocus/>
+                    </div>
+                  </div>
+              </div>
+              <!-- Technician type -->
+              <div class="form-group col-md-6 col-sm-6 col-xs-12
+              " ng-class="
+                  {	'has-success': 
+                    technician_services.new.idServiceTypeFk!='' && fNewTechService.tech_service_type.$valid,
+                    'has-error':  
+                    (technician_services.new.idServiceTypeFk=='' || technician_services.new.idServiceTypeFk==undefined) && fNewTechService.tech_service_type.$touched,
+                  }">
+                <label class="clf-size clf-p-left">Tipo de Servicio Técnico</label>
+                  <div class="col-xs-12">
+                    <div class="input-group">
+                      <span class="input-group-addon"><i class="far fa-sticky-note"></i></span>
+                      <select name="tech_service_type" 
+                      class="form-control"
+                      ng-options="item.idServiceType as item.serviceType for item in rsTechServicesTypeData" 
+                      ng-model="technician_services.new.idServiceTypeFk"  ng-required="true" autofocus >
+                    <option class="text-uppercase" value="">Selecciona un tipo</option>
+                  </select>
+                    </div>
+                  </div>
+              </div>
+              <!-- SCHEDULE CONTROL -->
+              <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                <div class="well-checkbox">
+                  <table>
+                    <tr>
+                      <td style="width: 200%"><span class="text-muted text-uppercase text-box">Protegido </span></td>
+                          <td>
+                            <label class="switch switch-3x">
+                                <input type="checkbox" class="success"ng-model="technician_services.new.isProtected" id="isProtected">
+                                <span class="slider slider-3x flat"></span>
+                            </label>
+                          </td>
+                      </tr>
+                  </table>
+                </div>
+              </div>
+              <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                <div class="well-checkbox">
+                  <table>
+                    <tr>
+                        <td style="width: 170%">
+                          <span class="text-muted text-uppercase text-box">Modo </span>
+                          <span ng-if="technician_services.new.idServiceModeFk" class="badge badge-success">Online</span>
+                          <span ng-if="!technician_services.new.idServiceModeFk"class="badge badge-warning">Offline</span>
+                        </td>
+                        <td>
+                          <label class="switch switch-3x">
+                              <input type="checkbox" class="success"ng-model="technician_services.new.idServiceModeFk" id="idServiceModeFk">
+                              <span class="slider slider-3x flat"></span>
+                          </label>
+                        </td>
+                      </tr>
+                  </table>
+                </div>
+              </div>
+            </fieldset>
+          </form>
+          <div class="clearfix"> </div> 
+        </div>
+        <!-- Actions Button ng-click="newSysProfileFn()"-->
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <button type="submit" ng-click="mainSwitchFn('techServicesCosts','addTechService', technician_services.new, null)" ng-disabled="fNewTechService.$invalid" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

@@ -1,0 +1,80 @@
+<!-- Modal Building Unit -->
+<div id="BuildingUnit" style="top: 210px;" class="modal fade modal-dialog-centered" role="dialog">
+	<div class="modal-dialog modal-md" >
+	    <div class="modal-content" ng-class="
+									{	'win-d-unit-1x': 
+										isNotDeptoUnit!=0,
+									 	'win-d-unit-3x':  
+										isNotDeptoUnit==0,
+									}">
+	    	<div class="modal-header">
+          		<button type="button" class="close" ng-click="closeBuildingUnitModal();"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title">
+		            <span ng-if="isNotDeptoUnit==1" class="card-depto-span">NUMERO DE 
+		            	<span ng-if="objFloor.nameFloor=='co'">COCHERA</span>
+		            	<span ng-if="objFloor.nameFloor=='ba'">BAULERA</span>
+		            	<span ng-if="objFloor.nameFloor=='lo'">LOCAL</span>
+		            </span>
+		            <span ng-if="isNotDeptoUnit==0" class="card-depto-span">SELECCIONA UNA UNIDAD</span>
+            	</h3>
+        	</div>
+	    	<div class="modal-body" style="height: 187px; padding: 0px;">
+				<!-- FORM CONTAINER-->
+				<div ng-if="isNotDeptoUnit==0" class="col-md-12"> 
+					<!-- Department-->                         
+				    <div class="col-md-4 card-depto-colum" ng-click="assign2UnitFn('','set','1','')" >
+				        <div class="card-depto cyan white-text">
+				            <div class="card-depto-content">
+				                <i  class="fas fa-building" style="padding-left: 0.55em;"></i>
+				            </div>
+				            <span class="card-depto-span" style="margin-left: 24px;">DEPARTAMENTO</span>
+				        </div>
+				    </div>
+				    <!-- Porteria-->
+				    <!-- ng-click="!porteriaExist?assign2UnitFn('','set','5'):''" 
+				    <label ng-if="porteriaExist" class="label label-danger porteria-created">PORTERIA CREADA</label>-->
+				    <div class="col-md-4 card-depto-colum" ng-click="assign2UnitFn('','set','5','')" >
+				        <div class="card-depto cyan white-text">
+				            <div class="card-depto-content">
+				            	<i class="fas fa-house-user" style="padding-left: 0.45em;"></i>
+				            </div>
+				             <span class="card-depto-span" style="margin-left: 50px;">PORTERIA</span>
+				        </div>
+				    </div>
+				    <!-- Departament Mix-->
+				    <div class="col-md-4 card-depto-colum" >
+				        <div class="card-depto cyan white-text" style="padding-bottom: 0px !important;">
+				            <div class="card-depto-content">
+				            	<i class="fas fa-building" style="padding-left: 0.55em;"></i>
+				            </div>
+				             <span class="card-depto-span" style="margin-left: 30px;">DEPARTMENTO</span>
+				             <!--<span class="card-depto-span" style="margin-left: 70px;"> MIXTO</span>-->
+     				        <div class="col-md-12 form-group row">
+    						<div class="col-xs-6"><input style="margin-left: 1em;" id="unit_number" autofocus="true" class="form-control input-sm text-uppercase" allow-typing="^([a-zA-Z]|[\d]){1,2}\b$" ng-model="inputUnit" type="text"></div>
+							<div class="col-xs-4"><button ng-click="assign2UnitFn('', 'set', '6', inputUnit); inputUnit=undefined" ng-disabled="isNotDeptoUnit==0 && (inputUnit==undefined || inputUnit=='')" class="btn btn-sm btn-success" style="margin-left: -1em;"><i class="fas fa-check"> </i> Asignar</button></div>
+							</div>
+				        </div>
+				    </div>				   
+				</div>
+				<div ng-if="isNotDeptoUnit==1" class="col-md-12" style="padding: 15px;"> 
+					<!-- Units differents than department and porteria-->                         
+				    <div class="col-md-6" style="margin-top: -6px; margin-left: 6.5em;">
+				        <div class="card-depto cyan white-text" style="padding-bottom: 0px;">
+				            <div class="card-depto-content">
+				                <i ng-if="objFloor.nameFloor=='co'" class="fas fa-warehouse" style="padding-left: 0.25em;"></i>
+				                <i ng-if="objFloor.nameFloor=='ba'" class="fas fa-boxes" style="padding-left: 0.35em;"></i>
+				                <i ng-if="objFloor.nameFloor=='lo'" class="fas fa-store" style="padding-left: 0.29em;"></i>
+								<i ng-if="objFloor.nameFloor=='pb'" class="fas fa-home" style="padding-left: 0.29em;"></i>
+				            </div>
+				        <div class="col-md-12 form-group row">
+    						<div class="col-xs-7 n-padding-l"><input style="margin-left: 1em;" id="unit_number2" autofocus="true" class="form-control input-sm input--number" ng-keydown="fnLoadPhoneMask()" ng-model="inputUnit2" type="text" maxlength="3"></div>
+							<div class="col-xs-4"><button ng-click="assign2UnitFn('', 'set', '', inputUnit2); inputUnit2=undefined" ng-disabled="isNotDeptoUnit==1 && (inputUnit2==undefined || inputUnit2=='')" class="btn btn-sm btn-success" style="margin-left: -1em;"><i class="fas fa-check"> </i> Asignar</button></div>
+						</div>
+				        </div>
+				    </div>
+				</div>
+			</div>							
+		</div>
+	</div>
+</div>
+<!-- //Modal Building Unit -->

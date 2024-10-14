@@ -1,0 +1,67 @@
+<!-- Modal Address Lat & Lon -->
+<div id="AddressLatLon" style="top: 210px;" class="modal fade modal-dialog-centered" role="dialog">
+	<div class="modal-dialog modal-md" >
+	    <div class="modal-content">
+	    	<div class="modal-header">
+          		<button type="button" class="close" ng-click="closeAddressLatLonModal();"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title">
+		            <span  class="card-depto-span"><i class="fas fa-map-pin"></i> Latitud & Longitud</span>
+            	</h3>
+        	</div>
+	    	<div class="modal-body" style="height: 140px">
+				<!-- FORM CONTAINER-->
+				<form name="fAddressLatLonCustomer" novalidate>
+					<div class="form-group col-md-12">
+					  	<label><i class="fas fa-map-marked-alt"></i> Buscar Direcci&#243n en google maps: </label><br><div class="alert alert-info"><a data-toggle="tooltip" class="alert-link" data-placement="right" title="Buscar Latitud y Longitud " target="_blank" href="https://www.google.com/maps/place/{{geoLocation.address}}">{{geoLocation.address}}</a></div>  
+					</div>								
+					<div class="form-group col-md-6" ng-class="
+							  			{	'has-success': 
+							  				(geoLocation.addressLat!='' && geoLocation.addressLat!=undefined) && fAddressLatLonCustomer.addr_Lat.$valid,
+							  				'has-error':  
+							  				(geoLocation.addressLat==undefined) && fAddressLatLonCustomer.addr_Lat.$touched
+							  			}">
+					  		<label style="padding-left: 25px;">Latitud</label>  
+					    <div class="input-group">
+					    	<span class="input-group-addon"><i class="fas fa-map-marker-alt"></i></span>
+					  		<input id="addr_Lat" name="addr_Lat" 
+					  				class="form-control" 
+					  				placeholder="Ejemplo: -34.605960"				  				
+					  				ng-required="true" 
+					  				ng-model="geoLocation.addressLat" type="text" autofocus >
+					    </div>
+					</div>
+					<div class="form-group col-md-6" ng-class="
+							  			{	'has-success': 
+							  				(geoLocation.addressLon!='' && geoLocation.addressLon!=undefined) && fAddressLatLonCustomer.addr_Lon.$valid,
+							  				'has-error': 
+							  				(geoLocation.addressLon==undefined) && fAddressLatLonCustomer.addr_Lon.$touched
+							  			}">
+					  	<label style="padding-left: 25px;">Longitud</label>  
+					    <div class="input-group">
+					    	<span class="input-group-addon"><i class="fas fa-map-marker-alt"></i></span>
+					  		<input name="addr_Lon" 
+					  				class="form-control" 
+					  				placeholder="Ejemplo: -58.383934"
+					  				ng-required="true" 
+					  				ng-model="geoLocation.addressLon" type="text" autofocus >
+					    </div>
+					</div>
+				</form>
+			</div>
+			<div class="clearfix"> </div> 
+	        <div class="modal-footer">
+	            <div class="row">
+	                <div class="col-xs-6 col-sm-6 col-md-6 pull-right">
+	                	<button 
+		                	type="submit" 	
+		                	ng-click="setAddressLatLonFn(geoLocation)" 
+		                	ng-disabled="(geoLocation.addressLat=='' || geoLocation.addressLat==undefined || geoLocation.addressLon=='' || geoLocation.addressLon==undefined)" 
+		                	class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>	                        
+	                </div>           
+	            </div>
+	        </div>										
+		</div>
+	</div>
+</div>
+<!-- //Modal Building Unit -->

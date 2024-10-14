@@ -1,0 +1,40 @@
+<!-- STATUS CUSTOMER-->
+<div ng-show="serviceResponse.status==200 && (customerStatus.IsInDebt!=undefined || customerStatus.IsInDebt==null) && sysLoggedUser.idProfileKf!=0" class="col-md-6 col-md-offset-3">
+  <div class="panel padding-panel" ng-class="
+    {'panel-success': customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null, 'panel-danger': customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'}">
+    <div class="panel-heading">
+      <h3 class="panel-title">ESTATUS DEL CLIENTE</h3>
+    </div>
+    <div class="panel-body">
+       <div class="col-md-12">
+          <div style="text-align: center;">
+            <div class="circle-loader-spin">
+              <div class="status draw"></div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-10 col-md-offset-1">
+          <div ng-show="(customerStatus.IsInDebt!=undefined || customerStatus.IsInDebt==null) && sysLoggedUser.idProfileKf!=0" class="alert" ng-class="
+          {'alert-success': customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null, 'alert-danger': customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'}" role="alert">
+            <strong></strong>El Cliente se encuentra 
+            <span ng-if="customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null" class="label label-success text-uppercase">habilitado.</span>
+            <span ng-if="customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'"  class="label label-danger text-uppercase">inhabilitado.</span>
+          </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div ng-show="serviceResponse.status==404 && sysLoggedUser.idProfileKf!=0" class="col-md-6 col-md-offset-3">
+  <div class="panel panel-warning padding-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">ESTATUS DEL CLIENTE</h3>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-10 col-md-offset-1">
+          <div ng-show="(customerStatus.IsInDebt!=undefined || customerStatus.IsInDebt==null) && sysLoggedUser.idProfileKf!=0" class="alert alert-warning" role="alert">
+            <strong>INFO:</strong>Cliente no encontrado, intente nuevamente o contacte el area tecnica.
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

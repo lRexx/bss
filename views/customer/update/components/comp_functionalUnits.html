@@ -1,0 +1,32 @@
+<!-- Modal Functional Unit -->
+<div id="functionalUnit" style="top: 210px; left: 300px;" class="modal modal-dialog-centered" role="dialog">
+	<div class="modal-dialog modal-md" >
+	    <div class="modal-content" style="background-color: #fff0; border: 0px solid #9990;">
+	    	<div class="modal-body" style="padding: 0px;">
+				<!-- FORM CONTAINER-->
+				<div class="col-md-12"> 
+					<!-- Department-->                         
+				    <div class="col-md-6 card-depto-colum" >
+				        <div class="card-depto cyan white-text text-center">
+				            <div class="card-depto-content">
+			                <i ng-if="unitFloor.nameFloor=='co'" class="fas fa-warehouse"></i>
+			                <i ng-if="unitFloor.nameFloor=='ba'" class="fas fa-boxes"></i>
+			                <i ng-if="unitFloor.nameFloor=='lo'" class="fas fa-store"></i>
+							<i ng-if="unitFloor.nameFloor=='pb'" class="fas fa-home"></i>
+			            	<i ng-if="unitFloor.nameFloor!='co' && unitFloor.nameFloor!='ba' && unitFloor.nameFloor!='lo' &&  unitFloor.nameFloor!='pb'" class="fas fa-building"></i>
+				            </div>
+				            <h3 style="margin: 0px !important;" class="text-uppercase">{{unitFloor.nameFloor}} - {{unitDepto.departament}}</h3>
+			             	<span class="card-depto-span text-uppercase">unidad funcional</span>
+	 				        <div class="col-md-12 form-group row">
+								<div class="input-group col-xs-10 col-md-offset-2">
+									<input id="functional_unit_number" autofocus="true" class="form-control input-sm text-uppercase" allow-typing="^([a-zA-Z]|[\d]){1,2}\b$" ng-model="unitDepto.unitNumber" type="text">
+								</div>
+							</div>							
+				        </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- //Modal Functional Unit -->

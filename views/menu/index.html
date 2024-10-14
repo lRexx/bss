@@ -1,0 +1,193 @@
+<div ng-controller="MenuCtrl" ng-init="launchLoader();">
+    <!-- nav bar start -->
+    <nav ng-if="sysToken" class="navbar navbar-inverse navbar-custom navbar-fixed-top" role="navigation">
+        <div class="navbar-inverse navbar-inner m-h-30">
+            <div class="container-fluid">
+                <div>
+                    <div class="nav navbar-nav navbar-left">
+                        <img id="comp-k1xl6bdlimgimage" class="sys-logo" data-type="image" itemprop="image" src="https://static.wixstatic.com/media/b2c01b_142b5431aa03446eb145220aeee6a0e8~mv2.png/v1/fill/w_179,h_75,al_c,q_85,usm_0.66_1.00_0.01/LogoTassHorizontal.webp">
+                    </div>
+                    <ul class="nav navbar-nav navbar-right nav-prof nav-role">
+                        <li class="dropdown gray col-xs-6" style="color: #fff;">
+                            <h3><i class="fas fa-id-card-alt"></i> <span data-toggle="tooltip" data-placement="bottom" title="Perfil de usuario" >{{sysLoggedUser.nameProfile}}</span> <span data-toggle="tooltip" data-placement="bottom" title="Role Asignado">[{{sysLoggedUser.name}}] </span></h3>
+                        </li>
+                        <!-- USER PROFILE MENU -->
+                        <li class="dropdown gray" style="margin-top: 7px; color: #fff;">
+                            <a class="col-xs-6 pull-right dropdown-toggle margin-a-left nav-user" data-toggle="dropdown" >
+                                <i class="fas fa-user-circle fa-2x"></i> {{sysLoggedUser.fullNameUser | uppercase}} <i class="icon-caret-down"></i>
+                            </a>
+                            <ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" ng-if="sysModules.idPerfilUsuario">
+                            <li role="presentation">
+                                    <a style="cursor: pointer;" class="clear-lazy-cache" ng-click="windows.print();fnShowHide('ruprofile', 'open')" tabindex="-1" role="menuitem"><i class="fas fa-address-card"></i> Perfil</a>
+                                </li>
+                                <li ng-if="sysLoggedUser.idProfileKf==2 || sysLoggedUser.idProfileKf==4" role="presentation">
+                                    <a style="cursor: pointer;" class="clear-lazy-cache" ng-click="fnShowHide('rucompany', 'open')" tabindex="-1" role="menuitem"><i class="icon-building"></i> Datos de la empresa</a>
+                                </li>
+                                <li role="presentation">
+                                    <a style="cursor: pointer;" class="clear-lazy-cache" ng-click="fnShowHide('ruchpwd', 'open')" tabindex="-1" role="menuitem"><i class="fas fa-user-lock"></i> Cambiar clave</a>
+                                </li>
+                                <li role="presentation">
+                                    <div class="divider"></div>
+                                </li>
+                                <li role="presentation">
+                                    <a style="cursor: pointer;" class="clear-lazy-cache" ng-click="logout()" tabindex="-1" role="menuitem"><i class="icon-signout"></i> Salir</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <div class="jumbotron b-s-20 m-b-5">
+            <div class="container-fluid">
+                    <!-- Brand and toggle get grouped for better mobile display -->
+                    <div class="navbar-header">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+                        <span class="sr-only">Toggle navigation</span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                        <span class="icon-bar"></span>
+                    </button>
+                    
+                    </div>
+
+                    <!-- Collect the nav links, forms, and other content for toggling -->
+                    <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav">
+                        <li id="m_monitor"  class="icon-m" ng-class="{ active: getRoute('/monitor')}" ng-if="sysModules.idMonitor">
+                            <a href="/monitor"> 
+                                <i class="fas fa-tachometer-alt icon-4x"></i>
+                                <br>Monitor de pedidos
+                            </a>
+                        </li>
+                        <li id="m_pedidos" ng-class="{ active: getRoute('/pedidos')}" ng-if="sysModules.idPedidos">
+                        <a href="/pedidos">
+                            <i style="margin-left: 0.1em;" class="icon-file-text icon-4x"></i>
+                            <br>Pedidos 
+                            <!--<b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li ng-show="sysLoggedUser.idProfileKf!=2" class="dropdown-header">Llaveros</li>
+                                <li ng-show="sysLoggedUser.idProfileKf!=2"><a ng-click="fnShowHide('rukeyup', 'open')"  class="dropItemTitle"><i class="glyphicon glyphicon-upload"></i> Alta</a></li>
+                                <li ng-show="sysLoggedUser.idProfileKf!=2"><a ng-click="fnShowHide('rukeydown', 'open')"  class="dropItemTitle"><i class="glyphicon glyphicon-download"></i> Baja</a></li>
+                                <li ng-show="sysLoggedUser.idProfileKf!=2" class="divider"></li>
+                                <li ng-show="sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==2 || sysLoggedUser.idProfileKf==4" class="cms">
+                                    <a ng-click="fnShowHide('ruservice', 'open')" ><i class="glyphicon icon-wrench"></i> Servicio Tecnico</a>
+                                </li>
+                                <li ng-show="sysLoggedUser.idProfileKf!=0" class="cms">
+                                    <a ng-click="fnShowHide('ruother', 'open')" ><i class="glyphicon glyphicon-envelope"></i> Otras Consultas</a>
+                                </li>
+                                <li ng-show="sysLoggedUser.idProfileKf!=2" class="cms"> class="im active"
+                                    <a ng-click="fnShowHide('frmcost', 'open')" ><i class="glyphicon icon-dollar"></i> Costos</a>
+                                </li>
+                            </ul>-->
+                            </a>
+                        </li>
+                        <li id="m_llaveros" ng-class="{ active: getRoute('/keys')}" ng-if="sysModules.idLlaveros">
+                            <a href="/keys">
+                                <i style="margin-left: -0.58em" class="fas fa-key icon-4x"></i>
+                                <br>Pedidos 
+                                <!--<b class="caret"></b></a>
+                                <ul class="dropdown-menu">
+                                    <li ng-show="sysLoggedUser.idProfileKf!=2" class="dropdown-header">Llaveros</li>
+                                    <li ng-show="sysLoggedUser.idProfileKf!=2"><a ng-click="fnShowHide('rukeyup', 'open')"  class="dropItemTitle"><i class="glyphicon glyphicon-upload"></i> Alta</a></li>
+                                    <li ng-show="sysLoggedUser.idProfileKf!=2"><a ng-click="fnShowHide('rukeydown', 'open')"  class="dropItemTitle"><i class="glyphicon glyphicon-download"></i> Baja</a></li>
+                                    <li ng-show="sysLoggedUser.idProfileKf!=2" class="divider"></li>
+                                    <li ng-show="sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==2 || sysLoggedUser.idProfileKf==4" class="cms">
+                                        <a ng-click="fnShowHide('ruservice', 'open')" ><i class="glyphicon icon-wrench"></i> Servicio Tecnico</a>
+                                    </li>
+                                    <li ng-show="sysLoggedUser.idProfileKf!=0" class="cms">
+                                        <a ng-click="fnShowHide('ruother', 'open')" ><i class="glyphicon glyphicon-envelope"></i> Otras Consultas</a>
+                                    </li>
+                                    <li ng-show="sysLoggedUser.idProfileKf!=2" class="cms"> class="im active"
+                                        <a ng-click="fnShowHide('frmcost', 'open')" ><i class="glyphicon icon-dollar"></i> Costos</a>
+                                    </li>
+                                </ul>-->
+                                </a>
+                            </li>
+                        <li id="m_depto" class="icon-m" ng-class="{ active: getRoute('/buildings')}" ng-if="sysModules.idEdificios">
+                            <a href="/buildings">
+                                <i class="icon-building icon-4x"></i>
+                                <br>Gestion de Edificio
+                            </a>
+                        </li>
+                        <!--<li id="m_user" ng-show="sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4">
+                            <a href="#Usuarios" ng-click="fnShowHide('user', 'open')"> 
+                                <i class="icon-group"></i>
+                                <br>Gestion de inquilinos
+                            </a>
+                        </li>-->
+                        <!--<li id="m_contact" class="icon-m">
+                            <a ng-click="fnShowHide('frmcontact', 'open')"> 
+                                <i style="margin-left: -0.4em" class="icon-phone icon-4x"></i>
+                                <br><span>Contacto</span>
+                            </a>
+                        </li>-->
+                        <!--<li style="text-align: left; text-align: justify;" id="m_client" ng-show="sysLoggedUser.idProfileKf==1" class="icon-m">
+                            <a ng-click="fnShowHide('managedclient', 'open')"> 
+                                <i style="margin-left: -0.1em" class="fas fa-users-cog icon-4x"></i>
+                                <br>Gestion de Clientes
+                            </a>
+                        </li>-->
+                        <!--<li id="m_client" ng-show="sysLoggedUser.idProfileKf" class="icon-m">
+                            <a ng-click="sysSendNotifyMail()"> 
+                                <i style="margin-left: -0.5em" class="far fa-envelope icon-4x"></i>
+                                <br>Send Mail
+                            </a>
+                        </li>-->
+                        <li id="m_product" class="icon-m" ng-class="{ active: getRoute('/products')}" ng-if="sysModules.idProducto">
+                            <a  href="/products"> 
+                            <i style="margin-left: -0.5em" class="fas fa-th icon-4x"></i>
+                            <br>Productos
+                            </a>
+                        </li>	
+                        <li id="m_customers" class="icon-m" ng-class="{ active: getRoute('/customers')}" ng-if="sysModules.idCliente">
+                            <a  href="/customers"> 
+                            <i style="margin-left: -0.58em" class="fas fa-user-tie icon-4x"></i>
+                            <br>Clientes
+                            </a>
+                        </li>
+                        <li id="m_services" class="icon-m" ng-class="{ active: getRoute('/services')}" ng-if="sysModules.idServices">
+                            <a  href="/services"> 
+                            <i style="margin-left: -0.58em" class="fas fa-tools icon-4x"></i>
+                            <br>Servicios
+                            </a>
+                        </li>
+                        <li id="m_users" class="icon-m" ng-class="{ active: getRoute('/users')}" ng-if="sysModules.idUsers">
+                            <a  href="/users"> 
+                            <i style="margin-left: -0.7em" class="fas fa-users icon-4x"></i>
+                            <br>Usuarios
+                            </a>
+                        </li>
+                        <li id="m_config" class="icon-m" ng-class="{ active: getRoute('/system')}" ng-if="sysModules.idConfiguracion">
+                            <a  ng-click="fnShowHide('sysConfig', 'open')"> 
+                            <i style="margin-left: -0.4em" class="icon-cogs icon-4x"></i>
+                            <br>Configuracion
+                            </a>
+                        </li>
+                    </ul>
+
+                    <!--<ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">Link</a></li>
+                        <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+                        <ul class="dropdown-menu">
+                            <li><a href="#">Action</a></li>
+                            <li><a href="#">Another action</a></li>
+                            <li><a href="#">Something else here</a></li>
+                            <li class="divider"></li>
+                            <li><a href="#">Separated link</a></li>
+                        </ul>
+                        </li>
+                    </ul>-->
+                    </div><!-- /.navbar-collapse -->
+            </div><!-- /.container-fluid -->
+        </div>
+    </nav>
+    <!-- //nav bar end -->
+    <!-- Loader div -->
+    <div id="wLoader" ng-if="wLoader">
+        <div id="loader">&nbsp;</div>
+        <div class="companyName"></div>
+    </div>	
+    <!-- //Loader div -->
+</div>

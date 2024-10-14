@@ -1,0 +1,244 @@
+<!-- Particular Address -->
+<div id="customerParticularAddress" style="top: 130px;" class="modal fade modal-dialog-centered in" style="top: 130px;" role="dialog">
+    <div class="modal-dialog modal-md" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title">CREAR DIRECCION</h3>
+          </div>
+        <div class="modal-body">
+        	<!-- FORM CONTAINER-->
+        	<form class="form-horizontal" name="fcpAddress" novalidate>
+          		<fieldset>
+					<div class="form-group col-md-12"> 
+						<label style="padding-left: 15px;">Tipo de inmueble</label>
+						<div class="input-group " ng-class="
+							{	'has-success': 
+								customer.particular.typeInmueble!=undefined && fcpAddress.particular_tipo_inmueble.$valid,
+							 	'has-error':  
+								(customer.particular.typeInmueble==undefined) && fcpAddress.particular_tipo_inmueble.$touched,
+							}">
+							<span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+							<select name="particular_tipo_inmueble" class="form-control" ng-options="item.idTipoInmueble as item.descripcion for item in rsTypeOfPropertyData " ng-required="(customer.companyDetails.idClientTypeFk!=2)" ng-model="customer.particular.typeInmueble" ng-change="customer.particular.isBuilding=false" autofocus required >
+								<option value="">Inmueble</option>
+							</select>
+						</div>
+					</div>							
+					<div class="form-group col-md-12 n-padding-l n-padding-r well-checkbox" style="width: auto;" ng-if="customer.particular.typeInmueble!='' && customer.particular.typeInmueble!=undefined">
+							<div style="margin-left: 200px;" ng-if="customer.particular.typeInmueble==1">
+					    	<label class="switch switch-1x">
+					    		<input name="particular_add_isBuilding" 
+					    				type="checkbox" 
+					    				class="success" 
+					    				ng-if="customer.particular.typeInmueble==1" 
+					    				ng-change="customer.particular.depto=''; customer.particular.nameAddress='';
+					    				customer.particular.select.address.selected=undefined;" 
+					    				ng-model="customer.particular.isBuilding" 
+					    				id="checkbuttonBuilding" 
+					    				style="margin: 0px !important; display: inherit !important;">
+								<span class="slider slider-1x flat"></span>
+							</label>
+					  		<label for="checkbuttonBuilding" style="cursor: pointer; font-weight: 600;">Edificio Registrado</label>
+							</div>
+							<!-- Address for customer differents than Particular -->
+							<div class="form-group col-md-12" ng-if="!customer.particular.isBuilding" ng-class="
+									  			{	'has-success': 
+									  				addrrSelected && fcpAddress.particular_add_addrText.$valid,
+									  			 	'has-error': 
+									  				(!addrrSelected && fcpAddress.particular_add_addrText.$touched) || 
+									  				(customer.particular.nameAddress.length==0 && customer.particular.nameAddress.length<1) && !addrrSelected && fcpAddress.particular_add_addrText.$touched || 
+									  				(customer.particular.nameAddress=='' || customer.particular.nameAddress==undefined) && (!addrrSelected || addrrSelected) && fcpAddress.particular_add_addrText.$touched ||
+									  				customer.particular.nameAddress!='' && !addrrSelected && fcpAddress.particular_add_addrText.$touched,
+									  				'col-md-6': customer.particular.typeInmueble==1 && !customer.particular.isBuilding,
+									  				'col-md-12' : customer.particular.typeInmueble!=1
+									  			}" >
+						      	<label style="padding-left: 15px;">Direcci&#243n</label> 
+						      	<div class="input-group">
+						      		<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
+									<input type="text" 
+											id="addrText" 
+											name="particular_add_addrText" 
+											ng-model="customer.particular.nameAddress" 
+											placeholder="Direcci&#243n" 
+											ng-keyup="getAddressByNameFn(customer.particular.nameAddress, 'particular')" 
+											class="form-control" 
+											required="true" />
+						      	</div>			                  	
+								<ul class="list-group" ng-if="rsAddress_API_Data_PCA.length>0">
+									<li class="list-group-item" ng-repeat="item in rsAddress_API_Data_PCA" ng-click="searchAddressByNameFn(item, 'address', 'particular')">{{item.calle.nombre}} {{item.altura.valor}}, {{item.provincia.nombre}}</li>
+								</ul>
+							</div>
+							<!-- Address for customer differents than Particular -->
+							<!-- Address for customer Particular -->
+							<div class="form-group col-md-12 n-padding-l n-padding-r" ng-if="customer.particular.isBuilding" ng-class="
+									  			{	'has-success': 
+									  				customer.particular.select.address.selected!=undefined && fcpAddress.particular_add_addrSelect.$valid,
+									  			 	'has-error':  
+									  				(customer.particular.select.address.selected==undefined) && fcpAddress.particular_add_addrSelect.$touched,
+									  			}">
+							  <label style="padding-left: 25px;">Direcci&#243n</label>  
+							    <div class="col-xs-12 selectContainer">
+								    <!-- ######################################################################################################### -->
+								    <div class="input-group">
+						              <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+						              <ui-select name="particular_add_addrSelect"  
+						              			 ng-required="customer.particular.isBuilding" 
+						              			 ng-change="getBuildingsDeptosFn(customer.particular.select.address.selected.idClient); customer.particular.depto=''" 
+						              			 ng-model="customer.particular.select.address.selected"
+						              			 theme="bootstrap" autofocus>
+						                  <ui-select-match placeholder="Selecciona un edificio">{{$select.selected.address}}</ui-select-match>
+						                    <ui-select-choices repeat="item in rsBuildingAddressData | filter: $select.search">
+						                      <div ng-bind-html="item.address | highlight: $select.search"></div>
+						                        <small ng-bind-html="item.province | highlight: $select.search"></small>
+						                        <small> (</small><small ng-bind-html="item.location | highlight: $select.search"></small><small>)</small>
+						                    </ui-select-choices>
+						                    <ui-select-no-choice>
+											    No hay resultados, contacte are de soporte.
+										  	</ui-select-no-choice>
+						                </ui-select>
+						            </div>
+							  </div>
+							</div>
+							<!-- Address for customer Particular -->
+							<!-- Deparments for customer Particular -->									
+							<div class="form-group col-md-12 n-padding-l n-padding-r" ng-if="(customer.particular.isBuilding)" ng-class="
+									  			{	'has-success': 
+									  				customer.particular.select.depto.length>0 || customer.particular.select.depto.idDepto!=undefined && fcpAddress.particular_add_idDepartmentKf.$valid,
+									  			 	'has-error':  
+									  				(customer.particular.select.depto.length==0 || customer.particular.select.depto.idDepto==undefined) && fcpAddress.particular_add_idDepartmentKf.$touched,
+									  			}">
+							  	<label style="padding-left: 25px;">Departamento</label>  
+							    <div class="col-xs-12 selectContainer">
+								    <div class="input-group">
+								    	<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+								  		<select name="particular_add_idDepartmentKf" 
+								  				class="form-control" 
+								  				ng-disabled="!customer.particular.isBuilding || customer.particular.select.address.selected==undefined" 
+								  				ng-options="item as item.Depto for item in rsBuildingDepartmentsData" 
+								  				ng-required="(customer.particular.isBuilding && customer.particular.select.address.selected.address)" 
+								  				ng-model="customer.particular.select.depto" autofocus >
+										    <option value=""></option>
+									    </select>
+								    </div>
+							  </div>
+							</div>
+							<div class="form-group col-md-6 n-padding-l n-padding-r" ng-if="(!customer.particular.isBuilding && customer.particular.typeInmueble==1)" ng-class="
+									  			{	'has-success': 
+									  				customer.particular.floor.length>=1 && fcpAddress.particular_add_numberOfFloor.$valid,
+									  				'has-error': 
+									  				(customer.particular.floor.length==0 && customer.particular.floor.length<1) && fcpAddress.particular_add_numberOfFloor.$touched || 
+									  				(customer.particular.floor=='' || customer.particular.floor==undefined) && fcpAddress.particular_add_numberOfFloor.$touched
+									  			}">
+							  	<label style="padding-left: 25px;">Piso</label>  
+							    <div class="col-xs-12">
+								    <div class="input-group">
+								    	<span class="input-group-addon"><i class="fas fa-building"></i></span>
+								  		<input name="particular_add_numberOfFloor" 
+								  				class="form-control input--number" 
+								  				placeholder="Piso"
+								  				ng-disabled="customer.particular.isBuilding || customer.particular.nameAddress==''" 
+								  				ng-required="(!customer.particular.isBuilding)" 
+								  				ng-model="customer.particular.floor" type="text" ng-keydown="fnLoadPhoneMask()" autofocus >
+								    </div>
+							  </div>
+							</div>													
+							<div class="form-group col-md-6 n-padding-l n-padding-r" ng-if="(!customer.particular.isBuilding && customer.particular.typeInmueble==1)" ng-class="
+									  			{	'has-success': 
+									  				customer.particular.depto.length>=1 && fcpAddress.particular_add_nameDepto.$valid,
+									  				'has-error': 
+									  				(customer.particular.depto.length==0 && customer.particular.depto.length<1) && fcpAddress.particular_add_nameDepto.$touched || 
+									  				(customer.particular.depto=='' || customer.particular.depto==undefined) && fcpAddress.particular_add_nameDepto.$touched
+									  			}">
+							  	<label style="padding-left: 25px;">Departamento</label>  
+							    <div class="col-xs-12">
+								    <div class="input-group">
+								    	<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+								  		<input name="particular_add_nameDepto" 
+								  				class="form-control text-uppercase" 
+								  				placeholder="Depto"
+								  				ng-disabled="customer.particular.isBuilding || customer.particular.nameAddress==''" 
+								  				ng-required="(!customer.particular.isBuilding)" 
+								  				ng-model="customer.particular.depto" type="text"
+								  				allow-typing="^([a-zA-Z]|[\d]){1,3}\b$" autofocus >
+								    </div>
+							  </div>
+							</div>					
+							<!-- Deparments for customer Particular -->
+							<!-- State List-->
+						    <div class="form-group col-md-12" ng-if="!customer.particular.isBuilding" ng-class="
+									  			{	'has-success': 
+									  				customer.particular.select.province.selected!=undefined && fcpAddress.particular_add_province.$valid,
+									  			 	'has-error':  
+									  				( customer.particular.select.province.selected==undefined) && fcpAddress.particular_add_province.$touched,
+									  			}">
+						      <label style="padding-left: 15px;">Provincia</label> 
+						        <div class="input-group">
+						                <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+						                    <ui-select name="particular_add_province" 
+						                    			class="dropdown-select"
+						                    			ng-disabled="!customer.particular.nameAddress" 
+						                    			ng-model="customer.particular.select.province.selected"  
+						                    			ng-change="getAddressIdByNameFn(customer.particular.select.province.selected.province, 'main');getLocationByIdFn(customer.particular.select.province.selected.idProvince); " 
+						                    			required="customer.particular.nameAddress" 
+						                    			autofocus>
+						                        <ui-select-match placeholder="Seleccione una provincia">{{$select.selected.province | uppercase}}</ui-select-match>
+						                        <ui-select-choices repeat="item in rsStatesData | filter: $select.search">
+						                          <div ng-bind-html="item.province | highlight: $select.search"></div>
+						                            <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+						                            <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+						                        </ui-select-choices>
+						                    </ui-select>
+						        </div>
+						    </div>    														
+							<!-- Localidad list-->
+						    <div class="form-group col-md-12" ng-if="!customer.particular.isBuilding" ng-class="
+									  			{	'has-success': 
+									  				customer.particular.select.location.selected!=undefined && fcpAddress.particular_add_Localidad.$valid,
+									  			 	'has-error':  
+									  				(customer.particular.select.location.selected==undefined) && fcpAddress.particular_add_Localidad.$touched,
+									  			}">
+						      <label style="padding-left: 15px;">Localidad</label> 
+						        <div class="input-group">
+						                <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+						                    <ui-select name="particular_add_Localidad" 
+						                    			class="dropdown-select" 
+						                    			ng-model="customer.particular.select.location.selected" 
+						                    			ng-disabled="!customer.particular.select.province.selected.idProvince" 
+						                    			required="customer.particular.nameAddress" 
+						                    			autofocus>
+						                        <ui-select-match placeholder="Seleccione una localidad">{{$select.selected.location | uppercase}}</ui-select-match>
+						                        <ui-select-choices repeat="item in rsLocations_All | filter: $select.search">
+						                          <div ng-bind-html="item.location | highlight: $select.search"></div>
+						                            <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+						                            <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+						                        </ui-select-choices>
+						                    </ui-select>
+						        </div>
+						    </div>
+				    </div>
+					<!-- Zone -->
+					<div ng-if="customer.particular.typeInmueble!='' && customer.particular.typeInmueble!=undefined" ng-include="'views/customer/new/components/comp_zoneInput.html'"></div>			    
+					<!-- Aclaraciones -->
+					<div class="form-group col-md-12" ng-if="customer.particular.typeInmueble!='' && customer.particular.typeInmueble!=undefined">
+					  <label>Aclaraci&#243n</label> 
+				  		<textarea style="resize: none;" name="particular_add_aclaracion" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="customer.particular.clarification" ></textarea>
+					</div>				    
+				</fieldset>
+          	</form>
+          	<div class="clearfix"> </div> 
+        </div>
+      	<!-- Actions Button -->
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <button type="submit" ng-click="addParticularAddressFn('new',customer.particular);"  ng-disabled="fcpAddress.$invalid" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Guardar</button>
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // Particular Address -->			    

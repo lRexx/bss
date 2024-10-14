@@ -1,0 +1,74 @@
+<table id="tableProducts"  class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
+    <thead style=" background: #4d5d6f; color: white;">
+      <tr style="text-align: center; cursor: pointer;" class="product-list-font">
+          <th class="media-middle text-center">ID</th>
+          <th class="media-middle text-center">Descripcion</th>
+          <!--<th>Codigo</th>-->
+          <th style="width: 15%;" class="media-middle text-center">Marca</th>
+          <th style="width: 15%;" class="media-middle text-center">Modelo</th>
+          <!--<th><i class="fas fa-barcode"> </i>Fabrica</th>
+          <th><i class="fas fa-barcode"> </i>Interno</th>
+          <th>Expiracion</th>
+          <th>Horario</th>
+          <th>Precio</th>-->
+          <th style="width: 15%;" class="media-middle text-center">Clasificaci&#243;n</th>
+          <th class="media-middle text-center"><i class="glyphicon icon-flag"> </i>Estatus</th>
+          <!--
+          <th data-toggle="tooltip" data-placement="right" title="Descripcion del producto">Descripcion</th>
+          <th data-toggle="tooltip" data-placement="right" title="Codigo del fabricante">Codigo</th>
+          <th data-toggle="tooltip" data-placement="right" title="Marca del producto">Marca</th>
+          <th data-toggle="tooltip" data-placement="right" title="modelo del producto">Modelo</th>
+          <th data-toggle="tooltip" data-placement="right" title="Numero de serie del fabricante ">#Fabrica</th>
+          <th data-toggle="tooltip" data-placement="right" title="Numero de serie interno">#Interno</th>
+          <th data-toggle="tooltip" data-placement="right" title="Fecha de vencimiento">Expiracion</th>
+          <th data-toggle="tooltip" data-placement="right" title="Controla Horario">Horario</th>
+          <th data-toggle="tooltip" data-placement="right" title="Precio del producto">Precio</th>
+          <th data-toggle="tooltip" data-placement="right" title="Estatus del producto">Estatus</th>
+          <th></th>
+          -->
+      </tr>
+    </thead>
+    <tbody>
+        <tr style="align-content: center;" class="product-list-font" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+        <!--<tr dir-paginate="item in rsProductsData | filter:searchboxfilter | filter:filterBrandProduct | itemsPerPage:10 " current-page="">-->
+          <td ng-trim="true" class="media-middle text-center"><bold>{{item.idProduct}}</bold></td>
+
+          <td ng-trim="true">{{item.descriptionProduct | uppercase | limitTo: 65 }}{{item.descriptionProduct.length > 65 ? '...' : ''}}</td>
+          <!--<td ng-trim="true">{{item.codigoFabric}}</td>-->
+          <td ng-trim="true" class="media-middle text-center">{{item.brand | uppercase | limitTo: 15 }}{{item.brand.length > 15 ? '...' : ''}}</td>
+          <td ng-trim="true" class="media-middle text-center">{{item.model | uppercase | limitTo: 20 }}{{item.model.length > 20 ? '...' : ''}}</td>
+          <!--<td ng-trim="true" class="c-allign-td">
+              <label ng-if="item.isNumberSerieFabric==1" class="label label-success">SI</label>
+              <label ng-if="item.isNumberSerieFabric==0" class="label label-warning">NO</label>
+          </td>
+          <td ng-trim="true" class="c-allign-td">
+              <label ng-if="item.isNumberSerieInternal==1" class="label label-success">SI</label>
+              <label ng-if="item.isNumberSerieInternal==0" class="label label-warning">NO</label>
+          </td>
+          <td ng-trim="true" class="c-allign-td">
+              <label ng-if="item.isDateExpiration==1" class="label label-success">SI</label>
+              <label ng-if="item.isDateExpiration==0" class="label label-warning">NO</label>
+          </td>
+          <td ng-trim="true" class="c-allign-td">
+              <label ng-if="item.isControlSchedule==1" class="label label-success">SI</label>
+              <label ng-if="item.isControlSchedule==0" class="label label-warning">NO</label>
+              <label ng-if="item.isControlSchedule==null" class="label label-warning">N/A</label>
+          </td>-->
+          <!--<td ng-trim="true">{{item.priceFabric}}</td>-->
+          <td ng-trim="true"><label ng-if="item.idStatusFk==1" class="label label-default">{{item.classification}}</label></td>
+          <td ng-trim="true" class="c-allign-td"> <!-- STATUS -->
+              <label ng-if="item.idStatusFk==1" class="label label-success">ACTIVO
+              </label>
+              <label ng-if="item.idStatusFk==0" class="label label-warning">INACTIVO
+              </label>
+              <label ng-if="item.idStatusFk==-1" class="label label-danger"><del>ELIMINADO</del>
+              </label>
+          </td>
+          <td>
+            <button ng-click="selectProductDataFn(item);" data-toggle="tooltip" data-placement="right" title="Modificar Producto" ng-disabled="item.idStatus==-1" type="button" class="btn btn-info btn-xs"><i class="far fa-edit"></i></button>
+            <button ng-click="modalConfirmation('removeProduct', 0, item)" data-toggle="tooltip" data-placement="right" title="Eliminar Producto" type="button" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+          </td>
+      </tr>
+    </tbody>
+</table>
+

@@ -1,0 +1,226 @@
+	<div class="panel panel-default">
+		<div class="panel-heading">
+			<h3 class="panel-title">GESTION DE INQUILINOS<a ng-click="fnShowHide()" class="frmclose"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></a></h3>
+		</div>
+	      	<div class="panel-body">
+		      	<div class="row"  >
+		      		<div ng-show="sessionidProfile==1" class="col-lg-2">
+		                    <!-- Company List For Admins -->  
+						<div class="form-group col-xs-12" >
+							<label for="sel1" ng-show="sessionidProfile==1">Consorcio</label> 
+							<select ng-show="sessionidProfile==1" name="idCompanyKf" class="form-control" ng-change="officeListByCompnayID()"  ng-options="item.idCompany as item.nameCompany for item in listCompany" ng-required="sessionidProfile==1" ng-model="select.idCompanyKf"  >
+					            <option value="">Seleccione un consorcio</option>
+					        </select>
+						</div>
+		            </div>
+		            <div ng-show="sessionidProfile>0" class="col-lg-2">
+		                    <!-- Address List For Admins -->  
+						<div class="form-group col-xs-12" ng-show="sessionidProfile!=3">
+							<label for="sel1" ng-show="sessionidProfile==2">Sucursal</label>
+							<label for="sel1" ng-show="sessionidProfile==1">Sucursal / Edificio</label>
+							<label for="sel1" ng-show="sessionidProfile==4">Edificio</label> 
+
+							<select name="idAddressAtt" ng-show="sessionidProfile!=1 && sessionidProfile!=3" class="form-control"  ng-options="item.idAdressKf as item.nameAdress for item in listOffice" ng-required="sessionidProfile!=3" ng-model="select.idAddressAtt" ng-change="getDeparment(0);" aut<ofocus >
+						    	<option  value="">Seleccione un opcion</option>
+					    	</select>
+
+					    	<select name="idAddressAtt" ng-show="sessionidProfile==1" ng-disabled="companyFound!=true" class="form-control" ng-change="getDeparment(0);"  ng-options="item.idAdressKf as item.nameAdress for item in listOffice" ng-required="sessionidProfile!=4" ng-model="select.idAddressAtt" autofocus >
+								<option value="">Seleccione una direccion</option>
+							</select>
+						</div>
+		            </div>
+	                <div ng-show="sessionidProfile>0" class="col-lg-2">
+		                    <!-- Department List-->  
+						<div class="form-group col-xs-12" ng-show="sessionidProfile!=3">
+							<label for="sel1" ng-show="sessionidProfile==1 || sessionidProfile==4">Departamento</label>
+                            <select ng-model="select.idDepartmentKf" ng-disabled="dptoNotFound!=false" class="form-control" ng-options="x.idDepartment as x.departmentFloor for x in ListDpto" ng-change="lisTenantByType(select.idDepartmentKf, 0)" required autofocus >
+                              	<option value="0"></option>	
+                            </select>
+						</div>
+		            </div>
+		            <div ng-show="sessionidProfile>0" class="col-lg-2">
+		                 <!--Type Tenant -->
+						<div class="form-group col-xs-12" ng-show="sessionidProfile!=3">
+							<label for="sel1" ng-show="sessionidProfile==1 || sessionidProfile==4">Tipo de Inquilino</label>
+                            <select ng-model="idTypeTenantKf" ng-disabled="dptoNotFound!=false" class="form-control" required autofocus >	
+                              	<option value="" >Todos</option>
+                              	<option value="1" >Propietarios</option>
+                              	<option value="2" >Inquilinos</option>
+                            </select>
+						</div>
+		            </div> 
+	                <div class="col-lg-2">
+	                	<br>
+	                    <div class="form-group" style="    margin-top: 5px;">
+	                     <input type="text" style=" margin-top: -6px;"
+	                    class="form-control" ng-model="searchFilter" id="searchFilter" placeholder="Buscar...">
+	                
+	                    </div>
+	                </div>
+					<table  class="table  table-striped ">
+	                    <thead style=" background: #4d5d6f; color: white;">
+	                        <tr >
+	                            <th style="width:20px">#</th>
+	                            <th>ID</th>
+	                            <th><i class="glyphicon glyphicon-user"> </i> Nombres</th>
+	                            <th><i class="glyphicon glyphicon-phone"> </i> Tlf Movil</th>
+	                            <th><i class="glyphicon glyphicon-earphone"> </i> Tlf Fijo</th>
+	                            <th><i class="glyphicon glyphicon-envelope"> </i> Correo</th>
+	                            <th>Tipo</th>
+	                            <th><i class="glyphicon icon-flag"> </i> Status</th>
+	                            <th><i class="glyphicon icon-calendar"> </i> Registrado</th>
+	                        </tr>
+	                    </thead>
+	                    <tbody ng-show="tenantNotFound!=true" >
+	                        <tr style="align-content: center;" ng-repeat="item in listTenant | filter: searchFilter | filter: {idTypeKf:idTypeTenantKf}">
+	                        	<td><div class="btn-group">
+										<button type="button" ng-click="select2EditTenant(item);" class="btn btn-lg btn-info">Modificar</button>
+									</div>
+								</td>
+		                        <td>{{item.idTenant}}</td>
+		                        <td>{{item.fullNameTenant}}</td>
+		                        <td>{{item.phoneNumberTenant}}</td>
+		                        <td>{{item.phoneNumberContactTenant}}</td>
+		                        <td>{{item.emailTenant}}</td>
+		                        <td ng-if="item.idTypeKf==1">Propietario</td>
+		                        <td ng-if="item.idTypeKf==2">Inquilino</td>
+		                        <td>
+		                        	<div class="btn-group">
+										<button type="button" ng-if="item.idStatusKf==1" class="btn btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> ACTIVO | 
+											<span class="caret"></span>
+		                    				<span class="sr-only">Toggle Dropdown</span>
+		                				</button>
+		                				<button type="button" ng-if="item.idStatusKf==0" class="btn btn-warning dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> INACTIVO | 
+											<span class="caret"></span>
+		                    				<span class="sr-only">Toggle Dropdown</span>
+		                				</button>
+		                				<button type="button" ng-if="item.idStatusKf<0" class="btn btn-danger dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false"> ELIMINADO | 
+											<span class="caret"></span>
+		                    				<span class="sr-only">Toggle Dropdown</span>
+		                				</button>
+									  	<ul ng-show="item.idStatusKf==0 || sessionidProfile==1" class="dropdown-menu">
+	                    					<li><a ng-click="sysFunctionsUser('enabled',item.idUser)" ng-if="item.idStatusKf<1"><i title="Activar" class="glyphicon glyphicon-ok-circle"> </i> Activar</a></li>
+	                    					<li><a ng-click="sysFunctionsUser('disabled',item.idUser)" ng-if="item.idStatusKf>0 && sessionidProfile==1"><i title="desactivar" class="glyphicon glyphicon-ban-circle"></i> Desactivar</a></li>
+	                					</ul>
+									</div>
+		                        </td>
+		                        <td>{{item.dateCrated}}</td>
+		                    </tr>
+		                </tbody>
+					</table>
+    			</div>
+	  		</div>
+	</div>
+
+<div id="EditModalUser" class="modal fade bd-example-modal-lg" style="top: 20px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+	      	<div class="modal-body">
+				<div class="agileits-w3layouts"> 
+		          	<div class="panel panel-default">
+		              	<div class="panel-heading">
+		                	<h3 class="panel-title">ACTUALIZAR USUARIO<a ng-click="closeModal('up')" class="frmclose"><i title="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></a></h3>
+		            	</div>
+		            		<div class="panel-body" style="overflow-y: scroll;">
+								<!-- FORM CONTAINER-->
+			    				<form class="form-horizontal" name="fUpdateUser" ng-submit="updateUser()">
+									<fieldset>
+									<!-- Select profile --> 
+									<div class="form-group"> 
+									  <label class="col-md-4 control-label">Perfil</label>
+									    <div class="col-md-4 selectContainer">
+										    <div class="input-group">
+										        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+												    <select name="idProfileKf" class="form-control"  ng-options="item.idProfile as item.nameProfile for item in listProfile | filter:hideProfiles" ng-model="$parent.idProfileKf"  required autofocus >
+												    	<option value=""></option>
+											    	</select>
+										  	</div>
+										</div>
+									</div>
+									<!-- Company List-->
+									      
+									<div class="form-group" ng-show="sessionidProfile==1">  
+									    <div class="col-md-4">
+										    <div class="input-group">
+										        <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
+										  		<select name="idCompanyKf" class="form-control"  ng-options="item.idCompany as item.nameCompany for item in listCompany" ng-required="idProfileKf==2" ng-model="$parent.idCompanyKf"  >
+												    	<option value=""></option>
+											    	</select>
+										    </div>
+									  </div>
+									</div>
+									<!-- List Address-->
+  
+									<div class="form-group" ng-show="sessionidProfile==1">
+									  <label class="col-md-4 control-label">Direcci&#243n</label>  
+									    <div class="col-md-4">
+										    <div class="input-group">
+										        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+										  		<select name="idAddressKf" class="form-control"  ng-options="item.idAdress as item.nameAdress for item in ListAddress" ng-required="idProfileKf!=2" ng-model="$parent.idAddressKf" autofocus >
+												    	<option value="">Seleccione una direccion</option>
+											    	</select>
+										    </div>
+									  </div>
+									</div>
+									<!-- Form First Name -->
+									<div class="form-group">
+									  <label class="col-md-4 control-label">Nombres</label>  
+										  <div class="col-md-4">
+											  <div class="input-group">
+												  <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+												  <input  name="fname" autofocus="true" placeholder="Nombre" class="form-control" ng-model="namesUser"  type="text" required autofocus/>
+											  </div>
+										  </div>
+									</div>
+									<!-- Text Mail-->
+
+									<div class="form-group">
+									 <label class="col-md-4 control-label">E-Mail</label>  
+									   <div class="col-md-4">
+									    <div class="input-group">
+									    	<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+									  		<input name="emailUser" placeholder="E-Mail" class="form-control" ng-model="$parent.emailUser"  type="email" required autofocus />
+									    </div>
+									  </div>
+									</div>
+									<!-- Text Phone-->
+									       
+									<div class="form-group">
+									  <label class="col-md-4 control-label">Telefono Local</label>  
+									    <div class="col-md-4">
+										    <div class="input-group">
+										        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+										  		<input name="phoneLocal" placeholder="(11) 555-1212" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="12" ng-model="phonelocalNumberUser"  type="text" required autofocus />
+										    </div>
+									  </div>
+									</div>
+									<!-- Text Phone-->
+									       
+									<div class="form-group">
+									  <label class="col-md-4 control-label">Telefono Movil</label>  
+									    <div class="col-md-4">
+										    <div class="input-group">
+										        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+										  		<input name="phoneMovil" placeholder="(11) 555-1212" class="form-control" oninput="this.value = this.value.replace(/[^0-9.]/g, ''); this.value = this.value.replace(/(\..*)\./g, '$1');" maxlength="12" ng-model="phoneNumberUser"  type="text" required autofocus />
+										    </div>
+									  </div>
+									</div>
+
+									<!-- Actions Button -->
+									<div class="form-group">
+									  <label class="col-md-4 control-label"></label>
+									  <div class="col-md-4">
+									    <button type="submit" class="btn btn-primary" >Actualizar <!--<span class="glyphicon glyphicon-ok"></span>--></button>
+									  </div>
+									</div>
+
+									</fieldset>
+								</form>
+								<div class="clearfix"> </div> 
+							</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

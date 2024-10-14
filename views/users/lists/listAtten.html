@@ -1,0 +1,73 @@
+<table  id="tableAtt"   class="table table-striped table-bordered table-condensed table-list table-responsive">
+    <thead style=" background: #4d5d6f; color: white;">
+      <tr style="text-align: center;">
+          <th>ID</th>
+          <th><i class="glyphicon glyphicon-user"> </i> Nombres</th>
+          <!--<th><i class="glyphicon glyphicon-phone"> </i> Tlf Movil</th>
+          <th><i class="glyphicon glyphicon-earphone"> </i> Tlf Fijo</th>-->
+          <th><i class="glyphicon glyphicon-envelope"> </i> Correo</th>
+          <th style="vertical-align: middle;text-align: center;"><i class="glyphicon glyphicon-user"> </i>Perfil</th>
+          <th width="8%" style="vertical-align: middle;text-align: center;"><i class="fas fa-user-tag"></i> Role</th>
+          <th><i class="icon-suitcase"> </i>Empresa</th>
+          <th style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Status</th>
+          <th style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-calendar"> </i> Registrado</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="align-content: center;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse"">
+          <td>
+          	<div class="btn-group">
+			  <button ng-click="selectUserDataFn(item);" data-toggle="tooltip" data-placement="top" title="Editar Encargado" type="button" ng-click="selectUserDataFn(item);" class="btn btn-info btn-sm">{{item.idUser}}</button>
+			  <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+			    <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+			    <li><a href="" ng-click="selectUserDataFn(item);"><i title="Modificar Datos" class="glyphicon glyphicon-edit"></i>  Editar</a></li>
+			    <li ng-if="item.idStatusKf<=0 "><a href="" ng-click="sysFunctionsUser('enabled',item.idUser)"><i title="Activar Encargado" class="glyphicon glyphicon-remove-circle"></i> Activar</a></li>
+			    <li ng-if="item.idStatusKf>0"><a href="" ng-click="sysFunctionsUser('disabled',item.idUser)"><i title="Desactivar Encargado" class="glyphicon glyphicon-remove-circle"></i> Desactivar</a></li>
+			    <li ng-if="item.idStatusKf>0" role="presentation">
+                        <div class="divider"></div>
+                </li>
+			    <li ng-if="item.idStatusKf>0"><a href="" ng-click="modalConfirmation('removeu', 0, item)"><i title="Eliminar Usuario" class="glyphicon glyphicon-trash"></i> Eliminar</a></li>
+			  </ul>
+          <span ng-if="
+            ((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (!item.idAddresKf && !item.idAdress) && !item.idDepartmentKf)" class="badge badge-notify">
+            <i data-toggle="tooltip" data-placement="right" title="Direccion y Depto incompletos" class="fas fa-map-marked-alt"> <i class="fas fa-home"></i></i>
+            
+          </span>
+          <span ng-if="
+            ((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (item.idAddresKf || item.idAdress) && !item.idDepartmentKf)" class="badge badge-notify">
+            <i data-toggle="tooltip" data-placement="right" title="Depto. No seleccionado." class="fas fa-home"></i>
+          </span>
+          <span ng-if="
+            (!item.phoneLocalNumberUser && !item.phoneNumberUser)" class="badge badge-notify">
+            <i data-toggle="tooltip" data-placement="right" title="No posee numeros de tlf" class="fas fa-phone-slash"></i>
+          </span>
+			</div>
+          </td>
+          <td ng-trim="true">{{item.fullNameUser}}</td>
+          <td>{{item.emailUser}}</td>
+          <td ng-if="!item.idTyepeAttendantKf"><label ng-if="item.idStatusKf==1" class="label label-warning">No Asignado
+		  </label></td>
+			  <td ng-if="item.idProfileKf==6">Encargado
+				  <span ng-if="item.idTyepeAttendantKf==1">(Otros)</span>
+				  <span ng-if="item.idTyepeAttendantKf==2">(Titular)</span>
+				  <span ng-if="item.idTyepeAttendantKf==3">(Suplente)</span>
+				  <span ng-if="item.idTyepeAttendantKf==4">(Ayudante)</span>
+				  <span ng-if="item.idTyepeAttendantKf==5">(Intendente)</span>
+			  </td>
+        <td  style="vertical-align: middle;text-align: center;" ng-if="item.name"><label class="label label-default">{{item.name}}</label></td>
+			  <td ng-show="noShow">{{item.idCompanyKf}}</td><td> {{item.nameCompany}}
+			  </td>
+          <td> <!-- TD to Admins -->
+              <label ng-if="item.idStatusKf==1" class="label label-success">ACTIVO
+              </label>
+              <label ng-if="item.idStatusKf==0" class="label label-warning">INACTIVO
+              </label>
+              <label ng-if="item.idStatusKf==-1" class="label label-danger"><del>ELIMINADO</del>
+              </label>
+          </td>
+          <td>{{item.dateCreated | dateToISO | date:'MM/dd/yyyy'}}</td>
+      </tr>
+    </tbody>
+</table>

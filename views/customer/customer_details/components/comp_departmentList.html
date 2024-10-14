@@ -1,0 +1,210 @@
+<!-- DEPARTMENTS -->
+<div id="customerDepartmentsDetails" class="modal fade bd-example-modal-lg" tabindex="-1" style="top: 10px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="icon-building icon-1x"></i> EDIFICIO</h3>
+          	</div>
+  	        <div class="modal-body">
+				<div ng-if="list_depto_floors_details.length>0">
+			      <table class="table table-striped table-bordered table-list table-responsive table-hover table-list-deptos" style="border: 0 !important;">
+			        <thead class="fixed-head">
+			          <th class="th-head th-floor" style="padding-left: 5px;border-right: 1px solid #ddd !important; "><button ng-if="rolePermission=='rw'" data-toggle="tooltip" data-placement="right" title="Nuevo Piso" ng-click="addFloorFn()" class="btn btn-sm btn-success"><i class="fas fa-layer-group"></i> Piso</button></th>
+			          <th class="th-head text-uppercase" colspan="{{list_depto_floors_details[2].deptos.length}}"><i class="fas fa-grip-horizontal"> </i> Departamentos</th>
+			        </thead>
+			        <tbody class="fixed-body">
+				        <tr id="floor-{{floor.nameFloor}}" ng-repeat="floor in list_depto_floors_details">	
+				        <!-- CELL CONTROL {{floor.deptos.length}}-->			                    	
+				          	<td class="td-btn"  ng-class="{
+				          								   'listDeptoCo-RO':rolePermission=='ro' && floor.nameFloor=='co',
+				          								   'listDepto-RO':rolePermission=='ro' && floor.nameFloor!='co'
+				          }">
+				          		<div class="col-xs-12 n-padding-l n-padding-r">
+					          		<span class="text-muted text-box">
+					          			<label ng-if="floor.nameFloor=='co'" data-toggle="tooltip" data-placement="right" title="Cocheras" class="label label-default td-label-floor">{{floor.nameFloor | uppercase}}</label>
+					          			<label ng-if="floor.nameFloor=='pb'" data-toggle="tooltip" data-placement="right" title="Planta Baja" class="label label-default td-label-floor">{{floor.nameFloor | uppercase}}</label>
+					          			<label ng-if="floor.nameFloor=='ba'" data-toggle="tooltip" data-placement="right" title="Bauleras" class="label label-default td-label-floor">{{floor.nameFloor | uppercase}}</label>
+					          			<label ng-if="floor.nameFloor=='lo'" data-toggle="tooltip" data-placement="right" title="Locales" class="label label-default td-label-floor">{{floor.nameFloor | uppercase}}</label>
+					          			<label ng-if="floor.nameFloor!='co' && floor.nameFloor!='pb' && floor.nameFloor!='ba' && floor.nameFloor!='lo'" style="font-size: 25px;" ng-class="{'td-m-l-floor9':floor.nameFloor<=9,
+					          			'td-m-l-floor10':floor.nameFloor>=10}" data-toggle="tooltip" data-placement="right" title="Piso" class="label label-default">{{floor.nameFloor | uppercase}}</label>
+					          			<!--<label ng-if="floor.nameFloor=='pb'" style="font-size: 25px" data-toggle="tooltip" data-placement="right" title="Planta Baja" class="label label-default"><i class="fas fa-home"></i>: {{floor.deptos.length}}</label>
+					          			<label ng-if="floor.nameFloor!='pb' && floor.nameFloor!='co'" style="font-size: 25px; margin-left: -0.3em;" data-toggle="tooltip" data-placement="right" title="Departamentos" class="label label-default"><i class="fas fa-home"></i>: {{floor.deptos.length}}</label>-->
+					          		</span>
+
+					          	</div>
+					          	<div class="col-xs-12 n-padding-l n-padding-r" style="margin-left: 0.9em;">
+				          			<label ng-if="floor.nameFloor=='co'" style="font-size:100%;" data-toggle="tooltip" data-placement="right" title="N° de cocheras" class="label label-success">{{floor.deptos.length}}</label>
+				          			<label ng-if="floor.nameFloor=='ba'" style="font-size:100%;" data-toggle="tooltip" data-placement="right" title="N° de bauleras" class="label label-success">{{floor.deptos.length}}</label>
+				          			<label ng-if="floor.nameFloor=='lo'" style="font-size:100%;" data-toggle="tooltip" data-placement="right" title="N° de locales" class="label label-success">{{floor.deptos.length}}</label>
+				          			<label ng-if="floor.nameFloor!='co' && floor.nameFloor!='ba' && floor.nameFloor!='lo'" style="font-size:100%;" data-toggle="tooltip" data-placement="right" title="N° de Deptos" class="label label-success">{{floor.deptos.length}}</label>
+					          	</div>
+				          		<div class="col-xs-12 n-padding-l n-padding-r" style="padding-top: 5px;">
+				          				<button ng-if="rolePermission=='rw'" ng-click="assign2UnitFn(floor, 'open', '');" data-toggle="tooltip" data-placement="right" title="Agregar" type="button" class="btn btn-success btn-xs"><i class="fas fa-plus"></i></button>
+				          				<button ng-if="rolePermission=='rw'" id="btnDelDepto" ng-click="deleteLastDeptoMultiFn(floor);" data-toggle="tooltip" data-placement="right" title="Eliminar ultima unidad creada" type="button" class="btn btn-danger btn-xs" ng-disabled="
+				          				(floor.nameFloor=='co' && list_depto_floors_details[0].deptos.length==0) ||  
+				          				(floor.nameFloor=='ba' && list_depto_floors_details[1].deptos.length==0) || 
+				          				(floor.nameFloor=='lo' && list_depto_floors_details[2].deptos.length==0) || 
+				          				(floor.nameFloor=='pb' && list_depto_floors_details[3].deptos.length==0) ||
+				          				(floor.nameFloor!='co' && floor.nameFloor!='ba' && floor.nameFloor!='lo' && floor.nameFloor!='pb' && list_depto_floors_details[floor.id].deptos.length==0)"><i class="far fa-trash-alt"></i></button>
+								</div>						          				
+				          	</td>
+				        <!-- //CELL CONTROL -->
+				        <!-- CELL WHEN THERE ISNT DEPTOS DEFINED -->
+				          	<td class="td-no-deptos" colspan="5"  ng-if="floor.deptos.length==0">
+				          		<div class="col-md-12 n-padding-l n-padding-r" ng-class="{'td-marging-top-2':list_depto_floors_details.length!=floor.nameFloor+2 || floor.nameFloor=='co' || floor.nameFloor=='pb'}">
+									<h4 ng-if="floor.nameFloor=='co'" class="text-muted text-uppercase">No hay cocheras creadas.</h4>
+									<h4 ng-if="floor.nameFloor=='ba'" class="text-muted text-uppercase">No hay bauleras creadas.</h4>
+									<h4 ng-if="floor.nameFloor=='lo'" class="text-muted text-uppercase">No hay locales creados.</h4>
+									<h4 ng-if="floor.nameFloor=='pb'" class="text-muted text-uppercase">No hay unidades PB.</h4>
+				          			<h4 ng-if="floor.nameFloor!='co' && floor.nameFloor!='ba' && floor.nameFloor!='lo' && floor.nameFloor!='pb'" class="text-muted text-uppercase">No hay departamentos creados.</h4>
+					          	</div>		
+					          	<div class="col-md-12" ng-if="floor.nameFloor!='co' && floor.nameFloor!='ba' && floor.nameFloor!='lo' && floor.nameFloor!='pb' && list_depto_floors_details.length==floor.nameFloor+4">
+									<button ng-if="rolePermission=='rw'" ng-click="delFloorFn(floor);" data-toggle="tooltip" data-placement="right" title="" type="button" class="btn btn-danger btn-xl ng-scope" data-original-title="Eliminar piso" style="margin-left: 20em;"><i class="far fa-trash-alt"></i> Eliminar piso</button>
+					          	</div>				          				
+				          	</td>
+				        <!-- //CELL WHEN THERE ISNT DEPTOS DEFINED -->
+				        	<!-- COCHERAS -->
+			      			<td colspan="{{list_depto_floors_details[4].deptos.length}}" ng-if="floor.nameFloor=='co' && list_depto_floors_details[0].deptos.length>0">
+			      				<div ng-if="floor.nameFloor=='co'" class="li-cochera-scroll">
+			      					<ul ng-if="floor.nameFloor=='co'" class="list-group-depto  list-group-horizontal" style="padding-bottom: 10px;">
+				          				<li class="li-cochera" ng-if="depto.floor=='co' && depto.idStatusFk=='1'" id="depto-{{depto.idDepto}}" ng-repeat="depto in floor.deptos" 
+				          					ng-class="{'li-cochera-1': floor.deptos.length==1, 'li-cochera-2': floor.deptos.length==2, 'li-cochera-3': floor.deptos.length==3,
+				          			   				   'li-cochera-4': floor.deptos.length==4, 'li-cochera-5': floor.deptos.length==5, 'li-cochera-6': floor.deptos.length==6,
+				          			   				   'li-cochera-7': floor.deptos.length==7, 'li-cochera-8': floor.deptos.length==8, 'li-cochera-9': floor.deptos.length==9,
+				          			   				   'li-cochera-10': floor.deptos.length==10, 'li-cochera-xx': floor.deptos.length>=11}">
+								          	<div ng-if="depto.floor=='co'" class="form-inline col-xs-12 nopadding-containter" style="padding-bottom: 4px;">
+								          		<span>
+								          			<label style="cursor: pointer; font-size: 14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Cochera" ng-if="depto.idCategoryDepartamentFk=='2'" class="label label-default"><i class="fas fa-warehouse"> </i> {{floor.nameFloor | uppercase}}-{{depto.departament | uppercase}}</label>
+								          		</span>
+								          	</div>
+								          	<div class="form-inline col-xs-12 nopadding-containter" style="padding-bottom: 5px;">
+								          		<span>
+								          			<label ng-if="depto.unitNumber!='' && depto.unitNumber!='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Unidad funcional" class="label" ng-class="{'label-success':depto.unitNumber!='' && depto.unitNumber!='0'}"><i  class="fas fa-tag"> </i> 
+								          				<span>{{depto.unitNumber}}</span>
+					          						</label>
+													<label ng-if="depto.unitNumber=='' || depto.unitNumber=='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="No asignado" class="label" ng-class="{'label-warning': depto.unitNumber=='' || depto.unitNumber=='0'}"><i  class="fas fa-tag"> </i> 
+					          							<span>N/A</span>
+					          						</label>					          						
+								          		</span>
+									    	</div>
+									    	<div ng-if="rolePermission=='rw' && depto.floor=='co'" class="form-inline col-xs-12 nopadding-containter" style="margin-top: -1px;">
+									    		<button style="margin-top: 5px;" ng-click="deleteSelectedDeptoMultiFn(depto)" data-toggle="tooltip" data-placement="right" title="Eliminar" type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;<i class="far fa-trash-alt">&nbsp;&nbsp;&nbsp;</i></button>
+									    	</div>						    			
+				          				</li>
+				          			</ul>
+			          			</div> 
+			      			</td>
+			      			<!-- //COCHERAS -->
+			      			<!-- BAULERAS -->
+			      			<!-- Bulding Unit storage -->
+				          	<td colspan="{{list_depto_floors_details[4].deptos.length}}" ng-if="floor.nameFloor=='ba' && depto.idStatusFk=='1'" id="depto-{{depto.idDepto}}" ng-repeat="depto in floor.deptos" class="td-depto">   
+					          	<div class="form-inline col-xs-12 nopadding-containter" style="padding-bottom: 4px;">
+					          		<span>
+					          			<!--<label ng-if="depto.idCategoryDepartamentFk=='1'" style="cursor: pointer; font-size:  16px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Departamento" class="label label-default">
+					          				<i  class="fas fa-home"> </i> {{depto.departament}}</label>-->
+										<label ng-if="depto.idCategoryDepartamentFk=='3'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Baulera" class="label label-default">
+					          				<i class="fas fa-boxes"> </i> {{floor.nameFloor | uppercase}}-{{depto.departament}}</label>
+					          		</span>
+					          	</div>
+					          	<div class="form-inline col-xs-12 nopadding-containter" style="padding-bottom: 5px;">
+					          		<span ng-if="depto.idCategoryDepartamentFk=='3'">
+					          			<label ng-if="depto.unitNumber!='' && depto.unitNumber!='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Unidad funcional" class="label" ng-class="{'label-success':depto.unitNumber!='' && depto.unitNumber!='0'}"><i  class="fas fa-tag"> </i> 
+					          				<span>{{depto.unitNumber}}</span>
+		          						</label>
+										<label ng-if="depto.unitNumber=='' || depto.unitNumber=='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="No asignado" class="label" ng-class="{'label-warning': depto.unitNumber=='' || depto.unitNumber=='0'}"><i  class="fas fa-tag"> </i> 
+		          							<span>N/A</span>
+		          						</label>			          							          			
+					          		</span>
+						         </div>
+						    	<div ng-if="rolePermission=='rw'" class="form-inline col-xs-12 nopadding-containter" style="margin-top: -1px;">
+						    		<button style="margin-top: 5px;" ng-click="deleteSelectedDeptoMultiFn(depto)" data-toggle="tooltip" data-placement="right" title="Eliminar" type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;<i class="far fa-trash-alt">&nbsp;&nbsp;&nbsp;</i></button>
+						    	</div>	
+				          	</td>
+				          	<!-- //BAULERAS -->
+				          	<!-- Bulding Unit storage -->
+				          	<!-- LOCALES -->
+			      			<!-- Bulding Unit Stores -->
+				          	<td colspan="{{list_depto_floors_details[4].deptos.length}}" ng-if="floor.nameFloor=='lo' && depto.idStatusFk=='1'" id="depto-{{depto.idDepto}}" ng-repeat="depto in floor.deptos" class="td-depto">   
+					          	<div class="form-inline col-xs-12 nopadding-containter" style="padding-bottom: 4px;">
+					          		<span>
+					          			<!--<label ng-if="depto.idCategoryDepartamentFk=='1'" style="cursor: pointer; font-size:  16px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Departamento" class="label label-default">
+					          				<i  class="fas fa-home"> </i> {{depto.departament}}</label>-->
+										<label ng-if="depto.idCategoryDepartamentFk=='4'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Local" class="label label-default">
+					          				<i class="fas fa-store"> </i> {{floor.nameFloor | uppercase}}-{{depto.departament | uppercase}}</label>
+					          		</span>
+					          	</div>
+					          	<div class="form-inline col-xs-12 nopadding-containter" style="padding-bottom: 5px;">
+					          		<span ng-if="depto.idCategoryDepartamentFk=='4'">
+					          			<label ng-if="depto.unitNumber!='' && depto.unitNumber!='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Unidad funcional" class="label" ng-class="{'label-success':depto.unitNumber!='' && depto.unitNumber!='0'}"><i  class="fas fa-tag"> </i> 
+					          				<span>{{depto.unitNumber}}</span>
+		          						</label>
+										<label ng-if="depto.unitNumber=='' || depto.unitNumber=='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="No asignado" class="label" ng-class="{'label-warning': depto.unitNumber=='' || depto.unitNumber=='0'}"><i  class="fas fa-tag"> </i> 
+		          							<span>N/A</span>
+		          						</label>
+					          		</span>
+						         </div>
+						    	<div ng-if="rolePermission=='rw'" class="form-inline col-xs-12 nopadding-containter" style="margin-top: -1px;">
+						    		<button style="margin-top: 5px;" ng-click="deleteSelectedDeptoMultiFn(depto)" data-toggle="tooltip" data-placement="right" title="Eliminar" type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;<i class="far fa-trash-alt">&nbsp;&nbsp;&nbsp;</i></button>
+						    	</div>	
+				          	</td>
+				          	<!-- //LOCALES -->
+				          	<!-- Bulding Unit Stores -->          	
+				          	<!-- Bulding Unit Department -->       				
+				          	<td ng-if="floor.nameFloor!='co' && floor.nameFloor!='ba' && floor.nameFloor!='lo' && depto.idStatusFk=='1'" id="depto-{{depto.idDepto}}" ng-repeat="depto in floor.deptos" class="td-depto">   
+					          	<div class="form-inline col-xs-12 nopadding-containter" style="padding-bottom: 5px;">
+					          		<span>
+					          			<!--<label ng-if="depto.idCategoryDepartamentFk=='1'" style="cursor: pointer; font-size:  16px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Departamento" class="label label-default">
+					          				<i  class="fas fa-home"> </i> {{depto.departament}}</label>-->
+										<label ng-if="depto.idCategoryDepartamentFk=='1' || depto.idCategoryDepartamentFk=='6'" style="cursor: pointer; font-size:  16px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Departamento" class="label label-default">
+					          				<i  class="fas fa-building"> </i> {{depto.departament | uppercase}}</label>
+					          		</span>
+					          	</div>
+					          	<div class="form-inline col-xs-12 nopadding-containter">
+					          		<span ng-if="depto.idCategoryDepartamentFk=='1' || depto.idCategoryDepartamentFk=='6'">
+					          			<label ng-if="depto.unitNumber!='' && depto.unitNumber!='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Unidad funcional" class="label" ng-class="{'label-success':depto.unitNumber!='' && depto.unitNumber!='0'}"><i  class="fas fa-tag"> </i> 
+					          				<span>{{depto.unitNumber}}</span>
+		          						</label>
+										<label ng-if="depto.unitNumber=='' || depto.unitNumber=='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="No asignado" class="label" ng-class="{'label-warning': depto.unitNumber=='' || depto.unitNumber=='0'}"><i  class="fas fa-tag"> </i> 
+		          							<span>N/A</span>
+		          						</label>
+					          		</span>
+					          	</div>
+					          	<div class="form-inline col-xs-12 nopadding-containter" style="padding-bottom: 5px;">
+					          		<span>	
+										<label ng-if="depto.idCategoryDepartamentFk=='5'" style="cursor: pointer; font-size:  16px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Porteria" class="label label-default"><i  class="fas fa-house-user"> </i> {{depto.departament | uppercase}}</label>
+									</span>
+								</div>
+					          	<div class="form-inline col-xs-12 nopadding-containter">
+					          		<span ng-if="depto.idCategoryDepartamentFk=='5'">
+										<label ng-if="depto.unitNumber!='' && depto.unitNumber!='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="Unidad funcional" class="label" ng-class="{'label-success':depto.unitNumber!='' && depto.unitNumber!='0'}"><i  class="fas fa-tag"> </i> 
+					          				<span>{{depto.unitNumber}}</span>
+		          						</label>
+										<label ng-if="depto.unitNumber=='' || depto.unitNumber=='0'" style="cursor: pointer; font-size:  14px;padding-left: 5px;" data-toggle="tooltip" data-placement="right" title="No asignado" class="label" ng-class="{'label-warning': depto.unitNumber=='' || depto.unitNumber=='0'}"><i  class="fas fa-tag"> </i> 
+		          							<span>N/A</span>
+		          						</label>			          							          			
+					          		</span>
+						         </div>
+						    	<div ng-if="rolePermission=='rw'" class="form-inline col-xs-12 nopadding-containter" style="    margin-top: -4px;">
+						    		<button style="margin-top: 5px;" ng-click="deleteSelectedDeptoMultiFn(depto)" data-toggle="tooltip" data-placement="right" title="Eliminar" type="button" class="btn btn-danger btn-xs">&nbsp;&nbsp;&nbsp;<i class="far fa-trash-alt">&nbsp;&nbsp;&nbsp;</i></button>
+						    	</div>	
+				          	</td>                        	
+				        </tr>
+					</tbody>					        
+			      </table>
+			    </div>
+          <div class="clearfix"> </div> 
+        </div>
+        <!-- Actions Button ng-click="newSysProfileFn()"-->
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>			 
+<!-- // DEPARTMENTS -->

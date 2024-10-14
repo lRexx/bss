@@ -1,0 +1,54 @@
+<!-- CUSTOMER REGISTER FORM -->
+<div id="RegisterModalCustomerTest" class="modal fade bd-example-modal-lg" style="top: 10px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title">NUEVO CLIENTE</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+				<!-- FORM CONTAINER-->
+				<form name="fNewCustomerTest" novalidate>
+					<div class="form-group col-md-12 n-padding-l n-padding-r">
+					  <label style="padding-left: 25px;">Direcci&#243n</label>  
+					    <div class="col-xs-12 selectContainer">
+						    <!-- ######################################################################################################### {{item.calle.nombre}} {{item.altura.valor}}, {{item.provincia.nombre}}</li>-->
+						    <div class="input-group">
+				              <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+				              <ui-select name="idAddressKf"  
+				              			 ng-change="getDeparment(0,sysRegIdAddressKf.selected.idAdress);" 
+				              			 ng-model="sysRegIdAddressKfTest.selected"
+				              			 ng-change="getAddressByNameFn(sysRegIdAddressKfTest.selected,'main');" autofocus>
+
+				                  <ui-select-match allow-clear="true" placeholder="Todos">{{$select.selected.nameAdress}}</ui-select-match>
+				                    <ui-select-choices repeat="item in rsAddress_API_Data_Main | filter: $select.search">
+				                      <div ng-bind-html="item.nomenclatura | highlight: $select.search"></div>
+				                        <!--<small>Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+				                        <small>Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+				                    </ui-select-choices>
+				                    <ui-select-no-choice>
+									    No hay resultados, contacte are de soporte.
+								  	</ui-select-no-choice>
+				                </ui-select>
+				            </div>
+					  </div>
+					</div>
+				</form>
+				<div class="clearfix"> </div> 
+			</div>
+			<!-- Actions Button --> <!--ng-click="sysCustomerFn('register', 'customer')" ng-disabled="fNewCustomer.$invalid"-->
+	        <div class="modal-footer">
+	            <div class="row">
+	                <div class="col-xs-6 col-sm-6 col-md-6 pull-right">
+	                    <button type="submit" 
+	                    		ng-click="switchCustomersFn('add', customer.new)" 
+	                    		ng-show="!hasNextStep() || (customer.new.idClientTypeFk==5 && stepIndexTmp==1)" 
+	                    		ng-disabled="true" 
+	                    		class="btn btn-labeled btn-success">
+	                        Enviar<span class="btn-label-right"><i class="glyphicon glyphicon-send"></i> </span></button>	           
+	            </div>
+	        </div>
+		</div>
+	</div>
+</div>
+<!-- // CUSTOMER REGISTER FORM -->

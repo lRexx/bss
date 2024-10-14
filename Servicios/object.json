@@ -1,0 +1,204 @@
+---------------------- AGREGAR USUARIO -------------------
+http://127.0.0.1/Coferba/Back/index.php/User
+METODO : POST 
+{
+  
+  "user":
+  {
+      "fullNameUser" : "prueba",
+    "emailUser" : "prueba",
+    "phoneNumberUser" : "prueba",
+    "addresUser" : "prueba",
+    "passwordUser" : "prueba",
+    "idProfileKf" : "1",
+    "rezonSocial" : "prueba"
+  }
+}
+
+---------------------- EDITAR USUARIO -------------------
+http://127.0.0.1/Coferba/Back/index.php/User/update
+
+METODO : POST 
+
+{
+  
+  "user":
+  {
+    "fullNameUser"         : "David Eduardo Rincon",
+    "emailUser"            : "rexx84@gmail.com",
+    "phoneNumberUser"      : "22222222222",
+    "phoneLocalNumberUser" : "11111111111",
+    "addresUser"           : null,
+    "idProfileKf"          : "2",
+    "rezonSocial"          : "prueba",
+    "idUser"               : 17
+  }
+}
+
+
+---------------------- EDITAR USUARIO  Y CAMBIAR CLAVE -------------------
+http://127.0.0.1/Coferba/Back/index.php/User/update
+METODO : POST 
+
+{
+  
+  "user":
+  {
+    "fullNameUser" : "prueba editada",
+    "emailUser" : "prueba",
+    "phoneNumberUser" : 12312312,
+    "phoneLocalNumberUser" : 3243242343,
+    "addresUser" : "prueba",
+    "passwordUser" : "nuevavlave",
+    "idProfileKf" : "1",
+    "rezonSocial" : "prueba",
+    "idUser": 1,
+    "isEditUser": true
+  }
+}
+
+
+
+
+---------------------- OBTENER UN USUARIO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/User/find/1
+"1 es el id"
+METODO : GET 
+
+---------------------- ACTIVAR UN USUARIO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/User/active/1
+"1 es el id"
+METODO : GET 
+
+---------------------- INACTIVAR  UN USUARIO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/User/inactive/1
+"1 es el id"
+METODO : GET 
+
+---------------------- ELIMINAR UN USUARIO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/User/delete/1
+"1 es el id"
+METODO : delete 
+
+
+----------------------    GET DE LISTADO ENCARGADOS POR ID DIRECCION --------------
+http://127.0.0.1/Coferba/Back/index.php/User/attendantByIdDirecction/1
+"1 es el id"
+METODO : GET 
+
+
+ ---- MODIFICAR MAIL ENVIO  ---
+http://127.0.0.1/coferba/Back/index.php/User/updateMailSmtp
+METODO: POST
+{
+	"mail":{
+		"email": "jorguti58@gmail.com",
+		"pass" :"122312"
+	}
+}
+
+----------------------    GET mail configurado--------------
+http://127.0.0.1/Coferba/Back/index.php/User/mailsmtp
+METODO:GET
+
+
+
+
+----- TODALS LAS SUCURSALES POR ID DE EMPRESA  GET ---
+http://localhost/Coferba/Back/index.php/DIreccion/companyByid/2
+
+
+/*****************************************************************/
+/*****************************************************************/
+/* 17/11/2017 */
+/*****************************************************************/
+
+
+
+----- LISTADO DE PARAMETROS DEL SISTEM -----
+http://localhost/Coferba/Back/index.php/User/param
+
+----- LISTADO DEtipos de tipos de delivery  -----
+http://localhost/Coferba/Back/index.php/User/deliveryType
+
+----- APROBAR TICKET PARA ADMINISTRADORES DE CONSORCIO -----
+http://localhost/Coferba/Back/index.php/Ticket/aprobated/1
+
+----- APROBAR DEPARTAMENTO PARA ADMINISTRADORES DE CONSORCIO -----
+http://localhost/Coferba/Back/index.php/Department/aprobated/1
+
+
+----- CAMBIO DECLAVE -----
+http://localhost/Coferba/Back/index.php/User/updatePass
+POST
+{"user":
+  {
+    "emailUser":"jorguti58@gmail.com"
+    }
+}
+
+
+----- MODIFICAR PARAMETRO CUALQUIERA EJEMPLO SIRVE PARA EL QUE NOS INDICA A QUE HORA DEL DIA 
+SE MANDARA EL MAIL A LOS ADMINISTRADORES CON TICKETS POR APORBAR -----
+http://localhost/Coferba/Back/index.php/User/updateParam
+{"param":
+  {
+    "value":"20:00",
+    "idParam" 5 : 
+    }
+}
+ 
+
+
+---- CANCELAR UN VIAJE POR EL PRIPIETARIO ---
+http://localhost/Coferba/Back/index.php/Ticket/cancel/1
+
+
+//******************************** 
+litado de inquilinos mas el propietario de un departamento
+//
+http://localhost/coferba/Back/index.php/tenant/allByIdDepartament/1
+
+
+
+
+----- DESAPROBAR DEPARTAMENTO PARA ADMINISTRADORES DE CONSORCIO -----
+http://localhost/Coferba/Back/index.php/Department/desaprobated/1
+
+
+
+----- SOLICITAR LA BAJA DE UN DEPARTAMENTO POR UN PROPIETARIO O INQUILINO  -----
+http://localhost/Coferba/Back/index.php/Department/requesLowByProp/1
+MANDAS EL ID DEPARTAMENTO 
+
+
+----- BUSCAR TICKETS POR FITROS  -----
+http://localhost/Coferba/Back/index.php/Ticket/all
+
+  {
+    "searchFilter":"BUSCADOR",
+    "topFilter"  : "5",
+    "idCompanyKf" : 1,// SOLO PARA EMPRESA O ADMIN CONSORCIO
+    "idProfileKf" : 1,
+    "idTenantKf": 1, // solo si  es propietario
+    "idTypeTicketKf" : 2,
+    "idAdress" :1,
+    "idStatusTicketKf" : 1
+    }
+
+ 
+
+    /*
+    17-12-2017
+    */  
+
+----- DESASOCIAR UN INQUILINO o PROPIETARIO DE UN DEPARTAMENTO    -----
+http://localhost/Coferba/Back/index.php/Department/removeTenant
+{"info":
+  {
+    "idTenant":34,
+    "idDepartmentKf":  3,
+    "idTypeTenant":1 // ENVIAR EL TIPO DE PERFEIL SEGUN SEA INQUILINO O PROPIETARIO
+    }
+}
+

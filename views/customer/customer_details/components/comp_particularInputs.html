@@ -1,0 +1,38 @@
+<!-- Contact Phones -->
+<div ng-if="(customer.details.idClientTypeFk==5)" class="form-group col-md-12">
+  	<label style="padding-left: 15px;">Telefono de contacto</label>  
+  		<div class="input-group">
+  			<span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+			<input  name="localphone" autofocus="true" placeholder="Telefono local" class="form-control input--phone" ng-keydown="fnLoadPhoneMask()" ng-model="customer.details.localPhone" ng-blur="enabledNextBtn();"  type="text" ng-disabled="(customer.details.idClientTypeFk!=5)" autofocus/>
+		</div>
+</div>
+<!-- Mobil Phones -->
+<div ng-if="(customer.details.idClientTypeFk==5)" class="form-group col-md-12">
+  	<label style="padding-left: 15px;">Celular</label>  
+  		<div class="input-group">
+  			<span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+			<input  name="mobilphone" autofocus="true" placeholder="Telefono celular" class="form-control input--phone" ng-keydown="fnLoadPhoneMask()" ng-model="customer.details.mobilePhone" ng-blur="enabledNextBtn();"  type="text" ng-required="(customer.details.idClientTypeFk==5)" ng-disabled="(customer.details.idClientTypeFk!=5)"  autofocus/>
+		</div>
+</div>
+<!-- mail for particular customer-->
+<div ng-if="(customer.details.idClientTypeFk==5)" class="form-group col-md-12" ng-class="
+		{	'has-success': 
+			customer.details.mail!='' && fNewCustomer.particularMail.$valid,
+		 	'has-error':  
+			(customer.details.mail=='' || customer.details.mail==undefined) && fNewCustomer.particularMail.$touched,
+		}">
+ <label style="padding-left: 15px;">Mail</label>  
+	    <div class="input-group">
+	    	<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+	  		<input name="particularMail" ng-blur="checkEmail('particularMail'); enabledNextBtn(); customer.details.mail=emailFound==true?'':customer.details.mail" placeholder="indique mail" class="form-control" ng-model="customer.details.mail" type="email" ng-required="(customer.details.idClientTypeFk==5)" ng-disabled="(customer.details.idClientTypeFk!=5)" autofocus />
+	    </div>
+  	<br>
+		<div ng-if="emailFound && customer.details.mail && msgTimer && particularMail" class="alert alert-warning" role="alert">
+    		<strong><i class="fas fa-exclamation-circle">&nbsp </i>INFO: </strong><br>correo registrado en el usuario, <strong>{{mailFoundNameUser}}</strong>.
+		</div>	
+</div>
+<!-- General Comments -->
+<div class="form-group col-md-12" ng-if="(customer.details.idClientTypeFk==5)">
+  <label>Observaciones Generales</label> 
+		<textarea style="resize: none;" name="observation" rows="3" ng-disabled="(customer.details.idClientTypeFk!=5)" placeholder="indique las Observaciones." class="form-control" ng-model="customer.details.observation" ></textarea>
+</div>

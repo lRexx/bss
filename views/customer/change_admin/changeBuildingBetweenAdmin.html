@@ -1,0 +1,52 @@
+<!-- CUSTOMER REGISTER FORM -->
+<div id="changeModalAdmin" class="modal fade bd-example-modal-lg" style="top: 10px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" ng-click="modalConfirmation('closeCustomerWindow', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-exchange-alt"> </i> CAMBIO DE ADMINISTRACION
+            </h3>
+        	</div>
+    		<div class="modal-body" style="overflow-y: scroll;padding-left: 0px;padding-right: 0px;">
+				<div class="col-md-12" >		
+					<!-- Building Selected -->
+					<div ng-include="'views/customer/change_admin/comp_buildingSelected.html'"></div>				
+				</div>    							
+				<div ng-if="!confirmAdminDataChange" class="col-md-12">
+					<!-- Left Colunm -->
+					<div class="col-md-6 n-padding-l n-padding-r n-margin-l n-margin-r" >		
+						<!-- Current Administration -->
+						<div ng-include="'views/customer/change_admin/comp_currentAdmin.html'"></div>
+					</div>
+					<!-- Right Colunm -->
+					<div class="col-md-6 n-padding-l n-padding-r n-margin-l n-margin-r">
+						<!-- New Administratio -->
+						<div ng-include="'views/customer/change_admin/comp_newAdmin.html'"></div>
+					</div>
+				</div>
+				
+				<div class="clearfix"> </div>
+			</div>
+			<!-- Actions Button --> <!--ng-click="sysCustomerFn('register', 'customer')" ng-disabled="fNewCustomer.$invalid"-->
+	        <div class="modal-footer">
+	            <div class="row">
+	                <div class="col-xs-6 col-sm-6 col-md-6 pull-right">
+	                    <button type="submit" 
+	                    		ng-click="switchCustomersFn('startAdminChangeProcess', null);"
+	                    		ng-if="!confirmAdminDataChange" 
+	                    		ng-disabled="customer.select.company.selected==undefined"
+	                    		class="btn btn-labeled btn-primary">
+	                        Iniciar<span class="btn-label-right"><i class="fas fa-file-import"></i> </span>
+	                    </button>
+						<button type="submit" ng-if="confirmAdminDataChange" ng-click="modalConfirmation('changeBuildingAdmin', 0, customer.buildingSelected);" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Confirmar
+                        </button>	                    
+						<a ng-click="modalConfirmation('closeCustomerWindow', 0, null)" type="button" class="btn btn-labeled btn-danger">
+                      	<span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>	                    
+	                </div>              
+	            </div>
+	        </div>
+		</div>
+	</div>
+</div>
+<!-- // CUSTOMER REGISTER FORM -->

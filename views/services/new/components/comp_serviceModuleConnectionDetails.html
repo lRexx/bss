@@ -1,0 +1,237 @@
+<!-- CUSTOMER CONTRACT FORM -->
+<div id="serviceModuleConnectionDetails" class="modal fade bd-example-modal-md" style="top: 7.3%;" role="dialog">
+  	<div class="modal-dialog modal-md" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+				<h3 ng-if="moduleConnectionType=='1'" class="modal-title"><i class="product-success fas fa-mobile-alt"></i> LINEA TELEFONICA</h3>
+            	<h3 ng-if="moduleConnectionType=='2'" class="modal-title"><i class="product-success fas fa-network-wired"></i> MODULO IP</h3>
+            	<h3 ng-if="moduleConnectionType=='3'" class="modal-title"><i class="product-success fas fa-globe"></i> MODULO GPRS</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+    			<form class="form-horizontal" name="fServiceModuleDetails" novalidate>
+    				<fieldset ng-if="moduleConnectionType=='2' || moduleConnectionType=='3'">
+						<!-- Modulo IP Alarma -->
+						<div ng-if="moduleConnectionType=='2'" class="form-group col-md-12" ng-class="
+								  			{	'has-success': 
+								  				service.module.ipAlarmModule.selected!=undefined && fServiceModuleDetails.service_ipAlarmModule.$valid,
+								  			 	'has-error':  
+								  				(service.module.ipAlarmModule.selected==undefined) && fServiceModuleDetails.service_ipAlarmModule.$touched,
+								  			}">
+						<div class="col-md-8"><label style="padding-left: 15px;">Modulo IP Alarma</label></div>
+						<div class="pull-right col-md-4"><button  data-toggle="tooltip" data-placement="bottom" title="Ver" ng-click="compServiceProductDetailsFn(service.module.ipAlarmModule.selected, productListType.MODULO_IP_ALARM)" ng-disabled="service.module.ipAlarmModule.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						  	<button ng-if="service.module.ipAlarmModule.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.module.ipAlarmModule.selected, productListType.MODULO_IP_ALARM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+						    <div class="col-xs-12 selectContainer">							   
+							    <div class="input-group">
+					              <span class="input-group-addon"><i class="fas fa-plug"></i></span>
+					              <ui-select name="service_ipAlarmModule"
+					              			 id="serviceIpAlarmModule"  
+					              			 ng-change="compServiceProductDetailsFn(service.module.ipAlarmModule.selected, productListType.MODULO_IP_ALARM, null);" 
+					              			 ng-model="service.module.ipAlarmModule.selected"
+					              			 ng-required="true"
+					              			 ng-disabled="service.module.ipAlarmModule.selected!=undefined"
+					              			 theme="bootstrap" autofocus>
+					                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
+					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.MODULO_IP_ALARM | filter: $select.search">
+					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
+					                    </ui-select-choices>
+					                    <ui-select-no-choice>
+										    No hay resultados, contacte are de soporte.
+									  	</ui-select-no-choice>
+					                </ui-select>
+					            </div>
+						  	</div>
+						</div>
+						<!-- Modulo GPRS Alarma -->
+						<div ng-if="moduleConnectionType=='3'" class="form-group col-md-12" ng-class="
+								  			{	'has-success': 
+								  				service.module.gprsAlarmModule.selected!=undefined && fServiceModuleDetails.service_gprsAlarmModule.$valid,
+								  			 	'has-error':  
+								  				(service.module.gprsAlarmModule.selected==undefined) && fServiceModuleDetails.service_gprsAlarmModule.$touched,
+								  			}">
+						<div class="col-md-8"><label style="padding-left: 15px;">Modulo GPRS Alarma</label></div>
+						<div class="pull-right col-md-4"><button  data-toggle="tooltip" data-placement="bottom" title="Ver" ng-click="compServiceProductDetailsFn(service.module.gprsAlarmModule.selected, productListType.MODULO_GPRS_ALARM)" ng-disabled="service.module.gprsAlarmModule.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						  	<button ng-if="service.module.gprsAlarmModule.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.module.gprsAlarmModule.selected, productListType.MODULO_GPRS_ALARM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+						    <div class="col-xs-12 selectContainer">
+							    <div class="input-group">
+					              <span class="input-group-addon"><i class="fas fa-plug"></i></span>
+					              <ui-select name="service_gprsAlarmModule"
+					              			 id="serviceGprsAlarmModule"  
+					              			 ng-change="compServiceProductDetailsFn(service.module.gprsAlarmModule.selected, productListType.MODULO_GPRS_ALARM, null);" 
+					              			 ng-model="service.module.gprsAlarmModule.selected"
+					              			 ng-required="true"
+					              			 ng-disabled="service.module.gprsAlarmModule.selected!=undefined"
+					              			 theme="bootstrap" autofocus>
+					                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
+					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.MODULO_GPRS_ALARM | filter: $select.search">
+					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
+					                    </ui-select-choices>
+					                    <ui-select-no-choice>
+										    No hay resultados, contacte are de soporte.
+									  	</ui-select-no-choice>
+					                </ui-select>
+					            </div>
+						  	</div>
+						</div>
+						<!-- Internal Serial number -->
+						<div class="form-group col-md-6" ng-class="
+								  			{	'has-success': 
+								  				service.module.nroSerieInternal!='' && 
+								  				service.module.nroSerieInternal!=undefined && fServiceModuleDetails.serviceProductInternalSerial.$valid,
+								  			 	'has-error':  
+								  				(service.module.nroSerieInternal==''|| service.module.nroSerieInternal==undefined) && fServiceModuleDetails.serviceProductInternalSerial.$touched,
+								  			}">
+						  	<label style="padding-left: 15px;">N° de Serie Interno</label>
+						    <div class="col-xs-12">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+					    			<input name="serviceProductInternalSerial" type="text" class="form-control" ng-disabled="service.module.gprsAlarmModule.selected!=undefined || service.module.ipAlarmModule.selected!=undefined" ng-model="service.module.nroSerieInternal" />
+					    		</div>
+					    	</div>
+						</div>
+						<!-- Fabric Serial number -->
+						<div class="form-group col-md-6" ng-class="
+								  			{	'has-success': 
+								  				service.module.nroSerieFrabric!='' && 
+								  				service.module.nroSerieFrabric!=undefined && fServiceModuleDetails.serviceProductFabricSerial.$valid,
+								  			 	'has-error':  
+								  				(service.module.nroSerieFrabric==''|| service.module.nroSerieFrabric==undefined) && fServiceModuleDetails.serviceProductFabricSerial.$touched,
+								  			}">
+						  	<label style="padding-left: 15px;">N° de Serie de Fabricante</label>
+						    <div class="col-xs-12">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+					    			<input name="serviceProductFabricSerial" type="text" class="form-control" ng-disabled="service.module.gprsAlarmModule.selected!=undefined || service.module.ipAlarmModule.selected!=undefined" ng-model="service.module.nroSerieFrabric" />
+					    		</div>
+					    	</div>
+						</div>
+						<!-- IP -->
+						<div ng-if="moduleConnectionType=='2'" class="form-group col-md-6" ng-class="
+								  			{	'has-success': 
+								  				service.module.ip!='' && 
+								  				service.module.ip!=undefined && fServiceModuleDetails.serviceIP.$valid,
+								  			 	'has-error':  
+								  				(service.module.ip==''|| service.module.ip==undefined) && fServiceModuleDetails.serviceIP.$touched,
+								  			}">  
+						  	<label style="padding-left: 15px;">IP Address</label>
+						    <div class="col-xs-12">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-network-wired"></i></span>
+					    			<input name="serviceIP" type="text" ng-keydown="fnLoadPhoneMask()" class="form-control input-ipaddr" ng-model="service.module.ip" />
+					    		</div>
+					    	</div>
+						</div>
+						<!-- Codigo programacion -->
+						<div class="form-group col-md-6" ng-class="
+								  			{	'has-success': 
+								  				service.module.codeProgram!='' && 
+								  				service.module.codeProgram!=undefined && fServiceModuleDetails.serviceCodigoProgramacion.$valid,
+								  			 	'has-error':  
+								  				(service.module.codeProgram==''|| service.module.codeProgram==undefined) && fServiceModuleDetails.serviceCodigoProgramacion.$touched,
+								  			}">  
+						  	<label style="padding-left: 15px;">Codigo de Programaci&#243;n</label>
+						    <div class="col-xs-12">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-qrcode"></i></span>
+					    			<input name="serviceCodigoProgramacion" type="text" class="form-control" ng-model="service.module.codeProgram" />
+					    		</div>
+					    	</div>
+						</div>
+						<!-- Puerto programacion -->
+						<div class="form-group col-md-6" ng-class="
+								  			{	'has-success': 
+								  				service.module.portProgram!='' && 
+								  				service.module.portProgram!=undefined && fServiceModuleDetails.servicePuertoProgramacion.$valid,
+								  			 	'has-error':  
+								  				(service.module.portProgram==''|| service.module.portProgram==undefined) && fServiceModuleDetails.servicePuertoProgramacion.$touched,
+								  			}">  
+						  	<label style="padding-left: 15px;">Puerto de Programaci&#243;n</label>
+						    <div class="col-xs-12">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-qrcode"></i></span>
+					    			<input name="servicePuertoProgramacion" type="text" class="form-control" ng-model="service.module.portProgram" />
+					    		</div>
+					    	</div>
+						</div>
+						<!-- Clave de acceso para usuario al sistema -->
+						<div class="form-group col-md-6" ng-class="
+								  			{	'has-success': 
+								  				service.module.passwordAcces!='' && 
+								  				service.module.passwordAcces!=undefined && fServiceModuleDetails.passwordAcces.$valid,
+								  			 	'has-error':  
+								  				(service.module.passwordAcces==''|| service.module.passwordAcces==undefined) && fServiceModuleDetails.passwordAcces.$touched,
+								  			}">  
+						  	<label style="padding-left: 15px;">Clave Acceso usuario al sistema</label>
+						    <div class="col-xs-12">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-key"></i></span>
+					    			<input name="passwordAcces" type="text" class="form-control" ng-model="service.module.passwordAcces" />
+					    		</div>
+					    	</div>
+						</div>
+						<!-- Codigo particion 1 -->
+						<div class="form-group col-md-6" >  
+						  	<label style="padding-left: 15px;">Codigo Partici&#243;n 1</label>
+						    <div class="col-xs-12">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-qrcode"></i></span>
+					    			<input name="serviceCodigoParticion1" type="text" class="form-control" ng-model="service.module.codePart1" />
+					    		</div>
+					    	</div>
+						</div>
+						<!-- Codigo particion 2 -->
+						<div class="form-group col-md-6" >  
+						  	<label style="padding-left: 15px;">Codigo Partici&#243;n 2</label>
+						    <div class="col-xs-12">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-qrcode"></i></span>
+					    			<input name="serviceCodigoParticion2" type="text" class="form-control" ng-model="service.module.codePart2" />
+					    		</div>
+					    	</div>
+						</div>
+					</fieldset>
+					<fieldset ng-if="moduleConnectionType=='1'">
+						<!-- Compañia -->
+						<div class="form-group col-md-12" >  
+						  	<label style="padding-left: 15px;">Compa&#241;ia</label>
+						    <div class="col-xs-12">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-broadcast-tower"></i></span>
+					    			<input name="serviceCompaniaTelf" id="serviceCompaniaTelf" type="text" ng-required="moduleConnectionType=='1'" class="form-control" ng-model="service.module.company" />
+					    		</div>
+					    	</div>
+						</div>
+						<!-- Codigo particion 2 -->
+						<div class="form-group col-md-12" >  
+						  	<label style="padding-left: 15px;">Linea Tomada</label>
+						    <div class="col-xs-12">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-mobile-alt"></i></span>
+					    			<input name="serviceNumeroLinea" type="text" class="form-control" ng-required="moduleConnectionType=='1'" ng-model="service.module.line" />
+					    		</div>
+					    	</div>
+						</div>
+					</fieldset>
+				</form>
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button ng-if="!service.module.details" type="submit" ng-click="addServiceModuleConnectionDetailsFn(service.module, moduleConnectionType, 'new')" ng-disabled="fServiceModuleDetails.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asignar</button>
+
+						<button ng-if="service.module.details" type="submit" ng-click="addServiceModuleConnectionDetailsFn(service.module, 'edit', '')" ng-disabled="fServiceModuleDetails.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Actualizar</button>                            
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>

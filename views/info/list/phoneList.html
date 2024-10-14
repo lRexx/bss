@@ -1,0 +1,24 @@
+<table>
+    <tr ng-if="customerStatus.administration_details[0].list_phone_contact.length>0" ng-repeat="phone in customerStatus.administration_details[0].list_phone_contact">
+        <td style="width: 55%;" class="td-phone-column-font">
+          <span class="text-muted text-box">
+            <label ng-if="phone.phoneTag=='fijo comercial'" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+            <label ng-if="phone.phoneTag=='fijo guardia'" class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+            <label ng-if="phone.phoneTag=='movil comercial'" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+            <label ng-if="phone.phoneTag=='movil guardia'" class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+            <label ng-if="phone.phoneTag=='comercial'" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+            <label ng-if="phone.phoneTag=='guardia'" class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+            <label ng-if="phone.phoneTag=='urgente'" class="label label-danger">{{phone.phoneTag | uppercase}}</label>
+            <label ng-if="customer.info.idClientTypeFk=='5'"cursor: pointer;" class="label text-uppercase label-default">{{phone.phoneTag | uppercase}}</label>
+          </span>
+        </td>                               
+        <td style="width: 40%;" class="td-phone-column-font"><span ng-click="modalConfirmation('trigger_call',0,phone,phone.phoneContact)" class="text-muted text-box"><label class="label label-info">{{phone.phoneContact}}</label></span></td>
+        <td style="width: 10%" style="padding-bottom: 5px;" class="td-copy-btn-font">
+          <button data-toggle="tooltip" data-placement="top" title="Copiar" ngclipboard data-clipboard-text="{{phone.phoneContact}}" class="btn btn-xs btn-success" style="cursor: pointer;"><i class="fas fa-copy"></i></button>
+        </td> 
+    </tr>
+      <tr ng-if="customerStatus.administration_details[0].list_phone_contact.length==0" >
+      <td colspan="5"><div class="col-md-12 col-md-offset-4"><span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">Tel&#233;fonos No Registrados</span></div>
+      </td>
+    </tr>                            
+</table>

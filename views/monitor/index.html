@@ -1,0 +1,240 @@
+<div ng-if="sysRouteParams==undefined">
+    <div id="wrapper" ng-init="mainSwitchFn('dashboard', null);" style="margin-top:162px" class="container-fluid">
+        <div ng-if="sysToken" ng-include="'views/monitor/filters_bar.html'"></div>
+        <!-- Monitor Body -->
+        <div id="bodyContent"  class="container-fluid show-grid margin-row-1">
+            <!-- <div ng-repeat="tk in listTickt | filter: ticketFiltered()" class="row align-items-end row_body row-margin-1">-->
+            <div ng-repeat="tk in listTickt" class="row align-items-end row_body row-margin-1">
+                <div ng-if="sysLoggedUser.idProfileKf=='1' && (filters.ticketStatus.idStatus=='8' || filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" class="col-md-1 col-xs-1" style="width: 4%;margin-top: 1.5%;">
+                    <input id="ticketSelected-{{tk.idTicket}}" class="radio-custom" type="checkbox" name="isHasLockingScrew" ng-model="tk.selected" ng-click="" autofocus>
+                    <label for="ticketSelected-{{tk.idTicket}}" class="radio-custom-label"></label>
+                </div>
+                <div ng-click="mainSwitchFn('openTicket', tk, null)">
+                    <!--ng-if="differentDays[$index]<=2 && tk.isCancelTicket<=0" -->
+                    <div id="iconTypeTicket"  ng-init="compareDaysIn2Dates(tk.dateCratedTicket);" class="col-md-1 col-xs-2 icon_circle">
+                        <span>
+                            <i ng-if="tk.idStatusTicketKf=='1'" class="i-success fas fa-check-circle"></i>
+                            <i ng-if="(tk.idStatusTicketKf=='2' || tk.idStatusTicketKf=='9' || tk.idStatusTicketKf=='11') && tk.isCancelRequested!='1'" class="i-warning fas fa-gavel"></i>
+                            <i ng-if="tk.idStatusTicketKf=='3' && tk.isCancelRequested!='1'" class="i-warning fas fa-key"></i>
+                            <!--<i ng-if="tk.idStatusTicketKf>='3' &&  tk.idTypeTicketKf<=2" class="i-cancel fas fa-key"></i>-->
+                            <i ng-if="tk.idStatusTicketKf=='4' && tk.idTypeTicketKf<=2" class="i-warning fas fa-truck-loading"></i>
+                            <i ng-if="tk.idStatusTicketKf=='5' && tk.idTypeTicketKf<=2 && tk.isCancelRequested!='1'" class="i-success fas fa-truck-moving"></i>
+                            <i ng-if="tk.idStatusTicketKf=='2' && tk.idTypeTicketKf==3" class="i-default fas fa-wrench"></i>
+                            <i ng-if="tk.idStatusTicketKf=='3' && tk.idTypeTicketKf==3 && tk.isCancelRequested!='1'" class="i-success fas fa-wrench"></i>
+                            <i ng-if="tk.idStatusTicketKf=='4' && tk.idTypeTicketKf==3" class="i-cancel fas fa-wrench"></i>
+                            <i ng-if="tk.idStatusTicketKf=='2' && tk.idTypeTicketKf==4" class="i-default fas fa-question"></i>
+                            <i ng-if="tk.idStatusTicketKf=='3' && tk.idTypeTicketKf==4" class="i-success fas fa-question"></i>
+                            <i ng-if="tk.idStatusTicketKf=='6' && (tk.isCancelRequested==null || tk.isCancelRequested=='1')" class="i-cancel fas fa-ban"></i>
+                            <i ng-if="tk.idStatusTicketKf=='8' && tk.idTypeTicketKf<=2 && tk.isCancelRequested!='1'" class="i-default fas fa-box-open"></i>
+                            <i ng-if="tk.idStatusTicketKf=='12' && tk.idTypeTicketKf=='2' && tk.isCancelRequested!='1'" class="i-default fas fa-box-open"></i>
+                            <i ng-if="tk.idStatusTicketKf==10  && tk.isCancelRequested=='1' && tk.idTypeTicketKf<=2" class="i-warning fas fa-times-circle"></i>
+                            <i ng-if="tk.idStatusTicketKf==7 && tk.idTypeTicketKf<=2" class="i-warning fas fa-box"></i>
+
+                        </span>
+                    </div>
+                    <!-- PRIMERA COLUMNA -->
+                    <div class="col-md-3 col-xs-3 col-margin-27 icon_list"> 
+                        <ul class="margin-ul-1 padding-ul">
+                            <li><i class="fas fa-flag"></i> {{tk.typeticket.TypeTicketName}}</li>
+                            <li><i class="fas fa-file-alt"></i> N°: {{tk.codTicket}}</li>
+                            <li><i class="fas fa-tasks"></i> Estado: 
+                                <!-- STATUS ENTREGADO -->
+                                <span ng-if="tk.idStatusTicketKf==1" class="label label-success"> {{tk.statusTicket.statusName}}</span>
+                                <!-- STATUS PENDIENTE DE APROBACION -->
+                                <span ng-if="(tk.idStatusTicketKf=='3' || tk.idStatusTicketKf=='2' || tk.idStatusTicketKf=='9' || tk.idStatusTicketKf=='11') && tk.isCancelRequested!='1'" class="label label-warning"> {{tk.statusTicket.statusName}}</span>
+                                <!--<span ng-if="tk.idStatusTicketKf==2" data-toggle="tooltip" data-placement="right" title="Aprobado por: {{tk.nameUserApprovedTicket}}" class="label label-default"> {{tk.statusTicket.statusName}}</span>-->
+                                <!-- STATUS APROBADO ID#: 3 / PENDIENTE DE ENVIO ID#: 4 -->
+                                <span ng-if="(tk.idStatusTicketKf==4) && tk.isCancelRequested!='1' && !tk.isCancelRequested && !tk.isChangeDeliverylRequested" data-toggle="tooltip" data-placement="right" title="Aprobado por: {{tk.nameUserApprovedTicket}}" class="label label-success"> {{tk.statusTicket.statusName}}</span>
+                                <!-- EN RUTA ID#: 5 -->
+                                <span ng-if="tk.idStatusTicketKf==5 && tk.isCancelRequested!='1' && !tk.isChangeDeliverylRequested" data-toggle="tooltip" data-placement="right" title="Aprobado por: {{tk.nameUserApprovedTicket}}" class="label label-success"> {{tk.statusTicket.statusName}}</span>
+                                <!-- STATUS CANCELADO ID#: 6-->
+                                <span ng-if="(tk.idStatusTicketKf==6)  && (tk.isCancelRequested!='1' || tk.isCancelRequested=='1')" data-toggle="tooltip" data-placement="right" title="Cancelado por: {{tk.nameUserCancelTicket}}" class="label label-danger">{{tk.statusTicket.statusName}}</span>
+                                <!-- STATUS EN PREPARACION ID#: 8-->
+                                <span ng-if="(tk.idStatusTicketKf=='8' && tk.isCancelRequested!='1')" data-toggle="tooltip" data-placement="right" title="En Preparación" class="label label-default">{{tk.statusTicket.statusName}}</span>
+                                <!-- STATUS LISTO PARA RETIRAR ID#: 7-->
+                                <span ng-if="(tk.idStatusTicketKf=='7' && tk.isCancelRequested!='1')" data-toggle="tooltip" data-placement="right" title="Listo para retirar" class="label label-warning">{{tk.statusTicket.statusName}}</span>
+                                <!-- STATUS CANCELACION SOLICITADA ID#: 10-->
+                                <span ng-if="(tk.idStatusTicketKf==10  && tk.isCancelRequested=='1')">
+                                    <span data-toggle="tooltip" data-placement="right" title="Cancelación solicitada" class="label label-warning">{{tk.statusTicket.statusName}}</span>
+                                </span>
+                                <!-- BAJA Pendiente ID#: 12-->
+                                <span ng-if="(tk.idStatusTicketKf=='12' && tk.idTypeTicketKf=='2' && tk.isCancelRequested!='1')" data-toggle="tooltip" data-placement="right" title="Baja pendiente" class="label label-default">{{tk.statusTicket.statusName}}</span>
+                                <span data-toggle="tooltip" data-placement="right" title="Solicitado por: {{tk.tmp_nameUserRequestChOrCancel}}"  class="label label-danger" ng-if="tk.idTmpDeliveryData && tk.isCancelRequested"><i class="fas fa-exclamation-circle"></i> Cancelacion Solicitada</span>
+                                <span data-toggle="tooltip" data-placement="right" title="Solicitado por: {{tk.tmp_nameUserRequestChOrCancel}}"  class="label label-warning" ng-if="tk.idTmpDeliveryData && tk.isChangeDeliverylRequested"><i class="fas fa-exclamation-circle"></i> Cambio de envio Solicitado</span>
+                            </li>
+                            <li>
+                                <span ng-if="sysLoggedUser.idProfileKf==1 && tk.sendNotify!=null && tk.sendNotify==1" class="label label-success" > 
+                                    <i class="fas fa-bell"></i> Notificado al cliente
+                                </span>
+                                <span ng-if="sysLoggedUser.idProfileKf==1 && tk.sendNotify!=null && tk.sendNotify==0" class="label label-warning">
+                                    <i class="fas fa-bell-slash"></i> No notificado al cliente
+                                </span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- SEGUNDA COLUMNA -->
+                    <!--<div class="col-md-2 col-xs-4 icon_list col-margin-28 show-hide-2"> -->
+                    <!--    <ul class="margin-ul-2 padding-ul"> -->
+                    <!--        <li><i class="far fa-calendar-alt"></i> Inicio:  {{tk.dateCratedTicket | date:'dd/MM/yyyy'}}</li> -->
+                    <!--        <li><i class="far fa-calendar-check"></i> Aprobada: &nbsp; -->
+                    <!--            <span ng-if="tk.dateRecibedAdmin">{{tk.dateRecibedAdmin | date:'MM/dd/yyyy'}}</span> -->
+                    <!--            <span ng-if="!tk.dateRecibedAdmin" class="label label-default">-</span> -->
+                    <!--        </li> -->
+                    <!--        <li><i class="far fa-calendar-check"></i> Coferba:&nbsp;&nbsp; &nbsp;&nbsp; -->
+                    <!--            <span ng-if="tk.dateRecibeCompany">{{tk.dateRecibeCompany | date:'MM/dd/yyyy'}}</span> -->
+                    <!--            <span ng-if="!tk.dateRecibeCompany && !tk.idUserCancelTicket" class="label label-default">-</span> -->
+                    <!--            <span ng-if="!tk.dateRecibeCompany && tk.idUserCancelTicket" class="label label-default">n/a</span> -->
+                    <!--        </li> -->
+                    <!--        <li><i class="far fa-calendar-times"></i> Cancelado:&nbsp; -->
+                    <!--            <span ng-if="tk.idUserCancelTicket">{{tk.dateCancel | date:'dd/MM/yyyy'}}</span> -->
+                    <!--            <span ng-if="!tk.dateCancel || tk.dateCancel==null" class="label label-default">-</span> -->
+                    <!--        </li> -->
+                    <!--    </ul> -->
+                    <!--</div> -->
+                    <!-- TERCERA COLUMNA -->
+                    <div ng-if="tk.idTypeTicketKf" class="col-md-3 col-xs-4 icon_list col-margin-26 show-hide-2">
+                        <ul class="margin-ul-2 padding-ul">
+                            <li ng-if="tk.idTypeTicketKf!=undefined && tk.idTypeTicketKf!=null"><i class="far fa-user"></i> 
+                                <span ng-if="tk.clientAdmin!=undefined">Administración:</span>
+                                <!-- Usuario Coferba -->
+                                <span ng-if="tk.clientAdmin!=undefined">{{tk.clientAdmin.name}}</span>
+                                <!-- Usuario Empresa -->
+                                <span ng-if="tk.FullNameUserCompany && tk.profileUserCompany">{{tk.FullNameUserCompany}}</span>
+                                <!-- Usuario Admin de Consorcio -->
+                                <span ng-if="tk.FullNameUserEnterprice && tk.profileUserEnterprice">{{tk.FullNameUserEnterprice}}
+                                    <span ng-if="sysLoggedUser.idProfileKf!=4"> ({{tk.profileUserEnterprice}})</span>
+                                </span>
+                                <!-- Usuario Propietario -->
+                                <span ng-if="!tk.FullNameUserEnterprice && !tk.FullNameUserAdmin && tk.FullNameUserOwner && tk.profileUserOwner">{{tk.FullNameUserOwner}}
+                                    <span ng-if="sysLoggedUser.idProfileKf!=3"> ({{tk.profileUserOwner}})</span>
+                                </span>
+                                <!-- Usuario Inquilino -->
+                                <span ng-if="!tk.FullNameUserEnterprice && !tk.FullNameUserAdmin && !tk.FullNameUserOwner && tk.FullUserTenant && tk.profileTenant">{{tk.FullUserTenant}}
+                                    <span ng-if="(sysLoggedUser.idProfileKf!=5 || sysLoggedUser.idProfileKf!=6) && sysLoggedUser.idTypeTenantKf!=2"> ({{tk.profileTenant}})</span>
+                                </span>
+                            </li>
+                            <li ng-if="tk.idTypeTicketKf!=4"><i class="far fa-user"></i> 
+                                <span ng-if="tk.building!=undefined">Consorcio:</span>
+                                <!-- Cliente Inquilino -->
+                                <span ng-if="tk.building!=undefined">{{tk.building.name}}</span>
+                                <span ng-if="tk.building==undefined" class="label label-default">n/a</span>
+                            </li>
+                            <li ng-if="tk.idTypeRequestFor!=1"><i class="fas fa-cubes"></i> 
+                                <span ng-if="tk.building!=undefined">Tipo:</span>
+                                <!-- Tipo de pedido -->
+                                <span ng-if="tk.typeRequestFor!=undefined">{{tk.typeRequestFor.name}}</span>
+                                <span ng-if="tk.typeRequestFor==undefined" class="label label-default">n/a</span>
+                            </li>
+                            <li ng-if="tk.idTypeTicketKf==3"><i class="fas fa-map-marker"></i> Sucursal:
+                                <span ng-if="tk.nameAdress">{{tk.nameAdress}}</span>
+                                <span ng-if="!tk.nameAdress" class="label label-default">n/a</span>
+                            </li>
+                            <li ng-if="tk.idTypeRequestFor=='1' && tk.idTypeTicketKf<=2"><i class="fas fa-home"></i> Depto:
+                                <span ng-if="tk.department!=undefined" class="label label-default text-uppercase">{{tk.department.floor}}-{{tk.department.departament}}</span>
+                                <span ng-if="tk.department==undefined" class="label label-default">n/a</span>
+                            </li>
+                            <li ng-show="tk.idTypeTicketKf==3"><i class="fas fa-wrench"></i> Servicio:&nbsp;
+                                <span ng-if="tk.typeServices">{{tk.typeServices}}</span>
+                                <span ng-if="!tk.typeServices" class="label label-default">n/a</span>
+                            </li>
+                        </ul>
+                    </div>
+                    <!-- CUARTA COLUMNA -->
+                    <div class="col-md-3 col-xs-4 col-margin-25 icon_list show-hide-3">
+                        <ul class="margin-ul-2 padding-ul">
+                            <li ng-show="tk.idTypeTicketKf<=2"><i class="far fa-clipboard"></i> Pago:&nbsp;
+                                <span ng-if="tk.typePaymentKf!=undefined && tk.typePaymentKf.id==2" class="badge badge-info">{{tk.typePaymentKf.descripcion}}</span>
+                                <span ng-if="tk.typePaymentKf!=undefined && tk.typePaymentKf.id!=2" class="badge badge-default">{{tk.typePaymentKf.descripcion}}</span>
+                                <span ng-if="tk.typePaymentKf==undefined" class="label label-default">n/a</span>
+                                <span ng-if="tk.typePaymentKf!=undefined && tk.typePaymentKf.id==2 && tk.paymentDetails!=null && tk.paymentDetails.mp_collection_status=='approved' && tk.paymentDetails.mp_status_detail=='accredited'" class="badge badge-success capitalize">Aprobado</span>
+                            </li>
+                            <li ng-show="tk.idTypeTicketKf<=1">
+                                <i class=" fas fa-truck"></i>Delivery:&nbsp;
+                                <span style="color:rgb(250, 107, 107);background: #fff;border-radius: 10px;padding-left: 5px; padding-right: 5px; font-size: 11px;" ng-if="tk.typeDeliver!=undefined">{{tk.typeDeliver.typeDelivery}}</span>
+
+                                
+                                <span ng-if="tk.typeDeliver==undefined" class="label label-default">n/a</span>
+                            </li>
+                            <li ng-show="tk.idTypeTicketKf<=2"><i class="fas fa-dollar-sign"></i> Costo:&nbsp;
+                                <span style="color:rgb(250, 107, 107);background: #fff;border-radius: 10px;padding-left: 5px; padding-right: 5px; font-size: 11px;" ng-if="tk.total!=null && tk.total!=undefined && tk.total!='NaN'">{{tk.total | number:2}}</span>
+                                <span ng-if="tk.total==null || tk.total==undefined || tk.total=='NaN'" class="label label-default">n/a</span>
+                            </li>
+                            <li ng-show="tk.billingReceiptDetails!=null && tk.isBillingUploaded!=null && tk.isBillingUploaded=='1'"><i class="fas fa-receipt"></i> Factura:&nbsp;
+                                    <span data-toggle="tooltip" data-placement="right" title="Factura cargada" class="font-size-18px" style="color: #5cb85c"><i class="text-success fas fa-check-circle"></i></span>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+                <!-- COLUMNA  BOTONES -->
+                <div id="labelTag" class="col-md-1 pull-right">
+                    <div class="btn-group-vertical btn_action">
+                        <button ng-if="(tk.idStatusTicketKf==2 || tk.idStatusTicketKf==9 || tk.idStatusTicketKf==11) && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4)" id="aprroveTicket" ng-disabled="tk.isCancelRequested" type="button" ng-click="mainSwitchFn('approveTicket', tk)" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="left"  title="Aprobar">
+                            <i class="fas fa-check"></i>
+                        </button>
+                        <button type="button" ng-click="mainSwitchFn('openTicket', tk, null)" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="Modificar" >
+                            <i class="glyphicon glyphicon-edit"></i>  
+                        </button>
+                        <!-- REQUEST CANCEL FOR OWNERS & TENANTS -->
+                        <button ng-if="tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && tk.isCancelRequested!=1 && (sysLoggedUser.idProfileKf=='3' || ((sysLoggedUser.idProfileKf=='4' || sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null))" type="button" ng-click="modalConfirmation('cancel_user',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1 || tk.isCancelRequested" data-toggle="tooltip" data-placement="left"  title="Cancelar">
+                            <i class="fas fa-ban"></i>
+                        </button>
+                        <!-- CANCEL ADMIN AND SYSTEM USERS -->
+                        <button ng-if="((tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1) ||  (tk.idStatusTicketKf==10 && tk.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" type="button" ng-click="modalConfirmation('cancel_sys',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1" data-toggle="tooltip" data-placement="left"  title="Cancelar">
+                            <i class="fas fa-ban"></i>
+                        </button>
+                        <!-- DELIVERY CHANGE -->
+                        <button ng-if="tk.idTypeTicketKf<2 && tk.isDeliveryHasChanged!=1 && ((tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1) ||  (tk.idStatusTicketKf==10 && tk.isCancelRequested==1))" ng-click="mainSwitchFn('ticket_delivery_change', tk, null)" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6) || tk.idStatusTicketKf==1 || tk.isCancelRequested || tk.isChangeDeliverylRequested" type="button" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="left"  title="Delivery">
+                            <i style="font-size: 1em" class="fas fa-truck"></i> 
+                        </button>
+                        <button ng-if="tk.idTypeTicketKf==4 && sysLoggedUser.idProfileKf==1 || !tk.idUserCancelTicket && tk.idTypeTicketKf==4 && sysLoggedUser.idProfileKf==1" ng-click="resolvedTicketFn(tk, 1)" ng-disabled="(tk.idStatusTicketKf!=3)" type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="left"  title="Finalizar">
+                            <i style="font-size: 1em" class="fas fa-check-double"></i> 
+                        </button>
+                        <!-- REJECT CANCEL REQUEST -->
+                        <button ng-if="(sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeTicketKf<2 && tk.idStatusTicketKf!=6 && tk.isCancelRequested=='1'" ng-click="modalConfirmation('reject_cancel_user',0, tk)" type="button" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="Rechazar">
+                            <i style="font-size: 1em" class="fas fa-window-close"></i> 
+                        </button>
+                        <!-- CHANGE STATUS -->
+                        <button ng-if="sysLoggedUser.idProfileKf==1 && tk.idTypeTicketKf<=2 && (tk.idStatusTicketKf=='4' || tk.idStatusTicketKf=='5' || tk.idStatusTicketKf=='7' || tk.idStatusTicketKf=='8') && tk.isCancelRequested!=1" ng-click="mainSwitchFn('change_ticket_status', tk, null)" type="button" class="btn btn-xs btn-primary" data-toggle="tooltip" data-placement="left"  title="Estatus">
+                            <i style="font-size: 1em" class="fas fa-sync"></i>
+                        </button>
+                        <!-- CREATE MP LINK -->
+                        <button ng-if="((tk.idTypeTicketKf=='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idTypePaymentKf==2 && tk.idTypeTicketKf<=2 && tk.idStatusTicketKf!=6 && tk.isCancelRequested!='1' && tk.paymentDetails==null) || (tk.idTypeTicketKf=='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && (tk.paymentDetails.mp_payment_id==null || tk.paymentDetails.mp_payment_id==0)))" type="button" ng-click="modalConfirmation('createMPLink',0, tk)" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="MP" >
+                            <i class="fas fa-receipt"></i>  
+                        </button>
+                    </div>
+                </div>
+                <!--<span ng-if="(sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" data-toggle="tooltip" data-placement="right" title="cancelar solicitud" ng-click="modalConfirmation('approve',0, tk)" class="label label-warning"><i class="fas fa-window-close"></i></span>
+                        <div class="col-lg-2 pull-right">
+                            <div  class="btn-group">
+                            <button ng-show="tk.isCancelTicket<=0" ng-disabled="tk.idStatusTicketKf<=1" type="button" class="btn btn-sm btn-success">{{tk.statusTicket.statusName}}</button>
+                            <button ng-show="tk.isCancelTicket==1" ng-disabled="tk.idStatusTicketKf<=1" type="button" class="btn btn-sm btn-success">{{tk.statusTicket.statusName}}</button>
+                            <button ng-show="tk.isCancelTicket<=0" ng-disabled="tk.idStatusTicketKf<=1" type="button" class="btn btn-sm btn-success dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <span  class="caret"></span>
+                                <span class="sr-only">Toggle Dropdown</span>
+                            </button>
+                            <ul ng-if="tk.idStatusTicketKf>=2"  class="dropdown-menu">
+                                <li><a ng-click="cancelTicket(tk.idTicket)">Cancelar</a></li>
+                            </ul>
+                            </div>
+                        </div> -->       
+            </div>
+        </div>
+        <!--  /Monitor Body <i class="fas fa-user-edit"></i>-->
+    </div>
+</div>
+<!-- APPROVAL TICKET -->
+<div ng-if="sysRouteParams!=undefined && sysContent=='approval'" class="col-md-10 col-md-offset-1 col-xs-8">
+    <div class="col-md-12">
+      <div ng-include="'views/monitor/ticket_approval.html'"></div>
+    </div>
+</div>
+<div ng-include="'views/monitor/tickets/updateTicket.html'"></div>
+<div ng-include="'views/monitor/tickets/filters.html'"></div>
+<div ng-include="'views/utilities/modalCancelConfirmation.html'"></div>
+<div ng-include="'views/utilities/expirationWarningWindows.html'"></div>
+<div ng-include="'views/tickets/delivery/setDeliveryToOtherAddress.html'"></div>
+<div ng-include="'views/tickets/delivery/deliveryAddressType.html'"></div>
+<div ng-include="'views/tickets/list/deliveryAttendantList.html'"></div>
+<div ng-include="'views/tickets/delivery/thirdPerson.html'"></div>
+<div ng-include="'views/monitor/attachBillingTicketFiles.html'"></div>
+<div ng-include="'views/monitor/tickets/statusChange.html'"></div>

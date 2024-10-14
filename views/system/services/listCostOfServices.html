@@ -1,0 +1,202 @@
+<!-- SETUP SERVICES COST -->
+<div id="ModalServiceCost" class="modal fade bd-example-modal-lg" style="top: 120px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+            	<h3 class="modal-title">COSTOS DE SERVICIOS<a data-dismiss="modal" class="close"><i title="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></a></h3>
+        	</div>
+    		<div class="modal-body" style="height: 700px; overflow-y: scroll;">
+				<!-- FORM CONTAINER-->
+				<div>
+					<form class="form-horizontal" name="frmCost">
+						<fieldset>
+							<!-- Company Name-->    
+							<div class="container-fluid" ng-show="sessionidProfile!=3"> 
+								<div class="row">   
+									<div class="col-md-9 col-md-offset-3">
+									  <label class="col-xs-12">Administracion</label>
+									    <div class="col-md-8">
+										    <div class="input-group">
+										        <span class="input-group-addon"><i class="icon-suitcase"></i></span>
+										  		<input ng-show="sessionidProfile!=1" name="CompanyName"  disabled class="form-control" ng-model="$parent.CompanyName" />
+											    <ui-select ng-show="sessionidProfile==1" name="idCompanyKf" ng-show="sessionidProfile==1" ng-required="sessionidProfile==1" ng-model="selectIdCompanyKf.selected" on-select="onSelectCallback()" ng-change="officeListByCompnayID(selectIdCompanyKf.selected.idCompany);">
+					                          		<ui-select-match allow-clear="true" placeholder="Seleccione una administracion">{{$select.selected.nameCompany}}</ui-select-match>
+					                            	<ui-select-choices repeat="item in listCompany | filter: $select.search">
+					                              		<div ng-bind-html="item.nameCompany | highlight: $select.search"></div>
+					                                		<small ng-bind-html="item.mail_admin | highlight: $select.search"></small>
+					                            	</ui-select-choices>
+					                        	</ui-select>
+										    </div>
+									  	</div>
+									</div>
+								</div>
+							</div>
+							<!-- Address for Admins -->
+							<div class="container-fluid" ng-show="sessionidProfile!=3"> 
+								<div class="row">   
+									<div class="col-md-9 col-md-offset-3">
+									  	<label class="col-xs-12">Direcci&#243n del Consorcio</label>
+										    <div class="col-md-8">
+											    <div class="input-group">
+											        <span class="input-group-addon"><i class="glyphicon icon-building"></i></span>
+						                            <ui-select name="idAddressAtt" ng-disabled="!companyFound" ng-change="getCostServiceData(4, selectIdAddressKf.selected.idAdress); getKeyChains(selectIdAddressKf.selected.idAdress);" ng-required="sessionidProfile!=4" ng-model="selectIdAddressKf.selected" autofocus>
+									                  	<ui-select-match allow-clear="true" placeholder="Seleccione una direccion">{{$select.selected.nameAdress}}</ui-select-match>
+									                    <ui-select-choices repeat="item in listOffice | filter: $select.search">
+									                      <div ng-bind-html="item.nameAdress | highlight: $select.search"></div>
+									                        <!--<small>Costo de Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+									                        <small>Costo de Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>
+															getServicesValues(selectIdAddressKf.selected.idAdress); 
+															getKeyChains(selectIdAddressKf.selected.idAdress);
+									                        -->
+									                    </ui-select-choices>
+									                </ui-select>
+											    </div>
+										  	</div>
+									</div>
+								</div>
+							</div>
+							<!-- Address for Onwers-->
+							<div class="container-fluid" ng-show="sessionidProfile==3"> 
+								<div class="row">   
+									<div class="col-md-9 col-md-offset-3">
+									  	<label class="col-xs-12">Direcci&#243n del Consorcio</label>
+										    <div class="col-md-8">
+											    <div class="input-group">
+											        <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+											  		<select name="idAddressAtt" class="form-control" ng-change="getCostServiceData(3, select.idAddressAtt); getKeyChains(select.idAddressAtt);"  ng-options="item.idAdress as item.nameAdress for item in ListTenantAddress" ng-required="sessionidProfile!=3" ng-model="select.idAddressAtt" autofocus >
+													    <option value="">Seleccione un consorcio</option>
+												    </select>
+											    </div>
+										  	</div>
+									</div>
+								</div>
+							</div>
+							<div><ul><i class="divider"></li></ul></div>
+							<div ng-if="!selectIdAddressKf.selected.idAdress && !select.idAddressAtt">
+								<div class="alert alert-info alert-dismissible" role="alert">
+									<button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+									<i class="glyphicon glyphicon-info-sign"></i><span> <strong>INFO: </strong>Selecciona una dieccion de un consorcio para conocer los costos.</span>
+								</div>
+							</div>
+							<div ng-if="sssselectIdAddressKf.selected.idAdress || ssssselect.idAddressAtt">
+								<!-- Service-->
+								<div class="container-fluid">
+									<div class="row">
+					  				    <div class="col-md-6 col-md-offset-3">
+										    <div ng-if="costService!=0" class="alert alert-info" role="alert">
+												<strong>Costo Gestion (Alta / Baja): </strong><span class="pull-right">{{costService}} <i class="glyphicon glyphicon-edit"></i></span>
+
+											</div>
+											<div ng-if="costService==0" class="alert alert-warning" role="alert">
+												<strong>Costo Servicio: </strong><span class="pull-right">Valor No Asignado. <i class="glyphicon glyphicon-exclamation-sign"></i></span>
+												
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Key-->
+								<div class="container-fluid"> 
+									<div class="row"> 
+									    <div class="col-md-6 col-md-offset-3">
+										    <div ng-if="costKey!=0" class="alert alert-info" role="alert">
+												<strong>Costo de Llave: </strong><span class="pull-right">{{costKey}} <i class="glyphicon icon-key"></i></span>
+											</div>
+											<div ng-if="costKey==0" class="alert alert-warning" role="alert">
+												<strong>Costo Llave: </strong><span class="pull-right">Valor No Asignado. <i class="glyphicon glyphicon-exclamation-sign"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+								<!-- Delivery-->
+								<div class="container-fluid">
+									<div class="row">
+									   	<div class="col-md-6 col-md-offset-3">
+										    <div ng-if="costDelivery!=0" class="alert alert-info" role="alert">
+												<strong>Costo de Envio: </strong><span class="pull-right">{{costDelivery}} <i class="glyphicon icon-truck"></i></span>
+											</div>
+											<div ng-if="costDelivery==0" class="alert alert-warning" role="alert">
+												<strong>Costo Envio: </strong><span class="pull-right">Valor No Asignado. <i class="fas fa-ban"></i></span>
+											</div>
+										</div>
+									</div>
+								</div>
+							</div>
+							<div ng-if="selectIdAddressKf.selected.idAdress || select.idAddressAtt" class="container-fluid justify-content-md-center col-md-12 col-md-offset-3">
+								<div class="col-md-3">    	    
+									<div class="cost-widget well well-sm">
+						            	<div class="cost-icon">
+						                 	<i class="fas fa-edit"></i>
+						            	</div>
+						            	<div class="text">
+						                	<h4 class="text-muted">Costo Gestion</h4>
+						            	</div>
+						            	<div class="options">
+						                <span data-toggle="tooltip" data-placement="bottom" title="Costo de gestion" class="badge badge-light">{{costService}}</span>
+						            	</div>
+						        	</div>
+						        </div>
+								<!--<div class="col-md-3">    	    
+									<div class="hero-widget well well-sm">
+						            	<div class="icon">
+						                 	<i class="fas fa-key"></i>
+						            	</div>
+						            	<div class="text">
+						                	<h4 class="text-muted">Costo de Llave</h4>
+						            	</div>
+						            	<div class="options">
+						                <span data-toggle="tooltip" data-placement="bottom" title="Costo de Llave" class="badge badge-light">{{costKey}}</span>
+						            	</div>
+						        	</div>
+						        </div>-->
+								<div class="col-md-3">    	    
+									<div class="cost-widget well well-sm">
+						            	<div class="cost-icon">
+						                 	<i class="fas fa-truck"></i>
+						            	</div>
+						            	<div class="text">
+						                	<h4 class="text-muted">Costo de Envio</h4>
+						            	</div>
+						            	<div class="options">
+						                	<span data-toggle="tooltip" data-placement="bottom" title="Costo de envio" class="badge badge-light">{{costDelivery}}</span>
+						            	</div>
+						        	</div>
+						        </div>
+						    </div>
+						</fieldset>
+					</form>
+				</div>
+				<div class="col-md-8 col-md-offset-2" ng-if="selectIdAddressKf.selected.idAdress || select.idAddressAtt || sessionidProfile==5 ">
+					<h3 style="text-align: center;">Tipos de Llaveros Disponibles</h3>
+			      	<div class="modal-body pre-scrollable">
+	    				<table class="table  table-striped ">
+		                    <thead style=" background: #4d5d6f; color: white;">
+		                        <tr >
+		                            <th>N°</th>
+		                            <th>Descripcion</th>
+		                            <th>Costo</th>
+		                    </thead>
+		                    <tbody >
+		                        <tr style="align-content: center;" ng-repeat="keys in keyChains">
+		                        
+		                        	<td>{{$index+1}}</td>
+			                        <td><span ng-if="keys.item=='Llaveros'"><i class="fas fa-key"> </i></span>
+			                        	<span ng-if="keys.item=='Sticket Vehicular'"><i class="fas fa-car"> </i></span>
+			                        	<span ng-if="keys.item=='Credencial Movil'"><i class="fas fa-mobile-alt"> </i></span>{{keys.item}}</td>
+			                        <td>$ {{keys.value}}</td>
+			                    </tr>
+			                </tbody>
+	    				</table>
+					</div>
+				</div>
+			</div>
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>			
+		</div>
+	</div>
+</div>

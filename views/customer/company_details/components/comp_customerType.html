@@ -1,0 +1,26 @@
+<!-- Customer Type -->
+<div class="form-group" ng-class="
+			{	
+				'col-md-12':
+				customer.companyDetails.idClientTypeFk=='' || customer.companyDetails.idClientTypeFk==undefined || customer.companyDetails.idClientTypeFk=='2' || customer.companyDetails.idClientTypeFk=='5',
+				'col-md-6':
+				(customer.companyDetails.idClientTypeFk!='' && customer.companyDetails.idClientTypeFk!=undefined && customer.companyDetails.idClientTypeFk!='2' && customer.companyDetails.idClientTypeFk!='5'),
+				'has-success': 
+				customer.companyDetails.idClientTypeFk!=undefined && fUpdateCustomer.customer_type.$valid,
+			 	'has-error':  
+				(customer.companyDetails.idClientTypeFk==undefined && fUpdateCustomer.customer_type.$touched),
+			}"> 
+  <label style="padding-left: 15px;">Tipo de cliente</label>
+	    <div class="input-group " >
+    		<span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+	    	<select ng-disabled="true"
+	    			id="customer_type" 
+	    			name="customer_type" 
+	    			class="form-control" 
+	    			ng-change="customerTypeCustomer(); cleanCustomerFieldFn(); customer.companyDetails.nameAddress='';"  
+	    			ng-options="item.idClientType as item.ClientType for item in rsCustomerTypeData " 
+	    			ng-model="customer.companyDetails.idClientTypeFk" required autofocus >
+		    	<option value="">Cliente</option>
+	    	</select>
+		</div>
+</div>

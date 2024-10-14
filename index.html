@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html ng-app="systemApp" lang="es">
+<head>
+<title>BSS Seguridad</title>
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<meta charset="utf-8">    
+<base href="/">
+<link rel="icon" sizes="192x192" href="images/web_icon.png">
+<link rel="shortcut icon" href="images/web_icon.png" type="image/jpeg"/>
+<link rel="apple-touch-icon" href="images/web_icon.png" type="image/jpeg"/>
+<link rel="icon" href="images/web_icon.png" type="image/jpeg"/>
+<!-- Default Style Sheets -->
+
+
+<!-- Bootstrap CSS -->
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.css">
+<!-- Latest compiled and minified CSS -->
+<!--<link rel="stylesheet" href="lib/bootstrap/css/default/bootstrap.min.css">-->
+<link rel="stylesheet" type="text/css" href="lib/fa-min/css/fa.min.css">
+<link rel="stylesheet" type="text/css" href="https://use.fontawesome.com/releases/v5.14.0/css/all.css">
+
+
+<link rel="stylesheet" type="text/css" href="lib/angular/angular-block-ui/css/angular-block-ui.css">
+<link rel="stylesheet" type="text/css" href="lib/angular/angular-inform/css/angular-inform.min.css">
+
+  
+<link rel="stylesheet" type="text/css" href="lib/angular/ui-select/css/selectize.default.css">
+<link rel="stylesheet" type="text/css" href="lib/angular/ui-select/css/select.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
+<link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.css" type="text/css" media="all" />
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.css" />
+<link type="text/css" rel="stylesheet" href="lib/angular/angular-bootstrap-lightbox/css/angular-bootstrap-lightbox.min.css">
+<link type="text/css" rel="stylesheet" href="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.css">
+
+
+
+<!--<link rel="stylesheet" href="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/build/css/bootstrap-datetimepicker.css" />-->
+
+<!-- Default Style Sheets -->
+
+<!-- User Style Sheets -->
+<link href="css/style-init.css" type="text/css" rel="stylesheet" media="all">
+<link href="views/mainapp/style.css" type="text/css" rel="stylesheet" media="all">
+<link href="views/status/style.css" type="text/css" rel="stylesheet" media="all">
+<link href="css/timeline_history.css" type="text/css" rel="stylesheet" media="all">
+<link href="css/form-controls.css" type="text/css" rel="stylesheet" media="all">
+<link href="views/mainapp/sys_sidebar.css" type="text/css" rel="stylesheet" media="all">
+<!-- User Style Sheets -->
+<link rel="shortcut icon" href="favicon.ico">
+</head>
+<body ng-controller="MenuCtrl" ng-init="launchLoader();">
+	<div ng-if="sysToken && (urlPathSelected1!='info' && (urlPathSelected1!='status' && urlPathSelected2!='client'))">
+		<!-- nav bar start -->
+		<nav class="navbar navbar-inverse navbar-custom navbar-fixed-top" role="navigation">
+			<div class="navbar-inverse navbar-inner m-h-30">
+				<div class="container-fluid">
+					<div>
+						<div class="nav navbar-nav navbar-left">
+							<img id="comp-k1xl6bdlimgimage" class="sys-logo" data-type="image" itemprop="image" src="images/logo_3.png">
+						</div>
+						<ul class="nav navbar-nav navbar-right nav-prof nav-role">
+							<li class="dropdown gray" style="color: #fff;">
+								<h3><i class="fas fa-id-card-alt"></i> <span data-toggle="tooltip" data-placement="bottom" title="Perfil de usuario" >{{sysLoggedUser.nameProfile}}</span> <span data-toggle="tooltip" data-placement="bottom" title="Role Asignado">[{{sysLoggedUser.name}}] </span></h3>
+							</li>
+							<!-- USER PROFILE MENU -->
+							<li class="dropdown gray" style="color: #fff;">
+								<a class="dropdown-toggle margin-a-left nav-user" data-toggle="dropdown" style="color: #fff;">
+									<i class="fas fa-user-circle fa-2x"></i> {{sysLoggedUser.fullNameUser | uppercase}} <i class="icon-caret-down"></i>
+								</a><!-- ng-click="profileUserOpen(sysLoggedUser); href="/user_profile"" -->
+								<ul class="dropdown-menu" role="menu" aria-labelledby="dropdownMenu" ng-if="sysModules.idPerfilUsuario">
+									<li role="presentation">
+										<a style="cursor: pointer;" class="clear-lazy-cache" ng-click="profileUserOpen(sysLoggedUser);" tabindex="-1" role="menuitem"><i class="fas fa-address-card"></i> Perfil</a>
+									</li>
+									<li ng-if="sysLoggedUser.idProfileKf==2 || sysLoggedUser.idProfileKf==4" role="presentation">
+										<a style="cursor: pointer;" class="clear-lazy-cache" ng-click="fnShowHide('rucompany', 'open')" tabindex="-1" role="menuitem"><i class="icon-building"></i> Datos de la empresa</a>
+									</li>
+									<li role="presentation">
+										<a style="cursor: pointer;" class="clear-lazy-cache" ng-click="passwdModalUserOpen(sysLoggedUser)" tabindex="-1" role="menuitem"><i class="fas fa-user-lock"></i> Cambiar clave</a>
+									</li>
+									<li role="presentation">
+										<div class="divider"></div>
+									</li>
+									<li role="presentation">
+										<a style="cursor: pointer;" class="clear-lazy-cache" ng-click="modalConfirmationMenu('logout', 0, sysLoggedUser)" tabindex="-1" role="menuitem"><i class="icon-signout"></i> Salir</a>
+									</li>
+								</ul>
+							</li>
+						</ul>
+					</div>
+				</div>
+			</div>
+			<div class="jumbotron b-s-20 m-b-5">
+				<div class="container-fluid">
+						<!-- Brand and toggle get grouped for better mobile display -->
+						<div class="navbar-header">
+						<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1">
+							<span class="sr-only">Toggle navigation</span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+							<span class="icon-bar"></span>
+						</button>
+						
+						</div>
+
+						<!-- Collect the nav links, forms, and other content for toggling -->
+						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+						<ul class="nav navbar-nav">
+							<li id="m_monitor"  class="icon-m" ng-class="{ active: getRoute('/monitor')}" ng-if="sysModules.idMonitor">
+								<a href="/monitor"> 
+									<i class="fas fa-tachometer-alt icon-4x"></i>
+									<br>Monitor de pedidos
+								</a>
+							</li>
+							<li id="m_pedidos" ng-class="{ active: getRoute('/tickets')}" ng-if="sysModules.idPedidos">
+								<a href="/tickets">
+								<i style="margin-left: 0.1em;" class="icon-file-text icon-4x"></i>
+								<br>Pedidos
+								</a>
+							</li>
+							<!--<li id="m_llaveros" ng-class="{ active: getRoute('/keys')}" ng-if="sysModules.idLlaveros">
+								<a href="/keys">
+								<i style="margin-left: 0.1em;" class="icon-file-text icon-4x"></i>
+								<br>Pedidos 
+								<b class="caret"></b></a>
+								<ul class="dropdown-menu">
+									<li ng-show="sysLoggedUser.idProfileKf!=2" class="dropdown-header">Llaveros</li>
+									<li ng-show="sysLoggedUser.idProfileKf!=2"><a ng-click="fnShowHide('rukeyup', 'open')"  class="dropItemTitle"><i class="glyphicon glyphicon-upload"></i> Alta</a></li>
+									<li ng-show="sysLoggedUser.idProfileKf!=2"><a ng-click="fnShowHide('rukeydown', 'open')"  class="dropItemTitle"><i class="glyphicon glyphicon-download"></i> Baja</a></li>
+									<li ng-show="sysLoggedUser.idProfileKf!=2" class="divider"></li>
+									<li ng-show="sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==2 || sysLoggedUser.idProfileKf==4" class="cms">
+										<a ng-click="fnShowHide('ruservice', 'open')" ><i class="glyphicon icon-wrench"></i> Servicio Tecnico</a>
+									</li>
+									<li ng-show="sysLoggedUser.idProfileKf!=0" class="cms">
+										<a ng-click="fnShowHide('ruother', 'open')" ><i class="glyphicon glyphicon-envelope"></i> Otras Consultas</a>
+									</li>
+									<li ng-show="sysLoggedUser.idProfileKf!=2" class="cms"> class="im active"
+										<a ng-click="fnShowHide('frmcost', 'open')" ><i class="glyphicon icon-dollar"></i> Costos</a>
+									</li>
+								</ul>-->
+								</a>
+							</li>
+							<li id="m_depto" class="icon-m" ng-class="{ active: getRoute('/buildings')}" ng-if="sysModules.idEdificios">
+								<a href="/buildings"> 
+								<i class="icon-building icon-4x"></i>
+								<br>Gestion de Edificio
+								</a>
+							</li>
+							<li id="m_product" class="icon-m" ng-class="{ active: getRoute('/products')}" ng-if="sysModules.idProducto">
+								<a  href="/products"> 
+								<i style="margin-left: -0.5em" class="fas fa-th icon-4x"></i>
+								<br>Productos
+								</a>
+							</li>	
+							<li id="m_services" class="icon-m" ng-class="{ active: getRoute('/services')}" ng-if="sysModules.idServices">
+								<a  href="/services"> 
+									<i style="margin-left: -0.58em" class="fas fa-tools icon-4x"></i>
+									<br>Servicios
+								</a>
+							</li>
+							<li id="m_keys" class="icon-m" ng-class="{ active: getRoute('/keys')}" ng-if="sysModules.idKeys">
+								<a  href="/keys"> 
+								<i style="margin-left: -0.58em" class="fas fa-key icon-4x"></i>
+								<br>Llaveros
+								</a>
+							</li>
+							<li id="m_customers" class="icon-m" ng-class="{ active: getRoute('/customers')}" ng-if="sysModules.idCliente">
+								<a  href="/customers"> 
+								<i style="margin-left: -0.58em" class="fas fa-user-tie icon-4x"></i>
+								<br>Clientes
+								</a>
+							</li>
+							<li id="m_users" class="icon-m" ng-class="{ active: getRoute('/users')}" ng-if="sysModules.idUsers">
+								<a  href="/users"> 
+								<i style="margin-left: -0.7em" class="fas fa-users icon-4x"></i>
+								<br>Usuarios
+								</a>
+							</li>
+							<li id="m_tech" class="icon-m" ng-class="{ active: getRoute('/tech')}" ng-if="sysModules.idTechnician">
+								<a  href="/tech">
+								<i style="margin-left: -0.6em" class="fas fa-toolbox icon-4x"></i>
+								<br>Tecnicos
+								</a>
+							</li>
+							<li id="m_config" class="icon-m" ng-class="{ active: getRoute('/system')}" ng-if="sysModules.idConfiguracion">
+								<a  href="/system"> 
+								<i style="margin-left: -0.6em" class="icon-cogs icon-4x"></i>
+								<br>Sistema
+								</a>
+							</li>
+						</ul>
+
+						<!--<ul class="nav navbar-nav navbar-right">
+							<li><a href="#">Link</a></li>
+							<li class="dropdown">
+							<a href="#" class="dropdown-toggle" data-toggle="dropdown">Dropdown <b class="caret"></b></a>
+							<ul class="dropdown-menu">
+								<li><a href="#">Action</a></li>
+								<li><a href="#">Another action</a></li>
+								<li><a href="#">Something else here</a></li>
+								<li class="divider"></li>
+								<li><a href="#">Separated link</a></li>
+							</ul>
+							</li>
+						</ul>-->
+						</div><!-- /.navbar-collapse -->
+				</div><!-- /.container-fluid -->
+			</div>
+		</nav>
+		<!-- //nav bar end -->
+		<div ng-if="sysToken" ng-include="'views/users/profileUser.html'"></div>
+		<div ng-if="sysToken" ng-include="'views/users/passwordChangeUser.html'"></div>
+		<div ng-if="sysToken" ng-include="'views/utilities/modalConfirmationMenu.html'"></div>
+		<div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>
+	</div>
+	<!-- Loader div -->
+	<div id="wLoader" ng-if="wLoader">
+		<div id="loader">&nbsp;</div>
+		<div class="companyName"></div>
+	</div>	
+	<!-- //Loader div -->	
+	<!-- ng-view div -->
+	<div ng-view></div>
+	<!-- //ng-view div -->
+
+	<!-- Response Inform Meessage plugin -->
+	<div inform class="inform-fixed inform-shadow inform-animate"></div>
+
+<!--JQUERY MODULES -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/pdfobject@2.2.5/pdfobject.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/1.4.0/jspdf.debug.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<script src="https://rawgit.com/sphilee/jsPDF-CustomFonts-support/master/dist/jspdf.customfonts.debug.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+<!--<script language="javascript" src="https://rawgit.com/sphilee/jsPDF-CustomFonts-support/master/dist/jspdf.customfonts.debug.js" crossorigin="anonymous"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.0/umd/popper.min.js" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
+<!-- Latest compiled and minified JavaScript -->
+<script type="text/javascript" src="//unpkg.com/xlsx/dist/shim.min.js"></script>
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+
+<script type="text/javascript" src="//unpkg.com/blob.js@1.0.1/Blob.js"></script>
+<script type="text/javascript" src="//unpkg.com/file-saver@1.3.3/FileSaver.js"></script>
+<!--<script src="lib/bootstrap/js/default/bootstrap.min.js"></script>-->
+<script language="javascript" src="lib/jquery/inputMask/js/inputMask.js"></script>
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment-with-locales.js"></script>-->
+<!--<script src="https://cdn.rawgit.com/Eonasdan/bootstrap-datetimepicker/e8bddc60e73c1ec2475f827be36e1957af72e2ea/src/js/bootstrap-datetimepicker.js"></script>-->
+
+<!--//JQUERY MODULES -->
+<!--ANGULAR MODULES -->
+<!--<script src="lib/angular/angularjs/default/js/angular.js"></script>-->
+
+<!--<script src="lib/angular/angularjs/v1.3.14/angular.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0/angular.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.29.1/moment.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/moment-timezone/0.5.34/moment-timezone-with-data.min.js"></script>
+<script src="https://code.angularjs.org/1.2.5/i18n/angular-locale_es-ar.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.8/angular-filter.js"></script>
+<!--<script src="lib/angular/angular-cookies/v1.3.14/angular-cookies.min.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0/angular-cookies.min.js"></script>
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.22/angular-cookies.min.js"></script>-->
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.2.22/angular-sanitize.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0/angular-sanitize.min.js"></script>
+<!--<script src="lib/angular/angular-sanitize/v1.3.14/angular-sanitize.js"></script>-->
+<script src="lib/angular/angular-css/js/angular-css.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0/angular-route.min.js"></script>
+<!--<script src="lib/angular/angular-route/v1.3.14/angular-route.min.js"></script>-->
+<!--<script src="lib/angular/angular-route/js/angular-route.min.js"></script>-->
+<script src="lib/angular/underscore/js/underscore-min.js"></script>
+<script src="lib/angular/angular-websocket/ng-websocket.js"></script>
+<script src="lib/angular/angular-block-ui/js/angular-block-ui.js"></script>
+<!--<script src="https://cdn.jsdelivr.net/npm/angular-utils-pagination@0.11.1/dirPagination.js"></script>-->
+<script src="lib/angular/angular-inform/js/angular-inform.min.js"></script>
+<!--<script data-require="angular-inform@0.0.8" data-semver="0.0.8" src="https://rawgit.com/McNull/angular-inform/master/dist/angular-inform.min.js"></script>-->
+
+<script src="lib/angular/angular-showdown/js/angular-showdown.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0/angular-animate.min.js"></script>
+<!--<script src="lib/angular/angular-animate/v1.3.14/angular-animate.min.js"></script>-->
+<script src="lib/angular/ui-select/js/select.js"></script>
+<!--<script src="lib/angular/angular-animate/js/angular-animate.min.js"></script>-->
+<!--<script src="lib/angular/ui-bootstrap/js/ui-bootstrap.js"></script>-->
+<!--<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-0.14.3.js"></script>-->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-filter/0.5.8/angular-filter.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular-ui-bootstrap/0.14.3/ui-bootstrap-tpls.min.js"></script>
+<!--<script src="https://angular-ui.github.io/bootstrap/ui-bootstrap-tpls-1.3.2.js"></script>-->
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.10/clipboard.min.js"></script>
+<script src="lib/angular/angular-clipboard/ngclipboard.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/angular.js/1.6.0/angular-touch.min.js"></script>
+<!--<script src="https://code.angularjs.org/1.3.14/angular-touch.js"></script>-->
+<script src="//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.js"></script>
+<script src="lib/angular/angular-bootstrap-lightbox/js/angular-bootstrap-lightbox.min.js"></script>
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/xlsx/0.15.6/xlsx.full.min.js"></script>
+<script type="text/javascript" src="https://rawgit.com/rzajac/angularjs-slider/master/dist/rzslider.js"></script>
+<!-- ----------------------->
+
+
+<script src="lib/jquery/mainAppJs/coferbaJsMainApp.js"></script>  <!-- BSS Seguridad Jquery  -->
+<!--ANGULAR MODULES -->
+
+
+<script src="sysApp.js"></script> <!-- BSS Seguridad Angular App -->
+
+<script src="common/services/tokenSystem.js"></script>
+<script src="common/services/sUsers.js"></script>
+<script src="common/services/sTickets.js"></script>
+<script src="common/services/sAddress.js"></script>
+<script src="common/services/sDepartments.js"></script>
+<script src="common/services/mailServices.js"></script>
+<script src="common/services/sProfiles.js"></script>
+<script src="common/services/sProducts.js"></script>
+<script src="common/services/sCustomers.js"></script>
+<script src="common/services/sUtilities.js"></script>
+<script src="common/services/sPagination.js"></script>
+<script src="common/services/sServices.js"></script>
+<script src="common/services/sContracts.js"></script>
+<script src="common/services/sKeys.js"></script>
+
+<!--  Seguridad TASS Angular Functions -->
+<script src="controllers/TASSCtrlMenu.js"></script> 
+<script src="controllers/TASSCtrlMonitor.js"></script>
+<script src="controllers/TASSCtrlProducts.js"></script>
+<script src="controllers/TASSCtrlKeys.js"></script>
+<script src="controllers/TASSCtrlTech.js"></script>
+<script src="controllers/TASSCtrlCustomers.js"></script>
+<script src="controllers/TASSCtrlStatus.js"></script>
+<script src="controllers/BSSCtrlInfo.js"></script>
+<script src="controllers/TASSCtrlApprovals.js"></script>
+<script src="controllers/TASSCtrlServices.js"></script>
+<script src="controllers/TASSCtrlUsers.js"></script>
+<script src="controllers/TASSCtrlBuildings.js"></script>
+<script src="controllers/TASSCtrlTickets.js"></script>
+<script src="controllers/TASSCtrlSystem.js"></script>
+<script src="controllers/TASSCtrlLogin.js"></script>
+<script src="controllers/TASSCtrlRegister.js"></script>
+<script src="controllers/TASSCtrlforgotPwd.js"></script>
+<script src="controllers/TASSCtrlNewPwd.js"></script>
+<!--  //Seguridad TASS Angular Login Functions -->
+
+
+</body>
+</html>

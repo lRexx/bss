@@ -1,0 +1,93 @@
+<!-- TERMINATE CONTRACT  -->
+<div id="requiredInputForContractTermination" class="modal fade bd-example-modal-lg" style="top: 150px;" role="dialog">
+    <div class="modal-dialog modal-md" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="fas fa-file-alt"></i> [{{contractSelected.numeroContrato}}] - <span class="label label-info" >Finalizar Contrato</span></h3>
+          </div>
+        <div class="modal-body">
+            <div  class="col-md-12 n-padding-l n-padding-r">
+                <form class="form-horizontal" name="terminateContract" autocomplete="off" novalidate>
+                    <!-- TERMINATION DATE -->
+                    <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-6 col-xs-12" ng-class="
+                    {	'has-success': 
+                        contractSelected.terminateDate!='' && terminateContract.terminateDate.$valid,
+                        'has-error':  
+                        (contractSelected.terminateDate=='' || contractSelected.terminateDate==undefined) && terminateContract.terminateDate.$touched,
+                    }">
+                        <div class="col-md-12" >
+                            <div class="col-md-12 col-xs-12 n-padding-r n-padding-l">
+                                <label>Fecha</label>
+                                <div class="input-group">
+                                    <input 
+                                        ng-click="open1()" 
+                                        type="text" 
+                                        name="terminateDate"
+                                        ng-change=""
+                                        class="form-control" 
+                                        uib-datepicker-popup="{{format}}" 
+                                        ng-model="contractSelected.terminateDate" 
+                                        is-open="popup1.opened"
+                                        ng-required="sysLoggedUser.idProfileKf!=0 && contractSelected.idStatusFk=='1'" 
+                                        close-text="Cerrar" 
+                                        clear-text="Borrar"
+                                        ng-required="true"
+                                        current-text="Hoy"
+                                        alt-input-formats="altInputFormats" />
+                                    <span ng-click="open1()" class="input-group-addon">
+                                    <i ng-click="open1()" class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+					<!-- Reaon Type for ServiceDown -->
+					<div class="form-group col-md-6 col-xs-12" ng-class="
+								{	'has-success': 
+									contractSelected.reasonType!='' && terminateContract.service_reasonType.$valid,
+								 	'has-error':  
+									(contractSelected.reasonType=='' || contractSelected.reasonType==undefined) && terminateContract.service_reasonType.$touched,
+								}">
+					  <label style="padding-left: 15px;">Motivo</label>
+						  <div class="col-md-12 col-xs-12 n-padding-r n-padding-l">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-tag"></i></span>
+								<select name="service_reasonType" id="service_reasonType" class="form-control text-uppercase" ng-options="reason.idReason as reason.reasonDown for reason in rsTypeReasonDownServicesData" ng-model="contractSelected.reasonType" autofocus required="true">
+								    <option class="text-uppercase" value="">Motivo</option>
+							    </select>
+						  </div>
+						</div>
+					</div>
+                    <!-- Text Description-->
+                    <div class="form-group col-md-12" ng-class="
+                    {	'has-success': 
+                        contractSelected.terminationReason!='' && terminateContract.description.$valid,
+                        'has-error':  
+                        (contractSelected.terminationReason=='' || contractSelected.terminationReason==undefined) && terminateContract.description.$touched,
+                    }">
+                        <legend style="text-align: left;">Observaciones</legend>
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-comments"></i></span>
+                                <textarea style="resize: vertical;" name="description" rows="4" placeholder="Indicar razón o comentarios adicionales" class="form-control" ng-required="true" ng-model="contractSelected.terminationReason" ></textarea>
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="clearfix"> </div> 
+        </div>   
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <button type="submit" ng-click="switchCustomersFn('general', contractSelected, 'get_approved_users')" ng-disabled="terminateContract.$invalid" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                    <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                </div>           
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

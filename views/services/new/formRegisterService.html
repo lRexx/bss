@@ -1,0 +1,371 @@
+<!-- CUSTOMER CONTRACT FORM -->
+<div id="RegisterCustomerService" class="modal fade bd-example-modal-lg" style="top: 0px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-wrench"></i> NUEVO SERVICIO</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+				<!-- FORM CONTAINER-->
+				<form class="form-horizontal" name="fCustomerNewService" novalidate>
+					<fieldset>
+					<!-- Control_de_Acceso: Puerta -->
+					<div class="form-group col-md-6">
+					  <label style="padding-left: 15px;">Puerta</label>  
+						  <div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+								<select name="service_door" class="form-control" ng-model="contract.new.service.puerta" autofocus >
+								    <option class="text-uppercase" value="">Selecciona una puerta</option>
+							    </select>
+						  </div>
+						</div>
+					</div>
+					<!-- Control_de_Acceso: Aclaracion -->
+					<div class="form-group col-md-6" >  
+					  	<label style="padding-left: 15px;">Aclaracion</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+				    			<input name="service_aclaration" type="text" class="form-control" ng-model="contract.new.service.aclaration" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- Control_de_Acceso: Puerta -->
+					<div class="form-group col-md-6">
+					  <label style="padding-left: 15px;">Contrato asociado</label>  
+						  <div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+								<select name="service_contract" class="form-control" ng-model="contract.new.service.idContractFk" autofocus >
+								    <option class="text-uppercase" value="">Selecciona un contrato</option>
+							    </select>
+						  </div>
+						</div>
+					</div>
+					<!-- Control_de_Acceso: Maintenance Type -->
+					<div ng-if="service.new.idTypeMaintenanceFkConstract!='3'" class="form-group col-md-6" > 
+					  	<label style="padding-left: 15px;">Tipo de mantenimiento</label>
+					    <div class="col-xs-12 ">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+				    			<input name="service_mnt_type" type="text" class="form-control" ng-model="contract.new.service.MntType" />
+				    		</div>
+				    	</div>
+					</div>
+					<div ng-if="service.new.idTypeMaintenanceFkConstract=='3'" class="form-group col-md-6" ng-class="
+					{	'has-success': 
+						service.new.idTypeMaintenanceFk!='' && fCustomerNewService.contract_mnt_type.$valid,
+						 'has-error':  
+						(service.new.idTypeMaintenanceFk=='' || service.new.idTypeMaintenanceFk==undefined) && fCustomerNewService.contract_mnt_type.$touched,
+					}">
+					<label style="padding-left: 15px;">Tipo de mantenimiento</label>  
+						<div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-screwdriver"></i></span>
+								<select name="contract_mnt_type" 
+										class="form-control"
+										ng-options="item.idTypeMaintenance as item.typeMaintenance for item in rsTypeOfMaintenanceData | filter:{idTypeMaintenance:service.new.idTypeMaintenanceFkConstract}" 
+										ng-model="service.new.idTypeMaintenanceFk" ng-change="validateServiceListItemsFn()"  ng-required="true" autofocus >
+									<option class="text-uppercase" value="">Selecciona un tipo</option>
+								</select>
+							</div>
+						</div>
+					</div>
+					<!-- Control_de_Acceso: Start_date -->
+					<div class="form-group col-md-6">
+					  <label style="padding-left: 15px;">Fecha de alta</label>  
+						  <div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+								<input name="service_start_date" type="text" class="form-control" ng-model="contract.new.service.start_date" />
+						  </div>
+						</div>
+					</div>
+					<!-- Control_de_Acceso: End_date -->
+					<div class="form-group col-md-6">
+					  <label style="padding-left: 15px;">Fecha de baja</label>  
+						  <div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+								<input name="service_end_date" type="text" class="form-control" ng-model="contract.new.service.end_date" />
+						  </div>
+						</div>
+					</div>
+					<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r" style="width: auto;">
+						<!-- Control_de_Acceso: control of access -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Control de Acceso</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<select name="service_crtl_access" class="form-control" ng-model="contract.new.service.crtlAccess" autofocus >
+									    <option class="text-uppercase" value="">Selecciona una opcion</option>
+								    </select>
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: lock -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Cerradura</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<select name="service_locked" class="form-control" ng-model="contract.new.service.locked" autofocus >
+									    <option class="text-uppercase" value="">Selecciona una opcion</option>
+								    </select>
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: entranceReader -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Lector de entrada</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<select name="service_entranceReader" class="form-control" ng-model="contract.new.service.entranceReader" autofocus >
+									    <option class="text-uppercase" value="">Selecciona una opcion</option>
+								    </select>
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: exitReader -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Lector de salida</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<select name="service_exitReader" class="form-control" ng-model="contract.new.service.exitReader" autofocus >
+									    <option class="text-uppercase" value="">Selecciona una opcion</option>
+								    </select>
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: rackLocation -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Ubicacion del gabinete</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<input name="service_end_date" type="text" class="form-control" ng-model="contract.new.service.end_date" />
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: powerSupply -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Fuente</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<select name="service_powerSupply" class="form-control" ng-model="contract.new.service.powerSupply" autofocus >
+									    <option class="text-uppercase" value="">Selecciona una opcion</option>
+								    </select>
+							  </div>
+							</div>
+						</div>
+					</div>
+					<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r" style="width: auto;">
+						<!-- Battery List -->
+						<div class="form-group col-md-12">
+							<label class="clf-p-left">Baterias instaladas <button style="margin-left: 580px;" ng-click="addBatteryFn(battery, 'new')" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button> </label>  
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-car-battery"></i></span>  
+								<select name="contactName" class="form-control" ng-model="contactPhones.phoneTag" ng-required="list_batteries.length==0" autofocus >
+								    	<option class="text-uppercase" value="">Selecciona un bateria</option>
+							    </select>
+							</div>
+							<div class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+							  	<table ng-if="list_batteries.length>0">
+							    	<tr ng-repeat="battery in list_batteries">
+							      		<td style="width: 50%">
+							      			<span class="text-muted text-box">
+							      				<label ng-if="battery.phoneTag=='comercial'" style="font-size: 100%" class="label label-default">{{battery.phoneTag | uppercase}}</label>
+							      				<label ng-if="battery.phoneTag=='guardia'" style="font-size: 100%" class="label label-warning">{{battery.phoneTag | uppercase}}</label>
+							      				<label ng-if="battery.phoneTag=='urgente'" style="font-size: 100%" class="label label-danger">{{battery.phoneTag | uppercase}}</label>
+							      			</span>
+							      		</td>
+							      		<td style="width: 150%"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{battery.phoneContact}}</label></span></td>
+							          	<td style="padding-bottom: 5px;">
+							            	<button data-toggle="tooltip" data-placement="right" title="Eliminar" ng-click="removePhoneNumFn(phone); enabledNextBtn();" class="btn btn-sm btn-danger"><i class="fas fa-phone-slash"></i></button>
+
+							          	</td>
+							      	</tr>
+							  	</table>
+							  	<div ng-if="list_batteries.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay baterias cargadas</h5></div>
+							</div>
+						</div>
+					</div>
+		            <div class="form-group col-md-6 col-xs-5">
+		            	<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Tornillo bloqueado</label></div>
+		            	<div class="col-md-3 col-xs-5">
+		                	<input id="typeClient1" class="radio-2x" type="radio" name="typeClient" value="1" ng-model="customerSearch.typeClient" required autofocus>
+		                    <label for="typeClient1" class="radio-2x-label">
+		                      <span>Si</span>
+		                    </label>
+		                </div>
+		                <div class="col-md-3 col-xs-5">
+		                	<input id="typeClient2" class="radio-2x" type="radio" name="typeClient" value="2" ng-model="customerSearch.typeClient" required autofocus>
+		                    <label for="typeClient2" class="radio-2x-label">
+		                      <span>No</span>
+		                    </label> 
+		                </div>
+		            </div>
+					<!-- Control_de_Acceso: Aclaracion -->
+					<div class="form-group col-md-6" >  
+					  	<label style="padding-left: 15px;">Aclaracion</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+				    			<input name="service_aclaration2" type="text" class="form-control" ng-model="contract.new.service.aclaration2" />
+				    		</div>
+				    	</div>
+					</div>		            
+					<!-- Control_de_Acceso: EmergencyButton -->
+					<div class="form-group col-md-6">
+					  <label style="padding-left: 15px;">Pulsador de Emergencia</label>  
+						  <div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+								<select name="service_emergencyButton" class="form-control" ng-model="contract.new.service.emergencyButton" autofocus >
+								    <option class="text-uppercase" value="">Selecciona una opcion</option>
+							    </select>
+						  </div>
+						</div>
+					</div>
+					<!-- Control_de_Acceso: Location -->					  
+					<div class="form-group col-md-6" >  
+					  	<label style="padding-left: 15px;">Ubicacion</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+				    			<input name="service_location" type="text" class="form-control" ng-model="contract.new.service.location" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- Control_de_Acceso: TurnOffKeyboard -->
+					<div class="form-group col-md-6">
+					  <label style="padding-left: 15px;">Teclado de apagado</label>  
+						  <div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+								<select name="service_TurnOffKeyboard" class="form-control" ng-model="contract.new.service.TurnOffKeyboard" autofocus >
+								    <option class="text-uppercase" value="">Selecciona una opcion</option>
+							    </select>
+						  </div>
+						</div>
+					</div>
+					<!-- Control_de_Acceso: Location -->					  
+					<div class="form-group col-md-6" >  
+					  	<label style="padding-left: 15px;">Ubicacion</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+				    			<input name="service_location" type="text" class="form-control" ng-model="contract.new.service.location" />
+				    		</div>
+				    	</div>
+					</div>
+					<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r">
+						<div class="form-group col-md-12" >
+							<label class="from-left-from-label text-uppercase" >Conexion a internet </label>
+						</div>	
+						<!-- Control_de_Acceso: End_date -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">N° de puerto de router</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<input name="service_end_date" type="text" class="form-control" ng-model="contract.new.service.end_date" />
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: End_date -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Puerto http</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<input name="service_end_date" type="text" class="form-control" ng-model="contract.new.service.end_date" />
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: End_date -->
+						<div class="form-group col-md-12">
+						  <label style="padding-left: 15px;">Direccion del cliente</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<input name="service_end_date" type="text" class="form-control" ng-model="contract.new.service.end_date" />
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: End_date -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Usuario</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<input name="service_end_date" type="text" class="form-control" ng-model="contract.new.service.end_date" />
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: End_date -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Contraseña</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<input name="service_end_date" type="text" class="form-control" ng-model="contract.new.service.end_date" />
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: End_date -->
+						<div class="form-group col-md-12">
+						  <label style="padding-left: 15px;">Direccion VPN</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<input name="service_end_date" type="text" class="form-control" ng-model="contract.new.service.end_date" />
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: End_date -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Usuario</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<input name="service_end_date" type="text" class="form-control" ng-model="contract.new.service.end_date" />
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: End_date -->
+						<div class="form-group col-md-6">
+						  <label style="padding-left: 15px;">Contraseña</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<input name="service_end_date" type="text" class="form-control" ng-model="contract.new.service.end_date" />
+							  </div>
+							</div>
+						</div>
+					</div>
+					</fieldset>
+				</form>
+				<div class="clearfix"> </div> 
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="" ng-disabled="fCustomerNewService.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- // CUSTOMER CONTRACT FORM -->

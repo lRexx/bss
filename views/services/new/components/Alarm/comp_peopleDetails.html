@@ -1,0 +1,106 @@
+<!-- PEOPLE DETAIL FORM -->
+<div id="servicePeopleDetails" class="modal fade bd-example-modal-md" role="dialog" data-keyboard="false" data-backdrop="static">
+  	<div class="modal-dialog modal-md" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-bullhorn"></i> {{service.people.tittle}}</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+    			<form class="form-horizontal" name="fServicePeopleDetails">
+					<!-- Name & Lastname -->
+					<div class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									service.people.nombre_apellido!='' && fServicePeopleDetails.servicePeopleNames.$valid,
+								 	'has-error':  
+									(service.people.nombre_apellido=='' || service.people.nombre_apellido==undefined) && fServicePeopleDetails.servicePeopleNames.$touched,
+								}">
+					  	<label style="padding-left: 15px;">Nombre y Apellido</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-user"></i></span>
+				    			<input name="servicePeopleNames" id="servicePeopleNames" type="text" class="form-control" ng-required="true" ng-model="service.people.nombre_apellido" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- Link -->
+					<div class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									service.people.vinculo!='' && fServicePeopleDetails.servicePeopleLink.$valid,
+								 	'has-error':  
+									(service.people.vinculo=='' || service.people.vinculo==undefined) && fServicePeopleDetails.servicePeopleLink.$touched,
+								}">
+					  	<label style="padding-left: 15px;">Vinculo</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-user"></i></span>
+				    			<input name="servicePeopleLink" id="servicePeopleLink" type="text" class="form-control" ng-required="true" ng-model="service.people.vinculo" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- Secret word -->
+					<div ng-if="service.people.opt=='getnotice'" class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									service.people.palabra_clave!='' && fServicePeopleDetails.servicePeopleSecretWord.$valid,
+								 	'has-error':  
+									(service.people.palabra_clave=='' || service.people.palabra_clave==undefined) && fServicePeopleDetails.servicePeopleSecretWord.$touched,
+								}">  
+					  	<label style="padding-left: 15px;">Palabra Clave</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-key"></i></span>
+				    			<input name="servicePeopleSecretWord" type="text" ng-required="true" class="form-control" ng-model="service.people.palabra_clave" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- phone -->
+					<div class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									service.people.telefono!='' && fServicePeopleDetails.servicePeoplePhone.$valid,
+								 	'has-error':  
+									(service.people.telefono=='' || service.people.telefono==undefined) && fServicePeopleDetails.servicePeoplePhone.$touched,
+								}">
+					  	<label style="padding-left: 15px;">Telefono</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+				    			<input name="servicePeoplePhone" type="text" class="form-control input--phone" ng-keydown="fnLoadPhoneMask()" ng-required="true" ng-model="service.people.telefono" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- User Number -->
+					<div class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									service.people.numero_del_usuario!='' && service.people.numero_del_usuario!=undefined,
+								}">
+					  	<label style="padding-left: 15px;">Numero del usuario</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-user-tie"></i></span>
+				    			<input name="servicePeopleUserNumber" type="text" class="form-control" ng-keydown="fnLoadPhoneMask()" ng-model="service.people.numero_del_usuario" />
+				    		</div>
+				    	</div>
+					</div>
+				</form>
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button ng-if="service.people.action=='new'" type="submit" ng-click="addServicePeopleUserDetailsFn(service.people, service.people.opt)" ng-disabled="fServicePeopleDetails.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
+                        	<span>Asignar</span>
+                        </button>
+						<button ng-if="service.people.action=='update'" type="submit" ng-click="updateServicePeopleUserDetailsFn(service.people, service.people.opt)" ng-disabled="fServicePeopleDetails.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
+                        	<span>Actualizar</span>
+                        </button>                        
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- /PEOPLE DETAIL FORM -->

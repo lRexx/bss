@@ -1,0 +1,63 @@
+<!-- allowed User Info -->
+<div id="allowedUserInfo" class="modal fade modal-dialog-centered in" style="top: 130px; z-index: 10042;" role="dialog">
+    <div class="modal-dialog modal-md" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="fas fa-user-shield"></i> USUARIO AUTORIZADO</h3>
+          </div>
+        <div class="modal-body">
+	    	<form class="form-horizontal" name="frmAllowedUserInfo" novalidate>
+	      		<fieldset>        	
+		        	<!-- FORM CONTAINER-->
+					<div class="form-group col-md-6 col-xs-12">
+					  <label style="padding-left: 15px;">Perfil</label>  
+							  <div class="input-group col-md-12 col-xs-12">
+								  <input ng-disabled="true"  name="allowed_profile" placeholder="Perfil" class="form-control" ng-model="allowedUsers.nameProfile"type="text"/>
+							  </div>
+					</div>
+					<div class="form-group col-md-6 col-xs-12 n-padding-l n-padding-r well-checkbox" style="padding: 0px !important;">
+						<div class="form-group col-md-6 col-xs-6" style="top: 5px;">
+							<label>Estatus: </label> 
+							<div class="input-group" style="margin-bottom: 0px !important;">
+						  		<label ng-if="allowedUsers.idStatusKf==1" class="label label-success">{{allowedUsers.statusTenantName | uppercase}}</label>
+						  		<label ng-if="allowedUsers.idStatusKf!=1" class="label label-danger">{{allowedUsers.statusTenantName | uppercase}}</label> 
+						  	</div>
+						</div>
+						<div class="form-group col-md-6 col-xs-6" style="top: 5px;">
+							<label>Correo:  </label> 
+							<div class="input-group">
+						  		<label ng-if="allowedUsers.isConfirmatedMail==1" class="label label-success text-uppercase">Confirmado</label>
+						  		<label ng-if="allowedUsers.isConfirmatedMail!=1" class="label label-danger text-uppercase">No confirmado</label>
+						  	</div>
+						</div>
+					</div>											
+					<div class="form-group col-md-6 col-xs-12">
+					  <label style="padding-left: 15px;">Nombre</label>  
+							  <div class="input-group col-md-12 col-xs-12">
+								  <input ng-disabled="true"  name="allowed_names" placeholder="Nombre" class="form-control" ng-model="allowedUsers.fullNameUser"type="text"/>
+							  </div>
+					</div>	
+					<div class="form-group col-md-6 col-xs-12">
+					  <label style="padding-left: 15px;">Correo</label>  
+							  <div class="input-group col-md-12 col-xs-12">
+								  <input ng-disabled="true"  name="allowed_email" placeholder="Correo" class="form-control" ng-model="allowedUsers.emailUser"type="text"/>
+							  </div>
+					</div>
+				
+				</fieldset>
+			</form>
+        </div>
+      	<!-- Actions Button -->
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // allowed User Info -->

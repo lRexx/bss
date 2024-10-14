@@ -1,0 +1,133 @@
+<!-- LOAD MULTIPLES DEPARMENTS => CUSTOMER REGISTER FORM -->
+<div id="RegisterMultiDeptosModalCustomer" class="modal bd-example-modal-xl" style="top: 10px;" role="dialog">
+  	<div class="modal-dialog modal-xl" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title">Carga Masiva de Departamentos</h3>
+        	</div>
+    		<div class="modal-body">	
+				<div class="form-group form-inline col-md-12" ng-if="customer.new.idClientTypeFk==2">
+					<form name="fMultiDeptos" novalidate>
+						<label style="padding-left: 20px;"># Cocheras</label> 
+					    <label style="padding-left: 40px;"># Pisos</label> 
+					    <label style="padding-left: 28px;"># Dptos por piso</label>   
+					    <label style="padding-left: 40px;">Designacion de Unidades</label>
+					    <label style="padding-left: 95px;">Correlaci&#243n</label>
+				     	<!--<label style="padding-left: 120px;">Tipo de Unidad</label>-->      
+					    <div class="col-md-12 input-group">
+					    	<!-- Cocheras -->
+					    	<input style="width: 10%" id="garage_number" autofocus="true" class="form-control input--number deptos-inputs" ng-keydown="fnLoadPhoneMask()" ng-model="list_department_multi.garage" type="text" ng-required="true" autofocus/>					    	
+					    	<!-- Pisos -->
+					    	<input style="width: 8%" id="depto_floor" autofocus="true" class="form-control input--number deptos-inputs" ng-keydown="fnLoadPhoneMask()" ng-model="list_department_multi.floor" type="text" ng-required="true" autofocus/>
+					    	<!-- Dptos por piso -->
+					    	<input style="width: 12%" id="depto_number" autofocus="true" class="form-control input--number deptos-inputs" ng-keydown="fnLoadPhoneMask()" ng-model="list_department_multi.departament" type="text" ng-required="true" autofocus/>  
+					    	<!-- Designacion de Unidades -->
+							<select style="width: 20%" id="depto_unidad" class="form-control deptos-inputs" ng-change="list_department_multi.correlacion=undefined"  ng-options="item.idUnidad as item.unidad for item in deptoUnidades" ng-model="list_department_multi.unidad"  autofocus >
+							    	<option value="">Selecciona</option>
+						    </select>
+						    <!-- Correlacion -->
+							<select style="width: 22%" id="depto_correlacion" class="form-control deptos-inputs"  ng-options="item.id as item.nombre for item in deptoCorrelacion | filter:{idUnidadKf:list_department_multi.unidad}" ng-model="list_department_multi.correlacion" ng-disabled="list_department_multi.unidad==undefined" ng-required="list_department_multi.unidad!=undefined" autofocus >
+							    	<option value="">Selecciona</option>
+						    </select>
+						    <!-- Tipo de Unidad 
+							<select style="width: 15%" id="depto_type" class="form-control deptos-inputs"  ng-options="item.idCategoryDepartament as item.categoryDepartament for item in rsCategoryDeptoData" ng-model="list_department_multi.idCategoryDepartamentFk" autofocus >
+							    	<option value="">Selecciona</option>
+						    </select>-->
+						    <button style="margin-left: 40px;" ng-click="addDeptoMultiFn(list_department_multi, 'new')" ng-disabled="list_department_multi.unidad!=undefined && list_department_multi.correlacion==undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i>&nbsp;Generar</button>
+					  	</div>
+						<div ng-if="list_depto_floors.length>0">
+					      <table class="table table-striped table-bordered table-list table-responsive table-hover table-list-deptos">
+					        <thead class="fixed-head">
+					          <th class="th-head cpiso" ng-class="{'cpiso-1': list_depto_floors.length==1 && floor.deptos.length==1, 'cpiso-2': list_depto_floors.length==2 && floor.deptos.length>=2, 'cpiso-3': list_depto_floors.length==3 && list_depto_floors.length>=3}">Piso</th>
+					          <th class="th-head" colspan="{{list_depto_floors[4].deptos.length}}">Departamentos</th>
+					        </thead>
+					        <tbody class="fixed-body">					        	
+						        <tr id="floor-{{floor.nameFloor}}" ng-repeat="floor in list_depto_floors">	
+						        <!-- CELL CONTROL -->			                    	
+						          	<td class="td-controls" ng-class="{'td-controls-0': list_depto_floors.length==0 && floor.deptos.length==0,'td-controls-1': list_depto_floors.length>=1 && floor.deptos.length==1, 'td-controls-2': list_depto_floors.length>=1 && floor.deptos.length==2, 'td-controls-3': list_depto_floors.length>=1 && floor.deptos.length==3, 'td-controls-4': list_depto_floors.length>=1 && floor.deptos.length==4, 'td-controls-5': list_depto_floors.length>=1 && floor.deptos.length==5, 'td-controls-6': list_depto_floors.length>=1 && floor.deptos.length==6, 'td-controls-7': list_depto_floors.length>=1 && floor.deptos.length==7, 'td-controls-8': list_depto_floors.length>=1 && floor.deptos.length==8, 'td-controls-9': list_depto_floors.length>=1 && floor.deptos.length==9, 'td-controls-10': list_depto_floors.length>=1 && floor.deptos.length>=10}">
+						          		<span class="text-muted text-box">
+						          			<label style="font-size: 100%" data-toggle="tooltip" data-placement="left" title="N° de Piso" class="label label-default" ng-class="{'label-co-pb': floor.nameFloor=='co' || floor.nameFloor=='pb' || floor.nameFloor>=10}">{{floor.nameFloor | uppercase}}</label>
+						          		</span>
+						          		<div data-toggle="tooltip" data-placement="left" title="N° de Deptos" class="col-xs-4" style="padding-top: 5px;" ng-class="{'label-dpto-length-xs': floor.deptos.length<=9, 'label-dpto-length-xl': floor.deptos.length>=10}">
+						          			<label style="font-size: 100%" class="label label-info" >{{floor.deptos.length}}</label>
+						          		</div>
+						          		<div class="col-xs-4" style="padding-top: 5px;margin-left: -0.7em;">
+						          				<button ng-if="floor.nameFloor=='co'" ng-click="addOneDeptoMultiFn(floor, '2');" data-toggle="tooltip" data-placement="right" title="Agregar" type="button" class="btn btn-success btn-xs"><i class="fas fa-plus"></i></button>
+						          				<button ng-if="floor.nameFloor!='co'" ng-click="addOneDeptoMultiFn(floor, '1');" data-toggle="tooltip" data-placement="right" title="Agregar" type="button" class="btn btn-success btn-xs"><i class="fas fa-plus"></i></button>
+						          				<button ng-click="deleteLastDeptoMultiFn(floor, '1');" data-toggle="tooltip" data-placement="right" title="Eliminar ultimo" type="button" class="btn btn-danger btn-xs" ng-disabled="(floor.nameFloor=='co' && list_depto_floors[0].deptos.length==0) || (floor.nameFloor=='pb' && list_depto_floors[1].deptos.length==0) || (floor.nameFloor!='co' && floor.nameFloor!='pb' && list_depto_floors[floor.nameFloor+1].deptos.length==0)"><i class="far fa-trash-alt"></i></button>
+										</div>						          				
+						          	</td> 
+						        <!-- CELL CONTROL -->
+				          			<td colspan="{{list_depto_floors[0].deptos.length}}" ng-if="floor.nameFloor=='co'" ng-class="{'li-cochera-fw': floor.deptos.length==2}">
+				          				<div ng-if="floor.nameFloor=='co'" class="li-cochera-scroll">
+				          					<ul ng-if="floor.nameFloor=='co'" class="list-group-depto  list-group-horizontal" style="padding-bottom: 10px;">
+						          				<li class="li-cochera" ng-if="depto.floor=='co'" id="depto-{{depto.idDepto}}" ng-repeat="depto in floor.deptos" 
+						          					ng-class="{'li-cochera-1': floor.deptos.length==1, 'li-cochera-2': floor.deptos.length==2, 'li-cochera-3': floor.deptos.length==3,
+						          			   				   'li-cochera-4': floor.deptos.length==4, 'li-cochera-5': floor.deptos.length==5, 'li-cochera-6': floor.deptos.length==6,
+						          			   				   'li-cochera-7': floor.deptos.length==7, 'li-cochera-8': floor.deptos.length==8, 'li-cochera-9': floor.deptos.length==9,
+						          			   				   'li-cochera-10': floor.deptos.length==10, 'li-cochera-xx': floor.deptos.length>=11}">
+										          	<div ng-if="depto.floor=='co'" class="form-inline col-xs-12 nopadding-containter">
+								          				<input name="input-depto" name="depto_number" ng-value="depto.floor" autofocus="true" class="form-control text-uppercase" ng-model="depto.departament" type="text" ng-required="list_depto_floors.length==0" ng-disabled="!depto.enabled" autofocus/>
+											    	</div>
+											    	<div ng-if="depto.floor=='co'"class="form-inline col-xs-12 nopadding-containter">
+											    		<select  name="idCategoryDepartamentFk" class="form-control"  ng-options="item.idCategoryDepartament as '['+item.categoryDepartament.substr(0,1)+']'+item.categoryDepartament.substr(1) for item in depto.categoryDepartament" ng-model="depto.idCategoryDepartamentFk" ng-disabled="!depto.enabled" autofocus >
+										    					<option value="">Categoria</option>
+										    			</select>							    		
+										    		</div>
+										    		<div ng-if="depto.floor=='co'"class="form-inline col-xs-12 nopadding-containter">
+								    					<button style="margin-top: -1px;" ng-click="depto.enabled=true" data-toggle="tooltip" data-placement="right" title="Editar cochera: {{depto.departament}}" type="button" class="btn btn-warning btn-xs"><i class="far fa-edit"></i></button>
+								    					<button style="margin-top: -1px;" ng-click="deleteSelectedDeptoMultiFn(depto)" data-toggle="tooltip" data-placement="right" title="Eliminar cochera: {{depto.departament}}" type="button" class="btn btn-danger btn-xs"><i class="far fa-trash-alt"></i></button>								    						
+													</div>							    			
+						          				</li>
+						          			</ul>
+					          			</div> 
+				          			</td>	
+						          	<td ng-if="floor.nameFloor!='co'" id="depto-{{depto.idDepto}}" ng-repeat="depto in floor.deptos" 
+						          		ng-class="{'td-depto-1': floor.deptos.length==1, 'td-depto-2': floor.deptos.length==2, 'td-depto-3': floor.deptos.length==3,
+						          			   'td-depto-4': floor.deptos.length==4, 'td-depto-5': floor.deptos.length==5, 'td-depto-6': floor.deptos.length==6,
+						          			   'td-depto-7': floor.deptos.length==7, 'td-depto-8': floor.deptos.length==8, 'td-depto-9': floor.deptos.length==9,
+						          			   'td-depto-10': floor.deptos.length>=10}" class="td-depto">   
+								          	<div class="form-inline col-xs-12 nopadding-containter">
+						          				<input name="input-depto" name="depto_number" ng-value="depto.floor" autofocus="true" class="form-control text-uppercase" ng-model="depto.departament" type="text" ng-required="list_depto_floors.length==0" ng-disabled="!depto.enabled" autofocus/>
+									    		<!--<div id="radio-depto" class="btn-group btn-group-toggle" data-toggle="buttons">
+								        			<label class="btn btn-xs btn-primary" ng-repeat="type in depto.categoryDepartament track by $index">
+									            		<input id="f{{floor.nameFloor}}-d{{depto.idDepto}}-op{{$index+1}}" name="radioBoxCategory" type="radio" ng-value="type.idCategoryDepartament" ng-model="$parent.depto.idCategoryDepartamentFk">
+										  				<i ng-if="type.idCategoryDepartament==1" class="fas fa-home"></i>
+								  						<i ng-if="type.idCategoryDepartament==2" class="fas fa-warehouse"></i>
+								  						<i ng-if="type.idCategoryDepartament==3" class="fas fa-store-alt"></i>
+									        		</label>
+									    			</div>-->
+									    	</div>
+									    	<div class="form-inline col-xs-12 nopadding-containter">
+									    		<select  name="idCategoryDepartamentFk" class="form-control"  ng-options="item.idCategoryDepartament as '['+item.categoryDepartament.substr(0,1)+']'+item.categoryDepartament.substr(1) for item in depto.categoryDepartament" ng-model="depto.idCategoryDepartamentFk" ng-disabled="!depto.enabled" autofocus >
+								    					<option value="">Categoria</option>
+								    			</select>							    		
+								    		</div>
+								    		<div class="form-inline col-xs-12 nopadding-containter">
+						    					<button style="margin-top: -1px;" ng-click="depto.enabled=true" data-toggle="tooltip" data-placement="right" title="Editar Unidad: {{depto.departament}}" type="button" class="btn btn-warning btn-xs"><i class="far fa-edit"></i></button>
+						    					<button style="margin-top: -1px;" ng-click="deleteSelectedDeptoMultiFn(depto)" data-toggle="tooltip" data-placement="right" title="Eliminar Unidad: {{depto.departament}}" type="button" class="btn btn-danger btn-xs" ng-disabled="(floor.nameFloor=='co' && list_depto_floors[0].deptos.length==1) || (floor.nameFloor=='pb' && list_depto_floors[1].deptos.length==1) || (floor.nameFloor!='co' && floor.nameFloor!='pb' && list_depto_floors[floor.nameFloor+1].deptos.length==1)"><i class="far fa-trash-alt"></i></button>	
+											</div>							    			
+								          	<!--<button ng-click="selectProductDataFn(item);" data-toggle="tooltip" data-placement="right" title="Agregar departamento" ng-disabled="item.idStatus==-1" type="button" class="btn btn-info btn-xs"><i class="far fa-edit"></i></button>-->
+						          	</td>                        	
+						        </tr>
+							</tbody>					        
+					      </table>
+					    </div>
+					</form>					    				    				                
+				</div>
+			<div class="clearfix"> </div> 
+			</div>
+			<!-- Actions Button --> <!--ng-click="sysCustomerFn('register', 'customer')" ng-disabled="fNewCustomer.$invalid"-->
+	        <div class="modal-footer">
+	            <div class="row">
+	                <div class="col-xs-6 col-sm-6 col-md-6 pull-right">
+	                    <button type="submit" ng-disabled="list_depto_floors.length<=0" data-dismiss="modal" aria-hidden="true" ng-click="selectDeptoDataFn();" class="btn btn-labeled btn-success">
+	                        Enviar<span class="btn-label-right"><i class="glyphicon glyphicon-send"></i> </span></button>   
+	                </div>
+	            </div>
+	        </div>
+		</div>
+	</div>
+</div>
+<!-- LOAD MULTIPLES DEPARMENTS => CUSTOMER REGISTER FORM -->

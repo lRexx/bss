@@ -1,0 +1,114 @@
+<!-- KE LIST-->
+<div id="deliveryModalDetails" class="modal fade bd-example-modal-lg" style="top: 150px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="fas fa-truck"></i> DETALLES DE ENVÍO</h3>
+          </div>
+        <div class="modal-body">
+            <div  class="col-md-12 well-checkbox n-margin-l customer-frame">
+                <!-- LEFT COLUMN -->
+                <div class="col-md-6 n-padding-l n-padding-r">
+                  <div class="col-md-12 col-xs-12">
+                    <span> Tipo de Envío: </span>
+                    <span ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined">{{tkupdate.typeDeliver.typeDelivery}}</span>
+                    <span style="font-size: 75%;" ng-if="tkupdate.idTypeDeliveryKf==null" class="label label-warning text-uppercase">Proceso Interno</span>
+                  </div>
+                    <div class="col-md-12">
+                        <span ng-if="tkupdate.idTypeDeliveryKf=='1'">Retira: </span>
+                        <span ng-if="tkupdate.idTypeDeliveryKf=='2'">Recibe: </span>
+                        <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && (tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')">{{tkupdate.userDelivery.fullNameUser}}</span>
+                        <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3'">{{tkupdate.thirdPersonDelivery.fullName}}</span>
+                        <span style="font-size: 85%;" ng-if="(tkupdate.idTypeRequestFor=='1' && (((tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')) || ((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3')))" class="badge badge-warning">{{tkupdate.whoPickUp.nameWhoPickUp}}</span>
+                        <span style="font-size: 85%;" ng-if="(tkupdate.idTypeRequestFor!='1' && (((tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')) || ((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3')))" class="badge badge-warning">{{tkupdate.userDelivery.nameProfile}}</span>
+                    </div>
+                    <div class="col-md-12">
+                        <span ng-if="tkupdate.idTypeDeliveryKf!='0'">DNI: </span>
+                        <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && (tkupdate.whoPickUp.idWhoPickUp=='1' || tkupdate.whoPickUp.idWhoPickUp=='2')">{{tkupdate.userDelivery.dni}}</span>
+                        <span ng-if="(tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3'">{{tkupdate.thirdPersonDelivery.dni}}</span>
+                    </div>
+                    <div class="col-md-12">
+                        <span>
+                            <span ng-if="tkupdate.idTypeDeliveryKf=='1'">Retirar en: </span>
+                            <span ng-if="tkupdate.idTypeDeliveryKf=='2'">Entrega en: </span>
+                            <span ng-if="tkupdate.idTypeDeliveryKf=='1'" class="badge badge-warning">Oficina Tass</span>
+                            <span ng-if="tkupdate.idTypeDeliveryKf=='2' && ((tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='2') || tkupdate.deliveryTo.id=='1')" class="badge badge-warning">Domicilio asociado</span>
+                            <span ng-if="(tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo.id=='2') || (tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='3')" class="badge badge-warning">Otro domicilio</span>
+                        </span>
+                    </div>
+                    <div class="col-md-12 col-xs-12">
+                        <span> Dirección: </span>
+                        <span ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo.id=='1'">{{tkupdate.deliveryAddress.address}}</span>
+                        <!-- OTHER DELIVERY ADDRESS -->
+                        <span ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo.id=='2'">{{tkupdate.otherDeliveryAddress.address}} {{tkupdate.otherDeliveryAddress.number}}</span>
+                        <!-- THIRD PERSON DELIVERY ADDRESS -->
+                        <span ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='3'">{{tkupdate.thirdPersonDelivery.address | uppercase}} {{tkupdate.thirdPersonDelivery.number}}</span>
+                        <span ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='1'">{{tkupdate.deliveryAddress.address}}</span>
+                        <span ng-if="tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='2'">{{tkupdate.building.address}}</span>
+                        <span style="font-size: 75%;" ng-if="tkupdate.idTypeDeliveryKf==null" class="label label-default text-uppercase">n/a</span>
+                    </div>
+                </div>
+                <!-- RIGHT COLUMN -->
+                <div class="col-md-6 n-padding-l n-padding-r">
+                    <div class="col-md-12"><span> Provincia: </span>
+                        <span ng-if="tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo.id=='2'">{{tkupdate.otherDeliveryAddress.province}}</span>
+                        <span ng-if="tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='3'">{{tkupdate.thirdPersonDelivery.province}}</span>
+                        <span ng-if="((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && (tkupdate.deliveryTo==null || tkupdate.deliveryTo.id=='1'))">{{tkupdate.deliveryAddress.province}}</span>
+                        <span ng-if="tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='2'">{{tkupdate.building.province}}</span>
+                        <span style="font-size: 75%;" ng-if="tkupdate.idTypeDeliveryKf==null" class="label label-default text-uppercase">n/a</span>
+                    </div>
+                    <div class="col-md-12"><span> Localidad: </span>
+                        <span ng-if="tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo.id=='2'">{{tkupdate.otherDeliveryAddress.location}}</span>
+                        <span ng-if="tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='3'">{{tkupdate.thirdPersonDelivery.location}}</span>
+                        <span ng-if="((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && (tkupdate.deliveryTo==null || tkupdate.deliveryTo.id=='1'))">{{tkupdate.deliveryAddress.location}}</span>
+                        <span ng-if="tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='2'">{{tkupdate.building.location}}</span>
+                        <span style="font-size: 75%;"ng-if="tkupdate.idTypeDeliveryKf==null" class="label label-default text-uppercase">n/a</span>
+                    </div>
+                    <div ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='2' && (tkupdate.deliveryTo.id==null || tkupdate.deliveryTo.id=='1' || tkupdate.deliveryTo.id=='2')" class="col-md-12">
+                        <span> Departamento:</span>
+                        <span ng-if="(tkupdate.deliveryTo.id=='1') || (tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='2')" class="label label-default text-uppercase">{{tkupdate.department.floor}}-{{tkupdate.department.departament}}</span>
+                        <span ng-if="tkupdate.deliveryTo.id=='2' && tkupdate.otherDeliveryAddress.floor!=undefined" class="label label-default text-uppercase">{{tkupdate.otherDeliveryAddress.floor}}</span>
+                        <span ng-if="tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='3' && tkupdate.thirdPersonDelivery.floor!=undefined" class="label label-default text-uppercase">{{tkupdate.thirdPersonDelivery.floor}}</span>
+                        <span style="font-size: 75%;"ng-if="(tkupdate.deliveryTo.id=='2' && (tkupdate.otherDeliveryAddress.floor==undefined || tkupdate.otherDeliveryAddress.floor==null))||(tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='3' && (tkupdate.thirdPersonDelivery.floor==undefined || tkupdate.thirdPersonDelivery.floor==null))" class="label label-warning text-uppercase">No especificado</span>
+                    </div>
+                    <div ng-if="((tkupdate.idTypeDeliveryKf=='1' || tkupdate.idTypeDeliveryKf=='2') && tkupdate.whoPickUp.idWhoPickUp=='3')" class="col-md-12">
+                        <span> Telefono:</span>
+                        <span ng-if="tkupdate.thirdPersonDelivery.movilPhone!=null || tkupdate.thirdPersonDelivery.movilPhone!=undefined">{{tkupdate.thirdPersonDelivery.movilPhone}}</span>
+                        <span style="font-size: 75%;" ng-if="tkupdate.thirdPersonDelivery.movilPhone==null || tkupdate.thirdPersonDelivery.movilPhone==undefined" class="label label-warning text-uppercase">No especificado</span>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="tkupdate.idStatusTicketKf=='5' && (tkupdate.delivery_schedule_at!=undefined || tkupdate.delivery_schedule_at!=null)" class="col-md-12 well-checkbox n-margin-l customer-frame">
+                <legend style="text-align: left;">Detalles de la entrega</legend>
+                <div ng-if="tkupdate.typePaymentKf!=null && tkupdate.typePaymentKf!=undefined && tkupdate.idTypePaymentKf=='2'" class="col-md-6 n-padding-l n-padding-r">
+                    <div class="col-md-12 col-xs-12">
+                        <span> Entrega relizada por: </span>
+                        <!-- <span>{{tkupdate.typePaymentKf.descripcion}}</span>-->
+                        <span class="label label-default">{{tkupdate.deliveryCompanyDetails.deliveryCompanyName}}</span>
+                    </div>
+                </div>
+                <!-- RIGHT COLUMN -->
+                <div ng-if="tkupdate.typePaymentKf!=null && tkupdate.typePaymentKf!=undefined && tkupdate.idTypePaymentKf=='2'" class="col-md-6 n-padding-l n-padding-r">
+                    <div class="col-md-12 col-xs-12">
+                        <span>Fecha estimada de entrega: </span>
+                        <span class="label label-default">{{tkupdate.delivery_schedule_at | toDate | date:'dd-MM-yyyy' }}</span>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="tkupdate.idTypeDeliveryKf!=null && tkupdate.idTypeDeliveryKf!=undefined && tkupdate.idTypeDeliveryKf=='1'" class="map">
+                <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.232853486263!2d-58.416303984395746!3d-34.62355548045449!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccafee49fa1b5%3A0x808f35e44a65bc21!2sCarlos+Calvo+3430%2C+C1230ABH+CABA!5e0!3m2!1ses-419!2sar!4v1500993405506" width="1280" height="600" allowfullscreen=""></iframe>	
+            </div>
+            <div class="clearfix"> </div> 
+        </div>   
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>           
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

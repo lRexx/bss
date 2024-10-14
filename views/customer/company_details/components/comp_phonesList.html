@@ -1,0 +1,54 @@
+<!-- PHONE CUSTOMERS -->
+<div id="companyDetails_phonesDetails" style="top: 130px;" class="modal fade modal-dialog-centered" style="top: 130px;" role="dialog">
+    <div class="modal-dialog modal-md" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title"><i class="fas fa-calendar-alt"></i> TELEFONOS DE CONTACTO</h4>
+          </div>
+        <div class="modal-body">
+          <div class="clearfix"> </div> 
+            <!-- Phones -->
+            <div class=" col-md-12">
+	            <div  class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+	                <table style="margin-top: 2%; margin-bottom: 2%;">
+	                  <tr ng-if="companyDetails_list_phones.length>0" ng-repeat="phone in companyDetails_list_phones" style="font-size: 16px;">
+	                      <td style="width: 55%; padding-left: 1.8em; padding-bottom: 0.5em;">
+	                        <span class="text-muted text-box">
+	                          <label ng-if="phone.phoneTag=='fijo comercial'" style="font-size: 100%" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+	                          <label ng-if="phone.phoneTag=='fijo guardia'" style="font-size: 100%" class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+	                          <label ng-if="phone.phoneTag=='movil comercial'" style="font-size: 100%" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+	                          <label ng-if="phone.phoneTag=='movil guardia'" style="font-size: 100%" class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+	                          <label ng-if="phone.phoneTag=='comercial'" style="font-size: 100%" class="label label-default">{{phone.phoneTag | uppercase}}</label>
+	                          <label ng-if="phone.phoneTag=='guardia'" style="font-size: 100%" class="label label-warning">{{phone.phoneTag | uppercase}}</label>
+	                          <label ng-if="phone.phoneTag=='urgente'" style="font-size: 100%" class="label label-danger">{{phone.phoneTag | uppercase}}</label>
+	                          <label ng-if="customer.info.idClientTypeFk=='5'" style="font-size: 100%; cursor: pointer;" class="label text-uppercase label-default">{{phone.phoneTag | uppercase}}</label>
+	                        </span>
+	                      </td>                               
+	                      <td style="width: 40%; padding-bottom: 0.5em;"><span class="text-muted text-box"><label style="font-size: 100%" class="label label-info">{{phone.phoneContact}}</label></span></td>
+	                      <td style="padding-bottom: 5px;">
+	                      <button data-toggle="tooltip" data-placement="right" title="Copiar" ngclipboard data-clipboard-text="{{phone.phoneContact}}" class="btn btn-sm btn-success" style="cursor: pointer;"><i style="font-size: 14px;" class="fas fa-copy"></i></button>
+	                      </td> 
+	                  </tr>
+	                  <tr ng-if="companyDetails_list_phones.length==0" >
+	                    <td colspan="5"><div class="col-md-12 col-md-offset-4"><span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">Tel&#233;fonos No Registrados</span></div>
+	                    </td>
+	                  </tr>                            
+	                </table>
+	            </div>
+            </div>
+          <div class="clearfix"> </div> 
+        </div>
+        <!-- Actions Button ng-click="newSysProfileFn()"-->
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // PHONE CUSTOMERS -->

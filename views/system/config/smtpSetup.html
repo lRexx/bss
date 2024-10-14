@@ -1,0 +1,73 @@
+<!-- SETUP EMAIL -->
+<div id="ModalSMTPEmail" class="modal fade bd-example-modal-lg" style="top: 120px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+            	<h3 class="modal-title">CONFIGURACION DE CORREO SMTP<a data-dismiss="modal" class="close"><i title="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></a></h3>
+        	</div>
+			<div class="modal-body" style="overflow-y: scroll;">
+				<div class="container-fluid">
+					<form class="form-horizontal" name="frmsmtpMail" ng-submit="sysConfig('smtp', 'save')">
+						<fieldset>
+							<div class="form-group">
+							  <label class="col-md-4 control-label">Correo SMTP</label>  
+							    <div class="col-md-4">
+								    <div class="input-group">
+								        <span ng-if="changeSmtp" class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+								  		<input ng-if="changeSmtp" id="smtpMail" placeholder="Correo principal" class="form-control" ng-model="smtp.mail" type="mail" required autofocus />
+								    </div>
+								    <div ng-show="smtpMail" class="alert alert-info" role="alert">
+										<strong>Mail Actual: </strong>{{smtpMail}}
+									</div>
+									<div ng-show="!smtpMail" class="alert alert-warning" role="alert">
+										<strong>Mail Actual: </strong>Sin Asignar.
+									</div>
+								</div>
+							</div>
+							<!-- Password-->
+							<div class="form-group">
+							  <label class="col-md-4 control-label">Contrase&#241a</label>  
+							    <div class="col-md-4">
+								    <div class="input-group">
+								        <span ng-show="changeSmtp==true" class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+								  		<input ng-show="changeSmtp==true" id="passwordSmtp" placeholder="Contrase&#241a" class="form-control" ng-model="smtp.password" minlength="8" type="password" required autofocus />
+								    </div>
+								    <div ng-show="smtpPwd" class="alert alert-info" role="alert">
+										<strong>Clave Actual: </strong>Asignada
+									</div>
+									<div ng-show="!smtpPwd" class="alert alert-warning" role="alert">
+										<strong>Clave Actual: </strong>Sin Asignar.
+									</div>
+								</div>
+							</div>
+							<!-- Actions Button -->
+							<!--<div class="form-group">
+							  <label class="col-md-4 control-label"></label>
+							  <div class="col-md-4">
+							  	<input type="button" ng-if="!changeSmtp" ng-click="changeVar(1)" class="btn btn-primary" value="Cambiar" />
+							    <button ng-show="changeSmtp" type="submit" class="btn btn-success" ><i class="glyphicon glyphicon-save"> </i> Guardar</button>
+
+							  </div>
+							</div>-->
+						</fieldset>
+					</form>
+					<div class="clearfix"> </div> 
+				</div>
+			</div>
+            <div class="modal-footer">
+                <div class="row">
+                   <div class="col-xs-12 col-sm-12 col-md-2 pull-left">
+                        <button type="button" ng-if="!changeSmtp" ng-click="changeVar(1)" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="fas fa-pen-square"></i> </span>Cambiar</button>
+                    </div>                	
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button ng-show="changeSmtp" type="submit" ng-disabled="frmsmtpMail.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Guardar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>			
+		</div>
+	</div>
+</div>

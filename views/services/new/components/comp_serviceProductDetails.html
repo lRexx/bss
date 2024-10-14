@@ -1,0 +1,148 @@
+<!-- CUSTOMER CONTRACT FORM -->
+<div id="serviceProductDetails" class="modal fade bd-example-modal-md" role="dialog">
+  	<div class="modal-dialog modal-md" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button ng-if="productDetailsAssigned" type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-wrench"></i> {{productSelected.classification}}</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+    			<form class="form-horizontal" name="fServiceProductDetails">    				
+					<!-- Product Selected -->						  
+					<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r">
+						<div class="col-md-12">
+						  	<label style="padding-left: 15px;">Producto: </label>
+						  	<span class="label label-default">{{productSelected.descriptionProduct}}</span>
+						</div>
+						<div class="col-md-12">
+						  	<label style="padding-left: 15px;">Modelo&nbsp;&nbsp;&nbsp;: </label>
+						  	<span class="label label-default">{{productSelected.model}}</span>
+						  	<label style="padding-left: 15px;">Marca: </label>
+						  	<span class="label label-default">{{productSelected.brand}}</span>
+						</div>
+					</div>
+					<!-- Numero de puerto de camara -->						  
+					<div ng-if="((service.new.idTipeServiceFk=='4' || service.new.idTipeServiceFk=='3') || (service.update.idTipeServiceFk=='4' || service.update.idTipeServiceFk=='3')) && productSelected.idProductClassification=='11'" class="form-group col-md-6" >
+					  	<label style="padding-left: 15px;">N° de puerto de camara:</label>
+					</div>
+					<div ng-if="((service.new.idTipeServiceFk=='4' || service.new.idTipeServiceFk=='3') || (service.update.idTipeServiceFk=='4' || service.update.idTipeServiceFk=='3')) && productSelected.idProductClassification=='11'" class="form-group col-md-6 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.adicional.portCamera!='' && fServiceProductDetails.serviceCameraPort.$valid,
+								 	'has-error':  
+									(service.adicional.portCamera=='' || service.adicional.portCamera==undefined) && fServiceProductDetails.serviceCameraPort.$touched,
+								}">
+						<div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+								<select name="serviceCameraPort" id="serviceCameraPort" ng-disabled="productDetailsAssigned" ng-options="item.port as item.port for item in list_cameras_ports" ng-required="((service.new.idTipeServiceFk=='4' || service.new.idTipeServiceFk=='3') || (service.update.idTipeServiceFk=='4' || service.update.idTipeServiceFk=='3')) && productSelected.idProductClassification=='11'" class="form-control" ng-model="service.adicional.portCamera" autofocus >
+								    <option value="">Selecciona una opci&#243;n</option>
+							    </select>				    			
+				    		</div>
+				    	</div>						
+					</div>
+					<!-- Observaciones Generales -->
+					<div class="form-group col-md-12" ng-if="((service.new.idTipeServiceFk=='4' || service.new.idTipeServiceFk=='3') || (service.update.idTipeServiceFk=='4' || service.update.idTipeServiceFk=='3')) && productSelected.idProductClassification=='11'" ng-class="
+								{	'has-success': 
+									service.adicional.coveredArea!='' && fServiceProductDetails.serviceLocationAreaCovered.$valid,
+								 	'has-error':  
+									(service.adicional.coveredArea=='' || service.adicional.coveredArea==undefined) && fServiceProductDetails.serviceLocationAreaCovered.$touched,
+								}">
+					  <label style="padding-left: 15px;">Area Cubierta</label>
+					  	<div class="col-xs-12">
+							<textarea style="resize: none;" name="serviceLocationAreaCovered" rows="3" placeholder="indique las Observaciones." ng-disabled="productDetailsAssigned" class="form-control" ng-required="(service.new.idTipeServiceFk=='4' || service.new.idTipeServiceFk=='3') && productSelected.idProductClassification=='11'" ng-model="service.adicional.coveredArea" ></textarea>
+						</div>	
+					</div>					
+					<!-- Location camera -->						  
+					<div class="form-group col-md-12" ng-if="((service.new.idTipeServiceFk=='4' || service.new.idTipeServiceFk=='3') || (service.update.idTipeServiceFk=='4' || service.update.idTipeServiceFk=='3')) && productSelected.idProductClassification=='11'" ng-class="
+								{	'has-success': 
+									service.adicional.locationCamera!='' && fServiceProductDetails.serviceLocationCamera.$valid,
+								 	'has-error':  
+									(service.adicional.locationCamera=='' || service.adicional.locationCamera==undefined) && fServiceProductDetails.serviceLocationCamera.$touched,
+								}">
+					  	<label style="padding-left: 15px;">Ubicaci&#243;n</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+				    			<input name="serviceLocationCamera" ng-disabled="productDetailsAssigned" type="text" class="form-control" ng-required="(service.new.idTipeServiceFk=='4' || service.new.idTipeServiceFk=='3') && productSelected.idProductClassification=='11'" ng-model="service.adicional.locationCamera" />
+				    		</div>
+				    	</div>
+					</div>										
+					<!-- Internal Serial number -->						  
+					<div class="form-group col-md-12" ng-if="productSelected.isNumberSerieInternal=='1'" ng-class="
+								{	'has-success': 
+									service.adicional.numberSerieInternal!='' && fServiceProductDetails.serviceProductInternalSerial.$valid,
+								 	'has-error':  
+									(service.adicional.numberSerieInternal=='' || service.adicional.numberSerieInternal==undefined) && fServiceProductDetails.serviceProductInternalSerial.$touched,
+								}">
+					  	<label style="padding-left: 15px;">N° de Serie Interno</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+				    			<input name="serviceProductInternalSerial" ng-disabled="productDetailsAssigned" id="serviceProductInternalSerial" type="text" class="form-control" ng-required="productSelected.isNumberSerieInternal=='1'" ng-model="service.adicional.numberSerieInternal" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- Fabric Serial number -->					  
+					<div class="form-group col-md-12" ng-if="productSelected.isNumberSerieFabric=='1'" ng-class="
+								{	'has-success': 
+									service.adicional.numberSerieFabric!='' && fServiceProductDetails.serviceProductFabricSerial.$valid,
+								 	'has-error':  
+									(service.adicional.numberSerieFabric=='' || service.adicional.numberSerieFabric==undefined) && fServiceProductDetails.serviceProductFabricSerial.$touched,
+								}">
+					  	<label style="padding-left: 15px;">N° de Serie de Fabricante</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+				    			<input name="serviceProductFabricSerial" ng-disabled="productDetailsAssigned" type="text" class="form-control" ng-required="productSelected.isNumberSerieFabric=='1'" ng-model="service.adicional.numberSerieFabric" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- Expiration date -->
+					<div class="form-group col-md-12" ng-if="productSelected.isDateExpiration=='1'" ng-class="
+								{	'has-success': 
+								service.adicional.dateExpiration!='' && fServiceProductDetails.serviceProductExpDate.$valid,
+								'has-error':  
+								(service.adicional.dateExpiration=='' || service.adicional.dateExpiration==undefined) && fServiceProductDetails.serviceProductExpDate.$touched,
+							}">
+						<label style="padding-left: 15px;">Fecha de Vencimiento</label>
+						<div class="col-xs-12">
+							<div class="input-group">
+								<span ng-click="open_serviceProductExpDate()" class="input-group-addon"><i ng-click="open_serviceProductExpDate()" class="far fa-calendar-alt"></i></span>
+								<input 
+									ng-click="open_serviceProductExpDate()" 
+									type="text" 
+									name="serviceProductExpDate"
+									class="form-control" 
+									uib-datepicker-popup="{{format}}" 
+									ng-model="service.adicional.dateExpiration" 
+									is-open="popup_serviceProductExpDate.opened"  
+									ng-required="true" 
+									close-text="Cerrar" 
+									clear-text="Borrar"
+									current-text="Hoy"
+									alt-input-formats="altInputFormats" />
+							</div>
+						</div>
+					</div>
+				</form>
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-if="!productDetailsAssigned && productSelected.idProductClassification!='5' && productSelected.idProductClassification!='10' && productSelected.idProductClassification!='11' && productSelected.idProductClassification!='19'" ng-click="addProductDetailsFn(service.adicional, service.adicional.optAux)" ng-disabled="fServiceProductDetails.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
+                        	<span ng-if="!productDetailsAssigned">Asignar</span>
+                        </button>
+                        <button type="submit" ng-if="(productSelected.idProductClassificationFk=='5' || productSelected.idProductClassificationFk=='10' || productSelected.idProductClassificationFk=='11' || productSelected.idProductClassificationFk=='19') && !productDetailsAssigned" ng-click="addSubItemDetailsFn(productSelected, service.adicional)" ng-disabled="fServiceProductDetails.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
+                        	<span ng-if="!productDetailsAssigned">Asignar</span>
+                        </button>
+                        <a ng-if="productDetailsAssigned || productDetailsAssigned" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>				

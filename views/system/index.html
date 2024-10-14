@@ -1,0 +1,463 @@
+
+<div class="col-md-12 n-padding-l n-padding-r padding-panel">
+	<!--SIDEBAR MENU -->
+	<div class="col-sm-3 col-md-2 n-padding-l n-padding-r">
+		<div class="nav-side-menu">
+			<i class="fa fa-bars fa-2x toggle-btn" data-toggle="collapse" data-target="#menu-content"></i>
+			<div class="menu-list">
+				<ul id="menu-content" class="menu-content collapse out">
+					<li ng-click="sysConfig('sys','dash','open')">
+						<a href="">
+						<i class="fas fa-sitemap fa-lg"></i> Dashboard
+						</a>
+					</li>
+
+					<!--<li  data-toggle="collapse" data-target="#accounts" >
+						<a href=""><i class="fa fa-users fa-lg"></i> Cuentas <span class="arrow"></span></a>
+					</li>
+					<ul class="sub-menu collapse" id="accounts">
+						<li ng-click="sysConfig('customers','user','dash')"><a href="">Usuarios</a></li>
+						<li ng-click="sysConfig('customers','att','dash')"><a href="">Encargados</a></li>
+						<li ng-click="sysConfig('customers','tenant','dash')"><a href="">Habitantes</a></li>
+					</ul>-->
+					<li data-toggle="collapse" data-target="#service" class="collapsed">
+						<a href=""><i class="fa fa-globe fa-lg"></i> Servicios <span class="arrow"></span></a>
+					</li>  
+					<ul class="sub-menu collapse" id="service">
+						<li ng-click="mainSwitchFn('customers','list', null)">Carga masiva</li>
+						<li ng-click="mainSwitchFn('techServicesCosts','list', null)">Gestios de Costos</li>
+						<li ng-click="mainSwitchFn('zones','list', null)">Gestion de Zonas</li>
+					</ul>
+					<li data-toggle="collapse" data-target="#config_sys" class="collapsed">
+						<a href=""><i class="fa fa-globe fa-lg"></i> Configuraciones<span class="arrow"></span></a>
+					</li>  
+					<ul class="sub-menu collapse" id="config_sys">
+						<li ng-click="sysConfig('sys','smtp', 'open')">SMTP Mail</li>
+						<li ng-click="sysConfig('sys','mails', 'open')">Correos alternos</li>
+					</ul>
+					<!--<li data-toggle="collapse" data-target="#sysusers" class="collapsed">
+						<a href=""><i class="fas fa-users-cog fas-lg"></i>Usuarios del Sistema <span class="arrow"></span></a>
+					</li>  
+					<ul class="sub-menu collapse" id="sysusers">
+						<li ng-click="sysConfig('sys','sysUsers', 'dash')">Usuarios del Sistema</li>
+						<li ng-click="sysConfig('sys','sysProfile', 'dash')">Perfiles</li>
+						<li ng-click="sysConfig('sys','sysProfile', 'newProfile')">Nuevo perfil</li>
+						<li ng-click="sysConfig('sys','sysProfile', 'updProfile2');">Cambiar perfil</li>
+					</ul>
+					<li data-toggle="collapse" data-target="#products" class="collapsed">
+						<a href=""><i class="fas fa-th"></i>Productos <span class="arrow"></span></a>
+					</li>  
+					<!--<ul class="sub-menu collapse" id="products">
+						<li ng-click="sysConfig('sys','products', 'listProducts')">Listado de Productos</li>
+						<li ng-click="sysConfig('sys','products', 'newProduct')">Nuevo Producto</li>
+					</ul>-->
+					<li data-toggle="collapse" data-target="#report" class="collapsed">
+						<a href=""><i class="fas fa-chart-pie"></i> Reportes <span class="arrow"></span></a>
+					</li>
+					<ul class="sub-menu collapse" id="new">
+						<li></li>
+						<li>New Report</li>
+					</ul>
+				</ul>
+			</div>
+		</div>
+	</div>
+	<!-- CONTENT -->
+	<div class="col-sm-9 col-md-10 n-padding-l n-padding-r">
+		<!--<div class="">
+			<h3 style="color: black;">&nbsp <span class="glyphicon icon-cogs icon-2x"></span> Administracion del Sistema &nbsp <span style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Volver al dashboard" ng-if="sysContent=='user' || sysContent=='tenant' || sysContent=='att' || sysContent=='company' || sysContent=='sysProfile' || sysContent=='products' || sysContent=='sysUsers'" ng-click="sysConfig('sys','dash','open')" ><i class="glyphicon glyphicon-share-alt"></i></span></h3> 
+		</div>-->
+		<div ng-if="sysContent=='user' || sysContent=='tenant' || sysContent=='att' || sysContent=='company' || sysContent=='sysProfile' || sysContent=='products' || sysContent=='sysUsers' || sysContent=='sysZones' || sysContent=='sysServiceCosts' || sysContent=='registeredCustomers'" class="pull-left col-md-12 n-padding-l n-padding-r">
+			<div  class="panel panel-default">
+				<div class="panel-heading">
+					<h3 ng-if="sysContent=='user'" class="panel-title">USUARIOS</h3>
+					<h3 ng-if="sysContent=='tenant'" class="panel-title">HABITANTES</h3>
+					<h3 ng-if="sysContent=='att'" class="panel-title">ENCARGADOS</h3>
+					<h3 ng-if="sysContent=='company'" class="panel-title">EMPRESAS</h3>
+					<h3 ng-if="sysContent=='sysProfile'" class="panel-title">PERFILES DEL SISTEMA</h3>
+					<h3 ng-if="sysContent=='sysUsers'" class="panel-title">USUARIOS DEL SISTEMA</h3>
+					<h3 ng-if="sysContent=='products'" class="panel-title">PRODUCTOS</h3>
+					<h3 ng-if="sysContent=='sysZones'" class="panel-title">GESTION DE ZONAS</h3>
+					<h3 ng-if="sysContent=='sysServiceCosts'" class="panel-title">GESTION DE COSTOS DE SERVICIOS TECNICOS</h3>
+					<h3 ng-if="sysContent=='registeredCustomers'" class="panel-title">CARGA MASIVA DE SERVICIOS</h3>
+				</div>
+					<div class="panel-body">
+						<!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
+						<div ng-if="sysContent!='sysServiceCosts' && sysContent!='registeredCustomers'" class="row">
+							<div class="form-group">
+								<!-- Filter Type of User For Admins -->
+								<div ng-if="sysContent=='user'" class="col-md-3">
+									<label ng-if="sysContent=='user'" style="padding-left: 15px;">Tipo de Usuarios</label>
+										<div class="input-group">
+											<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+											<select  name="filterUserProfile" ng-change="search(filterUserProfile.nameProfile, true)" ng-options="item.nameProfile for item in listProfile | filter:filterProfile" class="form-control" ng-model="$parent.filterUserProfile" >
+												<option value="" >Todos</option>
+											</select>
+										</div>
+								</div>
+								<!-- Filter Type of Tenant For Admins -->
+								<div ng-if="sysContent=='tenant'" class="col-md-3 col-sm-6">
+									<label style="padding-left: 15px;">Tipo de Habitante</label>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+										<select  name="filterTenantProfile" ng-change="search(filterTenantProfile.typeTenantName, true)" ng-options="item.typeTenantName for item in lisTypeTenant" class="form-control" ng-model="$parent.filterTenantProfile" >
+											<option value="" >Todos</option>
+										</select>
+									</div>
+								</div>
+								<!-- Company Name-->    
+								<div ng-if="sysContent=='att' || sysContent=='company'" class="col-md-3 col-sm-4">
+									<label ng-if="sysContent=='att'" style="padding-left: 15px;">Administracion</label>
+									<label ng-if="sysContent=='company'" style="padding-left: 15px;">Empresas</label>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="icon-suitcase"></i></span>
+										<ui-select class="dropdown-select" ng-model="$parent.filterCompanyKf.selected" ng-change="search(filterCompanyKf.selected.nameCompany, true); officeListByCompnayID(filterCompanyKf.selected.idCompany);" on-select="onSelectCallback()">
+											<ui-select-match allow-clear="true" placeholder="Todos" >{{$select.selected.nameCompany}}</ui-select-match>
+											<ui-select-choices repeat="item in listCompany | filter: $select.search">
+												<div ng-bind-html="item.nameCompany | highlight: $select.search"></div>
+												<small ng-bind-html="item.mail_admin | highlight: $select.search"></small>
+											</ui-select-choices>
+											<ui-select-no-choice>
+												No hay resultados, contacte area de soporte.
+											</ui-select-no-choice>
+										</ui-select>
+									</div>
+								</div>
+								<!-- Address for Admins Consorcios-->      
+								<div ng-if="sysContent=='att'" class="col-md-3 col-sm-4">
+									<label style="padding-left: 15px;">Consorcio</label>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+										<ui-select class="dropdown-select" name="filterAddressKf" ng-disabled="!companyFound" ng-change="search(filterAddressKf.selected.nameAdress, true)"  ng-model="$parent.filterAddressKf.selected" autofocus>
+											<ui-select-match allow-clear="true" placeholder="Todos">{{$select.selected.nameAdress}}</ui-select-match>
+											<ui-select-choices repeat="item in listOffice | filter: $select.search">
+												<div ng-bind-html="item.nameAdress | highlight: $select.search"></div>
+												<!--<small>Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+												<small>Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+											</ui-select-choices>
+											<ui-select-no-choice>
+												No hay resultados, contacte area de soporte.
+											</ui-select-no-choice>
+										</ui-select>
+									</div>
+								</div>
+								<!-- Filter Type of Attendants For Admins -->
+								<div ng-if="sysContent=='att'" class="col-md-3 col-sm-4">
+									<label style="padding-left: 15px;">Tipo de Encargados</label>
+									<div class="col-xs-12 selectContainer">
+									<div class="input-group">
+											<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+											<select name="filteroAttProfile" ng-change="search(filteroAttProfile.nameTypeAttendant, true)" ng-options="item.nameTypeAttendant for item in listTypeAttendant" class="form-control" ng-model="$parent.filteroAttProfile" >
+												<option value="" >Todos</option>
+											</select>
+									</div>
+									</div>
+								</div>
+								<!-- Filter Type of Status For Admins -->
+								<div ng-if="sysContent=='user' || sysContent=='tenant' || sysContent=='att'" class="col-md-3 col-sm-6">
+									<label style="padding-left: 15px;">Estatus</label>
+										<div class="input-group">
+											<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+											<select name="filterUserStatus" ng-change="search(filterUserStatus.statusTenantName, true)" ng-options="item.statusTenantName for item in listStatus"  class="form-control" ng-model="$parent.filterUserStatus" >
+												<option value="" >Todos</option>
+											</select>
+										</div>
+								</div>
+								<!-- Filter Type of brand of Products-->
+								<div ng-if="sysContent=='products'" class="col-md-3 col-sm-4">
+									<label style="padding-left: 15px;">Marca</label>
+									<div class="col-xs-12 selectContainer">
+									<div class="input-group">
+											<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+											<select name="filterBrandProduct" ng-change="search(filterBrandProduct.brand, true); $parent.filterModelProduct=null" ng-options="item.brand for item in rsProductsData | unique:'brand'" class="form-control" ng-model="$parent.filterBrandProduct" >
+												<option value="" >Todos</option>
+											</select>
+									</div>
+									</div>
+								</div>
+								<!-- Filter Type of model of Products-->
+								<div ng-if="sysContent=='products'" class="col-md-3 col-sm-4">
+									<label style="padding-left: 15px;">Modelo</label>
+									<div class="col-xs-12 selectContainer">
+									<div class="input-group">
+											<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+											<select name="filterModelProduct" ng-change="search(filterModelProduct.model, true); $parent.filterBrandProduct=null" ng-options="item.model for item in rsProductsData | unique:'model'" class="form-control" ng-model="$parent.filterModelProduct" >
+												<option value="" >Todos</option>
+											</select>
+									</div>
+									</div>
+								</div>
+								<!-- Filter Search -->
+								<div ng-if="sysContent!='sysServiceCosts'" class="col-md-3">
+									<label style="padding-left: 15px;">Buscar</label>
+									<div class="input-group">
+										<span class="input-group-addon"><i class="glyphicon glyphicon-search "></i></span>
+										<input type="text" class="form-control" ng-change="search(searchboxfilter, false)"  ng-model="searchboxfilter" placeholder="Buscar...">
+									</div>
+								</div>
+								<div class="btn-group-mg-top" ng-class="sysContent=='user'|| sysContent=='tenant' || sysContent=='att' || sysContent=='products'?'col-md-3':'col-md-6'"><br>
+									<div class="btn-group">
+										<!-- REFRESH BUTTON -->
+										<!-- USERS -->
+										<button ng-if="sysContent=='user'" type="button" ng-click="getUserLists(1, 'clients');" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+										<!-- TENANTS -->
+										<button ng-if="sysContent=='tenant'" type="button" ng-click="getUserLists(1, '5');" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+										<!-- ATTENDANTS -->
+										<button ng-if="sysContent=='att'" type="button" ng-click="getUserLists(1, item.IdProfileKf);" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+										<!-- SYS PROFILES -->
+										<button ng-if="sysContent=='sysProfile'" ng-click="getSysProfilesFn('')" data-toggle="tooltip" data-placement="top" title="Actualizar lista" type="button" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+										<!-- PRODUCTS -->
+										<button ng-if="sysContent=='products'" ng-click="getProductsFn('', 1)" data-toggle="tooltip" data-placement="top" title="Actualizar lista" type="button" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+										<!-- //Search box -->
+										<!-- New user button -->
+										<button ng-if="sysContent=='user'" data-toggle="tooltip" data-placement="top" title="Nuevo Usuario" type="button" ng-click="sysConfig('customers','user','openW')" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button>
+										<!-- New tenant / owner user button -->
+										<button ng-if="sysContent=='tenant'" data-toggle="tooltip" data-placement="top" title="Nuevo Habitante" type="button" ng-click="sysConfig('customers','tenant', 'openW');" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button> 
+										<!-- New Attendant button -->
+										<button ng-if="sysContent=='att'" data-toggle="tooltip" data-placement="top" title="Nuevo Encargado" type="button" ng-click="sysConfig('customers','att','openW')" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="fas fa-id-card-alt"></i> </span>Nuevo</button>
+										<!-- New Profile button -->
+										<button ng-if="sysContent=='sysProfile'" data-toggle="tooltip" data-placement="top" title="Nuevo Perfil" type="button" class="btn btn-md btn-labeled btn-info" ng-click="sysConfig('sys','sysProfile', 'newProfile')"><span class="btn-label"><i class="fas fa-id-card-alt"></i> </span>Nuevo</button>  
+										<!-- New Produc button -->
+										<button ng-if="sysContent=='products'" data-toggle="tooltip" data-placement="top" title="Nuevo Producto" type="button" class="btn btn-md btn-labeled btn-info" ng-click="sysConfig('sys','products', 'newProduct')"><span class="btn-label"><i class="fas fa-box-open"></i> </span>Nuevo</button> 
+										<button ng-if="sysContent=='sysZones'" data-toggle="tooltip" data-placement="top" title="Nueva Zona" type="button" class="btn btn-md btn-labeled btn-info" ng-click="mainSwitchFn('zones','newZone', null)"><span class="btn-label"><i class="fas fa-map"></i> </span>Nuevo</button> 
+									</div>
+								</div>
+							</div>
+						</div>
+						<div>
+							<!-- TABLE LIST WHERE IS DISPLAYED THE USER DATA REQUESTED -->
+							<div ng-if="sysContent=='user'" ng-include="'views/system/listUser.html'"></div>
+							<!-- TABLE LIST WHERE IS DISPLAYED THE TENANT DATA REQUESTED -->
+							<div ng-if="sysContent=='tenant'" ng-include="'views/system/listTenant.html'"></div>
+							<!-- TABLE LIST WHERE IS DISPLAYED THE ATTENDANT DATA REQUESTED -->
+							<div ng-if="sysContent=='att'" ng-include="'views/system/listAtten.html'"></div>
+							<!-- TABLE LIST WHERE IS DISPLAYED THE COMPANIES DATA REQUESTED -->
+							<div ng-if="sysContent=='company'" ng-include="'views/system/listCompanies.html'"></div>
+							<!-- TABLE LIST WHERE IS DISPLAYED THE SYS PROFILES -->
+							<div ng-if="sysContent=='sysProfile'" ng-include="'views/system/listSysProfiles.html'"></div>
+							<!-- TABLE LIST WHERE IS DISPLAYED THE PRODUCTS -->
+							<div ng-if="sysContent=='products'" ng-include="'views/products/listProducts.html'"></div>
+							<!-- TABLE LIST WHERE IS DISPLAYED SYS USERS -->
+							<div ng-if="sysContent=='sysUsers'" ng-include="'views/system/listSysUser.html'"></div>
+							<!-- TABLE LIST WHERE IS DISPLAYED SYS USERS -->
+							<div class="n-padding-l n-padding-r" ng-if="sysContent=='sysZones'" ng-include="'views/system/zones/manageZones.html'"></div>
+							<!-- TABLE LIST WHERE IS SERVICE COSTS ARE DISPLAYED -->
+							<div class="n-padding-l n-padding-r" ng-if="sysContent=='sysServiceCosts'" ng-include="'views/system/service_costs/manageServiceCosts.html'"></div>
+							<!-- TABLE LIST WHERE IS SERVICE COSTS ARE DISPLAYED -->
+							<div class="n-padding-l n-padding-r" ng-if="sysContent=='registeredCustomers'" ng-include="'views/system/customers/index.html'"></div>
+							<!-- PAGINATION -->
+							<div>
+							<div ng-if="sysContent!='sysZones' || sysContent!='sysServiceCosts'" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
+							<div ng-if="sysContent=='sysZones' && rsZonesData.length>10" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
+
+							</div>
+						</div>
+					</div>
+			</div>
+		</div>
+		<div ng-if="sysContent=='dashboard'">
+			<!--
+			<div class="col-md-10">
+				<div class="col-md-2 col-sm-3">
+					<div ng-click="sysConfig('user','dash')" class="hero-widget well well-sm">
+						<div class="icon">
+							<i class="icon-user"></i>
+						</div>
+						<div class="text threeSpread">
+							<h4 class="text-muted text-uppercase text-box">Usuarios</h4>
+						</div>
+						<div class="options">
+						<a data-toggle="tooltip" data-placement="bottom" title="Usuarios Registrados" ng-click="sysConfig('customers','user','dash')" href="" class="btn btn-primary btn-sm"><span class="badge badge-light">{{listUser.length}}</span> </a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-3">
+					<div ng-click="sysConfig('tenant','dash')" class="hero-widget well well-sm">
+						<div class="icon">
+							<i class="icon-user"></i>
+						</div>
+						<div class="text threeSpread">
+							<h4 class="text-muted text-uppercase text-box">Habitantes</h4>
+						</div>
+						<div class="options">
+						<a  data-toggle="tooltip" data-placement="bottom" title="Habitantes Registrados" ng-click="sysConfig('customers','tenant','dash')" href="" class="btn btn-primary btn-sm"><span class="badge badge-light">{{sysListTenant.length}}</span></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-3">
+					<div ng-click="sysConfig('att','dash')" class="hero-widget well well-sm">
+						<div class="icon">
+							<i class="icon-user"></i>
+						</div>
+						<div class="text">
+							<h4 class="text-muted text-uppercase text-box">Encargados</h4>
+						</div>
+						<div class="options">
+						<a data-toggle="tooltip" data-placement="bottom" title="Encargados Registrados" ng-click="sysConfig('customers','att','dash')" href="" class="btn btn-primary btn-sm"><span class="badge badge-light">{{sysListAttendant.length}}</span></a>
+						</div>
+					</div>
+				</div>
+			</div>
+			<div class="col-md-10">
+				<div class="col-md-2 col-sm-3">
+					<div ng-click="sysConfig('company','dash')" class="hero-widget well well-sm">
+						<div class="icon">
+							<i class="icon-suitcase"></i>
+						</div>
+						<div class="text">
+							<h4 class="text-muted text-uppercase text-box">Empresas</h4>
+						</div>
+						<div class="options">
+						<a data-toggle="tooltip" data-placement="bottom" title="Empresas Registradas" ng-click="sysConfig('customers','company','dash')" href="" class="btn btn-primary btn-sm"><span class="badge badge-light">{{listCompany.length}}</span></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-3">
+					<div ng-click="fnShowHide('home', 'open')"  class="hero-widget well well-sm">
+						<div class="icon">
+							<i class="icon-file-text"></i>
+						</div>
+						<div class="text">
+							<h4 class="text-muted text-uppercase text-box">Solicitudes</h4>
+						</div>
+						<div class="options">
+						<a data-toggle="tooltip" data-placement="bottom" title="Solicitudes Registradas" ng-click="fnShowHide('home', 'open')" href="" class="btn btn-primary btn-sm"><span class="badge badge-light">{{listTickt.length}}</span></a>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-2 col-sm-3">
+					<div ng-click="sysConfig('services', 'open')" class="hero-widget well well-sm">
+						<div class="icon">
+							<i class="icon-usd"></i>
+						</div>
+						<div class="text">
+							<h4 class="text-muted text-uppercase text-box">Servicios</h4>
+						</div>
+						<div class="options">
+						<input type="button" class="btn btn-primary btn-sm" value="Consultar" ng-click="sysConfig('sys','services', 'open')"/>
+						</div>
+					</div>
+				</div>
+			</div>-->
+			<div class="col-md-12"> 
+				<!-- USERS -->
+				<div class="col-md-6 col-lg-3" ng-click="sysConfig('customers','user','dash')" >
+					<div class="card cyan white-text clearfix">
+						<div class="card-content clearfix">
+							<i class="background-icon icon-user"></i>
+							<p class="right panel-title wdt-lable"><span class="itemLength">{{rsList.clientUser.length}}</span></p>
+							<h4 class="right wdt-lable">USUARIOS</h4>
+							<div class="clearfix"></div>
+						</div>
+
+					</div>
+				</div>
+				<!-- TENANTS -->
+				<div class="col-md-6 col-lg-3" ng-click="sysConfig('customers','tenant','dash')" >
+					<div class="card cyan white-text clearfix">
+						<div class="card-content clearfix">
+							<i class="background-icon icon-user"></i>
+							<p class="right panel-title wdt-lable"><span class="itemLength">{{rsList.tenants.length}}</span></p>
+							<h4 class="right wdt-lable">HABITANTES</h4>
+							<div class="clearfix"></div>
+						</div>
+
+					</div>
+				</div>
+				<!-- ATTENDANT -->
+				<div class="col-md-6 col-lg-3" ng-click="sysConfig('customers','att','dash')" >
+					<div class="card cyan white-text clearfix">
+						<div class="card-content clearfix">
+							<i class="background-icon icon-user"></i>
+							<p class="right panel-title wdt-lable"><span class="itemLength">{{rsList.attendants.length}}</span></p>
+							<h4 class="right wdt-lable">ENCARGADOS</h4>
+							<div class="clearfix"></div>
+						</div>
+
+					</div>
+				</div>
+				<!-- SYS USERS -->
+				<div class="col-md-6 col-lg-3" ng-click="sysConfig('sys','sysUsers','dash')" >
+					<div class="card cyan white-text clearfix">
+						<div class="card-content clearfix">
+							<i class="background-icon icon-user"></i>
+							<p class="right panel-title wdt-lable"><span class="itemLength">{{rsList.sysUser.length}}</span></p>
+							<h4 class="right wdt-lable">USUARIOS SYS</h4>
+							<div class="clearfix"></div>
+						</div>
+
+					</div>
+				</div>
+			</div>
+			<div class="col-md-12">
+				<div class="col-md-4 col-sm-12"> 
+					<div class="panel panel-success">
+						<div class="panel-heading"><i class="icon-envelope"></i> SMTP Email <span ng-click="sysConfig('sys','smtp', 'open')" data-toggle="tooltip" data-placement="top" title="Modificar" style="cursor: pointer;" class="pull-right"><i class="glyphicon glyphicon-edit"></i></span></div>
+						<div class="panel-body">
+							<div ng-show="smtpMail" class="well" >
+								<strong>Mail Actual: </strong><span>{{smtpMail}}</span>
+							</div>
+							<div ng-show="!smtpMail" class="alert alert-warning" role="alert">
+								<strong>Mail Actual: </strong><span>No Asignado.</span>
+							</div>
+							<div ng-show="smtpPwd" class="well" >
+								<strong>Clave Actual: </strong><span>Asignada</span>
+							</div>
+							<div ng-show="!smtpPwd" class="alert alert-warning" role="alert">
+								<strong>Clave Actual: </strong><span>No Asignado.</span>
+							</div>
+						</div>
+					</div>
+				</div>
+				<div class="col-md-8 col-sm-12"> 
+					<div class="panel panel-success">
+						<div class="panel-heading"><i class="icon-envelope"></i> Correos</div>
+						<div class="panel-body">
+							<div class="col-md-6">
+								<div ng-show="salesMail" class="well" >
+									<strong>VENTAS: </strong>{{salesMail}}<span ng-click="sysConfig('sys','mails','open')" data-toggle="tooltip" data-placement="top" title="Modificar" style="cursor: pointer;" class="pull-right"><i class="glyphicon glyphicon-edit"></i></span>
+
+								</div>
+								<div ng-show="!salesMail" class="alert alert-warning" role="alert">
+									<strong>VENTAS: </strong>Sin Asignar.<span ng-click="sysConfig('sys','mails','open')" data-toggle="tooltip" data-placement="top" title="Modificar" style="cursor: pointer;" class="pull-right"><i class="glyphicon glyphicon-edit"></i></span>
+								</div>
+								<div ng-show="payrollMail" class="well" >
+									<strong>FACTURACION: </strong>{{payrollMail}}<span ng-click="sysConfig('sys','mails','open')" data-toggle="tooltip" data-placement="top" title="Modificar" style="cursor: pointer;" class="pull-right"><i class="glyphicon glyphicon-edit"></i></span>
+								</div>
+								<div ng-show="!payrollMail" class="alert alert-warning" role="alert">
+									<strong>FACTURACION: </strong>Sin Asignar.<span ng-click="sysConfig('sys','mails','open')" data-toggle="tooltip" data-placement="top" title="Modificar" style="cursor: pointer;" class="pull-right"><i class="glyphicon glyphicon-edit"></i></span>
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div ng-show="supportMail" class="well" >
+									<strong>SERVICIO TECNICO: </strong>{{supportMail}}<span ng-click="sysConfig('sys','mails','open')" data-toggle="tooltip" data-placement="top" title="Modificar" style="cursor: pointer;" class="pull-right"><i class="glyphicon glyphicon-edit"></i></span>
+								</div>
+								<div ng-show="!supportMail" class="alert alert-warning" role="alert">
+									<strong>SERVICIO TECNICO: </strong>Sin Asignar.<span ng-click="sysConfig('sys','mails','open')" data-toggle="tooltip" data-placement="top" title="Modificar" style="cursor: pointer;" class="pull-right"><i class="glyphicon glyphicon-edit"></i></span>
+								</div>
+								<div ng-show="adminMail" class="well" >
+									<strong>ADMINISTRATIVAS: </strong>{{adminMail}}<span ng-click="sysConfig('sys','mails','open')" data-toggle="tooltip" data-placement="top" title="Modificar" style="cursor: pointer;" class="pull-right"><i class="glyphicon glyphicon-edit"></i></span>
+								</div>
+								<div ng-show="!adminMail" class="alert alert-warning" role="alert">
+									<strong>ADMINISTRATIVAS: </strong>Sin Asignar.<span ng-click="sysConfig('sys','mails','open')" data-toggle="tooltip" data-placement="top" title="Modificar" style="cursor: pointer;" class="pull-right"><i class="glyphicon glyphicon-edit"></i></span>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<div ng-include="'views/system/services/listCostOfServices.html'"></div>
+<div ng-include="'views/system/config/mailsSetup.html'"></div>
+<div ng-include="'views/system/config/smtpSetup.html'"></div>
+<div ng-include="'views/system/sysprofiles/newSysProfile.html'"></div>
+<div ng-include="'views/system/sysprofiles/updateSysProfile.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>

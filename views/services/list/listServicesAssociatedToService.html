@@ -1,0 +1,28 @@
+<!-- LIST OF SERVICES -->
+<table ng-if="rsServiceData.length>0" id="tableServicesActive" class="table table-striped table-list table-responsive table-hover">
+    <thead style=" background: #4d5d6f; color: white;">
+        <tr style="text-align: center;">
+            <th width="2%" class="media-middle text-center">#</th>
+            <th width="10%" class="media-middle text-center">Id Servicio</th>
+            <th width="25%" class="media-middle text-center">Nombre</th>
+            <th width="20%" class="media-middle text-center">Contrato</th>
+            <th width="10%" class="media-middle text-center">Fecha</th>
+        </tr>
+      </thead>
+      <tbody style="height: auto !important;overflow: auto;box-shadow: 0px 4px 5px -2px rgba(0, 0, 0, .30);">
+          <tr class="animate-repeat" style="align-content: center;" ng-repeat="srv in rsServiceData">
+          <td class="media-middle text-center"><span class="media-middle font-size-12px">{{$index+1}}</span></td>
+          <td ng-trim="true" class="media-middle text-center"><span class="media-middle font-size-12px">{{srv.idClientServicesFk}}</span</td>
+          <td ng-trim="true" class="media-middle text-center"><span class="media-middle font-size-12px">{{srv.nombre}}</span></td>
+          <td ng-trim="true" class="media-middle text-center"><span class="text-muted font-size-12px">{{srv.numeroContrato}}</span></td>
+          <td ng-trim="true" class="media-middle text-center"><span class="text-muted font-size-12px">{{srv.dateUp | date:'dd/MM/yyyy'}}</span></td>
+        </tr>
+      </tbody>
+  </table> 
+
+    <div ng-if="rsServiceData.length==0" class="col-md-12">
+        <div class="alert alert-info" role="alert">
+            <strong>INFO: </strong>No se encontraron servicios asociados.
+        </div>
+    </div>
+<!-- //LIST OF SERVICES -->

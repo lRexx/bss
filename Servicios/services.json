@@ -1,0 +1,185 @@
+ESTE ES EL SERVICIO TE RETORNA UN TRUE 
+http://127.0.0.1/Coferba/Back/index.php/Ticket
+METODO:POST
+
+
+
+
+/*INQUILINO*/
+/*ALTA LLAVERO*/
+
+{
+  
+  "ticket":
+  {
+      "idTypeTicketKf" : 1,
+    "idTenantKf" : 1,
+    "emailTenant": "jorguti58@gmial.com",
+    "numberItemes" :3,
+    "idTypeDeliveryKf" : 1,
+    "description" : "aqui escribo algo",
+    "idAttendantKf":1,
+    "idBranchKf" : 1,// OPCIONAL PARA SUCARSALES DE UNA EMPRESA 
+    "idCompanyKf":1,// OPCIONAL PARA EMPRES 
+    "totalService" : "100.40",
+    "idOtherKf" : 0// opcional si envias un otro de encargado 
+
+  }
+}
+/*BAJA	LLAVERO*/
+
+{
+  
+  "ticket":
+  {
+      "idTypeTicketKf" : 2,
+      "idTenantKf" : 1,
+      "idUserTenant":1,
+      "idReasonDisabledItemKf":1, 
+      "numberItemDisabled" : 2,
+      "description" : "aqui escribo algo",
+      "idOpcionLowTicketKf": 1,
+      "idAttendantKf":1,
+      "idBranchKf" : 1,// OPCIONAL PARA SUCARSALES DE UNA EMPRESA 
+      "idCompanyKf":1// OPCIONAL PARA EMPRES 
+  }
+}
+/*ADMINISTRADOR O PROPIETARIO*/
+/*ALTA LLAVERO*/
+
+{
+  
+  "ticket":
+  {
+      "idTypeTicketKf" : 1,
+       "idUserEnterpriceKf" : 1,
+       "idOWnerKf" :2,
+       "numberItemes" :3,
+       "idTypeDeliveryKf" : 1,
+       "description" : "aqui escribo algo",
+       "list_id_clients":[2,3,1]//listado de clientes
+       
+  }
+}
+/*BAJA LLAVERO*/
+
+{
+  
+  "ticket":
+  {
+      "idTypeTicketKf" : 2,
+       "idUserEnterpriceKf" : 1,
+       "idOWnerKf" :2,
+       "numberItemes" :3,
+       "idTypeDeliveryKf" : 1,
+       "description" : "aqui escribo algo",
+      "idReasonDisabledItemKf":1, 
+      "numberItemDisabled" : 2
+       
+  }
+}
+
+/*SERVICIOS TECNICOS*/
+{
+  
+  "ticket":
+  {
+      "idTypeTicketKf" : 3,
+       "idUserEnterpriceKf" : 1,
+       "numberItemes" :3,
+       "idTypeDeliveryKf" : 1,
+         "descriptionOrder":"DESCRIPCION DEL PEDIDO" ,
+       "description" : "aqui escribo algo",
+       "list_id_clients":[2,3,1],
+         "idTypeServices" :1
+       
+  }
+}
+
+
+
+
+
+/*OTRAS SOLICITUDES O CONSULTAS (tipo formulario)*/
+
+{
+  
+  "ticket":
+  {
+      "idTypeTicketKf" : 4,
+        "idTypeOuther" : 1,
+          "mailContactConsult" :"mail@mas.jf",
+            "addressConsul" : "testing",
+              "description" : "COSNULATAAAAAA"
+       
+  }
+}
+
+
+/******LAS ATAS Y BAJAS PARA PROPIETRIOS ES LO MISO QUE LAS ANTERIORES SOLO QUE DEBES ENVIAR EL idOWnerKf QUE ES EL ID DE EL PROPIETARIO******/
+
+/*OBTER TODOSS  LOS TICKETS */
+http://127.0.0.1/Coferba/Back/index.php/Ticket/all
+METODO:POST
+
+"searchFilter":
+{
+    "searchFilter":
+  {
+     "topFilter" : 0,
+     "idTypeTicketKf":0, 
+       "idProfileKf":1
+       
+  }
+}
+
+
+///FILTROSS PARA TODOS LOS PORMULARIOS  //
+http://127.0.0.1/Coferba/Back/index.php/Ticket/filter
+METODO:get
+
+
+
+
+15/10/2017
+
+Aplica para alta y baja de llaveros
+Lista de direccion de los clientes segun id del usuario registrado asociados al 'Administrador Consorcio'
+
+Anexar al servicio de listar usuarios / campos {cantidad de solicitudes completas, en proceso}
+
+Crear servicio de cancelar ticket .
+
+/// mail ,solicitudes alta y baja /cuando activo un usuario///APRUEBA SOLIVITUD//
+// CONFIGURAR MAIL DE COFERBA
+
+
+/* SERVICIO RETORNA EL LISTADO DE DEPARTAMENTOS  POR ID DE UN ADMINISTRADOR  */
+http://127.0.0.1/Coferba/Back/index.php/Tenant/departamentByIdAdminR/1
+
+/* SERVICIO RETORNA EL LISTADO DE INQUILINOS SEGUN UN id DEPARTAMENTO   */
+http://127.0.0.1/Coferba/Back/index.php/Tenant/tenanatByIdDepartament/1
+
+
+/*cantidad de solicitudes completas, en proceso*/
+"tk_complit": "0",
+"tk_incomplit": "0"
+
+
+/*BUSAR  INQUILINO POR ID DE ADMINISTRADOR DE CONSORCIO */
+http://127.0.0.1/Coferba/Back/index.php/Tenant/search
+METODO : POST 
+{
+  
+   "filter":
+   { 
+     "idTypeKf" : 1,
+     "idAdminR": 1,
+     "topFilter" : 0
+   }
+ }
+
+
+
+
+

@@ -1,0 +1,17 @@
+<!-- pager -->
+<pagination 
+  total-items="pagination.totalCount" 
+  ng-change="pageChanged()" 
+  items-per-page="pagination.pageSizeSelected" 
+  direction-links="true" 
+  ng-model="pagination.pageIndex" 
+  max-size="pagination.maxSize" 
+  class="pagination" 
+  boundary-links="true" 
+  rotate="false" 
+  previous-text="‹ Anterior" 
+  next-text="Siguiente ›" 
+  first-text="« Primera" 
+  last-text="Ultima »"
+  num-pages="pagination.numPages">
+</pagination>

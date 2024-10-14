@@ -1,0 +1,83 @@
+---------------------- AGREGAR INQUILINO -------------------
+http://127.0.0.1/Coferba/Back/index.php/Tenant
+METODO : POST 
+
+{
+  
+  "tenant":
+  {
+    "fullNameTenant" : "prueba nombre",
+    "idTypeKf" : 1,
+    "phoneNumberTenant" : "21931232182",
+    "idDepartmentKf" : 1,
+    "emailTenant" : "nuevavlave"
+  }
+}
+
+---------------------- OBTENER FILTROS --------------
+http://127.0.0.1/Coferba/Back/index.php/Tenant/filterForm
+METODO : GET 
+
+
+---------------------- EDITAR INQUILINO -------------------
+http://127.0.0.1/Coferba/Back/index.php/Tenant/update
+METODO : POST 
+
+{
+  
+  "tenant":
+  {
+    "fullNameTenant" : "prueba EDITADA",
+    "idTypeKf" : 1,
+    "phoneNumberTenant" : "+58 9112237373",
+    "idDepartmentKf" : 1,
+    "emailTenant" : "nuevavlave",
+      "idTenant" : 1
+  }
+}
+
+---------------------- BUSAR  INQUILINO EN EL LISTADO POR FILTRSOS -------------------
+http://127.0.0.1/Coferba/Back/index.php/Tenant/search
+METODO : POST 
+
+{
+ 
+  "filter":
+  {
+      "searchFilter" : "nombre", // campo libre que buscar  por fullNameTenant o phoneNumberTenant o emailTenant
+      "topFilter": 0, // top de cuantos resltados quieres que se retornen si mandas 0  retorna todos si no retorna el limite que envies
+      
+      "idTypeKf" : 1, // !OPCIONAL!  si envias este parametro  puedes fitrar por  id de tipo de inquilino
+	    "idDepartmentKf": 1 // !OPCIONAL!  si envias este parametro  puedes fitrar por  id departamento
+  }
+}
+
+
+
+---------------------- ACTIVAR UN INQUILINO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/Tenant/active/1
+"1 es el id"
+METODO : GET 
+
+---------------------- INACTIVAR  UN INQUILINO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/Tenant/inactive/1
+"1 es el id"
+METODO : GET 
+
+---------------------- ELIMINAR UN INQUILINO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/Tenant/delete/1
+"1 es el id"
+METODO : delete 
+
+
+
+---------------------- OBTENER UN INQUILINO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/Tenant/find/1
+"1 es el id"
+METODO : GET
+
+
+
+
+---------------------- GET TENANT BY MAIL --------------
+http://127.0.0.1/Coferba/Back/index.php/Tenant/findByEmail/rexx84@gmail.com

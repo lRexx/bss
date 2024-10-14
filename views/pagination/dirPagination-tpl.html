@@ -1,0 +1,14 @@
+<!-- pager -->
+<ul ng-if="1 < pages.length || !autoHide" class="pagination">
+  <li ng-class="{ disabled : pagination.current == 1 }" style="cursor: pointer;">
+    <a ng-click="setCurrent(pagination.current - 1)" aria-label="Previous"><span aria-hidden="true"><i class="far fa-arrow-alt-circle-left"></i> Anterior</span></a>
+  </li>
+  <li  ng-repeat="pageNumber in pages track by tracker(pageNumber, $index)" ng-class="{ active : pagination.current == pageNumber, disabled : pageNumber == '...' }">
+      <a href="" ng-click="setCurrent(pageNumber)">{{ pageNumber }}</a>
+  </li>
+  <!--<li><span style="background-color: #28a745;color: #fff;">{{pagination.current}} / {{pages.length}}</span></li>-->
+  <li ng-class="{disabled:pagination.current == pages.length}" style="cursor: pointer;">
+    <a ng-click="setCurrent(pagination.current + 1)" aria-label="Next">
+      <span aria-hidden="true">Siguiente <i class="far fa-arrow-alt-circle-right"></i></span></a>
+  </li>
+</ul>

@@ -1,0 +1,28 @@
+<!-- Modal for Code Confirmation -->
+<div class="modal fade" id="confirmCodeModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+        <div class="modal-header">
+            <h5 class="modal-title">BSS Seguridad <a data-dismiss="modal" data-toggle="tooltip" data-placement="top"  title="Cerrar" class="close"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></a></h5>
+        </div>
+        <div class="modal-body">
+        <form name="frmSecCode" class="form-horizontal" autocomplete="off" role="form" novalidate>
+            <div id="divCodeFrm" class="form-group" ng-class="{'has-error': frmSecCode.checkCode.$dirty && frmSecCode.checkCode.$invalid}">
+            <label style="padding-left: 15px;">Codigo de Validacion</label> 
+            <div class="col-md-12">
+                <div class="input-group">
+                <span class="input-group-addon"><i class="glyphicon glyphicon-lock"></i></span>
+                    <input id="checkCode" name="checkCode" class="form-control" ng-model="input.securityCode" type="password" required autofocus />
+                </div>
+                </div>
+            </div>
+        </form>
+        </div>
+        <div class="modal-footer">
+            <button type="button" ng-click="switchBuildingFn('associateNewDepartment', null)" class="btn btn-success">Validar</button>
+            <button type="button" data-dismiss="modal" class="btn btn-danger">Cancelar</button>
+        </div>
+        </div>
+    </div>
+</div>
+<!-- //Modal for Code Confirmation -->

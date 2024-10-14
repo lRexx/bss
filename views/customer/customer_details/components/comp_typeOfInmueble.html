@@ -1,0 +1,16 @@
+<div class="form-group col-md-6" ng-if="(customer.details.idClientTypeFk!='' && customer.details.idClientTypeFk!=undefined && 
+customer.details.idClientTypeFk!='2' && 
+customer.details.idClientTypeFk!='5')" ng-class="
+			{	'has-success': 
+				customer.details.idTipoInmuebleFk!=undefined && fUpdateCustomer.tipo_inmueble.$valid,
+			 	'has-error':  
+				(customer.details.idTipoInmuebleFk==undefined) && fUpdateCustomer.tipo_inmueble.$touched,
+			}"> 
+  <label style="padding-left: 15px;">Tipo de inmueble</label>
+	    <div class="input-group " >
+    		<span class="input-group-addon"><i class="fas fa-address-card"></i></span>
+	    	<select id="tipo_inmueble" name="tipo_inmueble" class="form-control" ng-change="customerTypeInmueble(); " ng-options="item.idTipoInmueble as item.descripcion for item in rsTypeOfPropertyData " ng-model="customer.details.idTipoInmuebleFk" ng-required="(customer.details.idClientTypeFk!=2)" autofocus >
+		    	<option value="">Inmueble</option>
+	    	</select>
+		</div>
+</div>

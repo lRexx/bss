@@ -1,0 +1,463 @@
+<!-- CUSTOMER CAMERAS SERVICE FORM -->
+<div id="updateCamerasService" class="modal fade bd-example-modal-lg" data-keyboard="false" data-backdrop="static" style="top: 0px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" ng-click="modalConfirmation('closeServiceWindow', 0, service.update)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-wrench"></i> MODIFICAR SERVICIO CAMARAS</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+				<!-- FORM CONTAINER-->
+				<form class="form-horizontal" name="fCustomerUpdateService" novalidate>
+					<fieldset>
+						<!-- Camaras: Puerta -->
+						<div class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									service.update.name!='' && fCustomerUpdateService.service_name.$valid,
+								 	'has-error':  
+									(service.update.name=='' || service.update.name==undefined) && fCustomerUpdateService.service_name.$touched,
+								}">
+						  <label style="padding-left: 15px;">Nombre</label><br>
+							  <div class="col-md-6 col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-tag"></i></span>
+									<input name="service_name" id="service_name" type="text" class="form-control" ng-model="service.update.name" required="true" />
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: Puerta -->
+						<div class="form-group col-md-6" ng-class="
+									{	'has-success': 
+										service.update.idContratoFk!='' && fCustomerUpdateService.service_contract.$valid,
+									 	'has-error':  
+										(service.update.idContratoFk=='' || service.update.idContratoFk==undefined) && fCustomerUpdateService.service_contract.$touched,
+									}">
+						  <label style="padding-left: 15px;">Contrato asociado</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
+									<select name="service_contract" 
+									class="form-control" 
+									ng-options="item.idContrato as item.numeroContrato for item in rsCustomerContractListData" ng-model="service.update.idContratoFk"
+									ng-change="switchContractService(service.update)" required="true" ng-disabled="true" autofocus >
+									    <option class="text-uppercase" value="">Selecciona un contrato</option>
+								    </select>
+							  </div>
+							</div>
+						</div>
+						<!-- Control_de_Acceso: Maintenance Type -->					  
+						<div class="form-group col-md-6" >  
+						  	<label style="padding-left: 15px;">Tipo de mantenimiento</label>
+						    <div class="col-xs-12 ">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+					    			<input name="service_mnt_type" type="text" class="form-control" ng-disabled="true" ng-model="service.update.MntType" />
+					    		</div>
+					    	</div>
+						</div>					
+						<!-- Cameras: Start_date -->
+						<div class="form-group col-md-6" ng-class="
+							{	'has-success': 
+								service.update.dateUp!='' && service.update.dateUp!=undefined,
+								'has-error':  
+								(service.update.dateUp=='' || service.update.dateUp==undefined),
+							}">
+							<label style="padding-left: 15px;">Fecha de alta</label>  
+							<div class="col-xs-12">
+								<div class="input-group">
+									<span ng-click="open_start_date()" class="input-group-addon"><i ng-click="open_start_date()" class="far fa-calendar-alt"></i></span>
+									<input 
+										ng-click="open_start_date()" 
+										type="text" 
+										name="service_start_date"
+										class="form-control" 
+										uib-datepicker-popup="{{format}}"
+										ng-model="service.update.dateUp" 
+										is-open="popup_start_date.opened"  
+										ng-required="false" 
+										close-text="Cerrar" 
+										clear-text="Borrar"
+										current-text="Hoy"
+										alt-input-formats="altInputFormats" />
+								</div>
+							</div>
+						</div>
+						<!-- Cameras: End_date -->
+						<div class="form-group col-md-6">
+							<label style="padding-left: 15px;">Fecha de baja</label>  
+							<div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
+									<input 
+									ng-click="open_end_date()" 
+									type="text" 
+									name="service_end_date"
+									class="form-control" 
+									uib-datepicker-popup="{{format}}"
+									ng-model="service.update.dateDown" 
+									is-open="popup_end_date.opened"  
+									ng-required="false"
+									ng-disabled="true"
+									close-text="Cerrar" 
+									clear-text="Borrar"
+									current-text="Hoy"
+									ng-disabled="service.update.dateDown!=null"
+									alt-input-formats="altInputFormats" />
+								</div>
+							</div>
+						</div>			
+						<div class="form-group col-md-12 text-badge"> <h3>Sistema a Instalar</h3></div>		
+						<!-- Left Colunm -->						
+						<div class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
+							<!-- Camaras: DRV -->
+							<div class="form-group col-md-12"ng-class="
+								  			{	'has-success': 
+								  				service.dvr.selected!=undefined && fCustomerUpdateService.service_dvr.$valid,
+								  			 	'has-error':  
+								  				(service.dvr.selected==undefined) && fCustomerUpdateService.service_dvr.$touched,
+								  			}">
+								<div class="col-md-8"><label style="padding-left: 15px;">DVR/NVR</label></div>
+								<div class="pull-right col-md-4 n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.dvr.selected==undefined" ng-click="compServiceProductDetailsFn(service.dvr.selected, productListType.RECORD_DEVICE)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+							  	<button ng-if="service.dvr.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.dvr.selected, productListType.RECORD_DEVICE, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>  
+							    <div class="col-xs-12 selectContainer">							   
+								    <div class="input-group">
+						              <span class="input-group-addon"><i class="fas fa-door-open"></i></span>
+						              <ui-select name="service_dvr"  
+						              			 ng-change="compServiceProductDetailsFn(service.dvr.selected, productListType.RECORD_DEVICE, null)" 
+						              			 ng-model="service.dvr.selected"
+						              			 ng-required="true"
+						              			 ng-disabled="service.dvr.selected!=undefined"
+						              			 theme="bootstrap" autofocus>
+						                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
+						                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.RECORD_DEVICE | filter: $select.search">
+						                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+						                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
+						                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+						                    </ui-select-choices>
+						                    <ui-select-no-choice>
+											    No hay resultados, contacte are de soporte.
+										  	</ui-select-no-choice>
+						                </ui-select>
+						            </div>
+							  	</div>
+							</div>							
+							<!-- Camaras: Ubicacion -->
+							<div class="form-group col-md-12" ng-class="
+								  			{	'has-success': 
+								  				service.update.location!='' && 
+								  				service.update.location!=undefined && fCustomerUpdateService.service_dvrLocation.$valid,
+								  			 	'has-error':  
+								  				(service.update.location==''|| service.update.location==undefined) && fCustomerUpdateService.service_dvrLocation.$touched,
+								  			}">
+							  <label style="padding-left: 15px;">Ubicacion </label>  
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
+											<input name="service_dvrLocation" type="text" class="form-control" ng-model="service.update.location" />
+								  </div>
+								</div>
+							</div>
+							<!-- Camaras: cantidad -->
+							<div class="form-group col-md-12" ng-class="
+								  			{	'has-success': 
+								  				service.maxCamera.length>0 && 
+								  				service.maxCamera.length!=0 && fCustomerUpdateService.service_cantCamaras.$valid,
+								  			 	'has-error':  
+								  				(service.maxCamera.length==0 || 
+								  				service.maxCamera==0 || service.maxCamera==undefined) && fCustomerUpdateService.service_cantCamaras.$touched,
+								  			}">
+							  <label style="padding-left: 15px;">Maximo de Camaras <span class="badge badge-default"><i class="fas fa-info-circle"></i> Canales del DVR/NVR</span></label>  
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
+											<input name="service_cantCamaras" type="text" ng-keydown="fnLoadPhoneMask()" class="form-control input--number" ng-disabled="list_cameras.length>0" ng-model="service.maxCamera" />
+								  </div>
+								</div>
+							</div>					
+						</div>
+						<!-- Right Colunm -->
+						<div class="well-checkbox form-group col-md-6" style="height: 264px;">
+							<!-- Cameras: Enery Backup -->
+							<div class="col-md-12">
+								<div class="col-md-8">
+									<label class="clf-p-left">Backups de Energia</label></div>
+								<div class="pull-right col-md-4 n-padding-r" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.batteries.selected)" ng-disabled="service.batteries.selected==undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
+							    <div class="selectContainer">							   
+								    <div class="col-md-12 input-group">
+						              	<span class="input-group-addon"><i class="fas fa-car-battery"></i></span>
+						              	<ui-select name="service_energyBackups"
+						              			 ng-model="service.batteries.selected"
+						              			 ng-required="list_batteries.length==0"
+						              			 theme="bootstrap" autofocus>
+						                	<ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
+						                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.BACKUP_ENERGIA | filter: $select.search">
+						                    	<div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+						                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
+						                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+						                    </ui-select-choices>
+						                    <ui-select-no-choice>
+											    No hay resultados, contacte are de soporte.
+										  	</ui-select-no-choice>
+						                </ui-select>
+						            </div>
+							  	</div>
+								<div class="well-checkbox n-padding-t n-padding-b" ng-class="{'n-padding-l n-padding-r':list_batteries.length>0}" style="margin-left: 0px;margin-right: 0px;">
+								  	<table ng-if="list_batteries.length>0">
+								    	<tr ng-repeat="battery in list_batteries">
+								    		<td style="width: 5%; padding: 0 0px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
+								      		 <td style="width: auto"><span style="font-size: 85%" class="text-muted text-uppercase text-box">{{battery.classification | uppercase}} </span></td>
+								      		<!--<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Modelo:<label style="font-size: 85%" class="label label-default">{{battery.model | uppercase}}</label></span></td>-->
+								      		<td style="width: auto"><label data-toggle="tooltip" data-placement="right" title="Marca" style="font-size: 85%" class="label label-default"><i class="text-warning fas fa-tag"> </i> {{battery.brand | uppercase}}</label></td>
+								          	<td style="padding-bottom: 5px;">
+								            	<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(battery)" ng-disabled="!battery.idBatteryFk" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i></button>
+							  					<button ng-if="battery.idBatteryFk" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeSubItemProductDetailsFn(battery)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
+
+								          	</td>
+								      	</tr>
+								  	</table>
+								  	<div ng-if="list_batteries.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay baterias o ups cargados</h5></div>
+								</div>						  	
+							</div>
+						</div>
+						<div class="well-checkbox form-group col-md-12">
+							<div class="col-md-12">
+								<div class="col-md-10"><label class="clf-p-left">Cargar Camaras </label> <span ng-if="list_cameras.length==service.maxCamera" class="badge badge-warning"><i class="fas fa-info-circle"></i> No hay canales disponibles en el DVR/NVR</span></div>
+								<div class="pull-right col-md-2" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.cameras.selected)" ng-disabled="service.cameras.selected==undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
+							    <div class="selectContainer">							   
+								    <div class="col-md-12 input-group">
+						              	<span class="input-group-addon"><i class="fas fa-video"></i></span>
+						              	<ui-select name="service_cameras"
+						              			 ng-disabled="list_cameras.length==service.maxCamera"
+						              			 ng-model="service.cameras.selected"
+						              			 ng-required="list_cameras.length==0"
+						              			 theme="bootstrap" autofocus>
+						                	<ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
+						                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.CAMARA | filter: $select.search">
+						                    	<div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+						                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
+						                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+						                    </ui-select-choices>
+						                    <ui-select-no-choice>
+											    No hay resultados, contacte are de soporte.
+										  	</ui-select-no-choice>
+						                </ui-select>
+						            </div>
+							  	</div>
+								<div class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+								  	<table ng-if="list_cameras.length>0">
+								    	<tr ng-repeat="camera in list_cameras">
+								    		<td style="width: 1%; padding: 0 10px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
+								      		<td style="width: 55%"><span  style="font-size: 85%" class="text-muted text-uppercase text-box">
+								      		<span style="font-size: 100%" data-toggle="tooltip" data-placement="top" title="Marca" class="label label-default"><i class="text-warning fas fa-tag"> </i> {{camera.brand | uppercase}}</span>
+								      		<!--<span class="label label-default">{{camera.model | uppercase}}</span>-->{{camera.descriptionProduct | uppercase}} </span></td>
+								      		<td style="width: 15%"><span class="text-muted text-box" style="font-size: 100%">Puerto:<label class="label label-default">{{camera.portCamera | uppercase}}</label></span></td>
+								      		<!--<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca:<label style="font-size: 85%" class="label label-default">{{camera.brand | uppercase}}</label></span></td>-->
+								          	<td style="padding-bottom: 5px; width: 15%">
+								            	<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(camera)" ng-disabled="!camera.idCameraFk" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+							  					<button ng-if="camera.idCameraFk" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeSubItemProductDetailsFn(camera)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
+
+								          	</td>
+								      	</tr>
+								  	</table>
+								  	<div ng-if="list_cameras.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay camaras cargadas</h5></div>
+								</div>						  	
+							</div>
+						</div>
+						<!-- Camaras: internet -->
+						<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r">
+							<div class="form-group col-md-12">
+								<div class="form-group col-md-3">
+									<label for="conexionInternet" style="cursor: pointer; font-weight: 600;">Conexion a Internet:</label>
+								</div>
+								<div class="form-group col-md-9">
+							    	<label class="switch switch-1x">
+							    		<input type="checkbox" 
+							    		class="success"
+							    		ng-change="verifyCheckBoxFn(service.update.isHasInternetConnect); verifyCameraLengthFn(list_cameras,service.maxCamera)" 
+							    		ng-model="service.update.isHasInternetConnect"
+							    		id="conexionInternet" 
+							    		style="margin: 0px !important; display: inherit !important;">
+										<span class="slider slider-1x flat"></span>
+									</label>
+								</div>
+							</div>
+							<!-- TOTEM: direccion del cliente -->
+							<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+							  <label style="padding-left: 15px;">Direcci&#243;n del cliente <i data-toggle="tooltip" data-placement="top" title="hoja de datos de acceso" class="product-success fas fa-lightbulb"></i></label>  
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+										<input name="addessClient" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-model="service.update.addessClient" />
+								  </div>
+								</div>
+							</div>
+							<!-- TOTEM: direccion vpn -->
+							<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+							  <label style="padding-left: 15px;">Direcci&#243;n VPN</label>
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
+										<input name="addressVpn" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-model="service.update.addressVpn" />
+								  </div>
+								</div>
+							</div>														
+							<!-- TOTEM: puerto http -->
+							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect">
+							  <label style="padding-left: 15px;">Puerto http</label>  
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
+										<input name="portHttp" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-model="service.update.portHttp" />
+								  </div>
+								</div>
+							</div>
+							<!-- TOTEM: numero de puerto de router -->
+							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect">
+							  <label style="padding-left: 15px;">N° de puerto de router</label>  
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+										<input name="routerPort" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-model="service.update.numberPortRouter" />
+								  </div>
+								</div>
+							</div>												
+							<!-- TOTEM: nombre de puerto 1-->
+							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect">
+							  <label style="padding-left: 15px;">Nombre de puerto</label>  
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+										<input name="service_nombrePuerto1" ng-disabled="!service.update.isHasInternetConnect" placeholder="RTSP" type="text" class="form-control" ng-model="service.update.namePort" />
+								  </div>
+								</div>
+							</div>
+							<!-- TOTEM: Number de puerto 1 -->
+							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect">
+							  <label style="padding-left: 15px;">N° de puerto</label>  
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+										<input name="service_numeroPuerto1" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-model="service.update.port" />
+								  </div>
+								</div>
+							</div>
+
+							<!-- TOTEM: Nombre de puerto 2 -->
+							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect">
+							  <label style="padding-left: 15px;">Nombre de puerto</label>  
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+										<input name="service_nombrePuerto2" ng-disabled="!service.update.isHasInternetConnect" placeholder="HTTPS" type="text" class="form-control" ng-model="service.update.namePort1" />
+								  </div>
+								</div>
+							</div>
+							<!-- TOTEM: Numer de puerto 2 -->
+							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect">
+							  <label style="padding-left: 15px;">N° de puerto</label>  
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+										<input name="service_numeroPuerto2" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-model="service.update.nroPort1" />
+								  </div>
+								</div>
+							</div>
+							<!-- TOTEM: Nombre de puerto 3 -->
+							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect">
+							  <label style="padding-left: 15px;">Nombre de puerto <i data-toggle="tooltip" data-placement="top" title="hoja de datos de acceso" class="product-success fas fa-lightbulb"></i></label>
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+										<input name="service_nombrePuerto3" ng-disabled="!service.update.isHasInternetConnect" placeholder="SERVIDOR" type="text" class="form-control" ng-model="service.update.namePort2" />
+								  </div>
+								</div>
+							</div>
+							<!-- TOTEM: Numer de puerto 3 -->
+							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect">
+							  <label style="padding-left: 15px;">N° de puerto <i data-toggle="tooltip" data-placement="top" title="hoja de datos de acceso" class="product-success fas fa-lightbulb"></i></label>  
+								  <div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+										<input name="service_numeroPuerto3" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-model="service.update.nroPort2" />
+								  </div>
+								</div>
+							</div>
+							<div ng-show="service.update.isHasInternetConnect" class="col-md-12">
+								<div  class="alert alert-warning" role="alert">
+									<button type="button" class="close" data-dismiss="alert"><span data-toggle="tooltip" data-placement="top" title="cerrar" aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+				            		<strong><i class="product-success fas fa-lightbulb"></i>&nbsp </i>INFO: </strong>Campos utilizados en la hoja de datos de acceso.
+				        		</div>
+				        	</div>							
+						</div>
+						<!-- Camaras: Lista de usuarios -->
+						<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r">
+							<!-- Battery List -->
+							<div class="form-group col-md-3">
+								<label class="clf-p-left">Usuarios DVR</label>
+							</div>
+							<div class="form-group col-md-7 text-danger">
+						    	<label class="switch switch-1x">
+						    		<input type="checkbox" 
+						    		class="success" 
+						    		ng-change="service.sysUser.selected=undefined;" 
+						    		ng-model="service.isSysUser" 
+						    		id="isSysUser" 
+						    		style="margin: 0px !important; display: inherit !important;">
+									<span class="slider slider-1x flat"></span>
+								</label>
+								<label for="serviceSysUser" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Usuario del sistema web</label>
+							</div>
+							<div class="form-group col-md-2 pull-right">
+								<button ng-click="loadServiceUserWindowFn(service.sysUser.selected, 'new')" class="btn btn-sm btn-success" ng-disabled="(service.isSysUser && service.sysUser.selected==undefined)"><i class="fas fa-plus"></i> Agregar</button> 
+							</div>							
+  							<div class="form-group col-md-12" >
+  								<div ng-if="service.isSysUser" class="selectContainer">
+								    <div class="col-md-12 input-group">
+								      <span class="input-group-addon"><i class="fas fa-lock-open"></i></span>
+								        <ui-select 
+								        	theme="bootstrap"
+								         	ng-model="service.sysUser.selected"
+								         	ng-required="list_user.length==0">
+								            <ui-select-match placeholder="Selecciona un usuario" >{{$select.selected.fullNameUser}}</ui-select-match>
+								            <ui-select-choices class="ui-select-choices" repeat="item in rsList.clientUser | filter: $select.search">
+								                <div ng-bind-html="item.fullNameUser | highlight: $select.search"></div>
+								                <small ng-bind-html="item.emailUser | highlight: $select.search"></small>
+								                <small class="label label-default" ng-bind-html="item.nameProfile | highlight: $select.search"></small>
+								                    
+								            </ui-select-choices>
+								            <ui-select-no-choice>
+											    No hay resultados, contacte area de soporte.
+										  	</ui-select-no-choice>
+								        </ui-select>
+								    </div>
+								</div>
+								<div class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+								  	<div ng-if="list_user.length>0"  ng-include="'views/services/list/listServicesUsersDVR.html'"></div>
+								  	<div ng-if="list_user.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay usuarios cargados</h5></div>
+								</div>
+							</div>
+						</div>
+						<!-- Observaciones Generales -->
+						<div class="form-group col-md-12">
+						  <label class="col-xs-12" >Observaciones Generales</label> 
+								<textarea style="resize: none;" name="ObserGenerales" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="service.update.observation" ></textarea>							
+						</div>
+					</fieldset>
+				</form>
+				<div class="clearfix"> </div> 
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="modalConfirmation('updateService', 0, service.update)" ng-disabled="service.update.dateDown!=null || list_cameras.length<=0" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                        <a ng-click="modalConfirmation('closeServiceWindow', 0, service.update)" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>
+<!-- // CUSTOMER CAMERAS SERVICE FORM -->

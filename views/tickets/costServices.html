@@ -1,0 +1,191 @@
+<!-- SETUP SERVICES COST -->
+<div class="panel panel-default ">
+	<div class="panel-heading">
+		<h3 class="panel-title">COSTOS DE SERVICIOS</h3>
+	</div>
+	<div class="panel-body">
+		<!-- FORM CONTAINER-->
+		<div class="row">
+			<div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-lg-12 n-padding-l n-padding-r">
+				<div class="col-md-12 col-xs-12">
+				  <div class="col-md-2 col-xs-2" ><label class="clf-size">Buscar Cliente</label></div>
+				  <div class="col-md-1 col-xs-2">
+					<label class="switch switch-2x" for="strict-search">
+						<input type="checkbox" class="success" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-model="customerSearch.strict" id="strict-search">
+						<span class="slider slider-2x flat"></span>
+					</label>
+				  </div>
+				  <div class="col-md-7 col-xs-7 n-padding-l" style="margin-top: 0.2%;margin-left: -3.5% !important;">
+					<label ng-if="customerSearch.strict" style="cursor: pointer;" class="badge badge-success">Busquéda exacta</label>
+					<label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
+				  </div>
+				</div>
+				<div class="row n-margin-l n-margin-r">  
+				  <div ng-class="col-md-12">
+					<div class="col-md-2 col-xs-5">
+						<input id="typeClientAll" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-checked="true" name="typeClient" value="" ng-model="customerSearch.typeClient" required autofocus>
+						<label for="typeClientAll" class="radio-2x-label">
+							<span>Todos</span>
+						</label>
+					</div>
+					<div class="col-md-2 col-xs-5">
+						<input id="typeClient1" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="1" ng-model="customerSearch.typeClient" required autofocus>
+						<label for="typeClient1" class="radio-2x-label">
+							<span>Administracion</span>
+						</label>
+					</div>
+					<div class="col-md-2 col-xs-5">
+						<input id="typeClient2" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="2" ng-model="customerSearch.typeClient" required autofocus>
+						<label for="typeClient2" class="radio-2x-label">
+							<span>Edificio</span>
+						</label> 
+					</div>
+					<!--<div class="col-md-2 col-xs-5">
+						<input id="typeClient3" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="3" ng-model="customerSearch.typeClient" required autofocus>
+						<label for="typeClient3" class="radio-2x-label">
+							<span>Empresa</span>
+						</label> 
+					</div>
+					<div class="col-md-2 col-xs-5">
+						<input id="typeClient4" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="4" ng-model="customerSearch.typeClient" required autofocus>
+						<label for="typeClient4" class="radio-2x-label">
+							<span>Sucursal</span>
+						</label> 
+					</div>
+					<div class="col-md-2 col-xs-5">
+						<input id="typeClient5" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="5" ng-model="customerSearch.typeClient" required autofocus>
+						<label for="typeClient5" class="radio-2x-label">
+							<span>Particular</span>
+						</label> 
+					</div>-->
+				  </div>
+				</div>
+			</div>
+			<div ng-if="sysLoggedUser.idProfileKf=='1'" class="clearfix"> </div>
+			<div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-r" ng-class="{'col-md-6 col-xs-6 col-sm-6': buildingList.length>0}">
+				<label style="padding-left: 15px" ng-show="buildingList.length>=0">{{customerFound.ClientType}}</label>
+				<div class="input-group s-ui-width s-ui-m-left">
+					<span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+					<input type="text" name="customerSearch" 
+						id="customerSearch" 
+						ng-model="customerSearch.name"
+						ng-keydown="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict);"
+						class="form-control text-uppercase" 
+						move-to-list input-selector="'.input-search'"
+						list-items-selector="'.list-group li'"
+						placeholder="Presione Enter para buscar..."
+						style="border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+						required="true" />
+					<ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.name!=undefined || customerSearch.name!=null)" style="height: 0px; z-index: 2000;" >
+						<li tabindex="0" id="customerList-{{$index}}"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+					</ul>
+				</div>
+			</div>
+			<!-- Text Address for Admins & TASS-->
+			<div ng-if="(sysLoggedUser.idProfileKf!=1 && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected && buildingList.length>0) || (sysLoggedUser.idProfileKf==1 && buildingList.length>0)" class="form-group n-padding-r" ng-class="
+				{	'col-md-6': 
+					sysLoggedUser.idProfileKf=='1',
+					'col-md-12':  
+					sysLoggedUser.idProfileKf!='1',
+				}">
+				<label style="padding-left: 15px;">Consorcio</label>
+				<div class="col-xs-12 selectContainer">
+					<div class="input-group">
+					<span class="input-group-addon"><i class="icon-suitcase"></i></span>
+						<ui-select 
+							name="buildings"
+							ng-change="mainSwitchFn('loadBuildingData', select.buildings.selected, null); ticket.idClientDepartament=undefined;"
+							ng-disabled="select.admins.selected==undefined"
+							ng-model="select.buildings.selected">
+						<ui-select-match allow-clear="true" placeholder="Selecione una opción" >{{$select.selected.name | uppercase}}</ui-select-match>
+							<ui-select-choices repeat="item in buildingList | filter: $select.search">
+								<div ng-bind-html="item.name | highlight: $select.search"></div>
+								<small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+							</ui-select-choices>
+							<ui-select-no-choice>
+								<span ng-if="buildingList.length == 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay consorcios asociados</span>
+							</ui-select-no-choice>
+						</ui-select>
+					</div>
+				</div>
+			</div>
+			<!-- Address for Onwers/Tenants-->
+			<div class="form-group" ng-if="sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==5 || (((sysLoggedUser.idProfileKf==4 && isHomeSelected) || sysLoggedUser.idProfileKf==6) && sysLoggedUser.idTypeTenantKf!=null)">
+				<!-- TABLE LIST WHERE IS DISPLAYED THE DEPARTMENTS -->
+				<div ng-include="'views/tickets/list/listDepartments.html'"></div>
+			</div>
+		</div>
+		<div ng-if="ticket.idClientDepartament!=null || select.buildings.selected!=undefined" >
+				<div class="container-fluid justify-content-md-center col-md-12 col-md-offset-3">
+					<div class="col-md-3">    	    
+						<div class="hero-widget well well-sm">
+							<div class="icon">
+								<i class="fas fa-edit"></i>
+							</div>
+							<div class="text">
+								<h4 class="text-muted">Costo Gestion</h4>
+							</div>
+							<div class="options">
+							<span data-toggle="tooltip" data-placement="bottom" title="Costo de gestion" class="badge badge-light">{{buildingServiceValue}}</span>
+							</div>
+						</div>
+					</div>
+					<div class="col-md-3">    	    
+						<div class="hero-widget well well-sm">
+							<div class="icon">
+								<i class="fas fa-truck"></i>
+							</div>
+							<div class="text">
+								<h4 class="text-muted">Costo de Envío</h4>
+							</div>
+							<div class="options">
+								<span data-toggle="tooltip" data-placement="bottom" title="Costo de envio" class="badge badge-light">{{buildingDeliveryCost}}</span>
+							</div>
+						</div>
+					</div>
+				</div>
+		</div>
+		<div class="col-md-6 col-xs-12 form-group" ng-if="ticket.idClientDepartament!=null || select.buildings.selected!=undefined">
+			<legend style="text-align: center;">Puertas disponibles</legend>
+			<div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+				<div ng-if="rsCustomerAccessControlDoors.length>0" class="form-group col-md-2 col-xs-6 bg-warning " ng-repeat="door in rsCustomerAccessControlDoors" style="margin-bottom: 0px !important; margin-left: 5px !important; margin-top: 5px !important;">
+					<div class="col-md-12 col-xs-12 well-door" style="cursor: pointer;">
+						<div class="door-icon">
+							<span><i class="product-success fas " ng-class="{'fa-door-open text-success':door.selected, 'fa-door-closed':!door.selected}"></i></span>
+						</div>
+						<div class="text-badge">
+							<span class="new-customer badge badge-light"> {{door.titulo}}</span><span style="font-size: 60%;" class="badge badge-warning">{{door.itemAclaracion}}</span>
+						</div>
+					</div>
+				</div>
+				<div ng-if="rsCustomerAccessControlDoors.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Puertas disponibles</h5></div>
+			</div>
+		</div>
+		<div class="col-md-6 col-xs-12 form-group" ng-if="ticket.idClientDepartament!=null || select.buildings.selected!=undefined">
+			<legend style="text-align: center;">Llaveros disponibles</legend>
+			<div ng-if="rsKeyProductsData.length>=1" class="modal-body pre-scrollable">
+				<table class="table  table-striped ">
+					<thead style=" background: #4d5d6f; color: white;">
+						<tr >
+							<th>N°</th>
+							<th>Descripcion</th>
+							<th>Status</th>
+							<th>Costo</th>
+					</thead>
+					<tbody >
+						<tr style="align-content: center;" ng-repeat="keys in rsKeyProductsData">
+						
+							<td>{{$index+1}}</td>
+							<td><span ng-if="keys.item=='Llaveros'"><i class="fas fa-key"> </i></span>
+								<span ng-if="keys.item=='Sticket Vehicular'"><i class="fas fa-car"> </i></span>
+								<span ng-if="keys.item=='Credencial Movil'"><i class="fas fa-mobile-alt"> </i></span>{{keys.descriptionProduct}}</td>
+							<td><span class="badge" ng-class="{'badge-warning':keys.idStatusFk!='1', 'badge-success':keys.idStatusFk=='1',}">{{keys.contractStatus}}</span></td>
+							<td>$ {{keys.priceFabric}}</td>
+						</tr>
+					</tbody>
+				</table>
+			</div>
+			<div ng-if="rsKeyProductsData.length==0 " class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Llaveros disponibles</h5></div>
+		</div>
+	</div>
+</div>

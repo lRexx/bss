@@ -1,0 +1,42 @@
+<table id="tablecompanies"   class="table table-striped table-bordered table-list table-responsive">
+    <thead style=" background: #4d5d6f; color: white;">
+      <tr style="text-align: center;">
+          <th>ID</th>
+          <th><i class="glyphicon glyphicon-user"> </i> Compa&#241ia</th>
+          <!--<th><i class="glyphicon glyphicon-phone"> </i> Tlf Movil</th>
+          <th><i class="glyphicon glyphicon-earphone"> </i> Tlf Fijo</th>-->
+          <th><i class="glyphicon glyphicon-envelope"> </i> Correo [Servicio]</th>
+          <th><i class="glyphicon glyphicon-envelope"> </i> Correo [Solicitudes]</th>
+          <th><i class="glyphicon glyphicon-envelope"> </i> Correo [Administrativo]</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr style="align-content: center;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+          <td>
+          	<div class="btn-group">
+			  <button ng-click="selectCompanyDataFn(item);" data-toggle="tooltip" data-placement="top" title="Editar" type="button"  class="btn btn-info btn-sm">{{item.idCompany}}</button>
+			  <button type="button" class="btn btn-info btn-sm dropdown-toggle" data-toggle="dropdown">
+			    <span class="caret"></span>
+			  </button>
+			  <ul class="dropdown-menu" role="menu">
+			    <li><a href="" ng-click="selectCompanyDataFn(item);"><i title="Modificar Datos" class="glyphicon glyphicon-edit"></i>  Editar</a></li>
+			    <!--<li ng-if="item.idStatusKf<=0 "><a href="" ng-click="sysFunctionsUser('enabled',item.idUser)"><i title="Activar Usuario" class="glyphicon glyphicon-remove-circle"></i> Activar</a></li>
+			    <li ng-if="item.idStatusKf>0"><a href="" ng-click="sysFunctionsUser('disabled',item.idUser)"><i title="Desactivar Usuario" class="glyphicon glyphicon-remove-circle"></i> Desactivar</a></li>
+			    <li ng-if="item.idStatusKf>0" role="presentation">
+                        <div class="divider"></div>
+                </li>
+			    <li ng-if="item.idStatusKf>0"><a href="" ng-click="modalConfirmation('removeu', 0, item)"><i title="Eliminar Usuario" class="glyphicon glyphicon-trash"></i> Eliminar</a></li>-->
+			  </ul>
+			</div>
+          </td>
+          <td>{{item.nameCompany}}</td>
+          <td ng-if="item.mail_services ">{{item.mail_services}}</td>
+          <td ng-if="item.mail_request ">{{item.mail_request}}</td>
+          <td ng-if="item.mail_admin ">{{item.mail_admin}}</td>
+
+          <td ng-if="!item.mail_services "><label class="label label-warning">No asignado</label></td>
+          <td ng-if="!item.mail_request "><label class="label label-warning">No asignado</label></td>
+          <td ng-if="!item.mail_admin "><label class="label label-warning">No asignado</label></td>
+      </tr>
+    </tbody>
+</table>

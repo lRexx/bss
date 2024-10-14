@@ -1,0 +1,114 @@
+<!-- MANAGE PRODUCTSs-->
+<div class="col-md-12 n-padding-l n-padding-r">
+  <div class="panel panel-default padding-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">GESTION DE PRODUCTOS </h3>
+    </div>
+    <div class="panel-body">
+      <div class="col-md-2">
+        <!-- NEW PRODUCT -->
+        <div>
+          <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="NUEVO PRODUCTO" ng-click="newProduct()">
+            <div class="depto-icon">
+                  <span><i class="product-success fas fa-box-open"></i></span>
+            </div>
+            <div class="text">
+                <h4 class="text-muted"><span class="badge badge-light"><i class="fas fa-plus"></i> NUEVO </span></h4>
+            </div>
+          </div>
+        </div>
+        <!-- //NEW PRODUCT -->
+        <!-- LIST PRODUCTS -->
+        <div>
+          <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="PRODUCTOS" ng-click="listProducts()">
+            <div class="depto-icon">
+                  <span><i class="product-success fas fa-th-list"></i></span>
+            </div>
+            <div class="text">
+                <h4 class="text-muted"><span class="badge badge-light"><i class="fas fa-eye"></i> PRODUCTOS </span></h4>
+            </div>
+          </div>
+        </div>
+        <!-- //LIST PRODUCTS -->
+      </div>
+      <div class="col-md-10">
+        <div>
+          <div ng-if="sysContent=='newProduct' || sysContent=='products'" class="pull-left col-md-12">
+            <div  class="panel panel-default">
+                <div class="panel-heading">
+                  <h3 ng-if="sysContent=='products'" class="panel-title">PRODUCTOS</h3>
+                </div>
+                    <div ng-if="sysContent=='products'" class="panel-body">
+                      <div class="row">
+                          <div class="form-group">
+                            <!-- Filter Type of Products-->
+                            <div class="col-md-3 col-sm-4">
+                                <label style="padding-left: 15px;">Clasificacion</label>
+                                <div class="col-xs-12 selectContainer">
+                                  <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                        <select name="filterModelProduct" ng-change="search(filterClassProduct.classification,'', true); $parent.filterBrandProduct=null" ng-options="item.classification for item in rsClasProductsData" class="form-control" ng-model="$parent.filterClassProduct" >
+                                            <option value="" >Todos</option>
+                                        </select>
+                                  </div>
+                                </div>
+                            </div>
+                            <!-- Filter Type of brand of Products-->
+                            <div class="col-md-3 col-sm-3">
+                                <label style="padding-left: 15px;">Marca</label>
+                                <div class="col-xs-12 selectContainer">
+                                  <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                        <select name="filterBrandProduct" ng-change="search(filterClassProduct.classification, filterBrandProduct.brand, true)" ng-disabled="filterClassProduct==undefined || filterClassProduct==''" ng-options="item as item.brand group by +'Marcas de ('+item.classification+')' for item in rsProductsData | filter:{idProductClassificationFk:filterClassProduct.idProductClassification} | filter:{classification:filterClassProduct.classification} | unique:'brand'" class="form-control" ng-model="filterBrandProduct" >
+                                            <option value="" ></option>
+                                        </select>
+                                  </div>
+                                </div>
+                            </div>
+                            <!-- Filter Search -->
+                            <div class="col-md-3">
+                            <label style="padding-left: 15px;">Buscar</label>
+                              <div class="input-group">
+                                  <span class="input-group-addon"><i class="glyphicon glyphicon-search "></i></span>
+                                  <input type="text" class="form-control" ng-change="search(searchboxfilter, false)"  ng-model="searchboxfilter" placeholder="Buscar...">
+                              </div>
+                            </div>
+                            <div class="col-md-3" style="margin-top: 1.5%;">
+                              <div class="btn-group">
+                                <!-- PRODUCTS -->
+                                <button ng-if="sysContent=='products'" ng-click="getProductsFn('', 1)" data-toggle="tooltip" data-placement="top" title="Actualizar lista" type="button" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+                                <!-- New Produc button -->
+                                <button style="margin-left: 0.5px;" data-toggle="tooltip" data-placement="top" title="Nuevo Producto" type="button" class="btn btn-md btn-labeled btn-info" ng-click="newProduct()"><span class="btn-label"><i class="fas fa-box-open"></i> </span>Nuevo</button>  
+                              </div>
+                            </div>
+                          </div>
+                      </div>
+                        <div class="clear-fix"></div>
+                        <!-- TABLE LIST WHERE IS DISPLAYED THE PRODUCTS -->
+                        <div ng-include="'views/products/list.html'"></div>
+                      <!-- PAGINATION -->
+                        <div ng-if="rsProductsData.length>=10" style="text-align: center;">
+                          <div class="text-center">
+                            <!--<dir-pagination-controls boundary-links="true" template-url="views/pagination/pager-tpl-v3.html"></dir-pagination-controls>-->
+                            </div>                          
+                            <div ng-if="rsProductsData.length>10" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
+                              <!--<dir-pagination-controls
+                                max-size="10"
+                                direction-links="true"
+                                boundary-links="true" >
+                            </dir-pagination-controls>-->
+                        </div>
+                      <!-- //PAGINATION -->
+                    </div>
+            </div>
+          </div>   
+        </div>
+      </div>        
+    </div>
+  </div>
+</div>
+
+<div ng-include="'views/products/new.html'"></div>
+<div ng-include="'views/products/update.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>

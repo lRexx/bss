@@ -1,0 +1,180 @@
+<!-- CUSTOMER CONTRACT FORM -->
+<div id="serviceModuleZonesDetails" class="modal fade bd-example-modal-md" style="top:7.3%;" role="dialog">
+  	<div class="modal-dialog modal-md" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title"><i class="product-success fas fa-border-none"></i> Datos de Alarmas (Zonas)</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+    			<form class="form-horizontal" name="fServiceModuleDetails" novalidate>
+					<!-- Numero de la zona del sensor -->						  
+					<div class="form-group col-md-6" >
+					  	<label style="padding-left: 15px;">N° de Zona de Sensor</label>
+					</div>
+					<div class="form-group col-md-6 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.sensor.zones.zoneNumber!='' && fServiceModuleDetails.serviceZoneNumbSensor.$valid,
+								 	'has-error':  
+									(service.sensor.zones.zoneNumber=='' || service.sensor.zones.zoneNumber==undefined) && fServiceModuleDetails.serviceZoneNumbSensor.$touched,
+								}">
+						<div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-grip-horizontal"></i></span>
+								<select name="serviceZoneNumbSensor" id="serviceZoneNumbSensor" class="form-control" ng-options="item.zone as item.zone for item in list_sensors_zones" ng-required="service.new.idTipeServiceFk=='5' && productSelected.idProductClassification=='14'" ng-model="service.sensor.zones.zoneNumber" autofocus >
+								    <option value="">Selecciona una opci&#243;n</option>
+							    </select>				    			
+				    		</div>
+				    	</div>						
+					</div>
+					<!-- Area Cubierta -->
+					<div class="form-group col-md-12" ng-class="
+								{	'has-success': 
+									service.sensor.zones.areaCovered!='' && fServiceModuleDetails.serviceAreaCubierta.$valid,
+								 	'has-error':  
+									(service.sensor.zones.areaCovered=='' || service.sensor.zones.areaCovered==undefined) && fServiceModuleDetails.serviceAreaCubierta.$touched,
+								}">
+					  <label class="col-xs-12" >Area Cubierta</label> 
+							<textarea style="resize: none;" name="serviceAreaCubierta" rows="3" class="form-control" ng-model="service.sensor.zones.areaCovered" ></textarea>							
+					</div>					
+					<!-- Numero de la zona del sensor -->						  
+					<div ng-if="!service.sensor.zones.isWireless" class="form-group col-md-6" >
+					  	<label style="padding-left: 15px;">N° de Zona de Tamper</label>
+					</div>
+					<div ng-if="!service.sensor.zones.isWireless" class="form-group col-md-6 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.sensor.zones.nroZoneTamper!='' && service.sensor.zones.nroZoneTamper!=undefined && service.sensor.zones.nroZoneTamper!=null && fServiceModuleDetails.serviceZonaNumbTamper.$valid
+								}">
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-grip-horizontal"></i></span>
+				    			<select name="serviceZonaNumbTamper" class="form-control" ng-options="item.tamper as item.tamper for item in list_tampers_zones | filter:zoneFilter" ng-model="service.sensor.zones.nroZoneTamper" autofocus >
+				    				<option value="">Selecciona una opci&#243;n</option>
+							    </select>					    				
+				    		</div>
+				    	</div>
+					</div>
+					<div ng-if="(service.sensor.zones.nroZoneTamper=='' || service.sensor.zones.nroZoneTamper==undefined)" class="form-group col-md-6 col-xs-6">
+					  	<label style="padding-left: 15px;">Sensor inalámbrico</label>
+					</div>
+		            <div ng-if="(service.sensor.zones.nroZoneTamper=='' || service.sensor.zones.nroZoneTamper==undefined)" class="col-md-6 col-xs-6 n-padding-l" >
+			           	<div class="col-md-12 col-xs-12 n-padding-r">
+								<label class="switch switch-2x" for="isWirelessSensor">
+				                    <input type="checkbox" class="success" ng-model="service.sensor.zones.isWireless" id="isWirelessSensor">
+				                    <span class="slider slider-2x flat"></span>
+				                </label>						                
+			            </div>
+					</div>					
+					<!-- Zona Ubicacion -->					  
+					<div class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.sensor.zones.zoneLocation!=''&& service.sensor.zones.zoneLocation!=undefined && fServiceModuleDetails.serviceZonaUbicacion.$valid,
+								 	'has-error':  
+									(service.sensor.zones.zoneLocation=='' || service.sensor.zones.zoneLocation==undefined) && fServiceModuleDetails.serviceZonaUbicacion.$touched,
+								}">  
+					  	<label style="padding-left: 15px;">Ubicaci&#243;n</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-compass"></i></span>
+				    			<input name="serviceZonaUbicacion" type="text" class="form-control" ng-model="service.sensor.zones.zoneLocation" ng-required="true" />
+				    		</div>
+				    	</div>
+					</div>
+					<!-- DVR -->
+					<div class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.dvr.selected!=undefined && fServiceModuleDetails.serviceZonaDVR.$valid,
+								}">
+					  	<label style="padding-left: 15px;">DVR (Opcional)</label>
+					    <!--<div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
+								<select name="serviceZonaDVR" class="form-control" ng-model="service.sensor.zones.zoneDvr" autofocus >
+								    <option value="">Selecciona una dvr</option>
+							    </select>
+						  	</div>						    	
+				    	</div>-->
+					    <div class="col-xs-12 selectContainer">							   
+						    <div class="input-group">
+				              <span class="input-group-addon"><i class="fas fa-play-circle"></i></span>
+				              <ui-select name="serviceZonaDVR"
+				              			 ng-model="service.dvr.selected"
+				              			 ng-change="service.sensor.zones.zoneCameras=''"
+				              			 theme="bootstrap" autofocus>
+				                  <ui-select-match allow-clear="true" placeholder="Selecciona un dvr">({{$select.selected.numeroContrato}}): {{$select.selected.brand}} - {{$select.selected.model}}</ui-select-match>
+				                    <ui-select-choices class="ui-select-choices" repeat="item in resources.dvr | filter: $select.search">
+				                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+				                      	<small ng-bind-html="'Contrato: '+item.numeroContrato | highlight: $select.search"></small>
+				                      	<small ng-bind-html="' :: '+item.model | highlight: $select.search"></small>
+				                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+				                    </ui-select-choices>
+				                    <ui-select-no-choice>
+									    No hay resultados, contacte are de soporte.
+								  	</ui-select-no-choice>
+				                </ui-select>
+				            </div>
+					  	</div>				    	
+					</div>
+					<!-- Camaras -->					
+					<div class="form-group col-md-12 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.sensor.zones.zoneCameras!='' && fServiceModuleDetails.serviceZonaCamaras.$valid,
+								 	'has-error':  
+									service.dvr.selected!=undefined && (service.sensor.zones.zoneCameras=='' || service.sensor.zones.zoneCameras==undefined) && fServiceModuleDetails.serviceZonaCamaras.$touched,
+								}">
+					  	<label style="padding-left: 15px;">Camaras (Opcional)</label>
+					    <div class="col-xs-12">
+							<div class="input-group">
+								<span class="input-group-addon"><i class="fas fa-video"></i></span>
+								<select name="serviceZonaCamaras" class="form-control" ng-disabled="service.dvr.selected==undefined" ng-options="item as ('Camara N°: '+item.portCamera+' ('+item.locationCamera+')') for item in resources.cameras | filter:{idClientServicesFk:service.dvr.selected.idClientServices}" ng-model="service.sensor.zones.zoneCameras" autofocus >
+								    <option value="">Camaras</option>
+							    </select>
+						  	</div>						    	
+				    	</div>
+					</div>
+					<!-- Internal Serial number -->						  
+					<div class="form-group col-md-6 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.sensor.zones.internalSerialNumber!='' && service.sensor.zones.internalSerialNumber!=undefined && fServiceModuleDetails.serviceProductInternalSerial.$valid,
+								 	'has-error':  
+									(service.sensor.zones.internalSerialNumber=='' || service.sensor.zones.internalSerialNumber==undefined) && fServiceModuleDetails.serviceProductInternalSerial.$touched,
+								}">
+					  	<label style="padding-left: 15px;">N° de Serie Interno (Sensor)</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+				    			<input name="serviceProductInternalSerial" type="text" class="form-control" ng-model="service.sensor.zones.internalSerialNumber" ng-required="true" />
+				    		</div>
+				    	</div>
+					</div>					
+					<!-- Fabric Serial number -->					  
+					<div class="form-group col-md-6 n-padding-r n-padding-l" ng-class="
+								{	'has-success': 
+									service.sensor.zones.fabricSerialNumber!='' && service.sensor.zones.fabricSerialNumber!=undefined && fServiceModuleDetails.serviceProductFabricSerial.$valid,
+								 	'has-error':  
+									(service.sensor.zones.fabricSerialNumber=='' || service.sensor.zones.fabricSerialNumber==undefined) && fServiceModuleDetails.serviceProductFabricSerial.$touched,
+								}">
+					  	<label style="padding-left: 15px;">N° de Serie de Fabricante (Sensor)</label>
+					    <div class="col-xs-12">
+						    <div class="input-group">
+						    	<span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+				    			<input name="serviceProductFabricSerial" type="text" class="form-control" ng-model="service.sensor.zones.fabricSerialNumber" ng-required="true" />
+				    		</div>
+				    	</div>
+					</div>					
+				</form>
+			</div>
+			<!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="alarmSensorZoneFn(service.sensor.zones, 'new')" ng-disabled="fServiceModuleDetails.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asignar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>				

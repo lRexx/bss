@@ -1,0 +1,52 @@
+----------------------   POST  ADD ENCARGADO --------------
+http://localhost/Coferba/Back/index.php/User/attendant
+
+{
+  
+  "attendant":
+  {
+  "nameAttendant" : "prueba",
+  "idAddresKf" : "1",
+  "phoneAttendant" : "31321321321",
+  "mailAttendant" : "prueba@pruba.com",
+  "hoursWork" : "08:40",
+  "idTyepeAttendantKf": 1,
+  "descOther" :"adssa"
+  }
+}
+
+
+----------------------   POST  EDITAR ENCARGADO --------------
+http://localhost/Coferba/Back/index.php/User/updateAtt
+{
+  
+    "attendant":
+    {
+    "idAttendant":5,
+    "nameAttendant" : "prueba EDITE 2",
+    "idAddresKf" : "1",
+    "phoneAttendant" : "31321321321",
+    "mailAttendant" : "prueba@pruba.com",
+    "hoursWork" : "08:40",
+    "idTyepeAttendantKf": 2,
+    "descOther" :"adssa"
+
+    }
+  }
+
+
+  ----------------------  DELETE ELIMINAR ENCARGADO --------------
+http://localhost/Coferba/Back/index.php/User/antendant/1
+
+
+
+----------------------  GET ACTIVAR ENCARGADO ELIMINADO --------------
+http://localhost/Coferba/Back/index.php/User/antendantActive/2
+
+
+----------------------  GET detalles de un tickets por id--------------
+http://localhost/Coferba/Back/index.php/Ticket/find/1
+
+
+----------------------  GET verificat tickets activos por idTenan--------------
+http://localhost/Coferba/Back/index.php/Ticket/verificateTicketByIdTenant/22

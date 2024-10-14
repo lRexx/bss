@@ -1,0 +1,36 @@
+<!-- Mails List -->
+<div class="form-group col-md-12">
+	<label class="clf-p-left">Correo de contactos <button style="margin-left: 135px;" ng-disabled="(!fUpdateCustomer.contact_mail.$valid) || (contactMails.idTipoDeMailFk=='' || contactMails.idTipoDeMailFk==undefined)" ng-click="addMailContactFn(contactMails, 'update'); contactMails.idTipoDeMailFk=undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button> </label>  
+	<div class="input-group" ng-init="getTypeOfMailsFn();">
+		<span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>  
+		<select style="width: 42%; padding-left: 2px; font-size: 12px;" name="typeMail" class="form-control text-uppercase" ng-options="item.idTipoMail as item.descripcion for item in rsTypeOfMailsData" ng-disabled="(customer.update.idClientTypeFk==5)" ng-change="enabledNextBtn()" ng-model="contactMails.idTipoDeMailFk" ng-required="list_mails.length==0" autofocus >
+		    	<option class="text-uppercase" value="">Tipo</option>
+	    </select>
+	    								  				
+	  	<input style="width: 58%; font-size: 12px;"id="contactMail" name="contact_mail" autofocus="true" ng-disabled="(customer.new.idClientTypeFk==5 && contactMails.idTipoDeMailFk=='') || (customer.new.idClientTypeFk!=5 && contactMails.idTipoDeMailFk=='')" ng-blur="enabledNextBtn();" class="form-control" ng-model="contactMails.mailContact" type="email" ng-required=true autofocus/>
+	</div>
+	<div class="well-checkbox n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
+	  	<table ng-if="list_mails.length>0">
+	    	<tr ng-repeat="mail in list_mails">
+	      		<td style="width: 25%">
+	      			<span class="text-muted text-box">
+	      				<label ng-if="mail.idTipoDeMailFk<='4'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 100%" class="label label-default">
+	      					<i ng-if="mail.idTipoDeMailFk=='1'" class="fas fa-key"></i>
+	      					<i ng-if="mail.idTipoDeMailFk=='2'" class="fas fa-tools"></i>
+	      					<i ng-if="mail.idTipoDeMailFk=='3'" class="fas fa-file-invoice-dollar"></i>
+	      					<i ng-if="mail.idTipoDeMailFk=='4'" class="fas fa-paste"></i>
+	      				</label>
+	      				<label ng-if="mail.idTipoDeMailFk=='5'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 100%" class="label label-warning"><i class="fas fa-envelope"></i></label>
+	      				<label ng-if="mail.idTipoDeMailFk=='6'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.typeName | uppercase}}" style="font-size: 100%" class="label label-danger"><i class="fas fa-envelope"></i></label>
+	      			</span>
+	      		</td>					                    	
+	      		<td style="width: 150%"><span class="text-muted text-box"><label style="font-size: 90%" class="label label-info">{{mail.mailContact}}</label></span></td>
+	          	<td style="padding-bottom: 5px;">
+	            	<button data-toggle="tooltip" data-placement="right" title="Eliminar" ng-click="modalConfirmation('removeMail', 0, mail);" class="btn btn-sm btn-danger"><i style="font-size: 14px;" class="fas fa-minus-circle"></i></button>
+
+	          	</td>
+	      	</tr>
+	  	</table>
+	  	<div ng-if="list_mails.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay correos cargados</h5></div>
+	</div>
+</div>

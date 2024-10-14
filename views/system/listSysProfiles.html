@@ -1,0 +1,31 @@
+<table id="tableProfiles"  class="table table-striped table-bordered table-condensed table-list">
+    <thead style=" background: #4d5d6f; color: white;">
+      <tr style="text-align: center;">
+          <th><i class="fas fa-file"> </i> ID</th>
+          <th><i class="fas fa-info-circle"> </i> Nombre</th>
+          <th><i class="glyphicon icon-flag"> </i> Status</th>
+          
+      </tr>
+    </thead>
+    <tbody>
+      <tr class="tr_body" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse" >
+          <td ng-trim="true"><bold>{{item.idProfiles}}</bold></td>
+
+          <td ng-trim="true" ng-click="selectProfileDataFn(item);">{{item.name}}</td>
+          <td>
+              <label ng-if="item.idStatus==1" class="label label-success">ACTIVO
+              </label>
+              <label ng-if="item.idStatus==0" class="label label-warning">INACTIVO
+              </label>
+              <label ng-if="item.idStatus==-1" class="label label-danger"><del>ELIMINADO</del>
+              </label>
+          </td>
+          <td ng-trim="true">
+            <button ng-click="selectProfileDataFn(item);" data-toggle="tooltip" data-placement="right" title="Modificar Perfil" ng-disabled="item.idStatus==-1" type="button" class="btn btn-info btn-xs"><i class="far fa-edit"></i></button>
+            <button ng-click="modalConfirmation('removeSysProf', 0, item)" data-toggle="tooltip" data-placement="right" title="Eliminar Perfil" type="button" class="btn btn-danger btn-xs"><i class="glyphicon glyphicon-trash"></i></button>
+          </td>
+          <!--<td>{{item.dateCreated | dateToISO | date:'MM/dd/yyyy'}}</td>-->
+      </tr>
+    </tbody>
+</table>
+

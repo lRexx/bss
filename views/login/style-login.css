@@ -1,0 +1,526 @@
+[ng\:cloak], [ng-cloak], [data-ng-cloak], [x-ng-cloak], .ng-cloak, .x-ng-cloak {
+    display: none !important;
+}
+.main_content{
+  width: 350px;
+  height: 700px;
+  position: absolute;
+  top:50%;
+  left:50%;
+  transform: translate(-50%, -50%);
+  display: inline-flex; 
+}
+.backbox {
+  background: rgba(108, 117, 125, .5);
+  width: 94%;
+  height: 100%;
+  position: absolute;
+  transform: translate(0, -50%);
+  top: 50%;
+  display: inline-flex;
+  margin-left: 3.2%;
+}
+
+.frontbox {
+  background-color: white;
+  height: 50%;
+  top: 4%;
+  width: 100%;
+  z-index: 10;
+  position: absolute;
+  right: 0;
+  transition: all .9s ease-in-out;
+  box-shadow: 0 0 10px 1px rgba(0, 0, 0, .5);
+}
+
+.moving {
+  top: 46%;
+}
+
+.loginMsg,
+.signupMsg {
+  width: 100%;
+  height: 50%;
+  font-size: 15px;
+}
+
+.loginMsg .title,
+.signupMsg .title {
+  font-weight: 300;
+  width: 100%;
+  font-size: 23px;
+}
+
+.loginMsg p,
+.signupMsg p {
+  font-weight: 100;
+}
+
+.textcontent1 {
+  color: white;
+  margin-top: 55px;
+  width: 100%;
+  margin-left: 10%;
+}
+.textcontent2 {
+  color: white;
+  margin-top: 85px;
+  width: 100%;
+  margin-left: 10%;
+}
+
+.loginMsg button,
+.signupMsg button {
+  background-color: #404040;
+  border: 2px solid #404040;
+  border-radius: 0px;
+  color: white;
+  font-size: 12px;
+  font-weight: 300;
+  padding: 10px;
+  margin-top: 20px;
+}
+
+.loginMsg button:hover,
+.signupMsg button:hover {
+  background-color: #fff;
+  border: 2px solid #fff;
+  color: #404040;
+}
+
+/* front box content*/
+
+.login,
+.signup {
+  padding: 30px;
+  text-align: center;
+}
+
+.login h2,
+.signup h2 {
+  color: #35B729;
+  font-size: 22px;
+  font-weight: bold;
+}
+
+.inputbox {
+  margin-top: 30px;
+}
+
+.newPwdForm {
+    padding-top: 120px;
+}
+.newPwdRules {
+    padding-top: 133px;
+}
+/* Fade In & Out*/
+
+
+.textcontent1,
+.textcontent2 {
+  /*opacity: 1;*/
+ transition: opacity .9s ease-in-out;
+}
+
+.visibility {
+  opacity: 0;
+}
+
+.forgotpwd {
+  margin: 0px;
+  cursor: pointer;
+  color: rgba(108, 117, 125, .5);
+  font-size: 15px;
+  padding-bottom: 30px;
+}
+
+.forgotpwd:hover {
+  font-weight: bold;
+  color: rgba(108, 117, 125, 1);
+}
+
+.spacing {
+  padding-bottom: 60px;
+}
+
+.hide {
+  display: none;
+}
+.glyphicon-share-alt{
+    webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+ }
+ .verticalAllign{
+    padding-top: 150px;
+ }
+.btn-label {position: relative;left: -12px;display: inline-block;padding: 6px 12px;background: rgba(0,0,0,0.15);border-radius: 3px 0 0 3px;}
+.btn-labeled {padding-top: 0;padding-bottom: 0;}
+.input-group { margin-bottom:10px; }
+.separator { border-right: 1px solid #dfdfe0; }
+
+.registerForm {
+    padding-top: 120px;
+
+}
+.custom-title{
+    margin: 0;
+}
+.alert{cursor: pointer;}
+.hero-widget { text-align: center; padding-top: 20px; padding-bottom: 20px; }
+.alert .glyphicon { display: block; font-size: 76px; line-height: 76px; color: #229922; margin-bottom: 15px; text-align: center; }
+
+.hero-widget var { display: block; height: 64px; font-size: 64px; line-height: 64px; font-style: normal; }
+.hero-widget label { font-size: 12px; }
+.hero-widget .options { margin-top: 10px; }
+.successRegister{
+  padding-top: 200px;
+}
+.popover-title {
+    padding: 0px;
+    font-size: 14px;
+    color: white;
+    background-color: #c9302c;
+    border-bottom: 1px solid #c9302c;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-radius: 0px;
+}
+.popover-title {
+    padding: 0px;
+    font-size: 14px;
+    padding: 10px 15px;
+    border-bottom: 1px solid transparent;
+    border-radius: 0px;
+}
+.pop-danger{
+  color: white;
+  background-color: #c9302c;
+  border-bottom: 1px solid #c9302c;
+}
+.pop-info{
+    color: #31708f;
+    background-color: #d9edf7;
+    border-bottom: 1px solid #bce8f1;
+}
+.pop-warning{
+  color: #8a6d3b;
+  background-color: #fcf8e3;
+  border-bottom: 1px solid #faebcc;
+}
+.popover{
+    max-width: 20%; /* Max Width of the popover (depending on the container!) */
+    border-radius: 0px;
+    padding: 0px;
+}
+.popover-custom{
+    top: 220px;
+    left: 1335px;
+    display: block;
+}
+.popover-footer{
+    padding: 6px 14px;
+    background-color: #f7f7f7;
+    border-top: 1px solid #ebebeb;
+    text-align: right;
+}
+
+.panel-header{
+  border-top-left-radius: 0px;
+}
+/*******************************************************
+*                                                      *
+*             Booststrap custom CSS Class              *
+*                                                      *
+*******************************************************/
+
+.modal-header {
+    padding: 15px;
+    background-color: #c9302c;
+    color: white;
+    order-bottom: 1px solid #c9302c;
+}
+.modal-title{
+    font-weight: 400;
+}
+.modal-body p{
+  padding: 15px;
+  text-align: left;
+  font-size: 14px;
+}
+.modal-footer{
+  background-color: #f7f7f7;
+}
+
+.btn-label {position: relative;left: -12px;display: inline-block;padding: 6px 12px;background: rgba(0,0,0,0.15);border-radius: 3px 0 0 3px;}
+.btn-labeled {padding-top: 0;padding-bottom: 0;}
+.input-group { margin-bottom:10px; }
+.separator { border-right: 1px solid #dfdfe0; }
+
+.confirmModal, .modal-backdrop{
+  visibility: hidden;
+}
+/*------------------------------------------------------------------------*/
+
+
+/*************************************
+*                                    *
+*    MATERIAL CSS CLASS FOR INPUTS   *
+*                                    *
+*************************************/
+.form-group {
+  position: relative;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+.form-group label {
+    font-weight: 300;
+    color: rgba(20, 22, 43, .4);
+    position: absolute;
+    top: 50%;
+    left: 0;
+    pointer-events: none;
+    font-size: 16px;
+    transform: translateY(-50%);
+    transition: all .2s ease-in-out;
+}
+
+.form-input:focus ~ label, .form-input:active ~ label , .form-input.active ~ label, .input-temp:focus ~ label, .input-temp:active ~ label , .input-temp.active ~ label{
+      color: rgba(20, 22, 43, .9);
+      font-size: 11px;
+      top: -10px;
+      font-weight: 700;
+      transform: none;
+}
+.form-input.error, .form-input:active ~ label.alert-error , .form-input.active ~ label.alert-error{
+      color: red;
+      font-weight: 800;
+}
+.form-input {
+    display: block;
+    width: 100%;
+    height: 34px;
+    padding: 6px 12px;
+    font-size: 14px;
+    color: rgba(20, 22, 43, .5);
+    background: none;
+    border-radius: 0;
+    box-shadow: none;
+    border: none;
+    border-bottom: 1.2px solid #ddd;
+}
+.form-input > .selectize-control > .selectize-input {
+  color: rgba(20, 22, 43, .5);
+  background: none;
+  border-radius: 0;
+  box-shadow: none;
+  border: none;
+
+}
+.form-input > .selectize-control > .selectize-dropdown {
+  width: 105%;
+  margin: -11px -11px 0;
+}
+.selectize-dropdown .active {
+    color: #fff;
+    background-color: #337ab7;
+}
+
+
+.form-input:focus, .form-input:active, .input-temp:focus, .input-temp:active {
+      outline: none;
+      box-shadow: none;
+      border: none;
+      color: rgba(20, 22, 43, .9);
+}
+
+.form-horizontal .form-group {
+  margin-right:0px;
+  margin-left: 0px;
+}
+/*************************************/
+/*************************************
+*                                    *
+*       BOTTOM BORDER IN INPUTS      *
+*                                    *
+*************************************/
+
+.bar {
+    position: relative;
+    display: block;
+    width: 100%;
+}
+.input-login-error {
+    border-bottom: 1.5px solid red;
+}
+.input-login-success {
+    border-bottom: 1.5px solid #5cb85c;
+}
+.input-login-warning{
+  border-bottom: 1.5px solid #f0ad4e;
+}
+.label-font-error{
+  color: red;
+}
+.bar:before, .bar:after {
+    content: '';
+    border-bottom: 1.1px solid #14162b; 
+    width: 0; 
+    position: absolute;
+    background: #14162b; 
+    transition: all .2s ease-in-out;
+}
+
+.bar:before { left: 50%; }
+.bar:after  { right: 50%;}
+
+
+/* active */
+
+input:focus ~ .bar:before, input:focus ~ .bar:after { width: 50%; }
+select:focus ~ .bar:before, select:focus ~ .bar:after { width: 50%; }
+
+
+
+
+
+
+/*******************************************************
+*                                                      *
+*        Class to show icon into the input box         *
+*                                                      *
+*******************************************************/
+.inner-addon {
+  position: relative;
+}
+
+/* style glyph */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 8px;
+  color: rgba(20, 22, 43, .4);
+  pointer-events: none;
+}
+/* align glyph */
+.left-addon .glyphicon  { left:  0px;}
+.right-addon .glyphicon { right: 0px;}
+
+
+.form-input:focus ~ .glyphicon, .form-input:active ~ .glyphicon, .form-input.active ~ .glyphicon{
+    color: rgba(20, 22, 43, 0.9);
+} 
+.i-success{
+  color: #5cb85c;
+}
+.i-warning{
+  color: #f0ad4e;
+}
+.i-danger{
+  color: #d9534f;
+}
+.i-default{
+  color: #337ab7;
+}
+.i-disable{
+  color: #777;
+}
+.i-cancel{
+  color:#dc3545!important;
+}
+
+.ulPwdRules{
+  list-style: none;
+  margin-top: -10px;
+}
+.ulPwdRules li{
+  margin-left: -2.8em;
+  line-height: 1.6em;
+  font-size: 1.2em;
+  color: rgba(20, 22, 43, .5);
+}
+.iPwdRules {
+  font-size: 1.8em;
+  padding-top: 0.4em;
+}
+.success-Rules{
+  color: #5cb85c
+}
+.warning-Rules {
+  color: #f0ad4e
+}
+.danger-Rules{
+  color: #d9534f
+}
+.default-Rules {
+  color: rgba(20, 22, 43, .5);
+}
+/*-----------------------------------------------------------------------*/
+@media (max-width: 1199px) {
+  .ulPwdRules li{
+    line-height: 3.3em;
+    font-size: 1em;
+    color: rgba(20, 22, 43, .5);
+  }
+  .iPwdRules {
+    font-size: 1.8em;
+    padding-top: 0.4em;
+  }
+}
+@media (max-width: 991px) {
+  .ulPwdRules li{
+    margin-left: -5em;
+    line-height: 5em;
+    font-size: 0.7em;
+    color: rgba(20, 22, 43, .5);
+  }
+  .iPwdRules {
+    font-size: 1.6em;
+    padding-top: 0.4em;
+  }
+}
+@media (max-width: 767px) {
+  .registerForm{
+    padding-top: 0;
+
+  }
+  .newPwdForm{
+    padding-top: 75px;
+  }
+  .newPwdRules{
+    padding-top: 0px;
+  }
+  .main_content{
+  }
+  .frontbox{
+     margin-right: 0;
+  }
+  .popover {
+    visibility: hidden;
+  }
+  .modal{
+    visibility: visible;
+  }
+  .inform-fixed {
+    position: fixed;
+    top: 360px;
+  }
+  .verticalAllign{
+    padding-top: 70px;
+  }
+  .ulPwdRules li{
+    margin-left: -3em;
+    line-height: 6em;
+    font-size: 1em;
+  }
+  .iPwdRules {
+    font-size: 1.8em;
+    padding-top: 0.4em;
+  }
+}
+.content-center{
+  position: absolute;
+  top: 50%;
+  left:50%;
+  transform: translate(-50%,-50%);
+}

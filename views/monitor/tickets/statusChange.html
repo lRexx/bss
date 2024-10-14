@@ -1,0 +1,128 @@
+<!-- CHANGE STATUS  -->
+<div id="changeModalStatus" class="modal fade bd-example-modal-lg" style="top: 250px;" role="dialog">
+    <div class="modal-dialog modal-md" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 ng-if="changeStatusTicketSingle" class="modal-title"><i class="fas fa-sync"></i> [{{ticket.codTicket}}] - <span class="label label-info" >CAMBIO DE ESTADO</span></h3>
+              <h3 ng-if="changeStatusTicketMulti" class="modal-title"><i class="fas fa-sync"></i> Ticket Seleccionados - <span class="label label-info" >CAMBIO DE ESTADO</span></h3>
+          </div>
+        <div class="modal-body">
+            <div  class="col-md-12 n-padding-l n-padding-r">
+                <form class="form-horizontal" name="fChStatusTicket" autocomplete="off" novalidate>
+                    <!-- Filter Type of Status-->
+                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-12 col-xs-12 padding-input-left-2 padding-input-both-2" ng-class="
+                    {	'has-success': 
+                        ticket.newTicketStatus.idStatus!='' && fChStatusTicket.idStatusKf.$valid,
+                        'has-error':  
+                        (ticket.newTicketStatus.idStatus=='' || ticket.newTicketStatus.idStatus==undefined) && fChStatusTicket.idStatusKf.$touched,
+                    }">
+                        <label>Estado</label>
+                        <div class="col-xl-12 selectContainer">
+                        <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                <select name="idStatusKf" class="form-control text-uppercase" ng-required="true" required ng-options="status as status.statusName for status in listStatusTicketChange | filter:filterStatusTicket " ng-model="ticket.newTicketStatus" >
+                                <option value="">Seleccione un estado</option>
+                                </select>
+                        </div>
+                        </div>
+                    </div>
+                    <div ng-if="sysLoggedUser.idProfileKf!=0 && (ticket.newTicketStatus.idStatus=='5' || ticket.newTicketStatus.idStatus=='1')" class="form-group col-md-12 col-xs-12" ng-class="
+                    {	'has-success': 
+                        ticket.deliveryDate!='' && fChStatusTicket.deliveryDate.$valid,
+                        'has-error':  
+                        (ticket.deliveryDate=='' || ticket.deliveryDate==undefined) && fChStatusTicket.deliveryDate.$touched,
+                    }">
+                        <div class="col-md-12" >
+                            <legend ng-if="ticket.idTypeDeliveryKf=='2'" style="text-align: left;">Datos de Entrega</legend>
+                            <legend ng-if="ticket.idTypeDeliveryKf=='1'" style="text-align: left;">Datos de Retiro</legend>
+                            <div class="form-group col-md-12 col-xs-12 n-padding-r n-padding-l">
+                                <label>Fecha</label>
+                                <div class="input-group">
+                                    <input 
+                                        ng-click="open5()" 
+                                        type="text" 
+                                        name="deliveryDate"
+                                        ng-change=""
+                                        class="form-control" 
+                                        uib-datepicker-popup="{{format}}" 
+                                        ng-model="ticket.deliveryDate" 
+                                        is-open="popup5.opened"
+                                        ng-required="sysLoggedUser.idProfileKf!=0 && (ticket.newTicketStatus.idStatus=='5' || ticket.newTicketStatus.idStatus=='1')" 
+                                        close-text="Cerrar" 
+                                        clear-text="Borrar"
+                                        current-text="Hoy"
+                                        alt-input-formats="altInputFormats" />
+                                    <span ng-click="open5()" class="input-group-addon">
+                                    <i ng-click="open5()" class="far fa-calendar-alt"></i>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- DELIVERY COMPANY -->
+                    <div ng-if="sysLoggedUser.idProfileKf!=0 && ticket.idTypeDeliveryKf=='2' && ticket.newTicketStatus.idStatus=='5'" class="form-group col-md-12 col-xs-12 padding-input-left-2 padding-input-both-2" ng-class="
+                    {	'has-success': 
+                        ticket.idDeliveryCompanyKf!='' && fChStatusTicket.idDeliveryCompanyKf.$valid,
+                        'has-error':  
+                        (ticket.idDeliveryCompanyKf=='' || ticket.idDeliveryCompanyKf==undefined) && fChStatusTicket.idDeliveryCompanyKf.$touched,
+                    }">
+                        <label>Empresa de Envío</label>
+                        <div class="col-xl-12 selectContainer">
+                        <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                <select name="idDeliveryCompanyKf" class="form-control text-uppercase" ng-required="true" required ng-options="deliveryCompany.idDeliveryCompany as deliveryCompany.deliveryCompanyName for deliveryCompany in listDeliveryCompanies " ng-model="ticket.idDeliveryCompanyKf" >
+                                <option value="">Seleccione una empresa de envío</option>
+                                </select>
+                        </div>
+                    </div>
+                    </div>
+                    <!-- Text DNI-->
+                    <div ng-if="sysLoggedUser.idProfileKf!=0 && ticket.newTicketStatus.idStatus=='1' && ticket.idTypeDeliveryKf=='1'" class="form-group col-md-12" ng-class="
+                    {	'has-success': 
+                        ticket.dni!='' && fChStatusTicket.dni.$valid,
+                        'has-error':  
+                        (ticket.dni=='' || ticket.dni==undefined) && fChStatusTicket.dni.$touched,
+                    }">
+                    <label style="padding-left: 15px;">Documento de identidad:</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
+                                <input name="dni" placeholder="Documento de identidad" class="form-control input--dni" ng-model="ticket.dni"  type="text" ng-keydown="fnLoadPhoneMask();" required autofocus />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Form First & Last Name -->
+                    <div ng-if="sysLoggedUser.idProfileKf!=0 && ticket.newTicketStatus.idStatus=='1' && ticket.idTypeDeliveryKf=='1'" class="form-group col-md-12" ng-class="
+                    {	'has-success': 
+                        ticket.fullname!='' && fChStatusTicket.fullname.$valid,
+                        'has-error':  
+                        (ticket.fullname=='' || ticket.fullname==undefined) && fChStatusTicket.fullname.$touched,
+                    }">
+                    <label style="padding-left: 15px;" >Nombres y Apellidos</label> 
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input name="fullname" placeholder="Nombres y Apellidos" class="form-control" ng-model="ticket.fullname" type="text" required autofocus />
+                            </div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="clearfix"> </div> 
+        </div>   
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <button ng-if="changeStatusTicketSingle" type="submit" ng-click="modalConfirmation('change_ticket_status_single',0, ticket)" ng-disabled="fChStatusTicket.$invalid" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                    <button ng-if="changeStatusTicketMulti" type="submit" ng-click="modalConfirmation('change_ticket_status_multi',0, selectedTicketList)" ng-disabled="fChStatusTicket.$invalid" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                    <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>           
+            </div>
+        </div>
+    </div>
+  </div>
+</div>

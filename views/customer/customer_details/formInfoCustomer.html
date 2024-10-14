@@ -1,0 +1,46 @@
+<!-- CUSTOMER INFO -->
+<div id="InfoModalCustomer" class="modal fade bd-example-modal-lg" style="top: 10px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title text-uppercase"><i class="fas fa-building"></i> {{customer.info.ClientType}} -  
+                <span class="text-uppercase" style="font-weight: 600;">{{customer.info.name}}</span><!-- [
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.info.idClientTypeFk==1">Administracion</span>
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.info.idClientTypeFk==2">Edificio</span>
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.info.idClientTypeFk==3">Empresa</span>
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.info.idClientTypeFk==4">Sucursal</span>
+                <span class="text-uppercase" style="font-weight: 600;color: #f0ad4e !important;" ng-if="customer.info.idClientTypeFk==5">Particular</span>]-->
+                <label ng-if="customer.info.IsInDebt==0 || customer.info.IsInDebt==null" class="label label-success">HABILITADO</label>
+                <label ng-if="customer.info.IsInDebt==1 && customer.info.IsInDebt!=null" class="label label-warning">INHABILITADO</label>
+              </h3>
+          </div>
+        <div class="modal-body" style="overflow-y: scroll;padding-left: 0px;padding-right: 0px;">
+        <!-- FORM CONTAINER-->
+        <form name="fInfoCustomer" novalidate>
+          <div>
+              <!-- Left Colunm -->
+              <div ng-class="customer.info.idClientTypeFk==undefined || customer.info.idClientTypeFk==''?'col-md-12': 'col-md-6'" style="padding-right: 0px;">
+
+              </div>
+              <!-- Right Colunm -->
+              <div ng-class="customer.info.idClientTypeFk==undefined || customer.info.idClientTypeFk==''?'col-md-12': 'col-md-6'">
+                                
+              </div>       
+          </div>
+        </form>
+        <div class="clearfix"> </div> 
+      </div>   
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>           
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // CUSTOMER INFO -->
+

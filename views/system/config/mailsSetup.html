@@ -1,0 +1,46 @@
+<!-- SETUP EMAIL -->
+<div id="ModalSetupEmail" class="modal fade bd-example-modal-lg" style="top: 120px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+            	<h3 class="modal-title">CONFIGURACION DE CORREOS<a data-dismiss="modal" class="close"><i title="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></a></h3>
+        	</div>
+			<div class="modal-body" style="overflow-y: scroll;">
+				<div class="container-fluid">
+					<form class="form-horizontal" name="frmMails" ng-submit="sysConfig('mails', 'save')">
+						<fieldset>
+							<!-- Select Category -->
+							<div class="form-group"> 
+							  	<label class="col-md-4 control-label">Departamento</label>
+							    <div class="col-md-4 selectContainer">
+								    <div class="input-group">
+								        <span class="input-group-addon"><i class="glyphicon glyphicon-pushpin"></i></span>
+										    <select name="idTypeOutherKf" class="form-control" placeholder="Tipo de Consulta" ng-options="item.idTypeOuther as item.TypeOuther for item in listTypeQuery | filter: filterSelect('idTypeOuther', 2)"" ng-model="sys.idTypeOutherKf" required autofocus ><option value="">Selecione una opcion</option></select>
+								  	</div>
+								</div>
+							</div>
+							<div class="form-group">
+							  <label class="col-md-4 control-label">Email</label>  
+							    <div class="col-md-4">
+								    <div class="input-group">
+								        <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+								  		<input placeholder="Email" class="form-control" ng-model="sys.email" type="mail" required autofocus />
+								    </div>
+								</div>
+							</div>
+							<!-- Actions Button -->
+							<div class="form-group">
+							  <label class="col-md-4 control-label"></label>
+							  <div class="col-md-4">
+							    <button type="submit" class="btn btn-success" ><i class="glyphicon glyphicon-save"> </i> Guardar</button>
+
+							  </div>
+							</div>
+						</fieldset>
+					</form>
+					<div class="clearfix"> </div> 
+				</div>
+			</div>
+		</div>
+	</div>
+</div>

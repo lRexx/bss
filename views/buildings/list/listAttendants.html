@@ -1,0 +1,159 @@
+            
+<div class="clearfix"></div> 
+<div class="col-lg-12 n-padding-l">
+    <div ng-show="attendantListByAddress.length==0 && sysLoggedUser.idProfileKf!=0" class="alert alert-warning" role="alert">
+        <strong>INFO: </strong>No hay Encargados registrados para la direccion seleccionada.
+            <button data-toggle="tooltip" data-placement="right" title="Nuevo Encargado"  ng-click="switchBuildingFn('newAttendant', selectedDepto);" type="button" ng-click="" class="btn btn-labeled btn-sm btn-info">
+                <span class="btn-label"><i title="Registrar" class="fas fa-user-plus"></i> </span>Nuevo</button>
+            <button data-toggle="tooltip" data-placement="right" title="Asignar Encargado"  ng-click="switchBuildingFn('listAttendantToAssign', null);" type="button" ng-click="" class="btn btn-labeled btn-sm btn-info">
+                <span class="btn-label"><i class="fas fa-user-tag"></i> </span>Asignar</button>
+    </div>
+    <!--*********************ENCARGADOS ***********************************-->
+    <div ng-show="attendantListByAddress.length>0">
+        <div  class="row" >
+            <!-- Filter Type of Tenant For Admins -->
+            <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-3 col-xs-3">
+                    <label style="padding-left: 15px;">Tipo de Encargados</label>
+                    <div class="col-xs-12 selectContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                            <select name="filteroAttProfile" class="form-control" ng-options="item.idTyepeAttendant as item.nameTypeAttendant for item in listTypeAttendant" ng-model="$parent.filteroAttProfile" >
+                                <option value="" >Todos</option>
+                            </select>
+                        </div>
+                    </div>
+            </div>
+            <!-- Filter Type of Tenant For Admins -->
+            <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-3 col-xs-3">
+                <label style="padding-left: 15px;">Estatus</label>
+                <div class="col-xs-12 selectContainer">
+                    <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                        <select name="filterUserStatus" class="form-control" ng-model="$parent.filterUserStatus" >
+                            <option value="" >Todos</option>
+                            <option value="1" >Activo</option>
+                            <option value="0" >Inactivo</option>
+                            <option value="-1" >eliminado</option>
+                        </select>
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-3 col-xs-3">
+                <label style="padding-left: 15px;">Buscar</label>
+                <div class="col-xs-12">
+                    <div class="input-group">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-search "></i></span>
+                    <input type="text" class="form-control" ng-model="searchboxfilter" placeholder="Buscar...">
+                    </div>
+                </div>
+            </div>
+            <div class="form-group col-md-3 col-xs-3 n-padding-l n-padding-r" >
+            <div class="col-xs-12 n-padding-r"><br>
+                <div>
+                    <button data-toggle="tooltip" data-placement="top" title="Actualizar" type="button" ng-click="getAttendantListFn(select.buildings.selected.idClient);" class="btn btn-sm btn-success">
+                        <i title="Actualizar" class="glyphicon glyphicon-refresh"></i>
+                    </button>&nbsp
+                    <button data-toggle="tooltip" data-placement="right" title="Nuevo Encargado"  ng-click="switchBuildingFn('newAttendant', selectedDepto);" type="button" ng-click="" class="btn btn-labeled btn-sm btn-info">
+                    <span class="btn-label"><i class="fas fa-user-plus"></i> </span>Nuevo</button>
+                    <button data-toggle="tooltip" data-placement="right" title="Asignar Encargado"  ng-click="switchBuildingFn('listAttendantToAssign', null);" type="button" ng-click="" class="btn btn-labeled btn-sm btn-info">
+                        <span class="btn-label"><i class="fas fa-user-tag"></i> </span>Asignar</button>
+                </div>
+            </div>
+            </div>  
+        </div><br><br>
+        <div style="overflow-x:auto">
+        <table  class="table table-striped table-bordered table-list table-responsive table-hover fade in">
+            <thead style=" background: #4d5d6f; color: white;">
+                <tr style="text-align: center;">
+                    <th style="vertical-align: middle;text-align: center;">ID</th>
+                    <th style="vertical-align: middle;text-align: center;"><i class="far fa-id-card"></i> DNI</th>
+                    <th style="vertical-align: middle;text-align: center;"><i class="glyphicon glyphicon-user"> </i> Nombres</th>
+                    <!--<th><i class="glyphicon glyphicon-phone"> </i> Tlf Movil</th>
+                    <th><i class="glyphicon glyphicon-earphone"> </i> Tlf Fijo</th>-->
+                    <th style="vertical-align: middle;text-align: center;"><i class="glyphicon glyphicon-envelope"> </i> Correo</th>
+                    <th width="15%"style="vertical-align: middle;text-align: center;"><i class="fas fa-id-card-alt"> </i> Perfil</th>
+                    <th width="10%" style="vertical-align: middle;text-align: center;"><i class="glyphicon glyphicon-user"> </i> Habitante</th>
+                    <th width="7%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Status</th>
+                    <th width="15%" style="vertical-align: middle;" class="media-middle text-center" width="6%"><i class="fas fa-ellipsis-h"> </i> Acciones</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr ng-repeat="item in attendantListByAddress | filter: (!!filteroAttProfile || undefined) && {idTyepeAttendantKf:filteroAttProfile} | filter: (!!filterUserStatus || undefined) && {idStatusKf:filterUserStatus} | filter: (!!searchboxfilter || undefined) && searchboxfilter | orderBy: 'idUser'">
+                    <td ng-trim="true" style="vertical-align: middle; text-align: center;">{{item.idUser}}</td>
+                    <td ng-trim="true" style="vertical-align: middle; text-align: center;">{{item.dni}}</td>
+                    <td ng-trim="true" style="vertical-align: middle;">{{item.fullNameUser}}</td>
+                    <!--<td ng-if="item.phoneLocalNumberUser">{{item.phoneLocalNumberUser}}</td>
+                    <td ng-if="!item.phoneLocalNumberUser"><span style="padding-top: 4px; margin-top: 10px; text-align: center;" class="alert alert-warning"> &nbsp &nbsp n/a</span></td>
+                    <td ng-if="item.phoneNumberUser">{{item.phoneNumberUser}}</td>
+                    <td ng-if="!item.phoneNumberUser"><span style="padding-top: 4px; margin-top: 10px; text-align: center;" class="alert alert-warning"> &nbsp &nbsp n/a</span>
+                    </td>-->
+                    <td ng-trim="true"  style="vertical-align: middle;">{{item.emailUser}}</td>
+                    <td ng-trim="true"  ng-if="!item.idTyepeAttendantKf"><label ng-if="item.idStatusKf==1" class="label label-warning">No Asignado
+                        </label>
+                    </td>
+                    <td ng-trim="true"  style="vertical-align: middle;text-align: center;">{{item.nameProfile}} 
+                        <span ng-if="item.idTyepeAttendantKf!=0" class="label label-default">{{item.nameTypeAttendant}}</span>
+                    </td>
+                    <td ng-trim="true" style="vertical-align: middle;text-align: center;">
+                        <span ng-if="item.idTyepeAttendantKf!=1 && item.idTypeTenantKf!=null">
+                            <span data-toggle="tooltip" data-placement="bottom" title="Si" class="font-size-18px" style="color: #5cb85c">
+                                <i class="text-success fas fa-check-circle"></i></span>
+                            <span  class="badge badge-default">{{item.typeTenantName}}</span>
+                        </span>
+                        <span ng-if="item.idTyepeAttendantKf!=1 && item.idTypeTenantKf==null">
+                            <span data-toggle="tooltip" data-placement="bottom" title="No" class="text-danger media-middle text-center font-size-18px">
+                                <i class="fas fa-times-circle"></i></span>
+                            <span  class="badge badge-warning">Solo encargado</span>
+                        </span>
+                        <span ng-if="item.idTyepeAttendantKf==1 && item.idTypeTenantKf==null">
+                            <span data-toggle="tooltip" data-placement="bottom" title="No" class="text-danger media-middle text-center font-size-18px">
+                            <span  class="badge badge-warning">{{item.descOther}}</span>
+                        </span>
+                    </td>
+                    <td ng-trim="true"  style="vertical-align: middle;text-align: center;">
+                        <span  ng-if="item.idStatusKf==1" class="text-uppercase label label-success">
+                            {{item.statusTenantName}}
+                        </span>
+                        <span  ng-if="item.idStatusKf==0" class="text-uppercase label label-warning" >
+                            {{item.statusTenantName}}
+                        </span>
+                        <span  ng-if="item.idStatusKf<0" class="text-uppercase label label-danger">
+                            {{item.statusTenantName}}
+                        </span>
+                    </td>
+                    <td ng-trim="true" ng-click="">
+                        <div class="btn-group">
+                                <button type="button" class="btn btn-info  btn-sm btn-xs dropdown-toggle" data-toggle="dropdown">
+                                <span class="caret"></span> Acciones
+                            </button>
+                            <ul class="dropdown-menu" role="menu">
+                            <li>
+                                <a href="" ng-click="switchBuildingFn('edit', item);" data-toggle="tooltip" data-placement="bottom" title="Editar" type="button"><i class="font-size-18px text-primary fas fa-pen-square"></i>  Editar</a>
+                            </li>
+                            <li ng-if="item.idStatusKf<=0" role="presentation"><div class="divider"></div>
+                            <li ng-if="item.idStatusKf<=0" class="dropdown-item"><a href="" ng-click="switchBuildingFn();" data-toggle="tooltip" data-placement="bottom" title="Habilitar" type="button"><i class="font-size-18px text-success fas fa-check-circle"></i> Habilitar</a></li>
+                            <li ng-if="item.idStatusKf>0" role="presentation"><div class="divider"></div>
+                            <!--<li ng-if="item.idStatusKf>0" class="dropdown-item"><a href="" ng-click="switchBuildingFn();" data-toggle="tooltip" data-placement="bottom" title="Deshabilitar" type="button"><i class="font-size-18px text-warning fas fa-ban"></i> Deshabilitar</a></li>
+                            <li ng-if="item.idStatusKf>0" role="presentation"><div class="divider"></div>-->
+                            <li ng-if="item.idStatusKf>0" class="dropdown-item"><a href="" ng-click="modalConfirmation('unAssignAttendant', 0, item)"" data-toggle="tooltip" data-placement="bottom" title="Dar de baja" type="button"><i class="font-size-18px text-danger fas fa-window-close"></i> Dar de baja</a></li>
+                            </ul>
+                        </div>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <br><br><br><br><br>
+        </div>
+        <!--<div>
+        <pagination 
+            total-items="totalItems" 
+            ng-model="currentPage" 
+            ng-change="pageChanged()" 
+            class="pagination-sm" 
+            items-per-page="itemsPerPage"
+            max-size="maxSize"
+            boundary-links="true">
+        </pagination>
+        </div>-->
+    </div>
+</div>

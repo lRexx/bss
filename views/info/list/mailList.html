@@ -1,0 +1,24 @@
+<table ng-if="customerStatus.administration_details[0].list_emails.length>0">
+    <tr ng-repeat="mail in customerStatus.administration_details[0].list_emails">
+        <td style="width: 5%;" class="td-mail-column-font">
+          <span class="text-muted text-box">
+            <label ng-if="mail.idTipoDeMailFk<='4'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.descripcion | uppercase}}" style="cursor: pointer;" class="label label-default">
+              <i ng-if="mail.idTipoDeMailFk=='1'" class="fas fa-key"></i> 
+              <i ng-if="mail.idTipoDeMailFk=='2'" class="fas fa-tools"></i> 
+              <i ng-if="mail.idTipoDeMailFk=='3'" class="fas fa-file-invoice-dollar"></i> 
+              <i ng-if="mail.idTipoDeMailFk=='4'" class="fas fa-paste"></i> 
+            </label>
+            <label ng-if="mail.idTipoDeMailFk=='5'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.descripcion | uppercase}}" class="label label-warning"><i class="fas fa-envelope"></i></label>
+            <label ng-if="mail.idTipoDeMailFk=='6'" data-toggle="tooltip" data-placement="top" title="Mail para {{mail.descripcion | uppercase}}" class="label label-danger"><i class="fas fa-envelope"></i></label>
+          </span>
+        </td>
+        <!--<td style="width: 25%">
+          <span  style="font-weight: 600; color: #f0ad4e"> {{mail.descripcion | uppercase}}</span>
+        </td>-->
+        <td style="width: 60%" class="td-mail-column-font"><span class="text-muted text-box" ng-click="modalConfirmation('trigger_mail',0,mail,mail.mailContact)"><label class="label label-info">{{mail.mailContact}}</label></span></td>
+        <td style="width: 10%" style="padding-bottom: 5px;" class="td-copy-btn-font">
+          <button data-toggle="tooltip" data-placement="top" title="Copiar" ngclipboard data-clipboard-text="{{mail.mailContact}}" class="btn btn-xs btn-success" style="cursor: pointer;"><i class="fas fa-copy"></i></button>
+        </td>
+      </tr>
+  </table>
+  <div ng-if="customerStatus.administration_details[0].list_emails.length==0 && customer.info.mailFronKey==undefined && customer.info.mailServiceTecnic==undefined && customer.info.mailCollection==undefined && customer.info.mail==undefined" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay correos cargados</h5></div>

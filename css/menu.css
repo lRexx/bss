@@ -1,0 +1,75 @@
+/* Jumbotron Settings */
+.m-h-30{min-height:30px}
+.b-s-20{-webkit-box-shadow:0 2px 4px 0 rgba(0,0,0,.20);-moz-box-shadow:0 2px 4px 0 rgba(0,0,0,.20);box-shadow:0 2px 4px 0 rgba(0,0,0,.20)}
+.m-b-5{margin-bottom:0px}
+.jumbotron:before { background: none; }
+.jumbotron.skin3 {background: #2268AF; /* Old browsers */}
+.jumbotron table { width:100%; }
+.jumbotron table tr td > div:hover { 
+    filter:alpha(opacity=80);
+    -moz-opacity:0.8;
+    opacity: 0.8;
+     }
+.jumbotron table tr td.hidden-desktop { cursor:pointer; }
+.jumbotron table tr td > div i + i.icon-circle { margin-left:3px; }
+.jumbotron table tr td > div p { margin-top:20px; margin-left:8px; font-weight:600; }
+.jumbotron.height-auto { height:auto; }
+.jumbotron{
+    background-color: rgba(255, 188, 87, 0.66);
+    padding: 0 !important;
+}
+.navbar-custom {
+    background-color: #2e353d;
+    color:#ffffff;
+    border-radius:0;
+}
+.navbar-inverse {
+    background-color: rgb(242,242,242, 1);
+    border-color: #080808;
+}
+/*Site Logo */
+.sys-logo{
+    object-position: 50% 50%;
+    width: 139px;
+    height: 55px;
+    object-fit: cover;
+}
+.icon-m i{
+    padding-left: 0.6em;
+}  
+.icon-m span{
+    
+}
+.navbar-custom .navbar-nav > li > a {
+    color:#fff;
+    font-family: 'Open Sans', sans-serif;
+}
+
+.navbar-custom .navbar-nav > .active > a {
+    color: #2A2D33;
+    background-color:transparent;
+    font-weight: bold;
+}
+      
+.navbar-custom .jumbotron .navbar-nav > li > a:hover,
+.navbar-custom .jumbotron .navbar-nav > li > a:focus,
+.navbar-custom .jumbotron .navbar-nav > .active > a:hover,
+.navbar-custom .jumbotron .navbar-nav > .active > a:focus,
+.navbar-custom .jumbotron .navbar-nav > .open >a {
+    text-decoration: none;
+    background: rgba(108, 117, 125, .8);
+    color:rgba(255, 255, 255, .8);
+    cursor: pointer;
+}
+.navbar-inverse .navbar-toggle:hover, .navbar-inverse .navbar-toggle:focus {
+    background-color: #33aa33;
+}     
+.navbar-custom .navbar-brand {
+    color:#eeeeee;
+}
+.navbar-custom .navbar-toggle {
+    background-color:none;
+}
+.navbar-custom .icon-bar {
+    background-color:#fff;
+}

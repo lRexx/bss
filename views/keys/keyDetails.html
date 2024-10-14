@@ -1,0 +1,59 @@
+<!-- CUSTOMER REGISTER FORM -->
+<div id="keyDetails" class="modal fade" style="top: 230px;" role="dialog">
+    <div class="modal-dialog modal-xl" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="product-success fas fa-key"></i> DETALLES DEL LLAVERO
+              </h3>
+          </div>
+        <div class="modal-body">
+        <div class="row-fluid">
+          <div  class="col-md-12 well-checkbox n-margin-l customer-frame">
+            <!-- LEFT COLUMN -->
+            <div class="col-md-6 n-padding-l n-padding-r">
+              <div class="col-md-12 col-xs-12">
+                <span> ID : <label class="badge badge-default">{{keys.details.idKeychain}}</label></span>
+              </div>
+              <div class="col-md-12"><span>Tipo   : <label class="badge badge-default">{{keys.details.categoryKeychain | uppercase}}</label></span></div>
+              <div class="col-md-12"><span>Codigo : </span><span style="font-weight: 600;"class="text-warning">{{keys.details.codigo | uppercase}}</span></div>
+              <div class="col-md-12"><span>Codigo Externo: </span><span>{{keys.details.codExt | uppercase}}</span></div>
+            </div>
+            <!-- RIGHT COLUMN -->
+            <div class="col-md-6 n-padding-l n-padding-r">
+                <div class="col-md-12 col-xs-12"><span>Consorcio : <label class="badge badge-default"> {{keys.details.buildingAddress}}</label></div>
+                <div class="col-md-12" ng-if="keys.details.idCategoryKey=='1'"><span>Unidad: <label class="badge badge-default">{{keys.details.floor | uppercase}}-{{keys.details.departament | uppercase}}</label></span></div>
+                <div class="col-md-12">
+                    <span>Usuario asignado: 
+                        <label ng-if="keys.details.idUserKf!='' && keys.details.idUserKf!=null && keys.details.idUserKf!=0" class="badge badge-success"><i class="fas fa-check-circle"></i> Asociado</label>
+                        <label ng-if="keys.details.idUserKf=='' || keys.details.idUserKf==null || keys.details.idUserKf==0" class="badge badge-warning"><i  class="fas fa-lightbulb"></i> No asociado</label>
+                    </span>
+                </div>
+                <div class="col-md-12">
+                    <span>Llave para inquilino: 
+                        <label ng-if="keys.details.isKeyTenantOnly!='' && keys.details.isKeyTenantOnly!=null && keys.details.isKeyTenantOnly!=0" class="badge badge-success"><i class="fas fa-check-circle"></i> Si</label>
+                        <label ng-if="keys.details.isKeyTenantOnly=='' || keys.details.isKeyTenantOnly==null || keys.details.isKeyTenantOnly==0" class="badge badge-warning"><i  class="fas fa-lightbulb"></i> No</label>
+                    </span>
+                </div>
+                <div class="col-md-12">
+                    <span>Llavero: 
+                        <span class="text-capitalize"> {{keys.details.descriptionProduct | lowercase}}</span>
+                        <label class="badge badge-default">{{keys.details.model | uppercase}}</label>
+                    </span>
+                </div>
+          </div>
+        </div>
+        <div class="clearfix"> </div> 
+      </div>   
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>           
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // CUSTOMER REGISTER FORM -->

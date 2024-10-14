@@ -1,0 +1,73 @@
+<!-- NEW SYS PROFILE -->
+<div id="newSysProfile" style="top: 130px;" class="modal fade bd-example-modal-lg" style="top: 130px;" role="dialog">
+  	<div class="modal-dialog modal-lg" >
+	    <div class="modal-content">
+          	<div class="modal-header">
+          		<button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+            	<h3 class="modal-title">NUEVO PERFIL</h3>
+        	</div>
+    		<div class="modal-body"  style="overflow-y: scroll;">
+				<!-- FORM CONTAINER-->
+				<form class="form-horizontal" name="fNewSysProfile" novalidate>
+					<fieldset>
+						<!-- Form Profile Name -->
+						<div class="form-group col-md-12">
+						  <label class="clf-size clf-p-left">Nombre del Perfil</label>  
+							  <div class="col-xs-12">
+								  <div class="input-group">
+									  <span class="input-group-addon"><i class="fas fa-id-badge"></i></span>
+									  <input  name="profileName" autofocus="true" placeholder="Nombre" class="form-control input-font-size" ng-model="sysProfile.Name"  type="text" required autofocus/>
+								  </div>
+							  </div>
+						</div>
+						<div class="form-group col-md-12">
+							<div class="col-md-3 col-sm-3 item" ng-repeat="item in rsModulesData">
+								<div class="hero-widget well well-sm">
+					            	<div class="icon">
+					                 	<i ng-if="item.name=='monitor'" class="fas fa-tachometer-alt" 
+					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='llaveros'" class="icon-file-text" 
+					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='edificios'" class="icon-building" 
+					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='configuracion'" class="icon-cogs" 
+					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='perfil de usuario'" class="fas fa-user-circle"
+					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='cliente'" class="fas fa-users-cog" 
+					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='servicio'" class="fas fa-cubes" 
+					                 		ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					                 	<i ng-if="item.name=='producto'" class="fas fa-sitemap" 
+					                 	ng-class="checkBoxes.modulo[item.idModule]?'icon-bg-success':'icon-bg-disabled'"></i>
+					            	</div>
+					            	<div class="text">
+					                	<span class="text-muted text-uppercase text-box">{{item.name}}</span>
+					            	</div>
+					            	<div class="options">
+								        <label class="switch switch-3x">
+								          <input type="checkbox" class="success" ng-checked="moduleCheck" ng-model="checkBoxes.modulo[item.idModule]" id="moduleCheck-{{item.idModule}}">
+								          <span class="slider slider-3x round"></span>
+								        </label>
+					            	</div>
+					        	</div>
+							</div>
+						</div>
+					</fieldset>
+				</form>
+				<div class="clearfix"> </div> 
+			</div>
+			<!-- Actions Button ng-click="newSysProfileFn()"-->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="newSysProfileFn()" ng-disabled="fNewSysProfile.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Guardar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+		</div>
+	</div>
+</div>

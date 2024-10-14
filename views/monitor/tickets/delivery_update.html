@@ -1,0 +1,130 @@
+<!-- Modal Delivery Change -->
+<div id="UpdateModalDelivery" style="top: 50px;" class="modal fade modal-dialog-centered" role="dialog">
+      <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                    <h3 class="modal-title"><i class="fas fa-truck"></i> [{{ticket.selected.codTicket}}] - <span class="label label-info" >CAMBIO DE ENVÍO</span></h3>
+                </div>
+            <div class="modal-body">
+                <!-- FORM CONTAINER-->
+                <div class="container-fluid">
+                    <form class="form-horizontal" name="fChDeliveryTicket" autocomplete="off" novalidate>
+                        <div class="row">
+                            <div class="container-fluid justify-content-md-center">
+                                <div class="panel-body n-padding-l n-padding-r">
+                                    <!-- *********TIPO DE ENTREGA *********** -->
+                                    <!-- ng-disabled="ticket.selected.idTypeDeliveryKf==item.idTypeDelivery" 
+                                    ng-class="{'radio-custom-label-disabled':ticket.selected.idTypeDeliveryKf==item.idTypeDelivery}"-->
+                                    <div class="n-padding-l n-padding-r">
+                                        <div class="form-check form-check-inline">
+                                            <div class="col-md-12 n-padding-l n-padding-r">
+                                                <div ng-repeat="item in typedelivery | filter:checkDeliveryMethod" class="col-md-5 col-xs-5 col-md-offset-1">
+                                                    <input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" 
+                                                            class="radio-custom" type="radio" 
+                                                            ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null);" 
+                                                            name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" 
+                                                            ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
+                                                    <label for="idTypeDeliveryKf-{{item.idTypeDelivery}}"   class="radio-custom-label">
+                                                        <span>{{item.typeDelivery}}</span>
+                                                    </label>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <!-- Select of Who pick up the request -->
+                            <legend ng-if="ticket.delivery.idTypeDeliveryKf==1" style="text-align: center;">Quien retira</legend>
+                            <legend ng-if="ticket.delivery.idTypeDeliveryKf==2" style="text-align: center;">Quien recibe</legend>
+                            <div class="col-md-6 col-md-offset-3" ng-disable="sysLoggedUser.idProfileKf!=2" ng-show="ticket.delivery.idTypeDeliveryKf && sysLoggedUser.idProfileKf!=2">
+                                <div class="col-md-10 col-md-offset-1 col-xs-12 input-group">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                        <select name="whoPickUp" class="form-control" required ng-change="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" ng-options="item as item.fullNameUser group by item.type for item in whoPickUpList" ng-model="ticket.delivery.whoPickUp" autofocus >
+                                            <option value=""></option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="container-fluid justify-content-md-center">
+                            <!-- Select Type of Delivery -->   
+                            <!-- <div class="form-group col-md-6"> 
+                                <label class="col-xs-12 col-md-offset-1">Tipo de Entrega</label>
+                                <div class="col-md-10 col-md-offset-1 input-group">
+                                    <span class="input-group-addon"><i class="glyphicon icon-truck"></i></span>
+                                        <select name="idTypeDeliveryKf" ng-change="getTotalService(); getAllAttendant(selectIdAddressKf.selected.idAdress); delivery.nameAtt=null; select.whoPickUp=Null" class="form-control"  ng-options="item.idTypeDelivery as item.typeDelivery for item in typedelivery" ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus >
+                                        <option value=""></option>
+                                        </select>
+                                </div>
+                            </div>-->
+                        
+                            <!-- SHOW THE OWNER WHOM PICKUP OR RECEIVED THE KEY -->
+                            <div ng-if="ticket.delivery.idTypeDeliveryKf!=undefined && 
+                            (((ticket.delivery.whoPickUp.id!=undefined && ticket.delivery.whoPickUp.id==2 && selectedDeliveryAttendant!=undefined) || (ticket.delivery.whoPickUp.id!=undefined && ticket.delivery.whoPickUp.id==3 && selectedDeliveryAttendant==undefined)) || ticket.delivery.whoPickUp.idUser!=undefined)"  class="form-group col-md-12">
+                                    <div class="col-md-12">
+                                        <div class="alert alert-success" style="border: 3px solid;border-radius: 15px;" role="alert">
+                                            <span style="text-align: center;" class="">
+                                                <table>
+                                                    <tbody>
+                                                        <tr>
+                                                            <td style="padding-right: 5px;">
+                                                                <span>El Pedido</span>
+                                                                <span ng-if="ticket.delivery.idTypeDeliveryKf==1"> sera retirado en la oficina</span>
+                                                                <span ng-if="ticket.delivery.idTypeDeliveryKf==2"> sera entregado en el domicilio</span>
+                                                            </td>
+                                                            <td style="padding-right: 5px;"> 
+                                                                <span ng-if="ticket.delivery.idTypeDeliveryKf==1 && ticket.delivery.idDeliveryTo==null" class="label label-default"> Carlos Calvo 3430</span>
+                                                                <!-- <span ng-if="(ticket.idTypeRequestFor!='1' || ticket.idTypeRequestFor=='1') && ticket.idTypeRequestFor=='1' && ticket.delivery.idTypeDeliveryKf=='2' && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.building.name}}</span>-->
+                                                                <span ng-if="(ticket.idTypeRequestFor!='1' || ticket.idTypeRequestFor=='1') && (ticket.idTypeRequestFor=='2' || ticket.idTypeRequestFor=='3') && ticket.delivery.idTypeDeliveryKf=='2' && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.administration.address}}</span>
+                                                                <span ng-if="(ticket.idTypeRequestFor=='1') && ticket.delivery.idTypeDeliveryKf=='2' && (ticket.delivery.idDeliveryTo==1 || ticket.delivery.whoPickUp.id==2)" class="label label-default"> {{ticket.building.name}}</span>
+                                                                <span ng-if="ticket.delivery.idTypeDeliveryKf=='2' && ticket.delivery.idDeliveryTo=='2' && (ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==1)" class="label label-default"> {{ticket.delivery.otherAddress.streetName | uppercase}} {{ticket.delivery.otherAddress.streetNumber}}</span>
+                                                                <span ng-if="ticket.delivery.idTypeDeliveryKf=='2' && ticket.delivery.idDeliveryTo==null && ticket.delivery.whoPickUp.id==3" class="label label-default"> {{ticket.delivery.thirdPerson.streetName | uppercase}} {{ticket.delivery.thirdPerson.streetNumber}}</span>
+                                                            </td>
+                                                            <td ng-show="ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
+                                                                <span ng-if="ticket.delivery.idTypeDeliveryKf==1"> por </span>
+                                                                <span ng-if="ticket.delivery.idTypeDeliveryKf==2"> a </span>
+                                                            </td>
+                                                            <td ng-show="ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
+                                                                <span class="label label-default"> {{ticket.delivery.deliveryTo.fullNameUser}}</span>
+                                                                <span ng-if="ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==2" class="badge badge-warning"> {{ticket.delivery.deliveryTo.nameProfile}}</span>
+                                                                <span ng-if="ticket.delivery.whoPickUp.id==3" class="badge badge-warning"> Tercera Persona</span>
+                                                            </td>
+                                                            <td ng-if="(ticket.delivery.whoPickUp.id==undefined && ticket.delivery.idDeliveryTo==2)"><span class="font-size-16px"><button ng-click="mainSwitchFn('deliveryToOtherAddress', ticket.delivery, 2);" data-toggle="tooltip" data-placement="right" title="Editar" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i class="fas fa-edit"></i> </span><span class="sr-only">Editar</span></button></span></td>
+                                                            <td ng-if="(ticket.delivery.whoPickUp.id==3)"><span class="font-size-16px"><button ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null);" data-toggle="tooltip" data-placement="right" title="Editar" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i class="fas fa-edit"></i> </span><span class="sr-only">Editar</span></button></span></td>
+                                                            <td ng-if="ticket.delivery.whoPickUp.id==2"><span class="font-size-16px"><button ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null);" data-toggle="tooltip" data-placement="right" title="Seleccionar otro" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span></td>
+                                                        </tr>
+                                                    </tbody>
+                                                </table>
+                                            </span>
+                                        </div>
+                                        <div ng-if="ticket.delivery.idTypeDeliveryKf==1" class="map">
+                                            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3283.232853486263!2d-58.416303984395746!3d-34.62355548045449!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x95bccafee49fa1b5%3A0x808f35e44a65bc21!2sCarlos+Calvo+3430%2C+C1230ABH+CABA!5e0!3m2!1ses-419!2sar!4v1500993405506" width="1280" height="600" allowfullscreen=""></iframe>	
+                                        </div>
+                                    </div>
+                            </div>
+                            <!-- **********************************************************************************************-->
+                        
+                        
+                            <!-- **********************************************************************************************-->
+                        
+                        </div>
+                    </form>
+                </div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="modalConfirmation('apply_ticket_delivery_change',0, ticket)" ng-disabled="fChDeliveryTicket.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,165 @@
+<!-- KEY REGISTER FORM -->
+<div id="newSingleKey" class="modal fade bd-example-modal-lg" style="top: 130px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title"><i class="product-success fas fa-key"></i> NUEVO LLAVERO
+                </h3>
+            </div>
+            <div class="modal-body"  style="overflow-y: scroll;">
+                <!-- FORM CONTAINER-->
+                <form class="form-horizontal" name="fNewKey" novalidate>
+                    <fieldset>
+                    <!-- List Address For Users-->
+                    <div class="form-group col-md-12 col-sm-12 col-xs-12"  ng-class="
+                        {	'has-success': 
+                            keys.new.address.selected!=undefined && fNewKey.building_address.$valid,
+                            'has-error':  
+                            (keys.new.address.selected==undefined) && fNewKey.building_address.$touched
+                        }">
+                    <label style="padding-left: 15px;">Direcci&#243n</label>  
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
+                            <ui-select name="building_address"
+                                        id="building_address"
+                                        ng-required="true" 
+                                        ng-change="getDeptoListByAddress(keys.new.address.selected.idClient); keys.new.department=null;"
+                                        ng-model="keys.new.address.selected" autofocus>
+                                <ui-select-match  placeholder="Seleccione una opci&#243n">{{$select.selected.address}}</ui-select-match>
+                                    <ui-select-choices repeat="item in buildingCustomerList | filter:filterCustomerByType | filter: $select.search">
+										<div ng-bind-html="item.address | highlight: $select.search"></div>
+                                        <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+										<small>Provincia: </small><small class="label label-default"  ng-bind-html="item.province | highlight: $select.search"></small>
+									</ui-select-choices>
+									<ui-select-no-choice>
+										<span ng-if="buildingCustomerList.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay edificios registrados</span>
+									</ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- List Category Key Type-->
+                    <div class="form-group col-md-6 col-sm-6 col-xs-6" ng-class="
+                        {	'has-success': 
+                            keys.new.categoryKey!=undefined && keys.new.categoryKey!='' && fNewKey.categoryKey.$valid,
+                            'has-error':  
+                            (keys.new.categoryKey==undefined || keys.new.categoryKey=='') && fNewKey.categoryKey.$touched
+                        }">
+                        <label style="padding-left: 15px;">Categoria</label>
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                <select  name="categoryKey" 
+                                        ng-change="keys.new.department=null"
+                                        ng-options="item.idCategory as (item.name | uppercase) for item in rsCategoryKeyChainsData | filter:filterCategoryKey"
+                                        ng-disabled="rsKeyListsData.status==404"
+                                        class="form-control"
+                                        ng-model="keys.new.categoryKey">
+                                    <option value="" >Seleccione una opci&#243n</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- List Department-->
+                    <div ng-if="noAvailable" class="form-group col-md-6 col-sm-6 col-xs-6" ng-class="
+                        {	'has-success': 
+                            keys.new.department!='' &&
+                            keys.new.department!=undefined &&
+                             fNewKey.department.$valid,
+                             'has-error':  
+                            (keys.new.department=='' || keys.new.department==undefined) && fNewKey.department.$touched,
+                        }">
+                        <label style="padding-left: 15px;">Departamento</label>  
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                <select name="department" 
+                                        class="form-control text-uppercase"
+                                        ng-disabled="keys.new.address.selected==undefined || keys.new.categoryKey=='1'"
+                                        ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
+                                        ng-required="keys.new.address.selected!=undefined" 
+                                        ng-model="keys.new.department" autofocus >
+                                    <option value="">Seleccione una opci&#243n</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- List Open Devices Products-->
+                    <div  class="form-group col-md-6 col-sm-6 col-xs-6"  ng-class="
+                        {	'has-success': 
+                            keys.new.products.selected!=undefined && fNewKey.products.$valid,
+                            'has-error':  
+                            (keys.new.products.selected==undefined) && fNewKey.products.$touched
+                        }">
+                        <label style="padding-left: 15px;">Dispositivos de Apertura</label>  
+                        <div class="col-xs-12 selectContainer">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-key"></i></span> 
+                            <ui-select name="products"  
+                                        ng-required="true"
+                                        ng-model="keys.new.products.selected" autofocus>
+                                <ui-select-match  allow-clear="true" placeholder="Seleccione una opci&#243n">{{$select.selected.descriptionProduct}}</ui-select-match>
+                                    <ui-select-choices repeat="item in rsProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
+                                        <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+                                        <small>Modelo: </small><small class="label label-default"  ng-bind-html="item.model | highlight: $select.search"></small>
+                                        <small>Tipo: </small><small class="label label-default" ng-bind-html="item.classification | highlight: $select.search"></small>
+                                    </ui-select-choices>
+                                    <ui-select-no-choice>
+                                        <span ng-if="rsProductsData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay productos cargados</span>
+                                    </ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- codigo -->
+                    <div class="form-group col-md-6" ng-class="
+                    {	'has-success': 
+                        keys.new.codigo!='' && fNewKey.codigo.$valid,
+                         'has-error':  
+                        (keys.new.codigo=='' || keys.new.codigo==undefined) && fNewKey.codigo.$touched,
+                    }">
+                    <label style="padding-left: 15px;">Codigo</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+                                <input  name="codigo" autofocus="true" placeholder="Codigo" class="form-control" ng-model="keys.new.codigo"  type="text" required autofocus/>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- codigo ext -->
+                    <div class="form-group col-md-6" ng-class="
+                    {	'has-success': 
+                        keys.new.codigoExt!='' && fNewKey.codigoExt.$valid,
+                         'has-error':  
+                        (keys.new.codigoExt=='' || keys.new.codigoExt==undefined) && fNewKey.codigoExt.$touched,
+                    }">
+                    <label style="padding-left: 15px;" >Codigo Externo</label> 
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+                                <input name="codigoExt" placeholder="Codigo Externo" class="form-control" ng-model="keys.new.codigoExt" type="text" required autofocus />
+                            </div>
+                        </div>
+                    </div>
+
+                    </fieldset>
+                </form>
+                <div class="clearfix"> </div> 
+            </div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="modalConfirmation('addKey', 0, keys.new)" ng-disabled="fNewKey.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                        <a ng-click="modalConfirmation('closeWindow', 0, null)" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // KEY REGISTER FORM -->

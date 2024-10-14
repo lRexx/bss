@@ -1,0 +1,156 @@
+<!-- APPROVAL DEPTO-->
+<div  ng-if="approval!=undefined" class="col-md-10 col-md-offset-1">
+  <div class="panel padding-panel" ng-class="{'panel-warning':(approval.user.idTypeTenantKf=='1' && (approval.department.idUserKf==null || approval.department.idUserKf!=null) && approval.department.isAprobatedAdmin!='1' && approval.department.isRequesLowByProp!='1') || 
+  (approval.user.idTypeTenantKf=='2' && approval.user.isDepartmentApproved==null && approval.user.idDepartmentKf!=null), 'panel-success':(approval.user.idTypeTenantKf=='1' && approval.department.isAprobatedAdmin=='1' && approval.department.idUserKf!=null) || 
+  (approval.user.idTypeTenantKf=='2' && approval.user.isDepartmentApproved!=null && approval.user.idDepartmentKf!=null && approval.user.isRequesLowByTenant!='1')}">
+    <div class="panel-heading">
+        <h3 class="modal-title"><i class="icon-building icon-1x"></i>
+            <span class="text-uppercase" style="font-weight: 600;color: #0F2A37 !important;"> Edificio</span> :: {{approval.department.building.address}}</h3>
+    </div>
+    <div class="panel-body">
+        <!-- DEPTO -->
+        <div  class="col-md-4 col-sm-6 col-xs-6">
+            <div class="widget-head-color-box lazur-bg p-lg text-center card-customer lazur-bg" style="background-color: #23c5c84b !important; margin-top: 0px;">
+                <div class="m-b-md">
+                    <h2 class="font-bold no-margins text-uppercase" style="color: #555555">
+                    {{approval.department.floor}}-{{approval.department.departament}}
+                    </h2>
+                    <span ng-if="((sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && ((approval.user.idTypeTenantKf=='1' && approval.department.isAprobatedAdmin=='1' && approval.department.isRequesLowByProp!='1' && approval.department.idUserKf!=null) || (approval.user.idTypeTenantKf=='2' && approval.user.idDepartmentKf!=null && approval.user.isDepartmentApproved=='1')))" style="font-size: 10px" class="label label-success"><i class="fas fa-check-circle"></i> Activo</span>
+                    <span ng-if="((sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && ((approval.user.idTypeTenantKf=='1' && approval.department.isAprobatedAdmin!='1' && approval.department.isRequesLowByProp!='1' && approval.department.idUserKf!=null) || (approval.user.idTypeTenantKf=='2' && approval.user.idDepartmentKf!=null && approval.user.isDepartmentApproved!='1')))" style="font-size: 10px" class="label label-warning"><i class="fas fa-exclamation-triangle"></i> Aprobación Pendiente </span>
+                    <span ng-if="((sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && ((approval.user.idTypeTenantKf=='1' && approval.department.isRequesLowByProp=='1') || (approval.user.idTypeTenantKf=='2' && approval.user.idDepartmentKf!=null && approval.user.isDepartmentApproved=='1' && approval.user.isRequesLowByTenant=='1')))" style="font-size: 10px" class="label label-warning"><i class="fas fa-exclamation-triangle"></i> Baja Solicitada </span>
+                </div>
+                <i style="color: #fff; font-weight: bold; font-size:76px" class="fas fa-home img-circle circle-border m-b-md" alt="profile"></i>
+                <!--<div class="row">
+                    <button ng-show="((sysLoggedUser.idTypeTenantKf=='1' || sysLoggedUser.idProfileKf=='1') && approval.department.isRequesLowByProp=='1') || ((sysLoggedUser.idTypeTenantKf=='2' || sysLoggedUser.idProfileKf=='1') && ((sysLoggedUser.isDepartmentApproved==null || sysLoggedUser.isDepartmentApproved=='0') || sysLoggedUser.isRequesLowByTenant=='1'))" ng-click="switchBuildingFn('departmentTenants', approval.department)" type="button" class="btn btn-primary btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Ver Habitantes asociados">
+                        <span ng-if="approval.department.tenants.length>=1" class="badge"  ng-class="
+                            {  'badge badge-warning':  
+                                approval.department.tenants.length==0,
+                            }">{{approval.department.tenants.length}}</span> 
+                        Habitantes</button>
+                    <button ng-if="sysLoggedUser.idTypeTenantKf!=null" ng-disabled="(sysLoggedUser.idTypeTenantKf=='1' && approval.department.isRequesLowByProp=='1') || (sysLoggedUser.idTypeTenantKf=='2' && ((sysLoggedUser.isDepartmentApproved==null || sysLoggedUser.isDepartmentApproved=='0') || sysLoggedUser.isRequesLowByTenant=='1'))" ng-click="modalConfirmation('removet', 0, sysLoggedUser, item)" type="button" class="btn btn-danger btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Solicitar Baja">
+                        <i class="fas fa-trash"></i>
+                    </button>
+                    <button ng-if="sysLoggedUser.idTypeTenantKf!=null" ng-disabled="(sysLoggedUser.idTypeTenantKf=='1' && approval.department.isRequesLowByProp=='1') || (sysLoggedUser.idTypeTenantKf=='2' && ((sysLoggedUser.isDepartmentApproved==null || sysLoggedUser.isDepartmentApproved=='0') || sysLoggedUser.isRequesLowByTenant=='1'))" ng-click="switchBuildingFn('newTenant', item)" type="button" class="btn btn-success btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Nuevo Habitante">
+                        <i class="fas fa-user-plus"></i>
+                    </button>
+                    <span class="badge badge-default">610 Followers</span>
+                </div>-->
+            </div>
+            <div class="widget-text-box">
+                <h4 class="media-heading">Unidad: <span class="label label-default">{{approval.department.categoryDepartament}}</span></h4>
+                <p>{{approval.department.building.address}}</p>
+                <!--<div class="text-right">
+                    <a class="btn btn-xs btn-default"><i class="fa fa-thumbs-up"></i> Like </a>
+                    <a class="btn btn-xs btn-primary"><i class="fa fa-heart"></i> Love</a>
+                    <a class="btn btn-xs btn-success"><i class="fa fa fa-envelope"></i> Message</a>
+                    <a class="btn btn-xs btn-info"><i class="fa fa fa-phone"></i> Call</a>
+                </div>-->
+            </div>
+        </div>
+        <!-- USER DETAILS -->
+        <div  class="col-md-8 col-sm-12 col-xs-12 n-padding-l n-padding-r">
+            <div  class="col-md-12 well-checkbox n-margin-l customer-frame">
+                <div class="col-md-12 n-padding-l n-padding-r">
+                    <div class="col-md-12">
+                        <span class="font-size-16px">Nombre:</span>
+                        <span class="font-size-14px"><b>{{approval.user.fullNameUser | uppercase}}</b></span>                         
+                    </div>
+                    <div class="col-md-12">
+                        <span class="font-size-16px">DNI:</span>
+                        <span class="font-size-14px"><b>{{approval.user.dni | uppercase}}</b></span>                         
+                    </div>
+                    <div class="col-md-12">
+                        <span class="font-size-16px">Perfil:</span>
+                        <span class="font-size-14px"><b>{{approval.user.nameProfile | uppercase}}</b></span>
+                    </div>
+                    <!--<div class="col-md-12">
+                        <span class="font-size-16px">Estatus:</span>
+                        <span class="badge text-uppercase font-size-12px" ng-class="{'badge-success': approval.user.idStatusKf==1, 'badge-warning': approval.user.idStatusKf!=1,}">{{approval.user.statusTenantName}}</span>
+                    </div>-->
+                    <div class="col-md-12">
+                        <span class="font-size-16px">Correo:</span>
+                        <span class="font-size-14px"><b>{{approval.user.emailUser | uppercase}}</b></span>
+                        <span ng-if="approval.user.isConfirmatedMail==1" class="badge badge-success font-size-14px">Confirmado</span>
+                        <span ng-if="approval.user.isConfirmatedMail!=1" class="badge badge-warning font-size-14px">Confirmación pendiente</span>
+                    </div>
+                </div>
+            </div>
+            <div ng-if="(approval.user.idTypeTenantKf=='1' && approval.department.isAprobatedAdmin=='1' && approval.department.idUserKf!=null) || 
+            (approval.user.idTypeTenantKf=='2' && approval.user.isDepartmentApproved!=null && approval.user.idDepartmentKf!=null && approval.user.isRequesLowByTenant!='1')" class="col-md-12">
+                <div class="alert alert-success" role="alert">
+                  <strong>INFO:</strong> El Alta del usuario en el departamento ya ha sido realizada satisfactoriamente.
+                </div>
+            </div>
+            <div  class="col-md-12">
+                <div class="col-xs-12 col-sm-12 col-md-8 pull-right">
+                    <a ng-if="(approval.user.idTypeTenantKf=='1' && (approval.department.idUserKf==null || approval.department.idUserKf!=null) && approval.department.isAprobatedAdmin!='1' && approval.department.isRequesLowByProp!='1') || 
+                              (approval.user.idTypeTenantKf=='2' && approval.user.isDepartmentApproved==null && approval.user.idDepartmentKf!=null)" data-toggle="tooltip" data-placement="top" title="Aprobar" ng-click="modalConfirmation('approveDepto', 0, approval.user)" data-dismiss="modal" type="button" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="fas fa-user-check"></i></span>APROBAR</a>
+                    <a ng-if="(approval.user.idTypeTenantKf=='1' && (approval.department.idUserKf==null || approval.department.idUserKf!=null) && approval.department.isAprobatedAdmin=='1' && approval.department.isRequesLowByProp=='1') || 
+                              (approval.user.idTypeTenantKf=='2' && approval.user.isDepartmentApproved=='1' && approval.user.idDepartmentKf!=null && approval.user.isRequesLowByTenant=='1')" data-toggle="tooltip" data-placement="top" title="Confirmar" ng-click="modalConfirmation('removet', 0, approval.user)" data-dismiss="modal" type="button" class="btn btn-labeled btn-warning">
+                        <span class="btn-label"><i class="fas fa-user-check"></i></span>CONFIRMAR</a>
+                    <a ng-if="(approval.user.idTypeTenantKf=='1' && (approval.department.idUserKf==null || approval.department.idUserKf!=null) && approval.department.isAprobatedAdmin!='1' && approval.department.isRequesLowByProp!='1') || (approval.user.idTypeTenantKf=='2' && approval.user.isDepartmentApproved==null && approval.user.idDepartmentKf!=null)" data-toggle="tooltip" data-placement="top" title="Rechazar" ng-click="modalConfirmation('cancelRequest', 0, approval.department)" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="fas fa-user-times"></i></span>RECHAZAR</a>
+                    <a ng-if="(approval.user.idTypeTenantKf=='1' && approval.department.isAprobatedAdmin=='1' && approval.department.idUserKf!=null) || 
+                              (approval.user.idTypeTenantKf=='2' && approval.user.isDepartmentApproved!=null && approval.user.idDepartmentKf!=null && approval.user.isRequesLowByTenant!='1')"  data-toggle="tooltip" data-placement="top" title="cerrar" ng-click="switchBuildingFn('closeApproval', null)" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="fas fa-times"></i></span>CERRAR</a>
+                </div>
+            </div>
+        </div>
+        <div ng-show="noshow" class="col-md-12">
+            <div style="text-align: center;">
+                <div class="circle-loader-spin">
+                    <div class="status draw"></div>
+                </div>
+            </div>
+        </div>
+        <div ng-show="noshow" class="col-md-10 col-md-offset-1">
+            <div ng-show="(customerStatus.IsInDebt!=undefined || customerStatus.IsInDebt==null) && sysLoggedUser.idProfileKf!=0" class="alert" ng-class="
+                {'alert-success': customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null, 'alert-danger': customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'}" role="alert">
+                <strong></strong>El Cliente se encuentra 
+                <span ng-if="customerStatus.IsInDebt=='0' || customerStatus.IsInDebt==null" class="label label-success text-uppercase">habilitado.</span>
+                <span ng-if="customerStatus.IsInDebt!=null && customerStatus.IsInDebt=='1'"  class="label label-danger text-uppercase">inhabilitado.</span>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div  ng-if="approval==undefined" class="col-md-10 col-md-offset-1">
+    <div class="panel panel-warning padding-panel">
+      <div class="panel-heading">
+          <h3 class="modal-title"><i class="fas fa-exclamation-triangle"></i>
+              <span class="text-uppercase" style="font-weight: 600;color: #0F2A37 !important;"> BSS Seguridad</span></h3>
+      </div>
+        <div class="panel-body">
+            <div class="col-md-12" style="margin-top: 20px !important;">
+                <div class="alert alert-info" role="alert">
+                <strong>INFO:</strong> La Solicitud de Aprobacion es invalida.
+                </div>
+            </div>
+            <div class="clearfix"> </div> 
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a ng-click="switchBuildingFn('closeApproval', null)" data-toggle="tooltip" data-placement="top" title="cerrar" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div ng-show="serviceResponse.status==404 && sysLoggedUser.idProfileKf!=0" class="col-md-6 col-md-offset-3">
+  <div class="panel panel-warning padding-panel">
+    <div class="panel-heading">
+      <h3 class="panel-title">ESTATUS DEL CLIENTE</h3>
+    </div>
+    <div class="panel-body">
+        <div class="col-md-10 col-md-offset-1">
+          <div ng-show="(customerStatus.IsInDebt!=undefined || customerStatus.IsInDebt==null) && sysLoggedUser.idProfileKf!=0" class="alert alert-warning" role="alert">
+            <strong>INFO:</strong>Cliente no encontrado, intente nuevamente o contacte el area tecnica.
+          </div>
+        </div>
+    </div>
+  </div>
+</div>

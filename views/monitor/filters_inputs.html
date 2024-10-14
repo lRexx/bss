@@ -1,0 +1,182 @@
+    <!-- modal -->
+    <div class="collapse-fullwidth collapse out" id="filterContent"  role="dialog" aria-labelledby="filterContent" aria-hidden="true">
+        <div class="modal-dialog animated">
+            <div class="modal-content">
+                <div class="modal-body">
+                    <div class="row filter_content" >
+                        <div class="row">
+                            <!-- Administrations & Companies for Users TASS-->
+                            <div ng-show="sysLoggedUser.idProfileKf==1" class="form-group col-md-6 col-xs-12 col-sm-6">
+                                <label style="padding-left: 15px;" ng-show="sysLoggedUser.idProfileKf==1">Empresa o Administracion</label>
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><i class="icon-suitcase"></i></span>
+                                        <ui-select ng-show="sysLoggedUser.idProfileKf==1" class="dropdown-select" ng-model="filterCompanyKf.selected" ng-change="filterAddressKf.selected=undefined; getLisOfCustomersByIdFn(filterCompanyKf.selected); mainSwitchFn('search', null);" on-select="mainSwitchFn('search', null)">
+                                        <ui-select-match allow-clear="true" placeholder="Todos" >{{$select.selected.name}}</ui-select-match>
+                                            <ui-select-choices repeat="item in listCompany | filter: $select.search">
+                                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                            <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+                                            </ui-select-choices>
+                                            <ui-select-no-choice>
+                                                No hay resultados, contacte area de soporte.
+                                            </ui-select-no-choice>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Address for Admins/TASS-->
+                            <div ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6" ng-disable="sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf==6" class="form-group col-md-6 col-xs-12 col-sm-6">
+                            <label style="padding-left: 15px;" ng-show="sysLoggedUser.idProfileKf==2">Sucursal</label>
+                            <label style="padding-left: 15px;" ng-show="sysLoggedUser.idProfileKf==1">Sucursal o Consorcio</label>
+                            <label style="padding-left: 15px;" ng-show="sysLoggedUser.idProfileKf==4">Consorcio</label> 
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                    <ui-select class="dropdown-select"  ng-disabled="listOffices.length==0" name="filterAddressKf" ng-change="mainSwitchFn('search', null)"  ng-model="filterAddressKf.selected" on-select="mainSwitchFn('search', null)" autofocus>
+                                        <ui-select-match allow-clear="true" placeholder="Todos">{{$select.selected.name}}</ui-select-match>
+                                            <ui-select-choices repeat="item in listOffices | filter: $select.search">
+                                            <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                                <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+                                            </ui-select-choices>
+                                            <ui-select-no-choice>
+                                                No hay resultados, contacte area de soporte.
+                                            </ui-select-no-choice>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Address for Onwers/AdminConsorcios/Attendants-->
+                            <div class="form-group col-md-6 col-xs-12 col-sm-12 col-xs-padding padding-input-left-2 padding-input-both-2" ng-disable="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 || (sysLoggedUser.idProfileKf==6 && sysLoggedUser.idTypeTenantKf==2)" ng-if="sysLoggedUser.idProfileKf==3 || (((sysLoggedUser.idProfileKf==4 && isHomeSelected) || sysLoggedUser.idProfileKf==6) && sysLoggedUser.idTypeTenantKf==1)" style=" margin-left: -1em;">
+                                <label style="padding-left: 15px;">Consorcio</label>
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                    <ui-select class="dropdown-select"  name="filterAddressKf" ng-change="mainSwitchFn('search', null)"  ng-model="filterAddressKf.selected" on-select="mainSwitchFn('search', null)" autofocus>
+                                        <ui-select-match allow-clear="true" placeholder="Todos">{{$select.selected.address}}</ui-select-match>
+                                            <ui-select-choices repeat="item in ListTenantAddress | filter: $select.search">
+                                            <div ng-bind-html="item.address | highlight: $select.search"></div>
+                                                <small>Administracion: </small><small ng-bind-html="item.administration.name | highlight: $select.search"></small>
+                                                <!--<small>Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+                                                <small>Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+                                            </ui-select-choices>
+                                            <ui-select-no-choice>
+                                                No hay resultados, contacte area de soporte.
+                                            </ui-select-no-choice>
+                                        </ui-select>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Filter Type of Ticket for Company User-->
+                            <div ng-if="sysLoggedUser.idProfileKf==2" class="form-group col-md-4 col-xs-6">
+                            <label>Tipo de Ticket</label>
+                                <div class="col-xl-12 selectContainer">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                        <select name="idTypeTicketKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter: greaterThan('item.idTypeTicket', 2)" ng-required="sysLoggedUser.idProfileKf==2" ng-model="filters.typeTicket"  >
+                                        <option value="">Todos</option>
+                                        </select>
+                                </div>
+                                </div>
+                            </div>
+                            <!-- Filter Type of Ticket for Onwer User-->
+                            <div ng-if="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" class="form-group col-md-6 col-xs-6">
+                            <label>Tipo de Ticket</label>
+                                <div class="col-xl-12 selectContainer">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                        <select name="idTypeTicketKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter:differentThan" ng-required="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" ng-model="filters.typeTicket"  >
+                                        <option value="">Todos</option>
+                                        </select>
+                                </div>
+                                </div>
+                            </div>
+                            <!-- Filter Type of Ticket for Sys User-->
+                            <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-3 col-xs-12 padding-input-left-2 padding-input-both-2 padding-input-right-2">
+                            <label>Ticket</label>
+                                <div class="col-xl-12 selectContainer">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                        <select name="idTypeTicketKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket" ng-required="sysLoggedUser.idProfileKf==1" ng-model="filters.typeTicket"  >
+                                        <option value="">Todos</option>
+                                        </select>
+                                </div>
+                                </div>
+                            </div>
+                            <!-- Filter Type of Status-->
+                            <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-2 col-xs-6 padding-input-left-2 padding-input-both-2">
+                            <label>Estado</label>
+                                <div class="col-xl-12 selectContainer">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                        <select name="idStatusKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="status as status.statusName for status in listStatusTicket " ng-model="filters.ticketStatus" >
+                                        <option value="">Todos</option>
+                                        </select>
+                                </div>
+                                </div>
+                            </div>
+                            <!-- Filter Type of Delivery-->
+                            <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-2 col-xs-6 padding-input-left-2 padding-input-both-2">
+                                <label>Delivery</label>
+                                <div class="col-xl-12 selectContainer">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                        <select name="idStatusKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="delivery as delivery.typeDelivery for delivery in typedelivery_filter " ng-model="filters.typDelivery" >
+                                        <option value="">Todos</option>
+                                        </select>
+                                </div>
+                                </div>
+                            </div>
+                            <!-- Filter Type of Payment-->
+                            <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-3 col-xs-6 padding-input-left-2 padding-input-both-2">
+                                <label>Pago</label>
+                                <div class="col-xl-12 selectContainer">
+                                <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                        <select name="idStatusKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="payment as payment.descripcion for payment in paymentsType " ng-model="filters.paymentsType" >
+                                        <option value="">Todos</option>
+                                        </select>
+                                </div>
+                                </div>
+                            </div>
+                            <!-- Filter Top -->
+                            <div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-2 padding-input-both-2 padding-input-right-2 col-xs-6 padding-input-left-2 padding-input-both-2">
+                            <label>Top</label>
+                                <div class="col-xl-12 selectContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-align-justify"></i></span>
+                                    <select class="form-control" ng-change="mainSwitchFn('search', null)" ng-model="filters.topDH">
+                                        <option value="">Todos</option>
+                                        <option value="5">5</option>
+                                        <option value="10">10</option>
+                                        <option value="20">20</option>
+                                        <option value="30">30</option>
+                                        <option value="100">50</option>
+                                    </select>
+                                </div>
+                                </div>
+                            </div>
+                            <div ng-show="noStatus" class="col-lg-3">
+                                <span class="glyphicon glyphicon-ok-sign " aria-hidden="true"></span>
+                                <label>Total Ticket Finalizados</label>
+                                <label style="color: #39af24;font-size: 20px;">0</label>
+                            </div>
+                            <div ng-show="noStatus" class="col-lg-3">
+                                <span class="glyphicon glyphicon-remove-sign " aria-hidden="true"></span>
+                                <label>Total Ticket Cancelados</label>
+                                <label style="color: #af2424;font-size: 20px;">0</label>
+                            </div>
+                            <div  ng-show="noStatus" class="col-lg-3">
+                                <span class="glyphicon glyphicon-ok-sign " aria-hidden="true"></span>
+                                <label>Total Ticket Pendientes</label>
+                                <label  style="color: #af8424;font-size: 20px;">0</label>
+                            </div>
+
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- /.modal-content -->
+        </div>
+        <!-- /.modal-dialog -->
+    </div>
+    <!-- /modal -->

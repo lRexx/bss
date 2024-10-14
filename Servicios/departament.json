@@ -1,0 +1,94 @@
+---------------------- AGREGAR DEPARTAMENT -------------------
+http://127.0.0.1/Coferba/Back/index.php/Department
+METODO : POST 
+
+{
+  
+  "department":
+  {
+    "departmentAddress"    : "AYACUCHO 559 ,  LORIDA ",
+    "departmentFloor"      : "1-A",
+    "deparmentNumber"      : "900",
+    "departmentLat"        : "11.2222122",
+    "departmentLon"        : "-11.212112",
+    "deparmentDescription" :" DEPARTAMNETO"
+  }
+}
+
+
+
+---------------------- EDITAR DEPARTAMENT -------------------
+http://127.0.0.1/Coferba/Back/index.php/Department/update
+METODO : POST 
+
+{
+  
+  "department":
+  {
+    "departmentAddress"    : " edite AYACUCHO 559 ,  LORIDA ",
+    "departmentFloor"      : "1-A",
+    "deparmentNumber"      : "900",
+    "deparmentDescription" :"NO,BRE DEPARTAMNETO",
+    "idDepartment":1
+  }
+}
+
+
+---------------------- OBTENER UN DEPARTAMNETO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/Department/find/1
+"1 es el id"
+METODO : GET
+
+
+---------------------- BUSCAR  DEPARTAMNETO EN EL LISTADO POR FILTRSOS -------------------
+http://127.0.0.1/Coferba/Back/index.php/Department/search
+METODO : POST 
+
+{
+ 
+  "filter":
+  {
+      "searchFilter" : "nombre", // campo libre que buscar  por fullNameTenant o phoneNumberTenant o emailTenant
+      "topFilter": 0 // top de cuantos resltados quieres que se retornen si mandas 0  retorna todos si no retorna el limite que envies
+  }
+}
+
+
+
+---------------------- ACTIVAR UN DEPARTAMENTO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/Department/active/1
+"1 es el id"
+METODO : GET 
+
+---------------------- INACTIVAR  UN DEPARTAMENTO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/Department/inactive/1
+"1 es el id"
+METODO : GET 
+
+---------------------- ELIMINAR UN DEPARTAMENTO POR ID --------------
+http://127.0.0.1/Coferba/Back/index.php/Department/delete/1
+"1 es el id"
+METODO : delete 
+
+
+
+
+---------------------- listado de direccions --------------
+http://localhost/Coferba/Back/index.php/Direccion
+METODO : get 
+
+---------------------- listado de departamentos por id direccions  --------------
+http://localhost/Coferba/Back/index.php/Department/byIdDireccion/1/0
+"1 es el id"
+METODO : get 
+
+
+---------------------- listado de direcciones por id tenant  --------------
+http://localhost/Coferba/Back/index.php/Direccion/byidTenant/2
+"1 es el id"
+METODO : get 
+
+
+---------------------- verificar si un departamento tienen dueno   --------------
+http://127.0.0.1:8888/Coferba/Back/index.php/Department/chekDepartamenteOwner/2
+METODO : get 

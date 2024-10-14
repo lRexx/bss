@@ -1,0 +1,48 @@
+ <!-- Modal Confirmation -->
+ <div class="modal fade" id="showModalRequestStatus" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-v-align" role="document">
+      <div class="modal-content">
+        <div class="modal-header"style="padding: 10px !important; background-color: rgba(35, 100, 132, 0.66);">
+          <h5 class="modal-title" id="ModalLabel" style="font-weight: 600;">BSS Seguridad <a ng-click="modalConfirmation('closeRequest',0,null)" class="close"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"></i></a></h5>
+        </div>
+        <div class="modal-body">
+          <div style="text-align: center;">
+            <div class="circle-loader">
+              <div class="checkmark draw"></div>
+            </div>
+          </div>
+          <table ng-if="ticketRegistered!=null">
+            <tr>
+              <td style="vertical-align: middle;text-align: right; transform: translateX(60%) !important;">
+                <h3>Pedido N°: </h3>
+              </td>
+              <td style="vertical-align: middle;text-align: right; transform: translateX(50%) !important;">
+                <span style="font-size: 30px;" class="badge badge-success">{{ticketRegistered.codTicket}}</span>
+              </td>
+            </tr>
+          </table>
+          <div ng-if="ticketRegistered!=null && noShow" style="text-align: center;">
+            <a href="{{mp.link.url}}" target="_blank" 
+            ng-if="(((ticketRegistered.userMadeBy.idProfileKf=='3' || ((ticketRegistered.userMadeBy.idProfileKf=='4' || ticketRegistered.userMadeBy.idProfileKf=='6') && ticketRegistered.userMadeBy.idTypeTenantKf=='1')) && ticketRegistered.idTypePaymentKf=='2' && ticketRegistered.building.autoApproveOwners=='1') || (ticketRegistered.idTypePaymentKf=='2' && ticketRegistered.building.autoApproveAll=='1'))"  
+            style="background:#009ee3;">
+            <img data-toggle="tooltip" data-placement="right" title="Pagar"  id="mp_checkout_image" style="width: 110px; height: 110px;" data-type="image" itemprop="image" src="images/mp_button_checkout.png">
+            </a>
+          </div>
+        </div>
+        <div class="modal-footer">
+          
+          <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+              <a href="{{mp.link.url}}" target="_blank" 
+              ng-if="(sysLoggedUser.idProfileKf!='1'  && ticketRegistered.idTypePaymentKf=='2' && (ticketRegistered.building.autoApproveOwners=='1' || ticketRegistered.building.autoApproveAll=='1'|| ticketRegistered.building.mpPaymentMethod=='1') && (ticketRegistered.idStatusTicketKf=='3' || ticketRegistered.idStatusTicketKf=='9'))"
+              type="button" class="btn btn-labeled btn-primary" style="background:#009ee3; border: 1px solid rgb(0, 158, 227);">
+                <span class="btn-label"><i class="fas fa-credit-card"></i></span>Pagar</a>
+                <a ng-click="modalConfirmation('closeRequest',0,null)" type="button" class="btn btn-labeled btn-danger">
+                    <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- //Modal Confirmation -->

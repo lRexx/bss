@@ -1,0 +1,22 @@
+<!-- SELECT CONTRACT LIST -->
+<div id="SelectContractFirst" style="top: 210px;" class="modal modal-dialog-centered" role="dialog">
+	<div class="modal-dialog modal-md" >
+	    <div class="modal-content" style="background-color: #fff0; border: 0px solid #9990;">
+	    	<div class="modal-body" style="padding: 0px;">
+				<!-- FORM CONTAINER-->
+				<div class="col-md-12"> 
+					<!-- Department-->
+				    <div ng-repeat="item in tmpContractList" class="col-md-6 card-depto-colum" ng-click="switchCustomersFn('services', item, 'select_service_windows', '');" >
+				        <div class="card-depto cyan white-text text-center">
+				            <div class="card-depto-content">
+				                <i class="fas fa-file-contract"></i>
+				            </div>
+				            <h3>{{item.numeroContrato}}</h3>
+				        </div>
+				    </div>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+<!-- //SELECT CONTRACT LIST-->
