@@ -1,5 +1,5 @@
 <!-- LIST OF KEYS -->
-<table ng-if="rsKeyListsData.length>0"  id="tableKeys" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
+<table id="tableKeys" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
     <thead style=" background: #4d5d6f; color: white;">
       <tr style="text-align: center;">
           <th width="5%" ng-click="sort_by('idKeychain')">ID 
@@ -24,7 +24,7 @@
     </thead>
     <tbody>
       <!-- Show if there are Keys registered -->
-      <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+      <tr ng-if="rsKeyListsData.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
         <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;"  dir-paginate="item in rsCustomerListData|orderBy:idClient:reverse|filter:searchboxfilter|itemsPerPage:10">-->
         <td class="media-middle text-center" ng-click="switchCustomersFn('details_customer', item, 'show');">
         	{{item.idKeychain}}
@@ -115,7 +115,8 @@
 
               </ul>
           </div>-->
-          <button ng-click="switchKeysFn('editKey', item);" class="btn btn-success  btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Editar Llave"><i class="fas fa-edit"></i></button>
+          <button ng-click="switchKeysFn('editKey', item);" class="btn btn-success  btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Editar Llavero"><i class="fas fa-edit"></i></button>
+          <button ng-click="modalConfirmation('deleteKey', 0, item);" class="btn btn-danger  btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Baja Llavero"><i class="fas fa-minus-square"></i></button>
           <!--<button ng-click="switchCustomersFn('phonesandschedule', item)" class="btn btn-success  btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Ver telefonos & horario"><i class="glyphicon glyphicon-earphone"></i></button>
           <button ng-click="switchCustomersFn('seemails', item)" class="btn btn-info btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Ver correos"><i class="fas fa-envelope-open-text"></i></button>
           <button ng-if="item.idClientTypeFk==2" ng-click="switchCustomersFn('departments', item)" class="btn btn-warning btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Ver departamentos"><i class="far fa-building"></i></button>
@@ -127,13 +128,17 @@
 
         </td>
       </tr>
-      
+      <tr ng-if="rsKeyListsData.length==0">
+        <td colspan="9">
+          <!-- Show if there is not Keys registered -->
+          <div class="col-md-12">
+            <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
+              <h5 class="col-md-offset-4"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">No hay Llaveros registrados.</span></h5>
+            </div>
+          </div>
+        </td>
+      </tr>
     </tbody>
 </table>
-<!-- Show if there is not Keys registered -->
-<div ng-if="rsKeyListsData.length==0" class="col-md-12">
-  <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
-    <h5 class="col-md-offset-4"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">No hay Llaveros registrados.</span></h5>
-  </div>
-</div>
+
 <!-- LIST OF KEYS -->

@@ -244,7 +244,7 @@
                                     <label ng-if="key=='6'" class="text-uppercase label label-default">App monitor</label>
                                   <span class="badge badge-success">{{value.length}}</span>
                                 </span>
-                                <span ng-if="srv.dateDown==null || srv.dateDown=='' && srv.idServiceAsociateFk_array.length==0">
+                                <span ng-if="(srv.dateDown==null || srv.dateDown=='') && srv.idServiceAsociateFk_array.length==0">
                                   <label class="text-uppercase label label-warning">No Asociados</label>
                                 </span>
                               </span>
@@ -254,7 +254,7 @@
                             <!-- CAMERAS & TOTEM SERVICES -->
                             <span ng-if="srv.idTipeServiceFk=='4' || srv.idTipeServiceFk=='3'">
                               <span> <label class="text-uppercase label label-default">{{srv.name}}</label> | </span>
-                              <span ng-if="srv.idTipeServiceFk=='3' && srv.dateDown==null || srv.dateDown==''">
+                              <span ng-if="srv.idTipeServiceFk=='3' && (srv.dateDown==null || srv.dateDown=='')">
                                 <span><i class="fas fa-video"></i> Empresa de monitoreo: <label class="text-uppercase label label-default">{{srv.idCompanyFk_array[0].monitorCompany}}</label> | </span>                               
                                 <span><i class="fas fa-cubes"></i> Tipo de totem: <label class="text-uppercase label label-default">{{srv.idTotenModelFk_array[0].totenModel}}</label> | </span>
                               </span>

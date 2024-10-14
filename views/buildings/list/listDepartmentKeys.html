@@ -11,32 +11,34 @@
           <div class="clearfix"> </div> 
           <!-- keys -->
           <div class=" col-md-12">
-                <table ng-if="departmentSelected.keys.length>0" class="table table-striped table-bordered table-list table-responsive table-hover fade in" style="border: 0 !important;">
-                    <thead class="dpto-t-head">
+                <table ng-if="departmentSelected.keys.length>0" class="table table-striped table-list table-responsive table-hover">
+                    <thead style=" background: #4d5d6f; color: white;">
                         <tr>
-                            <th class="dpto-th-head " style="border-right: 1px solid #ddd !important; ">Codigo</th>
-                            <th class="dpto-th-head " style="border-right: 1px solid #ddd !important; ">Codigo Externo</th>
+                            <th class="dpto-th-head " style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;">Codigo</th>
+                            <th width="10%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; ">Codigo Externo</th>
                             <!--<th>ID</th>-->
-                            <th class="dpto-th-head " style="border-right: 1px solid #ddd !important; "><i class="fas fa-key"></i> LLavero</th>
-                            <th width="20%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"></i> Usuario Asociado</th>
+                            <th class="dpto-th-head " style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center; "><i class="fas fa-key"></i> LLavero</th>
+                            <th width="10%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;"><i class="fas fa-barcode"></i> Usuario</th>
                             <th class="dpto-th-head " style="text-align: center;"><i class="fas fa-bookmark"></i> Solo Habitante</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody style="height: auto !important;overflow: auto;box-shadow: 0px 4px 5px -2px rgba(0, 0, 0, .30);">
                         <tr ng-repeat="key in departmentSelected.keys" style="font-size: 14px;">
                             <td style="width: 5%; padding-right: 10px; vertical-align: middle;text-align: center;" class="td-depto media-middle">
-                                <label style="font-size: 100%; cursor: pointer;" class="label label-default"> {{key.codigo | uppercase}}</label>
-                                <label style="font-size: 100%; cursor: pointer;" class="label label-default"> {{key.codExt | uppercase}}</label>
+                                <label style="font-size: 80%; cursor: pointer;" class="label label-default"> {{key.codigo | uppercase}}</label>
+                            </td>
+                            <td style="width: 5%; padding-right: 10px; vertical-align: middle;text-align: center;" class="td-depto media-middle">
+                                <label style="font-size: 80%; cursor: pointer;" class="label label-default"> {{key.codExt | uppercase}}</label>
                             </td>
                             <td style="width: 55% " class="td-depto media-middle">
                                 <span  style="font-weight: 600; color: #f0ad4e"> {{key.descriptionProduct | uppercase}}</span>
                             </td>
                             <td style="width: 15%; vertical-align: middle;text-align: center;" class="td-depto media-middle">
                                 <span ng-if="key.idUserKf!=undefined && key.idUserKf!='' && key.idUserKf!='0'" data-toggle="tooltip" data-placement="bottom" title="Llave asociada a usuario" class="font-size-18px" style="color: #5cb85c">
-                                    <i class="text-success fas fa-check-circle"></i>
+                                    <i class="text-success fas fa-check-circle"></i> Si
                                 </span>
                                 <span ng-if="key.idUserKf==undefined || key.idUserKf==null || key.idUserKf=='' || key.idUserKf=='0'"  data-toggle="tooltip" data-placement="bottom" title="Llave no asociada a usuario" class="font-size-18px" style="color: #5cb85c">
-                                    <i  class="product-warning fas fa-lightbulb"></i>
+                                    <i  class="product-warning fas fa-lightbulb"></i> No
                                 </span>
                             </td>
                             <td class="td-depto media-middle" style="vertical-align: middle;text-align: center;">

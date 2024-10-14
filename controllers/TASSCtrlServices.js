@@ -128,6 +128,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
     const sysYear  = sysDate.toLocaleString('es-AR', { year: 'numeric'}).toString().substr(2,2);
     const sysMonth = sysDate.toLocaleString('es-AR', { month: 'numeric'});
     const sysDay   = sysDate.toLocaleString('es-AR', { day: 'numeric'});
+    const regexProtocol = /^(https?:\/\/)/;
+    const regexPort = /:(\d+)$/;
     $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
     $scope.getSelectedCustomerData = tokenSystem.getTokenStorage(7);
     $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
@@ -3024,7 +3026,36 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.TurnOffKey.selected         = service.idShutdownKeyFk==undefined || service.idShutdownKeyFk==null?null:service.idShutdownKeyFk_array[0];
                                         $scope.service.update.idTypeMaintenanceFk  = service.idTypeMaintenanceFk_array[0].idTypeMaintenance;
                                         $scope.service.update.MntType              = service.idTypeMaintenanceFk_array[0].typeMaintenance;
-                                        $scope.service.update.urlVpn               = service.addressVpn!=null && service.portVpn!=null?service.addressVpn+":"+service.portVpn:null;
+                                        const itHasHttpProto                       = service.addressVpn!=null && service.addressVpn!=undefined?regexProtocol.test(service.addressVpn):null;
+                                        const itHasPortInURL                       = service.addressVpn!=null && service.addressVpn!=undefined?regexPort.test(service.addressVpn):null;
+                                        const vpnPortDefined                       = service.portVpn!="" && service.portVpn!=null && service.portVpn!=undefined?service.portVpn:"80";
+                                        if (itHasPortInURL && itHasPortInURL!=null){
+                                            const urlVpn = service.addressVpn;
+                                            const matchUrl = urlVpn.match(regexPort);
+                                            console.log(matchUrl);
+                                            const extractedPort = matchUrl[1];
+                                            console.log(extractedPort);
+                                                if (extractedPort != vpnPortDefined) {
+                                                    inform.add("La dirección VPN contiene un puerto ("+extractedPort+") diferente al puerto VPN ("+vpnPortDefined+") especificado en el campo o al puerto por defecto (80).",{
+                                                        ttl:6000, type: 'warning'
+                                                    });
+                                                }
+                                        }
+                                        if (!itHasHttpProto && itHasHttpProto!=null){
+                                            if (!itHasPortInURL || itHasPortInURL==null){
+                                                $scope.service.update.urlVpn           = "http://"+service.addressVpn+":"+vpnPortDefined;
+                                            }else{
+                                                $scope.service.update.urlVpn           = "http://"+service.addressVpn;
+                                            }
+                                        }else if (itHasHttpProto){
+                                            if (!itHasPortInURL || itHasPortInURL==null){
+                                                $scope.service.update.urlVpn           = service.addressVpn+":"+vpnPortDefined;
+                                            }else{
+                                                $scope.service.update.urlVpn           = service.addressVpn;
+                                            }
+                                        }else{
+                                            $scope.service.update.urlVpn = undefined;
+                                        }
                                         var isBlocklingScrew                       = service.isBlocklingScrew==0||service.isBlocklingScrew==undefined?false:true;
                                         $scope.service.update.isBlocklingScrew     = service.isBlocklingScrew;
                                         var productIdNumber = 1;

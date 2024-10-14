@@ -11,7 +11,7 @@
 				<form class="form-horizontal" name="fCustomerNewService" novalidate>
 					<fieldset>
 						<!-- INTERNET: Tipo de internet -->
-						<div class="form-group col-md-6" ng-class="
+						<div class="form-group col-md-12" ng-class="
 									{	'has-success': 
 										service.new.idTypeInternetFk!='' && fCustomerNewService.service_internetType.$valid,
 									 	'has-error':  
@@ -79,7 +79,7 @@
 							</div>
 						</div>
 						<!-- INTERNET: plan list -->
-						<div class="form-group col-md-6" ng-class="
+						<!--<div class="form-group col-md-6" ng-class="
 									{	'has-success': 
 										service.new.idServiceFk!='' && fCustomerNewService.service_internetPlan.$valid,
 									 	'has-error':  
@@ -92,12 +92,12 @@
 									<select name="service_internetPlan" 
 									class="form-control" 
 									ng-options="item.idTypeInternet as item.typeInternet for item in rsInternetPlanListData" ng-model="service.new.idServiceFk"
-									required="true" autofocus >
+									ng-required="false" autofocus >
 									    <option class="text-uppercase" value="">Selecciona una empresa</option>
 								    </select>
 							  </div>
 							</div>
-						</div>
+						</div>-->
 						<!-- INTERNET: control of access -->
 						<div class="form-group col-md-6" ng-class="
 								  			{	'has-success': 
@@ -215,7 +215,7 @@
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-wrench"></i></span>
-									<select style="height: 182px;" name="service_customerServiceList" class="form-control" ng-options="item.idClientServices as item.idClientServices+' - '+item.clientTypeServices+' ('+item.service[0].titulo+''+item.service[0].name+')' for item in rsServicesListByCustomerIdData | filter:filterAssociatedServices" ng-model="service.new.idServiceAsociateFk" autofocus multiple>
+									<select style="height: 258px;" name="service_customerServiceList" class="form-control" ng-options="item.idClientServices as item.idClientServices+' - '+item.clientTypeServices+' ('+item.service[0].titulo+''+item.service[0].name+')' for item in rsServicesListByCustomerIdData | filter:filterAssociatedServices" ng-model="service.new.idServiceAsociateFk" autofocus multiple>
 									    <option class="text-uppercase" value="">Selecciona una opci&#243;n</option>
 								    </select>
 							  </div>
@@ -279,6 +279,21 @@
 							  </div>
 							</div>
 						</div>
+						<!-- INTERNET: IP Address Port -->
+						<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk<='2'" class="form-group col-md-6" ng-class="
+									{	'has-success': 
+										service.new.ipAddress!='' && service.new.ipAddress!=null && fCustomerNewService.service_ipAddr.$valid,
+									 	'has-error':  
+										(service.new.ipAddress=='' || service.new.ipAddress==null || service.new.ipAddress==undefined) && fCustomerNewService.service_ipAddr.$touched,
+									}">
+						  <label style="padding-left: 15px;">IP de la placa</label>  
+							  <div class="col-xs-12">
+								<div class="input-group">
+									<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+									<input name="service_ipAddr" type="text" ng-keydown="fnLoadPhoneMask()" class="form-control" ng-model="service.new.ipAddress" />
+							  </div>
+							</div>
+						</div>
 						<div class="col-md-12">
 							<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk<='2'"class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
 								<div class="form-group col-md-12 text-badge"> <h4>Usuario Admin del Router</h4></div>
@@ -301,7 +316,7 @@
 									</div>
 								</div>
 							</div>
-							<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk=='1'" class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
+							<!-- <div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk=='1'" class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
 								<div class="form-group col-md-6 text-badge"> <h4>Wifi BSS</h4></div>
 								<div class="form-group col-md-12">
 								  <label style="padding-left: 15px;">Usuario BSS</label>  
@@ -321,15 +336,15 @@
 									  </div>
 									</div>
 								</div>
-							</div>
-							<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk=='2'" class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
+							</div>-->
+							<div ng-if="service.new.idTypeInternetFk!=undefined && service.new.idTypeInternetFk<='2'" class="well-checkbox form-group col-md-6 n-padding-l n-padding-r">
 								<div class="form-group col-md-6 text-badge"> <h4>Wifi Cliente</h4></div>
 								<div class="form-group col-md-12">
 								  <label style="padding-left: 15px;">Usuario CLIENTE</label>  
 									  <div class="col-xs-12">
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fas fa-user"></i></span>
-											<input name="service_userCliente" type="text" class="form-control" ng-model="service.new.userAdmin" />
+											<input name="service_userCliente" type="text" class="form-control" ng-model="service.new.userWifi" />
 									  </div>
 									</div>
 								</div>
@@ -338,7 +353,7 @@
 									  <div class="col-xs-12">
 										<div class="input-group">
 											<span class="input-group-addon"><i class="fas fa-key"></i></span>
-											<input name="service_passCliente" type="text" class="form-control" ng-model="service.new.passAdmin" />
+											<input name="service_passCliente" type="text" class="form-control" ng-model="service.new.passWifi" />
 									  </div>
 									</div>
 								</div>

@@ -42,6 +42,18 @@
           </div>
         </div>
         <!-- //LIST KEYS -->
+        <!-- LIST KEYS -->
+        <div class="col-md-12 col-xs-4">
+          <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="ALTAS/BAJAS" ng-click="switchKeysFn('keychain_process_list', null)">
+            <div class="depto-icon">
+                  <span><i class="product-success fas fa-list"></i></span>
+            </div>
+            <div class="text">
+                <h4 class="text-muted"><span class="badge badge-light"><i class="fas fa-eye"></i> ALTAS / BAJAS </span></h4>
+            </div>
+          </div>
+        </div>
+        <!-- //LIST KEYS -->
       </div>
       <div class="col-md-10 col-xs-12 n-padding-r">
         <div>
@@ -53,7 +65,7 @@
                   <!--KEY LIST PANEL -->
                   <div id="keyList" class="panel-body">
                     <!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
-                    <div ng-if="rsKeyListsData.length>0" class="col-md-12 n-padding-l n-padding-r" style="padding-bottom: 5px;">
+                    <div class="col-md-12 n-padding-l n-padding-r" style="padding-bottom: 5px;">
                             <!-- Building Name-->
                             <div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-9" style="z-index: 1000;">
                                   <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" >
@@ -84,7 +96,7 @@
                                       <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                                       <select name="department" 
                                               class="form-control text-uppercase"
-                                              ng-disabled="select.buildings.selected==undefined"
+                                              ng-disabled="select.buildings.selected==undefined || rsKeyListsData.length==0"
                                               ng-change="search(select.filterCategoryKey, select.buildings.selected.address, select.department, searchboxfilter, true);"
                                               ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
                                               ng-model="select.department" autofocus >
@@ -95,23 +107,25 @@
                               </div>
                             </div>
                   </div>
-                  <div ng-if="rsKeyListsData.length>0" class="col-md-12 n-padding-l n-padding-r">
-                      <div ng-if="rsKeyListsData.length>0" class="form-group col-lg-12 n-padding-l n-padding-r" style="margin-top: 15px;">
+                  <div class="col-md-12 n-padding-l n-padding-r" ng-if="select.filterCategoryKey!='' && select.filterCategoryKey!=undefined && select.buildings.selected!=undefined">
+                    <div class="col-md-2 col-xs-2 pull-right">
+                      <!-- New Key button -->
+                      <button ng-click="switchKeysFn('newSingle', null)" style="margin-left: 0.5px;" data-toggle="tooltip" data-placement="top" title="Nueva Llave" type="button" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="fas fa-key"></i> </span>Alta Llavero</button> 
+                    </div>
+                  </div>
+                  <div class="col-md-12 n-padding-l n-padding-r">
+                      <div class="form-group col-lg-12 n-padding-l n-padding-r" style="margin-top: 15px;">
                         <!--<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Categoria</label></div>-->
                         <div class="row n-margin-l n-margin-r">  
                           <div ng-class="col-md-12">
-                              <div class="col-md-10 col-xs-10">
+                              <div class="col-md-12 col-xs-12">
                                 <input id="categoryKeyAll" class="radio-2x categoryTypeAll" type="radio" ng-click="select.filterCategoryKey=undefined; search(undefined, select.buildings.selected.address, select.department, searchboxfilter, true)" ng-checked="true" name="categoryType" value="undefined" autofocus>
                                 <label for="categoryKeyAll" class="radio-2x-label">
                                   <span>Todos</span>
                                 </label>
                               </div>
-                              <div class="col-md-2 col-xs-2 pull-right">
-                                <!-- New Key button -->
-                                <button ng-click="switchKeysFn('newSingle', null)" style="margin-left: 0.5px;" data-toggle="tooltip" data-placement="top" title="Nueva Llave" type="button" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="fas fa-key"></i> </span>Nuevo</button> 
-                              </div>
-                              <div ng-repeat="item in rsCategoryKeyChainsData" class="col-md-2 col-sm-6 col-xs-6">
-                                <input id="categoryKey-{{item.idCategory}}" class="radio-2x" type="radio" ng-click="search(select.filterCategoryKey, select.buildings.selected.address, select.department, searchboxfilter, true)" name="categoryType" value="{{item.name}}" ng-model="select.filterCategoryKey" autofocus>
+                              <div ng-repeat="item in rsCategoryKeyChainsData" class="col-md-2 col-sm-4 col-xs-6">
+                                <input id="categoryKey-{{item.idCategory}}" class="radio-2x" type="radio" ng-click="search(select.filterCategoryKey, select.buildings.selected.address, select.department, searchboxfilter, true)" name="categoryType" value="{{item.idCategory}}" ng-model="select.filterCategoryKey" autofocus>
                                 <label for="categoryKey-{{item.idCategory}}" class="radio-2x-label">
                                   <span>{{item.name}}</span>
                                 </label>
@@ -159,6 +173,7 @@
 <div ng-include="'views/keys/newKey.html'"></div>
 <div ng-include="'views/keys/newKeyFile.html'"></div>
 <div ng-include="'views/keys/editKey.html'"></div>
+<div ng-include="'views/keys/deleteKey.html'"></div>
 <div ng-include="'views/keys/attachKeyFile.html'"></div>
 <div ng-include="'views/keys/keyDetails.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>

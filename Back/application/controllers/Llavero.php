@@ -21,8 +21,8 @@ class Llavero extends REST_Controller
 		$obj = $this->llavero_model->add($this->post('llavero'), false);
 
 
-		if ($obj == 1) {
-			$this->response(['response' => "Registro exitoso"], 200);
+		if (!is_null($obj) && $obj != 0 && $obj != 2){
+			$this->response(array('response' => $obj) , 200);
 		} else {
 			if ($obj == 0) {
 				$this->response(['error' => "ERROR INESPERADO"], 500);
@@ -32,8 +32,6 @@ class Llavero extends REST_Controller
 				}
 			}
 		}
-
-
 	}
 
 	public function asignar_post()
@@ -223,5 +221,31 @@ class Llavero extends REST_Controller
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+
+	public function addProcessEvent_post()
+	{
+		$obj = null;
+		if (!$this->post('processEvent')) {
+			$this->response(null, 404);
+		}
+
+		$obj = $this->llavero_model->addProcess_event($this->post('processEvent'), false);
+
+
+		if (!is_null($obj)){
+			$this->response(array('response' => $obj) , 200);
+		} else {
+			if ($obj == 0) {
+				$this->response(['error' => "ERROR INESPERADO"], 500);
+			} else {
+				if ($obj == 2) {
+					$this->response(['response' => "Elemento ya se encuentra registrado"], 203);
+				}
+			}
+		}
+	}
+
+
+
 
 }

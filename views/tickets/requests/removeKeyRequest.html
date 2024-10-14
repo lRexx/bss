@@ -370,11 +370,11 @@
 									<div class="n-padding-l n-padding-r">
 										<div class="form-check form-check-inline">
 											<div class="col-md-12 col-md-offset-2">
-												<div class="well col-md-3 col-xs-3" ng-class="{
+												<div ng-if="ticket.building.chargeForExpenses!=0 && ticket.building.chargeForExpenses!=null && ticket.building.chargeForExpenses!=undefined" class="well col-md-3 col-xs-3" ng-class="{
 														'well-success': 
 														ticket.cost.idTypePaymentKf=='1',
 														}">
-													<input id="idTypePaymentKf-1" class="radio-custom" type="radio" ng-disabled="ticket.building.chargeForExpenses!=1" ng-click="mainSwitchFn('setPaymentType', null, null); enabledNextBtn();" name="idTypePaymentKf" value="1" ng-model="ticket.cost.idTypePaymentKf" required autofocus>
+													<input id="idTypePaymentKf-1" class="radio-custom" type="radio" ng-disabled="ticket.building.chargeForExpenses!=1" ng-click="mainSwitchFn('setPaymentType', null, null); enabledNextBtn();" name="idTypePaymentKf" value="1" ng-value="1" ng-model="ticket.cost.idTypePaymentKf" required autofocus>
 													<label for="idTypePaymentKf-1" class="radio-custom-label" style="margin-top: 4%; height: 47px;" ng-class="{'radio-custom-label-disabled':ticket.building.chargeForExpenses!=1}">
 														<span ng-if="ticket.optionTypeSelected.name=='department'">Abono por expensas
 															<span ng-if="ticket.building.chargeForExpenses==1" class="badge badge-success">Habilitado</span>
@@ -386,11 +386,15 @@
 														</span>
 													</label>
 												</div>
-												<div class="well col-md-3 col-xs-3 col-md-offset-1" style="padding-right: 0px !important;" ng-class="{
+												<div class="well col-md-3 col-xs-3" style="padding-right: 0px !important;" ng-class="{
 														'well-success': 
 														ticket.cost.idTypePaymentKf=='2',
+														'col-md-offset-2':
+														ticket.building.chargeForExpenses!=1,
+														'col-md-offset-1':
+														ticket.building.chargeForExpenses==1,
 														}">
-													<input id="idTypePaymentKf-2" class="radio-custom" type="radio" ng-disabled="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='3'" ng-click="mainSwitchFn('setPaymentType', null, null); enabledNextBtn();" name="idTypePaymentKf" value="2" ng-model="ticket.cost.idTypePaymentKf" required autofocus>
+													<input id="idTypePaymentKf-2" class="radio-custom" type="radio" ng-disabled="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='3'" ng-click="mainSwitchFn('setPaymentType', null, null); enabledNextBtn();" name="idTypePaymentKf" value="2" ng-value="2" ng-checked="ticket.building.chargeForExpenses=='0'" ng-model="ticket.cost.idTypePaymentKf" required autofocus>
 													<label for="idTypePaymentKf-2" class="radio-custom-label" ng-class="{'radio-custom-label-disabled':ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='3'}">
 														<span><img id="comp-k1xl6bdlimgimage" class="mp-logo" data-type="image" itemprop="image" src="images/mp_logo.png"></span>
 													</label>

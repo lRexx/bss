@@ -1,21 +1,50 @@
-<!-- KEY REGISTER FORM -->
-<div id="editSingleKey" class="modal fade bd-example-modal-lg" style="top: 130px;" role="dialog">
+<!-- KEY DELETE FORM -->
+<div id="deleteSingleKey" class="modal fade bd-example-modal-lg" style="top: 130px;" role="dialog">
     <div class="modal-dialog modal-lg" >
         <div class="modal-content">
             <div class="modal-header">
                 <button type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-                <h3 class="modal-title"><i class="product-success fas fa-key"></i> EDITAR LLAVERO - <label class="label label-default">{{keys.update.buildingAddress}}</label> <label class="badge badge-warning font-size-18px">{{keys.update.idKeychainString}}</label>
+                <h3 class="modal-title"><i class="product-success fas fa-key"></i> ELIMINAR LLAVERO - <label class="label label-default">{{keys.update.buildingAddress}}</label> <label class="badge badge-warning font-size-18px">{{keys.update.idKeychainString}}</label>
                 </h3>
             </div>
             <div class="modal-body"  style="overflow-y: scroll;">
                 <!-- FORM CONTAINER-->
-                <form class="form-horizontal" name="fEditKey" novalidate>
+                <form class="form-horizontal" name="fDeleteKey" novalidate>
                     <fieldset>
+                        <div class="col-md-12 form-group">
+                            <div class="col-md-4" ng-repeat="reason in reasonDisabledKey">
+                                <div class="col-md-12 col-xs-12 depto-widget well well-md n-padding-l n-padding-r" data-toggle="tooltip" data-placement="bottom" title="{{reason.reasonDisabledItem}}">
+                                    <div class="depto-icon">
+                                        <span>
+                                            <span ng-if="reason.idReasonDisabledItem=='1'"><i class="product-success fas fa-mask"></i></span>
+                                            <span ng-if="reason.idReasonDisabledItem=='2'"><i class="product-success fas fa-search-location"></i></span>
+                                            <span ng-if="reason.idReasonDisabledItem=='3'"><i class="product-success fas fa-key"></i></span>
+                                        </span>
+                                    </div>
+                                    <div class="text">
+                                        <div class="col-md-12 col-xs-12 n-padding-r n-padding-l">
+                                            <input id="idReason-{{reason.idReasonDisabledItem}}" class="radio-custom" type="radio" ng-click="mainSwitchFn('setReason', reason, null);" name="idReason" value="{{reason.idReasonDisabledItem}}" ng-model="keys.update.reason" required autofocus>
+                                            <label for="idReason-{{reason.idReasonDisabledItem}}" class="radio-custom-label" style="margin-top: 4%; height: 47px;">
+                                                <span class="badge badge-default">{{reason.reasonDisabledItem}}</span>
+                                            </label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+						<!-- Observaciones Adicionales -->
+                        <!-- Form Special Request sru= Special Request Up -->
+                        <div class="form-group col-md-12">
+                            <label class="col-xs-12" >Observaciones Adicionales</label> 
+                            <div class="col-md-12 col-xs-12 input-group">
+                                <textarea style="resize: vertical;" name="sruTenant" rows="4" placeholder="Describa aqui si desea realizar una nota adicional." class="form-control" ng-model="keys.update.description" ></textarea>
+                            </div>
+                        </div>
                         <div ng-if="keys.update.categoryKey=='1'" class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="
-                        {	'has-success': (keys.update.department!='' && keys.update.department!=undefined && fEditKey.department.$valid) ||
+                        {	'has-success': (keys.update.department!='' && keys.update.department!=undefined && fDeleteKey.department.$valid) ||
                                            (select.department!='' && select.department!=undefined),
                              'has-error':  
-                            (keys.update.department=='' || keys.update.department==undefined) && fEditKey.department.$touched,
+                            (keys.update.department=='' || keys.update.department==undefined) && fDeleteKey.department.$touched,
                         }">
                         <label style="padding-left: 15px;">Departamento</label>  
                         <div class="col-xs-12 selectContainer">
@@ -23,7 +52,7 @@
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
                                 <select name="department" 
                                         class="form-control text-uppercase"
-                                        ng-disabled="select.department!=undefined && select.department!=''"
+                                        ng-disabled="true"
                                         ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
                                         ng-required="update.building.selected!=undefined" 
                                         ng-model="keys.update.department" autofocus >
@@ -35,9 +64,9 @@
                     <!-- List Category Key Type-->
                     <div class="form-group col-md-6 col-sm-6 col-xs-6" ng-class="
                         {	'has-success': 
-                            keys.update.categoryKey!=undefined && keys.update.categoryKey!='' && fEditKey.categoryKey.$valid,
+                            keys.update.categoryKey!=undefined && keys.update.categoryKey!='' && fDeleteKey.categoryKey.$valid,
                             'has-error':  
-                            (keys.update.categoryKey==undefined) && fEditKey.categoryKey.$touched
+                            (keys.update.categoryKey==undefined) && fDeleteKey.categoryKey.$touched
                         }">
                         <label style="padding-left: 15px;">Categoria</label>
                         <div class="col-xs-12 selectContainer">
@@ -46,7 +75,7 @@
                                 <select  name="categoryKey" 
                                         ng-change="keys.update.department=null"
                                         ng-options="item.idCategory as (item.name | uppercase) for item in rsCategoryKeyChainsData | filter:filterCategoryKey" 
-                                        ng-disabled="rsKeyListsData.status==404"  
+                                        ng-disabled="true"
                                         class="form-control" 
                                         ng-model="keys.update.categoryKey">
                                     <option value="" >Seleccione una opci&#243n</option>
@@ -57,9 +86,9 @@
                     <!-- List Open Devices Products-->
                     <div  class="form-group col-md-6 col-sm-6 col-xs-6"  ng-class="
                         {	'has-success': 
-                            keys.update.products.selected!=undefined && fEditKey.products.$valid,
+                            keys.update.products.selected!=undefined && fDeleteKey.products.$valid,
                             'has-error':  
-                            (keys.update.products.selected==undefined) && fEditKey.products.$touched
+                            (keys.update.products.selected==undefined) && fDeleteKey.products.$touched
                         }">
                         <label style="padding-left: 15px;">Dispositivos de Apertura</label>  
                         <div class="col-xs-12 selectContainer">
@@ -67,6 +96,7 @@
                             <span class="input-group-addon"><i class="fas fa-key"></i></span> 
                             <ui-select name="products"  
                                         ng-required="true"
+                                        ng-disabled="true"
                                         ng-model="keys.update.products.selected" autofocus>
                                 <ui-select-match  allow-clear="true" placeholder="Seleccione una opci&#243n">{{$select.selected.descriptionProduct}}</ui-select-match>
                                     <ui-select-choices repeat="item in rsKeyProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
@@ -84,30 +114,30 @@
                     <!-- codigo -->
                     <div class="form-group col-md-6" ng-class="
                     {	'has-success': 
-                        keys.update.codigo!='' && fEditKey.codigo.$valid,
+                        keys.update.codigo!='' && fDeleteKey.codigo.$valid,
                          'has-error':  
-                        (keys.update.codigo=='' || keys.update.codigo==undefined) && fEditKey.codigo.$touched,
+                        (keys.update.codigo=='' || keys.update.codigo==undefined) && fDeleteKey.codigo.$touched,
                     }">
                     <label style="padding-left: 15px;">Codigo</label>  
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
-                                <input  name="codigo" autofocus="true" placeholder="Codigo" class="form-control" ng-model="keys.update.codigo"  type="text" required autofocus/>
+                                <input  name="codigo" autofocus="true" placeholder="Codigo" class="form-control" ng-model="keys.update.codigo"   ng-disabled="true" type="text" autofocus/>
                             </div>
                         </div>
                     </div>
                     <!-- codigo ext -->
                     <div class="form-group col-md-6" ng-class="
                     {	'has-success': 
-                        keys.update.codigoExt!='' && fEditKey.codigoExt.$valid,
+                        keys.update.codigoExt!='' && fDeleteKey.codigoExt.$valid,
                          'has-error':  
-                        (keys.update.codigoExt=='' || keys.update.codigoExt==undefined) && fEditKey.codigoExt.$touched,
+                        (keys.update.codigoExt=='' || keys.update.codigoExt==undefined) && fDeleteKey.codigoExt.$touched,
                     }">
                     <label style="padding-left: 15px;" >Codigo Externo</label> 
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
-                                <input name="codigoExt" placeholder="Codigo Externo" class="form-control" ng-model="keys.update.codigoExt" type="text" required autofocus />
+                                <input name="codigoExt" placeholder="Codigo Externo" class="form-control" ng-model="keys.update.codigoExt"  ng-disabled="true" type="text" autofocus />
                             </div>
                         </div>
                     </div>
@@ -120,8 +150,8 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <button type="submit" ng-click="modalConfirmation('updateKey', 0, keys.update)" ng-disabled="fEditKey.$invalid" class="btn btn-labeled btn-success">
-                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                        <button type="submit" ng-click="switchKeysFn('deleteKey', keys.update)" ng-disabled="fDeleteKey.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Confirmar</button>
                         <a ng-click="modalConfirmation('closeWindow', 0, null)" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
                     </div>

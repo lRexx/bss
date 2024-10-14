@@ -330,13 +330,13 @@
 							</div>
 						</div>
 						<!-- Control_de_Acceso: Open Devices -->
-						<div class="form-group col-md-6" style="margin-left: 15px; padding-right: 45px;">
-							<div class="col-md-8">
+						<div class="form-group col-md-12" style="margin-left: 15px; padding-right: 45px;">
+							<div class="col-md-10">
 								<label class="clf-p-left">Dispositivos de Apertura</label></div>
-							<div class="pull-right col-md-4 n-padding-r" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.openDevices.selected)" ng-disabled="service.openDevices.selected==undefined || service.update.dateDown!=null" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
+							<div class="pull-right col-md-2 n-padding-r" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.openDevices.selected)" ng-disabled="service.openDevices.selected==undefined || service.update.dateDown!=null" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
 						    <div class="selectContainer">							   
 							    <div class="col-md-12 input-group">
-					              	<span class="input-group-addon"><i class="fas fa-car-battery"></i></span>
+					              	<span class="input-group-addon"><i class="fas fa-key"></i></span>
 					              	<ui-select name="service_openDevices"
 					              			 ng-model="service.openDevices.selected"
 					              			 ng-required="list_open_devices.length==0"
@@ -359,13 +359,12 @@
 							    	<tr ng-repeat="device in list_open_devices">
 							    		<td style="width: 5%; padding: 0 0px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
 							      		 <td style="width: auto"><span style="font-size: 85%" class="text-muted text-uppercase text-box">{{device.classification | uppercase}} </span></td>
-							      		<!--<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Modelo:<label style="font-size: 85%" class="label label-default">{{device.model | uppercase}}</label></span></td>-->
-							      		<td style="width: auto"><label data-toggle="tooltip" data-placement="top" title="Marca" style="font-size: 75%" class="label label-default"><i class="text-warning fas fa-tag"> </i> {{device.brand | uppercase}}</label></td>
-							          	<td style="padding-bottom: 5px;">
-							            	<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(device)" ng-disabled="!device.idOpenDevice" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i></button>
-						  					<button ng-if="device.idOpenDevice" ng-disabled="service.update.dateDown!=null" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeSubItemProductDetailsFn(device)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
-
-							          	</td>
+										 <td style="width: auto"><span class="text-muted text-box" style="font-size: 85%">Modelo:<span data-toggle="tooltip" data-placement="top" title="Marca" style="font-size: 75%" class="label label-default"><i class="text-warning fas fa-tag"> </i> {{device.brand | uppercase}}</span></label></td>
+										 <td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca:<span data-toggle="tooltip" data-placement="top" title="Modelo" style="font-size: 75%" class="label label-default">{{device.model | uppercase}}</span></label></td>
+										 <td style="width: 10%;padding-bottom: 5px;">
+											<div class="col-md-2"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(device)" ng-disabled="!device.idOpenDevice" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i></button></div>
+											<div class="col-md-2"><button ng-if="device.idOpenDevice" ng-disabled="service.update.dateDown!=null" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeSubItemProductDetailsFn(device)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+										 </td>
 							      	</tr>
 							  	</table>
 							  	<div ng-if="list_open_devices.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay dispositivos de apertura cargados</h5></div>
@@ -403,12 +402,11 @@
 							    	<tr ng-repeat="battery in list_batteries">
 							    		<td style="width: 0%; padding: 0 10px 0 10px;"><label style="font-size: 80%" class="label label-default">{{$index+1}}</label></td>
 							      		 <td style="width: 55%"><span style="font-size: 85%" class="text-muted text-uppercase text-box">{{battery.descriptionProduct | uppercase}} </span></td>
-							      		<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Modelo:<label style="font-size: 85%" class="label label-default">{{battery.model | uppercase}}</label></span></td>
-							      		<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca:<label style="font-size: 85%" class="label label-default">{{battery.brand | uppercase}}</label></span></td>
-							          	<td style="padding-bottom: 5px; width: 15%">
-							            	<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(battery)" ng-disabled="!battery.idBatteryFk" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-						  					<button ng-if="battery.idBatteryFk" data-toggle="tooltip" data-placement="top" title="Remover" ng-disabled="service.update.dateDown!=null" ng-click="removeSubItemProductDetailsFn(battery)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
-
+							      		<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Modelo:<label style="font-size: 75%" class="label label-default">{{battery.model | uppercase}}</label></span></td>
+							      		<td style="width: 15%"><span class="text-muted text-box" style="font-size: 85%">Marca:<label style="font-size: 75%" class="label label-default">{{battery.brand | uppercase}}</label></span></td>
+							          	<td style="padding-bottom: 5px; width: 10%">
+							            	<div class="col-md-2"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="subItemServiceProductDetailsFn(battery)" ng-disabled="!battery.idBatteryFk" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i></button></div>
+						  					<div class="col-md-2"><button ng-if="battery.idBatteryFk" data-toggle="tooltip" data-placement="top" title="Remover" ng-disabled="service.update.dateDown!=null" ng-click="removeSubItemProductDetailsFn(battery)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 							          	</td>
 							      	</tr>
 							  	</table>
@@ -610,7 +608,7 @@
 						<!-- Control_de_Acceso: direccion vpn -->
 						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
 						  <label style="padding-left: 15px;">Direcci&#243;n VPN</label> 
-						  <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="service.update.addressVpn==undefined || service.update.portVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{service.update.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
+						  <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="service.update.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{service.update.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
@@ -627,6 +625,18 @@
 									  <input name="service_vpnPort" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-required="service.update.isHasInternetConnect" ng-model="service.update.portVpn" />
 								</div>
 							  </div>
+						  </div>
+						  <div ng-show="service.update.isHasInternetConnect" class="col-md-12">
+							<div  class="alert alert-info" role="alert">
+								<button type="button" class="close" data-dismiss="alert"><span data-toggle="tooltip" data-placement="top" title="cerrar" aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<strong><i class="product-success fas fa-lightbulb"></i>&nbsp </i>INFO: </strong>Si la dirección VPN utilizara el protocolo https este debe ser especificado en el campo <br> ejemplo: https://cliente.bss.com.ar
+							</div>
+						  </div>
+						  <div ng-show="service.update.isHasInternetConnect" class="col-md-12">
+							<div  class="alert alert-info" role="alert">
+								<button type="button" class="close" data-dismiss="alert"><span data-toggle="tooltip" data-placement="top" title="cerrar" aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+								<strong><i class="product-success fas fa-lightbulb"></i>&nbsp </i>INFO: </strong>Si el Puerto VPN no esta definido, por defecto el puerto utilizado sera el 80.
+							</div>
 						  </div>
 						<!-- Control_de_Acceso: usuario -->
 						<!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">

@@ -34,6 +34,18 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                   return response;
                 })  
           },
+          addProcessEvent: function(data) {
+            rsKey.processEvent=data.llavero;
+            //console.log("[Key Services] => add: ");
+            //console.log(rsKey);
+              return $http.post(serverHost+serverBackend+"Llavero/addProcessEvent",rsKey,serverHeaders)
+                .then(function onSuccess(response) {
+                  return response;
+                }).catch(function onError(response) {
+                  //console.log("Error: "+response.data.error); 
+                  return response;
+                })  
+          },
           listAll: function() {
             console.log("[Key Services] => get all keys");
             return $http({
