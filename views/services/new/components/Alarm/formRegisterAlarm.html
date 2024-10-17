@@ -379,11 +379,11 @@
 				</form>
 				<div class="clearfix"> </div> 
 			</div>
-			<!-- Actions Button -->
+			<!-- Actions Button  || aditional_alarm.length<=0 -->
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <button type="submit" ng-click="modalConfirmation('newService', 0, service.new)" ng-disabled="fCustomerNewService.$invalid || list_sensors.length<=0 || aditional_alarm.length<=0" class="btn btn-labeled btn-success">
+                        <button type="submit" ng-click="modalConfirmation('newService', 0, service.new)" ng-disabled="fCustomerNewService.$invalid || list_sensors.length<=0" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
                         <a ng-click="modalConfirmation('closeServiceWindow', 0, service.new)" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>

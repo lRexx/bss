@@ -1258,7 +1258,7 @@ class User_model extends CI_Model
 		$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 		$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-		$this->db->where('tb_user.idAddresKf', '1566');
+		$this->db->where('tb_user.idAddresKf', $id);
 		$this->db->where('tb_user.idProfileKf', '6');
 		$this->db->group_start() // Start grouping conditions for idTypeTenantKf
 				 ->where('tb_user.idTypeTenantKf IS NULL')
@@ -1274,7 +1274,7 @@ class User_model extends CI_Model
 				$query2 = $this->db->select("*")->from("tb_keychain");
 				$query2 = $this->db->where('idUserKf', $idUser);
 				$query2 = $this->db->get();
-				if ($query2->num_rows() === 0) {
+				if ($query2->num_rows() >= 0) {
 					array_push($atten, $item);
 				}
 			}

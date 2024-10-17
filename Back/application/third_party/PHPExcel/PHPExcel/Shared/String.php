@@ -523,8 +523,8 @@ class PHPExcel_Shared_String
         if (strlen($str) < 2) {
             return $str;
         }
-        $c0 = ord($str[0]); //change from $str{} to $str[] //This is not longer in use $mode{0} in php 7. it has been deprecated. Instead of using that use this $mode[0]
-        $c1 = ord($str[1]); //change from $str{} to $str[] //This is not longer in use $mode{0} in php 7. it has been deprecated. Instead of using that use this $mode[0]
+        $c0 = ord($str[0]);
+        $c1 = ord($str[1]);
         if ($c0 == 0xfe && $c1 == 0xff) {
             $str = substr($str, 2);
         } elseif ($c0 == 0xff && $c1 == 0xfe) {
@@ -535,11 +535,11 @@ class PHPExcel_Shared_String
         $newstr = '';
         for ($i=0; $i<$len; $i+=2) {
             if ($bom_be) {
-                $val = ord($str[$i])   << 4; //change from $str{} to $str[] //This is not longer in use $mode{0} in php 7. it has been deprecated. Instead of using that use this $mode[0]
-                $val += ord($str[$i+1]); //change from $str{} to $str[] //This is not longer in use $mode{0} in php 7. it has been deprecated. Instead of using that use this $mode[0]
+                $val = ord($str[$i])   << 4;
+                $val += ord($str[$i+1]);
             } else {
-                $val = ord($str[$i+1]) << 4; //change from $str{} to $str[] //This is not longer in use $mode{0} in php 7. it has been deprecated. Instead of using that use this $mode[0]
-                $val += ord($str[$i]); //change from $str{} to $str[] //This is not longer in use $mode{0} in php 7. it has been deprecated. Instead of using that use this $mode[0]
+                $val = ord($str[$i+1]) << 4;
+                $val += ord($str[$i]);
             }
             $newstr .= ($val == 0x228) ? "\n" : chr($val);
         }

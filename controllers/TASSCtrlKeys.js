@@ -7,7 +7,13 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
     if (!$scope.sysToken || !$scope.sysLoggedUser ){
         $location.path("/login");
     }
-
+    $scope.pagination = {
+        'maxSize': 5,     // Limit number for pagination display number.  
+        'totalCount': 0,  // Total number of items in all pages. initialize as a zero  
+        'pageIndex': 1,   // Current page number. First page is 1.-->  
+        'pageSizeSelected': 10, // Maximum number of items per page. 
+        'totalCount':0
+     } 
 
     const sysDate = new Date();
     const fullSysDate = sysDate.toLocaleString('es-AR', { day: 'numeric', month: 'numeric', year:'numeric' });
@@ -58,6 +64,9 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
     'update':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
     'file':{'mainQttyKeys':null, 'product':{}, 'building':{}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''}};
     $scope.keys.file.building={};
+    $scope.rsKeyListsData = null;
+    $scope.sysContent = "";
+    $scope.rsAllKeychainProcessesData = null;
     $scope.isNewKeySingle = false;
     $scope.isEditKey      = false;
     $scope.isNewKeyMulti  = false;
@@ -787,8 +796,13 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                   //$scope.pagination.totalCount  = 0;
                               });
                           }else{
-                              $scope.customerFound={};
-                              $scope.switchKeysFn('list', null);
+                            if ($scope.sysContent=='listKeysProcess'){
+                                $scope.customerFound={};
+                                $scope.switchKeysFn('keychain_process_list', null);
+                            }else{
+                                $scope.customerFound={};
+                                $scope.switchKeysFn('list', null);
+                            }
                           }
                           console.info($scope.listCustomerFound);
                       }
@@ -811,9 +825,14 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                 $scope.generateKeyListFn($scope.keys.file);
                             }, 700);
                         }else{
-                            $scope.select.buildings.selected=$scope.customerFound;
-                            $scope.switchKeysFn('list', null);
-                            $scope.getDeptoListByAddress($scope.customerFound.idClient);
+                            if ($scope.sysContent=='listKeysProcess'){
+                                $scope.getKeychainProcessFn(null,$scope.customerFound.idClient,null,$scope.select.filterCategoryKey,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                            }else{
+                                $scope.select.buildings.selected=$scope.customerFound;
+                                $scope.getKeyListByBuildingIdFn($scope.customerFound.idClient);
+                                $scope.getDeptoListByAddress($scope.customerFound.idClient);
+                            }
+
                         }
                       }else{
                         $scope.rsKeyListsData = [];
@@ -883,6 +902,67 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         }
                     });
                 };$scope.getAllKeysFn();
+
+            /**************************************************
+            *                                                 *
+            *                 LIST ALL KEYS                   *
+            *                                                 *
+            **************************************************/
+                $scope.rsAllKeychainProcessesData = [];
+                $scope.keychainProcessSearch={
+                    "idTypeTicketKf":null,
+                    "idClientKf":null,
+                    "create_at":null,
+                    "start":null,
+                    "limit":null,
+                    "strict":null,
+                    "totalCount":null,
+                  };
+                $scope.getKeychainProcessFn = function(idTypeTicketKf,idClientKf,create_at,idCategoryKf,start,limit,strict,totalCount){
+
+                    var idTypeTicketKf      = idTypeTicketKf!=undefined && idTypeTicketKf!="" && idTypeTicketKf!=null?idTypeTicketKf:null;
+                    var idClientKf          = idClientKf!=undefined && idClientKf!=null?idClientKf:null;
+                    var create_at           = create_at!=undefined && create_at!="" && create_at!=null?create_at:null;
+                    var idCategoryKf        = idCategoryKf!=undefined && idCategoryKf!="" && idCategoryKf!=null?idCategoryKf:null;
+                    var start               = start!=undefined && start!=null && !strict?start:"";
+                    var limit               = limit!=undefined && limit!=null && !strict?limit:"";
+                    var strict              = strict!=false && strict!=undefined && strict!=null?strict:null;
+                    var totalCount          = totalCount!=false && totalCount!=undefined && totalCount!=null && idTypeTicketKf!=undefined && idTypeTicketKf!="" && idTypeTicketKf!=null && idCategoryKf!=undefined && idCategoryKf!="" && idCategoryKf!=null?totalCount:null;
+                    $scope.keychainProcessSearch={
+                        "idTypeTicketKf":idTypeTicketKf,
+                        "idClientKf":idClientKf,
+                        "create_at":create_at,
+                        "idCategoryKf":idCategoryKf,
+                        "start":start,
+                        "limit":limit,
+                        "strict":strict,
+                        "totalCount":totalCount,
+                      };
+                    KeysServices.getKeychainProcess($scope.keychainProcessSearch).then(function(response){
+                        if(response.status==200){
+                            $scope.rsAllKeychainProcessesData   = response.data.tb_keychain_process_events;
+                            if (response.data.totalCount!=undefined){
+                                $scope.pagination.totalCount    = response.data.totalCount;
+                            }
+                            console.log(response.data);
+                        }else if(response.status==404){
+                            inform.add('[Info]: No se encontraron registros. ',{
+                                ttl:5000, type: 'info'
+                                });
+                                $scope.rsAllKeychainProcessesData = [];
+                        }else if(response.status==500){
+                            inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                            });
+                            $scope.rsAllKeychainProcessesData = [];
+                        }
+                    });
+                };
+                $scope.pageChanged = function(){
+                    console.info($scope.pagination.pageIndex);
+                    var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
+                    $scope.getKeychainProcessFn(null,$scope.customerFound.idClient,null, $scope.select.filterCategoryKey,pagIndex,$scope.pagination.pageSizeSelected, false, false);
+                }
             /**************************************************
             *                                                 *
             *    GET KEY LIST BY ID ADDRESS OF BUILDING       *
@@ -1113,6 +1193,38 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         $scope.reasonDisabledKey = null;
                     }
                     });
+                }
+            /**************************************************
+            *                                                 *
+            *              GET TICKET TYPES LIST              *
+            *                                                 *
+            **************************************************/
+                $scope.getTypeTicketListFn = function(){
+                    ticketServices.getTypeTicketList().then(function(response){
+                        if(response.status==200){
+                                $scope.listTypeTicket = response.data;
+                        }else if (response.status==404){
+                            inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                                ttl:3000, type: 'danger'
+                            });
+                                $scope.listTypeTicket = undefined;
+                        }else if (response.status==500){
+                            inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                            ttl:3000, type: 'danger'
+                            });
+                            $scope.listTypeTicket = undefined;
+                        }
+                    });
+                };$scope.getTypeTicketListFn();
+                $scope.greaterThan = function(prop, val){
+                    return function(item){
+                      if (item[prop] > val) return true;
+                    }
+                }
+                $scope.lessThan = function(prop, val){
+                    return function(item){
+                      if (item[prop] <= val) return true;
+                    }
                 }
             /**************************************************
             *                                                 *
@@ -1420,23 +1532,44 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             });
                         break;
                         case "list":
+                            $scope.isNewKeySingle               = false;
+                            $scope.isEditKey                    = false;
+                            $scope.isNewKeyMulti                = false;
+                            $scope.rsAllKeychainProcessesData   = null;
+                            $scope.customerFound={};
+                            $scope.customerSearch.name=undefined;
+                            $scope.getAllKeysFn(true);
+                            $scope.select={'filterCategoryKey':'', 'department':'', 'idTypeTicketKf':null, 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
+                            $scope.customerFound={};
+                            $("#categoryKeyAll").prop("checked", true);
+                            $("#categoryKeyAll").val("undefined");
+                            $scope.loadPagination($scope.rsKeyListsData, "idKeychain", "10");
+                            $scope.sysContent                         = 'listKeys';
+                        break;
+                        case "keychain_process_list":
+                            $scope.sysContent     = "";
                             $scope.isNewKeySingle = false;
                             $scope.isEditKey      = false;
                             $scope.isNewKeyMulti  = false;
-                            
-                            if ($scope.customerFound.idClient != undefined){
-                                $scope.getKeyListByBuildingIdFn($scope.customerFound.idClient);
-                                $scope.sysContent                         = 'listKeys';
-                            }else{
-                                $scope.customerSearch.name=undefined;
-                                $scope.getAllKeysFn(true);
-                                $scope.select={'filterCategoryKey':'', 'department':'', 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
-                                $scope.customerFound={};
-                                $("#categoryKeyAll").prop("checked", true);
-                                $("#categoryKeyAll").val("undefined");
-                                $scope.loadPagination($scope.rsKeyListsData, "idKeychain", "10");
-                                $scope.sysContent                         = 'listKeys';
-                            }
+                            $scope.rsKeyListsData = null;
+                            $scope.pagination.pageIndex               = 1;
+                            $scope.keychainProcessSearch={
+                                "idTypeTicketKf":null,
+                                "idClientKf":null,
+                                "create_at":null,
+                                "start":null,
+                                "limit":null,
+                                "strict":null,
+                                "totalCount":null,
+                                };
+                            $scope.customerFound={};
+                            $scope.customerSearch.name=undefined;
+                            $scope.select={'filterCategoryKey':'', 'department':'', 'idTypeTicketKf':null, 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
+                            $scope.getKeychainProcessFn(null,null,null,null,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                            $scope.customerFound={};
+                            //$("#categoryKeyAll").prop("checked", true);
+                            //$("#categoryKeyAll").val("undefined");
+                            $scope.sysContent                         = 'listKeysProcess';
                         break;
                         case "keyDetails":
                             $scope.isNewKeySingle = false;

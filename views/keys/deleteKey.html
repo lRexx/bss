@@ -141,7 +141,20 @@
                             </div>
                         </div>
                     </div>
-
+                    <div ng-if="keys.update.idUserKf!=null && keys.update.idUserKf!=undefined" class="col-md-12 form-group">
+                        <div class="col-md-12">
+							<div class="alert alert-warning" role="alert">
+								<strong>IMPORTANTE: </strong>El usuario a continuación sera desvinculado del llavero que sera dado de baja.
+							</div>
+						</div>	
+                        <div class="col-md-12">
+                            <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
+                               <span style="font-size: 18px; font-weight: 600;">{{keys.update.fullNameUser}} <span class="label label-default">{{keys.update.nameProfile}}</span>
+                               <span ng-if="keys.update.idStatusTenant=='1'" class="badge badge-success">{{keys.update.statusUser}}</span>
+                               <span ng-if="keys.update.idStatusTenant=='0'" class="badge badge-warning">{{keys.update.statusUser}}</span> </span>
+                            </div>
+                          </div>
+                    </div>
                     </fieldset>
                 </form>
                 <div class="clearfix"> </div> 

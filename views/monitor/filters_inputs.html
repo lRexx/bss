@@ -72,7 +72,7 @@
                                 <div class="col-xl-12 selectContainer">
                                 <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-                                        <select name="idTypeTicketKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter: greaterThan('item.idTypeTicket', 2)" ng-required="sysLoggedUser.idProfileKf==2" ng-model="filters.typeTicket"  >
+                                        <select name="idTypeTicketKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter: lessThan('item.idTypeTicket', 2)" ng-required="sysLoggedUser.idProfileKf==2" ng-model="filters.typeTicket"  >
                                         <option value="">Todos</option>
                                         </select>
                                 </div>

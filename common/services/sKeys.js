@@ -44,7 +44,7 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                 }).catch(function onError(response) {
                   //console.log("Error: "+response.data.error); 
                   return response;
-                })  
+                })
           },
           listAll: function() {
             console.log("[Key Services] => get all keys");
@@ -56,6 +56,17 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                 return rsJson;
               },function myError(response) { 
                 console.log("Error: "+response.data.error); 
+                return response;
+              });
+          },
+          getKeychainProcess: function(data) {
+            console.log("[Key Services] => get all keyschain processes");
+              return $http.post(serverHost+serverBackend+"Llavero/listAllProcessEvents",data,serverHeaders)
+              .then(function onSuccess(response) {
+                rsJson=response;
+                return rsJson;
+              }).catch(function onError(response) {
+                //console.log("Error: "+response); 
                 return response;
               });
           },

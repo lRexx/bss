@@ -3591,6 +3591,11 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   if (item[prop] > val) return true;
                 }
             }
+            $scope.lessThan = function(prop, val){
+              return function(item){
+                if (item[prop] <= val) return true;
+              }
+            }
             $scope.differentThan = function(item){
               //console.info(item);
               switch ($scope.sysLoggedUser.idTypeTenantKf){

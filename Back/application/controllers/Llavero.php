@@ -245,7 +245,25 @@ class Llavero extends REST_Controller
 		}
 	}
 
-
+	public function listAllProcessEvents_post()
+	{
+		$rs=null;
+		$idTypeTicketKf         = $this->post('idTypeTicketKf');
+        $idClientKf           	= $this->post('idClientKf');
+        $limit                  = $this->post('limit');
+		$create_at 				= $this->post('create_at');
+		$idCategoryKf 			= $this->post('idCategoryKf');
+        $start                  = $this->post('start');
+		$strict                 = $this->post('strict');
+		$totalCount             = $this->post('totalCount');
+		
+		$rs = $this->llavero_model->get_all_events($idTypeTicketKf,$idClientKf,$create_at, $idCategoryKf ,$limit,$start,$strict,$totalCount);
+		if (!is_null($rs)) {
+			$this->response($rs, 200);
+		} else {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+		}
+	}
 
 
 }

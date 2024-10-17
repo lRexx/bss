@@ -5892,14 +5892,14 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 var strict          = strict!=false && strict!=undefined && strict!=null?strict:null;
                 $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
                 $scope.customersSearch={
-                "searchFilter":searchFilter,
-                "isNotCliente":isNotCliente,
-                "idClientTypeFk":idClientTypeFk,
-                "isInDebt":isInDebt,
-                "start":start,
-                "limit":limit,
-                "strict":strict,
-                "totalCount":null,
+                  "searchFilter":searchFilter,
+                  "isNotCliente":isNotCliente,
+                  "idClientTypeFk":idClientTypeFk,
+                  "isInDebt":isInDebt,
+                  "start":start,
+                  "limit":limit,
+                  "strict":strict,
+                  "totalCount":null,
                 };
                 console.log($scope.customersSearch);
                 return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){

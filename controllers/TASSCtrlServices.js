@@ -150,7 +150,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
         'modem':{'selected':undefined}, 
         'router':{'selected':undefined}, 
         'crtlAccess':{'selected':undefined}, 
-        'lockedIt':{'selected':undefined}, 
+        'lockedIt':{'selected':undefined},
+        'lockedIt2':{'selected':undefined},  
         'entranceReader':{'selected':undefined}, 
         'powerSupply':{'selected':undefined}, 
         'exitReader':{'selected':undefined}, 
@@ -3018,7 +3019,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.update.idContratoFk         = service.idContracAssociated_SE;
                                         $scope.service.update.numeroContrato       = service.idContracAssociated_SE_array[0].numeroContrato;
                                         $scope.service.crtlAccess.selected         = service.idAccessControlFk==undefined || service.idAccessControlFk==null?null:service.idAccessControlFk_array[0];
-                                        $scope.service.lockedIt.selected           = service.lock==undefined || service.lock==null?null:service.lock_array[0];
+                                        $scope.service.lockedIt.selected           = service.lock==undefined || service.lock==null?undefined:service.lock_array[0];
+                                        $scope.service.lockedIt2.selected          = service.lock2==undefined || service.lock2==null?undefined:service.lock2_array[0];
                                         $scope.service.entranceReader.selected     = service.idInputReaderFk==undefined || service.idInputReaderFk==null?null:service.idInputReaderFk_array[0];
                                         $scope.service.exitReader.selected         = service.ouputReader==undefined || service.ouputReader==null?null:service.ouputReader_array[0];
                                         $scope.service.powerSupply.selected        = service.idFontFk==undefined || service.idFontFk==null?null:service.idFontFk_array[0];
@@ -3582,6 +3584,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         service.idContracAssociated_SE   = service.idContratoFk;
                                         service.idAccessControlFk        = $scope.service.crtlAccess.selected.idProduct;
                                         service.lock                     = $scope.service.lockedIt.selected.idProduct;
+                                        service.lock2                     = $scope.service.lockedIt2.selected.idProduct;
                                         service.idInputReaderFk          = $scope.service.entranceReader.selected.idProduct;
                                         service.ouputReader              = service.isOuputButom==undefined || !service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
                                         service.ouputButom               = service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
@@ -4730,20 +4733,21 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         switch(idType){
                         case "1":
                             if (opt=="set"){
-                            $scope.productListType.CONTROL_DE_ACCESOS=idProd;
+                                $scope.productListType.CONTROL_DE_ACCESOS=idProd;
                             //console.log("set: "+idProd+" to $scope.productListType.CONTROL_DE_ACCESOS: "+idProd);
                             }else{
-                            $scope.productListType.CONTROL_DE_ACCESOS=idProd;
-                            $scope.service.crtlAccess.selected=undefined;
+                                $scope.productListType.CONTROL_DE_ACCESOS=idProd;
+                                $scope.service.crtlAccess.selected=undefined;
                             }
                             
                         break;
                         case "2":
                             if (opt=="set"){
-                            $scope.productListType.CERRADURA=idProd;
+                                $scope.productListType.CERRADURA=idProd;
                             }else{
-                            $scope.productListType.CERRADURA=idProd;
-                            $scope.service.lockedIt.selected=undefined;
+                                $scope.productListType.CERRADURA=idProd;
+                                $scope.service.lockedIt.selected=undefined;
+                                $scope.service.lockedIt2.selected=undefined;
                             }
                         break;
                         case "3":
@@ -5329,6 +5333,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         'license_departments':{'selected':undefined},
                                         'crtlAccess':{'selected':undefined},
                                         'lockedIt':{'selected':undefined},
+                                        'lockedIt2':{'selected':undefined}, 
                                         'entranceReader':{'selected':undefined},
                                         'powerSupply':{'selected':undefined},
                                         'exitReader':{'selected':undefined},
