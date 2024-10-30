@@ -20,7 +20,8 @@ sysStatus.controller('statusCtrl', function($scope, $location, $routeParams, blo
     }else{
       console.log("No login required!!");
     }
-    
+    const regexProtocol = /^(https?:\/\/)/;
+    const regexPort = /:(\d+)$/;
     var currentUrl = $location.path()
     var urlPath = currentUrl.split('/');
     $scope.urlPathSelected=urlPath[1];
@@ -303,7 +304,6 @@ sysStatus.controller('statusCtrl', function($scope, $location, $routeParams, blo
       *     USED IN CREATE & UPDATE INTERNET SERVICE    *
       **************************************************/
         $scope.filterAssociatedServices = function(item){
-          console.log(item);
           //console.log($scope.serviceSelected.idServiceAsociateFk);
           //console.log($scope.serviceSelected.idServiceAsociateFk_array);
           var itemFound = $scope.serviceSelected.idServiceAsociateFk_array.findIndex(element => element.idClientServices === item.idClientServices);
@@ -333,20 +333,25 @@ sysStatus.controller('statusCtrl', function($scope, $location, $routeParams, blo
                           existingContracts.push(deferredContracts.promise);
                           //ASSIGN DEPARTMENT SERVICE
                               deferredContracts.resolve();
-                              serviceServices.getServiceListByIdContract(contract.idContrato).then(function(response_services) {
-                                  if(response_services.status==200){
-                                      contract.services_active = response_services.data;
-                                  }else if (response_services.status==404){
-                                      contract.services_active = [];
-                                  }else if (response_services.status==500){
-                                      contract.services_active = [];
-                                  }
-                              });
+                                serviceServices.getServiceListByIdContract(contract.idContrato).then(function(response_services) {
+                                    if(response_services.status==200){
+                                        contract.services_active = response_services.data;
+                                    }else if (response_services.status==404){
+                                        contract.services_active = [];
+                                    }else if (response_services.status==500){
+                                        contract.services_active = [];
+                                    }
+                                });
                       });
                       
                       $q.all(existingContracts).then(function () {
-                              $scope.rsContractsListByCustomerIdData=response.data;
-                              console.log($scope.rsContractsListByCustomerIdData);
+                        for (var contract in response.data){
+                          const idStatusFkValue = Number(response.data[contract].idStatusFk);
+                          if (idStatusFkValue === 1) {
+                            $scope.rsContractsListByCustomerIdData.push(response.data[contract]);
+                          }
+                        }
+                        console.log($scope.rsContractsListByCustomerIdData);
                       });
                   }
                 }else{
@@ -405,6 +410,39 @@ sysStatus.controller('statusCtrl', function($scope, $location, $routeParams, blo
                       }
                   }
                   console.log($scope.list_open_devices);
+                  $scope.serviceSelected.isHasInternetConnect   = obj.portNumberRouter!=undefined && obj.portHttp!=undefined?true: false;
+                  if ($scope.serviceSelected.isHasInternetConnect){
+                    const itHasHttpProto                       = obj.addressVpn!=null && obj.addressVpn!=undefined?regexProtocol.test(obj.addressVpn):null;
+                    const itHasPortInURL                       = obj.addressVpn!=null && obj.addressVpn!=undefined?regexPort.test(obj.addressVpn):null;
+                    const vpnPortDefined                       = obj.portVpn!="" && obj.portVpn!=null && obj.portVpn!=undefined?obj.portVpn:"80";
+                    if (itHasPortInURL && itHasPortInURL!=null){
+                        const urlVpn = obj.addressVpn;
+                        const matchUrl = urlVpn.match(regexPort);
+                        console.log(matchUrl);
+                        const extractedPort = matchUrl[1];
+                        console.log(extractedPort);
+                            if (extractedPort != vpnPortDefined) {
+                                inform.add("La dirección VPN contiene un puerto ("+extractedPort+") diferente al puerto VPN ("+vpnPortDefined+") especificado en el campo o al puerto por defecto (80).",{
+                                    ttl:6000, type: 'warning'
+                                });
+                            }
+                    }
+                    if (!itHasHttpProto && itHasHttpProto!=null){
+                        if (!itHasPortInURL || itHasPortInURL==null){
+                            $scope.serviceSelected.urlVpn           = "http://"+obj.addressVpn+":"+vpnPortDefined;
+                        }else{
+                            $scope.serviceSelected.urlVpn           = "http://"+obj.addressVpn;
+                        }
+                    }else if (itHasHttpProto){
+                        if (!itHasPortInURL || itHasPortInURL==null){
+                            $scope.serviceSelected.urlVpn           = obj.addressVpn+":"+vpnPortDefined;
+                        }else{
+                            $scope.serviceSelected.urlVpn           = obj.addressVpn;
+                        }
+                    }else{
+                        $scope.serviceSelected.urlVpn = undefined;
+                    }
+                  }
                   $("#selectServiceItem").modal('toggle');
                 break;
                 case "2":
@@ -443,6 +481,7 @@ sysStatus.controller('statusCtrl', function($scope, $location, $routeParams, blo
                       $scope.list_user.push({'idItem':idListItem,'idClientFk':$scope.serviceSelected.tb_client_camera_array[dvrUser].idClientFk,'name':$scope.serviceSelected.tb_client_camera_array[dvrUser].name, 'user':$scope.serviceSelected.tb_client_camera_array[dvrUser].user, 'pass':$scope.serviceSelected.tb_client_camera_array[dvrUser].pass, 'profile':$scope.serviceSelected.tb_client_camera_array[dvrUser].userProfile, 'userProfile':$scope.serviceSelected.tb_client_camera_array[dvrUser].userProfile, 'qrCode':$scope.serviceSelected.tb_client_camera_array[dvrUser].qrBase64, 'qrBase64':$scope.serviceSelected.tb_client_camera_array[dvrUser].qrBase64});
                       idListItem++;
                   }
+                  $scope.serviceSelected.isHasInternetConnect   = obj.portNumberRouter!=undefined && obj.portHttp!=undefined?true: false;
                   console.log($scope.serviceSelected);
                 break;
                 case "4":
@@ -476,6 +515,7 @@ sysStatus.controller('statusCtrl', function($scope, $location, $routeParams, blo
                       $scope.list_user.push({'idItem':idListItem,'idClientFk':$scope.serviceSelected.tb_client_camera_array[dvrUser].idClientFk,'name':$scope.serviceSelected.tb_client_camera_array[dvrUser].name, 'user':$scope.serviceSelected.tb_client_camera_array[dvrUser].user, 'pass':$scope.serviceSelected.tb_client_camera_array[dvrUser].pass, 'profile':$scope.serviceSelected.tb_client_camera_array[dvrUser].userProfile, 'userProfile':$scope.serviceSelected.tb_client_camera_array[dvrUser].userProfile, 'qrCode':$scope.serviceSelected.tb_client_camera_array[dvrUser].qrBase64, 'qrBase64':$scope.serviceSelected.tb_client_camera_array[dvrUser].qrBase64});
                       idListItem++;
                   }
+                  $scope.serviceSelected.isHasInternetConnect   = obj.portNumberRouter!=undefined && obj.portHttp!=undefined?true: false;
                   console.log($scope.serviceSelected);
                 break;
                 case "5":

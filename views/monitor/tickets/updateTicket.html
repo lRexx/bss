@@ -67,8 +67,8 @@
                               <div ng-if="tkupdate.building!=null && tkupdate.building!=undefined" class="col-md-12"><span> Consorcio: {{tkupdate.building.name}}</span></div>
                               <div ng-if="tkupdate.idTypeRequestFor=='1' && tkupdate.building!=null && tkupdate.building!=undefined" class="col-md-12"><span> Departamento: </span>
                                 <span class="label label-default text-uppercase">{{tkupdate.department.floor}}-{{tkupdate.department.departament}}</span>
-                                <span ng-click="modalConfirmation('approveDepto', 0, tkupdate)" data-toggle="tooltip" data-placement="top"  title="Autorizar propietario" ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.department.isAprobatedAdmin!=1 && tkupdate.department.idUserKf==tkupdate.userRequestBy.idUser && (tkupdate.userRequestBy.idProfileKf=='3' || tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='1'" class="label label-warning text-uppercase"><i class="fas fa-lock"></i></span>
-                                <span ng-click="modalConfirmation('approveDepto', 0, tkupdate)" data-toggle="tooltip" data-placement="top"  title="Autorizar Habitante" ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.userRequestBy.isDepartmentApproved==null && (tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='5' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='2'" class="label label-warning text-uppercase"><i class="fas fa-lock"></i></span>
+                                <span ng-click="modalConfirmation('approveDepto', 0, tkupdate)" data-toggle="tooltip" data-placement="top"  title="Autorizar propietario" ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.department.isAprobatedAdmin!=1 && tkupdate.department.idUserKf==tkupdate.userRequestBy.idUser && (tkupdate.userRequestBy.idProfileKf=='3' || tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='1' && tkupdate.idStatusTicketKf!='6'" class="label label-warning text-uppercase"><i class="fas fa-lock"></i></span>
+                                <span ng-click="modalConfirmation('approveDepto', 0, tkupdate)" data-toggle="tooltip" data-placement="top"  title="Autorizar Habitante" ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.userRequestBy.isDepartmentApproved==null && (tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='5' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='2' && tkupdate.idStatusTicketKf!='6'" class="label label-warning text-uppercase"><i class="fas fa-lock"></i></span>
                                 <span data-toggle="tooltip" data-placement="top"  title="Autorizado" ng-if="(tkupdate.department.isAprobatedAdmin==1 && tkupdate.department.idUserKf==tkupdate.userRequestBy.idUser && (tkupdate.userRequestBy.idProfileKf=='3' || tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='1') || (tkupdate.userRequestBy.isDepartmentApproved!=null && (tkupdate.userRequestBy.idProfileKf=='4' || tkupdate.userRequestBy.idProfileKf=='5' || tkupdate.userRequestBy.idProfileKf=='6') && tkupdate.userRequestBy.idTypeTenantKf=='2')" class="label label-success text-uppercase"><i class="fas fa-user-check"></i></span>
                               </div>
                               <div ng-if="tkupdate.idTypeRequestFor!='1'" class="col-md-12"><span> Tipo: </span><span class="label label-default text-uppercase">{{tkupdate.typeRequestFor.name}}</span></div>
@@ -77,6 +77,12 @@
                                 <span ng-if="tkupdate.total==null || tkupdate.total==undefined || tkupdate.total=='NaN'" class="label label-default">n/a</span>
                               </div>-->
                               <div class="col-md-12"><span>Creado: </span><span>{{ tkupdate.created_at | toDate | date:'dd-MM-yyyy HH:mm:ss' }}</span></div>
+                              <div ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12"><span>Internet: </span>
+                                  <!-- It Has internet -->
+                                  <span ng-if="tkupdate.building.isHasInternetOnline!=undefined && tkupdate.building.isHasInternetOnline=='true'" data-toggle="tooltip" data-placement="top" title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span>
+                                  <span ng-if="tkupdate.building.isHasInternetOnline!=undefined && tkupdate.building.isHasInternetOnline=='false'" data-toggle="tooltip" data-placement="top" title="No" class="font-size-18px"><i class="text-danger fas fa-times-circle"></i></span>
+                                  <span ng-if="tkupdate.building.isHasInternetOnline==undefined" class="label label-default">n/a</span>
+                              </div>
                               <div ng-if="tkupdate.delivery_schedule_at!=null" class="col-md-12"><span>Entrega estimada: </span><span>{{ tkupdate.delivery_schedule_at | toDate | date:'dd-MM-yyyy' }}</span></div>
                               <div ng-if="tkupdate.delivered_at!=null" class="col-md-12">
                                 <span ng-if="tkupdate.idTypeDeliveryKf=='1'">Retiro realizado: </span>
@@ -424,6 +430,7 @@
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/user_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/payment_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/delivery_update.html'"></div>
+<div ng-if="sysToken" ng-include="'views/monitor/tickets/register_manual_payment.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
 <div ng-include="'views/utilities/showModalRequestStatus.html'"></div>
 <div ng-include="'views/utilities/pdfUploadModal.html'"></div>

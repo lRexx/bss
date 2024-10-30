@@ -72,6 +72,7 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
   $scope.sysRouteParams       = {};
   $scope.departmentSelected   = {};
   tokenSystem.destroyTokenStorage(4);
+  $scope.loggedOut            = false;
   console.log($routeParams);
   if ($routeParams.Type!=undefined || $routeParams.info!=undefined){
     tokenSystem.setRouteParamsStorage($routeParams);
@@ -81,6 +82,7 @@ login.controller('LoginCtrl', function($scope, $cookies, $location, $routeParams
     console.log("Redirecting to menu page....");  
     $location.path($scope.redirect);
   }
+
 
   /**************************************************
   *                                                 *

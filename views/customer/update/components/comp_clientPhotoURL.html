@@ -1,0 +1,15 @@
+<!-- Set Photos URL -->
+<div class="form-group col-md-12 n-padding-l n-padding-r" ng-class="
+		{	'has-success': 
+			customer.update.clientPhotosURL!='' && fNewCustomer.service_clientPhotosURL.$valid,
+		 	'has-error':  
+			(customer.update.clientPhotosURL=='' || customer.update.clientPhotosURL==undefined) && fNewCustomer.service_clientPhotosURL.$touched,
+		}">
+	<label style="padding-left: 15px;">Link de Fotos</label>
+	<div class="col-xs-12">
+		<div class="input-group">
+		<span class="input-group-addon"><i class="fas fa-link"></i></span>
+		<input name="service_clientPhotosURL" type="text" class="form-control" ng-model="customer.update.clientPhotosURL" />
+		</div>
+	</div>
+</div>

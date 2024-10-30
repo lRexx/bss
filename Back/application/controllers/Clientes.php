@@ -517,5 +517,16 @@ class Clientes extends REST_Controller {
             $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
         }
     }
-
+    public function initialDeliveryUpdate_post() {
+		$rs = null;
+		if (!$this->post('client')) {
+			$this->response(null, 404);
+		}
+        $rs = $this->client_model->initialDeliveryUpdate($this->post('client'));
+        if (! is_null($rs)) {
+            $this->response([ 'response' => "Entrega inicial actualizada satisfactoriamente" ], 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+        }
+    }
 }

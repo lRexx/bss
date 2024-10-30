@@ -1340,15 +1340,17 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 $scope.notificationUser = {};
                 $scope.newpwd.user.emailUser=obj.emailUser;
                 $scope.newpwd.user.dni=obj.dni;
-                $('.circle-loader').removeClass('load-complete');
-                $('.checkmark').hide();
-                $('#userNotificationModal').modal({backdrop: 'static', keyboard: false});
-                $('#userNotificationModal').on('shown.bs.modal', function () {
-                  $('[data-toggle="tooltip"]').tooltip();
-                  $timeout(function() {
-                    $scope.recoverPwdUser($scope.newpwd);
-                  }, 2000);
-                });
+                $timeout(function() {
+                  $scope.recoverPwdUser($scope.newpwd);
+                }, 2000);
+                $timeout(function() {
+                  $('.circle-loader').removeClass('load-complete');
+                  $('.checkmark').hide();
+                  $('#userNotificationModal').modal({backdrop: 'static', keyboard: false});
+                  $('#userNotificationModal').on('shown.bs.modal', function () {
+                    $('[data-toggle="tooltip"]').tooltip();
+                  });
+                }, 2300);
               break;
               case "selectDepto":
                 $scope.tmp.data=obj;
@@ -1362,7 +1364,14 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             }
           };
 
-
+          $scope.onSuccess = function(e) {
+            console.log("Copied text: " + e);
+            // Optional: Show a message or feedback to the user
+          };
+          $scope.onError = function(e) {
+            console.error("Failed to copy text.");
+            // Optional: Show an error message to the user
+        };
           function wait(ms)
           {
               var d = new Date();

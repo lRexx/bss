@@ -109,7 +109,7 @@
              <li ng-if="item.idStatusKf==0 && item.idUser!=1 && sysLoggedUser.idProfileKf=='1'" role="presentation"><div class="divider"></div></li>
              <li ng-if="item.idStatusKf==0 && item.idUser!=1 && sysLoggedUser.idProfileKf=='1'" class="dropdown-item"><a href="" ng-click="modalConfirmation('remove', 0, item)"><i title="Eliminar Usuario" class="fas fa-user-times"></i> Eliminar</a></li>
            </ul>
-       </div>
+          </div>
           <button ng-click="selectUserDataFn(item);" data-toggle="tooltip" data-placement="right" title="Editar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-info btn-xs"><i class="fas fa-user-edit"></i></button>
           <button ng-if="item.idStatusKf==0 " ng-click="modalConfirmation('enabled', 0, item)" data-toggle="tooltip" data-placement="right" title="Activar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-success btn-xs"><i class="far fa-check-circle"></i></button>
           <button ng-if="item.idStatusKf>0 && item.idUser!=1 && sysLoggedUser.idProfileKf=='1'" ng-click="modalConfirmation('disabled', 0, item)" data-toggle="tooltip" data-placement="right" title="Desactivar" type="button" ng-disabled="sessionIdUser==item.idUser" class="btn btn-warning btn-xs"><i class="fas fa-user-slash"></i></button>

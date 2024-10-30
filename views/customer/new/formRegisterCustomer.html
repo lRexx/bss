@@ -66,11 +66,16 @@
 				                <div ng-include="'views/customer/new/components/comp_companiesList.html'"></div>
 								<!-- Zone -->
 								<div ng-if="customer.new.idClientTypeFk==2 || customer.new.idClientTypeFk==4" ng-include="'views/customer/new/components/comp_zoneInput.html'"></div>
+								<!-- Set Photos URL -->
+								<div ng-if="customer.new.idClientTypeFk!='' && customer.new.idClientTypeFk!=undefined && (customer.new.idClientTypeFk==2 || customer.new.idClientTypeFk==4)" ng-include="'views/customer/new/components/comp_clientPhotoURL.html'"></div>
+								
 							</div>
 							<!-- Right Colunm -->
 							<div ng-class="customer.new.idClientTypeFk==undefined || customer.new.idClientTypeFk==''?'col-md-12': 'col-md-6'">
 								<!-- Zone -->
-								<div ng-if="customer.new.idClientTypeFk!=2 && customer.new.idClientTypeFk!=4 && customer.new.idClientTypeFk!=5" ng-include="'views/customer/new/components/comp_zoneInput.html'"></div>									
+								<div ng-if="customer.new.idClientTypeFk!=2 && customer.new.idClientTypeFk!=4 && customer.new.idClientTypeFk!=5" ng-include="'views/customer/new/components/comp_zoneInput.html'"></div>
+								<!-- Set Photos URL -->
+								<div ng-if="customer.new.idClientTypeFk!='' && customer.new.idClientTypeFk!=undefined && customer.new.idClientTypeFk!=2 && customer.new.idClientTypeFk!=4 && customer.new.idClientTypeFk!=5" ng-include="'views/customer/new/components/comp_clientPhotoURL.html'"></div>
 								<!-- website -->
 								<div ng-if="customer.new.idClientTypeFk!='' && customer.new.idClientTypeFk!=undefined && customer.new.idClientTypeFk!=2 && customer.new.idClientTypeFk!=4 && customer.new.idClientTypeFk!=5" class="form-group col-md-12">
 								  <label style="padding-left: 15px;">Pagina web</label>  

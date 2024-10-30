@@ -397,16 +397,22 @@ class Mercadolibre_model extends CI_Model
 			$this->db->delete('tb_mp_payments' , ['idPayment' => $data['idPayment']]);
 		}
         $this->db->insert('tb_mp_payments', [
-                'mp_preference_id'        => $data['id'],
-                'mp_client_id'   		  => $data['client_id'],
-                'mp_collector_id'         => $data['collector_id'],
-                'mp_date_created'         => $data['date_created'],
-                'mp_expires'              => $data['expires'],
-                'mp_external_reference'   => $data['external_reference'],
-                'mp_prod_init_point'      => $data['init_point'],
-                'mp_dev_init_point'       => $data['sandbox_init_point'],
-                'mp_operation_type'       => $data['operation_type'],
-                'idTicketKf'              => $data['idTicketKf'],
+                'mp_preference_id'        	=> $data['id'],
+                'mp_client_id'   		  	=> $data['client_id'],
+                'mp_collector_id'         	=> $data['collector_id'],
+                'mp_date_created'         	=> $data['date_created'],
+                'mp_expires'              	=> $data['expires'],
+                'mp_external_reference'   	=> $data['external_reference'],
+                'mp_prod_init_point'      	=> $data['init_point'],
+                'mp_dev_init_point'       	=> $data['sandbox_init_point'],
+                'mp_operation_type'       	=> $data['operation_type'],
+                'idTicketKf'              	=> $data['idTicketKf'],
+				'idManualPaymentTypeKf'     => @$data['idManualPaymentTypeKf'],
+				'manualPaymentNumber'       => @$data['manualPaymentNumber'],
+				'manualPaymentDescription'  => @$data['manualPaymentDescription'],
+				'idUserKf'              	=> @$data['idUserKf'],
+				'mp_payment_type' 			=> @$data['mp_payment_type'],
+
 
         ]);
 
@@ -425,6 +431,13 @@ class Mercadolibre_model extends CI_Model
 					)
 				)->where("idTicket", $data['idTicketKf'])->update("tb_tickets_2");
 			}
+			if ($data['isManualPayment']){
+				$this->db->set(
+					array(
+						'isManualPayment' => 1
+					)
+				)->where("idTicket", $data['idTicketKf'])->update("tb_tickets_2");
+			}
 			$lastTicketUpdatedQuery = null;
 			$lastTicketUpdatedQuery = $this->Ticket_model->ticketById($data['idTicketKf']);
 				//MAIL
@@ -435,7 +448,7 @@ class Mercadolibre_model extends CI_Model
 				$body = null;
 				$to = null;
 				$title = "Link de Pago Generado";
-				if ($lastTicketUpdatedQuery[0]['idTypeRequestFor']==1 && ($lastTicketUpdatedQuery[0]['sendNotify']==1 || $lastTicketUpdatedQuery[0]['sendNotify']==null)){
+				if ((! $data['isManualPayment'] || $lastTicketUpdatedQuery[0]['isManualPayment']==0 || is_null($lastTicketUpdatedQuery[0]['isManualPayment'])) && ($lastTicketUpdatedQuery[0]['idTypeRequestFor']==1 && ($lastTicketUpdatedQuery[0]['sendNotify']==1 || $lastTicketUpdatedQuery[0]['sendNotify']==null))){
 					//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
 					$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
 					$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');

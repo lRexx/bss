@@ -117,6 +117,14 @@
                           <a data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerFound.servicesStatustURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
                         </div>
                       </div>
+                      <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12 col-xs-12">
+                        <div class="col-md-12 col-xs-12 n-padding-l" >
+                          <span>Link de Fotos:</span>
+                          <button ng-if="customerFound.clientPhotosURL!=null && customerFound.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customerFound.clientPhotosURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
+                          <a ng-if="customerFound.clientPhotosURL!=null && customerFound.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerFound.clientPhotosURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
+                          <span ng-if="customerFound.clientPhotosURL==null || customerFound.clientPhotosURL==undefined"><label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-warning">Link no definido</label></span>
+                        </div>
+                      </div>
                     </div>
 
                   </div>

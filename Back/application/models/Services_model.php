@@ -1729,6 +1729,7 @@ class Services_model extends CI_Model {
                 "dateDown"               => $item['dateDown'],
                 "companyMonitor"         => $item['companyMonitor'],
                 "numberPay"              => $item['numberPay'],
+                "installationPassword"   => $item['installationPassword'],
                 "panelAlarm"             => $item['panelAlarm'],  //producto
                 "keyboardAlarm"          => $item['keyboardAlarm'], //producto
                 "countZoneIntaled"       => $item['countZoneIntaled'],
@@ -1789,6 +1790,7 @@ class Services_model extends CI_Model {
                 "dateDown"                          => $item['dateDown'],
                 "companyMonitor"                    => $item['companyMonitor'],
                 "numberPay"                         => $item['numberPay'],
+                "installationPassword"              => $item['installationPassword'],
                 "panelAlarm"                        => $item['panelAlarm'],     //producto
                 "keyboardAlarm"                     => $item['keyboardAlarm'],  //producto
                 "countZoneIntaled"                  => $item['countZoneIntaled'],

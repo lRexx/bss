@@ -4,7 +4,8 @@
       <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h4 class="modal-title"><i class="product-success fas fa-key"></i> LLAVEROS ASOCIADOS AL DEPARTAMENTO :: <span class="text-uppercase text-bold">{{departmentSelected.floor}}-{{departmentSelected.departament}}</span>
+              <h4 class="modal-title"><i class="product-success fas fa-key"></i> LLAVEROS ASOCIADOS AL DEPARTAMENTO :: <span class="badge badge-default font-size-18px text-uppercase">{{departmentSelected.floor}}-{{departmentSelected.departament}}</span>
+              </h4>
               </h4>
           </div>
         <div class="modal-body">
@@ -15,11 +16,13 @@
                     <thead style=" background: #4d5d6f; color: white;">
                         <tr>
                             <th class="dpto-th-head " style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;">Codigo</th>
-                            <th width="10%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; ">Codigo Externo</th>
+                            <th width="17%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;">Cod. Externo</th>
                             <!--<th>ID</th>-->
-                            <th class="dpto-th-head " style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center; "><i class="fas fa-key"></i> LLavero</th>
-                            <th width="10%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;"><i class="fas fa-barcode"></i> Usuario</th>
-                            <th class="dpto-th-head " style="text-align: center;"><i class="fas fa-bookmark"></i> Solo Habitante</th>
+                            <th width="20%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;">LLavero</th>
+                            <th width="10%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;">Usuario</th>
+                            <th width="10%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;">Estatus</th>
+                            <th width="10%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; vertical-align: middle;text-align: center;">Fecha de Alta/Baja</th>
+                            <th class="dpto-th-head " style="text-align: center;">Solo Habitante</th>
                         </tr>
                     </thead>
                     <tbody style="height: auto !important;overflow: auto;box-shadow: 0px 4px 5px -2px rgba(0, 0, 0, .30);">
@@ -41,9 +44,15 @@
                                     <i  class="product-warning fas fa-lightbulb"></i> No
                                 </span>
                             </td>
+                            <td ng-trim="true" style="vertical-align: middle;text-align: center;">
+                                <span ng-if="key.idKeychainStatusKf != '1' && key.idKeychainStatusKf!=null && key.idKeychainStatusKf!=undefined" class="label" ng-class="{'label-success': key.idKeychainStatusKf == '1' || key.idKeychainStatus == '1', 'label-warning': key.idKeychainStatus == '0', 'label-danger': key.idKeychainStatus != null && key.idKeychainStatus != '0' && key.idKeychainStatus != '1', }"> {{key.statusKey}}</span>
+                                <span ng-if="key.idKeychainStatusKf == '1' && key.idKeychainStatusKf!=null && key.idKeychainStatusKf!=undefined" class="label label-success"> Activo</span>
+                              </td>
+                            <td ng-if="key.created_at!=null" style="width: 55%; vertical-align: middle;text-align: center;" class="td-depto media-middle">{{key.created_at | date:'dd/MM/yyyy'}}</td>
+                            <td ng-if="key.created_at==null" style="width: 55%; vertical-align: middle;text-align: center;" class="td-depto media-middle"><span- class="label label-default">-</span-</td>
                             <td class="td-depto media-middle" style="vertical-align: middle;text-align: center;">
                                 <label class="switch switch-2x" for="assingKeyForTenantOnly-{{key.idKeychain}}">
-                                    <input type="checkbox" class="success" ng-click="modalConfirmation('isKeyTenantOnly', 0, key)" ng-disabled="key.idUserKf" ng-model="key.selected" id="assingKeyForTenantOnly-{{key.idKeychain}}">
+                                    <input type="checkbox" class="success" ng-click="modalConfirmation('isKeyTenantOnly', 0, key)" ng-disabled="((key.idUserKf && (key.idKeychainStatusKf == '1' && key.idKeychainStatusKf!=null && key.idKeychainStatusKf!=undefined)) || (key.idKeychainStatusKf == '-1' && key.idKeychainStatusKf!=null && key.idKeychainStatusKf!=undefined))" ng-model="key.selected" id="assingKeyForTenantOnly-{{key.idKeychain}}">
                                     <span class="slider slider-2x flat"></span>
                                 </label>
                             </td>

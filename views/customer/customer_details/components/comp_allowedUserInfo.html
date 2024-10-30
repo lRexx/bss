@@ -4,7 +4,7 @@
       <div class="modal-content">
             <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-user-shield"></i> USUARIO AUTORIZADO</h3>
+              <h3 class="modal-title"><i class="fas fa-user-shield"></i> DETALLES DE USUARIO</h3>
           </div>
         <div class="modal-body">
 	    	<form class="form-horizontal" name="frmAllowedUserInfo" novalidate>
@@ -16,22 +16,12 @@
 								  <input ng-disabled="true"  name="allowed_profile" placeholder="Perfil" class="form-control" ng-model="allowedUsers.nameProfile"type="text"/>
 							  </div>
 					</div>
-					<div class="form-group col-md-6 col-xs-12 n-padding-l n-padding-r well-checkbox" style="padding: 0px !important;">
-						<div class="form-group col-md-6 col-xs-6" style="top: 5px;">
-							<label>Estatus: </label> 
-							<div class="input-group" style="margin-bottom: 0px !important;">
-						  		<label ng-if="allowedUsers.idStatusKf==1" class="label label-success">{{allowedUsers.statusTenantName | uppercase}}</label>
-						  		<label ng-if="allowedUsers.idStatusKf!=1" class="label label-danger">{{allowedUsers.statusTenantName | uppercase}}</label> 
-						  	</div>
-						</div>
-						<div class="form-group col-md-6 col-xs-6" style="top: 5px;">
-							<label>Correo:  </label> 
-							<div class="input-group">
-						  		<label ng-if="allowedUsers.isConfirmatedMail==1" class="label label-success text-uppercase">Confirmado</label>
-						  		<label ng-if="allowedUsers.isConfirmatedMail!=1" class="label label-danger text-uppercase">No confirmado</label>
-						  	</div>
-						</div>
-					</div>											
+					<div ng-if="allowedUsers.idProfileKf=='6'" class="form-group col-md-6 col-xs-12">
+						<label style="padding-left: 15px;">Tipo</label>  
+								<div class="input-group col-md-12 col-xs-12">
+									<input ng-disabled="true"  name="allowed_profile" placeholder="Perfil" class="form-control" ng-model="allowedUsers.nameProfile"type="text"/>
+								</div>
+					  </div>			
 					<div class="form-group col-md-6 col-xs-12">
 					  <label style="padding-left: 15px;">Nombre</label>  
 							  <div class="input-group col-md-12 col-xs-12">
@@ -44,7 +34,34 @@
 								  <input ng-disabled="true"  name="allowed_email" placeholder="Correo" class="form-control" ng-model="allowedUsers.emailUser"type="text"/>
 							  </div>
 					</div>
-				
+					<div class="form-group col-md-6 col-xs-12">
+						<label style="padding-left: 15px;">Telefono fijo:</label>  
+								<div class="input-group col-md-12 col-xs-12">
+									<input ng-disabled="true"  name="allowed_phoneLocalNumberUser" placeholder="Correo" class="form-control" ng-model="allowedUsers.phoneLocalNumberUser"type="text"/>
+								</div>
+					  </div>
+					  <div class="form-group col-md-6 col-xs-12">
+						<label style="padding-left: 15px;">Telefono movil:</label>  
+								<div class="input-group col-md-12 col-xs-12">
+									<input ng-disabled="true"  name="allowed_phoneNumberUser" placeholder="Correo" class="form-control" ng-model="allowedUsers.phoneNumberUser"type="text"/>
+								</div>
+					  </div>
+						<div class="form-group col-md-12 col-xs-12 n-padding-l n-padding-r well-checkbox" style="padding: 0px !important;">
+							<div class="form-group col-md-6 col-xs-6" style="top: 5px;">
+								<label>Estatus: </label> 
+								<div class="input-group" style="margin-bottom: 0px !important;">
+									<label ng-if="allowedUsers.idStatusKf==1" class="label label-success">{{allowedUsers.statusTenantName | uppercase}}</label>
+									<label ng-if="allowedUsers.idStatusKf!=1" class="label label-danger">{{allowedUsers.statusTenantName | uppercase}}</label> 
+								</div>
+							</div>
+							<div class="form-group col-md-6 col-xs-6" style="top: 5px;">
+								<label>Correo:  </label> 
+								<div class="input-group">
+									<label ng-if="allowedUsers.isConfirmatedMail==1" class="label label-success text-uppercase">Confirmado</label>
+									<label ng-if="allowedUsers.isConfirmatedMail!=1" class="label label-danger text-uppercase">No confirmado</label>
+								</div>
+							</div>
+						</div>		
 				</fieldset>
 			</form>
         </div>

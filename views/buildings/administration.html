@@ -129,11 +129,11 @@
                         <div class="col-md-2">
                             <div ng-if="sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4" class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="LLAVEROS" ng-click="switchBuildingFn('building_keys', select.buildings.selected)">
                                 <div class="depto-icon">
-                                    <div class="ribbon ribbon-top-right"><span>proximamente</span></div>
+                                    <!--<div class="ribbon ribbon-top-right"><span>proximamente</span></div>-->
                                     <span><i class="product-success fas fa-key"></i></span>
                                 </div>
                                 <div class="text">
-                                <h4 class="text-muted"><span class="badge" ng-class="sysSubContent=='authorization'? 'badge-success' : 'badge-light'"><i class="fas fa-eye"></i> LLAVEROS </span></h4>
+                                <h4 class="text-muted"><span class="badge" ng-class="sysSubContent=='keys'? 'badge-success' : 'badge-light'"><i class="fas fa-eye"></i> LLAVEROS </span></h4>
                                 </div>
                             </div>
                         <!-- // -->
@@ -153,5 +153,8 @@
     </div>
     <div ng-if="(sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && sysSubContent=='authorization' && select.buildings.selected!=undefined" class="col-md-12 n-padding-r n-padding-l">
         <div ng-include="'views/buildings/authorizations.html'"></div>
+    </div>
+    <div ng-if="(sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4') && sysSubContent=='keys' && select.buildings.selected!=undefined" class="col-md-12 n-padding-r n-padding-l">
+        <div ng-include="'views/buildings/keys.html'"></div>
     </div>
 </div>

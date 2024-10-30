@@ -381,6 +381,19 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                     return response;
             });   
           },
+          manualPaymentsType: function() {
+            //console.log("[Utilities Services]: Get Internet Company List");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Ticket/manualPaymentsType"
+                  }).then(function mySuccess(response) {
+                    rsJson=response;
+                    return rsJson;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+            });   
+          },
           createMPLink: function(data) {
             console.log("Create Mercado Pago Link for pay the request");
             //console.log(ticket);

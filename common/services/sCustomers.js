@@ -368,5 +368,18 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                   return response;
                 })  
           }, 
+          updateInitialDelivery: function(data) {
+            rsCustomer.client = data;
+            //console.log("[Customer Services] => new: "+rsCustomer.client.name);
+              return $http.post(serverHost+serverBackend+"Clientes/initialDeliveryUpdate",rsCustomer,serverHeaders)
+                .then(function mySucess(response, status) {
+                  rsJson=response;
+                  return rsJson;
+                },function myError(response) { 
+                  console.log("Error: "+response.data.error); 
+                  return response;
+                })  
+          }, 
       }
+
 }]);

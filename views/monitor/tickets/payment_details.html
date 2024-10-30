@@ -4,7 +4,7 @@
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-receipt"></i> DETALLES DE PAGO</h3>
+              <h3 class="modal-title"><i class="fas fa-receipt"></i> DETALLES DE PAGO <span ng-if="tkupdate.isManualPayment=='1'" class="label label-warning text-uppercase">manual</span></h3>
           </div>
         <div class="modal-body">
             <div  class="col-md-12 well-checkbox n-margin-l customer-frame">
@@ -23,36 +23,50 @@
                     <div class="col-md-12 col-xs-12">
                         <span> Metodo: </span>
                         <!-- <span>{{tkupdate.typePaymentKf.descripcion}}</span>-->
-                        <span><img id="comp-k1xl6bdlimgimage" class="mp-logo" data-type="image" itemprop="image" src="images/mp_logo.png" style="
+                        <span ng-if="tkupdate.isManualPayment!='1'"><img id="comp-k1xl6bdlimgimage" class="mp-logo" data-type="image" itemprop="image" src="images/mp_logo.png" style="
                             width: 25%;
                             height: 100%;
                         "></span>
+                        <span ng-if="tkupdate.isManualPayment=='1' && tkupdate.aymentDetails.idManualPaymentTypeKf=='1'"><img id="comp-k1xl6bdlimgimage" class="mp-logo" data-type="image" itemprop="image" src="images/mp_logo.png" style="
+                            width: 25%;
+                            height: 100%;
+                        "></span>
+                        <span ng-if="tkupdate.isManualPayment=='1' && tkupdate.aymentDetails.idManualPaymentTypeKf!='1'"><img id="comp-k1xl6bdlimgimage" class="label label-warning">{{tkupdate.paymentDetails.descripcion}}</span>
                     </div>
                     <div class="col-md-12">
                         <span>Estado: </span>
                         <span style="font-size: 85%;" ng-if="(tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null) && tkupdate.paymentDetails.mp_collection_status=='approved' && tkupdate.paymentDetails.mp_status_detail=='accredited'" class="label label-success">Aprobado</span>
                         <span style="font-size: 85%;" ng-if="(tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null) && tkupdate.paymentDetails.mp_collection_status==null && tkupdate.paymentDetails.mp_status_detail==null" class="label label-warning">Pendiente por pago</span>
                     </div>
-                    <div ng-if="tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.paymentDetails.mp_payment_id!=0" class="col-md-12">
-                        <span>Id de Pago: </span>
+                    <div ng-if="(tkupdate.isManualPayment!='1' || tkupdate.isManualPayment=='1') && tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.paymentDetails.mp_payment_id!=0" class="col-md-12">
+                        <span ng-if="tkupdate.isManualPayment!='1'">Id de Pago: </span>
+                        <span ng-if="tkupdate.isManualPayment=='1'">Número de operación: </span>
                         <span class="badge badge-warning">{{tkupdate.paymentDetails.mp_payment_id}}</span>
                     </div>
                 </div>
                 <!-- RIGHT COLUMN -->
                 <div ng-if="tkupdate.typePaymentKf!=null && tkupdate.typePaymentKf!=undefined && tkupdate.idTypePaymentKf=='2'" class="col-md-6 n-padding-l n-padding-r">
-                    <div ng-if="tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.paymentDetails.mp_payment_id!=0" class="col-md-12"><span> Pago realizado con: </span>
+                    <div ng-if="tkupdate.isManualPayment!='1' && tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.paymentDetails.mp_payment_id!=0" class="col-md-12"><span> Pago realizado con: </span>
                         <span ng-if="tkupdate.paymentDetails.mp_payment_type=='account_money'" class="badge badge-default">Dinero en cuenta</span>
                         <span ng-if="tkupdate.paymentDetails.mp_payment_type=='credit_card'" class="badge badge-default">Tarjeta de credito</span>
                         <span ng-if="tkupdate.paymentDetails.mp_payment_type=='debit_card'" class="badge badge-default">Tarjeta de debito</span>
+                        <span ng-if="tkupdate.paymentDetails.mp_payment_type=='wire_transfer'" class="badge badge-default">Transferencia bancaria</span>
+                        <span ng-if="tkupdate.paymentDetails.mp_payment_type=='deposit'" class="badge badge-default">Deposito bancaria</span>
                     </div>
-                    <div class="col-md-12"><span> Link de Pago creado: </span>
+                    <div class="col-md-12">
+                        <span ng-if="tkupdate.isManualPayment!='1'"> Link de Pago creado: </span>
+                        <span ng-if="tkupdate.isManualPayment=='1'"> Pago registrado: </span>
                         <span ng-if="tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null">{{tkupdate.paymentDetails.mp_date_created}}</span>
                     </div>
-                    <div ng-if="tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.paymentDetails.mp_payment_id!=0" class="col-md-12">
+                    <div class="col-md-12" ng-if="tkupdate.isManualPayment=='1'">
+                        <span> Pago realizado: </span>
+                        <span>{{tkupdate.paymentDetails.manualPaymentDate}}</span>
+                    </div>
+                    <div ng-if="tkupdate.isManualPayment!='1' && tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.paymentDetails.mp_payment_id!=0" class="col-md-12">
                         <span> Pago aprobado:</span>
                         <span>{{tkupdate.paymentDetails.sys_date_updated}}</span>
                     </div>
-                    <div ng-if="tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && (tkupdate.paymentDetails.mp_payment_id==null || tkupdate.paymentDetails.mp_payment_id==0)" class="col-md-12">
+                    <div ng-if="tkupdate.isManualPayment!='1' && tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && (tkupdate.paymentDetails.mp_payment_id==null || tkupdate.paymentDetails.mp_payment_id==0)" class="col-md-12">
                         <span> Link de pago:</span>
                         <span class="label label-success"><i class="fas fa-money-check-alt"></i>
                             <a href="{{tkupdate.paymentDetails.mp_prod_init_point}}" target="_blank" type="button" style="text-decoration: none;color: white;" >
@@ -78,8 +92,10 @@
                         <span style="font-size: 85%;" ng-if="(tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null) && tkupdate.paymentDeliveryDetails.mp_collection_status=='approved' && tkupdate.paymentDeliveryDetails.mp_status_detail=='accredited'" class="label label-success">Aprobado</span>
                         <span style="font-size: 85%;" ng-if="(tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null) && tkupdate.paymentDeliveryDetails.mp_collection_status==null && tkupdate.paymentDeliveryDetails.mp_status_detail==null" class="label label-warning">Pendiente por pago</span>
                     </div>
-                    <div ng-if="tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=0" class="col-md-12">
-                        <span>Id de Pago: </span>
+                    <div ng-if="(tkupdate.isManualPayment!='1' || tkupdate.isManualPayment=='1') && tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=0" class="col-md-12">
+                        <span ng-if="tkupdate.isManualPayment!='1'">Id de Pago: </span>
+                        
+                        <span ng-if="tkupdate.isManualPayment=='1'">Número de operación: </span>
                         <span class="badge badge-warning">{{tkupdate.paymentDeliveryDetails.mp_payment_id}}</span>
                     </div>
                 </div>
@@ -106,6 +122,11 @@
                         </span>
                     </div>
                 </div>
+            </div>
+            <div ng-if="tkupdate.isManualPayment=='1'" class="col-md-12 well-checkbox n-margin-l customer-frame">
+                <legend style="text-align: left;">Observación del registro de pago manual</legend>
+                <span class="text-capitalize"> {{ tkupdate.paymentDetails.manualPaymentDescription | uppercase}}</span>
+                
             </div>
             <div class="clearfix"> </div> 
         </div>   

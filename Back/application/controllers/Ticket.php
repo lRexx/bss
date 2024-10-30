@@ -467,6 +467,15 @@ class Ticket extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+    public function manualPaymentsType_get() {
+        $rs = null;
+        $rs = $this->ticket_model->getManualPyamentsType();
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
     public function uploadFile_post() {
         if ( !empty( $_FILES ) ) {
             $ticketId       = $this->post('idTicketKf');

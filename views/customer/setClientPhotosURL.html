@@ -1,0 +1,36 @@
+<!-- Set or Modify Photos URL -->
+<div id="setClientPhotosURL" style="top: 130px;" tabindex="-1" class="modal fade modal-dialog-centered in" style="top: 130px;" role="dialog">
+    <div class="modal-dialog modal-md" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" ng-click="closeClientPhotosURLFn()"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="fas fa-link"></i> LINK DE FOTOS </h3>
+          </div>
+        <div class="modal-body">
+          <!-- FORM CONTAINER-->
+          <!-- Set or Modify Photos URL -->
+          <div class="form-group col-md-12 n-padding-l">  
+            <label style="padding-left: 15px;">Asignar y/o Modificar Link de Fotos</label>
+            <div class="col-xs-12">
+              <div class="input-group">
+                <span class="input-group-addon"><i class="fas fa-link"></i></span>
+                <input name="service_clientPhotosURL" type="text" class="form-control" ng-model="customer.info.clientPhotosURL" />
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="clearfix"> </div>
+      <!-- Actions Button ng-click="newSysProfileFn()"-->
+      <div class="modal-footer">
+        <div class="row">
+            <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                <button type="submit" ng-click="switchCustomersFn('setClientPhotosURL_update', customer.info)" class="btn btn-labeled btn-success">
+                    <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Aplicar</button>
+                <a ng-click="closeClientPhotosURLFn()" type="button" class="btn btn-labeled btn-danger">
+                    <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+            </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

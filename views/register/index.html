@@ -541,50 +541,72 @@
             </div>
     	</form>	
         </div>
-		<div class="successRegister" ng-if="redirectSuccessfull">
-			<div class="col-md-12">
-				<div class="hero-widget alert well-sm alert-success">
-    				<div class="icon">
-         				<i class="glyphicon glyphicon-ok"></i>
-    				</div>
-	    			<div class="text">
-	        			<h2 class="text-success">Registro Satisfactorio</h2>
-	    			</div>
-				<div class="options">
-	    			<p data-toggle="tooltip" data-placement="bottom" title="{{time2Redirect+1}}" class="btn btn-primary btn-sm">Redireccionando en <span class="badge badge-light"> {{time2Redirect+1}}</span></p>
-				</div>
+	</div>
+	<div class="successRegister" style="margin-top: -8em;" ng-if="redirectSuccessfull">
+		<div class="container">
+			<div class="row">
+				<div class="col-xs-12 col-md-8 col-md-offset-2">
+					<div class="panel panel-success">
+						<div class="panel-heading">
+							<h3 class="panel-title">¡Registro completado exitosamente!</h3>
+						</div>
+						<div class="panel-body text-left">
+							<p>Gracias por registrarte. Para comenzar a usar tu cuenta, sigue estos pasos:</p>
+							<ol>
+								<li>
+									<strong>Confirma tu correo electrónico</strong><br>
+									Revisa tu bandeja de entrada (y la carpeta de spam) para encontrar un correo de confirmación. 
+									Haz clic en el enlace que te hemos enviado para activar tu cuenta.
+								</li><br>
+								<li>
+									<strong>Cambia tu contraseña en el primer inicio de sesión</strong><br>
+									Por motivos de seguridad, te pediremos que cambies tu contraseña cuando inicies sesión por primera vez.
+								</li>
+							</ol>
+							<p>Si tienes alguna pregunta o necesitas ayuda, no dudes en contactarnos. ¡Bienvenido!</p>
+						</div>
+						<div class="modal-footer">
+							<div class="row">
+								<div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+									<a id="cancelModalWindow" type="button" href="/login" class="btn btn-success pull-right">
+										<span>Login <i class="glyphicon glyphicon-arrow-right"></i></span></a>
+								</div>           
+							</div>
+						</div>
+					</div>
+
 				</div>
 			</div>
 		</div>
 	</div>
-<!-- Modal Confirmation -->
-<div class="modal fade" id="confirmCodeModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="ModalLabel">Soporte BSS </h5>
-      </div>
-      <div class="modal-body">
-			<form name="frmSecCode" class="form-horizontal" autocomplete="off" role="form" ng-submit="sysCheckCode()" novalidate>
-				<div class="form-group" ng-class="{'has-error': frmSecCode.checkCode.$dirty && frmSecCode.checkCode.$invalid}">
-					<div class="col-md-12">
-						<div class="inner-addon right-addon">
-					  		<input id="checkCode" name="checkCode" class="form-input" ng-blur="inputCheckCss('checkCode', 'i');" ng-model="register.securityCode" type="password" required autofocus autocomplete="off" />
-					  		<label>Codigo de Validacion</label> 
-					  		<i class="glyphicon glyphicon-lock"></i>
-							<span class="bar"></span>
-					    </div>
-		  			</div>
-				</div>
-	        </form>
-      </div>
-      <div class="modal-footer">
-        <button type="button" ng-click="sysCheckCode()" class="btn btn-success">Validar</button>
-      </div>
-    </div>
-  </div>
-</div>
-<!-- //Modal Confirmation -->
+	<!-- Modal Confirmation -->
+	<div class="modal fade" id="confirmCodeModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+	<div class="modal-dialog" role="document">
+		<div class="modal-content">
+		<div class="modal-header">
+			<h5 class="modal-title" id="ModalLabel">Soporte BSS </h5>
+		</div>
+		<div class="modal-body">
+				<form name="frmSecCode" class="form-horizontal" autocomplete="off" role="form" ng-submit="sysCheckCode()" novalidate>
+					<div class="form-group" ng-class="{'has-error': frmSecCode.checkCode.$dirty && frmSecCode.checkCode.$invalid}">
+						<div class="col-md-12">
+							<div class="inner-addon right-addon">
+								<input id="checkCode" name="checkCode" class="form-input" ng-blur="inputCheckCss('checkCode', 'i');" ng-model="register.securityCode" type="password" required autofocus autocomplete="off" />
+								<label>Codigo de Validacion</label> 
+								<i class="glyphicon glyphicon-lock"></i>
+								<span class="bar"></span>
+							</div>
+						</div>
+					</div>
+				</form>
+		</div>
+		<div class="modal-footer">
+			<button type="button" ng-click="sysCheckCode()" class="btn btn-success">Validar</button>
+		</div>
+		</div>
+	</div>
+	</div>
+	<!-- //Modal Confirmation -->
 </div>
 
 

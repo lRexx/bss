@@ -113,13 +113,13 @@
                         </div>
                         <div  class="row">
                           <div class="form-group">
-                                <!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'"-->
-                                <div class="col-md-2 col-sm-2 col-xs-12">
+                                <!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'" getCustomersListByTypeFn(select.filterTypeOfClient.idClientType);  -->
+                                <div class="col-md-3 col-sm-3 col-xs-12 n-padding-r">
                                     <label style="padding-left: 15px;">Tipo de Cliente</label>
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
                                         <select  name="filterTypeOfClient" 
-                                                ng-change="getCustomersListByTypeFn(select.filterTypeOfClient.idClientType); select.filterCustomerIdFk.selected=undefined; customerSearch.typeClient=''" 
+                                                ng-change="select.filterCustomerIdFk.selected=undefined; customerSearch.typeClient=''; customerSearchFiltered.name='';customerFilteredFound=null" 
                                                 ng-options="(item.ClientType | uppercase) for item in rsCustomerTypeFilterData" 
                                                 ng-disabled="(customerSearch.typeClient!=null && customerSearch.typeClient!=undefined && customerSearch.typeClient!='') || rsCustomerListData.status==404"  
                                                 class="form-control" 
@@ -128,7 +128,7 @@
                                         </select>
                                     </div>
                                 </div>
-                                <!-- Company Name-->
+                                <!-- Company Name
                                 <div class="col-md-6 col-sm-6 col-xs-12">
                                     <label class="clf-p-left">
                                       <span ng-if="select.filterTypeOfClient.idClientType==1">Administraciones </span>
@@ -165,6 +165,31 @@
                                                   </ui-select-no-choice>
                                               </ui-select>
                                     </div>
+                                </div>-->
+                                <!-- Administration List-->
+                                <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-7 col-xs-12 col-sm-7">
+                                  <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-r" >
+                                      <label ng-if="select.filterTypeOfClient.idClientType==undefined" style="padding-left: 15px;">Client</label>
+                                      <label ng-if="select.filterTypeOfClient.idClientType=='1'" style="padding-left: 15px;">Administración</label>
+                                      <label ng-if="select.filterTypeOfClient.idClientType=='3'" style="padding-left: 15px;">Compañia/Empresa</label>
+                                      <div class="input-group s-ui-width s-ui-m-left">
+                                          <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+                                          <input type="text" name="customerSearchFiltered" 
+                                              id="customerSearchFiltered" 
+                                              ng-disabled="(select.filterTypeOfClient=='' || select.filterTypeOfClient==undefined)" 
+                                              ng-model="customerSearchFiltered.name"
+                                              ng-keydown="findCustomerFilteredFn(customerSearchFiltered.name, select.filterTypeOfClient.idClientType, false);"
+                                              class="form-control text-uppercase" 
+                                              move-to-list input-selector="'.input-search'"
+                                              list-items-selector="'.list-group li'"
+                                              placeholder="Presione Enter para buscar..."
+                                              style="border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+                                              required="true" />
+                                          <ul id="customerList" class="list-group" ng-show="listCustomerFilteredFound.length>0 && (customerSearchFiltered.name!=undefined || customerSearchFiltered.name!=null)" style="height: 0px; z-index: 2000;" >
+                                              <li tabindex="0" id="customerList-{{$index}}"  class="list-group-item" ng-repeat="item in listCustomerFilteredFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFilteredFn(item);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFilteredFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+                                          </ul>
+                                      </div>
+                                  </div>
                                 </div>
                                 <div ng-if="sysLoggedUser.idProfileKf==1" class="col-md-2 col-sm-2 col-xs-12">
                                   <div class="col-md-12 col-xs-12" ><label class="clf-size">Inhabilitados</label></div>
@@ -349,5 +374,6 @@
 <div ng-include="'views/customer/customer_details/formCustomerDetails.html'"></div>
 <div ng-include="'views/customer/company_details/formCompanyDetails.html'"></div>
 <div ng-include="'views/customer/list/istContactUsers.html'"></div>
+<div ng-include="'views/customer/setClientPhotosURL.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
 <div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>

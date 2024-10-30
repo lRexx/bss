@@ -51,7 +51,7 @@
 <link rel="shortcut icon" href="favicon.ico">
 </head>
 <body ng-controller="MenuCtrl" ng-init="launchLoader();">
-	<div ng-if="sysToken && (urlPathSelected1!='info' && (urlPathSelected1!='status' && urlPathSelected2!='client'))">
+	<div ng-if="!loggedOut && sysToken && (urlPathSelected1!='info' && (urlPathSelected1!='status' && urlPathSelected2!='client'))">
 		<!-- nav bar start -->
 		<nav class="navbar navbar-inverse navbar-custom navbar-fixed-top" role="navigation">
 			<div class="navbar-inverse navbar-inner m-h-30">
@@ -78,6 +78,10 @@
 									</li>
 									<li role="presentation">
 										<a style="cursor: pointer;" class="clear-lazy-cache" ng-click="passwdModalUserOpen(sysLoggedUser)" tabindex="-1" role="menuitem"><i class="fas fa-user-lock"></i> Cambiar clave</a>
+									</li>
+									<li ng-if="sysLoggedUser.idProfileKf=='1' && sysLoggedUser.isSuperAdmin=='1'" role="presentation">
+										<div class="divider"></div>
+										<a style="cursor: pointer;" class="clear-lazy-cache text-warning" ng-click="authorizationTokensFn(sysLoggedUser)" tabindex="-1" role="menuitem"><i class="fas fa-fingerprint text-danger"></i> Autorizaciones</a>
 									</li>
 									<li role="presentation">
 										<div class="divider"></div>
@@ -211,6 +215,7 @@
 		<!-- //nav bar end -->
 		<div ng-if="sysToken" ng-include="'views/users/profileUser.html'"></div>
 		<div ng-if="sysToken" ng-include="'views/users/passwordChangeUser.html'"></div>
+		<div ng-if="sysToken" ng-include="'views/users/authToken.html'"></div>
 		<div ng-if="sysToken" ng-include="'views/utilities/modalConfirmationMenu.html'"></div>
 		<div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>
 	</div>
@@ -219,6 +224,20 @@
 		<div id="loader">&nbsp;</div>
 		<div class="companyName"></div>
 	</div>	
+	<div class="successRegister" ng-if="loggedOut && !sysToken">
+		<div class="container" style="
+									height: 100vh;
+									display: flex;
+									align-items: center;
+									justify-content: center;">
+			<div class="col-md-12 alert alert-warning text-center" role="alert" style="margin-top: 50px;">
+			  <h4>Su sesión ha finalizado</h4>
+			  <p>Para continuar, haga clic en el botón para ingresar nuevamente al sistema.</p><br>
+			  <a type="button" ng-click="logout()" class="btn btn-success">
+				<span>Login <i class="glyphicon glyphicon-arrow-right"></i></span></a>
+			</div>
+		  </div>
+	</div>
 	<!-- //Loader div -->	
 	<!-- ng-view div -->
 	<div ng-view></div>
@@ -327,6 +346,7 @@
 <script src="controllers/TASSCtrlCustomers.js"></script>
 <script src="controllers/TASSCtrlStatus.js"></script>
 <script src="controllers/BSSCtrlInfo.js"></script>
+<script src="controllers/BSSCtrlValidate.js"></script>
 <script src="controllers/TASSCtrlApprovals.js"></script>
 <script src="controllers/TASSCtrlServices.js"></script>
 <script src="controllers/TASSCtrlUsers.js"></script>

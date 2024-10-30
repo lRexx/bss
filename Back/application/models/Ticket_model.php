@@ -2668,6 +2668,63 @@ class Ticket_model extends CI_Model
 		}
 		return null;
 	}
+
+	public function checkIsDeviceOnline($idClient){
+		$this->db->select("tb_client_services_internet.idClientServicesInternet AS idService, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_contratos.idContrato, tb_servicios_del_contrato_cuerpo.idServiciosDelContratoCuerpo, tb_servicios_del_contrato_cuerpo.itemAclaracion, tb_client_services_internet.*", FALSE)->from("tb_contratos");
+		$this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
+		$this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
+		$this->db->join('tb_client_services_internet', 'tb_client_services_internet.idContracAssociated_SE = tb_contratos.idContrato', 'left');
+		$this->db->join('tb_tipos_servicios_internet', 'tb_tipos_servicios_internet.idTipoServicioInternet = tb_client_services_internet.idTypeInternetFk', 'left');
+		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
+		$where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 2 AND tb_client_services_internet.idContracAssociated_SE!=''
+		GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_tipos_servicios_internet.idTipoServicioInternet;";
+		$quuery_intservice = $this->db->where($where_string)->get();
+		$servicesAssociated = null;
+		if ($quuery_intservice->num_rows() > 0) {
+			foreach ($quuery_intservice->result_array() as $key => $item) {
+				//Check if the Internet Type if BSS Wifi.
+				//print($ticket['idTypeInternetFk']);
+				if($item['idTypeInternetFk']==1 || $item['idTypeInternetFk']==2){
+					$rs = $quuery_intservice->result_array();
+					$servicesAssociated=json_decode($item['idServiceAsociateFk']);
+					if (count($servicesAssociated)>0){
+						$serviceAsociate_arr=[];
+						foreach ($servicesAssociated as $idServiceAssociated) {
+							$aux = null;
+							$this->db->select("*")->from("tb_client_services_access_control");
+							$quuery2 = $this->db->where("tb_client_services_access_control.idClientServicesFk",$idServiceAssociated)->get();
+							//print_r($quuery2->result_array());
+							if ($quuery2->num_rows() > 0) {
+								$aux=$quuery2->result_array();
+							}
+							array_push($serviceAsociate_arr,$aux);
+						}
+						$rs[0]['idServiceAsociateFk_array']=$serviceAsociate_arr;
+					}
+				}
+			}
+			// Now perform the checks
+			if (
+				isset($rs[0]['idServiceAsociateFk_array']) && // Check if array is set
+				is_array($rs[0]['idServiceAsociateFk_array']) && // Ensure it's an array
+				count($rs[0]['idServiceAsociateFk_array']) > 0 && // Length is greater than 0
+				$rs[0]['idServiceAsociateFk_array'] !== null // Check if it's not null
+			) {
+				//print_r($rs[0]['idServiceAsociateFk_array']);
+				// Loop through the array to check if 'idClientServicesAccessControl' is not undefined
+				foreach ($rs[0]['idServiceAsociateFk_array'] as $key => $service) {
+					//print_r($service);
+					if (isset($service[0]['idClientServicesAccessControl'])) {
+						return "true";
+					} else {
+						return "false";
+					}
+				}
+			}else{
+				return "false";
+			}
+		}
+	}
 	public function buscar_relaciones_ticket($todo)
 	{
 		//var_dump($todo);
@@ -2686,6 +2743,13 @@ class Ticket_model extends CI_Model
             $this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
 			$quuery                 = $this->db->where("idClient = " , $ticket['idBuildingKf'])->get();
 			$todo[$key]['building'] = @$quuery->result_array()[0];
+			if (! is_null($ticket['idBuildingKf'])) {
+				//print($this->checkIsDeviceOnline($ticket['idBuildingKf']));
+				$todo[$key]['building']['isHasInternetOnline']=$this->checkIsDeviceOnline($ticket['idBuildingKf']);
+			}else{
+				print("No defined");
+				$todo[$key]['building']['isHasInternetOnline']="false";
+			}
 
 			if ($ticket['idTypeRequestFor']==1){
 
@@ -2821,10 +2885,11 @@ class Ticket_model extends CI_Model
 			$todo[$key]['statusTicket'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_mp_payments");
+			$this->db->join('tb_ticket_payment_manual_type', 'tb_ticket_payment_manual_type.id = tb_mp_payments.idManualPaymentTypeKf', 'left');
 			$quuery                     = $this->db->where("idPayment = " , $ticket['idPaymentKf'])->get();
 			$todo[$key]['paymentDetails'] = @$quuery->result_array()[0];
 
-			$this->db->select("*")->from("tb_mp_payments");
+			$this->db->select("*")->from("tb_mp_payments");			
 			$quuery                     = $this->db->where("idPayment = " , $ticket['idPaymentDeliveryKf'])->get();
 			$todo[$key]['paymentDeliveryDetails'] = @$quuery->result_array()[0];
 
@@ -3258,6 +3323,19 @@ class Ticket_model extends CI_Model
         $rs    = null;
 
         $query = $this->db->select("*")->from("tb_ticket_payment_type")
+            ->get();
+        if ($query->num_rows() > 0) {
+            $rs = $query->result_array();
+        }
+
+        return $rs;
+    }
+	public function getManualPyamentsType() {
+
+        $query = null;
+        $rs    = null;
+
+        $query = $this->db->select("*")->from("tb_ticket_payment_manual_type")
             ->get();
         if ($query->num_rows() > 0) {
             $rs = $query->result_array();

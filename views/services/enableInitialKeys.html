@@ -16,7 +16,7 @@
                             <!-- End_date -->
                             <div class="form-group col-md-12 col-md-12 col-xs-12" ng-class="
                             {'has-success': 
-                                customer.update.expirationDate!='' && customer.update.expirationDate!=null && fInitialKey.bonus_end_date.$valid,
+                            customer.update.expirationDate!='' && customer.update.expirationDate!=undefined && customer.update.expirationDate!=null && fInitialKey.bonus_end_date.$valid,
                             'has-error':  
                                 (customer.update.expirationDate=='' || customer.update.expirationDate==undefined) && fInitialKey.bonus_end_date.$touched,
                             }">
@@ -28,8 +28,7 @@
                                         ng-click="open_end_date()" 
                                         type="text" 
                                         name="bonus_end_date"
-                                        class="form-control" 
-                                        ng-disabled="customerFound.initial_delivery.length>=1"
+                                        class="form-control"
                                         uib-datepicker-popup="{{format}}" 
                                         ng-model="customer.update.expirationDate" 
                                         is-open="popup_end_date.opened"  
@@ -55,8 +54,7 @@
                                         <span class="input-group-addon"><i class="fas fa-sort-numeric-up-alt"></i></span>
                                         <input 
                                             name="mainQttyKeys" 
-                                            ng-minlength="0" 
-                                            ng-disabled="customerFound.initial_delivery.length>=1"
+                                            ng-minlength="0"
                                             class="form-control input--number" 
                                             ng-model="customer.update.initial_qtty"  
                                             type="text" 
@@ -82,7 +80,6 @@
                                             ng-minlength="0" 
                                             class="form-control input--decimal" 
                                             placeholder="$0,00"
-                                            ng-disabled="customerFound.initial_delivery.length>=1"
                                             ng-model="customer.update.initial_price"  
                                             type="text" 
                                             ng-blur="fnLoadPhoneMask();" 
@@ -100,9 +97,13 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12 pull-right">
-                        <button ng-if="customerFound.initial_delivery.length==0" type="submit" ng-click="modalConfirmation('add_enable_initial_keys', 0, customerFound);" ng-disabled="fServiceApprovalContract.$invalid" class="btn btn-labeled btn-success">
+                        <button ng-if="customerFound.initial_delivery.length==0" type="submit" ng-click="modalConfirmation('add_enable_initial_keys', 0, customerFound);" ng-disabled="fInitialKey.$invalid" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
                         	<span>Enviar</span>
+                        </button>
+                        <button ng-if="customerFound.initial_delivery.length==1" type="submit" ng-click="modalConfirmation('update_enable_initial_keys', 0, customerFound);" ng-disabled="fInitialKey.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>
+                        	<span>Actualizar</span>
                         </button>
                         <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>

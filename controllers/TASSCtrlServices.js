@@ -612,17 +612,32 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log(cObj);
                         $scope.customer={'update':{}};
                         if(cObj.initial_delivery.length==1){
-                            $scope.customer.update.expirationDate   = cObj.initial_delivery[0].expirationDate;
+                            $scope.customer.update = cObj.initial_delivery[0];
+                            // Convertir la cadena a un objeto Date usando Moment-Timezone
+                            var date = moment.tz(cObj.initial_delivery[0].expirationDate, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+                            var newDate = date.toDate();
+                            $scope.customer.update.expirationDate   = newDate;
                             $scope.customer.update.initial_qtty     = cObj.initial_delivery[0].initial_qtty;
                             $scope.customer.update.initial_price    = cObj.initial_delivery[0].initial_price;
                         }
                         $('#enableInitialKeys').modal('toggle');
                     break;
                     case "add_enableInitialKeys":
-                        console.log(cObj);
-                        $scope.customer.update.idClientKf = cObj.idClient;
+                        $scope.customer.update.idClientKf           = cObj.idClient;
+                        $scope.customer.update.created_by_idUserKf  = $scope.sysLoggedUser.idUser;
+                        var date_selected   = $scope.customer.update.expirationDate;
+                        var expirationDate  = new Date(date_selected);
+                        $scope.customer.update.expirationDate       = expirationDate.getFullYear()+"-"+(expirationDate.getMonth()+1)+"-"+expirationDate.getDate()+" " +"23:59:59"
                         console.log($scope.customer.update);
                         $scope.addInitialDeliveryFn($scope.customer.update); 
+                    break;
+                    case "update_enableInitialKeys":
+                        $scope.customer.update.updated_by_idUserKf = $scope.sysLoggedUser.idUser;
+                        var date_selected   = $scope.customer.update.expirationDate;
+                        var expirationDate  = new Date(date_selected);
+                        $scope.customer.update.expirationDate     = expirationDate.getFullYear()+"-"+(expirationDate.getMonth()+1)+"-"+expirationDate.getDate()+" " +"23:59:59"
+                        console.log($scope.customer.update);
+                        $scope.updateInitialDeliveryFn($scope.customer.update); 
                     break; 
                 }
             break;
@@ -772,7 +787,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
     ********************************************************************************************************************************************/
           /**************************************************
           *                                                 *
-          *                SET CLIENT IN DEBT               *
+          *                SET INITIAL DELIERY              *
           *                                                 *
           **************************************************/
           $scope.addInitialDeliveryFn = function(obj){
@@ -781,6 +796,27 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 console.log(response);
                 if(response.status==200){
                       inform.add('Entrega Inicial habilitada satisfactoriamente.',{
+                          ttl:15000, type: 'success'
+                      });
+                      $('#enableInitialKeys').modal('hide');
+                }if(response.status==404 || response.status==500){
+                    inform.add('Ocurrio un error con la Entrega Inicial, contacta al soporte.',{
+                        ttl:15000, type: 'danger'
+                    });
+                }
+            });
+          }
+          /**************************************************
+          *                                                 *
+          *             UPDATE INITIAL DELIERY              *
+          *                                                 *
+          **************************************************/
+          $scope.updateInitialDeliveryFn = function(obj){
+            //console.log(obj);
+            CustomerServices.updateInitialDelivery(obj).then(function(response){
+                console.log(response);
+                if(response.status==200){
+                      inform.add('Entrega Inicial actualizada satisfactoriamente.',{
                           ttl:15000, type: 'success'
                       });
                       $('#enableInitialKeys').modal('hide');
@@ -1373,6 +1409,26 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 }else if (confirm==1){
                                     //console.log($scope.customerDetail);
                                     $scope.switchCustomersFn('customers',$scope.customerDetail,'add_enableInitialKeys');
+                                    $('#confirmRequestModalCustom').modal('hide');
+                                }else if (confirm<0){
+                                    $scope.customer={};
+                                }
+                            break;
+                            case "update_enable_initial_keys":
+                                if (confirm==0){
+                                    $scope.customerDetail=obj;
+                                      $scope.mess2show="Actualizar Datos para Entrega Inicial al Cliente "+obj.name+" ["+obj.ClientType+"].     Confirmar?";
+                                      console.log("============================================================================");
+                                      console.log("Actualizar Entrega Inicial.");
+                                      console.log("============================================================================");
+                                      console.log("ID del Cliente             : "+obj.idClient);
+                                      console.log("Dirección del consorcio    : "+obj.address);
+                                      console.log("============================================================================");
+                                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                                    //$('#confirmRequestModalCustom').modal('toggle');
+                                }else if (confirm==1){
+                                    //console.log($scope.customerDetail);
+                                    $scope.switchCustomersFn('customers',$scope.customerDetail,'update_enableInitialKeys');
                                     $('#confirmRequestModalCustom').modal('hide');
                                 }else if (confirm<0){
                                     $scope.customer={};
@@ -2969,6 +3025,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.addNewService.countZoneIntaled           = $scope.service.zonesQttyInstalled;
                                         $scope.addNewService.idTypeConectionRemote      = service.idTipoConexionRemoto;
                                         $scope.addNewService.observation                = service.observation==null || service.observation==undefined?null:service.observation;
+                                        $scope.addNewService.installationPassword       = service.installationPassword;
                                         var productIdNumber=0;                      
                                         for (var key in $scope.list_batteries){
                                         $scope.baterias_instaladas.push({'idProductoFk':$scope.list_batteries[key].idBatteryFk, 'nroFabric':$scope.list_batteries[key].numberSerieFabric, 'nroInternal':$scope.list_batteries[key].numberSerieInternal,'dateExpired':$scope.list_batteries[key].dateExpiration, 'isControlSchedule':$scope.list_batteries[key].isControlSchedule});
@@ -3385,13 +3442,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                     }
                                                 }
                                                 }else{
-                                                var dvrSelected   = null;
-                                                var portCamera    = null;                            
+                                                    var dvrSelected   = null;
+                                                    var portCamera    = null;                            
                                                 }
                                                 var nroZoneTamper = service.tb_sensors_alarm_array[sensor].nroZoneTamper!=null?parseInt(service.tb_sensors_alarm_array[sensor].nroZoneTamper):null;
                                                 $scope.list_sensors.push({'idSensor':service.tb_sensors_alarm_array[sensor].idSensorProduct,'sensorDetails':sensorSelected,'numberZoneSensor':parseInt(service.tb_sensors_alarm_array[sensor].numberZoneSensor),'area':service.tb_sensors_alarm_array[sensor].area, 'isWirelessSensor':parseInt(service.tb_sensors_alarm_array[sensor].isWirelessSensor), 'nroZoneTamper':nroZoneTamper, 'locationLon':service.tb_sensors_alarm_array[sensor].locationLon, 'idDvr':service.tb_sensors_alarm_array[sensor].idDvr, 'dvrDetails':dvrSelected, 'idCameraFk':service.tb_sensors_alarm_array[sensor].idCameraFk, 'portCamera':portCamera, 'nroInterno':service.tb_sensors_alarm_array[sensor].nroInterno, 'nroFrabric':service.tb_sensors_alarm_array[sensor].nroFrabric});
                                             }
-                                        //console.log($scope.list_sensors);
+                                            console.log($scope.list_sensors);
                                         }else{
                                             inform.add('El servicio no tiene Sensores asociados. ',{
                                             ttl:10000, type: 'info'
@@ -5381,6 +5438,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             'locationOffKey':'',
                                             'portNumberRouter':'',
                                             'idTipoConexionRemoto':'',
+                                            'installationPassword':'',
                                             'user':'',
                                             'pass':'',
                                             'useVpn':'',
@@ -5419,6 +5477,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             'locationOffKey':'',
                                             'portNumberRouter':'',
                                             'idTipoConexionRemoto':'',
+                                            'installationPassword':'',
                                             'user':'',
                                             'pass':'',
                                             'useVpn':'',

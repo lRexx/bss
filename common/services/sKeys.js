@@ -59,6 +59,17 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                 return response;
               });
           },
+          getKeychainList: function(data) {
+            console.log("[Key Services] => get all keyschain processes");
+              return $http.post(serverHost+serverBackend+"Llavero/listAllKeychain",data,serverHeaders)
+              .then(function onSuccess(response) {
+                rsJson=response;
+                return rsJson;
+              }).catch(function onError(response) {
+                //console.log("Error: "+response); 
+                return response;
+              });
+          },
           getKeychainProcess: function(data) {
             console.log("[Key Services] => get all keyschain processes");
               return $http.post(serverHost+serverBackend+"Llavero/listAllProcessEvents",data,serverHeaders)
@@ -175,6 +186,19 @@ moduleKeysServices.service("KeysServices", ['$http', '$q', 'tokenSystem', '$time
                     console.log("Error: "+response.data.error); 
                     return response;
             });
+          },
+          statusKeychain: function() {
+            //console.log("[Key Services]: Get status of keychain");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Llavero/statusKeychain"
+                  }).then(function mySuccess(response) {
+                    rsJson=response;
+                    return rsJson;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+            });   
           },
       }
 }]);

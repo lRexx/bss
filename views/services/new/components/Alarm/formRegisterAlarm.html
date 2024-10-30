@@ -208,6 +208,21 @@
 						            </div>
 							  	</div>
 							</div>
+						<!-- Installation Password -->					  
+						<div class="form-group col-md-6 n-padding-l" ng-class="
+								{	'has-success': 
+									(service.new.installationPassword!='' && service.new.installationPassword!=null && service.new.installationPassword!=undefined) && fCustomerNewService.service_installationPassword.$valid,
+								 	'has-error':  
+									(service.new.installationPassword=='' || service.new.installationPassword==null || service.new.installationPassword==undefined) && fCustomerNewService.service_installationPassword.$touched,
+								}">  
+						  	<label style="padding-left: 15px;">Clave de Instalador</label>
+						    <div class="col-xs-12">
+							    <div class="input-group">
+							    	<span class="input-group-addon"><i class="fas fa-user-tie"></i></span>
+					    			<input name="service_installationPassword" type="text" class="form-control install-password-alarm" ng-keydown="fnLoadPhoneMask()" ng-model="service.new.installationPassword" ng-required="true" />
+					    		</div>
+					    	</div>
+						</div>	
 						</div>
 						<!-- Right Colunm -->
 						<div class="well-checkbox form-group col-md-12">

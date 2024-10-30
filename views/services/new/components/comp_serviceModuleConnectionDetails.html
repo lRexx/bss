@@ -85,7 +85,7 @@
 								  			 	'has-error':  
 								  				(service.module.nroSerieInternal==''|| service.module.nroSerieInternal==undefined) && fServiceModuleDetails.serviceProductInternalSerial.$touched,
 								  			}">
-						  	<label style="padding-left: 15px;">N° de Serie Interno</label>
+						  	<label style="padding-left: 15px;">N° DEL SISTEMA</label>
 						    <div class="col-xs-12">
 							    <div class="input-group">
 							    	<span class="input-group-addon"><i class="fas fa-barcode"></i></span>
@@ -101,7 +101,7 @@
 								  			 	'has-error':  
 								  				(service.module.nroSerieFrabric==''|| service.module.nroSerieFrabric==undefined) && fServiceModuleDetails.serviceProductFabricSerial.$touched,
 								  			}">
-						  	<label style="padding-left: 15px;">N° de Serie de Fabricante</label>
+						  	<label style="padding-left: 15px;">CLAVE DEL SISTEMA</label>
 						    <div class="col-xs-12">
 							    <div class="input-group">
 							    	<span class="input-group-addon"><i class="fas fa-barcode"></i></span>
@@ -133,7 +133,7 @@
 								  			 	'has-error':  
 								  				(service.module.codeProgram==''|| service.module.codeProgram==undefined) && fServiceModuleDetails.serviceCodigoProgramacion.$touched,
 								  			}">  
-						  	<label style="padding-left: 15px;">Codigo de Programaci&#243;n</label>
+						  	<label style="padding-left: 15px;">IMEI</label>
 						    <div class="col-xs-12">
 							    <div class="input-group">
 							    	<span class="input-group-addon"><i class="fas fa-qrcode"></i></span>
@@ -149,7 +149,7 @@
 								  			 	'has-error':  
 								  				(service.module.portProgram==''|| service.module.portProgram==undefined) && fServiceModuleDetails.servicePuertoProgramacion.$touched,
 								  			}">  
-						  	<label style="padding-left: 15px;">Puerto de Programaci&#243;n</label>
+						  	<label ng-if="moduleConnectionType=='2'" style="padding-left: 15px;">Puerto de Programaci&#243;n</label>
 						    <div class="col-xs-12">
 							    <div class="input-group">
 							    	<span class="input-group-addon"><i class="fas fa-qrcode"></i></span>
@@ -165,7 +165,7 @@
 								  			 	'has-error':  
 								  				(service.module.passwordAcces==''|| service.module.passwordAcces==undefined) && fServiceModuleDetails.passwordAcces.$touched,
 								  			}">  
-						  	<label style="padding-left: 15px;">Clave Acceso usuario al sistema</label>
+						  	<label ng-if="moduleConnectionType=='2'" style="padding-left: 15px;">Clave Acceso usuario al sistema</label>
 						    <div class="col-xs-12">
 							    <div class="input-group">
 							    	<span class="input-group-addon"><i class="fas fa-key"></i></span>
@@ -175,7 +175,7 @@
 						</div>
 						<!-- Codigo particion 1 -->
 						<div class="form-group col-md-6" >  
-						  	<label style="padding-left: 15px;">Codigo Partici&#243;n 1</label>
+						  	<label ng-if="moduleConnectionType=='2'" style="padding-left: 15px;">Codigo Partici&#243;n 1</label>
 						    <div class="col-xs-12">
 							    <div class="input-group">
 							    	<span class="input-group-addon"><i class="fas fa-qrcode"></i></span>
@@ -185,7 +185,7 @@
 						</div>
 						<!-- Codigo particion 2 -->
 						<div class="form-group col-md-6" >  
-						  	<label style="padding-left: 15px;">Codigo Partici&#243;n 2</label>
+						  	<label ng-if="moduleConnectionType=='2'" style="padding-left: 15px;">Codigo Partici&#243;n 2</label>
 						    <div class="col-xs-12">
 							    <div class="input-group">
 							    	<span class="input-group-addon"><i class="fas fa-qrcode"></i></span>

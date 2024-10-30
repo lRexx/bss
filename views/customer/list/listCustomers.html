@@ -98,10 +98,14 @@
         				<li role="presentation"><div class="divider"></div></li>
         				<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('allowedUsers', item)"><i title="Usuarios autorizados" class="fas fa-user-check"></i> Autorizados</a></li>
                 <li ng-if="item.idClientTypeFk==2" role="presentation"><div class="divider"></div></li>
-                <li ng-if="item.idClientTypeFk==2" class="dropdown-item"><a href="" ng-click="switchCustomersFn('contactdUsers', item)"><i title="Usuarios de contacto" class="fas fa-user-check"></i> Contactos Stock</a></li>
+                <li ng-if="item.idClientTypeFk==2" class="dropdown-item"><a href="" ng-click="switchCustomersFn('contactdUsers', item)"><i title="Contactos Referentes" class="fas fa-user-check"></i> Contactos Referentes</a></li>
         				<li role="presentation"><div class="divider"></div></li>
         				<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('uploadFiles', item)"><i title="Subir archivos" class="fas fa-paperclip"></i> Subir archivos</a>   
                 </li>
+                <li role="presentation"><div class="divider"></div></li>
+        				<li class="dropdown-item"><a href="" ng-click="switchCustomersFn('setClientPhotosURL', item)"><i title="Link de Fotos" class="fas fa-user-check"></i> 
+                  <span ng-if="item.clientPhotosURL==null || item.clientPhotosURL==unefined ">Asignar Link de fotos</span>
+                  <span ng-if="item.clientPhotosURL!=null && item.clientPhotosURL!=unefined ">Modificar Link de fotos</span></a></li>
         				<!--<li ng-if="item.idClientTypeFk==2" role="presentation"><div class="divider"></div></li>-->
         				<!--<li ng-if="item.idClientTypeFk==2" class="dropdown-item"><a href="" ng-click="switchCustomersFn('enableInitialKeys', item)"><i title="Habilitar" class="fas fa-paperclip"></i> Entrega Inicial</a></li>-->
               </ul>

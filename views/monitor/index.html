@@ -125,6 +125,13 @@
                                 <span ng-if="tk.typeRequestFor!=undefined">{{tk.typeRequestFor.name}}</span>
                                 <span ng-if="tk.typeRequestFor==undefined" class="label label-default">n/a</span>
                             </li>
+                            <li ng-if="sysLoggedUser.idProfileKf==1"><i class="fas fa-wifi"></i>
+                                <span ng-if="tk.building!=undefined">Internet:</span>
+                                <!-- It Has internet -->
+                                <span ng-if="tk.building.isHasInternetOnline!=undefined && tk.building.isHasInternetOnline=='true'" data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span>
+                                <span ng-if="tk.building.isHasInternetOnline!=undefined && tk.building.isHasInternetOnline=='false'" data-toggle="tooltip" data-placement="top"  title="No" class="font-size-18px"><i class="text-danger fas fa-times-circle"></i></span>
+                                <span ng-if="tk.building.isHasInternetOnline==undefined" class="label label-default">n/a</span>
+                            </li>
                             <li ng-if="tk.idTypeTicketKf==3"><i class="fas fa-map-marker"></i> Sucursal:
                                 <span ng-if="tk.nameAdress">{{tk.nameAdress}}</span>
                                 <span ng-if="!tk.nameAdress" class="label label-default">n/a</span>
@@ -198,8 +205,12 @@
                             <i style="font-size: 1em" class="fas fa-sync"></i>
                         </button>
                         <!-- CREATE MP LINK -->
-                        <button ng-if="((tk.idTypeTicketKf=='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idTypePaymentKf==2 && tk.idTypeTicketKf<=2 && tk.idStatusTicketKf!=6 && tk.isCancelRequested!='1' && tk.paymentDetails==null) || (tk.idTypeTicketKf=='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && (tk.paymentDetails.mp_payment_id==null || tk.paymentDetails.mp_payment_id==0)))" type="button" ng-click="modalConfirmation('createMPLink',0, tk)" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="MP" >
+                        <button ng-if="((tk.idTypeTicketKf=='1' && tk.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idTypePaymentKf==2 && tk.idTypeTicketKf<=2 && tk.idStatusTicketKf!=6 && tk.isCancelRequested!='1' && tk.paymentDetails==null) || (tk.idTypeTicketKf=='1' && tk.isManualPayment!='1' && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tk.idTypeRequestFor==1 && tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && (tk.paymentDetails.mp_payment_id==null || tk.paymentDetails.mp_payment_id==0)))" type="button" ng-click="modalConfirmation('createMPLink',0, tk)" class="btn btn-xs btn-warning" data-toggle="tooltip" data-placement="left"  title="MP" >
                             <i class="fas fa-receipt"></i>  
+                        </button>
+                        <!-- REGISTER PAYMENT -->
+                        <button ng-if="tk.idTypeTicketKf<2 && tk.idTypePaymentKf==2 && tk.paymentDetails==null && (tk.idStatusTicketKf==3)" ng-click="mainSwitchFn('ticket_manual_payment', tk, null)" type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="left"  title="Pago">
+                            <i class="font-size: 1em fas fa-file-signature"></i> 
                         </button>
                     </div>
                 </div>

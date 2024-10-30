@@ -17,7 +17,7 @@ class Llavero_model extends CI_Model
 	{
 		$quuery = null;
 		$rs = null;
-		$fields_selected="tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly, tb_user.fullNameUser,tb_profiles.name AS RoleName,tb_profile.nameProfile,tb_status.idStatusTenant,tb_status.statusTenantName AS statusUser,
+		$fields_selected="tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly, tb_keychain.idKeychainStatusKf, tb_keychain_status.idKeychainStatus, tb_keychain_status.keychainStatusName AS statusKey, tb_user.fullNameUser,tb_profiles.name AS RoleName,tb_profile.nameProfile,tb_status.idStatusTenant,tb_status.statusTenantName AS statusUser,
 		UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto, tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain, a.idClient as idClientKfDepto, a.address as addressA, b.idClient as idClientKfKeychain, b.address as addressB,
 		tb_products.descriptionProduct, tb_products.model";
 		$this->db->select($fields_selected)->from("tb_keychain");
@@ -32,10 +32,10 @@ class Llavero_model extends CI_Model
 		$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
 		$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-		$this->db->group_start()
-         ->where_in('tb_keychain.idKeychainStatusKf', [1])  // Matches 1
-         ->or_where('tb_keychain.idKeychainStatusKf', null)  // Matches NULL
-         ->group_end();
+		//$this->db->group_start()
+        // ->where_in('tb_keychain.idKeychainStatusKf', [1])  // Matches 1
+        // ->or_where('tb_keychain.idKeychainStatusKf', null)  // Matches NULL
+        // ->group_end();
 		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
 
 		if ($quuery->num_rows() > 0) {
@@ -49,10 +49,11 @@ class Llavero_model extends CI_Model
 	{
 		$quuery = null;
 		$rs = null;
-		$fields_selected="tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
+		$fields_selected="tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly, tb_keychain.idKeychainStatusKf, tb_keychain_status.idKeychainStatus, tb_keychain_status.keychainStatusName AS statusKey,
 		UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto, tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain, a.idClient as idClientKfDepto, a.address as addressA, b.idClient as idClientKfKeychain, b.address as addressB,
 		tb_products.descriptionProduct, tb_products.model";
 		$this->db->select($fields_selected)->from("tb_keychain");
+		$this->db->join('tb_keychain_status', 'tb_keychain_status.idKeychainStatus = tb_keychain.idKeychainStatusKf', 'left');
 		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
 		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
 		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
@@ -61,10 +62,10 @@ class Llavero_model extends CI_Model
 		$this->db->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left');
 		$this->db->where('a.idClient', $idClientKf);
 		$this->db->or_where('b.idClient', $idClientKf);
-		$this->db->group_start()
-		->where_in('tb_keychain.idKeychainStatusKf', [1])  // Matches 1
-		->or_where('tb_keychain.idKeychainStatusKf', null)  // Matches NULL
-		->group_end();
+		//$this->db->group_start()
+		//->where_in('tb_keychain.idKeychainStatusKf', [1])  // Matches 1
+		//->or_where('tb_keychain.idKeychainStatusKf', null)  // Matches NULL
+		//->group_end();
 		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
 
 		if ($quuery->num_rows() > 0) {
@@ -119,10 +120,12 @@ class Llavero_model extends CI_Model
 		}
 		$quuery = null;
 		$rs = null;
-		$fields_selected="tb_user.*, tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly,
+		$fields_selected="tb_keychain_process_events.*,tb_user.*, tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly, tb_keychain.idKeychainStatusKf, tb_keychain_status.idKeychainStatus, tb_keychain_status.keychainStatusName AS statusKey,
 		UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto, tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain, a.idClient as idClientKfDepto, a.address as addressA, b.idClient as idClientKfKeychain, b.address as addressB,
 		tb_products.descriptionProduct, tb_products.model, tb_products.brand";
 		$this->db->select($fields_selected)->from("tb_keychain");
+		$this->db->join('tb_keychain_process_events', 'tb_keychain_process_events.idKeychainKf = tb_keychain.idKeychain', 'left');
+		$this->db->join('tb_keychain_status', 'tb_keychain_status.idKeychainStatus = tb_keychain.idKeychainStatusKf', 'left');
 		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
 		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
 		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
@@ -131,7 +134,8 @@ class Llavero_model extends CI_Model
 		$this->db->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left');
 		$this->db->join('tb_clients as c', 'c.idClient = tb_keychain.idClientAdminKf', 'left');
 		$this->db->join('tb_user', 'tb_user.idUser = tb_keychain.idUserKf', 'left');
-		$quuery = $this->db->where('idDepartmenKf', $idDepartmenKf)->get();
+		$this->db->where('idDepartmenKf', $idDepartmenKf);
+		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
 
 		if ($quuery->num_rows() > 0) {
 			$rs = $quuery->result_array();
@@ -158,6 +162,7 @@ class Llavero_model extends CI_Model
 	{
 		$errors_multiple = null;
 		$idClientKf = null;
+		$now = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
 		if ($is_multiple) {
 			for ($i = 0; $i < count($items['departamento']); $i++) {
 				$idClientKf = null;
@@ -176,6 +181,8 @@ class Llavero_model extends CI_Model
 							"idDepartmenKf" 		=> $items['departamento'][$i],
 							"idClientKf" 			=> $items['cliente'][$i],
 							"idCategoryKf" 			=> $items['categoria'][$i],
+							"idClientAdminKf"       => $items['admin'][$i],
+							"created_at" 			=> $now->format('Y-m-d H:i:s'),
 							"idKeychainStatusKf" 	=> 1,
 							//"idUserKf" 	=> $items['idUserKf'][$i],
 							//"isKeyTenantOnly" => $items['isKeyTenantOnly'][$i],
@@ -204,18 +211,19 @@ class Llavero_model extends CI_Model
 						"idUserKf" 				=> $items['idUserKf'],
 						"idCategoryKf"			=> $items['idCategoryKf'],
 						"isKeyTenantOnly"		=> $items['isKeyTenantOnly'],
+						"idClientAdminKf" 		=> @$items['idClientAdminKf'],
+						"created_at" 			=> $now->format('Y-m-d H:i:s'),
 						"idKeychainStatusKf" 	=> 1,
 					]
 				);
 				$response['idKeychainKf'] = $this->db->insert_id();
 			}
 
-		}
-
-		if ($this->db->affected_rows() === 1) {
-			return $response;
-		} else {
-			return 0;
+			if ($this->db->affected_rows() === 1) {
+				return $response;
+			} else {
+				return 0;
+			}
 		}
 
 	}
@@ -489,23 +497,26 @@ class Llavero_model extends CI_Model
 			for ($fila; $salida; $fila++) {
 				if ($objPHPExcel->getActiveSheet()->getCell('A' . $fila)->getValue() ||
 					$objPHPExcel->getActiveSheet()->getCell('B' . $fila)->getValue() ||
-					$objPHPExcel->getActiveSheet()->getCell('E' . $fila)->getValue() ||
-					$objPHPExcel->getActiveSheet()->getCell('G' . $fila)->getValue() ||
+					$objPHPExcel->getActiveSheet()->getCell('C' . $fila)->getValue() ||
+					$objPHPExcel->getActiveSheet()->getCell('F' . $fila)->getValue() ||
 					$objPHPExcel->getActiveSheet()->getCell('H' . $fila)->getValue() ||
-					$objPHPExcel->getActiveSheet()->getCell('I' . $fila)->getValue()
+					$objPHPExcel->getActiveSheet()->getCell('I' . $fila)->getValue() ||
+					$objPHPExcel->getActiveSheet()->getCell('J' . $fila)->getValue()
 				) {
-					$a['departamento'][] = $objPHPExcel->getActiveSheet()->getCell('A' . $fila)->getValue();
-					$a['cliente'][] = $objPHPExcel->getActiveSheet()->getCell('B' . $fila)->getValue();
-					$a['producto'][] = $objPHPExcel->getActiveSheet()->getCell('E' . $fila)->getValue();
-					$a['codigo'][] = (string)$objPHPExcel->getActiveSheet()->getCell('G' . $fila)->getValue();
-					$a['codigoExt'][] = (string)$objPHPExcel->getActiveSheet()->getCell('H' . $fila)->getValue();
-					$a['categoria'][] = (string)$objPHPExcel->getActiveSheet()->getCell('I' . $fila)->getValue();
+					$a['departamento'][] 	= $objPHPExcel->getActiveSheet()->getCell('A' . $fila)->getValue();
+					$a['cliente'][] 		= $objPHPExcel->getActiveSheet()->getCell('B' . $fila)->getValue();
+					$a['admin'][] 			= $objPHPExcel->getActiveSheet()->getCell('C' . $fila)->getValue();
+					$a['producto'][] 		= $objPHPExcel->getActiveSheet()->getCell('F' . $fila)->getValue();
+					$a['codigo'][] 			= (string)$objPHPExcel->getActiveSheet()->getCell('H' . $fila)->getValue();
+					$a['codigoExt'][] 		= (string)$objPHPExcel->getActiveSheet()->getCell('I' . $fila)->getValue();
+					$a['categoria'][] 		= (string)$objPHPExcel->getActiveSheet()->getCell('J' . $fila)->getValue();
+					
 
 				} else {
 					$salida = false;
 				}
 			}
-			return $this->add($a);
+			return $this->add($a, true);
 
 		} else {
 			echo "Error! no es una plantilla de excel valida<br>";
@@ -577,7 +588,7 @@ class Llavero_model extends CI_Model
 	}
 
 
-	public function getProcess_event_by_idKeychai($idKeychainKf, $idTypeTicketKf)
+	public function getProcess_event_by_idKeychain($idKeychainKf, $idTypeTicketKf)
 	{
 		$quuery = null;
 		$rs = null;
@@ -594,19 +605,19 @@ class Llavero_model extends CI_Model
     // CREATE
     public function addProcess_event($data) {
 		$now = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
-		if (!is_null($this->getProcess_event_by_idKeychai($data['idKeychainKf'], $data['idTypeTicketKf']))) {
+		if (!is_null($this->getProcess_event_by_idKeychain($data['idKeychainKf'], $data['idTypeTicketKf']))) {
 			return 2;
 		} else {
 			$this->db->insert('tb_keychain_process_events', [
-				"idKeychainKf" 		=> $data['idKeychainKf'],
-				"idClientKf" 		=> $data['idClientKf'],
-				"idTicketKf" 		=> @$data['idTicketKf'],
-				"idTypeTicketKf" 	=> $data['idTypeTicketKf'],
-				"idReasonKf" 		=> @$data['idReasonKf'],
-				"description" 		=> @$data['description'],
-				"created_at" 		=> $now->format('Y-m-d'),
-				"createdBy" 		=> $data['createdBy'],
-
+				"idKeychainKf" 			=> $data['idKeychainKf'],
+				"idTicketKf" 			=> @$data['idTicketKf'],
+				"idTypeTicketKf" 		=> $data['idTypeTicketKf'],
+				"idReasonKf" 			=> @$data['idReasonKf'],
+				"description" 			=> @$data['description'],
+				"created_at" 			=> $now->format('Y-m-d'),
+				"createdBy" 			=> $data['createdBy'],
+				"idKeychainUserLast" 	=> @$data['idKeychainUserLast'],
+				"idClientAdminLast"		=> @$data['idClientAdminLast'],
 				]
 			);
 		}
@@ -617,14 +628,171 @@ class Llavero_model extends CI_Model
 		}
     }
 
+
+	public function get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $limit = '', $start = '', $strict = null, $totalCount) {
+
+		$this->db->select("tb_keychain.*,
+		a.fullNameUser AS keychainUserFullName,
+		pa.nameProfile AS keychainUserProfile,
+		sa.name AS keychainUserRoleName,
+		sta.idStatusTenant AS keychainUserStatusID,
+		sta.statusTenantName AS keychainUserStatusName,
+		tb_products.descriptionProduct,tb_products.model,tb_products.brand,tb_category_keychain.idCategory, 
+		tb_category_keychain.name AS categoryKeychain, tb_keychain_status.idKeychainStatus,
+		tb_keychain_status.keychainStatusName AS statusKey,UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto, 
+		tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain, tb_clients.idClient, tb_clients.name, tb_clients.address,
+		tb_products.descriptionProduct, tb_products.model")->from("tb_keychain");
+		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
+		$this->db->join('tb_keychain_status', 'tb_keychain_status.idKeychainStatus = tb_keychain.idKeychainStatusKf', 'left');
+		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
+		$this->db->join('tb_clients', 'tb_clients.idClient = tb_keychain.idClientKf', 'left');
+		// Joins for User A
+		$this->db->join('tb_user a', 'a.idUser = tb_keychain.idUserKf', 'left');
+		$this->db->join('tb_profile pa', 'pa.idProfile = a.idProfileKf', 'left');
+		$this->db->join('tb_profiles sa', 'sa.idProfiles = a.idSysProfileFk', 'left');
+		$this->db->join('tb_status sta', 'sta.idStatusTenant = a.idStatusKf', 'left');
+		if (isset($limit) && isset($start)) {
+			$this->db->limit($limit, $start);
+		}
+		if (! is_null($idCategoryKf)) {
+			    // Convert the comma-separated string to an array
+				$idCategoryKfArray = explode(',', $idCategoryKf);
+
+				// Ensure the array values are trimmed and sanitized if necessary
+				$idCategoryKfArray = array_map('trim', $idCategoryKfArray);
+			
+				// Use where_in with the array of ids
+				$this->db->where_in('tb_keychain.idCategoryKf', $idCategoryKfArray);
+		}
+		if (! is_null($idDepartmenKf)) {
+			$this->db->where('tb_keychain.idDepartmenKf', $idDepartmenKf);
+		}
+		if (! is_null($idClientKf)) {
+			$this->db->where('tb_keychain.idClientKf', $idClientKf);
+		}
+		if (! is_null($idKeychainStatusKf) && $idKeychainStatusKf=="1") {
+			$this->db->group_start()
+			->where_in('tb_keychain.idKeychainStatusKf', [1])  // Matches 1
+			->or_where('tb_keychain.idKeychainStatusKf', null)  // Matches NULL
+			->group_end();
+		}else if (!is_null($idKeychainStatusKf)) { 
+			$this->db->group_start()
+			->where('tb_keychain.idKeychainStatusKf', $idKeychainStatusKf)  // Matches the value
+			//->where_not_in('tb_keychain.idKeychainStatusKf', [null])         // Excludes NULL values
+			->group_end();
+		}
+		$this->db->group_by('tb_keychain.idKeychain');
+		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
+		if ($quuery->num_rows() > 0) {
+			$query_total = null;
+			$rs['tb_keychain'] = $quuery->result_array();
+			if (! is_null($idCategoryKf)) {
+			    // Convert the comma-separated string to an array
+				$idCategoryKfArray = explode(',', $idCategoryKf);
+
+				// Ensure the array values are trimmed and sanitized if necessary
+				$idCategoryKfArray = array_map('trim', $idCategoryKfArray);
+			
+				// Use where_in with the array of ids
+				$this->db->where_in('tb_keychain.idCategoryKf', $idCategoryKfArray);
+			}
+			if (! is_null($idClientKf)) {
+				$this->db->where('tb_keychain.idClientKf', $idClientKf);
+			}
+			if (! is_null($idDepartmenKf)) {
+				$this->db->where('tb_keychain.idDepartmenKf', $idDepartmenKf);
+			}
+			if (! is_null($idKeychainStatusKf)) {
+				$this->db->where('tb_keychain.idKeychainStatusKf', $idKeychainStatusKf);
+			}
+			$query_total =  $this->db->select("*")->from("tb_keychain")->get();
+			if ($query_total->num_rows() > 0 && ! is_null($totalCount)) {
+				$rs['totalCount'] = $query_total->num_rows();
+
+			}
+			foreach ($quuery->result_array() as $key => $item) {
+				
+				$this->db->select("tb_keychain_process_events.*, tb_reason_disabled_item.*,
+				b.fullNameUser AS createdByUserFullName,
+				pb.nameProfile AS createdByUserProfile,
+				sb.name AS createdByUserRoleName,
+				stb.idStatusTenant AS createdByUserStatusID,
+				stb.statusTenantName AS createdByUserStatusName,
+				tb_typeticket.TypeTicketName,")->from("tb_keychain_process_events");
+				$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_keychain_process_events.idKeychainKf', 'left');
+				$this->db->join('tb_reason_disabled_item', 'tb_reason_disabled_item.idReasonDisabledItem = tb_keychain_process_events.idReasonKf', 'left');
+				$this->db->join('tb_tickets_2', 'tb_tickets_2.idTicket = tb_keychain_process_events.idTicketKf', 'left');
+				$this->db->join('tb_typeticket', 'tb_typeticket.idTypeTicket = tb_keychain_process_events.idTypeTicketKf', 'left');				
+				// Joins for User B
+				$this->db->join('tb_user b', 'b.idUser = tb_keychain_process_events.createdBy', 'left');
+				$this->db->join('tb_profile pb', 'pb.idProfile = b.idProfileKf', 'left');
+				$this->db->join('tb_profiles sb', 'sb.idProfiles = b.idSysProfileFk', 'left');
+				$this->db->join('tb_status stb', 'stb.idStatusTenant = b.idStatusKf', 'left');
+				$this->db->where('tb_keychain_process_events.idKeychainKf', $item['idKeychain']);
+				$quuery_events = $this->db->order_by("tb_keychain_process_events.idTypeTicketKf", "ASC")->get();
+				if ($quuery_events->num_rows() > 0) {
+					$rs['tb_keychain'][$key]['tb_keychain_process_events']=$quuery_events->result_array();
+					foreach ($quuery_events->result_array() as $k => $event) {
+						//print_r($event['idKeychainUserLast']);
+						//print_r($quuery_events->result_array()[0]);
+						if (! is_null($event['idKeychainUserLast'])){
+							// Joins for keychainUserLast_array
+							$this->db->select("
+							a.fullNameUser AS keychainUserFullName,
+							pa.nameProfile AS keychainUserProfile,
+							sa.name AS keychainUserRoleName,
+							sta.idStatusTenant AS keychainUserStatusID,
+							sta.statusTenantName AS keychainUserStatusName")->from("tb_user a");
+							$this->db->join('tb_profile pa', 'pa.idProfile = a.idProfileKf', 'left');
+							$this->db->join('tb_profiles sa', 'sa.idProfiles = a.idSysProfileFk', 'left');
+							$this->db->join('tb_status sta', 'sta.idStatusTenant = a.idStatusKf', 'left');
+							$quuery_user = $this->db->where('a.idUser', $event['idKeychainUserLast'])->get();
+							//print_r($quuery_user->result_array()[0]);
+							$rs['tb_keychain'][$key]['tb_keychain_process_events'][$k]['keychainUserLast_array']=$quuery_user->result_array()[0];
+						}else{
+							$rs['tb_keychain'][$key]['tb_keychain_process_events'][$k]['keychainUserLast_array']=null;
+						}
+						if (! is_null($event['idClientAdminLast'])){
+							// Joins for clientAdminLast_array
+							$this->db->select("tb_clients.*,tb_client_type.*")->from("tb_clients");
+							$this->db->join('tb_client_type', 'tb_client_type.idClientType = tb_clients.idClientTypeFk', 'left');
+							$quuery_client = $this->db->where('tb_clients.idClient', $event['idClientAdminLast'])->get();
+							if ($quuery_client->num_rows() > 0) {
+								$rs['tb_keychain'][$key]['tb_keychain_process_events'][$k]['clientAdminLast_array']=$quuery_client->result_array()[0];
+								$this->db->select("*")->from("tb_client_phone_contact");
+								$quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $event['idClientAdminLast'])->get();
+				
+								$rs2                      = $quuery->result_array();
+								$rs['tb_keychain'][$key]['tb_keychain_process_events'][$k]['clientAdminLast_array']['list_phone_contact'] = $rs2;
+				
+								$this->db->select("*")->from("tb_client_mails");
+								$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+								$quuery = $this->db->where("tb_client_mails.idClientFk =", $event['idClientAdminLast'])->get();
+				
+								$rs6               = $quuery->result_array();
+								$rs['tb_keychain'][$key]['tb_keychain_process_events'][$k]['clientAdminLast_array']['list_emails'] = $rs6;
+							}
+						}else{
+							$rs['tb_keychain'][$key]['tb_keychain_process_events'][$k]['clientAdminLast_array']=null;
+						}
+					}
+				}
+			}
+			
+			return $rs;
+		}
+		return null;
+    }
     // READ (Get all events) ($idTypeTicketKf,$idClientKf,$limit,$create_at,$start)
     public function get_all_events($idTypeTicketKf, $idClientKf, $create_at, $idCategoryKf, $limit = '', $start = '', $strict = null, $totalCount) {
 
-		$this->db->select("tb_keychain_process_events.*,tb_keychain_process_events.created_at,tb_typeticket.TypeTicketName,tb_user.fullNameUser,tb_profiles.name AS RoleName,tb_profile.nameProfile,tb_status.idStatusTenant,tb_status.statusTenantName AS statusUser,tb_clients.name,tb_products.descriptionProduct,tb_products.model,tb_products.brand,tb_keychain.codigo,tb_keychain.codExt,tb_category_keychain.idCategory, tb_category_keychain.name AS categoryKeychain")->from("tb_keychain_process_events");
+		$this->db->select("tb_keychain_process_events.*,tb_keychain.*,tb_typeticket.TypeTicketName,tb_user.fullNameUser,tb_profiles.name AS RoleName,tb_profile.nameProfile,tb_status.idStatusTenant,tb_status.statusTenantName AS statusUser,tb_clients.name, tb_clients.address,tb_products.descriptionProduct,tb_products.model,tb_products.brand,tb_category_keychain.idCategory, tb_category_keychain.name AS categoryKeychain, tb_keychain_status.idKeychainStatus, tb_keychain_status.keychainStatusName AS statusKey")->from("tb_keychain_process_events");
 		$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_keychain_process_events.idKeychainKf', 'left');
+		$this->db->join('tb_keychain_status', 'tb_keychain_status.idKeychainStatus = tb_keychain.idKeychainStatusKf', 'left');
 		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
 		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
-		$this->db->join('tb_clients', 'tb_clients.idClient = tb_keychain_process_events.idClientKf', 'left');
+		$this->db->join('tb_clients', 'tb_clients.idClient = tb_keychain.idClientKf', 'left');
 		$this->db->join('tb_reason_disabled_item', 'tb_reason_disabled_item.idReasonDisabledItem = tb_keychain_process_events.idReasonKf', 'left');
 		$this->db->join('tb_tickets_2', 'tb_tickets_2.idTicket = tb_keychain_process_events.idTicketKf', 'left');
 		$this->db->join('tb_typeticket', 'tb_typeticket.idTypeTicket = tb_keychain_process_events.idTypeTicketKf', 'left');
@@ -636,31 +804,106 @@ class Llavero_model extends CI_Model
 			$this->db->limit($limit, $start);
 		}
 		if (! is_null($idCategoryKf)) {
-			$this->db->where('tb_keychain.idCategoryKf', $idCategoryKf);
+			// Convert the comma-separated string to an array
+			$idCategoryKfArray = explode(',', $idCategoryKf);
+
+			// Ensure the array values are trimmed and sanitized if necessary
+			$idCategoryKfArray = array_map('trim', $idCategoryKfArray);
+		
+			// Use where_in with the array of ids
+			$this->db->where_in('tb_keychain.idCategoryKf', $idCategoryKfArray);
 		}
 		if (! is_null($idTypeTicketKf)) {
 			$this->db->where('tb_keychain_process_events.idTypeTicketKf', $idTypeTicketKf);
 		}
 		if (! is_null($idClientKf)) {
-			$this->db->where('tb_keychain_process_events.idClientKf', $idClientKf);
+			$this->db->where('tb_keychain.idClientKf', $idClientKf);
 		}
-
-		$quuery = $this->db->order_by("tb_keychain_process_events.created_at", "ASC")->get();
+		$quuery = $this->db->order_by("tb_keychain_process_events.created_at", "DESC")->get();
 		if ($quuery->num_rows() > 0) {
 			$rs['tb_keychain_process_events'] = $quuery->result_array();
+			if (! is_null($idCategoryKf)) {
+			    // Convert the comma-separated string to an array
+				$idCategoryKfArray = explode(',', $idCategoryKf);
+
+				// Ensure the array values are trimmed and sanitized if necessary
+				$idCategoryKfArray = array_map('trim', $idCategoryKfArray);
+				// Use where_in with the array of ids
+				$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_keychain_process_events.idKeychainKf', 'left');
+				$this->db->where_in('tb_keychain.idCategoryKf', $idCategoryKfArray);
+			}
+			if (! is_null($idTypeTicketKf)) {
+				$this->db->where('tb_keychain_process_events.idTypeTicketKf', $idTypeTicketKf);
+			}
 			if (! is_null($idClientKf)) {
-				$this->db->where('tb_keychain_process_events.idClientKf', $idClientKf);
+				$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_keychain_process_events.idKeychainKf', 'left');
+				$this->db->where('tb_keychain.idClientKf', $idClientKf);
 			}
 			$query_total =  $this->db->select("*")->from("tb_keychain_process_events")->get();
 			if ($query_total->num_rows() > 0 && ! is_null($totalCount)) {
 				$rs['totalCount'] = $query_total->num_rows();
 
 			}
-			
+			foreach ($quuery->result_array() as $key => $item) {
+				//print_r($quuery_events->result_array()[0]);
+				if (! is_null($item['idKeychainUserLast'])){
+					// Joins for keychainUserLast_array
+					$this->db->select("
+					a.fullNameUser AS keychainUserFullName,
+					pa.nameProfile AS keychainUserProfile,
+					sa.name AS keychainUserRoleName,
+					sta.idStatusTenant AS keychainUserStatusID,
+					sta.statusTenantName AS keychainUserStatusName,")->from("tb_user a");
+					$this->db->join('tb_profile pa', 'pa.idProfile = a.idProfileKf', 'left');
+					$this->db->join('tb_profiles sa', 'sa.idProfiles = a.idSysProfileFk', 'left');
+					$this->db->join('tb_status sta', 'sta.idStatusTenant = a.idStatusKf', 'left');
+					$quuery_user = $this->db->where('a.idUser', $item['idKeychainUserLast'])->get();
+					$rs['tb_keychain_process_events'][$key]['keychainUserLast_array']=$quuery_user->result_array()[0];
+				}else{
+					$rs['tb_keychain_process_events'][$key]['keychainUserLast_array']=null;
+				}
+				if (! is_null($item['idClientAdminLast'])){
+					// Joins for clientAdminLast_array
+					$this->db->select("tb_clients.*,tb_client_type.*")->from("tb_clients");
+					$this->db->join('tb_client_type', 'tb_client_type.idClientType = tb_clients.idClientTypeFk', 'left');
+					$quuery_client = $this->db->where('tb_clients.idClient', $item['idClientAdminLast'])->get();
+					if ($quuery_client->num_rows() > 0) {
+						$rs['tb_keychain_process_events'][$key]['clientAdminLast_array']=$quuery_client->result_array()[0];
+						$this->db->select("*")->from("tb_client_phone_contact");
+						$quuery = $this->db->where("tb_client_phone_contact.idClientFk =", $item['idClientAdminLast'])->get();
+
+						$rs2                      = $quuery->result_array();
+						$rs['tb_keychain_process_events'][$key]['clientAdminLast_array']['list_phone_contact'] = $rs2;
+
+						$this->db->select("*")->from("tb_client_mails");
+						$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+						$quuery = $this->db->where("tb_client_mails.idClientFk =", $item['idClientAdminLast'])->get();
+
+						$rs6               = $quuery->result_array();
+						$rs['tb_keychain_process_events'][$key]['clientAdminLast_array']['list_emails'] = $rs6;
+						
+					}
+
+				}else{
+					$rs['tb_keychain_process_events'][$key]['keychainUserLast_array']=null;
+				}
+			}
 			return $rs;
 		}
 		return null;
     }
+    public function statusKeychain() {
 
+        $query = null;
+        $rs    = null;
+
+        $query = $this->db->select("*")->from("tb_keychain_status");
+        $query = $this->db->order_by("tb_keychain_status.idKeychainStatus", "DESC")->get();
+        if ($query->num_rows() > 0) {
+            $rs = $query->result_array();
+        }
+
+        return $rs;
+    }
 
 }

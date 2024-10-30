@@ -56,6 +56,16 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Control_de_Acceso: lock2 -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Cerradura Adicional</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-lock"></i></span>
+                                        <input name="service_locked2" type="text" class="form-control" ng-model="serviceSelected.lock2_array[0].descriptionProduct" ng-disabled="true" />
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Control_de_Acceso: powerSupply -->
                             <div class="form-group col-md-12 n-padding-l n-padding-r">
                                 <label>Fuente</label>  
@@ -132,6 +142,107 @@
                                         <input name="service_TurnOffKey" type="text" class="form-control" ng-model="serviceSelected.idShutdownKeyFk_array[0].descriptionProduct" ng-disabled="true" />
                                     </div>
                                 </div>
+                            </div>
+                            <!-- Control_de_Acceso: internet connections -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12 col-xs-12">
+                                        <label for="conexionInternet" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Conexion a Internet:
+                                        <span ng-if="serviceSelected.isHasInternetConnect"><span data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span></span>
+                                        <span ng-if="!serviceSelected.isHasInternetConnect"><span data-toggle="tooltip" data-placement="top"  title="No" class="font-size-18px"><i class="text-danger fas fa-window-close"></i></span></span></label>
+                                    </div>
+                                </div>	
+                                <!-- Control_de_Acceso: numero de puerto de router -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                  <label style="padding-left: 15px;">N° de puerto de router</label>  
+                                      <div class="col-xs-12 n-padding-l n-padding-r">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+                                            <input name="service_routerPort" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="serviceSelected.isHasInternetConnect" ng-disabled="true" ng-model="serviceSelected.portNumberRouter" />
+                                      </div>
+                                    </div>
+                                </div>
+                                <!-- Control_de_Acceso: puerto http -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                  <label style="padding-left: 15px;">Puerto http de la placa</label>  
+                                      <div class="col-xs-12 n-padding-l n-padding-r">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
+                                            <input name="service_httpPort" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="serviceSelected.isHasInternetConnect" ng-disabled="true" ng-model="serviceSelected.portHttp" />
+                                      </div>
+                                    </div>
+                                </div>
+                                <!-- Control_de_Acceso: direccion del cliente -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                  <label style="padding-left: 15px;">IP de la placa</label>  
+                                      <div class="col-xs-12 n-padding-l n-padding-r">
+                                        <div class="input-group" ng-show="serviceSelected.isHasInternetConnect">
+                                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                                            <input name="service_clientAddr" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="false" ng-model="serviceSelected.addressClient" />
+                                      </div>
+                                    </div>
+                                </div>
+                                <!-- Control_de_Acceso: usuario -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                    <label style="padding-left: 15px;">Usuario</label>  
+                                        <div class="col-xs-12 n-padding-l n-padding-r">
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
+                                              <input name="service_username_vpn" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="serviceSelected.isHasInternetConnect" ng-disabled="true" ng-model="serviceSelected.useVpn" />
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <!-- Control_de_Acceso: contraseña -->
+                                  <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                    <label style="padding-left: 15px;">Contraseña</label>  
+                                        <div class="col-xs-12 n-padding-l n-padding-r">
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                              <input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="serviceSelected.isHasInternetConnect" ng-disabled="true" ng-model="serviceSelected.passVpn" />
+                                        </div>
+                                      </div>
+                                  </div>
+                                <!-- Control_de_Acceso: direccion vpn -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                  <label style="padding-left: 15px;">Direcci&#243;n VPN</label> 
+                                  <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="serviceSelected.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: 0.2em;" target="_blank" href="{{serviceSelected.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
+                                      <div class="col-xs-12 n-padding-l n-padding-r">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                                            <input name="service_address_vpn" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="serviceSelected.isHasInternetConnect" ng-disabled="true" ng-model="serviceSelected.addressVpn" />
+                                      </div>
+                                    </div>
+                                </div>
+                                <!-- Control_de_Acceso: puerto vpn -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                    <label style="padding-left: 15px;">Puerto VPN</label>  
+                                        <div class="col-xs-12 n-padding-l n-padding-r">
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
+                                              <input name="service_vpnPort" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-required="serviceSelected.isHasInternetConnect" ng-model="serviceSelected.portVpn" />
+                                        </div>
+                                      </div>
+                                </div>
+                                <!-- Control_de_Acceso: usuario -->
+                                <!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+                                    <label style="padding-left: 15px;">Usuario</label>  
+                                        <div class="col-xs-12">
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                                              <input name="service_username_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="false" ng-model="service.update.user" />
+                                        </div>
+                                      </div>
+                                  </div>-->
+                                  <!-- Control_de_Acceso: contraseña -->
+                                  <!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+                                    <label style="padding-left: 15px;">Contraseña</label>  
+                                        <div class="col-xs-12">
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                              <input name="service_userPass_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="false" ng-model="service.update.pass" />
+                                        </div>
+                                      </div>
+                                  </div>-->
                             </div>
                         </div>
                         <!-- INTERNET SERVICES -->
@@ -220,24 +331,24 @@
                                 </div>
                             </div>
                             <div class="form-group col-md-12 ">
-                                <legend>VPN</legend>
+                                <legend>VPN <span ng-if="serviceSelected.userAdmin!='' && serviceSelected.userAdmin!=undefined"><span data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span></span></legend>
                                 <div class="n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
-                                    <span ng-if="serviceSelected.userAdmin!='' && serviceSelected.userAdmin!=undefined" class="badge" ng-class="{'badge-success': serviceSelected.userAdmin!='' && serviceSelected.userAdmin!='', 'badge-warning': serviceSelected.userAdmin=='' || serviceSelected.userAdmin==null }">
-                                        <i class="fas fa-check-circle"></i><span> Usuario</span>
+                                    <span ng-if="serviceSelected.userAdmin!='' && serviceSelected.userAdmin!=undefined" class="badge" ng-class="{'badge-success': serviceSelected.userAdmin!='' && serviceSelected.userAdmin!='', 'badge-warning': serviceSelected.userAdmin=='' || serviceSelected.userAdmin==null }">Usuario
                                     </span>
-                                    <span class="badge" ng-class="{'badge-success': serviceSelected.passAdmin!='' && serviceSelected.passAdmin!='', 'badge-warning': serviceSelected.passAdmin=='' || serviceSelected.passAdmin==null}">
-                                        <i class="fas fa-check-circle"></i><span> Contraseña</span>
+                                    <span>{{serviceSelected.userAdmin}}</span>
+                                    <span class="badge" ng-class="{'badge-success': serviceSelected.passAdmin!='' && serviceSelected.passAdmin!='', 'badge-warning': serviceSelected.passAdmin=='' || serviceSelected.passAdmin==null}">Contraseña</span>
+                                    <span>{{serviceSelected.passAdmin}}</span>
                                     </span>
                                 </div>
                             </div>
                             <div class="form-group col-md-12 ">
-                                <legend>WIFI</legend>
+                                <legend>WIFI <span ng-if="serviceSelected.userWifi!='' && serviceSelected.userWifi!=undefined"><span data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span></span></legend>
                                 <div class="n-padding-t n-padding-b" style="margin-left: 0px;margin-right: 0px;">
-                                    <span ng-if="serviceSelected.userWifi!='' && serviceSelected.userWifi!=undefined" class="badge" ng-class="{'badge-success': serviceSelected.userWifi!='' && serviceSelected.userWifi!='', 'badge-warning': serviceSelected.userWifi=='' || serviceSelected.userWifi==null}">
-                                        <i class="fas fa-check-circle"></i><span> Usuario</span>
+                                    <span ng-if="serviceSelected.userWifi!='' && serviceSelected.userWifi!=undefined" class="badge" ng-class="{'badge-success': serviceSelected.userWifi!='' && serviceSelected.userWifi!='', 'badge-warning': serviceSelected.userWifi=='' || serviceSelected.userWifi==null}">Usuario
                                     </span>
-                                    <span class="badge" ng-class="{'badge-success': serviceSelected.passWifi!='' && serviceSelected.passWifi!='', 'badge-warning': serviceSelected.passWifi=='' || serviceSelected.passWifi==null}">
-                                        <i class="fas fa-check-circle"></i><span> Contraseña</span>
+                                    <span>{{serviceSelected.userWifi}}</span>
+                                    <span class="badge" ng-class="{'badge-success': serviceSelected.passWifi!='' && serviceSelected.passWifi!='', 'badge-warning': serviceSelected.passWifi=='' || serviceSelected.passWifi==null}">Contraseña</span>
+                                    <span>{{serviceSelected.passWifi}}</span>
                                     </span>
                                 </div>
                             </div>
@@ -378,8 +489,109 @@
                                           </tr>
                                         </tbody>
                                     </table> 
-                                      <div ng-if="list_user.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay usuarios cargadas</h5></div>
+                                      <div ng-if="list_user.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay usuarios cargados</h5></div>
                                 </div>
+                            </div>
+                            <!-- Control_de_Acceso: internet connections -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <div class="form-group col-md-12">
+                                    <div class="form-group col-md-12 col-xs-12">
+                                        <label for="conexionInternet" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Conexion a Internet:
+                                        <span ng-if="serviceSelected.isHasInternetConnect"><span data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span></span>
+                                        <span ng-if="!serviceSelected.isHasInternetConnect"><span data-toggle="tooltip" data-placement="top"  title="No" class="font-size-18px"><i class="text-danger fas fa-window-close"></i></span></span></label>
+                                    </div>
+                                </div>	
+                                <!-- Control_de_Acceso: numero de puerto de router -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                  <label style="padding-left: 15px;">N° de puerto de router</label>  
+                                      <div class="col-xs-12 n-padding-l n-padding-r">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
+                                            <input name="service_routerPort" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="serviceSelected.isHasInternetConnect" ng-disabled="true" ng-model="serviceSelected.portNumberRouter" />
+                                      </div>
+                                    </div>
+                                </div>
+                                <!-- Control_de_Acceso: puerto http -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                  <label style="padding-left: 15px;">Puerto http de la placa</label>  
+                                      <div class="col-xs-12 n-padding-l n-padding-r">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
+                                            <input name="service_httpPort" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="serviceSelected.isHasInternetConnect" ng-disabled="true" ng-model="serviceSelected.portHttp" />
+                                      </div>
+                                    </div>
+                                </div>
+                                <!-- Control_de_Acceso: direccion del cliente -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                  <label style="padding-left: 15px;">IP de la placa</label>  
+                                      <div class="col-xs-12 n-padding-l n-padding-r">
+                                        <div class="input-group" ng-show="serviceSelected.isHasInternetConnect">
+                                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                                            <input name="service_clientAddr" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="false" ng-model="serviceSelected.addressClient" />
+                                      </div>
+                                    </div>
+                                </div>
+                                <!-- Control_de_Acceso: usuario -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                    <label style="padding-left: 15px;">Usuario</label>  
+                                        <div class="col-xs-12 n-padding-l n-padding-r">
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
+                                              <input name="service_username_vpn" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="serviceSelected.isHasInternetConnect" ng-disabled="true" ng-model="serviceSelected.useVpn" />
+                                        </div>
+                                      </div>
+                                  </div>
+                                  <!-- Control_de_Acceso: contraseña -->
+                                  <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                    <label style="padding-left: 15px;">Contraseña</label>  
+                                        <div class="col-xs-12 n-padding-l n-padding-r">
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                              <input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="serviceSelected.isHasInternetConnect" ng-disabled="true" ng-model="serviceSelected.passVpn" />
+                                        </div>
+                                      </div>
+                                  </div>
+                                <!-- Control_de_Acceso: direccion vpn -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                  <label style="padding-left: 15px;">Direcci&#243;n VPN</label> 
+                                  <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="serviceSelected.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{serviceSelected.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
+                                      <div class="col-xs-12 n-padding-l n-padding-r">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                                            <input name="service_address_vpn" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-disabled="serviceSelected.dateDown!=null"  ng-required="serviceSelected.isHasInternetConnect" ng-disabled="true" ng-model="serviceSelected.addressVpn" />
+                                      </div>
+                                    </div>
+                                </div>
+                                <!-- Control_de_Acceso: puerto vpn -->
+                                <div class="form-group col-md-12 n-padding-l n-padding-r" ng-show="serviceSelected.isHasInternetConnect">
+                                    <label style="padding-left: 15px;">Puerto VPN</label>  
+                                        <div class="col-xs-12 n-padding-l n-padding-r">
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
+                                              <input name="service_vpnPort" type="text" class="form-control" ng-disabled="!serviceSelected.isHasInternetConnect" ng-required="serviceSelected.isHasInternetConnect" ng-model="serviceSelected.portVpn" />
+                                        </div>
+                                      </div>
+                                </div>
+                                <!-- Control_de_Acceso: usuario -->
+                                <!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+                                    <label style="padding-left: 15px;">Usuario</label>  
+                                        <div class="col-xs-12">
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                                              <input name="service_username_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="false" ng-model="service.update.user" />
+                                        </div>
+                                      </div>
+                                  </div>-->
+                                  <!-- Control_de_Acceso: contraseña -->
+                                  <!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+                                    <label style="padding-left: 15px;">Contraseña</label>  
+                                        <div class="col-xs-12">
+                                          <div class="input-group">
+                                              <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                              <input name="service_userPass_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="service.update.dateDown!=null"  ng-required="false" ng-model="service.update.pass" />
+                                        </div>
+                                      </div>
+                                  </div>-->
                             </div>
                         </div>
                         <!-- ALARM SERVICE -->
@@ -436,6 +648,16 @@
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-keyboard"></i></span>
                                         <span name="service_alarm_panel" type="text" class="form-control service_alarm_panel" ng-disabled="true" >({{serviceSelected.keyboardAlarm_array[0].brand}}) {{serviceSelected.keyboardAlarm_array[0].descriptionProduct}} </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Clave de Instalador -->
+                            <div class="form-group col-md-12 n-padding-l n-padding-r">
+                                <label>Clave de Instalador</label>  
+                                    <div class="col-xs-12 n-padding-l n-padding-r">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="fas fa-keyboard"></i></span>
+                                        <span name="service_alarm_panel" type="text" class="form-control service_alarm_panel" ng-disabled="true" >{{serviceSelected.installationPassword}} </span>
                                     </div>
                                 </div>
                             </div>

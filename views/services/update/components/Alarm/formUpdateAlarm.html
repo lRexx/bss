@@ -176,7 +176,7 @@
 						                </ui-select>
 						            </div>
 							  	</div>
-							</div>							
+							</div>
 							<!-- ALARM: entranceReader -->
 							<div class="form-group col-md-6 n-padding-l" ng-class="
 									  			{	'has-success': 
@@ -208,6 +208,21 @@
 						                </ui-select>
 						            </div>
 							  	</div>
+							</div>
+							<!-- Installation Password -->
+							<div class="form-group col-md-6 n-padding-l" ng-class="
+									{	'has-success': 
+										(service.update.installationPassword!='' && service.update.installationPassword!=null && service.update.installationPassword!=undefined) && fCustomerUpdateService.service_installationPassword.$valid,
+										'has-error':  
+										(service.update.installationPassword=='' || service.update.installationPassword==null || service.update.installationPassword==undefined) && fCustomerUpdateService.service_installationPassword.$touched,
+									}">  
+								<label style="padding-left: 15px;">Clave de Instalador</label>
+								<div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-user-tie"></i></span>
+										<input name="service_installationPassword" type="text" class="form-control install-password-alarm" ng-keydown="fnLoadPhoneMask()" ng-model="service.update.installationPassword" ng-required="true" />
+									</div>
+								</div>
 							</div>
 						</div>
 						<!-- Right Colunm -->
@@ -384,7 +399,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <button type="submit" ng-click="modalConfirmation('updateService', 0, service.update)" ng-disabled="service.update.dateDown!=null || list_sensors.length<=0" class="btn btn-labeled btn-success">
+                        <button type="submit" ng-click="modalConfirmation('updateService', 0, service.update)" ng-disabled="(service.update.dateDown!='' && service.update.dateDown!=null) || list_sensors.length<=0" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Actualizar</button>
                         <a ng-click="modalConfirmation('closeServiceWindow', 0, service.update)" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>

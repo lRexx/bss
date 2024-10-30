@@ -9,7 +9,6 @@
               </h3>
           </div>
         <div class="modal-body">
-        <div class="row-fluid">
           <div  class="col-md-12 well-checkbox n-margin-l customer-frame">
             <!-- LEFT COLUMN -->
             <div class="col-md-6 n-padding-l n-padding-r">
@@ -27,15 +26,9 @@
                 <div class="col-md-12 col-xs-12"><span>Consorcio : <label class="badge badge-default"> {{keys.details.buildingAddress}}</label></div>
                 <div class="col-md-12" ng-if="keys.details.idCategoryKey=='1'"><span>Unidad: <label class="badge badge-default">{{keys.details.floor | uppercase}}-{{keys.details.departament | uppercase}}</label></span></div>
                 <div class="col-md-12">
-                  <span>Usuario asignado: 
-                    <span ng-if="keys.details.idUserKf!='' && keys.details.idUserKf!=null && keys.details.idUserKf!=0"><span data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span><span>{{keys.details.keychainUserFullName | uppercase}} </span><label class="badge badge-success"> {{ keys.details.keychainUserProfile }}</label></span>
-                      <label ng-if="keys.details.idUserKf=='' || keys.details.idUserKf==null || keys.details.idUserKf==0" class="badge badge-warning"><i  class="fas fa-lightbulb"></i> No asociado</label>
-                  </span>
-              </div>
-                <div class="col-md-12">
-                    <span>Llave para inquilino: 
-                        <label ng-if="keys.details.isKeyTenantOnly!='' && keys.details.isKeyTenantOnly!=null && keys.details.isKeyTenantOnly!=0" class="badge badge-success"><i class="fas fa-check-circle"></i> Si</label>
-                        <label ng-if="keys.details.isKeyTenantOnly=='' || keys.details.isKeyTenantOnly==null || keys.details.isKeyTenantOnly==0" class="badge badge-warning"><i  class="fas fa-lightbulb"></i> No</label>
+                    <span>Usuario asignado: 
+                      <span ng-if="keys.details.idUserKf!='' && keys.details.idUserKf!=null && keys.details.idUserKf!=0"><span data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span><span>{{keys.details.keychainUserFullName | uppercase}} </span><label class="badge badge-success"> {{ keys.details.keychainUserProfile }}</label></span>
+                        <label ng-if="keys.details.idUserKf=='' || keys.details.idUserKf==null || keys.details.idUserKf==0" class="badge badge-warning"><i  class="fas fa-lightbulb"></i> No asociado</label>
                     </span>
                 </div>
                 <div class="col-md-12">
@@ -60,7 +53,7 @@
           <div class="col-md-6 n-padding-l n-padding-r">
               <div class="col-md-6"><span>Fecha   : {{ key_event.created_at }} </span></div>
               <div ng-if="key_event.idReasonKf!=null && key_event.idReasonKf!=undefined" class="col-md-12">
-                  <span>Razon:
+                  <span>Razon: 
                       <label ng-if="key_event.idReasonKf!=null && key_event.idReasonKf!=undefined" class="label" ng-class="{'label-danger':key_event.idReasonKf=='1','label-warning':key_event.idReasonKf=='2','label-default':key_event.idReasonKf=='3'}">
                         <i class="fas " ng-class="{'fa-mask':key_event.idReasonKf=='1','fa-search-location':key_event.idReasonKf=='2','fa-key':key_event.idReasonKf=='3'}"></i> {{ key_event.reasonDisabledItem | uppercase}} 
                       </label>
@@ -72,26 +65,7 @@
             <span>Descripción: <br></span>
             <span class="text-capitalize"> {{ key_event.description | uppercase}}</span>
           </div>
-          <div ng-if="key_event.keychainUserLast_array!=unefined" class="col-md-12 well-checkbox n-margin-l customer-frame">
-            <!-- LEFT COLUMN -->
-            <legend style="text-align: left;">Ultimo usuario asociado:</legend>
-            <div class="col-md-6 n-padding-l n-padding-r">
-              <div class="col-md-12 col-xs-12">
-                  <div class="col-md-12"><span>Usuario : </span><span>{{key_event.keychainUserLast_array.keychainUserFullName | uppercase}} </span><label class="badge badge-success"> {{ key_event.keychainUserLast_array.keychainUserProfile }}</label></div>
-              </div>
-            </div>
-          </div>
-          <div ng-if="key_event.keychainUserLast_array!=unefined" class="col-md-12 well-checkbox n-margin-l customer-frame">
-            <!-- LEFT COLUMN -->
-            <legend style="text-align: left;">Ultimo usuario asociado:</legend>
-            <div class="col-md-6 n-padding-l n-padding-r">
-              <div class="col-md-12 col-xs-12">
-                  <div class="col-md-12"><span>Usuario : </span><span>{{key_event.keychainUserLast_array.keychainUserFullName | uppercase}} </span><label class="badge badge-success"> {{ key_event.keychainUserLast_array.keychainUserProfile }}</label></div>
-              </div>
-            </div>
-          </div>
         </div>
-
         <div class="clearfix"> </div> 
       </div>   
         <div class="modal-footer">

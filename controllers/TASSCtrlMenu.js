@@ -763,6 +763,15 @@
               $('.input--dni').mask('99999999');
               $('.input--number--2').mask('99');
               $('.input--number').mask('999');
+              $('.install-password-alarm').mask('******',
+              {
+                translation:{
+                  '*':{
+                    pattern: /[0-9]/
+                  }
+                }
+              }
+          ); 
               $('.input--depto').mask('ZZZ',
                   {
                     translation:{
@@ -1010,7 +1019,8 @@
             tokenSystem.destroyTokenStorage(1);
             $scope.sysToken = false;
             $scope.sysLoggedUser = false;
-            $location.path("/login");
+            //$location.path("/login");
+            $window.location.reload();
           };
         /**************************************************
         *                                                 *
@@ -1019,6 +1029,7 @@
         **************************************************/
             // Timeout timer value
             $scope.TimeOutTimeValue   = 900000;//900000; //15 min
+            //$scope.TimeOutTimeValue   = 90;//900000; //15 min
             //$scope.TimeOutTimeValue   = 90000000;//900000; //15 min
             //$scope.TimeOutTimeValue   = 190000;//900000; //15 min
             $scope.IntervalTimerValue   = (20/100)*$scope.TimeOutTimeValue;
@@ -1028,6 +1039,7 @@
             var timeOutCounter;
             var intervalCounter;
             var TimeOut_Thread;
+            $scope.loggedOut  = false;
             console.log("Inactivity session timer: "+($scope.TimeOutTimeValue/1000/60));
             console.log("User Warning start from the last: "+Math.round(($scope.IntervalTimerValue/1000/60))+" minutes");
             // Start a timeout
@@ -1099,19 +1111,22 @@
                   $interval.cancel(intervalCounter);
                   $scope.warningTimeOut("start_timeout");
                 break;
-                case "close_session":
+                case "close_session": 
                   $timeout.cancel(TimeOut_Thread);
                   $interval.cancel(timeOutCounter);
                   $interval.cancel(intervalCounter);
-                  sessionStorage.removeItem('sysToken');
-                  sessionStorage.removeItem('sysLoggedUser');
-                  sessionStorage.removeItem('sysLoggedUserModules');
-                  $('#sessionExpiredModal').modal('hide');
-                  blockUI.start('Cerrando session...');
-                  $scope.rsJSON = "";
-                  $scope.sysToken = false;
+                  // Clear session storage with a slight delay
                   $timeout(function() {
-                    $location.path("/login");
+                      sessionStorage.clear(); // Clear all session storage items just to ensure all are removed
+                      // Redirect after delay to allow storage to clear
+                  }, 100);
+                  $timeout(function() {
+                    $('#sessionExpiredModal').modal('hide');
+                    blockUI.start('Cerrando sesión...');
+                    $scope.rsJSON     = "";
+                    $scope.sysToken   = false;
+                    $scope.loggedOut  = true;
+                    //$location.path("/login");
                     blockUI.stop();
                   }, 2000);
                 break;

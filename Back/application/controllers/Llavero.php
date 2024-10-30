@@ -245,6 +245,26 @@ class Llavero extends REST_Controller
 		}
 	}
 
+	public function listAllKeychain_post()
+	{
+		$rs=null;
+        $idClientKf           	= $this->post('idClientKf');
+        $limit                  = $this->post('limit');
+		$create_at 				= $this->post('create_at');
+		$idCategoryKf 			= $this->post('idCategoryKf');
+		$idKeychainStatusKf 	= $this->post('idKeychainStatusKf');
+		$idDepartmenKf 			= $this->post('idDepartmenKf');
+        $start                  = $this->post('start');
+		$strict                 = $this->post('strict');
+		$totalCount             = $this->post('totalCount');
+
+		$rs = $this->llavero_model->get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $limit, $start, $strict, $totalCount);
+		if (!is_null($rs)) {
+			$this->response($rs, 200);
+		} else {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+		}
+	}
 	public function listAllProcessEvents_post()
 	{
 		$rs=null;
@@ -256,14 +276,23 @@ class Llavero extends REST_Controller
         $start                  = $this->post('start');
 		$strict                 = $this->post('strict');
 		$totalCount             = $this->post('totalCount');
-		
-		$rs = $this->llavero_model->get_all_events($idTypeTicketKf,$idClientKf,$create_at, $idCategoryKf ,$limit,$start,$strict,$totalCount);
+
+		$rs = $this->llavero_model->get_all_events($idTypeTicketKf, $idClientKf, $create_at, $idCategoryKf, $limit, $start, $strict, $totalCount);
 		if (!is_null($rs)) {
 			$this->response($rs, 200);
 		} else {
 			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
 		}
 	}
+    public function statusKeychain_get() {
 
+        $result = $this->llavero_model->statusKeychain();
+
+        if (! is_null($result)) {
+            $this->response($result, 200);
+        } else {
+            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+        }
+    }
 
 }

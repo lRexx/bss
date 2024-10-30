@@ -155,7 +155,8 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                 }
               });
             }else{
-              $location.path("/login");
+              //$location.path("/login");
+              $scope.redirectSuccessfull = true;
             }
           }
         });
@@ -254,14 +255,16 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
   *   ASSIGN DEPARTMENT TO THE CURRENT OWNER USER   *
   *                                                 *
   **************************************************/
+  $scope.redirectSuccessfull = false;
     $scope.fnAssignDepto = function(userData){
       DepartmentsServices.assignDepto(userData).then(function(response) {
         if(response.status==200){
-          inform.add('Departamento Asignado y pendiente por aprobacion por la administracion.',{
+          /*inform.add('Departamento Asignado y pendiente por aprobacion por la administracion.',{
             ttl:6000, type: 'success'
-          });
+          });*/
           $timeout(function() {
-            $location.path("/login");
+            //$location.path("/login");
+            $scope.redirectSuccessfull = true;
             blockUI.stop();
           }, 1500);
         }else if (response.status==404){
