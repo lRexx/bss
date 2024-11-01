@@ -3638,35 +3638,35 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             switch(service.idTipeServiceFk){
                                 case "1": //UPDATE CONTROL ACCESS
                                     $timeout(function() {
-                                        service.idContracAssociated_SE   = service.idContratoFk;
-                                        service.idAccessControlFk        = $scope.service.crtlAccess.selected.idProduct;
-                                        service.lock                     = $scope.service.lockedIt.selected.idProduct;
-                                        service.lock2                     = $scope.service.lockedIt2.selected.idProduct;
-                                        service.idInputReaderFk          = $scope.service.entranceReader.selected.idProduct;
-                                        service.ouputReader              = service.isOuputButom==undefined || !service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
-                                        service.ouputButom               = service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
-                                        service.idFontFk                 = $scope.service.powerSupply.selected.idProduct;
-                                        service.idEmergencyButtonFk      = $scope.service.emergencyButton.selected.idProduct;
-                                        service.idShutdownKeyFk          = $scope.service.TurnOffKey.selected.idProduct;
-                                        service.isOuputReader            = service.isOuputButom?null:'1';
-                                        service.isOuputButom             = service.isOuputButom?'1':null;
+                                        $scope.service.update.idContracAssociated_SE   = service.idContratoFk;
+                                        $scope.service.update.idAccessControlFk        = $scope.service.crtlAccess.selected.idProduct;
+                                        $scope.service.update.lock                     = $scope.service.lockedIt.selected.idProduct;
+                                        $scope.service.update.lock2                    = $scope.service.lockedIt2.selected.idProduct!=undefined?$scope.service.lockedIt2.selected.idProduct:null;
+                                        $scope.service.update.idInputReaderFk          = $scope.service.entranceReader.selected.idProduct;
+                                        $scope.service.update.ouputReader              = service.isOuputButom==undefined || !service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
+                                        $scope.service.update.ouputButom               = service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
+                                        $scope.service.update.idFontFk                 = $scope.service.powerSupply.selected.idProduct;
+                                        $scope.service.update.idEmergencyButtonFk      = $scope.service.emergencyButton.selected.idProduct;
+                                        $scope.service.update.idShutdownKeyFk          = $scope.service.TurnOffKey.selected.idProduct;
+                                        $scope.service.update.isOuputReader            = service.isOuputButom?null:'1';
+                                        $scope.service.update.isOuputButom             = service.isOuputButom?'1':null;
                                         var rawDate                      = moment(service.dateUp).toDate();
-                                        service.dateUp                   = moment(rawDate).format('YYYY-MM-DD');
+                                        $scope.service.update.dateUp     = moment(rawDate).format('YYYY-MM-DD');
                                         console.log("list_batteries: ");
                                         console.log($scope.list_batteries);
                                         console.log("list_open_devices: ");
                                         console.log($scope.list_open_devices);
-                                        service.battery_install=[];
-                                        service.battery_install= $scope.list_batteries;
-                                        service.adicional=[];
-                                        service.adicional=$scope.list_productsDetails;
-                                        service.open_devices=[];
-                                        service.open_devices=$scope.list_open_devices;
+                                        $scope.service.update.battery_install=[];
+                                        $scope.service.update.battery_install= $scope.list_batteries;
+                                        $scope.service.update.adicional=[];
+                                        $scope.service.update.adicional=$scope.list_productsDetails;
+                                        $scope.service.update.open_devices=[];
+                                        $scope.service.update.open_devices=$scope.list_open_devices;
                                         blockUI.message('Guardando Servicio '+service.clientTypeServices);
                                     }, 1500);
                                     $timeout(function() {
-                                        console.log(service);
-                                        $scope.updateCustomerServiceFn(service);
+                                        console.log($scope.service.update);
+                                        $scope.updateCustomerServiceFn($scope.service.update);
                                     }, 1500);
                                     $('#updateCtrlAccessService').modal('hide');
                                     blockUI.stop();
