@@ -3188,14 +3188,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     console.log($scope.service.update.idServiceAsociateFk);
                                     $timeout(function() {
                                         $scope.service.update.idContratoFk        = service.idContracAssociated_SE;
-                                        $scope.service.update.numeroContrato      = service.idContracAssociated_SE_array[0].numeroContrato;
-                                        $scope.service.modem.selected             = service.idModemInternetFk_array[0];
+                                        $scope.service.update.numeroContrato      = service.idContracAssociated_SE_array!=null?service.idContracAssociated_SE_array[0].numeroContrato:null;
+                                        $scope.service.modem.selected             = service.idModemInternetFk_array!=undefined?service.idModemInternetFk_array[0]:null;
                                         $scope.service.router.selected            = service.idTypeInternetFk<="2" && service.idRouterInternetFk_array!=undefined && service.idRouterInternetFk_array.length==1?service.idRouterInternetFk_array[0]:null;
-                                        $scope.service.update.idInternetCompanyFk = service.idInternetCompanyFk_array[0].idInternetCompany;
-                                        $scope.service.update.idServiceFk         = service.idServiceFk_array[0].idTypeInternet;
+                                        $scope.service.update.idInternetCompanyFk = service.idInternetCompanyFk_array!=undefined?service.idInternetCompanyFk_array[0].idInternetCompany:null;
+                                        $scope.service.update.idServiceFk         = service.idServiceFk_array!=undefined?service.idServiceFk_array[0].idTypeInternet:null;
                                         $scope.list_productsDetails = [];
-                                        $scope.service.update.idTypeMaintenanceFk = service.idTypeMaintenanceFk_array[0].idTypeMaintenance;
-                                        $scope.service.update.MntType             = service.idTypeMaintenanceFk_array[0].typeMaintenance;
+                                        $scope.service.update.idTypeMaintenanceFk = service.idTypeMaintenanceFk_array!=undefined?service.idTypeMaintenanceFk_array[0].idTypeMaintenance:null;
+                                        $scope.service.update.MntType             = service.idTypeMaintenanceFk_array!=undefined?service.idTypeMaintenanceFk_array[0].typeMaintenance:null;
                                         $scope.service.update.battery_install     = service.tb_battery_install_access_control_array;
                                         $scope.service.update.open_devices        = service.tb_open_devices_access_control_array;
                                         // Convertir la cadena a un objeto Date usando Moment-Timezone
