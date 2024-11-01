@@ -3641,7 +3641,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.update.idContracAssociated_SE   = service.idContratoFk;
                                         $scope.service.update.idAccessControlFk        = $scope.service.crtlAccess.selected.idProduct;
                                         $scope.service.update.lock                     = $scope.service.lockedIt.selected.idProduct;
-                                        $scope.service.update.lock2                    = $scope.service.lockedIt2.selected.idProduct!=undefined?$scope.service.lockedIt2.selected.idProduct:null;
+                                        $scope.service.update.lock2                    = $scope.service.lockedIt2.selected!=undefined?$scope.service.lockedIt2.selected.idProduct:null;
                                         $scope.service.update.idInputReaderFk          = $scope.service.entranceReader.selected.idProduct;
                                         $scope.service.update.ouputReader              = service.isOuputButom==undefined || !service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
                                         $scope.service.update.ouputButom               = service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
@@ -3657,7 +3657,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         console.log("list_open_devices: ");
                                         console.log($scope.list_open_devices);
                                         $scope.service.update.battery_install=[];
-                                        $scope.service.update.battery_install= $scope.list_batteries;
+                                        $scope.service.update.battery_install=$scope.list_batteries;
                                         $scope.service.update.adicional=[];
                                         $scope.service.update.adicional=$scope.list_productsDetails;
                                         $scope.service.update.open_devices=[];
