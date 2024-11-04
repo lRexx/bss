@@ -3409,17 +3409,23 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
           ******************************/
             $scope.mpCreateLinkFn = function(data){
               ticketServices.createMPLink(data).then(function(response){
-                  //console.log(response);
-                  if(response.status==200){
-                      console.log("Request Successfully Created");
-                      inform.add('Link de pago generado satisfactoriamente. ',{
-                            ttl:5000, type: 'success'
-                      });
-                      
-                      $scope.mp.link.url      = response.data[0].data.response.sandbox_init_point;
-                      $scope.mp.data          = response.data[0].data.response;
-                      console.log($scope.mp.data);
-                      $scope.addPaymentFn(response.data[0].data.response);
+                  console.log(response);
+                  if(response.status==200 || response.status==201){
+                    if (response.data[0].data!=undefined && response.data[0].data!=null && response.data[0].data!=""){
+                        console.log("Request Successfully Created");
+                        inform.add('Link de pago generado satisfactoriamente. ',{
+                              ttl:5000, type: 'success'
+                        });
+                        $scope.mp.link.url      = response.data[0].data.response.sandbox_init_point;
+                        $scope.mp.data          = response.data[0].data.response;
+                        console.log($scope.mp.data);
+                        $scope.addPaymentFn(response.data[0].data.response);
+                      }else{
+                        console.log("Request not successfully Created");
+                        inform.add('Link de pago no ha sido generado satisfactoriamente. ',{
+                              ttl:5000, type: 'danger'
+                        });
+                      }
                   }else if(response.status==500){
                       $scope.ticketRegistered = null;
                     console.log("MP Payment Link not Created, contact administrator");

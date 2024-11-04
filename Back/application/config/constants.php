@@ -87,5 +87,8 @@ defined('EXIT__AUTO_MAX')      OR define('EXIT__AUTO_MAX', 125); // highest auto
 /* SYS CONSTANT TO DEFINE SERVER HOST  */
 
 //define('BSS_HOST', 'devbss.sytes.net');
+//define('BSS_MP_TOKEN', 'APP_USR-8877359900700578-012401-353b1bedff98a4ab78a54ff57802f64a-1177407195');
 //define('BSS_HOST', 'dev.bss.com.ar');
+//define('BSS_MP_TOKEN', 'APP_USR-8497770353494414-110412-fb6b8dc5cb8caafbf3ed060ffdb7f856-2074943307');
 define('BSS_HOST', 'sistema.bss.com.ar');
+define('BSS_MP_TOKEN', 'APP_USR-7746070349246045-110411-3596c13de61863ab544a137c8387be8f-1469212359');

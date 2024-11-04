@@ -189,7 +189,7 @@ class Mercadolibre_model extends CI_Model
 	public function getPaymentMPDetails($id)
 	{	
 		$ticket2Update = null;
-		$MP_TOKEN="APP_USR-8877359900700578-012401-353b1bedff98a4ab78a54ff57802f64a-1177407195";
+		$MP_TOKEN=BSS_MP_TOKEN;
 		if (!$id) {
            return null;
         }
@@ -318,7 +318,6 @@ class Mercadolibre_model extends CI_Model
 
 	public function getNotificationFromMP($response)
 	{
-		$MP_TOKEN="APP_USR-8877359900700578-012401-353b1bedff98a4ab78a54ff57802f64a-1177407195";
 		//var_dump($response['api_version']);
 		// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //
 		/*MAIL*/
