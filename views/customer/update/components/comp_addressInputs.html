@@ -50,6 +50,12 @@
 			<li class="list-group-item" ng-repeat="item in rsAddress_API_Data_Main" ng-click="searchAddressByNameFn(item, 'address', 'main')">{{item.calle.nombre}} {{item.altura.valor}}, {{item.provincia.nombre}}</li>
 		</ul>
 	</div>
+	<div class="form-group col-md-12" ng-if="customer.new.idClientTypeFk!=undefined && !customer.new.isNotClient">
+		<div id="address_info" class="alert alert-info">
+			<button type="button" class="close" data-dismiss="alert"><span aria-hidden="true">&times;</span><span class="sr-only">Close</span></button>
+		Haga click en Agregar si hay problemas con la API o si no devuelve resultados la búsqueda.
+		</div>
+	</div>
 	<!-- Type Of Unit -->									
 	<div class="form-group col-md-12 n-padding-l n-padding-r" ng-if="((customer.update.idClientTypeFk!='2') && !customer.update.isNotClient && (customer.update.typeInmueble==1 || customer.update.idTipoInmuebleFk=='1'))" ng-class="
 								  			{	'has-success': 
@@ -156,7 +162,8 @@
 			'has-error':  
 			(customer.select.main.address.selected==undefined) && fUpdateCustomer.customer_address_registered.$touched,
 		}"> 
-		<label style="padding-left: 25px;">Direcci&#243n</label> 
+		<label style="padding-left: 25px;">Direcci&#243n</label>
+		<button ng-disabled="customer.select.company.selected==undefined && customer.select.company.selected.idClient==''"  ng-click="switchCustomersFn('newManualAddress', customer.new, 'main');" class="btn btn-xs btn-success new-addr-btn"><i class="fas fa-search-plus"></i> Agregar</button> 
 		<div class="input-group">
 			<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
 			<input type="text" name="customer_address_registered" 

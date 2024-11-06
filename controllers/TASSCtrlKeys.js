@@ -1639,7 +1639,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.keys.llavero.idKeychainUserLast  = obj.idUserKf!=null && obj.idUserKf!=undefined?obj.idUserKf:null;
                             $scope.keys.llavero.idClientAdminLast   = obj.idCategoryKf=="5"?null:obj.idClientAdminKf;
                             console.log($scope.keys.llavero);
-                            //$scope.deleteKeyFn($scope.keys);
+                            $scope.deleteKeyFn($scope.keys);
                         break;
                         case "importKeyFileWindow":
                             $scope.filesUploadList=[];

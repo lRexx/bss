@@ -4204,6 +4204,10 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             console.log(obj);
                         break;
                         case "building_keys":
+                            if ($scope.sysLoggedUser.idProfileKf=="4"){
+                                $scope.customerFound=$scope.select.buildings.selected;
+                            }
+                            console.log($scope.customerFound);
                             $scope.sysSubContent       = "";
                             $scope.sysSubContent       = 'keys';
                             $scope.ListDpto            = [];

@@ -403,8 +403,10 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
         }else{
           $("#tipo_inmueble").focus();
           $("#schedule_info").fadeIn("slow");
+          $("#address_info").fadeIn("slow");
           $timeout(function() {
                     $("#schedule_info").fadeOut("slow");
+                    $("#address_info").fadeOut("slow");
           }, 30000);
         }
         
@@ -1528,6 +1530,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
               $scope.geoLocation={};
             }
             $scope.setAddressLatLonFn = function(obj){
+              console.log(obj);
               switch(obj.option){
                 case "main":
                   $scope.customer.new.addressLat        = obj.addressLat;
@@ -3287,28 +3290,36 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 console.log($scope.customer.particular);
                 switch(obj.typeInmueble){
                   case "1":
-                    var customerisBuilding=obj.isBuilding?1:0;
-                    var department  = customerisBuilding==0?obj.depto.toUpperCase():null;
-                    var depto       = customerisBuilding==0?obj.floor+"-"+obj.depto.toUpperCase():obj.select.depto.Depto;
-                    var floor       = customerisBuilding==0?obj.floor.toUpperCase():null;
-                    var idDepartment= customerisBuilding==0?null:obj.select.depto.idDepto;
-                    var nameAddress = customerisBuilding==0?obj.nameAddress:obj.select.address.selected.address;
-                    var idProvince  = customerisBuilding==0?obj.select.province.selected.idProvince:obj.select.address.selected.idProvinceFk;
-                    var idLocation  = customerisBuilding==0?obj.select.location.selected.idLocation:obj.select.address.selected.idLocationFk;
-                    var addrLatitud = customerisBuilding==0 && !$scope.gobApiAddressNotFound?obj.addressLat:null;
-                    var addrLongitud= customerisBuilding==0 && !$scope.gobApiAddressNotFound?obj.addressLon:null;
-                    addrLatitud     = customerisBuilding==0 && $scope.gobApiAddressNotFound?$scope.customer.particular.addressLat:obj.addressLat;
-                    addrLongitud    = customerisBuilding==0 && $scope.gobApiAddressNotFound?$scope.customer.particular.addressLon:obj.addressLon;
+                    var customerisBuilding  = obj.isBuilding?1:0;
+                    var department          = customerisBuilding==0?obj.depto.toUpperCase():null;
+                    var depto               = customerisBuilding==0?obj.floor+"-"+obj.depto.toUpperCase():obj.select.depto.Depto;
+                    var floor               = customerisBuilding==0?obj.floor.toUpperCase():null;
+                    var idDepartment        = customerisBuilding==0?null:obj.select.depto.idDepto;
+                    var nameAddress         = customerisBuilding==0?obj.nameAddress:obj.select.address.selected.address;
+                    var idProvince          = customerisBuilding==0?obj.select.province.selected.idProvince:obj.select.address.selected.idProvinceFk;
+                    var idLocation          = customerisBuilding==0?obj.select.location.selected.idLocation:obj.select.address.selected.idLocationFk;
+                    var addrLatitud         = customerisBuilding==0 && !$scope.gobApiAddressNotFound?obj.addressLat:null;
+                    var addrLongitud        = customerisBuilding==0 && !$scope.gobApiAddressNotFound?obj.addressLon:null;
+                    addrLatitud             = customerisBuilding==0 && $scope.gobApiAddressNotFound?$scope.customer.particular.addressLat:obj.addressLat;
+                    addrLongitud            = customerisBuilding==0 && $scope.gobApiAddressNotFound?$scope.customer.particular.addressLon:obj.addressLon;
                   break;
                   case "2":
-                    var nameAddress = obj.nameAddress;
-                    var idProvince  = obj.select.province.selected.idProvince;
-                    var idLocation  = obj.select.location.selected.idLocation;
+                    var nameAddress         = obj.nameAddress;
+                    var idProvince          = obj.select.province.selected.idProvince;
+                    var idLocation          = obj.select.location.selected.idLocation;
+                    var addrLatitud         = !$scope.gobApiAddressNotFound?obj.addressLat:null;
+                    var addrLongitud        = !$scope.gobApiAddressNotFound?obj.addressLon:null;
+                    addrLatitud             = $scope.gobApiAddressNotFound?$scope.customer.particular.addressLat:obj.addressLat;
+                    addrLongitud            = $scope.gobApiAddressNotFound?$scope.customer.particular.addressLon:obj.addressLon;
                   break;
                   case "3":
-                    var nameAddress = obj.nameAddress;
-                    var idProvince  = obj.select.province.selected.idProvince;
-                    var idLocation  = obj.select.location.selected.idLocation;
+                    var nameAddress         = obj.nameAddress;
+                    var idProvince          = obj.select.province.selected.idProvince;
+                    var idLocation          = obj.select.location.selected.idLocation;
+                    var addrLatitud         = !$scope.gobApiAddressNotFound?obj.addressLat:null;
+                    var addrLongitud        = !$scope.gobApiAddressNotFound?obj.addressLon:null;
+                    addrLatitud             = $scope.gobApiAddressNotFound?$scope.customer.particular.addressLat:obj.addressLat;
+                    addrLongitud            = $scope.gobApiAddressNotFound?$scope.customer.particular.addressLon:obj.addressLon;
                   break;
                 }
                   var idZonaFk    = $scope.customer.new.idZonaFk!=null && $scope.customer.new.idZonaFk!=undefined && $scope.customer.new.idZonaFk!=''?$scope.customer.new.idZonaFk:$scope.customer.update.idZonaFk;
@@ -3929,7 +3940,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 case "newManualAddress":
                   console.log(cObj);
                   var twoNumber_patt=/^(?=(?:\D*\d){2})[a-zA-Z0-9_]+( [a-zA-Z0-9_]+)*$/;
-                  if (twoNumber_patt.test(cObj.nameAddress)){
+                  if (twoNumber_patt.test(cObj.nameAddress) || twoNumber_patt.test(cObj.nameAddress)){
                     switch(opt2){
                       case "main":
                         $scope.customer.new.address=cObj.nameAddress.toUpperCase();

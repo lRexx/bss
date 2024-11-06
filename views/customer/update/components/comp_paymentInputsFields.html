@@ -100,7 +100,7 @@
 			ng-model="customer.update.billing_information_details.nameAddress" 
 			placeholder="Direcci&#243n" 
 			ng-keydown="$event.keyCode === 13 && getAddressByNameFn(customer.update.billing_information_details.nameAddress, customer.select.payment.province.selected.idProvinceAPIGobFk, 'payment')"
-			class="form-control" 
+			class="form-control text-uppercase" 
 			required="true" />
 			<span data-toggle="tooltip" data-placement="top" title="Buscar" style="cursor: pointer;" ng-click="getAddressByNameFn(customer.update.billing_information_details.nameAddress, customer.select.payment.province.selected.idProvinceAPIGobFk, 'payment');" class="input-group-addon"><i class="fas fa-search-location"></i></span>			
 	  	</div>			                  	

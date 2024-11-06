@@ -1547,6 +1547,8 @@ class Client_model extends CI_Model {
                                 'idProvinceFk'              => $valor['idProvinceFk'],
                                 'idLocationFk'              => $valor['idLocationFk'],
                                 'clarification'             => $valor['clarification'],
+                                'addressLat'                => $valor['addressLat'],
+                                'addressLon'                => $valor['addressLon'],
                                 'idTipoInmuebleFk'          => $valor['idTipoInmuebleFk'],
                                 'idParticularDepartamentKf' => @$idDepartmentKf,
                                 'idZonaFk'                  => $valor['idZonaFk'],
@@ -1659,16 +1661,18 @@ class Client_model extends CI_Model {
                     }
                 } else {
 
-                    $idDepartmentKf = $client['idDepartmentFk'];
+                    $idDepartmentKf = @$client['idDepartmentFk'];
                 }
                 $this->db->insert('tb_client_address_particular', [
                         'idClientFk'                => $client['idClient'],
                         'address'                   => $valor['address'],
-                        'depto'                     => $valor['depto'],
+                        'depto'                     => @$valor['depto'],
                         //'isBuilding'                => $valor['isBuilding'],
                         'idProvinceFk'              => $valor['idProvinceFk'],
                         'idLocationFk'              => $valor['idLocationFk'],
                         'clarification'             => $valor['clarification'],
+                        'addressLat'                => $valor['addressLat'],
+                        'addressLon'                => $valor['addressLon'],
                         'idTipoInmuebleFk'          => $valor['idTipoInmuebleFk'],
                         'idParticularDepartamentKf' => @$idDepartmentKf,
                         'idZonaFk'                  => $valor['idZonaFk'],
