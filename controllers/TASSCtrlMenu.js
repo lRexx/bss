@@ -1118,7 +1118,7 @@
                   $timeout.cancel(TimeOut_Thread);
                   $interval.cancel(timeOutCounter);
                   $interval.cancel(intervalCounter);
-                  tokenSystem.destroyTokenStorage(1);
+                  //tokenSystem.destroyTokenStorage(1);
                   $scope.sysToken = false;
                   $scope.sysLoggedUser = null;
                   $timeout(function() {

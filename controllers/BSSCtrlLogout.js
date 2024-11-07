@@ -1,7 +1,8 @@
-var Logout = angular.module("module.Logout", ["tokenSystem", "ngCookies", "services.User", "services.Ticket", "services.Departments"]);
+var Logout = angular.module("module.Logout", ["tokenSystem", "ngCookies", "services.User"]);
 
  Logout.controller('LogoutCtrl', function($scope, $cookies, $location, $routeParams, blockUI, $timeout, DepartmentsServices, inform, inputService, ticketServices, userServices, tokenSystem, serverHost, serverBackend, $window, APP_SYS){
   console.log(APP_SYS.app_name+" Modulo Login Out User");
+  $scope.loggedOut=false;
   /**************************************************
   *                                                 *
   *                LOGOUT FUNCTION                  *
@@ -47,4 +48,3 @@ var Logout = angular.module("module.Logout", ["tokenSystem", "ngCookies", "servi
           }, 2000);
         };
 });
-
