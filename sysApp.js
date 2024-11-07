@@ -105,7 +105,7 @@ app.config(['$routeProvider', '$locationProvider',
             css: 'views/login/style-login.css'
         })
         .when('/logout', {
-            templateUrl: 'views/Logout/',
+            templateUrl: 'views/logout/',
             controller: 'LogoutCtrl',
             css: 'views/status/style.css'
         })

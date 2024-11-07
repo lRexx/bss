@@ -1,16 +1,14 @@
-<div class="modal fade" id="logoutmsgbox2" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true" style="z-index: 2000;">
-    <div class="successRegister" ng-if="loggedOut && !sysToken" ng-init="logout()">
-        <div class="container" style="
-                                    height: 100vh;
-                                    display: flex;
-                                    align-items: center;
-                                    justify-content: center;">
-            <div class="col-md-12 alert alert-warning text-center" role="alert" style="margin-top: 50px;">
-            <h4>Su sesión ha finalizado</h4>
-            <p>Para continuar, haga clic en el botón para ingresar nuevamente al sistema.</p><br>
-            <a type="button" ng-click="loginAgain()" class="btn btn-success">
-                <span>Login <i class="glyphicon glyphicon-arrow-right"></i></span></a>
-            </div>
+<div class="successRegister" ng-if="loggedOut && !sysToken" ng-init="logout()">
+    <div class="container" style="
+                                height: 100vh;
+                                display: flex;
+                                align-items: center;
+                                justify-content: center;">
+        <div class="col-md-12 alert alert-warning text-center" role="alert" style="margin-top: 50px;">
+        <h4>Su sesión ha finalizado</h4>
+        <p>Para continuar, haga clic en el botón para ingresar nuevamente al sistema.</p><br>
+        <a type="button" ng-click="loginAgain()" class="btn btn-success">
+            <span>Login <i class="glyphicon glyphicon-arrow-right"></i></span></a>
         </div>
     </div>
 </div>
