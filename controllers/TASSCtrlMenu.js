@@ -1117,14 +1117,16 @@
                 case "close_session": 
                   $timeout.cancel(TimeOut_Thread);
                   $interval.cancel(timeOutCounter);
-                  $interval.cancel(intervalCounter);
-                  //tokenSystem.destroyTokenStorage(1);
-                  $scope.sysToken = false;
-                  $scope.sysLoggedUser = null;
+                  $interval.cancel(intervalCounter);                  
+                  $timeout(function() {
+                    tokenSystem.destroyTokenStorage(1);
+                    $scope.sysToken = false;
+                    $scope.sysLoggedUser = null;
+                  }, 1000);
                   $timeout(function() {
                     $('#sessionExpiredModal').modal('hide');
                     $location.path("/logout");
-                  }, 1000);
+                  }, 1500);
                 break;
               }
             }
