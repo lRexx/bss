@@ -1160,7 +1160,7 @@
             console.log("$scope.sysLoggedUser: "+$scope.sysLoggedUser);
             console.log("$scope.sysRouteParams:"); 
             console.log($scope.sysRouteParams); 
-      if ($location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && $location.path() !="/validate" && !currentUrl.match(regexPathValidateUser) && !currentUrl.match(regexPathStatusClient)){
+      if ($location.path() != "/logout" && $location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && $location.path() !="/validate" && !currentUrl.match(regexPathValidateUser) && !currentUrl.match(regexPathStatusClient)){
         console.log($location.path());
         if (!$scope.sysToken || $scope.sysLoggedUser==undefined || $scope.sysLoggedUserModules==undefined){
           $timeout(function() {
