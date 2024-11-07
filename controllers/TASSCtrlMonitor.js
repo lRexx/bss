@@ -3738,15 +3738,16 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             }
             $scope.differentThan = function(item){
               //console.info(item);
-              switch ($scope.sysLoggedUser.idTypeTenantKf){
-                case "1":
-                  return (item.idTypeTicket != "3" && item.idTypeTicket != "4");
-                break;
-                case "2":
-                  return (item.idTypeTicket != "3" && item.idTypeTicket != "4");
-                break;
+              if ($scope.sysToken && $scope.sysLoggedUser.idTypeTenantKf!=undefined){
+                switch ($scope.sysLoggedUser.idTypeTenantKf){
+                  case "1":
+                    return (item.idTypeTicket != "3" && item.idTypeTicket != "4");
+                  break;
+                  case "2":
+                    return (item.idTypeTicket != "3" && item.idTypeTicket != "4");
+                  break;
+                }
               }
-              
             }
         /**************************************************
         *                                                 *
