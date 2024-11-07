@@ -1,6 +1,7 @@
 var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                              "module.Menu",
                                             "module.Login",
+                                           "module.Logout",
                                      "module.RegisterUser",
                                          "module.Products",
                                           "module.Monitor",
@@ -102,6 +103,11 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: 'views/login/',
             controller: 'LoginCtrl',
             css: 'views/login/style-login.css'
+        })
+        .when('/logout', {
+            templateUrl: 'views/Logout/',
+            controller: 'LogoutCtrl',
+            css: 'views/status/style.css'
         })
         .when('/register', {
             templateUrl: 'views/register/',

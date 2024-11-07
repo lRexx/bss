@@ -1018,9 +1018,12 @@
             $scope.rsJSON = "";
             tokenSystem.destroyTokenStorage(1);
             $scope.sysToken = false;
-            $scope.sysLoggedUser = false;
-            //$location.path("/login");
-            $window.location.reload();
+            $scope.sysLoggedUser = null;
+            $timeout(function() {
+              $location.path("/logout");
+            }, 1000);
+            //$('#logoutmsgbox').modal('hide');
+            //$window.location.reload();
           };
         /**************************************************
         *                                                 *
@@ -1029,7 +1032,7 @@
         **************************************************/
             // Timeout timer value
             $scope.TimeOutTimeValue   = 900000;//900000; //15 min
-            //$scope.TimeOutTimeValue   = 90;//900000; //15 min
+            //$scope.TimeOutTimeValue   = 9000;//900000; //15 min
             //$scope.TimeOutTimeValue   = 90000000;//900000; //15 min
             //$scope.TimeOutTimeValue   = 190000;//900000; //15 min
             $scope.IntervalTimerValue   = (20/100)*$scope.TimeOutTimeValue;
@@ -1115,20 +1118,13 @@
                   $timeout.cancel(TimeOut_Thread);
                   $interval.cancel(timeOutCounter);
                   $interval.cancel(intervalCounter);
-                  // Clear session storage with a slight delay
-                  $timeout(function() {
-                      sessionStorage.clear(); // Clear all session storage items just to ensure all are removed
-                      // Redirect after delay to allow storage to clear
-                  }, 100);
+                  tokenSystem.destroyTokenStorage(1);
+                  $scope.sysToken = false;
+                  $scope.sysLoggedUser = null;
                   $timeout(function() {
                     $('#sessionExpiredModal').modal('hide');
-                    blockUI.start('Cerrando sesión...');
-                    $scope.rsJSON     = "";
-                    $scope.sysToken   = false;
-                    $scope.loggedOut  = true;
-                    //$location.path("/login");
-                    blockUI.stop();
-                  }, 2000);
+                    $location.path("/logout");
+                  }, 1000);
                 break;
               }
             }
@@ -1196,7 +1192,9 @@
             $scope.timeOutFn();
           }, 620);
           $interval( function(){
-            $scope.updateSysUserLoggedSession($scope.sysLoggedUser.idUser);
+            if ($scope.sysToken && $scope.sysLoggedUser.idUser!=undefined){
+              $scope.updateSysUserLoggedSession($scope.sysLoggedUser.idUser);
+            }
           }, 60000);
           if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=4 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6) && $scope.sysLoggedUser.idTypeTenantKf==null){
             blockUI.start('Cargando...');
