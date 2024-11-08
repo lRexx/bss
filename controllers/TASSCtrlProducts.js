@@ -194,6 +194,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             $scope.new.product.isNumberSerieInternal= $scope.new.product.isNumberSerieInternal==undefined?false:$scope.new.product.isNumberSerieInternal
             $scope.new.product.isDateExpiration     = $scope.new.product.isDateExpiration==undefined?false:$scope.new.product.isDateExpiration;
             $scope.new.product.isControlSchedule    = $scope.new.product.idProductClassificationFk==1?$scope.new.product.isControlSchedule:null;
+            $scope.new.product.isRequestNumber      = $scope.new.product.idProductClassificationFk==19 && $scope.new.product.isRequestNumber!=undefined?$scope.new.product.isRequestNumber:null;
             console.log($scope.new);
             ProductsServices.new($scope.new).then(function(data){
                 $scope.rsNewProductData = data;
@@ -225,7 +226,8 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             $scope.update.product.isDateExpiration          = obj.isDateExpiration==1?true:false;
             $scope.update.product.isControlSchedule         = obj.isControlSchedule==1?true:false;
             $scope.update.product.idProductClassificationFk = obj.idProductClassificationFk;
-            $scope.update_ProductTemp_diviceOpening                = obj.diviceOpening;
+            $scope.update.product.isRequestNumber           = obj.isRequestNumber!=undefined?true:false;
+            $scope.update_ProductTemp_diviceOpening         = obj.diviceOpening;
             
             //console.log(obj.diviceOpening);
             if (obj.diviceOpening.length>0){
@@ -267,17 +269,16 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
     * DELETE PRODUCT 
     **/
         $scope.deleteProductFn = function(idProduct){
-            ProductsServices.deleteProduct(idProduct).then(function(data){
+            ProductsServices.delete(idProduct).then(function(data){
                 $scope.rsDelProductData=data;
                 console.log("STATUS: "+$scope.rsDelProductData.status);
                 console.log("MSG   : "+$scope.rsDelProductData.statusText);
                 console.log("DATA  : "+$scope.rsDelProductData.data);
                 if ($scope.rsDelProductData.status==200){
-                $scope.getProductsFn("",1);
-                inform.add("Producto Eliminado satisfactoriamente",{
-                    ttl:5000, type: 'success'
-                });
-                
+                    $scope.getProductsFn("",1);
+                    inform.add("Producto Eliminado satisfactoriamente",{
+                        ttl:5000, type: 'success'
+                    });
                 }
                 //console.log($scope.rsModulesData); 
             });
@@ -312,12 +313,12 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             break;
             case "removet":
                 if (confirm==0){
-                    if (($scope.sessionidProfile!=3 && $scope.sessionidProfile!=5 && $scope.sessionidProfile!=6 && obj.idTypeTenantKf!=0) || ($scope.sessionidProfile==3 && obj.idTypeTenantKf==2) || ($scope.sessionidProfile==6 && obj.idTypeTenantKf==2)){
+                    if (($scope.sysLoggedUser.idProfileKf!=3 && $scope.sysLoggedUser.idProfileKf!=5 && $scope.sysLoggedUser.idProfileKf!=6 && obj.idTypeTenantKf!=0) || ($scope.sysLoggedUser.idProfileKf==3 && obj.idTypeTenantKf==2) || ($scope.sysLoggedUser.idProfileKf==6 && obj.idTypeTenantKf==2)){
                     $scope.mess2show="Esta seguro que desea dar de baja al Habitante?";
-                    }else if ($scope.sessionidProfile==3 || $scope.sessionidProfile==5 || ($scope.sessionidProfile==6 && $scope.sessionidTypeTenant==2)){
+                    }else if ($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || ($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
                     $scope.mess2show="Esta seguro que desea darse de baja?";
                     }
-                    if(($scope.sessionidProfile!=3 && obj.idTypeTenantKf!=0) || ($scope.sessionidProfile==3 && obj.idTypeTenantKf==2) || ($scope.sessionidProfile==6 && obj.idTypeTenantKf==2)){
+                    if(($scope.sysLoggedUser.idProfileKf!=3 && obj.idTypeTenantKf!=0) || ($scope.sysLoggedUser.idProfileKf==3 && obj.idTypeTenantKf==2) || ($scope.sysLoggedUser.idProfileKf==6 && obj.idTypeTenantKf==2)){
                         $scope.idTenantKf     =  obj.idUser;
                         $scope.idDeparmentKf  =  $scope.idDeptoKf;
                         $scope.typeTenantKf   =  obj.idTypeTenantKf;
@@ -326,7 +327,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                         console.log("DATOS DEL INQUILINO O PROPIETARIO A DAR DE BAJA");
                         console.log(obj)
                         $scope.checkTicketTenant($scope.idTenantKf);
-                    }else if($scope.sessionidProfile==3 || $scope.sessionidProfile==6 || $scope.sessionidProfile==5){
+                    }else if($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==6 || $scope.sysLoggedUser.idProfileKf==5){
                         console.log("::::::: REMOVE AN DEPTO OWNER :::::::");
                         $scope.idTenantKf     = $scope.sessionidTenantUser;
                         $scope.idDeparmentKf  = obj.idDepartment;
@@ -339,7 +340,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                     }
                 }else if (confirm==1){
                 $scope.IsFnRemove=true;
-                if($scope.sessionidProfile==5 || ($scope.sessionidProfile==6 && $scope.sessionidTypeTenant==2)){
+                if($scope.sysLoggedUser.idProfileKf==5 || ($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
                     $scope.sysUnAssignDep2Tenant()
                 }else{
                     $scope.fnRemoveTenant($http, $scope);
@@ -355,9 +356,9 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                     $scope.mess2show="No registra tickets actualmente, Desea verificar si tiene un departmanto asociado?";
                 }
                 $('#confirmRequestModal').modal('toggle');
-                }else if(confirm==0 && $scope.addrNoFound==0 && $scope.sessionidProfile!=0){ 
+                }else if(confirm==0 && $scope.addrNoFound==0 && $scope.sysLoggedUser.idProfileKf!=0){ 
                     if(tmpOpt=="rukeyup"){
-                    if ($scope.sessionidProfile==5 ||($scope.sessionidProfile==6 && $scope.sessionidTypeTenant==2)){
+                    if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
                         $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
                         $scope.refresSession($scope.sessionMail);
                         $scope.idAddressAtt=$scope.sessionNameAdress;
@@ -378,7 +379,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                     }
                     }else 
                     if(tmpOpt=="rukeydown"){
-                    if ($scope.sessionidProfile==5 ||($scope.sessionidProfile==6 && $scope.sessionidTypeTenant==2)){
+                    if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
                         $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
                         $scope.refresSession($scope.sessionMail);
                         $scope.idAddressAtt=$scope.sessionNameAdress;
@@ -417,7 +418,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             break;
             case "removeu":
                 if (confirm==0){
-                    if ($scope.sessionidProfile==1 && obj.idUser!=0){
+                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idUser!=0){
                     if (obj.idProfileKf){$scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Eliminado.     Confirmar?";}
                         $scope.idUserKf   =  obj.idUser;
                         $scope.argObj = obj;
@@ -433,7 +434,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             break;
             case "removeSysProf":
                 if (confirm==0){
-                    if ($scope.sessionidProfile==1 && obj.idProfiles!=0){
+                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idProfiles!=0){
                     $scope.idSysProf = obj.idProfiles;
                     $scope.mess2show="El Perfil "+obj.name+" sera Eliminado.     Confirmar?";
                         console.log('Usuario a eliminar ID: '+obj.idProfiles+' BAJO EL NOMBRE: '+obj.name);
@@ -448,9 +449,10 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             break;
             case "removeProduct":
                 if (confirm==0){
-                    if ($scope.sessionidProfile==1 && obj.idProduct!=0){
-                    $scope.idProducto = obj.idProduct;
-                    $scope.mess2show="El Producto "+obj.descriptionProduct+" sera Eliminado.     Confirmar?";
+                    console.log(obj);
+                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idProduct!=undefined){
+                        $scope.idProducto = obj.idProduct;
+                        $scope.mess2show="El Producto "+obj.descriptionProduct+" sera Eliminado.     Confirmar?";
                         console.log('Producto a eliminar ID: '+obj.idProduct+' DESCRIPCION: '+obj.descriptionProduct);
                         console.log("============================================================================")
                         console.log(obj);
@@ -654,7 +656,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             break;            
             case "updateSysUser":
                 if (confirm==0){
-                    if ($scope.sessionidProfile==1 && obj.idUser!=0){
+                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idUser!=0){
                     if (obj.idProfileKf){$scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Actualizado.     Confirmar?";}
                         $scope.idUserKf   =  obj.idUser;
                         $scope.argObj = obj;
