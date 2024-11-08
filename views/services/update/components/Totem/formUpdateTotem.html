@@ -141,7 +141,7 @@
 									close-text="Cerrar" 
 									clear-text="Borrar"
 									current-text="Hoy"
-									ng-disabled="service.update.dateDown!=null"
+									ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 									alt-input-formats="altInputFormats" />
 								</div>
 							</div>
@@ -525,7 +525,7 @@
             <div class="modal-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-                        <button type="submit" ng-click="modalConfirmation('updateService', 0, service.update)" ng-disabled="service.update.dateDown!=null || fCustomerUpdateService.$invalid || list_cameras.length<=0" class="btn btn-labeled btn-success">
+                        <button type="submit" ng-click="modalConfirmation('updateService', 0, service.update)" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='') || fCustomerUpdateService.$invalid || list_cameras.length<=0" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
                         <a ng-click="modalConfirmation('closeServiceWindow', 0, service.update)" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
