@@ -36,7 +36,7 @@
           <td ng-trim="true">{{item.descriptionProduct | uppercase | limitTo: 65 }}{{item.descriptionProduct.length > 65 ? '...' : ''}}</td>
           <!--<td ng-trim="true">{{item.codigoFabric}}</td>-->
           <td ng-trim="true" class="media-middle text-center">{{item.brand | uppercase | limitTo: 15 }}{{item.brand.length > 15 ? '...' : ''}}</td>
-          <td ng-trim="true" class="media-middle text-center">{{item.model | uppercase | limitTo: 20 }}{{item.model.length > 20 ? '...' : ''}}</td>
+          <td ng-trim="true" class="media-middle text-center">{{item.model | uppercase | limitTo: 15 }}{{item.model.length > 15 ? '...' : ''}}</td>
           <!--<td ng-trim="true" class="c-allign-td">
               <label ng-if="item.isNumberSerieFabric==1" class="label label-success">SI</label>
               <label ng-if="item.isNumberSerieFabric==0" class="label label-warning">NO</label>
@@ -55,7 +55,7 @@
               <label ng-if="item.isControlSchedule==null" class="label label-warning">N/A</label>
           </td>-->
           <!--<td ng-trim="true">{{item.priceFabric}}</td>-->
-          <td ng-trim="true"><label ng-if="item.idStatusFk==1" class="label label-default">{{item.classification}}</label></td>
+          <td ng-trim="true" class="media-middle text-center"><label ng-if="item.idStatusFk==1" class="label label-default">{{item.classification}}</label></td>
           <td ng-trim="true" class="c-allign-td"> <!-- STATUS -->
               <label ng-if="item.idStatusFk==1" class="label label-success">ACTIVO
               </label>

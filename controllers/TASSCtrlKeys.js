@@ -828,10 +828,10 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         }else{
                             $scope.select.buildings.selected=$scope.customerFound;
                             if ($scope.sysContent=='listKeys'){
-                                $scope.getKeychainListFn($scope.customerFound.idClient,null, $scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                                $scope.getKeychainListFn($scope.customerFound.idClient,null, $scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
                                 $scope.getDeptoListByAddress($scope.customerFound.idClient);
                             }else{
-                                $scope.getKeychainProcessFn(null,$scope.customerFound.idClient,null,$scope.select.filterCategoryKey,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                                $scope.getKeychainProcessFn($scope.select.idTypeTicketKf,$scope.customerFound.idClient,null,$scope.select.filterCategoryKey,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
                             }
                         }
                       }else{
@@ -901,7 +901,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.rsKeyListsData = [];
                         }
                     });
-                };$scope.getAllKeysFn();
+                };
 
             /**************************************************
             *                                                 *
@@ -915,31 +915,37 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                     "idCategoryKf":null,
                     "idKeychainStatusKf":null,
                     "idDepartmenKf":null,
+                    "codeSearch":null,
                     "create_at":null,
                     "start":null,
                     "limit":null,
                     "strict":null,
                     "totalCount":null,
                   };
-                $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,start,limit,strict,totalCount){
+                $scope.getKeychainListFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,idReasonKf,codeSearch,start,limit,strict,totalCount){
 
                     //console.log("idClientKf           : "+idClientKf);
                     //console.log("create_at            : "+create_at);
                     //console.log("idCategoryKf         : "+idCategoryKf);
                     //console.log("idKeychainStatusKf   : "+idKeychainStatusKf);
+                    //console.log("idReasonKf           : "+idReasonKf);
+                    //console.log("codeSearch            : "+codeSearch);
                     //console.log("start                : "+start);
                     //console.log("limit                : "+limit);
                     //console.log("strict               : "+strict);
                     //console.log("totalCount           : "+totalCount);
-                    var idClientKf          = idClientKf!=undefined && idClientKf!=null?idClientKf:null;
-                    var idCategoryKf        = idCategoryKf!=undefined && idCategoryKf!="" && idCategoryKf!=null?idCategoryKf:null;
-                    var idKeychainStatusKf  = idKeychainStatusKf!=undefined && idKeychainStatusKf!="" && idKeychainStatusKf!=null?idKeychainStatusKf:null;
-                    var idDepartmenKf       = idDepartmenKf!=undefined && idDepartmenKf!="" && idDepartmenKf!=null?idDepartmenKf:null;
-                    var create_at           = create_at!=undefined && create_at!="" && create_at!=null?create_at:null;
-                    var start               = start!=undefined && start!=null && !strict?start:"";
-                    var limit               = limit!=undefined && limit!=null && !strict?limit:"";
-                    var strict              = strict!=false && strict!=undefined && strict!=null?strict:null;
-                    var totalCount          = totalCount!=false && totalCount!=undefined && totalCount!=null?totalCount:null;
+                    var idClientKf              = idClientKf!=undefined && idClientKf!=null?idClientKf:null;
+                    var idCategoryKf            = idCategoryKf!=undefined && idCategoryKf!="" && idCategoryKf!=null?idCategoryKf:null;
+                    var idKeychainStatusKf      = idKeychainStatusKf!=undefined && idKeychainStatusKf!="" && idKeychainStatusKf!=null?idKeychainStatusKf:null;
+                    var idDepartmenKf           = idDepartmenKf!=undefined && idDepartmenKf!="" && idDepartmenKf!=null?idDepartmenKf:null;
+                    var idReasonKf              = idReasonKf!=undefined && idReasonKf!="" && idReasonKf!=null?idReasonKf:null;
+                    var sysLoggedUserProfile    = $scope.sysLoggedUser.idProfileKf;
+                    var codeSearch              = codeSearch!=undefined && codeSearch!="" && codeSearch!=null?codeSearch:null;
+                    var create_at               = create_at!=undefined && create_at!="" && create_at!=null?create_at:null;
+                    var start                   = start!=undefined && start!=null && !strict?start:"";
+                    var limit                   = limit!=undefined && limit!=null && !strict?limit:"";
+                    var strict                  = strict!=false && strict!=undefined && strict!=null?strict:null;
+                    var totalCount              = totalCount!=false && totalCount!=undefined && totalCount!=null?totalCount:null;
                     console.log("=================================================");
                     console.log("                 getKeychainListFn               ");
                     console.log("=================================================");
@@ -948,6 +954,9 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                     console.log("idCategoryKf         : "+idCategoryKf);
                     console.log("idKeychainStatusKf   : "+idKeychainStatusKf);
                     console.log("idDepartmenKf        : "+idDepartmenKf);
+                    console.log("idReasonKf           : "+idReasonKf);
+                    console.log("codeSearch           : "+codeSearch);
+                    console.log("sysLoggedUserProfile : "+sysLoggedUserProfile);
                     console.log("start                : "+start);
                     console.log("limit                : "+limit);
                     console.log("strict               : "+strict);
@@ -957,6 +966,9 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         "idCategoryKf":idCategoryKf,
                         "idKeychainStatusKf":idKeychainStatusKf,
                         "idDepartmenKf":idDepartmenKf,
+                        "idReasonKf":idReasonKf,
+                        "codeSearch":codeSearch,
+                        "sysLoggedUserProfile":sysLoggedUserProfile,
                         "create_at":create_at,
                         "start":start,
                         "limit":limit,
@@ -1056,10 +1068,13 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 $scope.pageChanged = function(){
                     console.info($scope.pagination.pageIndex);
                     console.log("$scope.sysContent: "+$scope.sysContent);
-                    var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
+                    console.log("$scope.select.codeSearch: "+$scope.select.codeSearch);
+                    var pagIndex         = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
                     var idKeychainStatus = $scope.select.keychainStatus!=undefined && $scope.select.keychainStatus!=null && $scope.select.keychainStatus!=''?$scope.select.keychainStatus.idKeychainStatus:null;
+                    var codeSearch       = $scope.select.codeSearch!=undefined && $scope.select.codeSearch!=null && $scope.select.codeSearch!=''?$scope.select.codeSearch:null;
+                    var idReasonKf       = $scope.select.keychainStatus!=undefined && $scope.select.keychainStatus!=null && $scope.select.keychainStatus!='' && $scope.select.reasonKf!=undefined && $scope.select.reasonKf!=null && $scope.select.reasonKf!=''?$scope.select.reasonKf.idReasonDisabledItem:null;
                     if ($scope.sysContent=='listKeys'){
-                        $scope.getKeychainListFn($scope.customerFound.idClient,null, $scope.select.filterCategoryKey,idKeychainStatus,$scope.select.idDepartmenKf,pagIndex,$scope.pagination.pageSizeSelected, false, false);
+                        $scope.getKeychainListFn($scope.customerFound.idClient,null, $scope.select.filterCategoryKey,idKeychainStatus,$scope.select.idDepartmenKf,idReasonKf,codeSearch,pagIndex,$scope.pagination.pageSizeSelected, false, false);
                     }else{
                         $scope.getKeychainProcessFn($scope.select.idTypeTicketKf,$scope.customerFound.idClient,null,$scope.select.filterCategoryKey,pagIndex,$scope.pagination.pageSizeSelected, false, false);
                     }
@@ -1295,7 +1310,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         $scope.reasonDisabledKey = null;
                     }
                     });
-                }
+                };$scope.getDisabledReasonKeyFn();
             /**************************************************
             *                                                 *
             *              GET TICKET TYPES LIST              *
@@ -1574,7 +1589,6 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.updateKeyFn($scope.keys);
                         break;
                         case "deleteKey_init":
-                            $scope.getDisabledReasonKeyFn();
                             $scope.isNewKeySingle = false;
                             $scope.isEditKey      = false;
                             $scope.isNewKeyMulti  = false;
@@ -1684,10 +1698,10 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             };
                             $scope.customerFound={};
                             $scope.customerSearch.name=undefined;
-                            $scope.select={'filterCategoryKey':'', 'department':'', 'keychainStatus':{}, 'idTypeTicketKf':null,  
+                            $scope.select={'filterCategoryKey':'', 'reasonKf':{},'department':'', 'codeSearch':null, 'keychainStatus':{}, 'idTypeTicketKf':null,  
                             'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 
                             'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
-                            $scope.getKeychainListFn(null,null,null,null,null,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                            $scope.getKeychainListFn(null,null,null,null,null,null,null,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
                             $scope.customerFound={};
                             //$("#categoryKeyAll").prop("checked", true);
                             //$("#categoryKeyAll").val("undefined");
@@ -2003,8 +2017,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         $scope.filesUploadList=[];
                         $scope.fileList=[];
                         $scope.fileListTmp=[];
-                        $scope.getAllKeysFn(true);
-                        $scope.switchKeysFn('list', null);
+                        $scope.switchKeysFn('keychain_list', null);
                     }else  if(response.status==203){
                         var fileName=file.name;
                         inform.add('Los codigos del archivo '+file.name+' se encuentran registrados. ',{
@@ -2014,8 +2027,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         $scope.filesUploadList=[];
                         $scope.fileList=[];
                         $scope.fileListTmp=[];
-                        $scope.getAllKeysFn(true);
-                        $scope.switchKeysFn('list', null);
+                        $scope.switchKeysFn('keychain_list', null);
                     }else if(response.status==404){
                         console.log("not found, contact administrator");
                         inform.add('Error: [404] Contacta al area de soporte. ',{
@@ -2049,7 +2061,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                         ttl:4000, type: 'success'
                                     });
                                     $('#newSingleKey').modal('hide');
-                                    $scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                                    $scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
                                 }else if(response_keychain_process.status==500){
                                     console.log("There was an error adding the key, contact administrator");
                                     inform.add('Error: [500] Contacta al area de soporte. ',{
@@ -2086,7 +2098,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         inform.add('Los datos del llavero han sido actualizado con exito. ',{
                             ttl:4000, type: 'success'
                         });
-                        $scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                        $scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
                         $('#editSingleKey').modal('hide');
                     }else if(response.status==404){
                         console.log("not found, contact administrator");
@@ -2113,7 +2125,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                 inform.add('Los datos del llavero ('+llavero.llavero.codigo+') ha sido Eliminado con exito. ',{
                                     ttl:4000, type: 'success'
                                 });
-                                $scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
+                                $scope.getKeychainListFn($scope.customerFound.idClient,null,$scope.select.filterCategoryKey,$scope.select.idKeychainStatusKf,$scope.select.idDepartmenKf,$scope.select.reasonKf.idReasonDisabledItem,$scope.select.codeSearch,($scope.pagination.pageIndex-1),$scope.pagination.pageSizeSelected, false, true);
                                 $('#deleteSingleKey').modal('hide');
                             }else if(response_keychain_process.status==500){
                                 console.log("the key has not been updated, contact administrator");

@@ -1255,13 +1255,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                 $scope.getBuildingFn = function(obj){
                     $scope.building = obj;
                     blockUI.start('Cargando los departamentos.');
-                    $timeout(function() {
-                        $scope.getKeyListByBuildingIdFn($scope.building.idClient);
-                    }, 1000);
-                    $timeout(function() {
-                        blockUI.message('Cargando los llaveros asociados a cada departamento.');
-                        $scope.getDeptoListByAddress($scope.building.idClient);
-                    }, 2000);
+                    console.log('Cargando los departamentos.');
+                    $scope.getKeyListByBuildingIdFn($scope.building.idClient);
+
                     $timeout(function() {
                         blockUI.stop();
                     }, 2500);
@@ -1409,9 +1405,23 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         $scope.keyListByBuildingId=[];
                         var idStatusFk='-1';
                         KeysServices.getKeyListByBuildingId(idAddress).then(function(response) {
+                            
                             if(response.status==200){
-                                $scope.keyListByBuildingId = response.data;
+                                console.log(response);
+                                $timeout(function() {
+                                    $scope.keyListByBuildingId = response.data;
+                                }, 1000);
+                                
                                 //console.log($scope.keyListByBuildingId)
+                                $timeout(function() {
+                                    console.log($scope.keyListByBuildingId);
+                                    blockUI.message('Cargando los llaveros asociados a cada departamento.');
+                                    console.log('Cargando los llaveros asociados a cada departamento.');
+                                    $scope.getDeptoListByAddress($scope.building.idClient);
+                                }, 2000);
+                                $timeout(function() {
+                                    blockUI.stop();
+                                }, 2500);
                             }else if (response.status==404){
                                 $scope.keyListByBuildingId = [];
                             }
@@ -2795,26 +2805,26 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     var strict          = strict!=false && strict!=undefined && strict!=null?strict:null;
                     $scope.getCustomersListRs = {'customerList':null, 'totalNumberOfCustomer':0}
                     $scope.customersSearch={
-                    "searchFilter":searchFilter,
-                    "isNotCliente":isNotCliente,
-                    "idClientTypeFk":idClientTypeFk,
-                    "isInDebt":isInDebt,
-                    "start":start,
-                    "limit":limit,
-                    "strict":strict,
-                    "totalCount":null,
+                        "searchFilter":searchFilter,
+                        "isNotCliente":isNotCliente,
+                        "idClientTypeFk":idClientTypeFk,
+                        "isInDebt":isInDebt,
+                        "start":start,
+                        "limit":limit,
+                        "strict":strict,
+                        "totalCount":null,
                     };
                     console.log($scope.customersSearch);
                     return CustomerServices.getCustomerListLimit($scope.customersSearch).then(function(response){
-                    console.info(response);
-                    if(response.status==200){
-                        return response.data;
-                    }else if(response.status==404){
-                    inform.add('[Info]: '+response.data.error+'.',{
-                        ttl:5000, type: 'info'
-                    });
-                        return response;
-                    }
+                        console.info(response);
+                        if(response.status==200){
+                            return response.data;
+                        }else if(response.status==404){
+                            inform.add('[Info]: '+response.data.error+'.',{
+                                ttl:5000, type: 'info'
+                            });
+                            return response;
+                        }
                     });
                 }
             /**************************************************
@@ -2965,37 +2975,43 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     //console.log("limit                : "+limit);
                     //console.log("strict               : "+strict);
                     //console.log("totalCount           : "+totalCount);
-                    var idClientKf          = idClientKf!=undefined && idClientKf!=null?idClientKf:null;
+                    var idClientKf              = idClientKf!=undefined && idClientKf!=null?idClientKf:null;
                     if (idCategoryKf!=undefined && idCategoryKf!="" && idCategoryKf!=null){
-                        var idCategoryKf    = idCategoryKf;
+                        var idCategoryKf        = idCategoryKf;
                     }else{
-                        var idCategoryKf    = "1,5,6"
-                        var idDepartmenKf   = null;
+                        var idCategoryKf        = "1,5,6"
+                        var idDepartmenKf       = null;
                     }
-                    var idKeychainStatusKf  = idKeychainStatusKf!=undefined && idKeychainStatusKf!="" && idKeychainStatusKf!=null?idKeychainStatusKf:null;
-                    var idDepartmenKf       = idDepartmenKf!=undefined && idDepartmenKf!="" && idDepartmenKf!=null?idDepartmenKf:null;
-                    var create_at           = create_at!=undefined && create_at!="" && create_at!=null?create_at:null;
-                    var start               = start!=undefined && start!=null && !strict?start:"";
-                    var limit               = limit!=undefined && limit!=null && !strict?limit:"";
-                    var strict              = strict!=false && strict!=undefined && strict!=null?strict:null;
-                    var totalCount          = totalCount!=false && totalCount!=undefined && totalCount!=null?totalCount:null;
+                    var idKeychainStatusKf      = idKeychainStatusKf!=undefined && idKeychainStatusKf!="" && idKeychainStatusKf!=null?idKeychainStatusKf:null;
+                    var idDepartmenKf           = idDepartmenKf!=undefined && idDepartmenKf!="" && idDepartmenKf!=null?idDepartmenKf:null;
+                    var idReasonKf              = null;
+                    var sysLoggedUserProfile    = $scope.sysLoggedUser.idProfileKf;
+                    var create_at               = create_at!=undefined && create_at!="" && create_at!=null?create_at:null;
+                    var start                   = start!=undefined && start!=null && !strict?start:"";
+                    var limit                   = limit!=undefined && limit!=null && !strict?limit:"";
+                    var strict                  = strict!=false && strict!=undefined && strict!=null?strict:null;
+                    var totalCount              = totalCount!=false && totalCount!=undefined && totalCount!=null?totalCount:null;
                     console.log("=================================================");
                     console.log("                 getKeychainListFn               ");
                     console.log("=================================================");
-                    console.log("idClientKf           : "+idClientKf);
-                    console.log("create_at            : "+create_at);
-                    console.log("idCategoryKf         : "+idCategoryKf);
-                    console.log("idKeychainStatusKf   : "+idKeychainStatusKf);
-                    console.log("idDepartmenKf        : "+idDepartmenKf);
-                    console.log("start                : "+start);
-                    console.log("limit                : "+limit);
-                    console.log("strict               : "+strict);
-                    console.log("totalCount           : "+totalCount);
+                    console.log("idClientKf             : "+idClientKf);
+                    console.log("create_at              : "+create_at);
+                    console.log("idCategoryKf           : "+idCategoryKf);
+                    console.log("idKeychainStatusKf     : "+idKeychainStatusKf);
+                    console.log("idDepartmenKf          : "+idDepartmenKf);
+                    console.log("idReasonKf             : "+idReasonKf);
+                    console.log("sysLoggedUserProfile   : "+sysLoggedUserProfile);
+                    console.log("start                  : "+start);
+                    console.log("limit                  : "+limit);
+                    console.log("strict                 : "+strict);
+                    console.log("totalCount             : "+totalCount);
                     $scope.keychainSearch={
                         "idClientKf":idClientKf,
                         "idCategoryKf":idCategoryKf,
                         "idKeychainStatusKf":idKeychainStatusKf,
                         "idDepartmenKf":idDepartmenKf,
+                        "idReasonKf":idReasonKf,
+                        "sysLoggedUserProfile":sysLoggedUserProfile,
                         "create_at":create_at,
                         "start":start,
                         "limit":limit,

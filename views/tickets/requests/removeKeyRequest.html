@@ -10,7 +10,7 @@
 					<fieldset class="animate-switch" ng-switch-when="PASO 1: RAZÓN">
 						<div class="row">
 							<div class="col-md-12 form-group">
-								<div class="col-md-4" ng-repeat="reason in reasonDisabledKey">
+								<div class="col-md-4" ng-repeat="reason in reasonDisabledKey | filter: {idReasonDisabledItem: '!4'}"">
 									<div class="col-md-12 col-xs-12 depto-widget well well-md n-padding-l n-padding-r" data-toggle="tooltip" data-placement="bottom" title="{{reason.reasonDisabledItem}}">
 										<div class="depto-icon">
 											<span>

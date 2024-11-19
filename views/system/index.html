@@ -28,6 +28,12 @@
 						<li ng-click="mainSwitchFn('techServicesCosts','list', null)">Gestios de Costos</li>
 						<li ng-click="mainSwitchFn('zones','list', null)">Gestion de Zonas</li>
 					</ul>
+					<li data-toggle="collapse" data-target="#keys" class="collapsed">
+						<a href=""><i class="fas fa-key"></i> Llaveros <span class="arrow"></span></a>
+					</li>  
+					<ul class="sub-menu collapse" id="keys">
+						<li ng-click="mainSwitchFn('keys','list', null)">Baja masiva</li>
+					</ul>
 					<li data-toggle="collapse" data-target="#config_sys" class="collapsed">
 						<a href=""><i class="fa fa-globe fa-lg"></i> Configuraciones<span class="arrow"></span></a>
 					</li>  
@@ -47,15 +53,14 @@
 					<li data-toggle="collapse" data-target="#products" class="collapsed">
 						<a href=""><i class="fas fa-th"></i>Productos <span class="arrow"></span></a>
 					</li>  
-					<!--<ul class="sub-menu collapse" id="products">
+					<ul class="sub-menu collapse" id="products">
 						<li ng-click="sysConfig('sys','products', 'listProducts')">Listado de Productos</li>
 						<li ng-click="sysConfig('sys','products', 'newProduct')">Nuevo Producto</li>
 					</ul>-->
 					<li data-toggle="collapse" data-target="#report" class="collapsed">
 						<a href=""><i class="fas fa-chart-pie"></i> Reportes <span class="arrow"></span></a>
 					</li>
-					<ul class="sub-menu collapse" id="new">
-						<li></li>
+					<ul class="sub-menu collapse" id="id">
 						<li>New Report</li>
 					</ul>
 				</ul>
@@ -67,7 +72,7 @@
 		<!--<div class="">
 			<h3 style="color: black;">&nbsp <span class="glyphicon icon-cogs icon-2x"></span> Administracion del Sistema &nbsp <span style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Volver al dashboard" ng-if="sysContent=='user' || sysContent=='tenant' || sysContent=='att' || sysContent=='company' || sysContent=='sysProfile' || sysContent=='products' || sysContent=='sysUsers'" ng-click="sysConfig('sys','dash','open')" ><i class="glyphicon glyphicon-share-alt"></i></span></h3> 
 		</div>-->
-		<div ng-if="sysContent=='user' || sysContent=='tenant' || sysContent=='att' || sysContent=='company' || sysContent=='sysProfile' || sysContent=='products' || sysContent=='sysUsers' || sysContent=='sysZones' || sysContent=='sysServiceCosts' || sysContent=='registeredCustomers'" class="pull-left col-md-12 n-padding-l n-padding-r">
+		<div ng-if="sysContent=='user' || sysContent=='tenant' || sysContent=='att' || sysContent=='company' || sysContent=='sysProfile' || sysContent=='products' || sysContent=='sysUsers' || sysContent=='sysZones' || sysContent=='sysServiceCosts' || sysContent=='registeredCustomers' || sysContent=='listKeys'" class="pull-left col-md-12 n-padding-l n-padding-r">
 			<div  class="panel panel-default">
 				<div class="panel-heading">
 					<h3 ng-if="sysContent=='user'" class="panel-title">USUARIOS</h3>
@@ -80,10 +85,11 @@
 					<h3 ng-if="sysContent=='sysZones'" class="panel-title">GESTION DE ZONAS</h3>
 					<h3 ng-if="sysContent=='sysServiceCosts'" class="panel-title">GESTION DE COSTOS DE SERVICIOS TECNICOS</h3>
 					<h3 ng-if="sysContent=='registeredCustomers'" class="panel-title">CARGA MASIVA DE SERVICIOS</h3>
+					<h3 ng-if="sysContent=='listKeys'" class="panel-title">BAJA MASIVA DE LLAVEROS</h3>
 				</div>
 					<div class="panel-body">
 						<!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
-						<div ng-if="sysContent!='sysServiceCosts' && sysContent!='registeredCustomers'" class="row">
+						<div ng-if="sysContent!='sysServiceCosts' && sysContent!='registeredCustomers' && sysContent!='listKeys'" class="row">
 							<div class="form-group">
 								<!-- Filter Type of User For Admins -->
 								<div ng-if="sysContent=='user'" class="col-md-3">
@@ -188,7 +194,7 @@
 									</div>
 								</div>
 								<!-- Filter Search -->
-								<div ng-if="sysContent!='sysServiceCosts'" class="col-md-3">
+								<div ng-if="sysContent!='sysServiceCosts' && sysContent!='listKeys'" class="col-md-3">
 									<label style="padding-left: 15px;">Buscar</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search "></i></span>
@@ -225,32 +231,33 @@
 							</div>
 						</div>
 						<div>
-							<!-- TABLE LIST WHERE IS DISPLAYED THE USER DATA REQUESTED -->
-							<div ng-if="sysContent=='user'" ng-include="'views/system/listUser.html'"></div>
-							<!-- TABLE LIST WHERE IS DISPLAYED THE TENANT DATA REQUESTED -->
-							<div ng-if="sysContent=='tenant'" ng-include="'views/system/listTenant.html'"></div>
-							<!-- TABLE LIST WHERE IS DISPLAYED THE ATTENDANT DATA REQUESTED -->
-							<div ng-if="sysContent=='att'" ng-include="'views/system/listAtten.html'"></div>
-							<!-- TABLE LIST WHERE IS DISPLAYED THE COMPANIES DATA REQUESTED -->
-							<div ng-if="sysContent=='company'" ng-include="'views/system/listCompanies.html'"></div>
-							<!-- TABLE LIST WHERE IS DISPLAYED THE SYS PROFILES -->
-							<div ng-if="sysContent=='sysProfile'" ng-include="'views/system/listSysProfiles.html'"></div>
-							<!-- TABLE LIST WHERE IS DISPLAYED THE PRODUCTS -->
-							<div ng-if="sysContent=='products'" ng-include="'views/products/listProducts.html'"></div>
-							<!-- TABLE LIST WHERE IS DISPLAYED SYS USERS -->
-							<div ng-if="sysContent=='sysUsers'" ng-include="'views/system/listSysUser.html'"></div>
-							<!-- TABLE LIST WHERE IS DISPLAYED SYS USERS -->
-							<div class="n-padding-l n-padding-r" ng-if="sysContent=='sysZones'" ng-include="'views/system/zones/manageZones.html'"></div>
-							<!-- TABLE LIST WHERE IS SERVICE COSTS ARE DISPLAYED -->
-							<div class="n-padding-l n-padding-r" ng-if="sysContent=='sysServiceCosts'" ng-include="'views/system/service_costs/manageServiceCosts.html'"></div>
-							<!-- TABLE LIST WHERE IS SERVICE COSTS ARE DISPLAYED -->
-							<div class="n-padding-l n-padding-r" ng-if="sysContent=='registeredCustomers'" ng-include="'views/system/customers/index.html'"></div>
-							<!-- PAGINATION -->
-							<div>
-							<div ng-if="sysContent!='sysZones' || sysContent!='sysServiceCosts'" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
-							<div ng-if="sysContent=='sysZones' && rsZonesData.length>10" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
-
-							</div>
+						<!-- TABLE LIST WHERE IS DISPLAYED THE USER DATA REQUESTED -->
+						<div ng-if="sysContent=='user'" ng-include="'views/system/listUser.html'"></div>
+						<!-- TABLE LIST WHERE IS DISPLAYED THE TENANT DATA REQUESTED -->
+						<div ng-if="sysContent=='tenant'" ng-include="'views/system/listTenant.html'"></div>
+						<!-- TABLE LIST WHERE IS DISPLAYED THE ATTENDANT DATA REQUESTED -->
+						<div ng-if="sysContent=='att'" ng-include="'views/system/listAtten.html'"></div>
+						<!-- TABLE LIST WHERE IS DISPLAYED THE COMPANIES DATA REQUESTED -->
+						<div ng-if="sysContent=='company'" ng-include="'views/system/listCompanies.html'"></div>
+						<!-- TABLE LIST WHERE IS DISPLAYED THE SYS PROFILES -->
+						<div ng-if="sysContent=='sysProfile'" ng-include="'views/system/listSysProfiles.html'"></div>
+						<!-- TABLE LIST WHERE IS DISPLAYED THE PRODUCTS -->
+						<div ng-if="sysContent=='products'" ng-include="'views/products/listProducts.html'"></div>
+						<!-- TABLE LIST WHERE IS DISPLAYED SYS USERS -->
+						<div ng-if="sysContent=='sysUsers'" ng-include="'views/system/listSysUser.html'"></div>
+						<!-- TABLE LIST WHERE IS DISPLAYED SYS USERS -->
+						<div class="n-padding-l n-padding-r" ng-if="sysContent=='sysZones'" ng-include="'views/system/zones/manageZones.html'"></div>
+						<!-- TABLE LIST WHERE IS SERVICE COSTS ARE DISPLAYED -->
+						<div class="n-padding-l n-padding-r" ng-if="sysContent=='sysServiceCosts'" ng-include="'views/system/service_costs/manageServiceCosts.html'"></div>
+						<!-- TABLE LIST WHERE IS SERVICE COSTS ARE DISPLAYED -->
+						<div class="n-padding-l n-padding-r" ng-if="sysContent=='registeredCustomers'" ng-include="'views/system/customers/index.html'"></div>
+						<!-- TABLE LIST WHERE IS SERVICE COSTS ARE DISPLAYED -->
+						<div class="n-padding-l n-padding-r" ng-if="sysContent=='listKeys'" ng-include="'views/system/keys/index.html'"></div>
+						<!-- PAGINATION -->
+						<div>
+						<div ng-if="sysContent!='sysZones' || sysContent!='sysServiceCosts' || sysContent!='listKeys'" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
+						<div ng-if="sysContent=='sysZones' && rsZonesData.length>10" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
+						</div>
 						</div>
 					</div>
 			</div>

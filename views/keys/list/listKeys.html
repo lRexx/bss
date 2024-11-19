@@ -40,7 +40,7 @@
                (!item.idAddresKf && !item.idAdress)|| !item.idDepartmentKf-->
         </td>
         <!--DESCRIPCION -->
-        <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.descriptionProduct}}</td>
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.descriptionProduct | limitTo: 22 }}{{item.descriptionProduct.length > 22 ? '...' : ''}}</td>
         <!-- BUSINESS NAME -->
         <td ng-click="switchBuildingFn('keyDetails', item);" ng-trim="true" style="vertical-align: middle;text-align: center;"><label class="label label-default text-uppercase">{{item.categoryKeychain}}</label>
           <label ng-if="item.idCategoryKf=='1'" class="label label-default text-uppercase">{{item.Depto}}</label>

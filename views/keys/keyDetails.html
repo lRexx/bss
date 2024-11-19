@@ -60,9 +60,9 @@
           <div class="col-md-6 n-padding-l n-padding-r">
               <div class="col-md-6"><span>Fecha   : {{ key_event.created_at }} </span></div>
               <div ng-if="key_event.idReasonKf!=null && key_event.idReasonKf!=undefined" class="col-md-12">
-                  <span>Razon:
-                      <label ng-if="key_event.idReasonKf!=null && key_event.idReasonKf!=undefined" class="label" ng-class="{'label-danger':key_event.idReasonKf=='1','label-warning':key_event.idReasonKf=='2','label-default':key_event.idReasonKf=='3'}">
-                        <i class="fas " ng-class="{'fa-mask':key_event.idReasonKf=='1','fa-search-location':key_event.idReasonKf=='2','fa-key':key_event.idReasonKf=='3'}"></i> {{ key_event.reasonDisabledItem | uppercase}} 
+                  <span>Razón:
+                      <label ng-if="key_event.idReasonKf!=null && key_event.idReasonKf!=undefined" class="label" ng-class="{'label-danger':key_event.idReasonKf=='1','label-warning':key_event.idReasonKf=='2','label-default':key_event.idReasonKf=='3' || key_event.idReasonKf=='4'}">
+                        <i class="fas " ng-class="{'fa-mask':key_event.idReasonKf=='1','fa-search-location':key_event.idReasonKf=='2','fa-key':key_event.idReasonKf=='3' || key_event.idReasonKf=='4'}"></i> {{ key_event.reasonDisabledItem | uppercase}} 
                       </label>
                       <label ng-if="key_event.idReasonKf==null || key_event.idReasonKf==undefined" class="label label-default" ><i class="fas fa-search-location"></i> - </label>
                   </span>
@@ -72,21 +72,21 @@
             <span>Descripción: <br></span>
             <span class="text-capitalize"> {{ key_event.description | uppercase}}</span>
           </div>
-          <div ng-if="key_event.keychainUserLast_array!=unefined" class="col-md-12 well-checkbox n-margin-l customer-frame">
+          <div ng-if="key_event.idKeychainUserLast!=undefined && key_event.idKeychainUserLast!=null && key_event.keychainUserLast_array!=unefined" class="col-md-12 well-checkbox n-margin-l customer-frame">
             <!-- LEFT COLUMN -->
             <legend style="text-align: left;">Ultimo usuario asociado:</legend>
             <div class="col-md-6 n-padding-l n-padding-r">
               <div class="col-md-12 col-xs-12">
-                  <div class="col-md-12"><span>Usuario : </span><span>{{key_event.keychainUserLast_array.keychainUserFullName | uppercase}} </span><label class="badge badge-success"> {{ key_event.keychainUserLast_array.keychainUserProfile }}</label></div>
+                  <div class="col-md-12"><span>{{key_event.keychainUserLast_array.keychainUserFullName | uppercase}} </span><label class="badge badge-success"> {{ key_event.keychainUserLast_array.keychainUserProfile }}</label></div>
               </div>
             </div>
           </div>
-          <div ng-if="key_event.keychainUserLast_array!=unefined" class="col-md-12 well-checkbox n-margin-l customer-frame">
+          <div ng-if="key_event.idClientAdminLast!=undefined && key_event.idClientAdminLast!=null && key_event.keychainClientAdminLast_array!=unefined" class="col-md-12 well-checkbox n-margin-l customer-frame">
             <!-- LEFT COLUMN -->
-            <legend style="text-align: left;">Ultimo usuario asociado:</legend>
+            <legend style="text-align: left;">Ultima administración asociada:</legend>
             <div class="col-md-6 n-padding-l n-padding-r">
               <div class="col-md-12 col-xs-12">
-                  <div class="col-md-12"><span>Usuario : </span><span>{{key_event.keychainUserLast_array.keychainUserFullName | uppercase}} </span><label class="badge badge-success"> {{ key_event.keychainUserLast_array.keychainUserProfile }}</label></div>
+                  <div class="col-md-12"><span>{{key_event.keychainUserLast_array.keychainUserFullName | uppercase}} </span><label class="badge badge-success"> {{ key_event.keychainUserLast_array.keychainUserProfile }}</label></div>
               </div>
             </div>
           </div>

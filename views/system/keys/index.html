@@ -1,0 +1,114 @@
+  <!-- KEY LIST PANEL -->
+  <div id="keyList" class="panel-body">
+        <!-- ROW WITH THE FILTERS USED TO DISPLAY DATA IN THE TABLE -->
+        <div class="col-md-12 n-padding-l n-padding-r" style="padding-bottom: 5px;">
+          <!-- Building Name-->
+          <div class="col-md-12 col-sm-12 col-xs-12 ">
+            <div class="form-group col-md-2 col-sm-3 col-xs-6 n-padding-l n-padding-r">
+              <label style="padding-left: 15px;">Busquéda de cliente:</label>
+            </div>
+            <!-- Building Name-->
+            <div ng-if="sysLoggedUser.idProfileKf=='1' && (sysContent=='listKeys' || sysContent=='listKeysProcess')" class="form-group col-md-12 n-padding-l n-padding-r" style="z-index: 1000;">
+              <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" >
+                  <div class="input-group s-ui-width s-ui-m-left">
+                      <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+                      <input type="text" name="customerSearch" 
+                          id="customerSearch" 
+                          ng-model="customerSearch.name"
+                          ng-keydown="findCustomerFn(customerSearch.name, null, false);"
+                          class="form-control text-uppercase" 
+                          move-to-list input-selector="'.input-search'"
+                          list-items-selector="'.list-group li'"
+                          placeholder="Presione Enter para buscar..."
+                          style="border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+                          required="true" />
+                      <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.name!=undefined || customerSearch.name!=null)" style="height: 0px;" >
+                          <li tabindex="0" id="customerList-{{$index}}"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item, false);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+                      </ul>
+                  </div>
+              </div>
+          </div>
+          </div>
+          <div ng-if="sysContent=='listKeys' || sysContent=='listKeysProcess'" class="col-md-12 n-padding-l n-padding-r">
+            <div class="form-group col-lg-12 n-padding-l n-padding-r" style="margin-top: 15px;">
+              <!--<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Categoria</label></div>-->
+              <div class="row n-margin-l n-margin-r">  
+                <div ng-class="col-md-12">
+                    <div class="col-md-12 col-xs-12">
+                      <input id="categoryKeyAll" class="radio-2x categoryTypeAll" type="radio" ng-click="select.filterCategoryKey=undefined;sysContent=='listKeys'?getKeychainListFn(customerFound.idClient,null,null,1,select.idDepartmenKf,0,pagination.pageSizeSelected, false, true):getKeychainProcessFn(null,customerFound.idClient,null,select.filterCategoryKey,0,pagination.pageSizeSelected, false, true)" ng-checked="true" name="categoryType" autofocus>
+                      <label for="categoryKeyAll" class="radio-2x-label">
+                        <span>Todos</span>
+                      </label>
+                    </div>
+                    <div ng-repeat="item in rsCategoryKeyChainsData" class="col-md-2 col-sm-4 col-xs-6">
+                      <input id="categoryKey-{{item.idCategory}}" class="radio-2x" type="radio" ng-click="sysContent=='listKeys'?getKeychainListFn(customerFound.idClient,null,select.filterCategoryKey,1,select.idDepartmenKf,0,pagination.pageSizeSelected, false, true):getKeychainProcessFn(select.idTypeTicketKf,customerFound.idClient,null,select.filterCategoryKey,0,pagination.pageSizeSelected, false, true)" name="categoryType" value="{{item.idCategory}}" ng-model="select.filterCategoryKey" autofocus>
+                      <label for="categoryKey-{{item.idCategory}}" class="radio-2x-label">
+                        <span>{{item.name}}</span>
+                      </label>
+                    </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- Departments of the building selected"
+          <div ng-if="sysContent=='listKeys'" class="col-md-3 col-sm-3 col-xs-6">
+            <label style="padding-left: 15px;">Departamento</label>  
+            <div class="col-xs-12 selectContainer">
+                <div class="input-group" style="padding-bottom: 2%;">
+                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                    <select name="department" 
+                            class="form-control text-uppercase"
+                            ng-disabled="select.buildings.selected==undefined || rsKeyListsData.length==0"
+                            ng-change="getKeychainListFn(customerFound.idClient,null,select.filterCategoryKey,select.keychainStatus.idKeychainStatus,select.idDepartmenKf,0,pagination.pageSizeSelected, false, true)"
+                            ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto" 
+                            ng-model="select.idDepartmenKf" autofocus >
+                        <option value="">Todos</option>
+                    </select>
+                </div>
+                <button ng-click="getAllKeysFn(true)" data-toggle="tooltip" data-placement="top" title="Actualizar lista" type="button" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+            </div>
+          </div>-->
+        </div>
+        <row>
+          <div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-12 col-xs-12">
+            <legend style="text-align: left;">Cantidad a mostrar</legend>
+            <rzslider rz-slider-model="slider_keys.value" rz-slider-options="slider_keys.options"></rzslider>
+          </div>
+        </row>
+        <!-- Filter Type of Status of Keychain
+        <div ng-if="sysContent=='listKeys'" class="form-group col-md-4 col-xs-6">
+            <label>Estatus</label>
+            <div class="col-xl-12 selectContainer">
+            <div class="input-group">
+                    <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                    <select name="typeStatus" class="form-control" ng-change="getKeychainListFn(customerFound.idClient,null,select.filterCategoryKey,select.keychainStatus.idKeychainStatus,select.idDepartmenKf,0,pagination.pageSizeSelected, false, true)"  ng-options="statusKey as statusKey.keychainStatusName for statusKey in listStatusKeychain " ng-model="select.keychainStatus" >
+                    <option value="">Todos</option>
+                    </select>
+            </div>
+            </div>
+        </div>-->
+        <div class="col-md-10 col-sm-10 col-xs-10 " style="margin-top: 1%;">
+          <label class="switch switch-2x" for="key-select-list">
+            <input type="checkbox" class="success" ng-click="mainSwitchFn('keys','checkList', select.checkList.selected)"  ng-model="select.checkList.selected" id="key-select-list">
+            <span class="slider slider-2x flat"></span>
+          </label>
+          <span style="cursor: pointer; margin-top: -2.5%;" class="badge ng-scope" ng-class="{'badge-success':select.checkList.selected}">Seleccionar todos Llaveros de la pagina: {{pagination.pageIndex}}</span>
+          <button ng-click="mainSwitchFn('keys','deleteKey_init', rsAllKeychainListData)" ng-if="select.checkList.selected || listItemSelected" data-toggle="tooltip" data-placement="bottom" title="crear" type="button" style="margin-left: 20px; margin-top: -2em;"   class="btn btn-xs btn-success"><i class="fas fa-key"></i> Baja de Llaveros seleccionados</button>
+        </div>
+        <!--<div class="col-md-2 col-sm-2 col-xs-2 " style="margin-top: 2%;">
+          <button ng-click="modalConfirmation('removeAllKeys', 0 , select.filterCategoryKey)" data-toggle="tooltip" ng-disabled="select.checkList.selected || listItemSelected" data-placement="bottom" title="crear" type="button" style="margin-left: 20px; margin-top: -2em;"   class="btn btn-sm btn-warning"><i class="fas fa-key"></i> Dar Baja masiva</button>
+        </div>-->
+        <div class="clear-fix"></div>
+        <!-- TABLE LIST WHERE IS DISPLAYED THE CUSTOMER -->
+        <div ng-if="sysContent=='listKeys'" class="col-md-12 n-padding-l n-padding-r" ng-include="'views/system/keys/list/listKeys.html'"></div>
+        <!-- PAGINATION -->
+        <div ng-if="rsAllKeychainListData.length>0" style="text-align: center;">
+            <div style="text-align: center;" ng-include="'views/pagination/pager-tpl-v3.html'"></div>
+        </div>
+        <!-- //PAGINATION -->
+  </div>
+
+<div ng-include="'views/keys/keyDetails.html'"></div>
+<div ng-include="'views/system/keys/deleteKey.html'"></div>
+<div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-if="sysToken" ng-include="'views/utilities/expirationWarningWindows.html'"></div>

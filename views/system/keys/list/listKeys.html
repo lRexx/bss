@@ -1,0 +1,51 @@
+<!-- LIST OF KEYS -->
+<table id="tableKeys" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
+    <thead style=" background: #4d5d6f; color: white;">
+      <tr style="text-align: center;">
+          <th width="4%"><span class="glyphicon sort-icon"></span></th>
+          <th width="5%"  style="vertical-align: middle;text-align: center;">ID</th>
+          <th width="20%" style="vertical-align: middle;text-align: center;"><i class="fas fa-file-alt"> </i> Descripción </th>
+          <th width="13%" style="vertical-align: middle;text-align: center;"><i class="fas fa-house-user"> </i> Unidad</th>
+          <th width="10%" style="vertical-align: middle;text-align: center;"><i class="fas fa-qrcode"> </i> Codigo</th>
+          <th width="10%" style="vertical-align: middle;text-align: center;"><i class="fas fa-qrcode"> </i> Cod Externo</th>
+          <th width="10%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Estatusd</th>
+      </tr>
+    </thead>
+    <tbody>
+      <!-- Show if there are Keys registered -->
+      <tr ng-if="rsAllKeychainListData.length>0"  class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in rsAllKeychainListData">
+        <td class="media-middle text-center" style="vertical-align: middle;">
+          <label class="switch switch-2x" for="key-{{item.idKeychain}}">
+            <input type="checkbox" class="success" ng-model="item.selected" ng-click="mainSwitchFn('keys','check_list_item', rsAllKeychainListData)" id="key-{{item.idKeychain}}">
+            <span class="slider slider-2x flat"></span>
+          </label>
+        </td>
+        <td class="media-middle text-center" ng-click="switchKeysFn('keyDetails', item);">{{item.idKeychain}}</td>
+        <!--DESCRIPCION -->
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.descriptionProduct | limitTo: 22 }}{{item.descriptionProduct.length > 22 ? '...' : ''}}</td>
+        <!-- BUSINESS NAME -->
+        <td ng-click="switchBuildingFn('keyDetails', item);" ng-trim="true" style="vertical-align: middle;text-align: center;"><label class="label label-default text-uppercase">{{item.categoryKeychain}}</label>
+          <label ng-if="item.idCategoryKf=='1'" class="label label-default text-uppercase">{{item.Depto}}</label>
+          <label ng-if="item.idCategoryKf!='1'" class="label label-success text-uppercase" data-toggle="tooltip" data-placement="right" title="{{item.address}}" style="cursor: pointer"><i class="fas fa-map-marked-alt"></i></label>
+        </td>
+        <!--<td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.categoryKeychain}}</td>-->
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.codigo}}</td>
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" style="vertical-align: middle;text-align: center;">{{item.codExt}}</td>
+        <td ng-click="switchKeysFn('keyDetails', item);" ng-trim="true" style="vertical-align: middle;text-align: center;">
+          <span ng-if="item.idKeychainStatus!=null && item.idKeychainStatus!=undefined" class="label" ng-class="{'label-success': item.idKeychainStatus == '1', 'label-warning': item.idKeychainStatus == '0', 'label-danger': item.idKeychainStatus != null && item.idKeychainStatus != '0' && item.idKeychainStatus != '1', }"> {{item.statusKey}}</span>
+          <span ng-if="item.idKeychainStatus==null && item.idKeychainStatus==undefined" class="label label-success"> Activo</span>
+        </td>
+      </tr>
+      <tr ng-if="rsAllKeychainListData.length==0">
+        <td colspan="10">
+          <!-- Show if there is not Keys registered -->
+          <div class="col-md-12">
+            <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
+              <h5 class="col-md-offset-4"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">No hay Llaveros registrados.</span></h5>
+            </div>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+</table>
+<!-- LIST OF KEYS -->
