@@ -718,7 +718,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.rsKeyProductsData = response.data;
                         console.info($scope.keyList);
                         $timeout(function() {
-                            $scope.select.products.selected={'descriptionProduct':$scope.rsKeyProductsData[0].descriptionProduct,'model':$scope.rsKeyProductsData[0].model, 'priceFabric': $scope.rsKeyProductsData[0].priceFabric};
+                            $scope.select.products.selected={'idStatusFk':$scope.rsKeyProductsData[0].idStatusFk,'contractStatus':$scope.rsKeyProductsData[0].contractStatus,'serviceName':$scope.rsKeyProductsData[0].serviceName,'idProduct':$scope.rsKeyProductsData[0].idProduct,'descriptionProduct':$scope.rsKeyProductsData[0].descriptionProduct,'codigoFabric':$scope.rsKeyProductsData[0].codigoFabric,'brand':$scope.rsKeyProductsData[0].brand,'model':$scope.rsKeyProductsData[0].model,'idProductClassificationFk':$scope.rsKeyProductsData[0].idProductClassificationFk,'isNumberSerieFabric':$scope.rsKeyProductsData[0].isNumberSerieFabric,'isNumberSerieInternal':$scope.rsKeyProductsData[0].isNumberSerieInternal,'isDateExpiration':$scope.rsKeyProductsData[0].isDateExpiration,'isControlSchedule':$scope.rsKeyProductsData[0].isControlSchedule,'isRequestNumber':$scope.rsKeyProductsData[0].isRequestNumber,'priceFabric':$scope.rsKeyProductsData[0].priceFabric,'classification':$scope.rsKeyProductsData[0].classification};
                             console.log($scope.select.products.selected);
                         }, 1700);
                     }else if (response.status==404){
@@ -2361,6 +2361,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $('#attendantList').modal("hide");
                     break;
                     case "addKeyFieldsToList":
+                        console.log(obj);
                         var productSelected         = {'brand':'','categoryName':'','classification':'','codigoFabric':'','contractStatus':'','descriptionProduct':'','idCategoryKf':'','idClientKf':'','idDepartmenKf':'','idProduct':'','idProductClassificationFk':'','idStatusFk':'','isControlSchedule':'','isDateExpiration':'','isKeyTenantOnly':'','isNumberSerieFabric':'','isNumberSerieInternal':'','isRequestNumber':'','model':'','priceFabric':'','serviceName':''};
                         $scope.list_doors_ticket    = [];
                         if (obj!=undefined){
@@ -2468,6 +2469,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             if ($scope.select.buildings.selected.initial_delivery!=undefined && $scope.select.buildings.selected.initial_delivery.length>0 && !$scope.select.buildings.selected.initial_delivery[0].expiration_state && (($scope.list_keys.length+1))<=parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty)){
                                 productSelected.priceFabric = 0;
                             }
+                            console.log(productSelected);
                             $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'doors':doorsSelected});
                             $scope.item_added = true;
                         }else{
@@ -2556,9 +2558,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.deliveryCostFree = 0;
                         }
                         $scope.enabledNextBtn(); 
-                        //console.log($scope.list_keys);
+                        console.log($scope.list_keys);
                         $scope.ticket.keys=$scope.list_keys;
-                        //console.log($scope.ticket);
+                        console.log($scope.ticket);
                         $scope.list_doors_ticket = [];
                         $scope.selectedUser = undefined;
                         $scope.mainSwitchFn('setWhoPickUpList', null, null);
