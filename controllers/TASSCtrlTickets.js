@@ -80,7 +80,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
     $scope.selectSubType = false;
     $scope.isHomeSelected = false;
     $scope.isCompanyAdministrator = false;
-    $scope.keyTotalAllowed=25000;
+    $scope.keyTotalAllowed=50000;
     $scope.keysAllowed=10;
     $scope.mp={'link':{}, 'payment':{}, 'data':{}}; 
         /**
@@ -789,12 +789,14 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     }
                                     if (!$scope.rsControlAccessAssociated){
                                         $scope.getCostByCustomer.rate.deviceIsOnline="2";
+                                        $scope.getCostByCustomer.rate.hasStock="1";
                                         //console.log($scope.getCostByCustomer);
                                         $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
                                     }
                                 }else{
                                     $scope.getCostByCustomer.rate.deviceIsOnline="2";
                                     //console.log($scope.getCostByCustomer);
+                                    $scope.getCostByCustomer.rate.hasStock="1";
                                     $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
                                 }
                                 if ($scope.rsControlAccessAssociated){
@@ -1595,8 +1597,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && $scope.ticket.building.initial_delivery[0].expiration_state && $scope.ticket.building.isStockInBuilding=='1' && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) ||
                             ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0')){
                             $scope.ticket.delivery.idTypeDeliveryKf="2"
-                        }else if ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='1' && ($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0')){
-                            $scope.ticket.delivery.idTypeDeliveryKf="1"
                         }
                         //serviceCostFree
                         if (($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state)){
@@ -1660,9 +1660,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0')){
                     //console.log(item);
                     return item.idTypeDelivery != "1";
-                }else if(($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='1' && $scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0' && (($scope.ticket.building.initial_delivery.length==0) || $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && $scope.ticket.building.initial_delivery[0].expiration_state))){
-                    //console.log(item);
-                    return item.idTypeDelivery != "2";
                 }else{
                     return item.idTypeDelivery;
                 }
@@ -2110,8 +2107,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                    ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && $scope.ticket.building.initial_delivery[0].expiration_state && $scope.ticket.building.isStockInBuilding=='1' && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) ||
                                    ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0')){
                                     $scope.ticket.delivery.idTypeDeliveryKf="2"
-                                }else if ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='1' && ($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0')){
-                                    $scope.ticket.delivery.idTypeDeliveryKf="1"
                                 }
                                 //serviceCostFree
                                 if (($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state)){
@@ -2419,7 +2414,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                         if (($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state)||
                             ($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')||
-                            ($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0' && $scope.ticket.building.isStockInBuilding=='1') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')){
+                            ($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0' && $scope.ticket.building.isStockInBuilding=='1') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')||
+                            ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0' && $scope.ticket.building.isStockInOffice=='1') && ($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0')){
                             $scope.whoPickUpList.push({'id': 2, 'fullNameUser': "Encargado", 'type':"Otros"});
                         }
                         if ($scope.ticket.building!=undefined && (($scope.ticket.building.initial_delivery.length==0) || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && $scope.ticket.building.initial_delivery[0].expiration_state))){
