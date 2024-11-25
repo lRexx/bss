@@ -38,7 +38,7 @@
                                     <input type="text" 
                                         id="third_address_streetName" 
                                         name="third_address_streetName" 
-                                        ng-disabled="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))"
+                                        ng-disabled="((ticket.building!=undefined && ticket.building.initial_delivery.length==1 && ticket.building.initial_delivery[0].expiration_state!=undefined && !ticket.building.initial_delivery[0].expiration_state) || (ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))))"
                                         ng-model="ticket.delivery.thirdPerson.streetName" 
                                         placeholder="Calle"
                                         class="form-control text-uppercase" 
@@ -57,7 +57,7 @@
                                     <input type="text" 
                                         id="third_address_street_number" 
                                         name="third_address_street_number" 
-                                        ng-disabled="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))"
+                                        ng-disabled="((ticket.building!=undefined && ticket.building.initial_delivery.length==1 && ticket.building.initial_delivery[0].expiration_state!=undefined && !ticket.building.initial_delivery[0].expiration_state) || (ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))))"
                                         ng-model="ticket.delivery.thirdPerson.streetNumber" 
                                         placeholder="Altura"
                                         class="form-control" 
@@ -113,7 +113,7 @@
                                     <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
                                         <ui-select name="province" 
                                                     class="dropdown-select" 
-                                                    ng-disabled="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))"
+                                                    ng-disabled="((ticket.building!=undefined && ticket.building.initial_delivery.length==1 && ticket.building.initial_delivery[0].expiration_state!=undefined && !ticket.building.initial_delivery[0].expiration_state) || (ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))))"
                                                     ng-model="ticket.delivery.thirdPerson.province.selected"  
                                                     ng-change="getLocationByIdFn(ticket.delivery.thirdPerson.province.selected.idProvince); getCurrentAddrVal(ticket.delivery.thirdPerson.province.selected, ticket.delivery.thirdPerson.location.selected); enabledNextBtn();" 
                                                     required="true" autofocus>
@@ -142,7 +142,7 @@
                                     <ui-select name="localidad" 
                                                 class="dropdown-select" 
                                                 ng-model="ticket.delivery.thirdPerson.location.selected"
-                                                ng-disabled="((ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))) || !ticket.delivery.thirdPerson.province.selected.idProvince  && !ticket.delivery.thirdPerson.nameAddress)" 
+                                                ng-disabled="(((ticket.building!=undefined &&! ticket.building.initial_delivery[0].expiration_state) || (ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))) || !ticket.delivery.thirdPerson.province.selected.idProvince  && !ticket.delivery.thirdPerson.nameAddress))" 
                                                 required="true" 
                                                 ng-change="mainSwitchFn('checkThirdPersonLocation', ticket.delivery.thirdPerson.location.selected); enabledNextBtn();" 
                                                 autofocus>

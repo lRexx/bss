@@ -1575,7 +1575,7 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
                                 $scope.customersSearch.isInDebt           = false;
                                 $scope.getCustomersListFn(null, "0", null, null, null, null, ($scope.pagination.pageIndex-1), $scope.pagination.pageSizeSelected, null);
                                 $scope.select.filterTypeOfClient          = undefined;
-                                $scope.select.filterCustomerIdFk.selected = undefined;
+                                $scope.select.filterCustomerIdFk={'selected':undefined};
                                 $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding':false, 'isStockInOffice':false, 'strict':false};
                                 $scope.isNewCustomer                      = false;
                                 $scope.isUpdateCustomer                   = false;

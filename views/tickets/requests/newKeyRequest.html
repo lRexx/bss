@@ -183,6 +183,13 @@
 								</div>
 							</div>
 						</div>
+						<div class="col-md-12" ng-if="ticket.building.initial_delivery.length=='1' && ticket.building.initial_delivery[0].expiration_state!=undefined&&!ticket.building.initial_delivery[0].expiration_state">
+							<div class="alert alert-info" role="alert" >
+								<span style="padding: 4px !important;">
+									<strong>INFORMACION IMPORTANTE: </strong><br>&nbsp;Los pedidos recibidos hasta la fecha informada por BSS serán entregados al encargado del edificio antes de la puesta en funcionamiento del sistrema de control de accesos.
+								</span>
+							</div>
+						</div>
 						<!-- OPTION BUILDING-->
 						<div ng-show="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && ticket.optionTypeSelected.name=='building' && select.buildings.selected!=undefined">
 							<div class="col-md-12" style="padding: 10px !important;">
@@ -310,7 +317,7 @@
                                                 <ui-select-choices repeat="item in rsKeyProductsData | filter: {idProductClassificationFk:19} | filter: $select.search">
                                                     <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
                                                     <small>Modelo: </small><small class="label label-default"  ng-bind-html="item.model | highlight: $select.search"></small>
-													<small>Precio: </small><small class="label label-warning"  ng-bind-html="item.priceFabric | highlight: $select.search"></small>
+													<small>Precio: </small><small class="label label-warning"  ng-bind-html="item.priceFabric | highlight: $select.search"></small>											
                                                 </ui-select-choices>
                                                 <ui-select-no-choice>
                                                     <span ng-if="rsKeyProductsData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay llaveros asociados.</span>
@@ -399,7 +406,7 @@
 						<!--LLAVES A SOLICITAR-->
 						<div class="col-md-6 col-xs-12 form-group">
 							<legend style="text-align: center;">Llaves a solicitar</legend>
-							<div class="col-md-12" ng-if="deliveryCostFree==1">
+							<div class="col-md-12" ng-if="(ticket.building.isStockInOffice=='' && ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0') && deliveryCostFree==1">
 								<div class="alert alert-success" style="border: 3px solid;border-radius: 15px;" role="alert">
 									<span style="text-align: center; padding-right: 5px;" class="">
 										<span><i class="fas fa-award"></i></span>
@@ -484,8 +491,9 @@
 											<div class="col-md-12 n-padding-l n-padding-r">
 												<div ng-repeat="item in typedelivery | filter:checkDeliveryMethod" class="col-md-4 col-xs-4" ng-class="
 													{
-														'col-md-offset-2 col-xs-offset-2':(ticket.building.isStockInOffice!=null && ticket.building.isStockInOffice!='0'),
-														'col-md-offset-4 col-xs-offset-4':(ticket.building!=undefined && (ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))))
+														'col-md-offset-4 col-xs-offset-4':
+														((ticket.building!=undefined && (ticket.building.isStockInBuilding=='1' || ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')) || 
+														 (ticket.building!=undefined && ticket.building.isStockInOffice=='1' && (ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0')))
 													}">
 													<input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom" type="radio" ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
 													<label for="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom-label">
@@ -574,6 +582,31 @@
 
 							<!-- **********************************************************************************************-->
 
+						</div>
+						<div class="col-md-12" ng-if="ticket.delivery.idTypeDeliveryKf=='1'">
+							<div class="alert alert-info" role="alert" >
+								<span style="padding: 4px !important;">
+									<strong>INFORMACION IMPORTANTE: </strong><br></span>
+									<ul>
+										<li><span>Una vez autorizado el pedido por parte de la administración y cuando se encuentre preparado,  el solicitante recibirá un correo confirmado que el pedido esta listo para retirar por nuestras oficinas.</li>
+									</ul>
+									<br>
+									<span>Podrá verificar el estado en todo momento desde la pantalla MONITOR DE PEDIDOS</span>
+								</span>
+							</div>
+						</div>
+						<div class="col-md-12" ng-if="ticket.delivery.idTypeDeliveryKf=='2'">
+							<div class="alert alert-info" role="alert" >
+								<span style="padding: 4px !important;">
+									<strong>INFORMACION IMPORTANTE: </strong><br></span>
+									<ul>
+										<li><span>todos los pedidos autorizados y pagados antes de los dias lunes a las 12 hs serán repartidos por la empresa de logística los dias martes de 15 a 20 hs (con un segundo intento de entregalos dias miércoles en el mismo horario)</span></li>
+										<li><span>todos los pedidos autorizados y pagados antes de los dias miércoles a las 12 hs serán repartidos por la empresa de logística los dias juevess de 15 a 20 hs (con un segundo intento de entregalos dias viernes en el mismo horario)</span></li>
+									</ul>
+									<br>
+									<span>En ambos casos el solicitante recibirá un correo confirmando que el pedido se encuentra en la lista de entrega.<br></span>
+									<span>Podrá verificar el estado en todo momento desde la pantalla MONITOR DE PEDIDOS</span>
+							</div>
 						</div>
 					</fieldset>
 					<fieldset ng-init="mainSwitchFn('setCosts', null, null)" class="animate-switch" ng-switch-when="PASO 4: MÉTODO DE PAGO">

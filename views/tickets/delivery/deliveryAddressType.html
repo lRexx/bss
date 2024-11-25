@@ -21,14 +21,26 @@
 							<span class="card-depto-span" style="margin-left: 20%;">DEL EDIFICIO</span>
 				        </div>
 				    </div>
+					<!--<pre>{{ ticket.building }}</pre>
+					<pre>{{ ticket.building.initial_delivery[0].expiration_state }}</pre>
+					<pre>{{ ticket.building.initial_delivery.length }}</pre>
+					<pre>{{ ticket.building.isStockInBuilding }}</pre>
+					<pre>{{ ticket.building.isStockInOffice }}</pre>
+					<div ng-if="ticket.building != undefined">
+						<p>Building is defined</p>
+					</div>
+					<div ng-if="ticket.building.initial_delivery.length == '0'">
+						<p>Initial delivery length is 0</p>
+					</div>-->
 				    <!-- BAJA -->
-				    <div ng-if="(((ticket.building.isStockInBuilding!=null && ticket.building.isStockInBuilding!='0') && (ticket.building.isStockInOffice!=null && ticket.building.isStockInOffice!='0')) || ticket.building.isStockInOffice=='1')" class="col-md-6 col-xs-6 card-depto-colum" ng-click="(ticket.building.isStockInBuilding=='1' || ((ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))?'':mainSwitchFn('deliveryToOtherAddress', selectedUserToDelivery, 2);" >
+				    <div ng-if="(ticket.building!=undefined && ((ticket.building.initial_delivery.length=='0') || (ticket.building.initial_delivery.length=='1' && building.initial_delivery[0].expiration_state==true)) && ticket.building.isStockInBuilding=='1' && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0'))" 
+								class="col-md-6 col-xs-6 card-depto-colum" ng-click="mainSwitchFn('deliveryToOtherAddress', selectedUserToDelivery, 2)" >
 				        <div class="card-depto cyan white-text" style="padding-bottom:2.97em;">
 							<div  ng-if="off" class="ribbon ribbon-top-right"><span tyle="background-color: #ccc !important;">No disponible</span></div>
 				            <div class="card-depto-content">
                                 <i class="fas fa-map-marked-alt" style="padding-left: 0.45em;"></i>
 				            </div>
-				             <span class="card-depto-span" style="margin-left: 40%;">OTRO</span>
+				             <span class="card-depto-span" style="margin-left: 40%;">OTRA DIRECCIÓN</span>
 				        </div>
 				    </div>
 				</div>

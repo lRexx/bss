@@ -209,7 +209,7 @@
                             <i class="fas fa-receipt"></i>  
                         </button>
                         <!-- REGISTER PAYMENT -->
-                        <button ng-if="tk.idTypeTicketKf<=2 && tk.idTypePaymentKf=='2' && (tk.paymentDetails==null||tk.paymentDetails!=null) && (tk.idStatusTicketKf=='3')" ng-click="mainSwitchFn('ticket_manual_payment', tk, null)" type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="left"  title="Pago">
+                        <button ng-if="sysLoggedUser.idProfileKf==1 && tk.idTypeTicketKf<=2 && tk.idTypePaymentKf=='2' && (tk.paymentDetails==null||tk.paymentDetails!=null) && (tk.idStatusTicketKf=='3')" ng-click="mainSwitchFn('ticket_manual_payment', tk, null)" type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="left"  title="Pago">
                             <i class="font-size: 1em fas fa-file-signature"></i> 
                         </button>
                     </div>

@@ -86,6 +86,9 @@ class Rates_model extends CI_Model {
         $this->db->join('tb_technician_services_mode', 'tb_technician_services_mode.idServiceMode = tb_technician_services.idServiceModeFk', 'left');
         $this->db->where('tb_technician_services.idServiceTypeFk', $item['idServiceTechnician']);
         $this->db->where('tb_technician_services.idServiceModeFk', $item['deviceIsOnline']);
+        if ($item['hasStock']=='0'){
+            $this->db->like('tb_technician_services.description', "ALTA-SIN-STOCK", 'both', false);
+        }
 
         $query = $this->db->get();
         //print_r($query->result_array());
@@ -93,7 +96,11 @@ class Rates_model extends CI_Model {
         $tb_technician_services = $query->row();
         if ($query->num_rows() === 1) {
             // First, fetch the minimum cost for the given idServiceTechnicianKf
-            $this->db->select('MIN(cost) as min_cost');
+            if ($item['hasStock']=='0'){
+                $this->db->select('MAX(cost) as min_cost');
+            }else{
+                $this->db->select('MIN(cost) as min_cost');
+            }
             $this->db->from('tb_technician_service_cost');
             $this->db->where('idServiceTechnicianKf', $tb_technician_services->idServiceTechnician);
             $subquery = $this->db->get()->row();
@@ -149,7 +156,6 @@ class Rates_model extends CI_Model {
                 }
             }
         }
-
         return null;
     }
 
