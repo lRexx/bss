@@ -1424,6 +1424,16 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 }, 2500);
                             }else if (response.status==404){
                                 $scope.keyListByBuildingId = [];
+                                //console.log($scope.keyListByBuildingId)
+                                $timeout(function() {
+                                    console.log($scope.keyListByBuildingId);
+                                    blockUI.message('Cargando los llaveros asociados a cada departamento.');
+                                    console.log('Cargando los llaveros asociados a cada departamento.');
+                                    $scope.getDeptoListByAddress($scope.building.idClient);
+                                }, 2000);
+                                $timeout(function() {
+                                    blockUI.stop();
+                                }, 2500);
                             }
                         });
                     }
