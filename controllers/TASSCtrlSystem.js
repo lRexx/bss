@@ -3830,8 +3830,8 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
                                 $scope.zone.update.description      = obj.descripcion;
                                 $scope.zone.update.idZona           = obj.idZona;
                                 $scope.list_locations = [];
-                                $scope.select.province.selected = undefined;
-                                $scope.select.location.selected = undefined;
+                                $scope.select.province={'selected': undefined};
+                                $scope.select.location={'selected': undefined};
                                 var id = 0;
                                 for (var key in  obj.locations){
                                     id++;
