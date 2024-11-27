@@ -1,0 +1,131 @@
+<!-- GUEST REGISTER FORM -->
+<div id="RegisterGuest" class="modal fade bd-example-modal-lg" style="top: 150px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                <h3 class="modal-title"><i class="product-success fas fa-user"></i> NUEVO INVITADO
+                    <span> :: EN EL DEPARTAMENTO: <span class="badge badge-default font-size-18px">{{guest.new.depto}}</span></span></h3>
+            </div>
+            <div class="modal-body" style="overflow-y: scroll;" >
+                <!-- FORM CONTAINER-->
+                <form class="form-horizontal" name="fNewGuest" novalidate>
+                    <fieldset>
+                    <!-- Form First & Last Name -->
+                    <div class="form-group col-md-12" ng-class="
+                    {	'has-success': 
+                        guest.new.fullname!='' && fNewGuest.fullname.$valid,
+                        'has-error':  
+                        (guest.new.fullname=='' || guest.new.fullname==undefined) && fNewGuest.fullname.$touched,
+                    }">
+                    <label style="padding-left: 15px;" >Nombres y Apellidos</label> 
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                <input name="fullname" placeholder="Nombres y Apellidos" class="form-control" ng-model="guest.new.fullname" type="text" required autofocus />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text DNI-->
+                    <div class="form-group col-md-6" ng-class="
+                    {	'has-success': 
+                        guest.new.dni!='' && fNewGuest.dniUser.$valid,
+                        'has-error':  
+                        (guest.new.dni=='' || guest.new.dni==undefined) && fNewGuest.dniUser.$touched,
+                    }">
+                    <label style="padding-left: 15px;">DNI</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
+                                <input name="dniUser" ng-blur="sysCheck4Duplicates(guest.new.dni, 'dni');" placeholder="Documento de identidad" class="form-control input--dni" ng-model="guest.new.dni"  type="text" ng-keydown="fnLoadPhoneMask();" required autofocus />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Text Mail-->
+                    <div class="form-group col-md-6" ng-class="
+                        {	'has-success': 
+                            guest.new.mail!='' && fNewGuest.emailUser.$valid,
+                            'has-error':  
+                            (guest.new.mail=='' || guest.new.mail==undefined) && fNewGuest.emailUser.$touched,
+                        }">
+                        <label style="padding-left: 15px;">E-Mail (opcional)</label>
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                    <input name="emailUser" ng-blur="sysCheck4Duplicates(guest.new.mail, 'mail');" placeholder="E-Mail" class="form-control" ng-model="guest.new.mail"  type="email" required autofocus />
+                                </div>
+                            </div>
+                    </div>
+                    <div ng-if="sysDNIRegistered || sysEmailRegistered" class="form-group row n-margin-t n-margin-b">
+                        <div ng-if="sysDNIRegistered" class="form-group n-margin-t n-margin-b" ng-class="{
+                            'col-md-6':
+                                sysDNIRegistered && sysEmailRegistered,
+                            'col-md-12':
+                                sysDNIRegistered && !sysEmailRegistered,
+                                }">
+                            <div class="alert alert-danger" role="alert">
+                                <strong><i class="fas fa-ban">&nbsp </i>ATENCION: </strong>el numero de documento ingresado se encuentra registrado.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <!--<span aria-hidden="true">&times;</span> -->
+                                </button>
+                            </div>
+                        </div>
+                        <div ng-if="sysEmailRegistered" class="form-group n-margin-t n-margin-b" ng-class="{
+                            'col-md-6':
+                                sysDNIRegistered && sysEmailRegistered,
+                            'col-md-12':
+                                !sysDNIRegistered && sysEmailRegistered,
+                                }">
+                            <div class="alert alert-warning" role="alert">
+                                <strong><i class="fas fa-exclamation-triangle">&nbsp </i>ATENCION: </strong>la direccion de correo ingresada se encuentra registrada.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <!--<span aria-hidden="true">&times;</span> -->
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Text Phone-->
+                    <div class="form-group col-md-6" ng-class="{
+                        'has-success': 
+                            guest.new.phoneNumber!='' && guest.new.phoneNumber!=null  && fNewGuest.phoneLocal.$valid,
+                        'has-warning':
+                            !guest.new.phoneNumber && guest.new.phoneMovilNumberUser,
+                        'has-error':
+                            !guest.new.phoneMovilNumberUser && !guest.new.phoneNumber && fNewGuest.phoneLocal.$touched,
+                        }">
+                    <label style="padding-left: 15px;">Telefono Movil (opcional)</label>  
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                <input name="phoneLocal" ng-minlength="8" class="form-control input--phone" ng-model="guest.new.phoneNumber" type="text" autofocus  ng-keydown="fnLoadPhoneMask();" ng-required="guest.new.phoneNumber==''" />
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="ownerFound && (guest.new.idTypeTenantKf.idProfile==3) || ownerFound && (guest.new.idTypeTenantKf.idProfile==6 && att.ownerOption==1)" class="col-md-12">
+                        <div class="alert alert-danger" role="alert">
+                            <strong><i class="fas fa-ban">&nbsp </i>ATENCION: </strong>el Departamento ya posee propietario.
+                            <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                            </button>
+                        </div>
+                    </div>
+                    </fieldset>
+                </form>
+                <div class="clearfix"> </div> 
+            </div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="switchBuildingFn('addGuest', guest.new)" ng-disabled="fNewGuest.$invalid || ownerFound || sysDNIRegistered" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Registrar</button>
+                        <a ng-click="modalConfirmation('closeWindow', 0, null)" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<!-- // TENANT REGISTER FORM -->
