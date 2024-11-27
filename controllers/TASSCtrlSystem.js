@@ -3931,6 +3931,7 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
                                 $scope.technician.new.service.isProtected       = obj.isProtected;
                                 $scope.technician.new.service.idServiceTypeFk   = obj.idServiceTypeFk;
                                 $scope.technician.new.service.idServiceModeFk   = obj.idServiceModeFk!=true?2:1;
+                                $scope.technician.new.service.hasStock          = obj.hasStock!=true?0:1;
                                 console.log($scope.technician.new.service);
                                 $scope.addNewTechServiceFn($scope.technician.new);
                             break;
@@ -3948,6 +3949,7 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
                                 $scope.technician_services.update.isProtected       = obj.isProtected==1?true:false;
                                 $scope.technician_services.update.idServiceModeFk   = obj.idServiceModeFk==1?true:false;
                                 $scope.technician_services.temp.description         = obj.description;
+                                $scope.technician_services.update.hasStock              = obj.hasStock==1?true:false;
                                 console.log($scope.technician_services.update);
                                 $('#editTechService').modal('toggle');
                             break;
@@ -3969,6 +3971,7 @@ system.controller('SystemCtrl', function($scope, $location, $rootScope, $routePa
                                 $scope.technician.update.service.isProtected            = obj.isProtected;
                                 $scope.technician.update.service.idServiceTypeFk        = obj.idServiceTypeFk;
                                 $scope.technician.update.service.idServiceModeFk        = obj.idServiceModeFk!=true?2:1;
+                                $scope.technician.update.service.hasStock               = obj.hasStock!=true?0:1;
                                 console.log($scope.technician.update.service);
                                 $scope.updateTechServiceFn($scope.technician.update);
                             break;

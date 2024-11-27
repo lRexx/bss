@@ -2099,7 +2099,8 @@ class Services_model extends CI_Model {
                 'description'       => $item['description'],
                 'isProtected'       => $item['isProtected'],
                 'idServiceTypeFk'   => $item['idServiceTypeFk'],
-                'idServiceModeFk'   => $item['idServiceModeFk']
+                'idServiceModeFk'   => $item['idServiceModeFk'],
+                'hasStock'          => $item['hasStock']
             ]
         );
         if ($this->db->affected_rows() === 1) {
@@ -2115,7 +2116,8 @@ class Services_model extends CI_Model {
             'description'       => $item['description'],
             'isProtected'       => $item['isProtected'],
             'idServiceTypeFk'   => $item['idServiceTypeFk'],
-            'idServiceModeFk'   => $item['idServiceModeFk']
+            'idServiceModeFk'   => $item['idServiceModeFk'],
+            'hasStock'          => $item['hasStock']
             ]
         )->where("idServiceTechnician", $item['idServiceTechnician'])->update("tb_technician_services");
 

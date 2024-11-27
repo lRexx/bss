@@ -45,6 +45,25 @@
                     </div>
                   </div>
               </div>
+              <div class="form-group col-md-6 col-sm-6 col-xs-12">
+                <div class="well-checkbox">
+                  <table>
+                    <tr>
+                        <td style="width: 170%">
+                          <span class="text-muted text-uppercase text-box">STOCK </span>
+                          <span ng-if="technician_services.new.hasStock" class="badge badge-success">SI</span>
+                          <span ng-if="!technician_services.new.hasStock"class="badge badge-warning">NO</span>
+                        </td>
+                        <td>
+                          <label class="switch switch-3x">
+                              <input type="checkbox" class="success"ng-model="technician_services.new.hasStock" id="hasStock">
+                              <span class="slider slider-3x flat"></span>
+                          </label>
+                        </td>
+                      </tr>
+                  </table>
+                </div>
+              </div>
               <!-- SCHEDULE CONTROL -->
               <div class="form-group col-md-6 col-sm-6 col-xs-12">
                 <div class="well-checkbox">

@@ -852,7 +852,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                     title: 'HOJA DE DATOS DE ACCESO',
                                     subject: 'PROGRAMAS DE VISUALIZACIÓN',
                                     author: 'BSS SEGURIDAD',
-                                    keywords: 'security, tass, service, web',
+                                    keywords: 'security, BSS, service, web',
                                     creator: 'MEEE'
                                 });            
                                 doc.setLineWidth(0.1);
@@ -949,7 +949,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 doc.line(22, 262, 22, 274);
                                 doc.text(24, 265, "Carlos Calvo 3430 (C1230ABH)");
                                 doc.text(24, 269, "Ciudad Autónoma de Buenos Aires /Tel: +5411 5031-1207");
-                                doc.text(24, 273, "info@seguridadtass.com.ar / www.seguridadtass.com.ar");
+                                doc.text(24, 273, "info@seguridadBSS.com.ar / www.seguridadBSS.com.ar");
                                 //doc.addPage();
                                 //doc.addPage();
                                 //doc.addPage();
@@ -964,7 +964,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                     doc.text('| '+pageCurrent, 170, 270);
                                 }
                                 return doc.output('bloburl');
-                                //doc.save("TASS.pdf");
+                                //doc.save("BSS.pdf");
                             }
                         }
                     }else{
@@ -1276,7 +1276,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.buildingList = response.data;
                         }else if (response.status==404){
                             $scope.buildingList = [];
-                            inform.add('No hay consorcios asociados a la administracion seleccionada, contacte al area de soporte de TASS.',{
+                            inform.add('No hay consorcios asociados a la administracion seleccionada, contacte al area de soporte de BSS.',{
                             ttl:5000, type: 'warning'
                             });
                         }else if (response.status==500){
@@ -1366,7 +1366,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 }
                             }else if (response.status==404){
                                 $scope.ListDpto=[];
-                                inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
+                                inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de BSS.',{
                                 ttl:5000, type: 'danger'
                                 });
                             }
@@ -1387,7 +1387,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 $scope.ListDpto = response.data;
                             }else if (response.status==404){
                                 $scope.ListDpto = [];
-                                inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
+                                inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de BSS.',{
                                 ttl:5000, type: 'danger'
                                 });
                             }
@@ -1760,7 +1760,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             ttl:3000, type: 'success'
                             });
                         }else if (response.status==404){
-                            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                            inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                             ttl:3000, type: 'danger'
                             });
                         }
@@ -1778,7 +1778,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             ttl:3000, type: 'success'
                             });
                         }else if (response.status==404){
-                            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                            inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                             ttl:3000, type: 'danger'
                             });
                         }
@@ -1804,11 +1804,11 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             }
                             
                         }else if (response.status==404){
-                            inform.add('La solicitud no ha sido cancelada por favor, contacte al area de soporte de TASS.',{
+                            inform.add('La solicitud no ha sido cancelada por favor, contacte al area de soporte de BSS.',{
                             ttl:5000, type: 'warning'
                             });
                         }else if (response.status==500){
-                            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                            inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                             ttl:5000, type: 'danger'
                             });
                         }
@@ -1916,11 +1916,11 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             });
                             $scope.switchBuildingFn('myDepartmentsQuiet', null);
                         }else if (response.status==404){
-                            inform.add('La solicitud no ha sido enviada por favor, contacte al area de soporte de TASS.',{
+                            inform.add('La solicitud no ha sido enviada por favor, contacte al area de soporte de BSS.',{
                             ttl:5000, type: 'warning'
                             });
                         }else if (response.status==500){
-                            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                            inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                             ttl:5000, type: 'danger'
                             });
                         }
@@ -1939,11 +1939,11 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             });
                             $scope.updateSysUserLoggedSession($scope.sysLoggedUser.idUser);
                         }else if (response.status==404){
-                            inform.add('La solicitud no ha sido enviada por favor, contacte al area de soporte de TASS.',{
+                            inform.add('La solicitud no ha sido enviada por favor, contacte al area de soporte de BSS.',{
                             ttl:5000, type: 'warning'
                             });
                         }else if (response.status==500){
-                            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                            inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                             ttl:5000, type: 'danger'
                             });
                         }
@@ -1987,7 +1987,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 });
                             }else if (response.status==500){
                                 $scope.tenantNotFound=true;
-                                inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                                inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                                     ttl:3000, type: 'danger'
                                 });
                             }
@@ -2654,7 +2654,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         }else if (response.status==404){
                             $scope.ListDptoTenant=[];
                             $scope.dptoNotFound=true;
-                            inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
+                            inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de BSS.',{
                             ttl:5000, type: 'danger'
                             });
                         }
@@ -3502,7 +3502,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 $scope.update.user.idDepartmentKf              = $scope.select.depto.idClientDepartament;
                                 $scope.update.user.isDepartmentApproved        = null;
                                 $scope.update.user.isApprovalRequired          = true;
-                                $scope.update.user.isDepartmentAssigment       = true;
+                                $scope.update.user.isDepartmenBSSigment       = true;
                                 $timeout(function() {
                                     console.log($scope.update.user);
                                     $scope.assignTenantDeptoFn();
@@ -3900,7 +3900,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                             });
                                         }, 5000);
                                     }else if (response_keys.status==404){
-                                        inform.add('La llave no ha podido asociarse, contacte al area de soporte Tass.',{
+                                        inform.add('La llave no ha podido asociarse, contacte al area de soporte BSS.',{
                                             ttl:5000, type: 'warning'
                                         });
                                         blockUI.stop();
@@ -4004,7 +4004,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                         });
                                     }, 5000);
                                 }else if (response_keys.status==404){
-                                    inform.add('La llave no ha podido desvincularse, contacte al area de soporte Tass.',{
+                                    inform.add('La llave no ha podido desvincularse, contacte al area de soporte BSS.',{
                                         ttl:5000, type: 'warning'
                                     });
                                     blockUI.stop();
@@ -4102,7 +4102,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                         });
                                     }, 5000);
                                 }else if (response_keys.status==404){
-                                    inform.add('La llave no ha podido habilitarse para ser asociada a los habitantes del departamento, contacte al area de soporte Tass.',{
+                                    inform.add('La llave no ha podido habilitarse para ser asociada a los habitantes del departamento, contacte al area de soporte BSS.',{
                                         ttl:5000, type: 'warning'
                                     });
                                     blockUI.stop();
@@ -4414,11 +4414,11 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                         blockUI.stop();
                                     }, 5000);
                                 }else if (response.status==404){
-                                    inform.add('La solicitud no ha sido enviada por favor, contacte al area de soporte de TASS.',{
+                                    inform.add('La solicitud no ha sido enviada por favor, contacte al area de soporte de BSS.',{
                                     ttl:5000, type: 'warning'
                                     });
                                 }else if (response.status==500){
-                                    inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                                    inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                                     ttl:5000, type: 'danger'
                                     });
                                 }
@@ -4522,11 +4522,11 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                         blockUI.stop();
                                     }, 5000);
                                 }else if (response.status==404){
-                                    inform.add('La solicitud no ha sido enviada por favor, contacte al area de soporte de TASS.',{
+                                    inform.add('La solicitud no ha sido enviada por favor, contacte al area de soporte de BSS.',{
                                     ttl:5000, type: 'warning'
                                     });
                                 }else if (response.status==500){
-                                    inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                                    inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                                     ttl:5000, type: 'danger'
                                     });
                                 }

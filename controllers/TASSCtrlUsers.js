@@ -2172,7 +2172,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       console.log($scope.ListDpto);
                     }else if (response.status==404){
                       $scope.ListDpto=[];
-                      inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
+                      inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de BSS.',{
                         ttl:5000, type: 'danger'
                       });
                     }

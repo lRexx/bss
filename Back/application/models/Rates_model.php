@@ -86,6 +86,7 @@ class Rates_model extends CI_Model {
         $this->db->join('tb_technician_services_mode', 'tb_technician_services_mode.idServiceMode = tb_technician_services.idServiceModeFk', 'left');
         $this->db->where('tb_technician_services.idServiceTypeFk', $item['idServiceTechnician']);
         $this->db->where('tb_technician_services.idServiceModeFk', $item['deviceIsOnline']);
+        $this->db->where('tb_technician_services.hasStock', $item['hasStock']);
         if ($item['hasStock']=='0'){
             $this->db->like('tb_technician_services.description', "ALTA-SIN-STOCK", 'both', false);
         }

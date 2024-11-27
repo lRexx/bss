@@ -615,7 +615,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.buildingList = response.data;
                     }else if (response.status==404){
                         $scope.buildingList = [];
-                        inform.add('No hay consorcios asociados a la administracion seleccionada, contacte al area de soporte de TASS.',{
+                        inform.add('No hay consorcios asociados a la administracion seleccionada, contacte al area de soporte de BSS.',{
                         ttl:5000, type: 'warning'
                         });
                     }else if (response.status==500){
@@ -639,7 +639,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                      $scope.typedelivery = response.data;
                  }else if (response.status==404){
                      $scope.typedelivery = [];
-                     inform.add('No hay tipos de deliverys registrados, contacte al area de soporte de TASS.',{
+                     inform.add('No hay tipos de deliverys registrados, contacte al area de soporte de BSS.',{
                      ttl:5000, type: 'warning'
                      });
                  }else if (response.status==500){
@@ -669,7 +669,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                          }else if (response.status==404){
                              $scope.ListDpto=[];
                              $scope.dptoNotFound = true;
-                             inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
+                             inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de BSS.',{
                              ttl:5000, type: 'danger'
                              });
                          }
@@ -769,10 +769,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
                             for (var srv in response.data){
                                 console.info(response.data[srv])
-                                console.info(response.data[srv].idServiceAsociateFk_array.length);
-                                console.info(response.data[srv].idServiceAsociateFk_array);
-                                console.info(response.data[srv].idServiceAsociateFk_array[0]);
-                                if (response.data[srv].idServiceAsociateFk_array.length>0){
+                                if (response.data[srv].idServiceAsociateFk_array!=undefined && response.data[srv].idServiceAsociateFk_array.length>0){
+                                    console.info(response.data[srv].idServiceAsociateFk_array.length);
+                                    console.info(response.data[srv].idServiceAsociateFk_array);
+                                    console.info(response.data[srv].idServiceAsociateFk_array[0]);
                                     for (var srva in response.data[srv].idServiceAsociateFk_array){
                                         console.info(response.data[srv].idServiceAsociateFk_array[srva])
                                         if (response.data[srv].idServiceAsociateFk_array[srva]!=null && response.data[srv].idServiceAsociateFk_array[srva][0].idClientServicesAccessControl!=undefined){
@@ -889,7 +889,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }else if (response.status==500){
                             $scope.tenantNotFound=true;
                             $scope.listTenantByDepto =[];
-                            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                            inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                                 ttl:3000, type: 'danger'
                             });
                         }
@@ -954,7 +954,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             });
                         }else if (response.status==500){
                             $scope.tenantNotFound=true;
-                            inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                            inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                                 ttl:3000, type: 'danger'
                             });
                         }
@@ -1136,7 +1136,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         ttl:3000, type: 'success'
                         });
                     }else if (response.status==404){
-                        inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                        inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                         ttl:3000, type: 'danger'
                         });
                     }
@@ -1518,14 +1518,14 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.buildingServiceValue  = Number(response.data.technician_service_cost[0].cost);
                         $scope.customerCosts=true;
                     }else if (response.status==404){
-                        inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de TASS.',{
+                        inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de BSS.',{
                             ttl:3000, type: 'warning'
                         });
                         $scope.customerCosts=false;
                         $scope.ticket.cost.service  = 0;
                         $scope.buildingServiceValue = 0;
                     }else if (response.status==500){
-                        inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                        inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                         ttl:3000, type: 'danger'
                         });
                         $scope.ticket.cost.service  = 0;
@@ -1545,12 +1545,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 if(response.status==200){
                     $scope.reasonDisabledKey = response.data;
                 }else if (response.status==404){
-                    inform.add('Tipos de razones para dar de baja no encontradas, contacte al area de soporte de TASS.',{
+                    inform.add('Tipos de razones para dar de baja no encontradas, contacte al area de soporte de BSS.',{
                         ttl:3000, type: 'warning'
                     });
                     $scope.reasonDisabledKey = null;
                 }else if (response.status==500){
-                    inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                    inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                     ttl:3000, type: 'danger'
                     });
                     $scope.reasonDisabledKey = null;
@@ -1567,12 +1567,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     if(response.status==200){
                         $scope.ticket.companyUserList = response.data;
                     }else if (response.status==404){
-                        inform.add('No hay Administradores asociados a la administración, contacte al area de soporte de TASS.',{
+                        inform.add('No hay Administradores asociados a la administración, contacte al area de soporte de BSS.',{
                             ttl:3000, type: 'warning'
                         });
                         $scope.ticket.companyUserList = null;
                     }else if (response.status==500){
-                        inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                        inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                         ttl:3000, type: 'danger'
                         });
                         $scope.ticket.companyUserList = null;
@@ -1606,7 +1606,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                     }
                 }else if (response.status==404){
-                    inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                    inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                         ttl:3000, type: 'danger'
                     });
                     if (type=="admin"){
@@ -1616,7 +1616,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.select.buildings.selected = undefined;
                     }
                 }else if (response.status==500){
-                    inform.add('Ocurrio un error, contacte al area de soporte de TASS.',{
+                    inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                     ttl:3000, type: 'danger'
                     });
                         if (type=="admin"){
@@ -2171,7 +2171,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.msg2 = ' esta inhabilitado para realizar pedidos';
                             $scope.msg3 = 'Contacte con la administración y/o el area de soporte.';
                             $('#customerNotificationModal').modal({backdrop: 'static', keyboard: true});
-                            //inform.add('El cliente '+obj.name+' se encuentra inhabilitado para realizar pedidos, contacte al area de soporte de TASS.',{
+                            //inform.add('El cliente '+obj.name+' se encuentra inhabilitado para realizar pedidos, contacte al area de soporte de BSS.',{
                             //    ttl:6000, type: 'warning'
                             //});
                         }
@@ -2305,7 +2305,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.msg2 = ' esta inhabilitado para realizar pedidos';
                             $scope.msg3 = 'Contacte con la administración y/o el area de soporte.';
                             $('#customerNotificationModal').modal({backdrop: 'static', keyboard: true});
-                            //inform.add('El cliente '+obj.name+' se encuentra inhabilitado para realizar pedidos, contacte al area de soporte de TASS.',{
+                            //inform.add('El cliente '+obj.name+' se encuentra inhabilitado para realizar pedidos, contacte al area de soporte de BSS.',{
                             //    ttl:6000, type: 'warning'
                             //});
                         }
@@ -2572,7 +2572,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.item_added = true;
                                 }
                             }else{
-                                inform.add("Puede solicitar hasta un maximo de "+$scope.keysAllowed+", si desea hacer un pedido mayor, contactar con el equipo de Tass Seguridad.",{
+                                inform.add("Puede solicitar hasta un maximo de "+$scope.keysAllowed+", si desea hacer un pedido mayor, contactar con el equipo de BSS Seguridad.",{
                                     ttl:5000, type: 'warning'
                                 });
                             }
@@ -3234,7 +3234,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }else if (obj.whoPickUp.id==undefined && $scope.ticket.delivery.idTypeDeliveryKf==2 && (obj.idDeliveryTo==null || obj.idDeliveryTo==1)){
                                 $scope.ticket.delivery.idDeliveryTo = null;
                                 $scope.mainSwitchFn("selectDeliveryAddress",obj,null);
-                            }else if ($scope.ticket.building!=undefined && ($scope.ticket.building.initial_delivery==null || $scope.ticket.building.initial_delivery==undefined || $scope.ticket.building.initial_delivery[0].expiration_state) && obj.whoPickUp.id==undefined && $scope.ticket.delivery.idTypeDeliveryKf==2 && (obj.idDeliveryTo==null || obj.idDeliveryTo==2)){
+                            }else if ($scope.ticket.building!=undefined && (($scope.ticket.building.initial_delivery.length==0) || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state)) && obj.whoPickUp.id==undefined && $scope.ticket.delivery.idTypeDeliveryKf==2 && (obj.idDeliveryTo==null || obj.idDeliveryTo==2)){
                                 $scope.ticket.delivery.thirdPerson  = null;
                                 $scope.ticket.delivery.idDeliveryTo = null;
                                 if ($scope.ticket.delivery.otherAddress!=undefined){
@@ -3341,7 +3341,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             if(response.status==200){
                                 $scope.ticket.delivery.zone = response.data[0]
                             }else if(response.status==404){
-                                inform.add('El envio a la localidad seleccionada tendra un recargo extra, contacta al area de soporte de tass.',{
+                                inform.add('El envio a la localidad seleccionada tendra un recargo extra, contacta al area de soporte de BSS.',{
                                 ttl:8000, type: 'info'
                                 });
                                 $scope.ticket.delivery.zone = null;

@@ -1846,6 +1846,114 @@ class User_model extends CI_Model
 	
 		return null;
 	}
+
+
+
+    public function addGuest($guest) {
+
+        $user = null;
+
+            $this->db->insert('tb_user_guest', [
+					'names'        			=> $guest['names'],
+					'dni'              		=> $guest['dni'],
+					'brand'                 => $guest['brand'],
+					'emailAddress'          => @$guest['emailAddress'],
+					'phoneNumber' 			=> @$guest['phoneNumber'],
+					'idDepartmentKf'       	=> $guest['idDepartmentKf'],
+					'idKeychainKf'     		=> @$guest['idKeychainKf'],
+                ]
+            );
+
+            if ($this->db->affected_rows() === 1) {
+				return true;
+			} else {
+				return false;
+			}
+
+
+    }
+
+    public function updateGuest($guest) {
+
+        $this->db->set(
+            [
+                'names'        			=> $guest['names'],
+                'dni'              		=> $guest['dni'],
+                'brand'                 => $guest['brand'],
+                'emailAddress'          => @$guest['emailAddress'],
+                'phoneNumber' 			=> @$guest['phoneNumber'],
+                'idDepartmentKf'       	=> $guest['idDepartmentKf'],
+                'idKeychainKf'     		=> @$guest['idKeychainKf'],
+            ]
+        )->where("idGuest", $guest['idGuest'])->update("tb_user_guest");
+
+		if ($this->db->affected_rows() >= 0) {
+			return true;
+		} else {
+			return false;
+		}
+
+    }
+
+    public function deleteGuest($idGuest) {
+
+        $this->db->set(
+            [ 'idStatusKf' => -1 ])->where("idGuest", $idGuest)->update("tb_user_guest");
+
+        return true;
+
+
+    }
+
+    public function get_guest($id = null, $searchFilter = null) {
+        $quuery = null;
+        $rs     = null;
+
+        if (! is_null($id)) {
+
+            $this->db->select("*")->from("tb_user_guest");
+            $this->db->join('tb_client_departament', 'tb_products_classification.idClientDepartament = tb_user_guest.idDepartmentKf', 'left');
+			$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_user_guest.idKeychainKf', 'left');
+			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user_guest.idStatusKf', 'left');
+            $quuery = $this->db->where("tb_products.idProduct =", $id)->get();
+
+
+            if ($quuery->num_rows() === 1) {
+                $rs = $quuery->row_array();
+
+                return $rs;
+            }
+            return null;
+        } else {
+
+            $this->db->select("*")->from("tb_user_guest");
+            $this->db->join('tb_client_departament', 'tb_products_classification.idClientDepartament = tb_user_guest.idDepartmentKf', 'left');
+			$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_user_guest.idKeychainKf', 'left');
+			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user_guest.idStatusKf', 'left');
+            $this->db->where("tb_user_guest.idStatusKf !=", -1);
+
+
+            /* Busqueda por filtro */
+            if (isset($searchFilter['searchFilter'])) {
+                $this->db->like('tb_user_guest.name', $searchFilter['searchFilter']);
+            }
+
+
+            $quuery = $this->db->order_by("tb_user_guest.idGuest", "ASC")->get();
+
+
+            if ($quuery->num_rows() > 0) {
+
+                $rs = $quuery->result_array();
+
+                return $rs;
+            }
+
+            return null;
+        }
+    }
+
+
 }
 
 ?>

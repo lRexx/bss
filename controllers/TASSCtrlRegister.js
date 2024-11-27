@@ -268,7 +268,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
             blockUI.stop();
           }, 1500);
         }else if (response.status==404){
-          inform.add('Ocurrio un error, contacte al area de soporte de TASS..',{
+          inform.add('Ocurrio un error, contacte al area de soporte de BSS',{
             ttl:3000, type: 'danger'
           });
         }
@@ -457,7 +457,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
               if(response.status==200){
                 $scope.ListDpto = response.data;
               }else if (response.status==404){
-                inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de TASS.',{
+                inform.add('No hay departamentos en esta direccion para ser asociados, contacte al area de soporte de BSS.',{
                   ttl:5000, type: 'danger'
                 });
               }
