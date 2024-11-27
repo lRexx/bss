@@ -761,8 +761,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 $scope.rsCustomerInterneServices = [];
                 //console.log("Getting --> ControlAccessDoorsAssociatedToACustomerFn");
                 CustomerServices.getCheckControlAccessState(idClient).then(function(response){
-                    console.log(response.data);
                     if(response.status==200){
+                        console.log(response.data);
                         if($scope.ticket.building!=undefined && (
                             (($scope.ticket.building.initial_delivery.length==0 || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state))) ||
                             ($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0')||
@@ -809,19 +809,24 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
                         }
                     }else if (response.status==404){
+                        console.log(response.data);
+                        console.log($scope.ticket.building);
                         if($scope.ticket.building!=undefined && (
-                            (($scope.ticket.building.initial_delivery.length==0 || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state))) ||
-                            ($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0')||
-                            ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
+                            ($scope.ticket.building.initial_delivery.length==0 || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state)) ||
+                            ($scope.ticket.building.isStockInBuilding=="1" && $scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0')||
+                            ($scope.ticket.building.isStockInOffice=="1" && $scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
+                            console.log($scope.ticket.building);
                             $scope.getCostByCustomer.rate.deviceIsOnline="2";
                             $scope.getCostByCustomer.rate.hasStock="1";
                             $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
                         }else{
+                            console.log($scope.ticket.building);
                             $scope.getCostByCustomer.rate.deviceIsOnline="2";
                             $scope.getCostByCustomer.rate.hasStock="0";
                             $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
                         }
                     }else if (response.status==500){
+                        console.log(response.data);
                         inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
                             ttl:5000, type: 'danger'
                         });
@@ -2124,13 +2129,16 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.getKeysAssociatedToACustomerFn(obj.idClient);
                                     $scope.getControlAccessDoorsAssociatedToACustomerFn(obj.idClient);
                                     $scope.getAttendantListFn(obj.idClient);
+
+                                }, 1500);
+                                $timeout(function() {
                                     blockUI.stop();
                                     console.log("chargeForExpenses  :"+$scope.ticket.building.chargeForExpenses);
                                     if ($scope.ticket.building.chargeForExpenses=='0' || $scope.ticket.building.chargeForExpenses==null || $scope.ticket.building.chargeForExpenses==undefined){
                                         $scope.ticket.cost.idTypePaymentKf=2;
-                                    }
-                                }, 1500);
-
+                                    }                               
+                                    
+                                }, 1700);
                                 $timeout(function() {
                                     if ($scope.isRequest=="costs"){
                                         $scope.buildingDeliveryCost = obj.valor_envio;
@@ -2140,10 +2148,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }, 2000);
                             }else if (obj!=undefined && $scope.sysLoggedUser.idProfileKf!="1"){
                                 $scope.getCostByCustomer.rate.idCustomer=obj.idClient;   
-                                $scope.checkControlAccessStateFn(obj.idClient);
+                                
                                 $timeout(function() {
                                     $scope.getCustomerByIdFn(obj.idClient, "building");                     
                                 }, 1000);
+                                $timeout(function() {
+                                    $scope.checkControlAccessStateFn(obj.idClient);                  
+                                }, 1500);
                                 $timeout(function() {
                                     $scope.getKeysAssociatedToACustomerFn(obj.idClient);
                                     $scope.getControlAccessDoorsAssociatedToACustomerFn(obj.idClient);
@@ -2152,7 +2163,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     if ($scope.ticket.building.chargeForExpenses=='0' || $scope.ticket.building.chargeForExpenses==null || $scope.ticket.building.chargeForExpenses==undefined){
                                         $scope.ticket.cost.idTypePaymentKf=2;
                                     }
-                                }, 1500);
+                                }, 1700);
                                 $timeout(function() {
                                     if ($scope.isRequest=="costs"){
                                         console.log(obj);
@@ -4045,9 +4056,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }
                         }
                         console.log($scope.new.ticket);
-                        $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                        //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                         $timeout(function() {
-                           $scope.addUpRequestFn($scope.new);
+                           //$scope.addUpRequestFn($scope.new);
                         }, 2000);
                                             
                     break;
