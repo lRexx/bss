@@ -1,43 +1,44 @@
 var app = angular.module('systemApp', ["ngRoute", "ngCookies",
-                                             "module.Menu",
+                                                "module.Menu",
                                             "module.Login",
-                                           "module.Logout",
-                                     "module.RegisterUser",
-                                         "module.Products",
-                                          "module.Monitor",
-                                        "module.Customers",
-                                           "module.Status",
-                                             "module.Info",
-                                         "module.Approval",
-                                         "module.Services",
-                                           "module.NewPwd",
-                                        "module.ForgotPwd",
-                                           "services.User",
-                                       "services.Profiles",
-                                       "services.Products",
-                                         "services.Ticket",
+                                            "module.RegisterUser",
+                                            "module.Products",
+                                            "module.Monitor",
+                                            "module.Customers",
+                                            "module.Status",
+                                                "module.Info",
+                                            "module.Approval",
+                                            "module.Services",
+                                            "module.NewPwd",
+                                            "module.ForgotPwd",
+                                            "services.User",
+                                            "services.Profiles",
+                                            "services.Products",
+                                            "services.Ticket",
                                             "module.Users",
-                                           "services.Keys",
-                                             "module.Keys",
-                                             "module.Tech",
-                                        "services.Address",
-                                        "module.Buildings",
-                                          "module.Tickets",
-                                           "module.System",
-                                                 "blockUI",
-                                                  "inform",
-                                        //"inform-exception",
+                                            "services.Keys",
+                                                "module.Keys",
+                                                "module.Tech",
+                                            "services.Address",
+                                            "module.Buildings",
+                                            "module.Tickets",
+                                            "module.System",
+                                            "module.Validate",
+                                                    "blockUI",
+                                                    "inform",
+                                            //"inform-exception",
                                                 "showdown",
-                                             "tokenSystem",
-                                               "ngAnimate",
-                                               "ngTouch",
+                                                "tokenSystem",
+                                                "ngAnimate",
+                                                "ngTouch",
                                             "ui.bootstrap",
-                                             "ngclipboard",
-                   //"angularUtils.directives.dirPagination",
-                                          "angular.filter",
+                                                "ngclipboard",
+                                            //"angularUtils.directives.dirPagination",
+                                            "angular.filter",
                                                 "rzSlider",
                                                 "ngLocale",
-                                             "angularCSS"]);
+                                            "module.Logout",
+                                                "angularCSS"]);
 app.config(function(blockUIConfig) {
       // Tell blockUI not to mark the body element as the main block scope.
       blockUIConfig.autoInjectBodyBlock = true;  
@@ -135,9 +136,9 @@ app.config(['$routeProvider', '$locationProvider',
             css: 'views/mainapp/style.css'
         })
         .when('/customers', {
-          templateUrl: 'views/customer/',
-          controller: 'CustomersCtrl',
-          css: 'views/mainapp/style.css'
+        templateUrl: 'views/customer/',
+        controller: 'CustomersCtrl',
+        css: 'views/mainapp/style.css'
         })
         .when('/info', {
             templateUrl: 'views/info/',
@@ -153,7 +154,7 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: 'views/services/',
             controller: 'ServicesCtrl',
             css: 'views/mainapp/style.css'
-          })
+        })
         .when('/products', {
             templateUrl: 'views/products/',
             controller: 'ProductsCtrl',
@@ -183,6 +184,16 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: 'views/users/',
             controller: 'UsersCtrl',
             css: 'views/mainapp/style.css'
+        })
+        .when('/validate/token/:secureToken', {
+            templateUrl: 'views/validation/',
+            controller: 'ValidationCtrl',
+            css: 'views/validation/style.css'
+        })
+        .when('/validate', {
+            templateUrl: 'views/validation/',
+            controller: 'ValidationCtrl',
+            css: 'views/validation/style.css'
         })
         .when('/system', {
             templateUrl: 'views/system/',
