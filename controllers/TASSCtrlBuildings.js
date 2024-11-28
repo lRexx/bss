@@ -2684,8 +2684,11 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         return item
                     }else if ($scope.sysLoggedUser.idTypeTenantKf=='2' && item.idTypeTenantKf==$scope.sysLoggedUser.idTypeTenantKf){
                         return item
-                    }
-                    
+                    }  
+                };
+                $scope.filterKeyByReason = function(item){
+                    //console.log(item);
+                    return item.idReasonKf != '4'
                 };
                 //AUTO UPDATE MY DEPARTMENTS MODULE EVERY 5 minutes WHEN MY DEPARTMENTS IS OPEN
                 $interval( function(){
