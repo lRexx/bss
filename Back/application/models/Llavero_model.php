@@ -176,6 +176,7 @@ class Llavero_model extends CI_Model
 
 	public function add($items, $is_multiple = true)
 	{
+		//print_r($items);
 		$errors_multiple = null;
 		$idClientKf = null;
 		$now = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
@@ -183,13 +184,14 @@ class Llavero_model extends CI_Model
 			for ($i = 0; $i < count($items['departamento']); $i++) {
 				$idClientKf = null;
 				if (!is_null($items['departamento'][$i])){
-					$idClientKf=$items['departamento'][$i];
+					$idClientKf=$items['cliente'][$i];
 				}else{
 					$idClientKf = $this->find_by_idDepartment($items['departamento'][$i]);
 				}
 				if (!is_null($this->find_by_code($items['codigo'][$i],$idClientKf))) {
 					$errors_multiple[] = $items['codigo'][$i];
 				} else {
+					//print_r($items['codigo'][$i]);
 					$this->db->insert('tb_keychain', [
 							"idProductKf" 			=> $items['producto'][$i],
 							"codExt" 				=> $items['codigoExt'][$i],
@@ -197,7 +199,7 @@ class Llavero_model extends CI_Model
 							"idDepartmenKf" 		=> $items['departamento'][$i],
 							"idClientKf" 			=> $items['cliente'][$i],
 							"idCategoryKf" 			=> $items['categoria'][$i],
-							"idClientAdminKf"       => $items['admin'][$i],
+							"idClientAdminKf"       => @$items['admin'][$i],
 							"created_at" 			=> $now->format('Y-m-d H:i:s'),
 							"idKeychainStatusKf" 	=> 1,
 							//"idUserKf" 	=> $items['idUserKf'][$i],
@@ -206,8 +208,15 @@ class Llavero_model extends CI_Model
 					);
 				}
 			}
+			//print_r($errors_multiple);
 			if (!is_null($errors_multiple) > 0) {
 				return $errors_multiple;
+			}else{
+				if ($this->db->affected_rows() === 1) {
+					return 1;
+				} else {
+					return 0;
+				}
 			}
 		} else {
 			if (!is_null($items['idClientKf'])){
@@ -469,34 +478,39 @@ class Llavero_model extends CI_Model
 
 	}
 
-	public function addVarios2($file)
+	public function addVarios22($file)
 	{ //recibe excel y lo decodifica
 		//print_r($_FILES['excel']);
 		//return null;
 		//echo 'Current PHP version: ' . phpversion();
 		$uploaddir = realpath(APPPATH . '../../uploads');
+		
 		$path = $_FILES['excel']['name'];
 		$ext = pathinfo($path, PATHINFO_EXTENSION);
 		$user_img = time() . rand() . '.' . $ext;
 		$uploadfile = $uploaddir . time() . '_' . str_replace(" ", "", $path);
 		//$this->response($uploadfile, 200);
+		
 		if ($file["excel"]["name"]) {
 			move_uploaded_file($file["excel"]["tmp_name"], "$uploadfile");
 		}
-
+		
 		$archivo_plantilla = null;
 		$ruta = $uploadfile;
 		if (!file_exists($ruta)) {
 			return "No existe el archivo";
 		}
-		$objReader = new PHPExcel_Reader_Excel2007();
+		//$objReader = new PHPExcel_Reader_Excel2007();
 		$objPHPExcel = new PHPExcel();
 		$archivo_valido = false;
+		
 		try {
 			$inputFileType = PHPExcel_IOFactory::identify($ruta);
+			//print($inputFileType);
 			if ($inputFileType == "Excel2007") {
 				$archivo_valido = true;
 				$objPHPExcel = PHPExcel_IOFactory::load($ruta);
+				
 			}
 		} catch (Exception $e) {
 			echo "Error! no es una plantilla de excel valida<br>";
@@ -511,6 +525,7 @@ class Llavero_model extends CI_Model
 			$fila = 2; //ajuste de inicio
 			$salida = true;
 			for ($fila; $salida; $fila++) {
+				//print($objPHPExcel->getActiveSheet()->getCell('A' . $fila)->getValue());
 				if ($objPHPExcel->getActiveSheet()->getCell('A' . $fila)->getValue() ||
 					$objPHPExcel->getActiveSheet()->getCell('B' . $fila)->getValue() ||
 					$objPHPExcel->getActiveSheet()->getCell('C' . $fila)->getValue() ||
@@ -539,7 +554,178 @@ class Llavero_model extends CI_Model
 		}
 
 	}
-    public function verifyKeysByidUser($idDepto, $idUser) {
+
+	public function addVarios23($file)
+	{
+    // Set upload directory
+    $uploaddir = realpath(APPPATH . '../../uploads');
+    $path = $_FILES['excel']['name'];
+    $ext = pathinfo($path, PATHINFO_EXTENSION);
+    $user_img = time() . rand() . '.' . $ext;
+    $uploadfile = $uploaddir . '/' . time() . '_' . str_replace(" ", "", $path);
+
+    // Upload the file
+    if (isset($file["excel"]["name"]) && $file["excel"]["tmp_name"]) {
+        move_uploaded_file($file["excel"]["tmp_name"], $uploadfile);
+    }
+
+    // Check if file exists
+    if (!file_exists($uploadfile)) {
+        return "No existe el archivo";
+    }
+
+    $archivo_valido = false;
+
+    try {
+        // Identify the file type
+        $inputFileType = PHPExcel_IOFactory::identify($uploadfile);
+        if ($inputFileType == "Excel2007") {
+            $archivo_valido = true;
+            $objPHPExcel = PHPExcel_IOFactory::load($uploadfile);
+        }
+    } catch (Exception $e) {
+        echo "Error! no es una plantilla de Excel válida<br>";
+        $archivo_valido = false;
+    }
+
+    if ($archivo_valido) {
+        $locale = 'es_es';
+        $validLocale = PHPExcel_Settings::setLocale($locale);
+        if (!$validLocale) {
+            echo "Unable to set locale to " . $locale . " - reverting to en_us";
+        }
+
+        $fila = 2; // Starting row
+        $salida = true;
+        $a = []; // Initialize the array to store data
+
+        while ($salida) {
+            // Validate cell values before accessing
+            $cellA = $objPHPExcel->getActiveSheet()->getCell('A' . $fila)->getValue();
+            $cellB = $objPHPExcel->getActiveSheet()->getCell('B' . $fila)->getValue();
+            $cellC = $objPHPExcel->getActiveSheet()->getCell('C' . $fila)->getValue();
+            $cellF = $objPHPExcel->getActiveSheet()->getCell('F' . $fila)->getValue();
+            $cellH = $objPHPExcel->getActiveSheet()->getCell('H' . $fila)->getValue();
+            $cellI = $objPHPExcel->getActiveSheet()->getCell('I' . $fila)->getValue();
+            $cellJ = $objPHPExcel->getActiveSheet()->getCell('J' . $fila)->getValue();
+
+            // Check if any cell in the row has a value
+			print("cellA: ".$cellA);
+			print("cellB: ".$cellB);
+			print("cellC: ".$cellC);
+			print("cellF: ".$cellF);
+			print("cellH: ".$cellH);
+			print("cellI: ".$cellI);
+			print("cellJ: ".$cellJ);
+            if ($cellA || $cellB || $cellC || $cellF || $cellH || $cellI || $cellJ) {
+                $a['departamento'][] 	= $cellA ?: null;
+                $a['cliente'][] 		= $cellB ?: null;
+                $a['admin'][] 			= $cellC ?: null;
+                $a['producto'][] 		= $cellF ?: null;
+                $a['codigo'][] 			= (string)($cellH ?: null);
+                $a['codigoExt'][] 		= (string)($cellI ?: null);
+                $a['categoria'][] 		= (string)($cellJ ?: null);
+            } else {
+                $salida = false; // Exit the loop when no data is found
+            }
+
+            $fila++;
+        }
+
+        return $this->add($a, true);
+    } else {
+        echo "Error! no es una plantilla de Excel válida<br>";
+    }
+	}
+
+	public function addVarios2($file)
+	{
+		// Set upload directory
+		$uploaddir = realpath(APPPATH . '../../uploads');
+		$path = $_FILES['excel']['name'];
+		$ext = pathinfo($path, PATHINFO_EXTENSION);
+		$user_img = time() . rand() . '.' . $ext;
+		$uploadfile = $uploaddir . '/' . time() . '_' . str_replace(" ", "", $path);
+	
+		// Validate the uploaded file
+		if (isset($file["excel"]["name"]) && $file["excel"]["tmp_name"]) {
+			if (move_uploaded_file($file["excel"]["tmp_name"], $uploadfile)) {
+				//echo "File uploaded successfully.";
+			} else {
+				return "Error moving the uploaded file.";
+			}
+		}
+	
+		// Check if file exists
+		if (!file_exists($uploadfile)) {
+			return "No existe el archivo";
+		}
+	
+		$archivo_valido = false;
+		try {
+			// Identify the file type
+			$inputFileType = PHPExcel_IOFactory::identify($uploadfile);
+			if ($inputFileType == "Excel2007") {
+				$archivo_valido = true;
+				$objPHPExcel = PHPExcel_IOFactory::load($uploadfile);
+			}
+		} catch (Exception $e) {
+			return "Error! no es una plantilla de Excel válida: " . $e->getMessage();
+		}
+	
+		if ($archivo_valido) {
+			// Set locale to Spanish
+			$locale = 'es_es';
+			$validLocale = PHPExcel_Settings::setLocale($locale);
+			if (!$validLocale) {
+				return "Unable to set locale to " . $locale . " - reverting to en_us";
+			}
+	
+			$fila = 2; // Starting row
+			$salida = true;
+			$a = []; // Initialize the array to store data
+	
+			while ($salida) {
+				// Get cell values and handle potential nulls
+				$cellA = $objPHPExcel->getActiveSheet()->getCell('A' . $fila)->getValue();
+				$cellB = $objPHPExcel->getActiveSheet()->getCell('B' . $fila)->getValue();
+				$cellC = $objPHPExcel->getActiveSheet()->getCell('C' . $fila)->getValue();
+				$cellF = $objPHPExcel->getActiveSheet()->getCell('F' . $fila)->getValue();
+				$cellH = $objPHPExcel->getActiveSheet()->getCell('H' . $fila)->getValue();
+				$cellI = $objPHPExcel->getActiveSheet()->getCell('I' . $fila)->getValue();
+				$cellJ = $objPHPExcel->getActiveSheet()->getCell('J' . $fila)->getValue();
+	
+				// Check if any cell in the row has a value
+				if ($cellA || $cellB || $cellC || $cellF || $cellH || $cellI || $cellJ) {
+					#print("cellA: ".$cellA);
+					#print("cellB: ".$cellB);
+					#print("cellC: ".$cellC);
+					#print("cellF: ".$cellF);
+					#print("cellH: ".$cellH);
+					#print("cellI: ".$cellI);
+					#print("cellJ: ".$cellJ);
+					$a['departamento'][] 	= $cellA;
+					$a['cliente'][] 		= $cellB;
+					$a['admin'][] 			= $cellC;
+					$a['producto'][] 		= $cellF;
+					$a['codigo'][] 			= (string)($cellH);
+					$a['codigoExt'][] 		= (string)($cellI);
+					$a['categoria'][] 		= (string)($cellJ);
+					//print_r($a);
+				} else {
+					$salida = false; // Exit the loop when no data is found
+				}
+	
+				$fila++;
+			}
+			//print_r($a);
+			// Return the processed data to another method or to be inserted
+			return $this->add($a, true);
+		} else {
+			return "Error! no es una plantilla de Excel válida";
+		}
+	}
+	public function verifyKeysByidUser($idDepto, $idUser) {
 
         $query = null;
 
