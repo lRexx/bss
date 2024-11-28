@@ -58,7 +58,8 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
         'info':{}, 
         'select':{'main':{},'date':{}, 'codes':{}}
     };
-    $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined,'filterCategoryKey':'', 'department':'', 'keychainStatus':{}, 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
+    $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined,'filterCategoryKey':'', 'reasonKf':{}, 'codeSearch':null,'department':'', 'idTypeTicketKf':null, 'keychainStatus':{}, 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
+
     $scope.keys={'llavero':{}, 
     'new':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
     'update':{'address':{'selected':undefined}, 'products':{'selected':undefined}, 'categoryKey':'', 'department':{}, 'codigo':'', 'codigoExt':''},
