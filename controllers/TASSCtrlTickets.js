@@ -2637,7 +2637,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log("subTotalKeys: "+subTotalKeys+"\n"+"keyTotalAllowed :"+keyTotalAllowed);
                         if (($scope.keysTotalPrice>=keyTotalAllowed) || 
                             ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state)||
-                            ($scope.ticket.building.isStockInBuilding=="1" || $scope.ticket.building.isStockInOffice=='1')){
+                            ($scope.ticket.building.isStockInBuilding=="1")){
                             $scope.deliveryCostFree = 1;
                         }else{
                             $scope.deliveryCostFree = 0;
@@ -4056,9 +4056,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }
                         }
                         console.log($scope.new.ticket);
-                        //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                        $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                         $timeout(function() {
-                           //$scope.addUpRequestFn($scope.new);
+                           $scope.addUpRequestFn($scope.new);
                         }, 2000);
                                             
                     break;
