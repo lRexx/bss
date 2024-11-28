@@ -118,7 +118,8 @@ class Mercadolibre_model extends CI_Model
 			];
 			
 			//print_r($param);
-			$certificates_dir=realpath(APPPATH . '/etc/ssl/certs/');
+			//$certificates_dir=realpath(APPPATH . '../certificate');
+			$certificates_dir=realpath( '/etc/ssl/certs/');
 			$curl = curl_init();
 			curl_setopt_array($curl , [
 				CURLOPT_URL 			=> $uri ,
