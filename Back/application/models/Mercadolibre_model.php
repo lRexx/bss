@@ -118,7 +118,7 @@ class Mercadolibre_model extends CI_Model
 			];
 			
 			//print_r($param);
-			$certificates_dir=realpath(APPPATH . '../certificate');
+			$certificates_dir=realpath(APPPATH . '/etc/ssl/certs/');
 			$curl = curl_init();
 			curl_setopt_array($curl , [
 				CURLOPT_URL 			=> $uri ,
@@ -130,7 +130,7 @@ class Mercadolibre_model extends CI_Model
 				CURLOPT_POSTFIELDS 		=> json_encode($param) ,
 				CURLOPT_POST 			=> TRUE,
 				CURLOPT_VERBOSE 		=> TRUE,
-				CURLOPT_CAINFO 			=> $certificates_dir."/curl-ca-bundle.crt",
+				CURLOPT_CAINFO 			=> $certificates_dir."/ca-certificates.crt",
 				CURLOPT_STDERR 			=> fopen('curl_mp.log', 'a+'),
 				CURLOPT_HTTPHEADER 		=> [
 					"Accept: application/json" ,
