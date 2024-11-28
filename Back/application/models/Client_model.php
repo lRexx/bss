@@ -2367,7 +2367,7 @@ class Client_model extends CI_Model {
             $this->db->join('tb_products', 'tb_products.idProduct = tb_open_devices_access_control.idOpenDevice', 'left');
             $this->db->join('tb_products_classification', 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk', 'left');
             $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-            $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 AND tb_client_services_access_control.idContracAssociated_SE!='' 
+            $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 AND tb_client_services_access_control.idContracAssociated_SE!='' AND tb_client_services_access_control.dateDown=''
             GROUP BY tb_products.idProduct,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_products.idProduct";
             $quuery = $this->db->where($where_string)->get();
             if ($quuery->num_rows() > 0) {
@@ -2391,7 +2391,7 @@ class Client_model extends CI_Model {
             $this->db->join('tb_client_services_access_control', 'tb_client_services_access_control.idContracAssociated_SE = tb_contratos.idContrato', 'left');
             $this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_servicios_del_contrato_cuerpo.idAccCrtlDoor', 'left');
             $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-            $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 AND tb_client_services_access_control.idContracAssociated_SE!=''
+            $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 AND tb_client_services_access_control.idContracAssociated_SE!='' AND tb_client_services_access_control.dateDown=''
             GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
             $quuery = $this->db->where($where_string)->get();
             if ($quuery->num_rows() > 0) {
@@ -2428,7 +2428,7 @@ class Client_model extends CI_Model {
             $this->db->join('tb_client_services_internet', 'tb_client_services_internet.idContracAssociated_SE = tb_contratos.idContrato', 'left');
             $this->db->join('tb_tipos_servicios_internet', 'tb_tipos_servicios_internet.idTipoServicioInternet = tb_client_services_internet.idTypeInternetFk', 'left');
             $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-            $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 2 AND tb_client_services_internet.idContracAssociated_SE!=''
+            $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 2 AND tb_client_services_internet.idContracAssociated_SE!='' AND tb_client_services_internet.dateDown=''
             GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_tipos_servicios_internet.idTipoServicioInternet;";
             $quuery = $this->db->where($where_string)->get();
             $servicesAssociated = null;
