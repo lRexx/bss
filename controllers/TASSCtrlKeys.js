@@ -559,9 +559,11 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.keys.file.building={};
                             $scope.keys.file.product={};
                             $scope.list_depto_floors=[];
+                            var floorNumber = parseInt(obj.mainQttyKeys);
                             $scope.keys.file.product=obj.products.selected;
                             $scope.keys.file.building=obj.address.selected;
                             var i=3;
+                            //console.log($scope.rsCategoryKeyChainsData);
                             f=0;
                             //console.log($scope.keys.file.building.list_departament);
                             for (category in $scope.rsCategoryKeyChainsData){
@@ -570,6 +572,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                     f++;
                                 }
                                 d=0;
+                                //console.log($scope.list_depto_floors);
                                 //console.log($scope.list_depto_floors); || $scope.select.products_cocheras.selected==undefined
                                 for (arrList in $scope.list_depto_floors){
                                     if( $scope.rsCategoryKeyChainsData[category].name.toLowerCase().substring(0,2)==$scope.list_depto_floors[arrList].nameFloor){
@@ -595,8 +598,9 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                     
                                 }
                             }
-                            $scope.list_depto_floors.push({'id':4,'nameFloor':'co', 'qttyKeys':'', 'deptos':[]});
-                            $scope.list_depto_floors.push({'id':5,'nameFloor':'pb', 'qttyKeys':'', 'deptos':[]});
+                            $scope.list_depto_floors.push({'id':4,'nameFloor':'lo', 'qttyKeys':floorNumber, 'deptos':[]});
+                            $scope.list_depto_floors.push({'id':5,'nameFloor':'co', 'qttyKeys':floorNumber, 'deptos':[]});
+                            $scope.list_depto_floors.push({'id':6,'nameFloor':'pb', 'qttyKeys':floorNumber, 'deptos':[]});
                             //FLOORS
                             var buildingList=$scope.keys.file.building.list_departament;
                             $scope.keys.file.building.list_departament=buildingList.sort(function(a, b) {
@@ -618,10 +622,11 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                 }
                             }
                             for (var floorItem=1;  floorItem<=lastFloor; floorItem++){
-                                $scope.list_depto_floors.push({'id':(floorItem+5),'nameFloor':floorItem.toString(), 'qttyKeys':'', 'deptos':[]});
+                                $scope.list_depto_floors.push({'id':(floorItem+6),'nameFloor':floorItem.toString(), 'qttyKeys':floorNumber, 'deptos':[]});
                             }
                             var d=0;
                             //DEPTOS
+                            //console.log($scope.list_depto_floors);
                             for (var arrList in $scope.list_depto_floors){
                                 d=0;
                                 for (var depto in $scope.keys.file.building.list_departament){
