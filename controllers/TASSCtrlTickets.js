@@ -4105,7 +4105,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }
                         }
                         console.log($scope.new.ticket);
-                        //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                        $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                         $timeout(function() {
                            $scope.addUpRequestFn($scope.new);
                         }, 2000);
