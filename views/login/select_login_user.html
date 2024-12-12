@@ -12,6 +12,7 @@
 				                <i ng-if="item.idStatusKf=='0'" class="fas fa-user-lock"></i>
                                 <i ng-if="((item.idProfileKf=='3' && item.idTypeTenantKf=='1') || (item.idProfileKf=='5' && item.idTypeTenantKf=='2')) && item.idStatusKf=='1'" class="fas fa-user"></i>
                                 <i ng-if="item.idProfileKf=='1' && item.idStatusKf=='1'" class="fas fa-users-cog"></i>
+								<i ng-if="item.idProfileKf=='4' && item.idStatusKf=='1'" class="fas fa-user-tie"></i>
 				            </div>
 				            <h3>{{item.fullNameUser}}</h3>
                             <label data-toggle="tooltip" data-placement="top" title="Perfil" class="label label-default">{{item.nameProfile}}</label>
