@@ -1654,6 +1654,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             $scope.provincesAllowed = function(item){
                 return item.idProvince == "1" || item.idProvince == "2";
             }
+            $scope.showNoNullValues = function(item){
+                return item.idProduct != null && item.descriptionProduct != null && item.contractStatus != null
+            }
         /**************************************************
         *            SHOW ONLY ADMIN AND COMPANY          *
         *                 CUSTOMER OPTIONS                *
@@ -4104,7 +4107,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log($scope.new.ticket);
                         //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                         $timeout(function() {
-                           //$scope.addUpRequestFn($scope.new);
+                           $scope.addUpRequestFn($scope.new);
                         }, 2000);
                                             
                     break;
@@ -4589,7 +4592,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log($scope.new.ticket);
                         $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                         $timeout(function() {
-                        $scope.addDownRequestFn($scope.new);
+                            $scope.addDownRequestFn($scope.new);
                         }, 2000);
                                             
                     break;
