@@ -335,7 +335,7 @@ class Mercadolibre_model extends CI_Model
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Type: <b>'.$response['type'].'</b></td>'; 
 			$body.='</tr>';	
 			$body.='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.$response['application_id'].'</b></td>'; 
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.@$response['application_id'].'</b></td>'; 
 			$body.='</tr>';
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Date: <b>'.$response['date_created'].'</b></td>'; 
@@ -357,7 +357,7 @@ class Mercadolibre_model extends CI_Model
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Type: <b>'.$response['type'].'</b></td>'; 
 			$body.='</tr>';	
 			$body.='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.$response['application_id'].'</b></td>'; 
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.@$response['application_id'].'</b></td>'; 
 			$body.='</tr>';
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Date: <b>'.$response['date_created'].'</b></td>'; 
