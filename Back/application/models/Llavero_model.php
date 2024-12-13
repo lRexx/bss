@@ -102,6 +102,7 @@ class Llavero_model extends CI_Model
 		->where('a.idClient', $idClientKf)
 		->or_where('b.idClient', $idClientKf)
 		->group_end();
+		$this->db->where('tb_keychain.idKeychainStatusKf', 1);
 		$quuery = $this->db->where('tb_keychain.codigo', $code)->get();
 		if ($quuery->num_rows() > 0) {
 			$rs = $quuery->result_array()[0];
