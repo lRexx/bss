@@ -322,7 +322,7 @@ class Mercadolibre_model extends CI_Model
 		//var_dump($response['api_version']);
 		// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //
 		/*MAIL*/
-		if($response['type'] != "test"){
+		if($response['type'] != "test" || $response['live_mode'] != "false"){
 			$title = "MercadoPago Webhook Notification ";
 			$subject = "Webhook Payment Notification from MercadoPago to BSS - [". $response['type']."] - ID:".$response['data']['id'];
 			$body='<tr width="100%" bgcolor="#ffffff">';
@@ -369,7 +369,7 @@ class Mercadolibre_model extends CI_Model
 		}
 
 		
-		if ($response['type'] == "test"){
+		if ($response['type'] == "test" || $response['live_mode'] == "false"){
 			return true;
 		}else{
 			$paymentDetails  		= $this->getPaymentMPDetails($response['data']['id']);
