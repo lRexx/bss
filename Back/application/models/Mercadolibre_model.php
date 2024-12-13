@@ -369,7 +369,7 @@ class Mercadolibre_model extends CI_Model
 	public function getNotificationFromMP($response)
 	{
 		print_r($response);
-		$cyphedSignature = hash_hmac('sha256', $data, $key);
+		//$cyphedSignature = hash_hmac('sha256', $data, $key);
 
 		# aec583f7ded6598f8548107537981444727d437588ba666e59396bde1e0039e5
 		//var_dump($response['api_version']);
