@@ -343,7 +343,7 @@ class Mercadolibre_model extends CI_Model
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Mode: <b>'.$response['live_mode'].'</b></td>'; 
 			$body.='</tr>';
-			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
+			$this->mail_model->sendMail($title, "rexx84@gmail.com;lean.figueroa@gmail.com", $body, $subject);
 		}else{
 			$title = "MercadoPago Webhook Notification ";
 			$subject = "Webhook Payment Notification from MercadoPago to BSS [TEST] - ID: ".$response['data']['id'];
@@ -365,7 +365,7 @@ class Mercadolibre_model extends CI_Model
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Mode: <b>'.$response['live_mode'].'</b></td>'; 
 			$body.='</tr>';
-			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
+			$this->mail_model->sendMail($title, "rexx84@gmail.com;lean.figueroa@gmail.com", $body, $subject);
 		}
 
 		
