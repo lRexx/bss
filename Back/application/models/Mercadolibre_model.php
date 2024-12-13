@@ -97,13 +97,14 @@ class Mercadolibre_model extends CI_Model
 		$data               = json_decode(json_encode($data));
 		$external_reference = $data->idTicket."_".(rand() * 8) . "_" . (time() * 4);
 		$paymentFor = $data->metadata->paymentFor;
+		$MP_TOKEN=BSS_MP_TOKEN;
 		try {
 			//$uri = 'https://dev.bss.com.ar/mpago/index.php';
 			$uri   = 'https://'.BSS_HOST.'/mpago/index.php'; //solo server
 			$param = [
-				"clienteid" 		 => '8877359900700578' ,
-				"clientesecret" 	 => 'al5TAYSIdZPx2lzzU64DFgSX67SDrhsr' ,
-				#"Authorization" 	 => "Bearer TEST-8877359900700578-012401-cc12a648254efb51f0c30f4b394955f6-1177407195",
+				#"clienteid" 		 => '8877359900700578' ,
+				#"clientesecret" 	 => 'al5TAYSIdZPx2lzzU64DFgSX67SDrhsr' ,
+				"Authorization" 	 => "Authorization: Bearer " . $MP_TOKEN,
 				"currency_id" 		 => "ARG",
 				"unit_price" 		 => $data->monto ,
 				"id" 				 => $data->idTicket ,
