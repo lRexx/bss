@@ -104,7 +104,7 @@ class Mercadolibre_model extends CI_Model
 			$param = [
 				#"clienteid" 		 => '8877359900700578' ,
 				#"clientesecret" 	 => 'al5TAYSIdZPx2lzzU64DFgSX67SDrhsr' ,
-				"Authorization" 	 => "Authorization: Bearer " . $MP_TOKEN,
+				"Authorization" 	 => "Bearer " . $MP_TOKEN,
 				"currency_id" 		 => "ARG",
 				"unit_price" 		 => $data->monto ,
 				"id" 				 => $data->idTicket ,
