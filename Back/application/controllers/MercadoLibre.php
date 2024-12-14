@@ -92,9 +92,9 @@ class MercadoLibre extends REST_Controller
 		log_message('info', $headers['User-Agent']);
 		log_message('info', $headers['Accept']);
 		log_message('info', $headers['Content-Type']);
-		log_message('info', $headers['X-Forwarded-For']);
-		log_message('info', $headers['X-Forwarded-Host']);
-		log_message('info', $headers['X-Forwarded-Server']);
+		log_message('info', @$headers['X-Forwarded-For']);
+		log_message('info', @$headers['X-Forwarded-Host']);
+		log_message('info', @$headers['X-Forwarded-Server']);
 		log_message('info', $headers['Content-Length']);
 		log_message('info', $headers['Connection']);		
 		log_message('info', $headers['x-signature']);
