@@ -134,6 +134,19 @@
               //console.log($scope.rsProfileData);
           });
         };$scope.getSysProfilesFn("");
+        /**************************************************
+        *                                                 *
+        *                GET SYS MODULES                  *
+        *                                                 *
+        **************************************************/
+          $scope.rsModulesData = {};
+          $scope.getSysModulesFn = function(){
+            $scope.rsModulesData = {};
+            ProfileServices.getSysModules().then(function(data){
+                $scope.rsModulesData = data;
+                //console.log($scope.rsModulesData);
+            });
+          };$scope.getSysModulesFn();
       /**
        * LOAD SYSTEM MODULES AND MENU
        */
