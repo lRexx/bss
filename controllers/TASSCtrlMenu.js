@@ -771,7 +771,7 @@
                   }
                 }
               }
-          ); 
+              ); 
               $('.input--depto').mask('ZZZ',
                   {
                     translation:{

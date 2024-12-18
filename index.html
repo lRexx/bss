@@ -223,20 +223,6 @@
 	<div id="wLoader" ng-if="wLoader">
 		<div id="loader">&nbsp;</div>
 		<div class="companyName"></div>
-	</div>	
-	<div class="successRegister" ng-if="loggedOut && !sysToken">
-		<div class="container" style="
-									height: 100vh;
-									display: flex;
-									align-items: center;
-									justify-content: center;">
-			<div class="col-md-12 alert alert-warning text-center" role="alert" style="margin-top: 50px;">
-			  <h4>Su sesión ha finalizado</h4>
-			  <p>Para continuar, haga clic en el botón para ingresar nuevamente al sistema.</p><br>
-			  <a type="button" ng-click="logout()" class="btn btn-success">
-				<span>Login <i class="glyphicon glyphicon-arrow-right"></i></span></a>
-			</div>
-		  </div>
 	</div>
 	<!-- //Loader div -->	
 	<!-- ng-view div -->
