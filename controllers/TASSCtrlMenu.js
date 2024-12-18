@@ -121,6 +121,19 @@
               }
           });
       }
+      /**************************************************
+      *                                                 *
+      *               LIST SYS PROFILE                  *
+      *                                                 *
+      **************************************************/
+        $scope.rsProfileData = [];
+        $scope.getSysProfilesFn = function(search){
+          ProfileServices.listProfiles(search).then(function(data){
+              $scope.rsProfileData = data;
+              $scope.loadPagination($scope.rsProfileData, "idProfiles", "7");
+              //console.log($scope.rsProfileData);
+          });
+        };$scope.getSysProfilesFn("");
       /**
        * LOAD SYSTEM MODULES AND MENU
        */
