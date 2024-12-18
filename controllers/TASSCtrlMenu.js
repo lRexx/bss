@@ -1141,7 +1141,7 @@
             }
             $scope.timeOutFn = function(){
               var currentLocation = $location.path();
-              if (currentLocation!="/login" && currentLocation!="/register" && currentLocation!="/forgotpwd" && currentLocation!="/newpwd" && currentLocation!="/validate" && !currentUrl.match(regexPathValidateUser) && !currentUrl.match(regexPathStatusClient)){
+              if (currentLocation!="/logout" && currentLocation!="/login" && currentLocation!="/register" && currentLocation!="/forgotpwd" && currentLocation!="/newpwd" && currentLocation!="/validate" && !currentUrl.match(regexPathValidateUser) && !currentUrl.match(regexPathStatusClient)){
                   //console.log('starting session timer');
                   $scope.warningTimeOut("start_timeout");
                   //Get the inputs Events of mouse/keyboard to check the activity.
