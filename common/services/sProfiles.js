@@ -37,7 +37,7 @@ moduleProfilesServices.service("ProfileServices", ['$http', 'tokenSystem', '$tim
             console.log("[Profile Services]: Get Modules ");
               return $http({
                     method : "GET",
-                    url : serverHost+serverBackend+"profiles/modules/"
+                    url : serverHost+serverBackend+"profiles/modules"
                   }).then(function mySuccess(response) {
                     rsJson=response.data;
                     return rsJson;

@@ -143,6 +143,7 @@
           $scope.getSysModulesFn = function(){
             $scope.rsModulesData = {};
             ProfileServices.getSysModules().then(function(data){
+                console.log(data);
                 $scope.rsModulesData = data;
                 //console.log($scope.rsModulesData);
             });

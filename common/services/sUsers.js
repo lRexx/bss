@@ -120,7 +120,19 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                 return response;
               });
           },
-          /* ADD AN USER */
+          /* ADD USER */
+          addGuest: function(userData2Add) {
+            //console.log(serverHeaders);
+              console.log(userData2Add);
+              return $http.post(serverHost+serverBackend+"User/addGuest", userData2Add, serverHeaders)
+                .then(function mySucess(response, status, data) {
+                  return response;
+              },function myError(response, error) { 
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                return checkResult;
+              });
+          },
+          /* ADD GUEST */
           addUser: function(userData2Add) {
             //console.log(serverHeaders);
               console.log(userData2Add);
