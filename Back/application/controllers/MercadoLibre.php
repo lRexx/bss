@@ -168,7 +168,7 @@ class MercadoLibre extends REST_Controller
 		//print_r("id_url: ".$id_url."\n");
 		//print_r("template: ".$template."\n");
         // Clave secreta de tu aplicación
-        $secret_key = "aec583f7ded6598f8548107537981444727d437588ba666e59396bde1e0039e5";
+        $secret_key = BSS_MP_WEBHOOK_SECRET;
 
         // Generar el HMAC SHA256
         $generated_signature = hash_hmac('sha256', $template, $secret_key);

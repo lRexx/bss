@@ -102,8 +102,8 @@ class Mercadolibre_model extends CI_Model
 			//$uri = 'https://dev.bss.com.ar/mpago/index.php';
 			$uri   = 'https://'.BSS_HOST.'/mpago/index.php'; //solo server
 			$param = [
-				"clienteid" 		 => '7746070349246045' ,
-				"clientesecret" 	 => 'eouwfrFfVjPNLbbrXs2iNmou5g17BGV6' ,
+				"clienteid" 		 => BSS_MP_CLIENT_ID ,
+				"clientesecret" 	 => BSS_MP_CLIENT_SECRET ,
 				#"Authorization" 	 => "Bearer " . $MP_TOKEN,
 				"currency_id" 		 => "ARG",
 				"unit_price" 		 => $data->monto ,
@@ -115,7 +115,7 @@ class Mercadolibre_model extends CI_Model
 				"description" 		 => $data->description,
 				"quantity" 			 => $data->quantity,
 				"external_reference" => $external_reference ,
-				//"back_url" 			 => $data->back_url ,
+				"back_url" 			 => $data->back_url ,
 			];
 			
 			//print_r($param);
