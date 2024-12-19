@@ -271,7 +271,7 @@
 												<div class="col-md-4 col-xs-4 col-xs-offset-2">
 													<input id="typeTenant1" class="radio-custom" type="radio" ng-click="(sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5' || (((sysLoggedUser.idProfileKf=='4' && isHomeSelected) || sysLoggedUser.idProfileKf=='6') && (sysLoggedUser.idTypeTenantKf=='1' || sysLoggedUser.idTypeTenantKf=='2')))?mainSwitchFn('selectedRequestKeyOwnerUser', sysLoggedUser, null):mainSwitchFn('list_tenants', null, null); enabledNextBtn();" name="typeTenant" value="1" ng-model="ticket.radioButtonDepartment" required autofocus>
 													<label for="typeTenant1" class="radio-custom-label">
-														<span ng-show="(sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5' || ((sysLoggedUser.idProfileKf==4 || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf=='6') && (sysLoggedUser.idTypeTenantKf=='1' || sysLoggedUser.idTypeTenantKf=='2')))">{{sysLoggedUser.fullNameUser}}</span>
+														<span ng-show="(sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5' || (((sysLoggedUser.idProfileKf==4 && isHomeSelected) || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf=='6') && (sysLoggedUser.idTypeTenantKf=='1' || sysLoggedUser.idTypeTenantKf=='2')))">{{sysLoggedUser.fullNameUser}}</span>
 														<span ng-show="(sysLoggedUser.idProfileKf==1) || (sysLoggedUser.idProfileKf==4 && !isHomeSelected)">Propietario 
 															<span ng-if="ticket.radioButtonDepartment==1 && selectedRequestKeyOwnerUser!=undefined" class="label font-size-16px label-custom-1">{{selectedRequestKeyOwnerUser.fullNameUser}} <button ng-if="sysLoggedUser.idProfileKf=='1' || (sysLoggedUser.idProfileKf=='4' && !isHomeSelected)" ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
 															<span ng-if="ticket.radioButtonDepartment==1 && selectedRequestKeyOwnerUser==undefined" class="label font-size-16px label-custom-2">No asignado <button ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
@@ -491,7 +491,7 @@
 											<div class="col-md-12 n-padding-l n-padding-r">
 												<div ng-repeat="item in typedelivery | filter:checkDeliveryMethod" class="col-md-4 col-xs-4" ng-class="
 													{
-														'col-md-offset-2 col-xs-offset-2':(ticket.building!=undefined && ticket.building.isStockInOffice=='1' && (ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0')),
+														'col-md-offset-2 col-xs-offset-2':(ticket.building!=undefined && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0' || ticket.building.isStockInOffice=='1') && (ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0')),
 														'col-md-offset-4 col-xs-offset-4':
 														((ticket.building!=undefined && (ticket.building.isStockInBuilding=='1' || ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))
 													}">
@@ -865,7 +865,7 @@
                                     </tr>
                                     <tr>
 										<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;vertical-align: middle;">Método</td>
-										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf==null"><img data-type="image" itemprop="image" style="width: 100px;height: 34px;" src="https://devtass.sytes.net/images/logo_2.png"></td>
+										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf==null"><img data-type="image" itemprop="image" style="width: 100px;height: 34px;" src="/images/logo_2.png"></td>
 										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='1' && ticket.optionTypeSelected.name=='department'">Abono por expensas</td>
 										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='1' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3')">Pago en Abono</td>
 										<td  colspan="7" ng-if="ticket.cost.idTypePaymentKf=='2'"><img data-type="image" itemprop="image" src="images/mp_logo.png" style="width: 100px;"></td>
