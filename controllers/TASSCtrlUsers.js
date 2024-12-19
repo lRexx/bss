@@ -24,9 +24,9 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
       console.log("No login required!!");
     }
     
-    if (!$scope.sysModules.idUsers){
-      $location.path("/");
-    }
+    //if (!$scope.sysModules.idUsers){
+    //  $location.path("/");
+    //}
     $scope.filterAddressKf = {'selected':undefined};
     $scope.filterCompanyKf = {'selected':undefined};
     $scope.customerSearch={'searchFilter':'', 'typeClient':'', 'isNotCliente':undefined, 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
@@ -1729,299 +1729,288 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
         *   ASSIGN DEPARTMENT TO THE CURRENT OWNER USER   *
         *                                                 *
         **************************************************/
-          $scope.fnAssignDepto = function(userData){
-              DepartmentsServices.assignDepto(userData).then(function(response) {
-                if(response.status==200){
-                  inform.add('Departamento del propietario autorizado satisfactoriamente.',{
-                    ttl:5000, type: 'success'
-                  });
-                }else if (response.status==404){
-                  inform.add('Departamento del propietario no ha sido aprobado, contacte al area de soporte.',{
-                  ttl:5000, type: 'warning'
-                  });
-                }else if (response.status==500){
-                  inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                    ttl:3000, type: 'danger'
-                  });
-                }
-              });
-          }
-        /**************************************************
-        *                                                 *
-        *  APPROVE DEPARTMENT TO AN OWNER OR TENANT USER  *
-        *                                                 *
-        **************************************************/
-          $scope.approveDepto = function (type, id, idStatus) {
-              switch (type){
-                case 1: //OWNER
-                  DepartmentsServices.approveOwnerDepto(id).then(function(response) {
-                    if(response.status==200){
-                      inform.add('Departamento del propietario autorizado satisfactoriamente.',{
-                        ttl:5000, type: 'success'
-                      });
-                    }else if (response.status==404){
-                      inform.add('Departamento del propietario no ha sido aprobado, contacte al area de soporte.',{
-                        ttl:5000, type: 'warning'
-                        });
-                    }else if (response.status==500){
-                      inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                        ttl:3000, type: 'danger'
-                      });
-                    }
-                  });
-                break;
-                case 2: //TENANT
-                  DepartmentsServices.approveTenantDepto(id, idStatus).then(function(response) {
-                    if(response.status==200){
-                      inform.add('Departamento del Habitante autorizado satisfactoriamente.',{
-                        ttl:5000, type: 'success'
-                      });
-                    }else if (response.status==404){
-                      inform.add('Departamento del propietario no ha sido autorizado, contacte al area de soporte.',{
-                        ttl:5000, type: 'warning'
-                       });
-                    }else if (response.status==500){
-                      inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                        ttl:3000, type: 'danger'
-                      });
-                    }
-                  });
-                break;
-              }
-          };
-        /**************************************************
-        *                                                 *
-        *  APPROVE DEPARTMENT TO AN OWNER OR TENANT USER  *
-        *                                                 *
-        **************************************************/
-          $scope.approveTenantDeptoFn = function (data) {
-            console.log(data);
-            DepartmentsServices.approveTenantDepartment(data).then(function(response) {
-                if(response.status==200){
-                    inform.add('Departamento del Habitante autorizado satisfactoriamente.',{
-                    ttl:5000, type: 'success'
+            $scope.fnAssignDepto = function(userData){
+                DepartmentsServices.assignDepto(userData).then(function(response) {
+                  if(response.status==200){
+                    inform.add('Departamento del propietario autorizado satisfactoriamente.',{
+                      ttl:5000, type: 'success'
                     });
-                    $timeout(function() {
-                        blockUI.stop();
-                    }, 1500);
-                    //$scope.lisTenantByType($scope.idDeptoKf, null);
-                }else if (response.status==404){
-                    inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                  }else if (response.status==404){
+                    inform.add('Departamento del propietario no ha sido aprobado, contacte al area de soporte.',{
                     ttl:5000, type: 'warning'
                     });
+                  }else if (response.status==500){
+                    inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                      ttl:3000, type: 'danger'
+                    });
+                  }
+                });
+            }
+        /**************************************************
+        *                                                 *
+        *  APPROVE DEPARTMENT TO AN OWNER OR TENANT USER  *
+        *                                                 *
+        **************************************************/
+            $scope.approveDepto = function (type, id, idStatus) {
+                switch (type){
+                  case 1: //OWNER
+                    DepartmentsServices.approveOwnerDepto(id).then(function(response) {
+                      if(response.status==200){
+                        inform.add('Departamento del propietario autorizado satisfactoriamente.',{
+                          ttl:5000, type: 'success'
+                        });
+                      }else if (response.status==404){
+                        inform.add('Departamento del propietario no ha sido aprobado, contacte al area de soporte.',{
+                          ttl:5000, type: 'warning'
+                          });
+                      }else if (response.status==500){
+                        inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                          ttl:3000, type: 'danger'
+                        });
+                      }
+                    });
+                  break;
+                  case 2: //TENANT
+                    DepartmentsServices.approveTenantDepto(id, idStatus).then(function(response) {
+                      if(response.status==200){
+                        inform.add('Departamento del Habitante autorizado satisfactoriamente.',{
+                          ttl:5000, type: 'success'
+                        });
+                      }else if (response.status==404){
+                        inform.add('Departamento del propietario no ha sido autorizado, contacte al area de soporte.',{
+                          ttl:5000, type: 'warning'
+                        });
+                      }else if (response.status==500){
+                        inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                          ttl:3000, type: 'danger'
+                        });
+                      }
+                    });
+                  break;
                 }
-            });
-          }
+            };
+        /**************************************************
+        *                                                 *
+        *  APPROVE DEPARTMENT TO AN OWNER OR TENANT USER  *
+        *                                                 *
+        **************************************************/
+            $scope.approveTenantDeptoFn = function (data) {
+              console.log(data);
+              DepartmentsServices.approveTenantDepartment(data).then(function(response) {
+                  if(response.status==200){
+                      inform.add('Departamento del Habitante autorizado satisfactoriamente.',{
+                      ttl:5000, type: 'success'
+                      });
+                      $timeout(function() {
+                          blockUI.stop();
+                      }, 1500);
+                      //$scope.lisTenantByType($scope.idDeptoKf, null);
+                  }else if (response.status==404){
+                      inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                      ttl:5000, type: 'warning'
+                      });
+                  }
+              });
+            }
         /*************************************************************
         *                                                            *
         *    VERIFICAR SI UN INQUILINO TIENE UN TICKET ACTIVO        *
         *                                                            *
         *************************************************************/
-          $scope.checkTicketTenant = function(idUser){
-            var msg1, msg2;
-            ticketServices.verifyTicketsByIdUser(idUser).then(function(response){
-                if(response.status==200){
-                    $timeout(function() {
-                        blockUI.message('El habitante posee pedidos activos asociados.');
-                        $scope.isHasTicket = true;
-                        console.log("POSEE TICKETS")
-                    }, 1500);
-                    $timeout(function() {
-                        msg1="Tenes solicitudes pendientes, debes esperar a que finalice o cancelar para darte de baja.";
-                        msg2="El Habitante presenta solicitudes pendientes, se deben finalizar o cancelar para poder dar de baja.";
-                        $scope.messageInform = $scope.sysLoggedUser.idProfileKf!=1 && $scope.sysLoggedUser.idProfileKf!=4 ? msg1 : msg2;
-                        inform.add($scope.messageInform,{
-                            ttl:5000, type: 'warning'
-                        });
-                    blockUI.stop();
-                    }, 3000);
-                }else if (response.status==404){
-                    $timeout(function() {
-                        blockUI.message('El habitante no posee pedidos activos asociados.');
-                        $scope.isHasTicket = true;
-                        console.log("NO POSEE TICKETS --> SE PROCEDE A SOLICITAR LA CONFIRMACION PARA LA BAJA.");
-                    }, 1500);
-                    $timeout(function() {
-                        $('#confirmRequestModal').modal('toggle');
-                    blockUI.stop();
-                    }, 3000);
-                }
-            });
-          }
+            $scope.checkTicketTenant = function(idUser){
+              var msg1, msg2;
+              ticketServices.verifyTicketsByIdUser(idUser).then(function(response){
+                  if(response.status==200){
+                      $timeout(function() {
+                          blockUI.message('El habitante posee pedidos activos asociados.');
+                          $scope.isHasTicket = true;
+                          console.log("POSEE TICKETS")
+                      }, 1500);
+                      $timeout(function() {
+                          msg1="Tenes solicitudes pendientes, debes esperar a que finalice o cancelar para darte de baja.";
+                          msg2="El Habitante presenta solicitudes pendientes, se deben finalizar o cancelar para poder dar de baja.";
+                          $scope.messageInform = $scope.sysLoggedUser.idProfileKf!=1 && $scope.sysLoggedUser.idProfileKf!=4 ? msg1 : msg2;
+                          inform.add($scope.messageInform,{
+                              ttl:5000, type: 'warning'
+                          });
+                      blockUI.stop();
+                      }, 3000);
+                  }else if (response.status==404){
+                      $timeout(function() {
+                          blockUI.message('El habitante no posee pedidos activos asociados.');
+                          $scope.isHasTicket = true;
+                          console.log("NO POSEE TICKETS --> SE PROCEDE A SOLICITAR LA CONFIRMACION PARA LA BAJA.");
+                      }, 1500);
+                      $timeout(function() {
+                          $('#confirmRequestModal').modal('toggle');
+                      blockUI.stop();
+                      }, 3000);
+                  }
+              });
+            }
         /*************************************************************
         *                                                            *
         *    VERIFICAR SI UN INQUILINO TIENE UN TICKET ACTIVO        *
         *                                                            *
         *************************************************************/
-          $scope.checkTicketTenantDeptoFn = function(idUser, idDepto){
-            var msg1, msg2;
-            ticketServices.verifyTicketsByIdUserDepto(idUser, idDepto).then(function(response){
-                if(response.status==200){
-                    $timeout(function() {
-                        blockUI.message('El Departamento y el habitante posee pedidos activos asociados.');
-                        $scope.isHasTicket = true;
-                        console.log("POSEE TICKETS")
-                    }, 1500);
-                    $timeout(function() {
-                        msg1="Tenes solicitudes pendientes, debes esperar a que finalice o cancelar para darte de baja.";
-                        msg2="El Habitante presenta solicitudes pendientes, se deben finalizar o cancelar para poder dar de baja.";
-                        $scope.messageInform = $scope.sysLoggedUser.idProfileKf!=1 && $scope.sysLoggedUser.idProfileKf!=4 ? msg1 : msg2;
-                        inform.add($scope.messageInform,{
-                            ttl:5000, type: 'warning'
-                        });
-                    blockUI.stop();
-                    }, 3000);
-                }else if (response.status==404){
-                    $timeout(function() {
-                        blockUI.message('El Departamento y el habitante no posee pedidos activos asociados.');
-                        $scope.isHasTicket = true;
-                        console.log("NO POSEE TICKETS --> SE PROCEDE A SOLICITAR LA CONFIRMACION PARA LA BAJA.");
-                    }, 1500);
-                    $timeout(function() {
-                        $('#confirmRequestModal').modal('toggle');
-                    blockUI.stop();
-                    }, 3000);
-                }
-            });
-          }
+            $scope.checkTicketTenantDeptoFn = function(idUser, idDepto){
+              var msg1, msg2;
+              ticketServices.verifyTicketsByIdUserDepto(idUser, idDepto).then(function(response){
+                  if(response.status==200){
+                      $timeout(function() {
+                          blockUI.message('El Departamento y el habitante posee pedidos activos asociados.');
+                          $scope.isHasTicket = true;
+                          console.log("POSEE TICKETS")
+                      }, 1500);
+                      $timeout(function() {
+                          msg1="Tenes solicitudes pendientes, debes esperar a que finalice o cancelar para darte de baja.";
+                          msg2="El Habitante presenta solicitudes pendientes, se deben finalizar o cancelar para poder dar de baja.";
+                          $scope.messageInform = $scope.sysLoggedUser.idProfileKf!=1 && $scope.sysLoggedUser.idProfileKf!=4 ? msg1 : msg2;
+                          inform.add($scope.messageInform,{
+                              ttl:5000, type: 'warning'
+                          });
+                      blockUI.stop();
+                      }, 3000);
+                  }else if (response.status==404){
+                      $timeout(function() {
+                          blockUI.message('El Departamento y el habitante no posee pedidos activos asociados.');
+                          $scope.isHasTicket = true;
+                          console.log("NO POSEE TICKETS --> SE PROCEDE A SOLICITAR LA CONFIRMACION PARA LA BAJA.");
+                      }, 1500);
+                      $timeout(function() {
+                          $('#confirmRequestModal').modal('toggle');
+                      blockUI.stop();
+                      }, 3000);
+                  }
+              });
+            }
         /**************************************************
         *                                                 *
         *        REMOVER TENANT DE UN DEPARTAMENTO        *
         *                                                 *
         **************************************************/
-          $scope.removeTenantFn = function(obj){
-            console.log(obj);
-            blockUI.start('Dando de baja al habitante del departamento seleccionado.');
-            DepartmentsServices.removeTenantDepto(obj).then(function(response){
-                //console.log(response);
-                if(response.status==200){
-                    if (($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==6) && obj.idTypeTenantKf==1){
-                        inform.add('Se ha dado de baja satisfactoriamente.',{
-                            ttl:3000, type: 'success'
-                        });
-                        $timeout(function() {
-                            
-                            $scope.remove = {'info':{'idUser':null, 'idDepartmentKf2':null, 'idTypeTenant': null}}
-                            blockUI.stop();
-                        }, 2000);
-                    }else if ((($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==6) && obj.idTypeTenantKf==2) || ($scope.sysLoggedUser.idProfileKf!=3 && obj.idTypeTenantKf!=0)){
-                        inform.add('El Habitante ha sido dado de baja satisfactoriamente.',{
-                            ttl:3000, type: 'success'
-                        });
-                    }
-                }
-                blockUI.stop();
-            });
-          } 
+            $scope.removeTenantFn = function(obj){
+              console.log(obj);
+              blockUI.start('Dando de baja al habitante del departamento seleccionado.');
+              DepartmentsServices.removeTenantDepto(obj).then(function(response){
+                  //console.log(response);
+                  if(response.status==200){
+                      if (($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==6) && obj.idTypeTenantKf==1){
+                          inform.add('Se ha dado de baja satisfactoriamente.',{
+                              ttl:3000, type: 'success'
+                          });
+                          $timeout(function() {
+                              
+                              $scope.remove = {'info':{'idUser':null, 'idDepartmentKf2':null, 'idTypeTenant': null}}
+                              blockUI.stop();
+                          }, 2000);
+                      }else if ((($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==6) && obj.idTypeTenantKf==2) || ($scope.sysLoggedUser.idProfileKf!=3 && obj.idTypeTenantKf!=0)){
+                          inform.add('El Habitante ha sido dado de baja satisfactoriamente.',{
+                              ttl:3000, type: 'success'
+                          });
+                      }
+                  }
+                  blockUI.stop();
+              });
+            } 
         /**************************************************
         *                                                 *
         *                DISABLED AN USER                 *
         *                                                 *
         **************************************************/
-          $scope.disabledUser = function (user) {
-            blockUI.start('Deshabilitando usuario.');
-            var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
-            var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
-            var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
-            var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
-            var nameTypeAttendant = $scope.filters.attProfile.nameTypeAttendant==undefined?null:$scope.filters.attProfile.nameTypeAttendant;
-            var searchboxfilter = $scope.searchboxfilter==undefined?null:$scope.searchboxfilter;
-            userServices.disabled(user.idUser).then(function(response){
-              //console.log(response);
-              if(response.status==200 && response.data){
-                inform.add('El usuario '+user.fullNameUser+' ha sido deshabilitado con exito.',{
-                  ttl:5000, type: 'warning'
-                });
-                blockUI.message('El usuario ha sido deshabilitado con exito!');
-                $timeout(function() {
-                  $scope.getUserLists(1, 'users');
-                }, 500);
-                $timeout(function() {
-                  $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
-                  blockUI.stop();
-                }, 600);
-              }else if(response.status==200 && !response.data){
-                blockUI.message('El usuario no ha sido deshabilitado!');
-                inform.add('El usuario no ha sido deshabilitado, intenta de nuevo o contacta el area de soporte.',{
-                  ttl:5000, type: 'warning'
-                });
-                $timeout(function() {
-                  $scope.getUserLists(1, 'users');
-                }, 500);
-                $timeout(function() {
-                  $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
-                  blockUI.stop();
-                }, 600);
-              }else if(response.status==404){
-                inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                  ttl:5000, type: 'warning'
+            $scope.disabledUser = function (user) {
+              blockUI.start('Deshabilitando usuario.');
+              var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
+              var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
+              var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
+              var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
+              var nameTypeAttendant = $scope.filters.attProfile.nameTypeAttendant==undefined?null:$scope.filters.attProfile.nameTypeAttendant;
+              var searchboxfilter = $scope.searchboxfilter==undefined?null:$scope.searchboxfilter;
+              userServices.disabled(user.idUser).then(function(response){
+                //console.log(response);
+                if(response.status==200 && response.data){
+                  inform.add('El usuario '+user.fullNameUser+' ha sido deshabilitado con exito.',{
+                    ttl:5000, type: 'warning'
                   });
-                $timeout(function() {
-                  $scope.getUserLists(1, 'users');
-                }, 500);
-                $timeout(function() {
-                  $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
-                  blockUI.stop();
-                }, 600);
-              }else if(response.status==500){
-                inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                  ttl:5000, type: 'danger'
+                  blockUI.message('El usuario ha sido deshabilitado con exito!');
+                  $timeout(function() {
+                    $scope.getUserLists(1, 'users');
+                  }, 500);
+                  $timeout(function() {
+                    $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                    blockUI.stop();
+                  }, 600);
+                }else if(response.status==200 && !response.data){
+                  blockUI.message('El usuario no ha sido deshabilitado!');
+                  inform.add('El usuario no ha sido deshabilitado, intenta de nuevo o contacta el area de soporte.',{
+                    ttl:5000, type: 'warning'
                   });
-                $timeout(function() {
-                  $scope.getUserLists(1, 'users');
-                }, 500);
-                $timeout(function() {
-                  $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
-                  blockUI.stop();
-                }, 600);
-              }
-              $scope.argObj={};
-            });
-          };
+                  $timeout(function() {
+                    $scope.getUserLists(1, 'users');
+                  }, 500);
+                  $timeout(function() {
+                    $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                    blockUI.stop();
+                  }, 600);
+                }else if(response.status==404){
+                  inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                    ttl:5000, type: 'warning'
+                    });
+                  $timeout(function() {
+                    $scope.getUserLists(1, 'users');
+                  }, 500);
+                  $timeout(function() {
+                    $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                    blockUI.stop();
+                  }, 600);
+                }else if(response.status==500){
+                  inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                    ttl:5000, type: 'danger'
+                    });
+                  $timeout(function() {
+                    $scope.getUserLists(1, 'users');
+                  }, 500);
+                  $timeout(function() {
+                    $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                    blockUI.stop();
+                  }, 600);
+                }
+                $scope.argObj={};
+              });
+            };
         /**************************************************
         *                                                 *
         *                 ENABLED AN USER                 *
         *                                                 *
         **************************************************/
-          $scope.enabledUser = function (user) {
-            blockUI.start('Habilitando usuario.');
-            var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
-            var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
-            var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
-            var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
-            var nameTypeAttendant = $scope.filters.attProfile.nameTypeAttendant==undefined?null:$scope.filters.attProfile.nameTypeAttendant;
-            var searchboxfilter = $scope.searchboxfilter==undefined?null:$scope.searchboxfilter;
-            userServices.enabled(user.idUser).then(function(response){
-              //console.log(response);
-              if(response.status==200 && response.data){
-                inform.add('El usuario '+user.fullNameUser+' ha sido habilitado con exito.',{
-                  ttl:5000, type: 'success'
-                });
-                blockUI.message('El usuario ha sido habilitado con exito!');
-                $timeout(function() {
-                  $scope.getUserLists(1, 'users');
-                  
-                }, 500);
-                $timeout(function() {
-                  //console.log(nameProfile+statusTenantName+customerName+buildings+nameTypeAttendant+searchboxfilter);
-                  $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
-                  blockUI.stop();
-                }, 600);
-              }else if(response.status==200 && !response.data){
-                blockUI.message('El usuario no ha sido habilitado!');
-                inform.add('El usuario no ha sido habilitado, intenta de nuevo o contacta el area de soporte.',{
-                  ttl:5000, type: 'warning'
-                });
-                $timeout(function() {
-                  $scope.getUserLists(1, 'users');
-                }, 500);
-                $timeout(function() {
-                  $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
-                  blockUI.stop();
-                }, 600);
-              }else if(response.status==404){
-                inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                  ttl:5000, type: 'warning'
+            $scope.enabledUser = function (user) {
+              blockUI.start('Habilitando usuario.');
+              var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
+              var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
+              var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
+              var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
+              var nameTypeAttendant = $scope.filters.attProfile.nameTypeAttendant==undefined?null:$scope.filters.attProfile.nameTypeAttendant;
+              var searchboxfilter = $scope.searchboxfilter==undefined?null:$scope.searchboxfilter;
+              userServices.enabled(user.idUser).then(function(response){
+                //console.log(response);
+                if(response.status==200 && response.data){
+                  inform.add('El usuario '+user.fullNameUser+' ha sido habilitado con exito.',{
+                    ttl:5000, type: 'success'
+                  });
+                  blockUI.message('El usuario ha sido habilitado con exito!');
+                  $timeout(function() {
+                    $scope.getUserLists(1, 'users');
+                    
+                  }, 500);
+                  $timeout(function() {
+                    //console.log(nameProfile+statusTenantName+customerName+buildings+nameTypeAttendant+searchboxfilter);
+                    $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                    blockUI.stop();
+                  }, 600);
+                }else if(response.status==200 && !response.data){
+                  blockUI.message('El usuario no ha sido habilitado!');
+                  inform.add('El usuario no ha sido habilitado, intenta de nuevo o contacta el area de soporte.',{
+                    ttl:5000, type: 'warning'
                   });
                   $timeout(function() {
                     $scope.getUserLists(1, 'users');
@@ -2030,121 +2019,132 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
                     blockUI.stop();
                   }, 600);
-              }else if(response.status==500){
-                inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                  ttl:5000, type: 'danger'
-                  });
-                  $timeout(function() {
-                    $scope.getUserLists(1, 'users');
-                  }, 500);
-                  $timeout(function() {
-                    $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
-                    blockUI.stop();
-                  }, 600);
-              }
-              $scope.argObj={};
-            });
-          };
+                }else if(response.status==404){
+                  inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                    ttl:5000, type: 'warning'
+                    });
+                    $timeout(function() {
+                      $scope.getUserLists(1, 'users');
+                    }, 500);
+                    $timeout(function() {
+                      $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                      blockUI.stop();
+                    }, 600);
+                }else if(response.status==500){
+                  inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                    ttl:5000, type: 'danger'
+                    });
+                    $timeout(function() {
+                      $scope.getUserLists(1, 'users');
+                    }, 500);
+                    $timeout(function() {
+                      $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                      blockUI.stop();
+                    }, 600);
+                }
+                $scope.argObj={};
+              });
+            };
         /**************************************************
         *                                                 *
         *                 DELETE AN USER                  *
         *                                                 *
         **************************************************/
-          $scope.deleteUser = function (user) {
-            blockUI.start('Eliminando usuario.');
-            var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
-            var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
-            var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
-            var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
-            var nameTypeAttendant = $scope.filters.attProfile.nameTypeAttendant==undefined?null:$scope.filters.attProfile.nameTypeAttendant;
-            var searchboxfilter = $scope.searchboxfilter==undefined?null:$scope.searchboxfilter;
-            userServices.remove(user.idUser).then(function(response){
-              //console.log(response);
-              if(response.status==200 && response.data){
-                inform.add('El usuario '+user.fullNameUser+' ha sido eliminado con exito.',{
-                  ttl:5000, type: 'danger'
-                });
-                blockUI.message('El usuario ha sido eliminado con exito!');
-                $timeout(function() {
-                  $scope.getUserLists(1, 'users');
-                }, 500);
-                $timeout(function() {
-                  $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
-                  blockUI.stop();
-                }, 600);
-              }else if(response.status==200 && !response.data){
-                blockUI.message('El usuario no ha sido eliminado!');
-                inform.add('El usuario no ha sido eliminado, intenta de nuevo o contacta el area de soporte.',{
-                  ttl:5000, type: 'warning'
-                });
-                $timeout(function() {
-                  $scope.getUserLists(1, 'users');
-                }, 500);
-                $timeout(function() {
-                  $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
-                  blockUI.stop();
-                }, 600);
-              }else if(response.status==404){
-                inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                  ttl:5000, type: 'warning'
+            $scope.deleteUser = function (user) {
+              blockUI.start('Eliminando usuario.');
+              var nameProfile = $scope.filters.userProfile==undefined?null:$scope.filters.userProfile.nameProfile;
+              var statusTenantName = $scope.filters.userStatus==undefined?null:$scope.filters.userStatus.statusTenantName;
+              var customerName = $scope.filters.companies.selected==undefined?null:$scope.filters.companies.selected.name;
+              var buildings = $scope.filters.buildings.selected==undefined?null:$scope.filters.buildings.selected.address;
+              var nameTypeAttendant = $scope.filters.attProfile.nameTypeAttendant==undefined?null:$scope.filters.attProfile.nameTypeAttendant;
+              var searchboxfilter = $scope.searchboxfilter==undefined?null:$scope.searchboxfilter;
+              userServices.remove(user.idUser).then(function(response){
+                //console.log(response);
+                if(response.status==200 && response.data){
+                  inform.add('El usuario '+user.fullNameUser+' ha sido eliminado con exito.',{
+                    ttl:5000, type: 'danger'
                   });
-                $timeout(function() {
-                  $scope.getUserLists(1, 'users');
-                }, 500);
-                $timeout(function() {
-                  $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
-                  blockUI.stop();
-                }, 600);
-              }else if(response.status==500){
-                inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                  ttl:5000, type: 'danger'
+                  blockUI.message('El usuario ha sido eliminado con exito!');
+                  $timeout(function() {
+                    $scope.getUserLists(1, 'users');
+                  }, 500);
+                  $timeout(function() {
+                    $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                    blockUI.stop();
+                  }, 600);
+                }else if(response.status==200 && !response.data){
+                  blockUI.message('El usuario no ha sido eliminado!');
+                  inform.add('El usuario no ha sido eliminado, intenta de nuevo o contacta el area de soporte.',{
+                    ttl:5000, type: 'warning'
                   });
-                $timeout(function() {
-                  $scope.getUserLists(1, 'users');
-                }, 500);
-                $timeout(function() {
-                  $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
-                  blockUI.stop();
-                }, 600);
-              }
-              $scope.argObj={};
-            });
-          };
+                  $timeout(function() {
+                    $scope.getUserLists(1, 'users');
+                  }, 500);
+                  $timeout(function() {
+                    $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                    blockUI.stop();
+                  }, 600);
+                }else if(response.status==404){
+                  inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                    ttl:5000, type: 'warning'
+                    });
+                  $timeout(function() {
+                    $scope.getUserLists(1, 'users');
+                  }, 500);
+                  $timeout(function() {
+                    $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                    blockUI.stop();
+                  }, 600);
+                }else if(response.status==500){
+                  inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                    ttl:5000, type: 'danger'
+                    });
+                  $timeout(function() {
+                    $scope.getUserLists(1, 'users');
+                  }, 500);
+                  $timeout(function() {
+                    $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
+                    blockUI.stop();
+                  }, 600);
+                }
+                $scope.argObj={};
+              });
+            };
         /**************************************************
         *                                                 *
         *                CHECK MAIL OR DNI                *
         *                   DUPLICATES                    *
         *                                                 *|
         **************************************************/
-          $scope.sysCheck4Duplicates = function(value, opt){
-            if(value){
-              //console.log($scope.users.update.mail);
-              //console.log(value);
-              //console.log(opt);
-              if ((($scope.users.new.dni!=undefined && opt=="dni") || ($scope.users.new.email!=undefined && opt=="mail")) || (($scope.users.update.dni!=undefined && $scope.users.tmp.dni!=value && opt=="dni") || ($scope.users.update.email!=undefined && $scope.users.tmp.email!=value && opt=="mail"))){
-                userServices.findUserByEmail(value).then(function(response) {
-                  //console.log(response);
-                  if(response.status==200){
-                    if(APP_REGEX.checkDNI.test(value)){
-                      $scope.sysDNIRegistered=true;
-                      //console.log(response.data[0].fullNameUser);
-                      $scope.users.new.dni=undefined;
+            $scope.sysCheck4Duplicates = function(value, opt){
+              if(value){
+                //console.log($scope.users.update.mail);
+                //console.log(value);
+                //console.log(opt);
+                if ((($scope.users.new.dni!=undefined && opt=="dni") || ($scope.users.new.email!=undefined && opt=="mail")) || (($scope.users.update.dni!=undefined && $scope.users.tmp.dni!=value && opt=="dni") || ($scope.users.update.email!=undefined && $scope.users.tmp.email!=value && opt=="mail"))){
+                  userServices.findUserByEmail(value).then(function(response) {
+                    //console.log(response);
+                    if(response.status==200){
+                      if(APP_REGEX.checkDNI.test(value)){
+                        $scope.sysDNIRegistered=true;
+                        //console.log(response.data[0].fullNameUser);
+                        $scope.users.new.dni=undefined;
+                      }
+                      if(APP_REGEX.checkEmail.test(value)){
+                        $scope.sysEmailRegistered=true;
+                      }
+                    }else if (response.status==404){
+                      if(APP_REGEX.checkDNI.test(value)){
+                        $scope.sysDNIRegistered=false;
+                      }
+                      if(APP_REGEX.checkEmail.test(value)){
+                        $scope.sysEmailRegistered=false;
+                      }
                     }
-                    if(APP_REGEX.checkEmail.test(value)){
-                      $scope.sysEmailRegistered=true;
-                    }
-                  }else if (response.status==404){
-                    if(APP_REGEX.checkDNI.test(value)){
-                      $scope.sysDNIRegistered=false;
-                    }
-                    if(APP_REGEX.checkEmail.test(value)){
-                      $scope.sysEmailRegistered=false;
-                    }
-                  }
-                });
+                  });
+                }
               }
             }
-          }
         /**************************************************
         *                                                 *
         * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *
