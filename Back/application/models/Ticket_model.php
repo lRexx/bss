@@ -223,18 +223,18 @@ class Ticket_model extends CI_Model
 								}else{
 									$body.='<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 								}
-								$body.=$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span></td>';
-								$body.='</tr>';	
-								$body.='<tr width="100%" bgcolor="#ffffff">';
-								$body.= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff">'.$ticket['mail'].'</td>';
-								$body.='</tr>';
+								$body.=$lastTicketAddQuery[0]['statusTicket']['statusName'].'</span>';
 								if ($lastTicketAddQuery[0]['idStatusTicketKf']==2 || $lastTicketAddQuery[0]['idStatusTicketKf']=='9'){
 									$secureToken= base64_encode($lastTicketAddQuery[0]['idTicket'].":".$lastTicketAddQuery[0]['urlToken']);
 									$approval_url="https://".BSS_HOST."/login/approve/ticket/up/token/".$secureToken;
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar pedido</a></span></td>';
-									$body.='</tr>';	
+									$body.= '&nbsp;&nbsp;<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar pedido haciendo click aqui</a></span></td>';
+								}else{
+									$body.='</td>';	
 								}
+								$body.='</tr>';	
+								$body.='<tr width="100%" bgcolor="#ffffff">';
+								$body.= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff;padding-bottom:3%;">'.$ticket['mail'].'</td>';
+								$body.='</tr>';
 
 								//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
 								$this->mail_model->sendMail($title, $to, $body, $subject);

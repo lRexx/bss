@@ -4603,11 +4603,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             **************************************************/
                 $scope.rsAppMonitorApplicationListData = [];
                 $scope.getAppMonitorApplicationListFn = function(){
-                UtilitiesServices.appMonitorApplicationList().then(function(response){
-                    if(response.status==200){
-                    $scope.rsAppMonitorApplicationListData = response.data;
-                    }
-                });
+                    UtilitiesServices.appMonitorApplicationList().then(function(response){
+                        if(response.status==200){
+                        $scope.rsAppMonitorApplicationListData = response.data;
+                        }
+                    });
                 };$scope.getAppMonitorApplicationListFn();
             /**************************************************
             *                                                 *
@@ -4616,11 +4616,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             **************************************************/
                 $scope.rsTotemModelListData = [];
                 $scope.getTotemModelListFn = function(){
-                UtilitiesServices.totemModelList().then(function(response){
-                    if(response.status==200){
-                    $scope.rsTotemModelListData = response.data;
-                    }
-                });
+                    UtilitiesServices.totemModelList().then(function(response){
+                        if(response.status==200){
+                        $scope.rsTotemModelListData = response.data;
+                        }
+                    });
                 };$scope.getTotemModelListFn();
             /**************************************************
             *                                                 *
@@ -4629,9 +4629,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
             **************************************************/
                 $scope.rsServiceTypeData = {};
                 $scope.getTypeOfServicesFn = function(){
-                serviceServices.getTypeOfServices().then(function(data){
-                    $scope.rsServiceTypeData = data;
-                });
+                    serviceServices.getTypeOfServices().then(function(data){
+                        $scope.rsServiceTypeData = data;
+                    });
                 };$scope.getTypeOfServicesFn();
             /**************************************************
             *                                                 *

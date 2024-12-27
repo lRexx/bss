@@ -15,7 +15,6 @@ class Services_model extends CI_Model {
                 'idClientServicesFk'     => $idClientServicesFk,
                 'idTypeInternetFk'       => $item['idTypeInternetFk'],
                 'idTypeMaintenanceFk'    => $item['idTypeMaintenanceFk'], //
-                'idServiceFk'            => $item['idServiceFk'],
                 'idServiceAsociateFk'    => json_encode($item['idServiceAsociateFk']),
                 'idRouterInternetFk'     => $item['idRouterInternetFk'],
                 //'numberSeria'            => $item['numberSeria'],
