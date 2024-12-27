@@ -98,13 +98,15 @@ class Mercadolibre_model extends CI_Model
 		$external_reference = $data->idTicket."_".(rand() * 8) . "_" . (time() * 4);
 		$paymentFor = $data->metadata->paymentFor;
 		$MP_TOKEN=BSS_MP_TOKEN;
+
 		try {
+			$authorization 	= "Authorization: Bearer " . $MP_TOKEN;
 			//$uri = 'https://dev.bss.com.ar/mpago/index.php';
 			$uri   = 'https://'.BSS_HOST.'/mpago/index.php'; //solo server
 			$param = [
 				"clienteid" 		 => BSS_MP_CLIENT_ID ,
 				"clientesecret" 	 => BSS_MP_CLIENT_SECRET ,
-				#"Authorization" 	 => "Bearer " . $MP_TOKEN,
+				#"Authorization" 	 => $authorization,
 				"currency_id" 		 => "ARG",
 				"unit_price" 		 => $data->monto ,
 				"id" 				 => $data->idTicket ,
@@ -317,61 +319,9 @@ class Mercadolibre_model extends CI_Model
 		}
 	}
 
-	public function validateSignatureKeyMP($response){
-		// Obtain the x-signature value from the header
-		$xSignature = $_SERVER['HTTP_X_SIGNATURE'];
-		$xRequestId = $_SERVER['HTTP_X_REQUEST_ID'];
-
-		// Obtain Query params related to the request URL
-		$queryParams = $_GET;
-
-		// Extract the "data.id" from the query params
-		$dataID = isset($queryParams['data.id']) ? $queryParams['data.id'] : '';
-
-		// Separating the x-signature into parts
-		$parts = explode(',', $xSignature);
-
-		// Initializing variables to store ts and hash
-		$ts = null;
-		$hash = null;
-
-		// Iterate over the values to obtain ts and v1
-		foreach ($parts as $part) {
-			// Split each part into key and value
-			$keyValue = explode('=', $part, 2);
-			if (count($keyValue) == 2) {
-				$key = trim($keyValue[0]);
-				$value = trim($keyValue[1]);
-				if ($key === "ts") {
-					$ts = $value;
-				} elseif ($key === "v1") {
-					$hash = $value;
-				}
-			}
-		}
-
-		// Obtain the secret key for the user/application from Mercadopago developers site
-		$secret = "your_secret_key_here";
-
-		// Generate the manifest string
-		$manifest = "id:$dataID;request-id:$xRequestId;ts:$ts;";
-
-		// Create an HMAC signature defining the hash type and the key as a byte array
-		$sha = hash_hmac('sha256', $manifest, $secret);
-		if ($sha === $hash) {
-			// HMAC verification passed
-			echo "HMAC verification passed";
-		} else {
-			// HMAC verification failed
-			echo "HMAC verification failed";
-		}
-	}
 	public function getNotificationFromMP($response)
 	{
 		//print_r($response);
-		//$cyphedSignature = hash_hmac('sha256', $data, $key);
-
-		# aec583f7ded6598f8548107537981444727d437588ba666e59396bde1e0039e5
 		//var_dump($response['api_version']);
 		// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //
 		/*MAIL*/
@@ -396,7 +346,7 @@ class Mercadolibre_model extends CI_Model
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Mode: <b>'.$response['live_mode'].'</b></td>'; 
 			$body.='</tr>';
-			$this->mail_model->sendMail($title, "rexx84@gmail.com,lean.figueroa@gmail.com", $body, $subject);
+			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
 		}else{
 			$title = "MercadoPago Webhook Notification ";
 			$subject = "Webhook Payment Notification from MercadoPago to BSS [TEST] - ID: ".$response['data']['id'];
@@ -418,7 +368,7 @@ class Mercadolibre_model extends CI_Model
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Mode: <b>'.$response['live_mode'].'</b></td>'; 
 			$body.='</tr>';
-			$this->mail_model->sendMail($title, "rexx84@gmail.com,lean.figueroa@gmail.com", $body, $subject);
+			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
 		}
 
 		
@@ -484,7 +434,7 @@ class Mercadolibre_model extends CI_Model
 					)
 				)->where("idTicket", $data['idTicketKf'])->update("tb_tickets_2");
 			}
-			if ($data['isManualPayment']){
+			if (@$data['isManualPayment']){
 				$this->db->set(
 					array(
 						'isManualPayment' => 1
@@ -501,7 +451,7 @@ class Mercadolibre_model extends CI_Model
 				$body = null;
 				$to = null;
 				$title = "Link de Pago Generado";
-				if ((! $data['isManualPayment'] || $lastTicketUpdatedQuery[0]['isManualPayment']==0 || is_null($lastTicketUpdatedQuery[0]['isManualPayment'])) && ($lastTicketUpdatedQuery[0]['idTypeRequestFor']==1 && ($lastTicketUpdatedQuery[0]['sendNotify']==1 || $lastTicketUpdatedQuery[0]['sendNotify']==null))){
+				if ((! @$data['isManualPayment'] || $lastTicketUpdatedQuery[0]['isManualPayment']==0 || is_null($lastTicketUpdatedQuery[0]['isManualPayment'])) && ($lastTicketUpdatedQuery[0]['idTypeRequestFor']==1 && ($lastTicketUpdatedQuery[0]['sendNotify']==1 || $lastTicketUpdatedQuery[0]['sendNotify']==null))){
 					//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
 					$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
 					$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
