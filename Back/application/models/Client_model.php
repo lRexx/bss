@@ -2432,6 +2432,7 @@ class Client_model extends CI_Model {
             GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_tipos_servicios_internet.idTipoServicioInternet;";
             $quuery = $this->db->where($where_string)->get();
             $servicesAssociated = null;
+            print_r($quuery->result_array());
             if ($quuery->num_rows() > 0) {
                 foreach ($quuery->result_array() as $key => $ticket) {
                     //Check if the Internet Type if BSS Wifi.
