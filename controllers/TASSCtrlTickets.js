@@ -3422,7 +3422,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     var subTotalDelivery = 0;
                                     if (!$scope.costs.delivery.manual){
                                         if ($scope.deliveryCostFree==0){
-                                            if(((($scope.ticket.building.isStockInBuilding==null && $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null && $scope.ticket.building.isStockInOffice=='0')) || ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
+                                            if(((($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) || ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
                                                 var subTotalDelivery = 0;
                                                 if ($scope.ticket.delivery.idTypeDeliveryKf!=undefined && $scope.ticket.delivery.idTypeDeliveryKf!=null && $scope.ticket.delivery.idTypeDeliveryKf!=1){
                                                     if (($scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo<=2) || 
