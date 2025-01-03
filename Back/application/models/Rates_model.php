@@ -98,7 +98,7 @@ class Rates_model extends CI_Model {
         if ($query->num_rows() === 1) {
             // First, fetch the minimum cost for the given idServiceTechnicianKf
             if ($item['hasStock']=='0'){
-                $this->db->select('MAX(cost) as min_cost');
+                #$this->db->select('MAX(cost) as min_cost');
             }else{
                 $this->db->select('MIN(cost) as min_cost');
             }
@@ -136,15 +136,13 @@ class Rates_model extends CI_Model {
                     //$this->db->where('tb_servicios_del_contrato_cabecera.idServiceType', $item['idServiceType']);
                     $this->db->where('tb_technician_services.idServiceTypeFk', $item['idServiceType']);
                     $this->db->where('tb_technician_service_cost.idServiceTechnicianKf', $tb_technician_services->idServiceTechnician);
-                    if ($query2->num_rows()==1){
+                    if ($query2->num_rows()==1 || $item['hasStock']=='0'){
                         //print($query2->num_rows());
                         $this->db->where('tb_technician_service_cost.idTipoMantenimientoKf', $contract['maintenanceType']);
                     }else{
                         $this->db->where('tb_technician_service_cost.cost', $min_cost); // Compare with the minimum cost
                     }
-                    // Subquery for minimum cost
-                    
-                    
+                    // Subquery for minimum cost                   
                     //$this->db->where('tb_technician_service_cost.cost = (SELECT MIN(cost + 0) AS min FROM tb_technician_service_cost WHERE tb_technician_service_cost.idTipoMantenimientoKf = "' . $contract['maintenanceType']. '" AND tb_technician_service_cost.idServiceTechnicianKf = "' . $tech_service['idServiceTechnician'] . '")', NULL, FALSE);
 
                     $query3 = $this->db->limit(1)->get();
