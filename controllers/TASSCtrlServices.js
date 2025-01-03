@@ -3127,7 +3127,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             for (var prduct in $scope.rsProductsData){
                                             //console.log("Verificando idProductFk Product table:"+$scope.rsProductsData[prduct].idProduct);
                                             if (service.adicional[key].idProductoFk==$scope.rsProductsData[prduct].idProduct){
-                                                $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
+                                                const classification = $scope.rsProductsData[prduct].classification!=null && $scope.rsProductsData[prduct].classification!=undefined?$scope.rsProductsData[prduct].classification:null;
+                                                $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'classification':classification,'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
                                                 $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassificationFk, productIdNumber, service.adicional[key].optAux);
                                                 productIdNumber++;
                                                 break;
@@ -3207,7 +3208,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             for (var prduct in $scope.rsProductsData){
                                                 if (service.adicional[key].idProductoFk==$scope.rsProductsData[prduct].idProduct){
                                                     $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
-                                                    $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassificationFk, productIdNumber, service.adicional[key].optAux);
+                                                    $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassification, productIdNumber, service.adicional[key].optAux);
                                                     productIdNumber++;
                                                     break;
                                                 }
@@ -3251,7 +3252,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     for (var prduct in $scope.rsProductsData){
                                         if (service.adicional[key].idProductoFk==$scope.rsProductsData[prduct].idProduct){
                                         $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
-                                        $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassificationFk, productIdNumber, service.adicional[key].optAux);
+                                        $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassification, productIdNumber, service.adicional[key].optAux);
                                         productIdNumber++;
                                         }
                                         for (var batery in service.tb_backup_energy_totem_array){
@@ -3324,7 +3325,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             for (var prduct in $scope.rsProductsData){
                                                 if (service.adicional[key].idProductoFk==$scope.rsProductsData[prduct].idProduct){
                                                     $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
-                                                    $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassificationFk, productIdNumber, service.adicional[key].optAux);
+                                                    $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassification, productIdNumber, service.adicional[key].optAux);
                                                     productIdNumber++;
                                                 }
                                                 for (var batery in service.tb_backup_energy_array){
@@ -3402,7 +3403,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         for (var prduct in $scope.rsProductsData){
                                             if (service.adicional[key].idProductoFk==$scope.rsProductsData[prduct].idProduct){
                                             $scope.list_productsDetails.push({'idProductDetail':productIdNumber,'idProductoFk':service.adicional[key].idProductoFk, 'numberSerieFabric':service.adicional[key].numberSerieFabric, 'numberSerieInternal':service.adicional[key].numberSerieInternal,'dateExpiration':service.adicional[key].dateExpiration, 'optAux':service.adicional[key].optAux});
-                                            $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassificationFk, productIdNumber, service.adicional[key].optAux);
+                                            $scope.typeOfProductsFn("set", $scope.rsProductsData[prduct].idProductClassification, productIdNumber, service.adicional[key].optAux);
                                             productIdNumber++;
                                             }
                                         }
@@ -4751,27 +4752,30 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         //console.log("optAux: "+optAux);
                         if ($scope.list_productsDetails.length>0){
                             for (var item in $scope.list_productsDetails){
-                            if (obj.idProduct==$scope.list_productsDetails[item].idProductoFk && idProductDetail!=null && optAux==$scope.list_productsDetails[item].optAux){
-                                $scope.productSelected=obj;
-                                //console.log($scope.list_productsDetails[item]);
-                                $scope.service.adicional.idProductoFk         = $scope.list_productsDetails[item].idProductoFk;
-                                $scope.service.adicional.numberSerieFabric    = $scope.list_productsDetails[item].numberSerieFabric;
-                                $scope.service.adicional.numberSerieInternal  = $scope.list_productsDetails[item].numberSerieInternal;
-                                $scope.service.adicional.dateExpiration       = $scope.list_productsDetails[item].dateExpiration;
-                                $scope.productDetailsAssigned=true;
-                                //console.log($scope.list_productsDetails);
-                                break;
-                            }else{
-                                $scope.productDetailsAssigned=false;
-                                $scope.service.adicional={};
-                                $scope.productSelected=obj;
-                                $scope.service.adicional={'idProductoFk':''};
-                                $scope.service.adicional.idProductoFk=$scope.productSelected.idProduct;
-                                $scope.service.adicional.optAux=optAux;
-                            }
+                                if (obj.idProduct==$scope.list_productsDetails[item].idProductoFk && idProductDetail!=null && optAux==$scope.list_productsDetails[item].optAux){
+                                    $scope.productSelected=obj;
+                                    $scope.productSelected.classification=$scope.list_productsDetails[item].classification;
+                                    //console.log($scope.list_productsDetails[item]);
+                                    $scope.service.adicional.idProductoFk         = $scope.list_productsDetails[item].idProductoFk;
+                                    $scope.service.adicional.numberSerieFabric    = $scope.list_productsDetails[item].numberSerieFabric;
+                                    $scope.service.adicional.numberSerieInternal  = $scope.list_productsDetails[item].numberSerieInternal;
+                                    $scope.service.adicional.dateExpiration       = $scope.list_productsDetails[item].dateExpiration;
+                                    $scope.productDetailsAssigned=true;
+                                    //console.log($scope.list_productsDetails);
+                                    break;
+                                }else{
+                                    $scope.productDetailsAssigned=false;
+                                    $scope.service.adicional={};
+                                    $scope.productSelected=obj;
+                                    $scope.productSelected.classification=$scope.list_productsDetails[item].classification;
+                                    $scope.service.adicional={'idProductoFk':''};
+                                    $scope.service.adicional.idProductoFk=$scope.productSelected.idProduct;
+                                    $scope.service.adicional.optAux=optAux;
+                                }
                             }
                         }else{
                             $scope.productSelected=obj;
+                            $scope.productSelected.classification=$scope.list_productsDetails[item].classification;
                             $scope.service.adicional={'idProductoFk':''};
                             $scope.service.adicional.idProductoFk=$scope.productSelected.idProduct;
                             $scope.service.adicional.optAux=optAux;
@@ -4780,13 +4784,14 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $('#serviceProductDetails').on('shown.bs.modal', function () {
                             $('#serviceProductInternalSerial').focus();  
                             //console.log($scope.service.adicional);
+                            //console.log($scope.productSelected);
                         });
                     }
                 /***********************************
                 *     TYPE OF PRODUCT FUNCTION     *
                 ************************************/        
                     $scope.typeOfProductsFn = function(opt, idType, idProd, optAux){
-                    //console.log("opt: '"+opt+"' idType: "+idType+" idProd: "+idProd+" optAux: "+optAux);
+                    console.log("opt: '"+opt+"' idType: "+idType+" idProd: "+idProd+" optAux: "+optAux);
                         switch(idType){
                         case "1":
                             if (opt=="set"){
@@ -4991,7 +4996,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.productListByType.RECORD_DEVICE.push($scope.productListByType.NVR[key]);
                                 }                
                                 //$scope.productListByType.BACKUP_ENERGIA.push({})
-                                //console.log($scope.productListByType);
+                                console.log($scope.productListByType);
                             }else{
                                 console.log("Error verificar servicio.")
                             }
@@ -5002,10 +5007,10 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         //console.log(opt);
                         switch (opt){
                             case false:
-                            $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.LECTOR;
+                                $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.LECTOR;
                             break;
                             case true:
-                            $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.PULSADOR_SALIDA;
+                                $scope.productListByType.PRODUCT_EXIT=$scope.productListByType.PULSADOR_SALIDA;
                             break;
                         }
                     }
