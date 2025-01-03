@@ -2422,13 +2422,13 @@ class Client_model extends CI_Model {
         $rs          = null;
         $where_string= null;
         if (! is_null($idClient)) {
-            $this->db->select("tb_client_services_internet.idClientServicesInternet AS idService, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_contratos.idContrato, tb_servicios_del_contrato_cuerpo.idServiciosDelContratoCuerpo, tb_servicios_del_contrato_cuerpo.itemAclaracion, tb_client_services_internet.*_", FALSE)->from("tb_contratos");
+            $this->db->select("tb_client_services_internet.idClientServicesInternet AS idService, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_contratos.idContrato, tb_servicios_del_contrato_cuerpo.idServiciosDelContratoCuerpo, tb_servicios_del_contrato_cuerpo.itemAclaracion, tb_client_services_internet.*", FALSE)->from("tb_contratos");
             $this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
             $this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
             $this->db->join('tb_client_services_internet', 'tb_client_services_internet.idContracAssociated_SE = tb_contratos.idContrato', 'left');
             $this->db->join('tb_tipos_servicios_internet', 'tb_tipos_servicios_internet.idTipoServicioInternet = tb_client_services_internet.idTypeInternetFk', 'left');
             $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-            $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 2 AND tb_client_services_internet.idContracAssociated_SE!='' AND tb_client_services_internet.dateDown=''
+            $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 2 AND tb_client_services_internet.idContracAssociated_SE!='' AND (tb_client_services_internet.dateDown = '' OR tb_client_services_internet.dateDown IS NULL)
             GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_tipos_servicios_internet.idTipoServicioInternet;";
             $quuery = $this->db->where($where_string)->get();
             $servicesAssociated = null;
@@ -2436,8 +2436,8 @@ class Client_model extends CI_Model {
             if ($quuery->num_rows() > 0) {
                 foreach ($quuery->result_array() as $key => $ticket) {
                     //Check if the Internet Type if BSS Wifi.
-                    print($ticket['idTypeInternetFk']);
-                    print($ticket['idServiceAsociateFk']);
+                    //print($ticket['idTypeInternetFk']);
+                    //print($ticket['idServiceAsociateFk']);
                     if($ticket['idTypeInternetFk']==1){
                         $rs = $quuery->result_array();
                         $servicesAssociated=json_decode($ticket['idServiceAsociateFk']);
