@@ -2435,7 +2435,8 @@ class Client_model extends CI_Model {
             if ($quuery->num_rows() > 0) {
                 foreach ($quuery->result_array() as $key => $ticket) {
                     //Check if the Internet Type if BSS Wifi.
-                    //print($ticket['idTypeInternetFk']);
+                    print($ticket['idTypeInternetFk']);
+                    print($ticket['idServiceAsociateFk']);
                     if($ticket['idTypeInternetFk']==1){
                         $rs = $quuery->result_array();
                         $servicesAssociated=json_decode($ticket['idServiceAsociateFk']);
