@@ -812,7 +812,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log(response.data);
                         console.log($scope.ticket.building);
                         if($scope.ticket.building!=undefined && (
-                            ($scope.ticket.building.initial_delivery.length==0 || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state)) ||
+                            ($scope.ticket.building.initial_delivery.length==0 || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state)) &&
                             ($scope.ticket.building.isStockInBuilding=="1" && $scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0')||
                             ($scope.ticket.building.isStockInOffice=="1" && $scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
                             console.log($scope.ticket.building);
