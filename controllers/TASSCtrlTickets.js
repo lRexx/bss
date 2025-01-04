@@ -804,9 +804,42 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }
                             }
                         }else{
-                            $scope.getCostByCustomer.rate.deviceIsOnline="2";
-                            $scope.getCostByCustomer.rate.hasStock="0";
-                            $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                            for (var srv in response.data){
+                                console.info(response.data[srv])
+                                if (response.data[srv].idServiceAsociateFk_array!=undefined && response.data[srv].idServiceAsociateFk_array.length>0){
+                                    console.info(response.data[srv].idServiceAsociateFk_array.length);
+                                    console.info(response.data[srv].idServiceAsociateFk_array);
+                                    console.info(response.data[srv].idServiceAsociateFk_array[0]);
+                                    for (var srva in response.data[srv].idServiceAsociateFk_array){
+                                        console.info(response.data[srv].idServiceAsociateFk_array[srva])
+                                        if (response.data[srv].idServiceAsociateFk_array[srva]!=null && response.data[srv].idServiceAsociateFk_array[srva][0].idClientServicesAccessControl!=undefined){
+                                            $scope.getCostByCustomer.rate.deviceIsOnline="1";
+                                            $scope.getCostByCustomer.rate.hasStock="0";
+                                            console.log($scope.getCostByCustomer);
+                                            $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                                            $scope.rsControlAccessAssociated = true;
+                                            break;
+                                        }else{
+                                            console.log($scope.getCostByCustomer);
+                                            $scope.rsControlAccessAssociated = false;
+                                        }
+                                    }
+                                    if (!$scope.rsControlAccessAssociated){
+                                        $scope.getCostByCustomer.rate.deviceIsOnline="2";
+                                        $scope.getCostByCustomer.rate.hasStock="0";
+                                        //console.log($scope.getCostByCustomer);
+                                        $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                                    }
+                                }else{
+                                    $scope.getCostByCustomer.rate.deviceIsOnline="2";
+                                    //console.log($scope.getCostByCustomer);
+                                    $scope.getCostByCustomer.rate.hasStock="0";
+                                    $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                                }
+                                if ($scope.rsControlAccessAssociated){
+                                    break;
+                                }
+                            }
                         }
                     }else if (response.status==404){
                         console.log(response.data);
