@@ -101,11 +101,12 @@ class Rates_model extends CI_Model {
         $tb_technician_services = $query->row();
         if ($query->num_rows() === 1) {
             // First, fetch the minimum cost for the given idServiceTechnicianKf
-            if ($item['hasStock']=='0'){
-                $this->db->select('*');
-            }else{
-                $this->db->select('MIN(cost) as min_cost');
-            }
+            #if ($item['hasStock']=='0'){
+            #    $this->db->select('*');
+            #}else{
+            #    
+            #}
+            $this->db->select('MIN(cost) as min_cost');
             $this->db->from('tb_technician_service_cost');
             $this->db->where('idServiceTechnicianKf', $tb_technician_services->idServiceTechnician);
             $subquery = $this->db->get()->row();
@@ -127,6 +128,7 @@ class Rates_model extends CI_Model {
                 foreach ($query2->result_array() as $key => $contract) {
                     $todo['contract']=$contract;
                     //print_r($contract['numeroContrato']);
+                    //print_r($contract);
                     // Second query
                     $this->db->select("*");
                     $this->db->from("tb_technician_service_cost");
@@ -144,11 +146,11 @@ class Rates_model extends CI_Model {
                     $this->db->where('tb_technician_services.idServiceTypeFk', $item['idServiceType']);
                     $this->db->where('tb_technician_service_cost.idServiceTechnicianKf', $tb_technician_services->idServiceTechnician);
                     //print($query2->num_rows());
-                    if (($query2->num_rows()>=1 && ($item['hasStock']=='0' || $item['hasStock']==null))||
+                    if (($query2->num_rows()>=1 && $contract['maintenanceType']!=4 && ($item['hasStock']=='0' || $item['hasStock']==null))||
                         $query2->num_rows()==1 && $contract['maintenanceType']==4 && ($item['hasStock']=='1')){
                         $this->db->where('tb_technician_service_cost.idTipoMantenimientoKf', $contract['maintenanceType']);
                     }else{
-                        //print("costo minimo");
+                       //print("costo minimo");
                        $this->db->where('tb_technician_service_cost.cost', $min_cost); // Compare with the minimum cost
                     }
                     // Subquery for minimum cost                   
