@@ -47,7 +47,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
       $scope.getCostByCustomer={'rate':{'idCustomer':null, 'idServiceType':null, 'idServiceTechnician':null}};
       $scope.costs={'keys':{'cost':0, 'manual':false}, 'delivery':{'cost':0, 'manual':false}, 'service':{'cost':0, 'manual':false}, 'total':0};
       $scope.customerSearch={'name':'','searchFilter':'', 'typeClient':'', 'isInDebt':false, 'isStockInBuilding': false, 'isStockInOffice': false, 'strict':false};
-      $scope.keyTotalAllowed=4000;
+      $scope.keyTotalAllowed=50000;
       $scope.deliveryCostFree=0;
       $scope.update={'ticket':{}, 'user':{}};
       /*DATE PICKER*/
@@ -535,31 +535,6 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             break;
               default:
           }
-        }
-    /**************************************************
-    *                                                 *
-    *   GET COST OF SERVICES BY CUSTOMER ID           *
-    *                                                 *
-    **************************************************/
-        $scope.getServiceCostByCustomerFn = function(data){
-          serviceServices.getServiceCostByCustomer(data).then(function(response) {
-              if(response.status==200){
-                  $scope.ticket.cost.service = Number(response.data[0].cost);
-                  $scope.customerCosts=true;
-              }else if (response.status==404){
-                  inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de BSS.',{
-                      ttl:3000, type: 'warning'
-                  });
-                  $scope.customerCosts=false;
-                  $scope.ticket.cost.service = 0;
-              }else if (response.status==500){
-                  inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
-                  ttl:3000, type: 'danger'
-                  });
-                  $scope.ticket.cost.service = 0;
-                  $scope.customerCosts=false;
-              }
-          });
         }
     /**************************************************
     *                                                 *
@@ -1321,6 +1296,85 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 $scope.customerCosts=false;
             }
         });
+      }
+      $scope.rsCustomerInterneServices = [];
+      $scope.rsControlAccessAssociated = false;
+      $scope.checkControlAccessStateFn = function(idClient){
+          $scope.rsCustomerInterneServices = [];
+          //console.log("Getting --> ControlAccessDoorsAssociatedToACustomerFn");
+          CustomerServices.getCheckControlAccessState(idClient).then(function(response){
+              if(response.status==200){
+                  console.log(response.data);
+                  if($scope.ticket.building!=undefined && (
+                      (($scope.ticket.building.initial_delivery.length==0 || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state))) ||
+                      ($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0')||
+                      ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
+                      for (var srv in response.data){
+                          console.info(response.data[srv])
+                          if (response.data[srv].idServiceAsociateFk_array!=undefined && response.data[srv].idServiceAsociateFk_array.length>0){
+                              console.info(response.data[srv].idServiceAsociateFk_array.length);
+                              console.info(response.data[srv].idServiceAsociateFk_array);
+                              console.info(response.data[srv].idServiceAsociateFk_array[0]);
+                              for (var srva in response.data[srv].idServiceAsociateFk_array){
+                                  console.info(response.data[srv].idServiceAsociateFk_array[srva])
+                                  if (response.data[srv].idServiceAsociateFk_array[srva]!=null && response.data[srv].idServiceAsociateFk_array[srva][0].idClientServicesAccessControl!=undefined){
+                                      $scope.getCostByCustomer.rate.deviceIsOnline="1";
+                                      $scope.getCostByCustomer.rate.hasStock="1";
+                                      console.log($scope.getCostByCustomer);
+                                      $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                                      $scope.rsControlAccessAssociated = true;
+                                      break;
+                                  }else{
+                                      console.log($scope.getCostByCustomer);
+                                      $scope.rsControlAccessAssociated = false;
+                                  }
+                              }
+                              if (!$scope.rsControlAccessAssociated){
+                                  $scope.getCostByCustomer.rate.deviceIsOnline="2";
+                                  $scope.getCostByCustomer.rate.hasStock="1";
+                                  //console.log($scope.getCostByCustomer);
+                                  $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                              }
+                          }else{
+                              $scope.getCostByCustomer.rate.deviceIsOnline="2";
+                              //console.log($scope.getCostByCustomer);
+                              $scope.getCostByCustomer.rate.hasStock="1";
+                              $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                          }
+                          if ($scope.rsControlAccessAssociated){
+                              break;
+                          }
+                      }
+                  }else{
+                      $scope.getCostByCustomer.rate.deviceIsOnline="2";
+                      $scope.getCostByCustomer.rate.hasStock="0";
+                      $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                  }
+              }else if (response.status==404){
+                  console.log(response.data);
+                  console.log($scope.ticket.building);
+                  if($scope.ticket.building!=undefined && (
+                      ($scope.ticket.building.initial_delivery.length==0 || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state)) ||
+                      ($scope.ticket.building.isStockInBuilding=="1" && $scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0')||
+                      ($scope.ticket.building.isStockInOffice=="1" && $scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
+                      console.log($scope.ticket.building);
+                      $scope.getCostByCustomer.rate.deviceIsOnline="2";
+                      $scope.getCostByCustomer.rate.hasStock="1";
+                      $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                  }else{
+                      console.log($scope.ticket.building);
+                      $scope.getCostByCustomer.rate.deviceIsOnline="2";
+                      $scope.getCostByCustomer.rate.hasStock="0";
+                      $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+                  }
+              }else if (response.status==500){
+                  console.log(response.data);
+                  inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                      ttl:5000, type: 'danger'
+                  });
+              }
+          });
+          //console.log($scope.rsCustomerInterneServices);
       }
     /**************************************************
     *                                                 *
@@ -2375,15 +2429,19 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               $scope.getCostByCustomer.rate.deviceIsOnline        = obj.building.isHasInternetOnline || obj.building.isHasInternetOnline==null || obj.building.isHasInternetOnline==undefined?"2":"1";
               $scope.list_keys                                    = $scope.ticket.selected.keys;
               $scope.getDeliveryTypesFn();
+              $scope.checkControlAccessStateFn(obj.building.idClient);
               $scope.getAttendantListFn(obj.building.idClient);
-              $scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
+              //$scope.getServiceCostByCustomerFn($scope.getCostByCustomer);
               $scope.mainSwitchFn('setWhoPickUpList', obj);
               var keyTotalAllowed        = Number($scope.keyTotalAllowed);
               var subTotalKeys           = Number($scope.ticket.selected.costKeys);
-              console.log("Total key:"+subTotalKeys);
-              console.log("Total key allowed:"+keyTotalAllowed);
-              if (subTotalKeys>=keyTotalAllowed){
-                $scope.deliveryCostFree = 1;
+              //deliveryCostFree
+              $scope.keysTotalPrice=subTotalKeys.toFixed(2);
+              console.log("subTotalKeys: "+subTotalKeys+"\n"+"keyTotalAllowed :"+keyTotalAllowed);
+              if (($scope.keysTotalPrice>=keyTotalAllowed) || 
+                  ($scope.ticket.building!=undefined && $scope.ticket.building.isInitialDeliveryActive.length==1 && $scope.ticket.building.isInitialDeliveryActive[0].expiration_state!=undefined && !$scope.ticket.building.isInitialDeliveryActive[0].expiration_state)||
+                  ($scope.ticket.building.isStockInBuilding=="1")){
+                  $scope.deliveryCostFree = 1;
               }else{
                   $scope.deliveryCostFree = 0;
               }
@@ -3997,6 +4055,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 var ubicacion_lat     = "";
                 var ubicacion_lon     = "";
                 var whoReceive        = "";
+                var addressLat        = obj[f].deliveryAddress.addressLat==undefined?"":obj[f].deliveryAddress.addressLat;
+                var addressLon        = obj[f].deliveryAddress.addressLon==undefined?"":obj[f].deliveryAddress.addressLon;
                 if (obj[f].idDeliveryTo=="1" && obj[f].idWhoPickUp=="1"){ //DELIVERY OWNER PERSON TO CURRENT ADDRESS
                   location        = obj[f].deliveryAddress.location;
                   city            = obj[f].deliveryAddress.province;
@@ -4004,8 +4064,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   emailAddr       = obj[f].userDelivery.emailUser;
                   phoneNumberUser = obj[f].userDelivery.phoneNumberUser;
                   dni             = obj[f].userDelivery.dni;
-                  ubicacion_lat   = obj[f].deliveryAddress.addressLat;
-                  ubicacion_lon   = obj[f].deliveryAddress.addressLon;
+                  ubicacion_lat   = addressLat;
+                  ubicacion_lon   = addressLon;
                   whoReceive      = obj[f].userDelivery.fullNameUser;
                 }else if (obj[f].idDeliveryTo=="2" && obj[f].idWhoPickUp=="1"){ //DELIVERY OWNER PERSON TO DIFFERENT ADDRESS
                   location        = obj[f].otherDeliveryAddress.location;
@@ -4026,8 +4086,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   emailAddr       = obj[f].userDelivery.emailUser;
                   phoneNumberUser = obj[f].userDelivery.phoneNumberUser;
                   dni             = obj[f].userDelivery.dni;
-                  ubicacion_lat   = obj[f].deliveryAddress.addressLat;
-                  ubicacion_lon   = obj[f].deliveryAddress.addressLon;
+                  ubicacion_lat   = addressLat;
+                  ubicacion_lon   = addressLon;
                   whoReceive      = obj[f].userDelivery.fullNameUser;
                 }else if (obj[f].idDeliveryTo==null && obj[f].idWhoPickUp=="3"){ //DELIVERY TO THIRD PERSON
                   location        = obj[f].thirdPersonDelivery.location;
