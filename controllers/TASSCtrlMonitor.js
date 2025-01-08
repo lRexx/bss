@@ -4055,8 +4055,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 var ubicacion_lat     = "";
                 var ubicacion_lon     = "";
                 var whoReceive        = "";
-                var addressLat        = obj[f].deliveryAddress.addressLat==undefined?"":obj[f].deliveryAddress.addressLat;
-                var addressLon        = obj[f].deliveryAddress.addressLon==undefined?"":obj[f].deliveryAddress.addressLon;
+                var addressLat        = obj[f].deliveryAddress==undefined && obj[f].deliveryAddress.addressLat==undefined?"":obj[f].deliveryAddress.addressLat;
+                var addressLon        = obj[f].deliveryAddress==undefined && obj[f].deliveryAddress.addressLon==undefined?"":obj[f].deliveryAddress.addressLon;
                 if (obj[f].idDeliveryTo=="1" && obj[f].idWhoPickUp=="1"){ //DELIVERY OWNER PERSON TO CURRENT ADDRESS
                   location        = obj[f].deliveryAddress.location;
                   city            = obj[f].deliveryAddress.province;
