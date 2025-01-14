@@ -109,7 +109,7 @@
 									</ul>
 								</div>
 							</div>
-							<!-- Text Address for Admins & TASS
+							<!-- Text Address for Admins & BSS
 							ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && listOffices.length>0 && (customerSearch.name!='' || customerSearch.name!=undefined || customerSearch.name!=null) "
 						-->
 							<div ng-if="(sysLoggedUser.idProfileKf!=1 && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected && buildingList.length>0) || (sysLoggedUser.idProfileKf==1 && buildingList.length>0)" class="form-group n-padding-l" ng-class="
@@ -326,7 +326,7 @@
                                         </div>
                                     </div>
                                 </div>
-                               	<!-- Input Amount of keys that will be added to the request Apply Only for TASS -->
+                               	<!-- Input Amount of keys that will be added to the request Apply Only for BSS -->
 							   	<div ng-if="(ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && ticket.radioButtonBuilding!='3'))" class="form-group col-md-2 n-padding-l"  ng-class="
 							   {	'has-success': 
 							   		ticket.keyQtty!=undefined && ticket.keyQtty!=0 && fkeyup.ticket_keyQtty.$valid,
@@ -854,7 +854,7 @@
 										</td>
 										<td ng-if="ticket.delivery.idTypeDeliveryKf==null" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Procesado por</td>
 										<td ng-if="ticket.delivery.idTypeDeliveryKf==null">
-											<span class="badge badge-warning">TASS</span>
+											<span class="badge badge-warning">BSS</span>
 										</td>
 									</tr>
 								</tbody>

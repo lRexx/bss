@@ -1848,108 +1848,137 @@ class User_model extends CI_Model
 	}
 
 
+	/*BUSCAR USUARIO POR EL DNI*/
+	public function findGuest ($guest)
+	{
+
+		$rs = null;
+		//
+		$this->db->select("*")->from("tb_user_guest");
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_user_guest.idDepartmentKf', 'left');
+		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user_guest.idStatusKf', 'left');
+		if (! is_null(@$guest['idStatusKf'])) {
+			$this->db->where('tb_user_guest.idStatusKf', @$guest['idStatusKf']);
+		}else{
+			$this->db->where("tb_user_guest.idStatusKf !=", -1);
+		}
+
+		$this->db->group_start();
+		$this->db->where("tb_user_guest.dni", $guest['dni']);
+		$this->db->or_where("tb_user_guest.idGuest", @$guest['idGuest']);
+		$this->db->group_end();
+		$query = $this->db->order_by("tb_user_guest.idGuest", "ASC")->get();
+
+		if ($query->num_rows() > 0) {
+			$rs = $query->result_array();
+			return $rs;
+		} else {
+			return null;
+		}
+	}
+
 
     public function addGuest($guest) {
-
+		$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
         $user = null;
-
+		if ($this->findGuest($guest) == null) {
             $this->db->insert('tb_user_guest', [
-					'names'        			=> $guest['names'],
+					'names'        			=> $guest['fullname'],
 					'dni'              		=> $guest['dni'],
-					'brand'                 => $guest['brand'],
 					'emailAddress'          => @$guest['emailAddress'],
 					'phoneNumber' 			=> @$guest['phoneNumber'],
 					'idDepartmentKf'       	=> $guest['idDepartmentKf'],
-					'idKeychainKf'     		=> @$guest['idKeychainKf'],
+					"created_at" 			=> $now->format('Y-m-d H:i:s'),
+					'idStatusKf'			=> 1,
                 ]
             );
 
             if ($this->db->affected_rows() === 1) {
 				return true;
 			} else {
-				return false;
+				return null;
 			}
-
+		}else{
+			return -1;
+		}
 
     }
 
     public function updateGuest($guest) {
-
-        $this->db->set(
-            [
-                'names'        			=> $guest['names'],
-                'dni'              		=> $guest['dni'],
-                'brand'                 => $guest['brand'],
-                'emailAddress'          => @$guest['emailAddress'],
-                'phoneNumber' 			=> @$guest['phoneNumber'],
-                'idDepartmentKf'       	=> $guest['idDepartmentKf'],
-                'idKeychainKf'     		=> @$guest['idKeychainKf'],
-            ]
-        )->where("idGuest", $guest['idGuest'])->update("tb_user_guest");
-
-		if ($this->db->affected_rows() >= 0) {
-			return true;
-		} else {
-			return false;
+		if ($this->findGuest($guest) != null) {
+			$this->db->set(
+				[
+					'names'        			=> $guest['fullname'],
+					'dni'              		=> $guest['dni'],
+					'emailAddress'          => @$guest['emailAddress'],
+					'phoneNumber' 			=> @$guest['phoneNumber'],
+					'idDepartmentKf'       	=> $guest['idDepartmentKf']
+				]
+			)->where("idGuest", $guest['idGuest'])->update("tb_user_guest");
+			if ($this->db->affected_rows() === 1) {
+				return true;
+			} else {
+				return false;
+			}
+		}else{
+			return -1;
 		}
-
     }
 
     public function deleteGuest($idGuest) {
 
         $this->db->set(
-            [ 'idStatusKf' => -1 ])->where("idGuest", $idGuest)->update("tb_user_guest");
+            [ 	'idStatusKf'		 => -1,
+				'idDepartmentKf'     => null
+			]
+			)->where("idGuest", $idGuest)->update("tb_user_guest");
 
         return true;
 
 
     }
 
-    public function get_guest($id = null, $searchFilter = null) {
+    public function getGuestByIdDepartment($id) {
         $quuery = null;
         $rs     = null;
-
+		$guest  = [];
         if (! is_null($id)) {
-
-            $this->db->select("*")->from("tb_user_guest");
-            $this->db->join('tb_client_departament', 'tb_products_classification.idClientDepartament = tb_user_guest.idDepartmentKf', 'left');
-			$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_user_guest.idKeychainKf', 'left');
+			$this->db->select("*")->from("tb_user_guest");
+			$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_user_guest.idDepartmentKf', 'left');
 			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user_guest.idStatusKf', 'left');
-            $quuery = $this->db->where("tb_products.idProduct =", $id)->get();
-
-
-            if ($quuery->num_rows() === 1) {
-                $rs = $quuery->row_array();
-
-                return $rs;
-            }
-            return null;
-        } else {
-
-            $this->db->select("*")->from("tb_user_guest");
-            $this->db->join('tb_client_departament', 'tb_products_classification.idClientDepartament = tb_user_guest.idDepartmentKf', 'left');
-			$this->db->join('tb_keychain', 'tb_keychain.idKeychain = tb_user_guest.idKeychainKf', 'left');
-			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user_guest.idStatusKf', 'left');
-            $this->db->where("tb_user_guest.idStatusKf !=", -1);
-
-
-            /* Busqueda por filtro */
-            if (isset($searchFilter['searchFilter'])) {
-                $this->db->like('tb_user_guest.name', $searchFilter['searchFilter']);
-            }
-
-
-            $quuery = $this->db->order_by("tb_user_guest.idGuest", "ASC")->get();
-
-
-            if ($quuery->num_rows() > 0) {
-
-                $rs = $quuery->result_array();
-
-                return $rs;
-            }
-
-            return null;
+			$this->db->where("tb_user_guest.idStatusKf !=", -1);
+			$this->db->where("tb_user_guest.idDepartmentKf =", $id);
+			$quuery = $this->db->order_by("tb_user_guest.idGuest", "ASC")->get();
+			if($quuery->num_rows() > 0){
+				$guest = $quuery->result_array();
+				
+				foreach ($guest as $key => $item) {
+					$idGuest 		= $item['idGuest'];
+					$idDepartmentKf	= $item['idDepartmentKf'];
+					$query2    = null;
+					if (isset($idGuest) && isset($idDepartmentKf)) {
+						$extrawherekey = "tb_keychain.idUserKf=$idGuest AND tb_keychain.idDepartmenKf=$idDepartmentKf";
+						
+						$this->db->select("*")->from("tb_keychain");
+						$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
+						$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
+						$query2 = $this->db->where($extrawherekey)->get();
+						if ($query2->num_rows() === 1) {
+							$keyfound = $query2->row_array();
+							$guest[$key]['myKeys'] = $keyfound;
+						}else{
+							$guest[$key]['myKeys']=null;
+						}
+					}
+					
+				}
+				$rs = array(
+					'guest' => $guest
+				);
+			}else{
+				$rs = null;
+			}
+				return $rs;
         }
     }
 

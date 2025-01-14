@@ -2676,7 +2676,7 @@ class Ticket_model extends CI_Model
 		$this->db->join('tb_client_services_internet', 'tb_client_services_internet.idContracAssociated_SE = tb_contratos.idContrato', 'left');
 		$this->db->join('tb_tipos_servicios_internet', 'tb_tipos_servicios_internet.idTipoServicioInternet = tb_client_services_internet.idTypeInternetFk', 'left');
 		$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-		$where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 2 AND tb_client_services_internet.idContracAssociated_SE!=''
+		$where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 2 AND tb_client_services_internet.idContracAssociated_SE!='' AND (tb_client_services_internet.dateDown = '' OR tb_client_services_internet.dateDown IS NULL)
 		GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_tipos_servicios_internet.idTipoServicioInternet;";
 		$quuery_intservice = $this->db->where($where_string)->get();
 		$servicesAssociated = null;
@@ -2684,26 +2684,34 @@ class Ticket_model extends CI_Model
 			foreach ($quuery_intservice->result_array() as $key => $item) {
 				//Check if the Internet Type if BSS Wifi.
 				//print($ticket['idTypeInternetFk']);
+				//print($item['idTypeInternetFk']);
 				if($item['idTypeInternetFk']==1 || $item['idTypeInternetFk']==2){
 					$rs = $quuery_intservice->result_array();
 					$servicesAssociated=json_decode($item['idServiceAsociateFk']);
+					//print_r($item['idServiceAsociateFk']);
 					if (count($servicesAssociated)>0){
 						$serviceAsociate_arr=[];
 						foreach ($servicesAssociated as $idServiceAssociated) {
 							$aux = null;
 							$this->db->select("*")->from("tb_client_services_access_control");
 							$quuery2 = $this->db->where("tb_client_services_access_control.idClientServicesFk",$idServiceAssociated)->get();
-							//print_r($quuery2->result_array());
+							//print_r($quuery2->num_rows());
 							if ($quuery2->num_rows() > 0) {
 								$aux=$quuery2->result_array();
 							}
 							array_push($serviceAsociate_arr,$aux);
 						}
 						$rs[0]['idServiceAsociateFk_array']=$serviceAsociate_arr;
+						break;
 					}
 				}
 			}
+			//print_r($rs[0]['idServiceAsociateFk_array']);
 			// Now perform the checks
+			//print_r(isset($rs[0]['idServiceAsociateFk_array'])."\n");
+			//print_r(is_array($rs[0]['idServiceAsociateFk_array'])."\n");
+			//print_r(count($rs[0]['idServiceAsociateFk_array'])."\n");
+			//print_r($rs[0]['idServiceAsociateFk_array'] !== null);
 			if (
 				isset($rs[0]['idServiceAsociateFk_array']) && // Check if array is set
 				is_array($rs[0]['idServiceAsociateFk_array']) && // Ensure it's an array
@@ -2717,6 +2725,7 @@ class Ticket_model extends CI_Model
 					if (isset($service[0]['idClientServicesAccessControl'])) {
 						return "true";
 					} else {
+						//print_r($service);
 						return "false";
 					}
 				}
@@ -2927,9 +2936,11 @@ class Ticket_model extends CI_Model
 
 			$rs9            = $quuery->result_array();
 			$todo[$key]['building']['isInitialDeliveryActive'] = $rs9;
+			$todo[$key]['building']['initial_delivery'] = $rs9;
 			if($quuery->num_rows()>0){
 				//print_r($rs['customers'][$i]['initial_delivery'][0]['expirationDate']);
-				$dateString = $todo[$key]['building']['isInitialDeliveryActive'][0]['expirationDate']; 
+				$dateString = $todo[$key]['building']['isInitialDeliveryActive'][0]['expirationDate'];
+				$dateString = $todo[$key]['building']['initial_delivery'][0]['expirationDate'];
 				// Date string to compare
 				// Convert date string to a DateTime object
 				$dateToCompare = new DateTime($dateString);
@@ -2945,8 +2956,10 @@ class Ticket_model extends CI_Model
 				//print("currentDate   : ".$currentDate);
 				if ($currentDateFormatted > $dateToCompareFormatted) {
 					$todo[$key]['building']['isInitialDeliveryActive'][0]['expiration_state'] = true;
+					$todo[$key]['building']['initial_delivery'][0]['expiration_state'] = true;
 				}else{
 					$todo[$key]['building']['isInitialDeliveryActive'][0]['expiration_state'] = false;
+					$todo[$key]['building']['initial_delivery'][0]['expiration_state'] = false;
 				}
 			}
 		}

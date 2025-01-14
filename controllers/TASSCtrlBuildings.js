@@ -247,6 +247,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         $("#UpdateTenant").modal('hide');
                         $("#RegisterAttendant").modal('hide');
                         $("#UpdateAttendant").modal('hide');
+                        $("#RegisterGuest").modal('hide');
+                        $("#UpdateGuest").modal('hide');
+                        
                         //$scope.switchCustomersFn('dashboard','', 'registered');
                     }
                 break;
@@ -298,20 +301,24 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         console.log(obj);
                         $scope.keyDetailTmp=null;
                         $scope.isKeyUsed=false;
+                        var fullNames   = $scope.tenantObj.fullNameUser!=undefined?$scope.tenantObj.fullNameUser:$scope.tenantObj.names;
+                        var idUser      = $scope.tenantObj.idGuest!=undefined?$scope.tenantObj.idGuest:$scope.tenantObj.idUser;
+                        $scope.tenantObj.idUser=idUser;
                             for (var key in $scope.departmentSelected.keys){
+                                console.log($scope.departmentSelected.keys[key]);
                                 if ($scope.tenantObj.myKeys!=undefined && $scope.tenantObj.myKeys!=null && $scope.tenantObj.myKeys.idKeychain!=$scope.tenantObj.key && $scope.tenantObj.key==$scope.departmentSelected.keys[key].idKeychain && $scope.departmentSelected.keys[key].idUserKf==null){
                                     $scope.tenantObj.keyDetail = $scope.departmentSelected.keys[key];
-                                    $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera asociado al Habitante "+$scope.tenantObj.fullNameUser+",     Confirmar?";
+                                    $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera asociado al Habitante "+fullNames+",     Confirmar?";
                                     $scope.isKeyUsed=false;
                                     break;
                                 }else if (($scope.tenantObj.myKeys==undefined || $scope.tenantObj.myKeys==null) && $scope.tenantObj.key==$scope.departmentSelected.keys[key].idKeychain && $scope.departmentSelected.keys[key].idUserKf==null){
                                     $scope.tenantObj.keyDetail = $scope.departmentSelected.keys[key];
-                                    $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera asociado al Habitante "+$scope.tenantObj.fullNameUser+",     Confirmar?";
+                                    $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera asociado al Habitante "+fullNames+",     Confirmar?";
                                     $scope.isKeyUsed=false;
                                     break;
                                 }else if ($scope.tenantObj.myKeys!=undefined && $scope.tenantObj.myKeys!=null && $scope.tenantObj.key==null && $scope.tenantObj.idUser == $scope.departmentSelected.keys[key].idUserKf && $scope.tenantObj.keyTmp==$scope.departmentSelected.keys[key].idKeychain && $scope.departmentSelected.keys[key].idUserKf!=null){
                                     $scope.tenantObj.keyDetail = $scope.departmentSelected.keys[key];
-                                    $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera desvinculado del Habitante "+$scope.tenantObj.fullNameUser+",     Confirmar?";
+                                    $scope.mess2show="El Llavero: "+$scope.tenantObj.keyDetail.descriptionProduct+" Codigo: "+$scope.tenantObj.keyDetail.codigo+" sera desvinculado del Habitante "+fullNames+",     Confirmar?";
                                     $scope.isKeyUsed=false;
                                     break;
                                 }else if ((($scope.tenantObj.myKeys==undefined || $scope.tenantObj.myKeys==null) || ($scope.tenantObj.myKeys!=undefined && $scope.tenantObj.myKeys!=null)) && ($scope.tenantObj.keyTmp==null || $scope.tenantObj.keyTmp!=null) && $scope.tenantObj.idUser != $scope.departmentSelected.keys[key].idUserKf && $scope.departmentSelected.keys[key].idUserKf!=null){
@@ -320,7 +327,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 }
                             }
                             if(!$scope.isKeyUsed){
-                                console.log("ID del Habitante            : "+$scope.tenantObj.idUser);
+                                console.log("ID del Habitante/Invitado   : "+$scope.tenantObj.idUser);
                                 console.log("ID del Llavero              : "+$scope.tenantObj.key);
                                 console.log("ID del Departmento          : "+$scope.departmentSelected.idClientDepartament);
                                 console.log("============================================================================");
@@ -740,6 +747,47 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             //$scope.switchBuildingFn("unSubsDeptoTenant", $scope.tenantObj);
                             $scope.removeTenantFn($scope.remove);
                         }
+                        $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "removeg":
+                    if (confirm==0){
+                        $scope.tenantObj    = obj;
+                        $scope.buildingObj  = obj2;
+                        $scope.isHasTicket  = false;
+                        $scope.isHasKeys    = true;
+                        console.log($scope.tenantObj);
+                        $scope.mess2show="Esta seguro que desea dar de baja al Invitado "+$scope.tenantObj.names+" ?";
+                        if($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6){
+                            console.log("::::::: REMOVE A GUEST :::::::");
+                            $scope.remove.info.idGuest           = $scope.tenantObj.idGuest;
+                            if ($scope.sysContent=='administration'){
+                                $scope.remove.info.idDepartmentKf   = $scope.idDeptoKf;
+                            }else if ($scope.sysContent=='home' && $scope.buildingObj==null){
+                                $scope.remove.info.idDepartmentKf   = $scope.departmentSelected.idClientDepartament;
+                            }else{
+                                console.log(":::ENTRO ACA::")
+                                $scope.remove.info.idDepartmentKf   = $scope.buildingObj.idClientDepartament;
+                            }
+
+                            console.log('ID: '+$scope.tenantObj.idGuest+' ID DPTO: '+$scope.remove.info.idDepartmentKf);
+                            console.log("DATOS DEL INVITADO A DAR DE BAJA");
+                            console.log($scope.remove.info);
+                            console.log($scope.buildingObj);
+                            console.log($scope.departmentSelected);
+                            blockUI.start('Verificando si el posee llaves asociada.');
+                            $scope.checkKeyTenant($scope.remove.info.idDepartmentKf, $scope.remove.info.idGuest);
+                        }
+                        $timeout(function() {
+                            console.log("$scope.isHasKeys : "+$scope.isHasKeys );
+                            if (!$scope.isHasTicket && !$scope.isHasKeys){
+                                $('#confirmRequestModal').modal('toggle');
+                            }
+                            blockUI.stop();
+                        }, 1500);
+                    }else if (confirm==1){
+                        $scope.IsFnRemove=true;
+                        $scope.removeGuestFn($scope.remove.info);
                         $('#confirmRequestModal').modal('hide');
                     }
                 break;
@@ -1679,6 +1727,47 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
             /*------------------------------------------------*/
             /**************************************************
             *                                                 *
+            *        REMOVER TENANT DE UN DEPARTAMENTO        *
+            *                                                 *
+            **************************************************/
+                $scope.removeGuestFn = function(obj){
+                    console.log(obj);
+                    blockUI.start('Iniciando baja del departamento seleccionado.');
+                    userServices.removeg(obj.idGuest).then(function(response){
+                        console.log(response);
+                        if(response.status==200){
+                                inform.add('Baja realizada satisfactoriamente.',{
+                                    ttl:3000, type: 'success'
+                                });
+                                $timeout(function() {
+                                    $scope.switchBuildingFn('myDepartmentsQuiet', null);
+                                }, 500);
+                                $timeout(function() {
+                                    $('#departmentGuestList').modal('hide');
+                                    blockUI.stop();
+                                }, 1500);
+                        }else if (response.status==404){
+                            $timeout(function() {
+                                inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                                ttl:5000, type: 'warning'
+                                });
+                                blockUI.message('El Invitado no sido dado de baja del departamento.');
+                                blockUI.stop();
+                            }, 1500);
+                        }else if (response.status==500){
+                            $timeout(function() {
+                                inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                                ttl:5000, type: 'danger'
+                                });
+                                blockUI.message('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor.');
+                                blockUI.stop();
+                            }, 1500);
+                        }
+                    });
+                } 
+            /*------------------------------------------------*/
+            /**************************************************
+            *                                                 *
             *   ASSIGN ATTENDANT TO THE BUILDING SELECTED     *
             *                                                 *
             **************************************************/
@@ -2465,6 +2554,334 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                 }
             /**************************************************
             *                                                 *
+            *                    ADD GUEST                    *
+            *                                                 *
+            **************************************************/
+
+                $scope.sysRegisterGuestFn = function(obj){
+                    console.log($scope.register);
+                    $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
+                    $scope.department={'user':{}};
+                    userServices.addGuest(obj).then(function(response){
+                        if(response.status==200){
+                            console.log("REGISTERED SUCCESSFULLY");
+                            inform.add('Invitado '+obj.guest.fullname+' registrado satisfactoriamente.',{
+                            ttl:5000, type: 'success'
+                            });
+                            if ($scope.sysSubContent=="myDepartments"){
+                                $scope.statusByTenantType = $scope.sysLoggedUser.idTypeTenantKf=='1'?-1:-1;
+                                $scope.idDepartmentKfTmp = $scope.sysLoggedUser.idTypeTenantKf=='1'?null:$scope.sysLoggedUser.idDepartmentKf;
+                                $scope.updateSysUserLoggedSession($scope.sysLoggedUser.idUser);
+                                blockUI.start('Actualizando información.');
+                                $timeout(function() {
+                                    DepartmentsServices.listDepartmentsByIdOwner($scope.idDepartmentKfTmp, $scope.sysLoggedUser.idUser, $scope.statusByTenantType, $scope.sysLoggedUser.idTypeTenantKf).then(function(response) {
+                                        if(response.status==200){
+                                            if(response.data!=undefined && response.data.length>0){
+                                                var assignedDeptos = [];
+                                                angular.forEach(response.data,function(depto){
+                                                var deferredDeptos = $q.defer();
+                                                assignedDeptos.push(deferredDeptos.promise);
+                                                //ASSIGN DEPARTMENT SERVICE
+                                                    $timeout(function() {
+                                                        deferredDeptos.resolve();
+                                                        DepartmentsServices.listTenant2AssignedDeptoByIdDepto(depto.idClientDepartament).then(function(response_tenants) {
+                                                            if(response_tenants.status==200){
+                                                                depto.tenants = response_tenants.data.tenant;
+                                                            }else if (response_tenants.status==404){
+                                                                depto.tenants = [];
+                                                            }else if (response_tenants.status==500){
+                                                                depto.tenants = [];
+                                                            }
+                                                        });
+                                                    }, 1000);
+                                                });
+                                                $q.all(assignedDeptos).then(function () {
+                                                    $timeout(function() {
+                                                        blockUI.stop();
+                                                    }, 2000);
+                                                });
+                                                angular.forEach(response.data,function(depto){
+                                                    var deferredDeptos = $q.defer();
+                                                    assignedDeptos.push(deferredDeptos.promise);
+                                                    //ASSIGN DEPARTMENT SERVICE
+                                                    $timeout(function() {
+                                                        deferredDeptos.resolve();
+                                                        DepartmentsServices.listGuestAssigned2DeptoByIdDepto(depto.idClientDepartament).then(function(response_guest) {
+                                                            if(response_guest.status==200){
+                                                                depto.guest = response_guest.data.guest;
+                                                                console.log(depto.guest);
+                                                            }else if (response_guest.status==404){
+                                                                depto.guest = [];
+                                                                console.log(depto.guest);
+                                                            }else if (response_guest.status==500){
+                                                                depto.guest = [];
+                                                                console.log(depto.guest);
+                                                            }
+                                                        });
+                                                    }, 1000);
+                                                });
+                                                $q.all(assignedDeptos).then(function () {
+                                                    $timeout(function() {
+                                                        blockUI.stop();
+                                                    }, 2000);
+                                                });
+                                                var assignedKeys = [];
+                                                angular.forEach(response.data,function(depto){
+                                                    var deferredKeys = $q.defer();
+                                                    assignedKeys.push(deferredKeys.promise);
+                                                    $timeout(function() {
+                                                        deferredKeys.resolve();
+                                                        KeysServices.getKeyListByDepartmentId(depto.idClientDepartament).then(function(response_keys) {
+                                                            if(response_keys.status==200){
+                                                                depto.keys=response_keys.data;
+                                                            }else if (response_keys.status==404){
+                                                                depto.keys = [];
+                                                            }else if (response_keys.status==500){
+                                                                depto.keys = [];
+                                                            }
+                                                        });
+                                                    }, 1000);
+                                                });
+                                                $q.all(assignedKeys).then(function () {
+                                                    $timeout(function() {
+                                                        blockUI.stop();
+                                                        $scope.myDepartamentlist = response.data;
+                                                        //console.log($scope.myDepartamentlist);
+                                                        for (var depto in $scope.myDepartamentlist){
+                                                            if ($scope.myDepartamentlist[depto].idClientDepartament == $scope.departmentSelected.idClientDepartament){
+                                                                $scope.departmentSelected = $scope.myDepartamentlist[depto];
+                                                                for (var myKey in $scope.departmentSelected.tenants){
+                                                                    for (var key in $scope.departmentSelected.keys){
+                                                                        if ($scope.departmentSelected.tenants[myKey].myKeys!=undefined && $scope.departmentSelected.tenants[myKey].myKeys!=null && 
+                                                                            $scope.departmentSelected.tenants[myKey].myKeys.idKeychain==$scope.departmentSelected.keys[key].idKeychain &&
+                                                                            $scope.departmentSelected.tenants[myKey].myKeys.idUserKf==$scope.departmentSelected.keys[key].idUserKf){
+                                                                            $scope.departmentSelected.tenants[myKey].keyTmp = $scope.departmentSelected.tenants[myKey].myKeys.idKeychain;
+                                                                            $scope.departmentSelected.tenants[myKey].key = $scope.departmentSelected.tenants[myKey].myKeys.idKeychain;
+                                                                            //console.log($scope.departmentSelected.tenants[myKey])
+                                                                            break;
+                                                                        }else{
+                                                                            $scope.departmentSelected.tenants[myKey].key = null;
+                                                                            $scope.departmentSelected.tenants[myKey].keyTmp = null;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                for (var myKey in $scope.departmentSelected.guest){
+                                                                    for (var key in $scope.departmentSelected.keys){
+                                                                        if ($scope.departmentSelected.guest[myKey].myKeys!=undefined && $scope.departmentSelected.guest[myKey].myKeys!=null && 
+                                                                            $scope.departmentSelected.guest[myKey].myKeys.idKeychain==$scope.departmentSelected.keys[key].idKeychain &&
+                                                                            $scope.departmentSelected.guest[myKey].myKeys.idUserKf==$scope.departmentSelected.keys[key].idUserKf){
+                                                                            $scope.departmentSelected.guest[myKey].keyTmp = $scope.departmentSelected.guest[myKey].myKeys.idKeychain;
+                                                                            $scope.departmentSelected.guest[myKey].key = $scope.departmentSelected.guest[myKey].myKeys.idKeychain;
+                                                                            //console.log($scope.departmentSelected.guest[myKey])
+                                                                            break;
+                                                                        }else{
+                                                                            $scope.departmentSelected.guest[myKey].key = null;
+                                                                            $scope.departmentSelected.guest[myKey].keyTmp = null;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                break;
+                                                            }
+                                                        }
+                                                    }, 2000);
+                                                });
+                                            }else{
+                                                $scope.myDepartamentlist = [];
+                                                blockUI.stop();
+                                            }
+                                        }else if (response.status==404){
+                                            $scope.myDepartamentlist = [];
+                                            blockUI.stop();
+                                        }
+        
+                                    });
+                                    blockUI.stop();
+                                }, 5000);
+                            }
+                            if ($scope.sysSubContent=="departments"){
+                                $timeout(function() {
+                                    $scope.lisTenantByType($scope.idDeptoKf, null);
+                                    blockUI.stop();
+                                }, 2500);
+                            }
+                        }else if (response_tenantRegister.status==404){
+                            inform.add('[Error]: '+response_tenantRegister.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                                ttl:5000, type: 'warning'
+                                });
+                        }else if(response_tenantRegister.status==500){
+                            inform.add('[Error]: '+response_tenantRegister.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                                ttl:5000, type: 'danger'
+                            });
+                        }
+                    });
+                    $('#RegisterGuest').modal('hide');
+                }
+            /**************************************************
+            *                                                 *
+            *                    ADD GUEST                    *
+            *                                                 *
+            **************************************************/
+
+                $scope.sysUpdateGuestFn = function(obj){
+                    console.log($scope.register);
+                    $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
+                    $scope.department={'user':{}};
+                    userServices.updateGuest(obj).then(function(response){
+                        if(response.status==200){
+                            console.log("UPDATED SUCCESSFULLY");
+                            inform.add('Invitado '+obj.guest.fullname+' Actualizado satisfactoriamente.',{
+                            ttl:5000, type: 'success'
+                            });
+                            if ($scope.sysSubContent=="myDepartments"){
+                                $scope.statusByTenantType = $scope.sysLoggedUser.idTypeTenantKf=='1'?-1:-1;
+                                $scope.idDepartmentKfTmp = $scope.sysLoggedUser.idTypeTenantKf=='1'?null:$scope.sysLoggedUser.idDepartmentKf;
+                                $scope.updateSysUserLoggedSession($scope.sysLoggedUser.idUser);
+                                blockUI.start('Actualizando información.');
+                                $timeout(function() {
+                                    DepartmentsServices.listDepartmentsByIdOwner($scope.idDepartmentKfTmp, $scope.sysLoggedUser.idUser, $scope.statusByTenantType, $scope.sysLoggedUser.idTypeTenantKf).then(function(response) {
+                                        if(response.status==200){
+                                            if(response.data!=undefined && response.data.length>0){
+                                                var assignedDeptos = [];
+                                                angular.forEach(response.data,function(depto){
+                                                var deferredDeptos = $q.defer();
+                                                assignedDeptos.push(deferredDeptos.promise);
+                                                //ASSIGN DEPARTMENT SERVICE
+                                                    $timeout(function() {
+                                                        deferredDeptos.resolve();
+                                                        DepartmentsServices.listTenant2AssignedDeptoByIdDepto(depto.idClientDepartament).then(function(response_tenants) {
+                                                            if(response_tenants.status==200){
+                                                                depto.tenants = response_tenants.data.tenant;
+                                                            }else if (response_tenants.status==404){
+                                                                depto.tenants = [];
+                                                            }else if (response_tenants.status==500){
+                                                                depto.tenants = [];
+                                                            }
+                                                        });
+                                                    }, 1000);
+                                                });
+                                                $q.all(assignedDeptos).then(function () {
+                                                    $timeout(function() {
+                                                        blockUI.stop();
+                                                    }, 2000);
+                                                });
+                                                angular.forEach(response.data,function(depto){
+                                                    var deferredDeptos = $q.defer();
+                                                    assignedDeptos.push(deferredDeptos.promise);
+                                                    //ASSIGN DEPARTMENT SERVICE
+                                                    $timeout(function() {
+                                                        deferredDeptos.resolve();
+                                                        DepartmentsServices.listGuestAssigned2DeptoByIdDepto(depto.idClientDepartament).then(function(response_guest) {
+                                                            if(response_guest.status==200){
+                                                                depto.guest = response_guest.data.guest;
+                                                                console.log(depto.guest);
+                                                            }else if (response_guest.status==404){
+                                                                depto.guest = [];
+                                                                console.log(depto.guest);
+                                                            }else if (response_guest.status==500){
+                                                                depto.guest = [];
+                                                                console.log(depto.guest);
+                                                            }
+                                                        });
+                                                    }, 1000);
+                                                });
+                                                $q.all(assignedDeptos).then(function () {
+                                                    $timeout(function() {
+                                                        blockUI.stop();
+                                                    }, 2000);
+                                                });
+                                                var assignedKeys = [];
+                                                angular.forEach(response.data,function(depto){
+                                                    var deferredKeys = $q.defer();
+                                                    assignedKeys.push(deferredKeys.promise);
+                                                    $timeout(function() {
+                                                        deferredKeys.resolve();
+                                                        KeysServices.getKeyListByDepartmentId(depto.idClientDepartament).then(function(response_keys) {
+                                                            if(response_keys.status==200){
+                                                                depto.keys=response_keys.data;
+                                                            }else if (response_keys.status==404){
+                                                                depto.keys = [];
+                                                            }else if (response_keys.status==500){
+                                                                depto.keys = [];
+                                                            }
+                                                        });
+                                                    }, 1000);
+                                                });
+                                                $q.all(assignedKeys).then(function () {
+                                                    $timeout(function() {
+                                                        blockUI.stop();
+                                                        $scope.myDepartamentlist = response.data;
+                                                        //console.log($scope.myDepartamentlist);
+                                                        for (var depto in $scope.myDepartamentlist){
+                                                            if ($scope.myDepartamentlist[depto].idClientDepartament == $scope.departmentSelected.idClientDepartament){
+                                                                $scope.departmentSelected = $scope.myDepartamentlist[depto];
+                                                                for (var myKey in $scope.departmentSelected.tenants){
+                                                                    for (var key in $scope.departmentSelected.keys){
+                                                                        if ($scope.departmentSelected.tenants[myKey].myKeys!=undefined && $scope.departmentSelected.tenants[myKey].myKeys!=null && 
+                                                                            $scope.departmentSelected.tenants[myKey].myKeys.idKeychain==$scope.departmentSelected.keys[key].idKeychain &&
+                                                                            $scope.departmentSelected.tenants[myKey].myKeys.idUserKf==$scope.departmentSelected.keys[key].idUserKf){
+                                                                            $scope.departmentSelected.tenants[myKey].keyTmp = $scope.departmentSelected.tenants[myKey].myKeys.idKeychain;
+                                                                            $scope.departmentSelected.tenants[myKey].key = $scope.departmentSelected.tenants[myKey].myKeys.idKeychain;
+                                                                            //console.log($scope.departmentSelected.tenants[myKey])
+                                                                            break;
+                                                                        }else{
+                                                                            $scope.departmentSelected.tenants[myKey].key = null;
+                                                                            $scope.departmentSelected.tenants[myKey].keyTmp = null;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                for (var myKey in $scope.departmentSelected.guest){
+                                                                    for (var key in $scope.departmentSelected.keys){
+                                                                        if ($scope.departmentSelected.guest[myKey].myKeys!=undefined && $scope.departmentSelected.guest[myKey].myKeys!=null && 
+                                                                            $scope.departmentSelected.guest[myKey].myKeys.idKeychain==$scope.departmentSelected.keys[key].idKeychain &&
+                                                                            $scope.departmentSelected.guest[myKey].myKeys.idUserKf==$scope.departmentSelected.keys[key].idUserKf){
+                                                                            $scope.departmentSelected.guest[myKey].keyTmp = $scope.departmentSelected.guest[myKey].myKeys.idKeychain;
+                                                                            $scope.departmentSelected.guest[myKey].key = $scope.departmentSelected.guest[myKey].myKeys.idKeychain;
+                                                                            //console.log($scope.departmentSelected.guest[myKey])
+                                                                            break;
+                                                                        }else{
+                                                                            $scope.departmentSelected.guest[myKey].key = null;
+                                                                            $scope.departmentSelected.guest[myKey].keyTmp = null;
+                                                                        }
+                                                                    }
+                                                                }
+                                                                break;
+                                                            }
+                                                        }
+                                                    }, 2000);
+                                                });
+                                            }else{
+                                                $scope.myDepartamentlist = [];
+                                                blockUI.stop();
+                                            }
+                                        }else if (response.status==404){
+                                            $scope.myDepartamentlist = [];
+                                            blockUI.stop();
+                                        }
+        
+                                    });
+                                    blockUI.stop();
+                                }, 5000);
+                            }
+                            if ($scope.sysSubContent=="departments"){
+                                $timeout(function() {
+                                    $scope.lisTenantByType($scope.idDeptoKf, null);
+                                    blockUI.stop();
+                                }, 2500);
+                            }
+                        }else if (response_tenantRegister.status==404){
+                            inform.add('[Error]: '+response_tenantRegister.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                                ttl:5000, type: 'warning'
+                                });
+                        }else if(response_tenantRegister.status==500){
+                            inform.add('[Error]: '+response_tenantRegister.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                                ttl:5000, type: 'danger'
+                            });
+                        }
+                    });
+                    $('#UpdateGuest').modal('hide');
+                }
+            /**************************************************
+            *                                                 *
             *            BUILDING MEMBERS TYPE                *
             *                                                 *
             **************************************************/
@@ -2474,7 +2891,13 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                 $scope.selectMembersTypeFn = function(obj){
                     $scope.selectedDepto = obj;
                     $("#MembersType").modal('toggle');
-   
+                }
+                $scope.closeTenantMembersTypeModal = function(){
+                    $("#TenantMembersType").modal('hide');
+                }
+                $scope.selectTenantMembersTypeFn = function(obj){
+                    $scope.selectedDepto = obj;
+                    $("#TenantMembersType").modal('toggle');
                 }
             /**************************************************
             *                                                 *
@@ -2554,24 +2977,24 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
             *              ALLOW MP EARLY PAYMENT             *
             *                                                 *
             **************************************************/
-            $scope.setMpPaymentMethodFn = function(obj){
-                console.log(obj);
-                CustomerServices.mpPaymentMethod(obj).then(function(response){
-                    //console.log(response);
-                    if(response.status==200){
-                        if (obj.client.mpPaymentMethod){
-                            inform.add('Pago anticipado por MercadoPago activado satisfactoriamente.',{
-                                ttl:5000, type: 'success'
-                            });
-                        }else{
-                            inform.add('Pago anticipado por MercadoPago desactivado satisfactoriamente.',{
-                                ttl:5000, type: 'warning'
-                            });
-                        }
+                $scope.setMpPaymentMethodFn = function(obj){
+                    console.log(obj);
+                    CustomerServices.mpPaymentMethod(obj).then(function(response){
+                        //console.log(response);
+                        if(response.status==200){
+                            if (obj.client.mpPaymentMethod){
+                                inform.add('Pago anticipado por MercadoPago activado satisfactoriamente.',{
+                                    ttl:5000, type: 'success'
+                                });
+                            }else{
+                                inform.add('Pago anticipado por MercadoPago desactivado satisfactoriamente.',{
+                                    ttl:5000, type: 'warning'
+                                });
+                            }
 
-                    }
-                });
-            } 
+                        }
+                    });
+                } 
             /**************************************************
             *                                                 *
             *              ALLOW EXPENSES PAYMENT             *
@@ -2623,25 +3046,25 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
             *             AUTO APPROVE OWNERS ONLY            *
             *                                                 *
             **************************************************/
-             $scope.setAutoApproveOwnersFn = function(obj){
-                console.log(obj);
-                CustomerServices.autoApproveOwners(obj).then(function(response){
-                    //console.log(response);
-                    if(response.status==200){
-                        if (obj.client.autoApproveOwners){
-                            inform.add('Auto aprobar pedidos solo para los propietarios activado satisfactoriamente.',{
-                                ttl:5000, type: 'success'
-                            });
-                        }else{
-                            inform.add('Auto aprobar pedidos solo para los propietarios desactivado satisfactoriamente.',{
-                                ttl:5000, type: 'warning'
-                            });
+                $scope.setAutoApproveOwnersFn = function(obj){
+                    console.log(obj);
+                    CustomerServices.autoApproveOwners(obj).then(function(response){
+                        //console.log(response);
+                        if(response.status==200){
+                            if (obj.client.autoApproveOwners){
+                                inform.add('Auto aprobar pedidos solo para los propietarios activado satisfactoriamente.',{
+                                    ttl:5000, type: 'success'
+                                });
+                            }else{
+                                inform.add('Auto aprobar pedidos solo para los propietarios desactivado satisfactoriamente.',{
+                                    ttl:5000, type: 'warning'
+                                });
+
+                            }
 
                         }
-
-                    }
-                });
-            } 
+                    });
+                } 
             /**************************************************
             *                                                 *
             * DEPARTMENT LIST BY SELECTED ADDRESS AND TENANT  *
@@ -2692,6 +3115,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                 };
                 //AUTO UPDATE MY DEPARTMENTS MODULE EVERY 5 minutes WHEN MY DEPARTMENTS IS OPEN
                 $interval( function(){
+                    console.log("automated update")
                     if ($scope.sysSubContent=="myDepartments"){
                         $scope.switchBuildingFn('myDepartmentsQuiet', null);
                     }
@@ -3117,6 +3541,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 $scope.tenant.new.idProfileKf           = "5";
                             }
                             $scope.closeMembersTypeModal();
+                            $scope.closeTenantMembersTypeModal();
                             $('#RegisterTenant').modal({backdrop: 'static', keyboard: false});
                             $('#RegisterTenant').on('shown.bs.modal', function () {
                                 $('#idTypeTenantKf').focus();
@@ -3142,6 +3567,61 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.register.user.loggedUser             = $scope.sysLoggedUser;
                             console.log($scope.register.user);
                             $scope.sysRegisterTenantFn();
+                        break;
+                        case "newGuest":
+                            $scope.guest={
+                            'new':{'names':'', 'dni':'', 'emailAddress':'', 'phoneNumber':'', 'idDepartmentKf':'', 'idKeychainKf':''},
+                            'update':{'names':'', 'dni':'', 'emailAddress':'', 'phoneNumber':'', 'idDepartmentKf':'', 'idKeychainKf':''}};
+                            $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
+                            $scope.ownerFound=false;
+                            $scope.isNewTenant                          = true;
+                            $scope.isUpdateTenant                       = false;
+                            $scope.sysDNIRegistered                     = false;
+                            $scope.sysEmailRegistered                   = false;
+                            $scope.guest.new.idSysProfileFk             = "10";
+                            $scope.guest.new.idDepartmentKf             = obj.idClientDepartament;
+                            $scope.guest.new.depto                      = obj.Depto;
+                            $scope.closeTenantMembersTypeModal();
+                            $('#RegisterGuest').modal({backdrop: 'static', keyboard: false});
+                            $('#RegisterGuest').on('shown.bs.modal', function () {
+                                $('#fullname').focus();
+                            });
+                            console.log($scope.tenant.new);
+                        break;
+                        case "addGuest":
+                            $scope.register={'guest':{}};
+                            $scope.register.guest               = obj;
+                            $scope.register.guest .emailAddress = obj.mail;
+                            console.log($scope.register.guest);
+                            $scope.sysRegisterGuestFn($scope.register);
+                        break;
+                        case "editGuest":
+                            $scope.guest          = {'update':{'idGuest':'','idDepartmentKf':'', 'idStatusKf':'', 'fullname':'','dni':'','mail':'','phoneNumber':'','depto':'','address':''}};
+                            //$scope.guest.update   = obj;
+                            $scope.guest.update.idGuest         = obj.idGuest;
+                            $scope.guest.update.idDepartmentKf  = obj.idDepartmentKf;
+                            $scope.guest.update.idStatusKf      = obj.idStatusKf;
+                            $scope.guest.update.fullname        = obj.names;
+                            $scope.guest.update.dni             = obj.dni;
+                            $scope.guest.update.mail            = obj.emailAddress;
+                            $scope.guest.update.phoneNumber     = obj.phoneNumber;
+                            $scope.guest.update.depto           = $scope.departmentSelected.Depto;
+                            $scope.guest.update.address         = $scope.departmentSelected.address;
+
+                            console.log($scope.guest);
+                            console.log($scope.departmentSelected);
+                            
+                            $('#UpdateGuest').modal({backdrop: 'static', keyboard: false});
+                            $('#UpdateGuest').on('shown.bs.modal', function () {
+                                $('#fullname').focus();
+                            });
+                        break;
+                        case "updateGuest":
+                            $scope.update={'guest':{}};
+                            $scope.update.guest              = obj;
+                            $scope.update.guest.emailAddress = obj.mail;
+                            console.log($scope.update.guest);
+                            $scope.sysUpdateGuestFn($scope.update);
                         break;
                         case "edit":
                             $scope.tenant={
@@ -3704,6 +4184,32 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                                 blockUI.stop();
                                             }, 2000);
                                         });
+                                        angular.forEach(response.data,function(depto){
+                                            var deferredDeptos = $q.defer();
+                                            assignedDeptos.push(deferredDeptos.promise);
+                                            //ASSIGN DEPARTMENT SERVICE
+                                            $timeout(function() {
+                                                deferredDeptos.resolve();
+                                                DepartmentsServices.listGuestAssigned2DeptoByIdDepto(depto.idClientDepartament).then(function(response_guest) {
+                                                    
+                                                    if(response_guest.status==200){
+                                                        depto.guest = response_guest.data.guest;
+                                                        console.log(depto.guest);
+                                                    }else if (response_guest.status==404){
+                                                        depto.guest = [];
+                                                        console.log(depto.guest);
+                                                    }else if (response_guest.status==500){
+                                                        depto.guest = [];
+                                                        console.log(depto.guest);
+                                                    }
+                                                });
+                                            }, 1000);
+                                        });
+                                        $q.all(assignedDeptos).then(function () {
+                                            $timeout(function() {
+                                                blockUI.stop();
+                                            }, 2000);
+                                        });
                                         $timeout(function() {
                                             blockUI.start('Obteniendo datos de los Llaveros');
                                         }, 2000);
@@ -3729,7 +4235,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                                 
                                                 blockUI.stop();
                                                 $scope.myDepartamentlist = response.data;
-                                                //console.log($scope.myDepartamentlist);
+                                                console.log($scope.myDepartamentlist);
                                                 $scope.sysSubContent                         = 'myDepartments';
                                             }, 2000);
                                         });
@@ -3768,7 +4274,28 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                                 });
                                             }, 1000);
                                         });
-                                        
+                                        $q.all(assignedDeptos).then(function () {
+                                        });
+                                        angular.forEach(response.data,function(depto){
+                                            var deferredDeptos = $q.defer();
+                                            assignedDeptos.push(deferredDeptos.promise);
+                                            //ASSIGN DEPARTMENT SERVICE
+                                            $timeout(function() {
+                                                deferredDeptos.resolve();
+                                                DepartmentsServices.listGuestAssigned2DeptoByIdDepto(depto.idClientDepartament).then(function(response_guest) {
+                                                    if(response_guest.status==200){
+                                                        depto.guest = response_guest.data.guest;
+                                                        console.log(depto.guest);
+                                                    }else if (response_guest.status==404){
+                                                        depto.guest = [];
+                                                        console.log(depto.guest);
+                                                    }else if (response_guest.status==500){
+                                                        depto.guest = [];
+                                                        console.log(depto.guest);
+                                                    }
+                                                });
+                                            }, 1000);
+                                        });
                                         $q.all(assignedDeptos).then(function () {
                                         });
                                         var assignedKeys = [];
@@ -3855,6 +4382,32 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                                                 blockUI.stop();
                                                             }, 2000);
                                                         });
+                                                        var assignedDeptos = [];
+                                                        angular.forEach(response.data,function(depto){
+                                                            var deferredDeptos = $q.defer();
+                                                            assignedDeptos.push(deferredDeptos.promise);
+                                                            //ASSIGN DEPARTMENT SERVICE
+                                                            $timeout(function() {
+                                                                deferredDeptos.resolve();
+                                                                DepartmentsServices.listGuestAssigned2DeptoByIdDepto(depto.idClientDepartament).then(function(response_guest) {
+                                                                    if(response_guest.status==200){
+                                                                        depto.guest = response_guest.data.guest;
+                                                                        console.log(depto.guest);
+                                                                    }else if (response_guest.status==404){
+                                                                        depto.guest = [];
+                                                                        console.log(depto.guest);
+                                                                    }else if (response_guest.status==500){
+                                                                        depto.guest = [];
+                                                                        console.log(depto.guest);
+                                                                    }
+                                                                });
+                                                            }, 1000);
+                                                        });
+                                                        $q.all(assignedDeptos).then(function () {
+                                                            $timeout(function() {
+                                                                blockUI.stop();
+                                                            }, 2000);
+                                                        });
 
                                                         var assignedKeys = [];
                                                         angular.forEach(response.data,function(depto){
@@ -3877,7 +4430,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                                             $timeout(function() {
                                                                 blockUI.stop();
                                                                 $scope.myDepartamentlist = response.data;
-                                                                //console.log($scope.myDepartamentlist);
+                                                                console.log($scope.myDepartamentlist);
                                                                 for (var depto in $scope.myDepartamentlist){
                                                                     if ($scope.myDepartamentlist[depto].idClientDepartament == $scope.departmentSelected.idClientDepartament){
                                                                         $scope.departmentSelected = $scope.myDepartamentlist[depto];
@@ -3893,6 +4446,21 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                                                                 }else{
                                                                                     $scope.departmentSelected.tenants[myKey].key = null;
                                                                                     $scope.departmentSelected.tenants[myKey].keyTmp = null;
+                                                                                }
+                                                                            }
+                                                                        }
+                                                                        for (var myKey in $scope.departmentSelected.guest){
+                                                                            for (var key in $scope.departmentSelected.keys){
+                                                                                if ($scope.departmentSelected.guest[myKey].myKeys!=undefined && $scope.departmentSelected.guest[myKey].myKeys!=null && 
+                                                                                    $scope.departmentSelected.guest[myKey].myKeys.idKeychain==$scope.departmentSelected.keys[key].idKeychain &&
+                                                                                    $scope.departmentSelected.guest[myKey].myKeys.idUserKf==$scope.departmentSelected.keys[key].idUserKf){
+                                                                                    $scope.departmentSelected.guest[myKey].keyTmp = $scope.departmentSelected.guest[myKey].myKeys.idKeychain;
+                                                                                    $scope.departmentSelected.guest[myKey].key = $scope.departmentSelected.guest[myKey].myKeys.idKeychain;
+                                                                                    //console.log($scope.departmentSelected.guest[myKey])
+                                                                                    break;
+                                                                                }else{
+                                                                                    $scope.departmentSelected.guest[myKey].key = null;
+                                                                                    $scope.departmentSelected.guest[myKey].keyTmp = null;
                                                                                 }
                                                                             }
                                                                         }
@@ -3954,6 +4522,32 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                                         }, 1000);
                                                     });
                                                     
+                                                    $q.all(assignedDeptos).then(function () {
+                                                        $timeout(function() {
+                                                            blockUI.stop();
+                                                        }, 2000);
+                                                    });
+                                                    var assignedDeptos = [];
+                                                    angular.forEach(response.data,function(depto){
+                                                        var deferredDeptos = $q.defer();
+                                                        assignedDeptos.push(deferredDeptos.promise);
+                                                        //ASSIGN DEPARTMENT SERVICE
+                                                        $timeout(function() {
+                                                            deferredDeptos.resolve();
+                                                            DepartmentsServices.listGuestAssigned2DeptoByIdDepto(depto.idClientDepartament).then(function(response_guest) {
+                                                                if(response_guest.status==200){
+                                                                    depto.guest = response_guest.data.guest;
+                                                                    console.log(depto.guest);
+                                                                }else if (response_guest.status==404){
+                                                                    depto.guest = [];
+                                                                    console.log(depto.guest);
+                                                                }else if (response_guest.status==500){
+                                                                    depto.guest = [];
+                                                                    console.log(depto.guest);
+                                                                }
+                                                            });
+                                                        }, 1000);
+                                                    });
                                                     $q.all(assignedDeptos).then(function () {
                                                         $timeout(function() {
                                                             blockUI.stop();
@@ -4176,6 +4770,38 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                     }
                                 }
                                 $('#departmentTenantsList').modal({backdrop: 'static', keyboard: false});
+                            }
+                        break;
+                        case "departmentGuests":
+                            console.log(obj);
+                            if($scope.sysLoggedUser.idProfileKf==1 || ($scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6) && $scope.sysLoggedUser.idTypeTenantKf==1 && 
+                            ((obj.isAprobatedAdmin==null || obj.isAprobatedAdmin=='0') || (obj.departmentSelected!=undefined && (obj.departmentSelected.isAprobatedAdmin==null || obj.departmentSelected.isAprobatedAdmin=='0')))){
+                                inform.add('No se pueden efectuar operaciones.',{
+                                    ttl:5000, type: 'danger'
+                                });
+                                inform.add('El departamento no ha sido aprobado por parte de la administración.',{
+                                    ttl:5000, type: 'warning'
+                                });
+                            }else{
+                                $scope.departmentSelected = [];
+                                $scope.departmentSelected = obj;
+                                console.log(obj);
+                                for (var myKey in $scope.departmentSelected.guest){
+                                    for (var key in $scope.departmentSelected.keys){
+                                        if ($scope.departmentSelected.guest[myKey].myKeys!=undefined && $scope.departmentSelected.guest[myKey].myKeys!=null && 
+                                            $scope.departmentSelected.guest[myKey].myKeys.idKeychain==$scope.departmentSelected.keys[key].idKeychain &&
+                                            $scope.departmentSelected.guest[myKey].myKeys.idUserKf==$scope.departmentSelected.keys[key].idUserKf){
+                                            $scope.departmentSelected.guest[myKey].keyTmp = $scope.departmentSelected.guest[myKey].myKeys.idKeychain;
+                                            $scope.departmentSelected.guest[myKey].key = $scope.departmentSelected.guest[myKey].myKeys.idKeychain;
+                                            //console.log($scope.departmentSelected.guest[myKey])
+                                            break;
+                                        }else{
+                                            $scope.departmentSelected.guest[myKey].key = null;
+                                            $scope.departmentSelected.guest[myKey].keyTmp = null;
+                                        }
+                                    }
+                                }
+                                $('#departmentGuestList').modal({backdrop: 'static', keyboard: false});
                             }
                         break;
                         case "administration":
