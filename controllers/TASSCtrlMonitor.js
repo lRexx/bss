@@ -1594,11 +1594,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
     **************************************************/
         $scope.rsLocations_Data = {};
         $scope.getLocationByIdFn = function(idProvince){
+          console.log($scope.ticket);
             addressServices.getLocations(idProvince).then(function(data){
                 $scope.rsLocations_All = data;
                 //console.log($scope.rsLocations_Data);
             });
         };
+
     /**************************************************
     *                                                 *
     *               PROVINCE FILTER                   *
@@ -1892,7 +1894,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     });
                 }
             });
-        }
+          }
         /**************************************************
         *                                                 *
         *  APPROVE DEPARTMENT TO AN OWNER OR TENANT USER  *
@@ -3123,6 +3125,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               console.log("Number: "+number.trim().toString());
                               $scope.ticket.delivery.thirdPerson.streetName    = street.trim().toString();
                               $scope.ticket.delivery.thirdPerson.streetNumber  = number.trim().toString();
+                              $scope.ticket.delivery.thirdPerson.province={'selected':{'idProvince':$scope.ticket.building.idProvince,'province':$scope.ticket.building.province,'idProvinceAPIGobFk':$scope.ticket.building.idProvinceAPIGobFk}};
+                              $scope.ticket.delivery.thirdPerson.location={'selected':{'idLocation':$scope.ticket.building.idLocation,'location':$scope.ticket.building.location,'idProvinceFK':$scope.ticket.building.idProvinceFK}};
                             }
                             $('#third_address_streetName').focus();
                             
@@ -3138,6 +3142,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               console.log("Number: "+number.trim().toString());
                               $scope.ticket.delivery.thirdPerson.streetName    = street.trim().toString();
                               $scope.ticket.delivery.thirdPerson.streetNumber  = number.trim().toString();
+                              $scope.ticket.delivery.thirdPerson.province={'selected':{'idProvince':$scope.ticket.building.idProvince,'province':$scope.ticket.building.province,'idProvinceAPIGobFk':$scope.ticket.building.idProvinceAPIGobFk}};
+                              $scope.ticket.delivery.thirdPerson.location={'selected':{'idLocation':$scope.ticket.building.idLocation,'location':$scope.ticket.building.location,'idProvinceFK':$scope.ticket.building.idProvinceFK}};
                             }
                             $('#fullNameUser').focus();
                             

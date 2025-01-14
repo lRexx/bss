@@ -3844,6 +3844,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             $scope.new.ticket.idUserRequestBy           = obj.userRequestBy.idUser;
                                             $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
                                             $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="4" && obj.userRequestBy.idProfileKf=="4" && obj.userRequestBy.idTypeTenantKf=="1"){
+                                            console.log("[New Ticket] => Admin consorcio haciendo pedido a otro Admin de consorcio de tipo Propietario.");
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = obj.userRequestBy.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
+                                            $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
                                         }else if ($scope.sysLoggedUser.idProfileKf=="4" && ($scope.sysLoggedUser.idTypeTenantKf=="1" || $scope.sysLoggedUser.idTypeTenantKf=="2") && $scope.isHomeSelected){
                                             console.log("[New Ticket] => Admin consorcio haciendo pedido para su usuario.");
                                             $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
@@ -3873,6 +3879,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
                                         }else if ($scope.sysLoggedUser.idProfileKf=="4" && $scope.sysLoggedUser.idProfileKf!=obj.userRequestBy.idProfileKf && ($scope.sysLoggedUser.idTypeTenantKf==null || $scope.sysLoggedUser.idTypeTenantKf!=null) && (!$scope.isHomeSelected || $scope.isHomeSelected)){
                                             console.log("[New Ticket] => Admin consorcio haciendo pedido a inquilino.");
+                                            $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
+                                            $scope.new.ticket.idUserRequestBy           = obj.userRequestBy.idUser;
+                                            $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
+                                            $scope.new.ticket.idUserRequestByTypeTenant = obj.userRequestBy.idTypeTenantKf;
+                                        }else if ($scope.sysLoggedUser.idProfileKf=="4" && obj.userRequestBy.idProfileKf=="4" && obj.userRequestBy.idTypeTenantKf=="2"){
+                                            console.log("[New Ticket] => Admin consorcio haciendo pedido a otro Admin de consorcio de tipo inquilino.");
                                             $scope.new.ticket.idDepartmentKf            = obj.idClientDepartament.idClientDepartament;
                                             $scope.new.ticket.idUserRequestBy           = obj.userRequestBy.idUser;
                                             $scope.new.ticket.idUserRequestByProfile    = obj.userRequestBy.idProfileKf;
@@ -3952,6 +3964,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         //HISTORY TICKET CHANGES
                         $scope.new.ticket.history                       = [];
                         $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"1"});
+                        console.table($scope.new.ticket);
                         if($scope.new.ticket.idTypeRequestFor==1){
                             if (obj.building.autoApproveAll=="1"){
                                 if((($scope.new.ticket.idUserRequestByProfile == "3" || $scope.new.ticket.idUserRequestByProfile == "4" || $scope.new.ticket.idUserRequestByProfile == "6") && $scope.new.ticket.idUserRequestByTypeTenant=="1" && obj.idClientDepartament.isAprobatedAdmin=="1") 
