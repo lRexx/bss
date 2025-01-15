@@ -33,7 +33,9 @@
 						<p>Initial delivery length is 0</p>
 					</div>-->
 				    <!-- BAJA -->
-				    <div ng-if="(ticket.building!=undefined && ticket.building.isStockInOffice==1 && (ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding==0) && (ticket.building.isInitialDeliveryActive.length==0 || (ticket.building.isInitialDeliveryActive.length==1 && ticket.building.isInitialDeliveryActive[0].expiration_state!=undefined && ticket.building.isInitialDeliveryActive[0].expiration_state)))"
+				    <div ng-if="(ticket.building!=undefined && ticket.building.isStockInOffice==1 && (ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding==0) && 
+					((ticket.building.initial_delivery.length==0 || (ticket.building.initial_delivery.length==1 && ticket.building.initial_delivery[0].expiration_state!=undefined && ticket.building.initial_delivery[0].expiration_state)) || 
+					(ticket.building.isInitialDeliveryActive.length==0 || (ticket.building.isInitialDeliveryActive.length==1 && ticket.building.isInitialDeliveryActive[0].expiration_state!=undefined && ticket.building.isInitialDeliveryActive[0].expiration_state))))"
 								class="col-md-6 col-xs-6 card-depto-colum" ng-click="mainSwitchFn('deliveryToOtherAddress', selectedUserToDelivery, 2)" >
 				        <div class="card-depto cyan white-text" style="padding-bottom:2.97em;">
 							<div  ng-if="off" class="ribbon ribbon-top-right"><span tyle="background-color: #ccc !important;">No disponible</span></div>
