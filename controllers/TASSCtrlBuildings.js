@@ -699,7 +699,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 console.log("DATOS DEL INQUILINO O PROPIETARIO A DAR DE BAJA");
                                 console.log($scope.remove.info);
                                 blockUI.start('Verificando si el habitante posee un pedido activo asociado.');
-                                $scope.checkTicketTenant($scope.remove.info.idUser);
+                                $scope.checkTicketTenantDeptoFn($scope.remove.info.idUser, $scope.remove.info.idDepartmentKf);
                                 blockUI.start('Verificando si el habitante posee llaves asociada.');
                                 $scope.checkKeyTenant($scope.remove.info.idDepartmentKf, $scope.remove.info.idUser);
                         }else if($scope.sysLoggedUser.idProfileKf==3 || $scope.sysLoggedUser.idProfileKf==4 || $scope.sysLoggedUser.idProfileKf==5 || $scope.sysLoggedUser.idProfileKf==6){
@@ -721,7 +721,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 console.log($scope.remove.info);
                                 console.log($scope.buildingObj);
                                 blockUI.start('Verificando si posee un pedido activo asociado.');
-                                $scope.checkTicketTenant($scope.remove.info.idUser);
+                                $scope.checkTicketTenantDeptoFn($scope.remove.info.idUser, $scope.remove.info.idDepartmentKf);
                                 blockUI.start('Verificando si el posee llaves asociada.');
                                 $scope.checkKeyTenant($scope.remove.info.idDepartmentKf, $scope.remove.info.idUser);
                         }
@@ -1540,6 +1540,42 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         }
                     });
                 }
+            /*************************************************************
+            *                                                            *
+            *    VERIFICAR SI UN INQUILINO TIENE UN TICKET ACTIVO        *
+            *                                                            *
+            *************************************************************/
+            $scope.checkTicketTenantDeptoFn = function(idUser, idDepto){
+                var msg1, msg2;
+                ticketServices.verifyTicketsByIdUserDepto(idUser, idDepto).then(function(response){
+                    if(response.status==200){
+                        $timeout(function() {
+                            blockUI.message('El Departamento y el habitante posee pedidos activos asociados.');
+                            $scope.isHasTicket = true;
+                            console.log("POSEE TICKETS")
+                        }, 1500);
+                        $timeout(function() {
+                            msg1="Tenes solicitudes pendientes, debes esperar a que finalice o cancelar para darte de baja.";
+                            msg2="El Habitante presenta solicitudes pendientes, se deben finalizar o cancelar para poder dar de baja.";
+                            $scope.messageInform = $scope.sysLoggedUser.idProfileKf!=1 && $scope.sysLoggedUser.idProfileKf!=4 ? msg1 : msg2;
+                            inform.add($scope.messageInform,{
+                                ttl:5000, type: 'warning'
+                            });
+                        blockUI.stop();
+                        }, 3000);
+                    }else if (response.status==404){
+                        $timeout(function() {
+                            blockUI.message('El Departamento y el habitante no posee pedidos activos asociados.');
+                            $scope.isHasTicket = true;
+                            console.log("NO POSEE TICKETS --> SE PROCEDE A SOLICITAR LA CONFIRMACION PARA LA BAJA.");
+                        }, 1500);
+                        $timeout(function() {
+                            $('#confirmRequestModal').modal('toggle');
+                        blockUI.stop();
+                        }, 3000);
+                    }
+                });
+            }
             /*************************************************************
             *                                                            *
             *  VERIFICAR SI UN OWNER/INQUILINO TIENE UNA LLAVE ASIGNADA  *
