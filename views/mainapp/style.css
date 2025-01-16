@@ -23,7 +23,7 @@ body{
   font-weight: 566;
   margin-left: 20%;
   letter-spacing: 2px;
-  line-height: 1;
+  line-height: 0.5;
 }
 .text-success{
     color: #5cb85c !important;
