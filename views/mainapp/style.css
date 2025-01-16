@@ -17,7 +17,7 @@ body{
   overflow-y:auto;
 }
 .montserrat-extended {
-  ont-family: 'Montserrat Extended', sans-serif;
+  font-family: 'Montserrat Extended', sans-serif;
   font-size: 36px;
   color: white;
   font-weight: 566;
