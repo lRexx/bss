@@ -16,7 +16,15 @@ body{
 .modal {
   overflow-y:auto;
 }
-
+.montserrat-extended {
+  ont-family: 'Montserrat Extended', sans-serif;
+  font-size: 36px;
+  color: white;
+  font-weight: 566;
+  margin-left: 20%;
+  letter-spacing: 2px;
+  line-height: 1;
+}
 .text-success{
     color: #5cb85c !important;
     border-color: #4cae4c !important;
