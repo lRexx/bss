@@ -234,11 +234,11 @@ class Mercadolibre_model extends CI_Model
 				$lastPaymentAddedQuery_decode=json_decode(json_encode($lastPaymentAddedQuery[0]));
 				//print_r($lastPaymentAddedQuery_decode);
 				if (is_null($lastPaymentAddedQuery_decode->mp_payment_id) || $lastPaymentAddedQuery_decode->mp_payment_id == 0){
-					//print("El pago no se encuentra registado");
+					//print("El pago no se encuentra registado"); $response_decode->id;
 					$dataObj = null;
 					$dataObj['data']['collection_status'] 	 = $response_decode->status;
 					$dataObj['data']['status_detail'] 	 	 = $response_decode->status_detail;
-					$dataObj['data']['payment_id'] 		 	 = $response_decode->id;
+					$dataObj['data']['payment_id'] 		 	 = $id;
 					$dataObj['data']['payment_type'] 		 = $response_decode->payment_type_id;
 					$dataObj['data']['merchant_order_id'] 	 = $response_decode->order->id;
 					$dataObj['data']['site_id'] 			 = "MLA";
