@@ -222,19 +222,19 @@
 								  				(service.lockedIt2.selected==undefined) && fCustomerNewService.service_locked2.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Cerradura Adicional </label></div>
-						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA)" ng-disabled="service.lockedIt2.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-						  <button ng-if="service.lockedIt2.selected!=undefined" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA2, 'lockedIt2')" ng-disabled="service.lockedIt2.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
+						  <button ng-if="service.lockedIt2.selected!=undefined" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA2, 'lockedIt2')" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
 						    <div class="col-xs-12 selectContainer">							   
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-lock"></i></span>
 					              <ui-select name="service_locked2"  
-					              			 ng-change="compServiceProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA, null);" 
+					              			 ng-change="compServiceProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA2, 'lockedIt2');" 
 					              			 ng-model="service.lockedIt2.selected"
 					              			 ng-required="false"
 					              			 ng-disabled="service.lockedIt2.selected!=undefined"
 					              			 theme="bootstrap" autofocus>
 					                  <ui-select-match placeholder="Selecciona una opci&#243;n">({{$select.selected.brand}}) - {{$select.selected.model}}</ui-select-match>
-					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.CERRADURA | filter: $select.search">
+					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.CERRADURA2 | filter: $select.search">
 					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
 					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
