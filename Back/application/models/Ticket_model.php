@@ -2698,8 +2698,9 @@ class Ticket_model extends CI_Model
 							//print_r($quuery2->num_rows());
 							if ($quuery2->num_rows() > 0) {
 								$aux=$quuery2->result_array();
+								array_push($serviceAsociate_arr,$aux);
+								break;
 							}
-							array_push($serviceAsociate_arr,$aux);
 						}
 						$rs[0]['idServiceAsociateFk_array']=$serviceAsociate_arr;
 						break;
