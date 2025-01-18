@@ -149,6 +149,18 @@ moduleDepartmentsServices.service("DepartmentsServices", ['$http', '$q', 'tokenS
                 return response;
             });
         },
+        listGuestAssigned2DeptoByIdDepto: function(id) {
+          //console.log("[Department Services] => List tenant assigned to the Depto selected by ID ");
+            return $http({
+              method : "GET",
+              url : serverHost+serverBackend+"User/getGuestByIdDepartment/"+id
+            }).then(function onSuccess(response) {
+                return response;
+            }).catch(function onError(response) {
+              console.log("Error: "+response.status+" ["+response.statusText+"]");  
+                return response;
+            });
+        },
         listTenantsWithoutKeyAssignedByIdDepto: function(id) {
           //console.log("[Department Services] => List tenant assigned to the Depto selected by ID ");
             return $http({

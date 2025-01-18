@@ -120,11 +120,23 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                 return response;
               });
           },
-          /* ADD USER */
+          /* ADD GUEST */
           addGuest: function(userData2Add) {
             //console.log(serverHeaders);
               console.log(userData2Add);
               return $http.post(serverHost+serverBackend+"User/addGuest", userData2Add, serverHeaders)
+                .then(function mySucess(response, status, data) {
+                  return response;
+              },function myError(response, error) { 
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                return checkResult;
+              });
+          },
+          /* UPDATE GUEST */
+          updateGuest: function(userData2Add) {
+            //console.log(serverHeaders);
+              console.log(userData2Add);
+              return $http.post(serverHost+serverBackend+"User/updateGuest", userData2Add, serverHeaders)
                 .then(function mySucess(response, status, data) {
                   return response;
               },function myError(response, error) { 
@@ -400,17 +412,16 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
           },
           /*GET FILTER FORM LIST*/
           filterForm: function() {
-            var rsData = {};
             console.log("[Service][Getting]--->[filterForm]");
             return $http({
-                  method : "GET",
-                  url : serverHost+serverBackend+"User/filterForm/"
-                }).then(function mySuccess(response) {
+              method : "GET",
+              url : serverHost+serverBackend+"User/filterForm/"
+                  }).then(function mySuccess(response) {
                     return response;
-                },function myError(response, error) { 
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-                });
+                  })
           },
           /*ENABLED AN USER*/
           enabled: function(idUser) {
@@ -449,6 +460,19 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                 },function myError(response, error) { 
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
                     return response;
+                });
+          },
+          /*REMOVE A GUEST*/
+          removeg: function(idGuest) {
+            console.log("[Service][guest][id]: "+idGuest+" --->[remove]");
+            return $http({
+                  method : "DELETE",
+                  url : serverHost+serverBackend+"User/delGuest/"+idGuest
+                }).then(function mySuccess(response) {
+                  return response;
+                }).catch(function onError(response) {
+                  console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  return response;
                 });
           },
           /*GET OFFICES BY COMPANY ID*/

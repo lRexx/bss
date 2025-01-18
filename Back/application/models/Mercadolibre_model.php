@@ -93,12 +93,12 @@ class Mercadolibre_model extends CI_Model
 	//https://dev.bss.com.ar/Back/index.php/MercadoLibre/getNotificationOfMP
 	public function createMPLink($data)
 	{	
-
+		log_message('info', ':::::::::::::::::createMPLink');
 		$data               = json_decode(json_encode($data));
 		$external_reference = $data->idTicket."_".(rand() * 8) . "_" . (time() * 4);
 		$paymentFor = $data->metadata->paymentFor;
 		$MP_TOKEN=BSS_MP_TOKEN;
-
+		log_message('info', 'Ticket : '.$data->idTicket);
 		try {
 			$authorization 	= "Authorization: Bearer " . $MP_TOKEN;
 			//$uri = 'https://dev.bss.com.ar/mpago/index.php';
@@ -191,6 +191,8 @@ class Mercadolibre_model extends CI_Model
 
 	public function getPaymentMPDetails($id)
 	{	
+		log_message('info', ':::::::::::::::::getPaymentMPDetails');
+		log_message('info', 'MP_ID				  	  :' . $id);
 		$ticket2Update = null;
 		$MP_TOKEN=BSS_MP_TOKEN;
 		if (!$id) {
@@ -198,6 +200,7 @@ class Mercadolibre_model extends CI_Model
         }
 		try {
 			$paymentUpdated = null;
+			
 			$uri = "https://api.mercadopago.com/v1/payments/".$id;
 			//print_r($id." ");
 			//print_r($MP_TOKEN);
@@ -246,6 +249,17 @@ class Mercadolibre_model extends CI_Model
 					$dataObj['data']['merchant_account_id']  = $response_decode->merchant_account_id;
 					$dataObj['data']['external_reference']   = $response_decode->external_reference;
 					$idTicketKf = $lastPaymentAddedQuery_decode->idTicketKf;
+					log_message('info', ':::::::::::::::::PAYMENT DETAILS' );
+					log_message('info', 'url						:' . $uri);
+					log_message('info', 'collection_status			:' . $dataObj['data']['collection_status']);
+					log_message('info', 'status_detail				:' . $dataObj['data']['status_detail']);
+					log_message('info', 'payment_id					:' . $dataObj['data']['payment_id']);
+					log_message('info', 'payment_type				:' . $dataObj['data']['payment_type']);
+					log_message('info', 'merchant_order_id			:' . $dataObj['data']['merchant_order_id']);
+					log_message('info', 'site_id					:' . $dataObj['data']['site_id']);
+					log_message('info', 'processing_mode			:' . $dataObj['data']['processing_mode']);
+					log_message('info', 'merchant_account_id		:' . $dataObj['data']['merchant_account_id']);
+					log_message('info', 'external_reference				:' . $dataObj['data']['external_reference']);		
 					$rsPaymentUpdated = $this->updatePayment($dataObj['data']);
 					$ticketObj = null;
 					$changeStatusRs=null;
@@ -321,25 +335,26 @@ class Mercadolibre_model extends CI_Model
 
 	public function getNotificationFromMP($response)
 	{
+		log_message('info', ':::::::::::::::::getNotificationFromMP' );
 		//print_r($response);
-		//var_dump($response['api_version']);
-		// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //
+		//var_dump($response['api_version']);		 
+		// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //Undefined index
 		/*MAIL*/
-		if((isset($response['type']) && $response['type'] != "test") || $response['live_mode']){
+		if((isset($response['type']) && @$response['type'] != "test") || $response['live_mode']){
 			$title = "MercadoPago Webhook Notification ";
-			$subject = "Webhook Payment Notification from MercadoPago to BSS - [". $response['type']."] - ID:".$response['data']['id'];
+			$subject = "Webhook Payment Notification from MercadoPago to BSS - [". $response['type']."] - ID: ".$response['data']['id'];
 			$body='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Api version: <b>'.$response['api_version'].'</b></td>'; 
 			$body.='</tr>';	
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">ID: <b>'.$response['data']['id'].'</b></td>'; 
+			$body.='</tr>';
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Action: <b>'.$response['action'].'</b></td>'; 
 			$body.='</tr>';	
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Type: <b>'.$response['type'].'</b></td>'; 
 			$body.='</tr>';	
-			$body.='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.@$response['application_id'].'</b></td>'; 
-			$body.='</tr>';
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Date: <b>'.$response['date_created'].'</b></td>'; 
 			$body.='</tr>';
@@ -349,30 +364,30 @@ class Mercadolibre_model extends CI_Model
 			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
 		}else{
 			$title = "MercadoPago Webhook Notification ";
-			$subject = "Webhook Payment Notification from MercadoPago to BSS [TEST] - ID: ".$response['data']['id'];
+			$subject = "Webhook Payment Notification from MercadoPago to BSS [TEST] - ID: ".@$response['data']['id'];
 			$body='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Api version: <b>'.$response['api_version'].'</b></td>'; 
-			$body.='</tr>';	
-			$body.='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Action: <b>'.$response['action'].'</b></td>'; 
-			$body.='</tr>';	
-			$body.='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Type: <b>'.$response['type'].'</b></td>'; 
-			$body.='</tr>';	
-			$body.='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">App ID: <b>'.@$response['application_id'].'</b></td>'; 
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Api version: <b>'.@$response['api_version'].'</b></td>'; 
 			$body.='</tr>';
 			$body.='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Date: <b>'.$response['date_created'].'</b></td>'; 
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Action: <b>'.@$response['action'].'</b></td>'; 
 			$body.='</tr>';
 			$body.='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Mode: <b>'.$response['live_mode'].'</b></td>'; 
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">ID: <b>'.$response['data']['id'].'</b></td>'; 
+			$body.='</tr>';
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Type: <b>'.@$response['type'].'</b></td>'; 
+			$body.='</tr>';
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Date: <b>'.@$response['date_created'].'</b></td>'; 
+			$body.='</tr>';
+			$body.='<tr width="100%" bgcolor="#ffffff">';
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Mode: <b>'.@$response['live_mode'].'</b></td>'; 
 			$body.='</tr>';
 			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
 		}
 
 		
-		if ((isset($response['type']) && $response['type'] == "test") || !$response['live_mode']){
+		if ((isset($response['type']) && @$response['type'] == "test") || !$response['live_mode']){
 			return true;
 		}else{
 			$paymentDetails  		= $this->getPaymentMPDetails($response['data']['id']);
@@ -395,6 +410,7 @@ class Mercadolibre_model extends CI_Model
 	}
 
     public function addPayment($data) {
+		log_message('info', ':::::::::::::::::addPayment');
 		$idPaymentKf = null;
 		if (@$data['idPayment']){
 			$this->db->delete('tb_mp_payments' , ['idPayment' => $data['idPayment']]);
@@ -504,6 +520,8 @@ class Mercadolibre_model extends CI_Model
 	public function updatePayment($data) {
 		$idPaymentKf = null;
 		$lastPaymentUpdatedQuery = null;
+		log_message('info', ':::::::::::::::::updatePayment');
+		log_message('info', $data['payment_id']);
 		$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
         $this->db->set(
             [

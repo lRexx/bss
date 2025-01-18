@@ -2480,12 +2480,14 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         inform.add('Se adicionaran ($ '+obj.cost.delivery+'), por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'warning'
                         });
+                        $scope.update.ticket.idStatusTicketKf       = "3";
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && ($scope.costDelivery==null || $scope.costDelivery==0) && obj.cost.delivery>0){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
                         inform.add('Se adicionaran ($ '+obj.cost.delivery+'), por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'warning'
                         });
+                        $scope.update.ticket.idStatusTicketKf       = "3";
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && $scope.costDelivery>0 && obj.cost.delivery>0 && obj.cost.delivery>$scope.costDelivery){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
@@ -2496,6 +2498,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         inform.add('Se adicionaran ($ '+$scope.subTotalDeliveryCharged+') de diferencia, por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'warning'
                         });
+                        $scope.update.ticket.idStatusTicketKf       = "3";
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && $scope.costDelivery>0 && obj.cost.delivery>0 && obj.cost.delivery<$scope.costDelivery){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});                       
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"16"});
@@ -2545,24 +2548,29 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         if((obj.selected.paymentDetails!=undefined && obj.selected.paymentDetails!=null) && obj.selected.paymentDetails.mp_collection_status=='approved' && obj.selected.paymentDetails.mp_status_detail=='accredited'){
                             console.info(obj.cost);
                           if (obj.cost.delivery!=undefined && obj.cost.delivery!=null && obj.cost.delivery>0){
-                            //console.info(obj.cost);
+                            console.info("ENTRO");
+                            console.info(obj.cost);
                             $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
-                            inform.add('Nuevo link de pago por el monto de ($ '+obj.cost.delivery+'), sera generado por concepto de envío de su pedido, BSS Seguridad.',{
-                              ttl:6000, type: 'warning'
-                            });
+                              inform.add('Nuevo link de pago por el monto de ($ '+obj.cost.delivery+'), sera generado por concepto de envío de su pedido, BSS Seguridad.',{
+                                ttl:6000, type: 'warning'
+                              });
                             $scope.update.ticket.createNewMPLinkForDelivery = true;
                             $scope.update.ticket.idStatusTicketKf = "3";
+                            console.log($scope.update.ticket.idStatusTicketKf);
                           }else{
                             inform.add('El pedido no tendra una recarga extra por envío al nuevo domicilio seleccionado, BSS Seguridad.',{
                               ttl:6000, type: 'success'
                             });
                           }
-                        }else {
+                        }else{
                             $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"17"});
-                            inform.add('Se adicionara monto de ($ '+obj.cost.delivery+'), por concepto de envío de su pedido, BSS Seguridad.',{
+                            inform.add('Se adicionara el monto de ($ '+obj.cost.delivery+'), por concepto de envío de su pedido, BSS Seguridad.',{
                               ttl:6000, type: 'warning'
                             });
                             $scope.update.ticket.createNewMPLink = true;
+                            console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                            console.log($scope.update.ticket.idStatusTicketKf);
+                            $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && ($scope.costDelivery==null || $scope.costDelivery==0) && obj.cost.delivery>0){
                         if((obj.selected.paymentDetails!=undefined && obj.selected.paymentDetails!=null) && obj.selected.paymentDetails.mp_collection_status=='approved' && obj.selected.paymentDetails.mp_status_detail=='accredited'){
@@ -2581,7 +2589,10 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                           inform.add('Se adicionara monto de ($ '+obj.cost.delivery+'), por concepto de envío de su pedido, BSS Seguridad.',{
                             ttl:6000, type: 'warning'
                           });
-                          $scope.update.ticket.createNewMPLink = true;
+                          $scope.update.ticket.createNewMPLink        = true;
+                          console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                          console.log($scope.update.ticket.idStatusTicketKf);
+                          $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && $scope.costDelivery>0 && obj.cost.delivery>0 && obj.cost.delivery>$scope.costDelivery){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
@@ -2597,20 +2608,23 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             ttl:6000, type: 'warning'
                           });
                           $scope.update.ticket.createNewMPLinkForDelivery = true;
-                          $scope.update.ticket.idStatusTicketKf = "3";
-                        }else {
+                          $scope.update.ticket.idStatusTicketKf           = "3";
+                        }else{
                           inform.add('Se adicionara un monto de ($ '+$scope.subTotalDeliveryCharged+'), por concepto de envío de su pedido, BSS Seguridad.',{
                             ttl:6000, type: 'warning'
                           });
-                          $scope.update.ticket.createNewMPLink = true;
+                          console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                          console.log($scope.update.ticket.idStatusTicketKf);
+                          $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
+                          $scope.update.ticket.createNewMPLink        = true;
                         }
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo!=obj.delivery.idDeliveryTo && obj.cost.delivery!=undefined && obj.cost.delivery!=null && $scope.costDelivery!=null && $scope.costDelivery>0 && obj.cost.delivery>0 && obj.cost.delivery<$scope.costDelivery){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});                       
                         $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"16"});
-                        $scope.subTotalRefunDelivery = 0;
-                        $scope.subTotalDelivery = 0;
-                        $scope.subTotalDelivery = Number(obj.cost.delivery);
-                        $scope.subTotalRefunDelivery = Number($scope.costDelivery)-Number(obj.cost.delivery);
+                        $scope.subTotalRefunDelivery  = 0;
+                        $scope.subTotalDelivery       = 0;
+                        $scope.subTotalDelivery       = Number(obj.cost.delivery);
+                        $scope.subTotalRefunDelivery  = Number($scope.costDelivery)-Number(obj.cost.delivery);
                         inform.add('El pedido '+obj.codTicket+' tendra un descuento de ($ '+$scope.subTotalRefunDelivery+') por envío, BSS Seguridad.',{
                           ttl:12000, type: 'info'
                         });
@@ -2628,22 +2642,32 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             ttl:6000, type: 'warning'
                           });
                           $scope.update.ticket.createNewMPLink = true;
+                          console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                          console.log($scope.update.ticket.idStatusTicketKf);
+                          $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }
                       }else if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo==obj.delivery.idDeliveryTo && obj.cost.delivery==obj.selected.costDelivery){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         inform.add('No se registran costos adicionales, por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'info'
                         });
+                        console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                        console.log($scope.update.ticket.idStatusTicketKf);
+                        $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                       }else{
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                         inform.add('El pedido no tendra una recarga extra por envío al nuevo domicilio seleccionado, BSS Seguridad.',{
                           ttl:6000, type: 'success'
                         });
+                        console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                        console.log($scope.update.ticket.idStatusTicketKf);
+                        $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                       }
                     break;
                   }
                   if(obj.selected.idTypeRequestFor!="2" && obj.selected.idTypeRequestFor!="4"){
                     if (obj.delivery.idTypeDeliveryKf=="1"){
+                        //$scope.update.ticket.idStatusTicketKf          = obj.selected.idStatusTicketKf;
                         $scope.update.ticket.idDeliveryTo              = null
                         $scope.otherDeliveryAddress.id                 = obj.selected.otherDeliveryAddress!=undefined && obj.selected.otherDeliveryAddress!=null?obj.selected.otherDeliveryAddress.id:null;
                         $scope.update.ticket.otherDeliveryAddress      = {'id':$scope.otherDeliveryAddress.id, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
@@ -2664,6 +2688,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             $scope.update.ticket.thirdPersonDelivery   = {'id':$scope.thirdPersonDelivery.id   ,'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':obj.delivery.thirdPerson.dni, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
                         }
                     }else{
+                        //$scope.update.ticket.idStatusTicketKf          = obj.selected.idStatusTicketKf;
                         $scope.update.ticket.idDeliveryTo              = obj.delivery.idDeliveryTo;
                         if (obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==1){
                             $scope.update.ticket.idWhoPickUp           = "1";
@@ -2714,7 +2739,9 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.update.ticket.isNew                  = obj.selected.isNew;
                   $scope.update.ticket.costService            = obj.selected.costService;
                   $scope.update.ticket.costKeys               = obj.selected.costKeys;
-                  $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
+                  console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                  console.log($scope.update.ticket.idStatusTicketKf);
+                  //$scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                   $scope.update.ticket.costDelivery           = $scope.subTotalDelivery;
                   $scope.update.ticket.total                  = obj.cost.total;
                   $scope.update.ticket.total                  = obj.cost.total;
