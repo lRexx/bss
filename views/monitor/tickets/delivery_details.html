@@ -32,7 +32,7 @@
                         <span>
                             <span ng-if="tkupdate.idTypeDeliveryKf=='1'">Retirar en: </span>
                             <span ng-if="tkupdate.idTypeDeliveryKf=='2'">Entrega en: </span>
-                            <span ng-if="tkupdate.idTypeDeliveryKf=='1'" class="badge badge-warning">Oficina Tass</span>
+                            <span ng-if="tkupdate.idTypeDeliveryKf=='1'" class="badge badge-warning">Oficina BSS</span>
                             <span ng-if="tkupdate.idTypeDeliveryKf=='2' && ((tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='2') || tkupdate.deliveryTo.id=='1')" class="badge badge-warning">Domicilio asociado</span>
                             <span ng-if="(tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo.id=='2') || (tkupdate.idTypeDeliveryKf=='2' && tkupdate.deliveryTo==null && tkupdate.whoPickUp.idWhoPickUp=='3')" class="badge badge-warning">Otro domicilio</span>
                         </span>

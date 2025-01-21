@@ -11,8 +11,8 @@
                     <form class="form-horizontal" name="filtersTicket" autocomplete="off" novalidate>
                         <div class="row">
                             <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-12 col-xs-12">
-                                <div class="col-md-2 col-xs-2" ><label class="clf-size">Buscar Cliente</label></div>
-                                <div class="col-md-1 col-xs-2">
+                                <div class="col-md-2 col-xs-8" ><label class="clf-size">Buscar Cliente</label></div>
+                                <div class="col-md-1 col-xs-4">
                                   <label class="switch switch-2x" for="strict-search">
                                       <input type="checkbox" class="success" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-model="customerSearch.strict" id="strict-search">
                                       <span class="slider slider-2x flat"></span>
@@ -81,7 +81,7 @@
                                 </ul>
                             </div>
                             </div>
-                            <!-- Administrations & Companies for Users TASS-->
+                            <!-- Administrations & Companies for Users BSS-->
                             <!-- <div ng-show="sysLoggedUser.idProfileKf==1" class="form-group col-md-6 col-xs-12 n-padding-r">
                                 <label ng-show="sysLoggedUser.idProfileKf==1">Empresa o Administracion</label>
                                 <div class="col-xs-12" style="padding-left: 0px !important;">
@@ -100,7 +100,7 @@
                                     </div>
                                 </div>
                             </div>-->
-                            <!-- Address for Admins/TASS-->
+                            <!-- Address for Admins/BSS-->
                             <div ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && listOffices.length>0 " ng-disable="sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf==6" class="form-group col-md-6 col-xs-12 n-padding-r">
                                 <label ng-show="sysLoggedUser.idProfileKf==2">Sucursal</label>
                                 <label ng-show="sysLoggedUser.idProfileKf==1">Sucursal o Consorcio</label>
@@ -144,7 +144,7 @@
                                 </div>
                             </div>
                             <!-- Filter Type of Ticket for Company User-->
-                            <div ng-if="sysLoggedUser.idProfileKf==2" class="form-group col-md-4 col-xs-6">
+                            <div ng-if="sysLoggedUser.idProfileKf==2" class="form-group col-md-4 col-xs-12">
                                 <label>Tipo de Ticket</label>
                                 <div class="col-xl-12 selectContainer">
                                 <div class="input-group">
@@ -156,7 +156,7 @@
                                 </div>
                             </div>
                             <!-- Filter Type of Ticket for Onwer User-->
-                            <div ng-if="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" class="form-group col-md-6 col-xs-6">
+                            <div ng-if="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" class="form-group col-md-6 col-xs-12">
                                 <label>Tipo de Ticket</label>
                                 <div class="col-xl-12 selectContainer">
                                 <div class="input-group">
@@ -168,7 +168,7 @@
                                 </div>
                             </div>
                             <!-- Filter Type of Ticket for Sys User-->
-                            <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-4 col-xs-6" ng-class="
+                            <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-4 col-xs-12" ng-class="
                             {	'has-success': 
                                 filters.typeTicket.idTypeTicket!='' && filtersTicket.typeTicket.$valid,
                             }">
@@ -183,7 +183,7 @@
                                 </div>
                             </div>
                             <!-- Filter Type of Status-->
-                            <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-6" ng-class="
+                            <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
                                 {	'has-success': 
                                     filters.ticketStatus.idStatus!='' && filtersTicket.ticketStatus.$valid,
                                 }">
@@ -198,7 +198,7 @@
                                 </div>
                             </div>
                             <!-- Filter Type of Delivery-->
-                            <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-6" ng-class="
+                            <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
                                 {	'has-success': 
                                     filters.typDelivery.idTypeDelivery!='' && filtersTicket.typDelivery.$valid,
                                 }">
@@ -213,7 +213,7 @@
                                 </div>
                             </div>
                             <!-- Filter Type of Payment-->
-                            <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-6" ng-class="
+                            <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
                                 {	'has-success': 
                                     filters.paymentsType.id!='' && filtersTicket.paymentsType.$valid,
                                 }">
@@ -249,7 +249,7 @@
                                 {	'has-success': 
                                     filters.idDeliveryCompanyKf.idDeliveryCompany!='' && filtersTicket.idDeliveryCompanyKf.$valid,
                                 }">
-                                <div class="form-group col-md-4 col-xs-6">
+                                <div class="form-group col-md-4 col-xs-12">
                                     <label>Empresa de envío</label>
                                     <div class="col-xl-12 selectContainer">
                                         <div class="input-group">
@@ -281,20 +281,20 @@
                             </div>-->
                         </div>
                         <div class="row">
-                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">
+                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-12">
                             <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
                                 <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar pedidos con reintegros <span class="badge badge-warning">pendientes</span></label></div>
-                                <div class="col-md-4 col-xs-2">
+                                <div class="col-md-4 col-xs-4">
                                 <label class="switch switch-2x" for="isHasRefundsOpen-search">
                                     <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasRefundsOpen" id="isHasRefundsOpen-search">
                                     <span class="slider slider-2x flat"></span>
                                 </label>
                                 </div>
                             </div>
-                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-6 col-xs-6">
+                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-6 col-xs-12">
                                 <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
                                 <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
-                                <div class="col-md-4 col-xs-2">
+                                <div class="col-md-4 col-xs-4">
                                     <label class="switch switch-2x" for="isInitialDeliveryActive-search">
                                         <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isInitialDeliveryActive" id="isInitialDeliveryActive-search">
                                         <span class="slider slider-2x flat"></span>
@@ -313,7 +313,7 @@
                         <div class="row" >
                             <div class="col-md-6" >
                                 <legend style="text-align: left;">Creados</legend>
-                                <div class="form-group col-md-6 col-xs-6" ng-class="
+                                <div class="form-group col-md-6 col-xs-12" ng-class="
                                     {	'has-success': 
                                         filters.dateCreatedFrom!='' && filtersTicket.dateCreatedFrom.$valid,
                                     }">
@@ -339,7 +339,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-6 col-xs-6" ng-class="
+                                <div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-6 col-xs-12" ng-class="
                                     {	'has-success': 
                                         filters.dateCreatedTo!='' && filtersTicket.dateCreatedTo.$valid,
                                     }">
@@ -372,7 +372,7 @@
                                     filters.dateDeliveredFrom!='' && filtersTicket.dateDeliveredFrom.$valid,
                                 }">
                                 <legend style="text-align: left;">Entregados/Retirados</legend>
-                                <div class="form-group col-md-6 col-xs-6">
+                                <div class="form-group col-md-6 col-xs-12">
                                     <label>Desde</label>
                                     <div class="input-group">
                                         <input 
@@ -395,7 +395,7 @@
                                         </span>
                                     </div>
                                 </div>
-                                <div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-6 col-xs-6" ng-class="
+                                <div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-6 col-xs-12" ng-class="
                                     {	'has-success': 
                                         filters.dateDeliveredTo!='' && filtersTicket.dateDeliveredTo.$valid,
                                     }">

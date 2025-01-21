@@ -6,7 +6,7 @@
         <h3 ng-if="sysLoggedUser.idProfileKf!='1' && sysLoggedUser.idProfileKf!='4'" class="panel-title">GESTION DE EDIFICIO </h3>
       </div>
       <div class="panel-body">
-        <div class="col-md-2 col-xs-4">
+        <div class="col-md-2 col-xs-8">
           <!-- LIST DEPTOS -->
           <div ng-if="(sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==4 || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf==6 ) && sysLoggedUser.idTypeTenantKf!=null">
             <div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="HOME" ng-click="switchBuildingFn('home', null)">
@@ -32,7 +32,7 @@
           </div>
           <!-- // -->
         </div>
-        <div class="col-md-10 col-xs-8 n-padding-l n-padding-r">
+        <div class="col-md-10 col-xs-12 n-padding-l n-padding-r">
           <div>
             <div ng-if="sysContent=='home'" class="pull-left col-md-12 col-xs-12 n-padding-l n-padding-r">
               <div ng-include="'views/buildings/home.html'"></div>
@@ -55,7 +55,11 @@
 <div ng-include="'views/buildings/tenants/editTenant.html'"></div>
 <div ng-include="'views/buildings/attendants/newAttendant.html'"></div>
 <div ng-include="'views/buildings/attendants/editAttendant.html'"></div>
+<div ng-include="'views/buildings/guests/newGuest.html'"></div>
+<div ng-include="'views/buildings/guests/editGuest.html'"></div>
+
 <div ng-include="'views/buildings/membersType.html'"></div>
+<div ng-include="'views/buildings/tenantMembersType.html'"></div>
 <div ng-include="'views/buildings/list/listTenantsToAssign.html'"></div>
 <div ng-include="'views/buildings/list/listAttendantsToAssign.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
