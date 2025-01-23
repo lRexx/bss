@@ -1942,6 +1942,10 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             break;
             }
           };
+
+          function NaN2Zero(n){
+            return isNaN( n ) ? 0 : n; 
+          }
     /**************************************************
     *                                                 *
     *            TICKETS MONITOR FUNCTION             *
@@ -2531,17 +2535,22 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                           inform.add('Se realizara un reintegro de ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
                             ttl:6000, type: 'info'
                           });
+                          $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }else{
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                           $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"16"});
                           inform.add('Se descontaran ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
-                            ttl:6000, type: 'info'
+                            ttl:6000, type: 'success'
                           });
                           if (($scope.costDelivery==null || $scope.costDelivery==0) && obj.cost.delivery==0){
                             $scope.update.ticket.createNewMPLink = false;
                           }else{
                             $scope.update.ticket.createNewMPLink = true;
+                            inform.add('Nuevo link de pago sera generado para el pago de su pedido, BSS Seguridad.',{
+                              ttl:6000, type: 'warning'
+                            });
                           }
+                          $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }
                       }else if (obj.selected.idTypeDeliveryKf!=obj.delivery.idTypeDeliveryKf && obj.delivery.idTypeDeliveryKf=="2"){
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
@@ -2568,7 +2577,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               ttl:6000, type: 'warning'
                             });
                             $scope.update.ticket.createNewMPLink = true;
-                            console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                            console.log("SE MODIFICA STATUS POR VALOR ACTUAL");
                             console.log($scope.update.ticket.idStatusTicketKf);
                             $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }
@@ -2590,7 +2599,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             ttl:6000, type: 'warning'
                           });
                           $scope.update.ticket.createNewMPLink        = true;
-                          console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                          console.log("SE MODIFICA STATUS POR VALOR ACTUAL");
                           console.log($scope.update.ticket.idStatusTicketKf);
                           $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }
@@ -2613,7 +2622,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                           inform.add('Se adicionara un monto de ($ '+$scope.subTotalDeliveryCharged+'), por concepto de envío de su pedido, BSS Seguridad.',{
                             ttl:6000, type: 'warning'
                           });
-                          console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                          console.log("SE MODIFICA STATUS POR VALOR ACTUAL");
                           console.log($scope.update.ticket.idStatusTicketKf);
                           $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                           $scope.update.ticket.createNewMPLink        = true;
@@ -2739,12 +2748,14 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.update.ticket.isNew                  = obj.selected.isNew;
                   $scope.update.ticket.costService            = obj.selected.costService;
                   $scope.update.ticket.costKeys               = obj.selected.costKeys;
+                  var subTotalKeys                            = NaN2Zero(Number(obj.selected.costKeys));
+                  var subTotalService                         = NaN2Zero(Number(obj.selected.costService));
                   console.log("SE MODIFICA STATUS POR VALOR ACTUA");
                   console.log($scope.update.ticket.idStatusTicketKf);
-                  //$scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
+                  //$scope.update.ticket.idStatusTicketKf     = obj.selected.idStatusTicketKf;
                   $scope.update.ticket.costDelivery           = $scope.subTotalDelivery;
-                  $scope.update.ticket.total                  = obj.cost.total;
-                  $scope.update.ticket.total                  = obj.cost.total;
+                  subTotalCosts = NaN2Zero(Number(subTotalService))+NaN2Zero(Number(subTotalKeys))+NaN2Zero(Number($scope.subTotalDelivery));
+                  $scope.update.ticket.total                  = subTotalCosts.toFixed(2);
                   $scope.update.ticket.idPaymentDeliveryKf    = obj.selected.idPaymentDeliveryKf!=null?obj.selected.idPaymentDeliveryKf:null;
                   $scope.update.ticket.isDeliveryHasChanged   = 1;
                   console.log($scope.update);
