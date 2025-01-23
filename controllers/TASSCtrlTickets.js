@@ -4114,13 +4114,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.new.ticket.status = 8;
                                     }else if ($scope.new.ticket.total==0 && (obj.building.mpPaymentMethod!="1" || obj.building.mpPaymentMethod=="1") && (obj.userRequestBy.isDepartmentApproved!="1" || obj.userRequestBy.isDepartmentApproved=="1") && $scope.sysLoggedUser.idProfileKf=="4"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
-                                        $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser,, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                        $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"4"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
                                         $scope.new.ticket.status = 8;
                                     }else if($scope.new.ticket.total>0 && (obj.building.mpPaymentMethod!="1" || obj.building.mpPaymentMethod=="1") && (obj.userRequestBy.isDepartmentApproved!="1" || obj.userRequestBy.isDepartmentApproved=="1") && $scope.sysLoggedUser.idProfileKf=="4"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
-                                        $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser,, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                        $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
                                         $scope.new.ticket.status = 3;
                                     }
