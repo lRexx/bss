@@ -4038,12 +4038,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"4"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
                                         $scope.new.ticket.status = 8;
-                                    }else if ($scope.new.ticket.total>0 && obj.idClientDepartament.isAprobatedAdmin!="1" && $scope.sysLoggedUser.idProfileKf=="4"){
+                                    }else if ($scope.new.ticket.total>0 && (obj.idClientDepartament.isAprobatedAdmin=="1" || obj.idClientDepartament.isAprobatedAdmin!="1") && $scope.sysLoggedUser.idProfileKf=="4"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                         $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
                                         $scope.new.ticket.status = 3;
-                                    }else if ($scope.new.ticket.total==0 && obj.idClientDepartament.isAprobatedAdmin!="1" && $scope.sysLoggedUser.idProfileKf=="4"){
+                                    }else if ($scope.new.ticket.total==0 && (obj.idClientDepartament.isAprobatedAdmin=="1" || obj.idClientDepartament.isAprobatedAdmin!="1") && $scope.sysLoggedUser.idProfileKf=="4"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                         $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"4"});
@@ -4079,7 +4079,19 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }else{
                                     //SET APPROVAL IS REQUIRED HISTORY
                                     $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
-                                    $scope.new.ticket.status = 2;
+                                    if ($scope.new.ticket.total==0 && $scope.sysLoggedUser.idProfileKf=="4"){
+                                        $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"4"});
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
+                                        $scope.new.ticket.status = 8;
+                                    }else if($scope.new.ticket.total>0 && $scope.sysLoggedUser.idProfileKf=="4"){
+                                        $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
+                                        $scope.new.ticket.status = 3;
+                                    }else{
+                                        $scope.new.ticket.status = 2;
+                                    }
+                                    
                                 }
                             }else if (($scope.new.ticket.sendNotify==null || $scope.new.ticket.sendNotify==null) && (obj.building.mpPaymentMethod!="1" || obj.building.mpPaymentMethod=="1") && ($scope.new.ticket.idUserRequestByProfile == "4" || $scope.new.ticket.idUserRequestByProfile == "5"  || $scope.new.ticket.idUserRequestByProfile == "6") && $scope.new.ticket.idUserRequestByTypeTenant=="2"){
                                 if(obj.userRequestBy.isDepartmentApproved!="1" || obj.userRequestBy.isDepartmentApproved=="1"){
@@ -4102,13 +4114,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.new.ticket.status = 8;
                                     }else if ($scope.new.ticket.total==0 && (obj.building.mpPaymentMethod!="1" || obj.building.mpPaymentMethod=="1") && (obj.userRequestBy.isDepartmentApproved!="1" || obj.userRequestBy.isDepartmentApproved=="1") && $scope.sysLoggedUser.idProfileKf=="4"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
-                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                        $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser,, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"4"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
                                         $scope.new.ticket.status = 8;
                                     }else if($scope.new.ticket.total>0 && (obj.building.mpPaymentMethod!="1" || obj.building.mpPaymentMethod=="1") && (obj.userRequestBy.isDepartmentApproved!="1" || obj.userRequestBy.isDepartmentApproved=="1") && $scope.sysLoggedUser.idProfileKf=="4"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
-                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                        $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser,, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
                                         $scope.new.ticket.status = 3;
                                     }
@@ -4139,20 +4151,44 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             if (($scope.new.ticket.status == 3 && obj.building.autoApproveAll=="1" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1") || ($scope.new.ticket.status == 3 && obj.building.autoApproveOwners=="1" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1")){
                                 //SET PAYMENT APPROVED & ALLOWED BY THE BUILDING
                                 if ($scope.new.ticket.total>0){
-                                    $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido sera pagado por expensas, habilitado por el consorcio.', 'idCambiosTicketKf':"4"});
+                                    if ($scope.sysLoggedUser.idProfileKf=="4"){
+                                        $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido sera pagado por expensas.', 'idCambiosTicketKf':"4"});
+                                    }else{
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido sera pagado por expensas, habilitado por el consorcio.', 'idCambiosTicketKf':"4"});
+                                    }
                                     $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
                                     $scope.new.ticket.status = 8;
                                 }else if ($scope.new.ticket.total==0){
-                                    $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"4"});
+                                    if ($scope.sysLoggedUser.idProfileKf=="4"){
+                                        $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido sera pagado por expensas.', 'idCambiosTicketKf':"4"});
+                                    }else{
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido sera pagado por expensas, habilitado por el consorcio.', 'idCambiosTicketKf':"4"});
+                                    }
                                     $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
                                     $scope.new.ticket.status = 8;
                                 }
                             }else if ($scope.new.ticket.status == 3 && ((obj.building.autoApproveOwners==null || obj.building.autoApproveOwners=="0") && (obj.building.autoApproveAll==null || obj.building.autoApproveAll=="0")) && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1"){
-                                $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
-                                $scope.new.ticket.status = 2;
+                                if ($scope.sysLoggedUser.idProfileKf=="4"){
+                                    $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                    $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido sera pagado por expensas.', 'idCambiosTicketKf':"4"});
+                                    $scope.new.ticket.status = 8;
+                                }else{
+                                    $scope.new.ticket.status = 2;
+                                }
+                                
                             }else if ($scope.new.ticket.status == 3 && (obj.building.chargeForExpenses==null || obj.building.chargeForExpenses=="1") && $scope.new.ticket.idTypePaymentKf!="1"){
                                 //ONLY IF REQUEST PAYMENT OPTION IS 2
-                                //$scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
+                                if ($scope.sysLoggedUser.idProfileKf=="4"){
+                                    $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración, automaticamente.', 'idCambiosTicketKf':"2"});
+                                    $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
+                                    $scope.new.ticket.status = 3;
+                                }else{
+                                    $scope.new.ticket.status = 2;
+                                }
                             }
                         }else if($scope.new.ticket.idTypeRequestFor!=1 && $scope.new.ticket.idTypeRequestFor!=3 && $scope.new.ticket.idTypeRequestFor!=5 && $scope.new.ticket.idTypeRequestFor!=6){
                             if (($scope.new.ticket.idUserRequestByProfile == "4" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1") || $scope.sysLoggedUser.idProfileKf=="1"){
