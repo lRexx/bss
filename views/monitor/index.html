@@ -71,11 +71,11 @@
                                     <i class="fas fa-bell-slash"></i> No notificado al cliente
                                 </span>
                             </li>
-                            <li><i class="fas fa-tasks"></i> Creado: 
-                                <span>{{ tk.created_at | date:'dd/MM/yyyy' }}</span>
+                            <li><i class="far fa-calendar-alt"></i> Creado: 
+                                <span>{{ tk.created_at | toDate | date:'dd/MM/yyyy' }}</span>
                             </li>
-                            <li><i class="fas fa-tasks"></i> Desde: 
-                                <span ng-if="tk.idStatusTicketKf==8 && event.idCambiosTicketKf=='13'" ng-repeat="event in tk.changes_history"> {{ event.created_at | date:'dd/MM/yyyy' }}
+                            <li ng-if="tk.idStatusTicketKf==8"><i class="far fa-calendar-alt"></i> En <span ng-if="tk.idStatusTicketKf==1" class="label label-success"> {{tk.statusTicket.statusName}}</span> Desde: 
+                                <span ng-if="tk.idStatusTicketKf==8 && event.idCambiosTicketKf=='13'" ng-repeat="event in tk.changes_history | filter: { idCambiosTicketKf: '13' } | limitTo: 1"> {{ event.created_at | toDate | date:'dd/MM/yyyy' }}
                                 </span>
                             </li>
                         </ul>
