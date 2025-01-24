@@ -2064,7 +2064,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   }else{
                       $scope.monitor.filter.isBillingUploaded      = 0;
                   }
-                  if ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id!=undefined && $scope.filters.paymentsType.id=="2" && ($scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus!="3" && $scope.filters.ticketStatus.idStatus!="6") && $scope.filters.isPaymentSucceeded){
+                  if ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id!=undefined && $scope.filters.paymentsType.id=="2" && (($scope.filters.ticketStatus!=undefined || $scope.filters.ticketStatus=='') && $scope.filters.ticketStatus.idStatus!="3" && $scope.filters.ticketStatus.idStatus!="6") && $scope.filters.isPaymentSucceeded){
                       $scope.monitor.filter.isPaymentSucceeded      = 1;
                   }else{
                       $scope.monitor.filter.isPaymentSucceeded     = 0;
