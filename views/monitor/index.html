@@ -74,7 +74,7 @@
                             <li><i class="far fa-calendar-alt"></i> Creado: 
                                 <span>{{ tk.created_at | toDate | date:'dd/MM/yyyy' }}</span>
                             </li>
-                            <li ng-if="tk.idStatusTicketKf==8"><i class="far fa-calendar-alt"></i>{{tk.statusTicket.statusName}} Desde: 
+                            <li ng-if="tk.idStatusTicketKf==8"><i class="far fa-calendar-alt"></i> {{tk.statusTicket.statusName}} Desde: 
                                 <span ng-if="tk.idStatusTicketKf==8 && event.idCambiosTicketKf=='13'" ng-repeat="event in tk.changes_history | filter: { idCambiosTicketKf: '13' } | limitTo: 1"> {{ event.created_at | toDate | date:'dd/MM/yyyy' }}
                                 </span>
                             </li>
