@@ -53,7 +53,7 @@
       }
     };
   });
-  menu.controller('MenuCtrl', function($scope, $cookies, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, ProfileServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter, APP_SYS, APP_REGEX){
+  menu.controller('MenuCtrl', function($scope, $cookies, $http, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, ProfileServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter,serverHost, serverBackend, APP_SYS, APP_REGEX){
       //if ($location.path() == "/login"){console.log($location.path());}
       console.log("Bienvenido al sistema de "+APP_SYS.app_name);
       console.log("Version v"+APP_SYS.version);
@@ -121,11 +121,11 @@
               }
           });
       }
-      /**************************************************
-      *                                                 *
-      *               LIST SYS PROFILE                  *
-      *                                                 *
-      **************************************************/
+        /**************************************************
+        *                                                 *
+        *               LIST SYS PROFILE                  *
+        *                                                 *
+        **************************************************/
         $scope.rsProfileData = [];
         $scope.getSysProfilesFn = function(search){
           ProfileServices.listProfiles(search).then(function(data){
@@ -139,15 +139,14 @@
         *                GET SYS MODULES                  *
         *                                                 *
         **************************************************/
+        $scope.rsModulesData = {};
+        $scope.getSysModulesFn = function(){
           $scope.rsModulesData = {};
-          $scope.getSysModulesFn = function(){
-            $scope.rsModulesData = {};
-            ProfileServices.getSysModules().then(function(data){
-                console.log(data);
-                $scope.rsModulesData = data;
-                //console.log($scope.rsModulesData);
-            });
-          };$scope.getSysModulesFn();
+          ProfileServices.getSysModules().then(function(data){
+              $scope.rsModulesData = data;
+              //console.log($scope.rsModulesData);
+          });
+        };$scope.getSysModulesFn();
       /**
        * LOAD SYSTEM MODULES AND MENU
        */
@@ -798,7 +797,7 @@
                   }
                 }
               }
-              ); 
+          ); 
               $('.input--depto').mask('ZZZ',
                   {
                     translation:{
@@ -915,7 +914,7 @@
             blockUI.start('Obteniendo listado de token para aprobar.');
             $timeout(function() {
               userServices.geAuthTokentList(sysLoggedUser.idUser).then(function(response){
-                  //console.log(response);
+                  console.log(response);
                   if(response.status==200){
                     $scope.rsAuthtokenListData = response.data;
                     $('#AuthTokenModalUser').modal({backdrop: 'static', keyboard: false});
