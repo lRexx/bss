@@ -2605,7 +2605,7 @@ class Ticket_model extends CI_Model
 			}
 			//MP PAYMENT Succeeded
 			if (@$data['isPaymentSucceeded']=='1'){
-				$where = "(ISNULL(isManualPayment) AND idStatusTicketKf!='3' AND idStatusTicketKf!='6' AND AND idTypePaymentKf = 2 AND idPaymentKf != '' AND tb_mp_payments.mp_payment_id != '' AND tb_mp_payments.mp_status_detail='accredited')";
+				$where = "(ISNULL(isManualPayment) AND idStatusTicketKf!='3' AND idStatusTicketKf!='6' AND idTypePaymentKf = 2 AND idPaymentKf != '' AND tb_mp_payments.mp_payment_id != '' AND tb_mp_payments.mp_status_detail='accredited')";
 				$this->db->join('tb_mp_payments', 'tb_mp_payments.idPayment = tb_tickets_2.idPaymentKf', 'left');
 				$this->db->where($where);
 			}
