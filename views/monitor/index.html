@@ -74,9 +74,15 @@
                             <li><i class="far fa-calendar-alt"></i> Creado: 
                                 <span>{{ tk.created_at | toDate | date:'dd/MM/yyyy' }}</span>
                             </li>
-                            <li ng-if="tk.idStatusTicketKf==8"><i class="far fa-calendar-alt"></i> En <span class="label label-default"> {{tk.statusTicket.statusName}}</span> Desde: 
+                            <li ng-if="tk.idStatusTicketKf==8"><i class="far fa-calendar-alt"></i> En {{tk.statusTicket.statusName}} Desde: 
                                 <span ng-if="tk.idStatusTicketKf==8 && event.idCambiosTicketKf=='13'" ng-repeat="event in tk.changes_history | filter: { idCambiosTicketKf: '13' } | limitTo: 1"> {{ event.created_at | toDate | date:'dd/MM/yyyy' }}
                                 </span>
+                            </li>
+                            <li ng-if="tk.idStatusTicketKf==1 && tk.idTypeDeliveryKf=='2'"><i class="far fa-calendar-alt"></i> Entregado el: 
+                                <span>{{ tk.delivered_at | toDate | date:'dd/MM/yyyy' }}</span>
+                            </li>
+                            <li ng-if="tk.idStatusTicketKf==1 && tk.idTypeDeliveryKf=='1'"><i class="far fa-calendar-alt"></i> Retirado el: 
+                                <span>{{ tk.delivered_at | toDate | date:'dd/MM/yyyy' }}</span>
                             </li>
                         </ul>
                     </div>
