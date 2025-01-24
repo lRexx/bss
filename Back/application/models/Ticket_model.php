@@ -2603,6 +2603,12 @@ class Ticket_model extends CI_Model
 				$where = "(ISNULL(isHasRefundsOpen) OR isHasRefundsOpen = '".@$data['isHasRefundsOpen']."' OR isHasRefundsOpen <> '".@$data['isHasRefundsOpen']."')";
 				$this->db->where($where);
 			}
+			//MP PAYMENT Succeeded
+			if (@$data['isPaymentSucceeded']=='1'){
+				$where = "(ISNULL(isManualPayment) AND idStatusTicketKf!='3' AND idStatusTicketKf!='6' AND AND idTypePaymentKf = 2 AND idPaymentKf != '' AND tb_mp_payments.mp_payment_id != '' AND tb_mp_payments.mp_status_detail='accredited')";
+				$this->db->join('tb_mp_payments', 'tb_mp_payments.idPayment = tb_tickets_2.idPaymentKf', 'left');
+				$this->db->where($where);
+			}
 			//BILLING INITIATED
 			if (@$data['isBillingInitiated']=='1'){
 				$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '".@$data['isBillingInitiated']."')";
@@ -2698,9 +2704,11 @@ class Ticket_model extends CI_Model
 							//print_r($quuery2->num_rows());
 							if ($quuery2->num_rows() > 0) {
 								$aux=$quuery2->result_array();
+								//print_r($quuery2->result_array());
 								array_push($serviceAsociate_arr,$aux);
 								break;
 							}
+							
 						}
 						$rs[0]['idServiceAsociateFk_array']=$serviceAsociate_arr;
 						break;
