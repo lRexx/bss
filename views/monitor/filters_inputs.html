@@ -5,7 +5,7 @@
                 <div class="modal-body">
                     <div class="row filter_content" >
                         <div class="row">
-                            <!-- Administrations & Companies for Users TASS-->
+                            <!-- Administrations & Companies for Users BSS-->
                             <div ng-show="sysLoggedUser.idProfileKf==1" class="form-group col-md-6 col-xs-12 col-sm-6">
                                 <label style="padding-left: 15px;" ng-show="sysLoggedUser.idProfileKf==1">Empresa o Administracion</label>
                                 <div class="col-xs-12">
@@ -24,7 +24,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <!-- Address for Admins/TASS-->
+                            <!-- Address for Admins/BSS-->
                             <div ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6" ng-disable="sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf==6" class="form-group col-md-6 col-xs-12 col-sm-6">
                             <label style="padding-left: 15px;" ng-show="sysLoggedUser.idProfileKf==2">Sucursal</label>
                             <label style="padding-left: 15px;" ng-show="sysLoggedUser.idProfileKf==1">Sucursal o Consorcio</label>

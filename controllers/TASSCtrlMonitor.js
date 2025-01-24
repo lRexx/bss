@@ -1953,7 +1953,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
     **************************************************/
       $scope.showCalender = false;
       $scope.monitor={'filters':{},'update':{},'edit':{}};
-      $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':'', 'dateCreatedFrom':'', 'dateCreatedTo':'', 'dateDeliveredFrom':'', 'dateDeliveredTo':'', 'isBillingUploaded':null, 'isBillingInitiated':null, 'isHasRefundsOpen':null, 'idDeliveryCompanyKf':'', 'isInitialDeliveryActive':null};
+      $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':'', 'dateCreatedFrom':'', 'dateCreatedTo':'', 'dateDeliveredFrom':'', 'dateDeliveredTo':'', 'isBillingUploaded':null, 'isBillingInitiated':null, 'isHasRefundsOpen':null, 'idDeliveryCompanyKf':'', 'isPaymentSucceeded':'', 'isInitialDeliveryActive':null};
       $scope.mainSwitchFn = function(opt, obj, obj2){
         switch (opt){
             case "dashboard":
@@ -1993,6 +1993,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.monitor.filter.idProfileKf         = $scope.sysLoggedUser.idProfileKf;
                   $scope.monitor.filter.isBillingInitiated  = null;
                   $scope.monitor.filter.isBillingUploaded   = null;
+                  $scope.monitor.filter.isPaymentSucceeded  = null;
                   $scope.monitor.filter.topfilter           = $scope.filters.topDH;
                   $scope.listTickets($scope.monitor.filter);
                 break;
@@ -2007,7 +2008,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.monitor.filter.idTypeTenantKf      = $scope.sysLoggedUser.idTypeTenantKf;
                   $scope.monitor.filter.idDepartmentKf      = $scope.sysLoggedUser.idTypeTenantKf=="2"?$scope.sysLoggedUser.idDepartmentKf:"";
                   $scope.monitor.filter.isHomeSelected      = $scope.isHomeSelected;
-                  $scope.monitor.filter.isBillingInitiated  = 0;
+                  $scope.monitor.filter.isBillingInitiated  = null;
+                  $scope.monitor.filter.isPaymentSucceeded  = null;
                   $scope.listTickets($scope.monitor.filter);
                 break;
                 case "3":
@@ -2021,7 +2023,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       $scope.monitor.filter.topfilter              = $scope.filters.topDH;
                       $scope.monitor.filter.idProfileKf            = $scope.sysLoggedUser.idProfileKf;
                       $scope.monitor.filter.idTypeTenantKf         = $scope.sysLoggedUser.idTypeTenantKf;
-                      $scope.monitor.filter.isBillingInitiated     = 0;
+                      $scope.monitor.filter.isBillingInitiated     = null;
+                      $scope.monitor.filter.isPaymentSucceeded     = null;
                       $scope.listTickets($scope.monitor.filter);
                     break;
                     case "2":
@@ -2032,7 +2035,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       $scope.monitor.filter.idProfileKf            = $scope.sysLoggedUser.idProfileKf;
                       $scope.monitor.filter.idTypeTenantKf         = $scope.sysLoggedUser.idTypeTenantKf;
                       $scope.monitor.filter.idDepartmentKf         = $scope.sysLoggedUser.idDepartmentKf;
-                      $scope.monitor.filter.isBillingInitiated     = 0;
+                      $scope.monitor.filter.isBillingInitiated     = null;
+                      $scope.monitor.filter.isPaymentSucceeded     = null;
                       $scope.listTickets($scope.monitor.filter);
                     break;
                   }
@@ -2055,10 +2059,15 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.monitor.filter.isBillingInitiated      = $scope.filters.paymentsType!="" && $scope.filters.isBillingInitiated?1:0;
                   $scope.monitor.filter.isInitialDeliveryActive = $scope.filters.isInitialDeliveryActive?1:0;
                   //console.log($scope.filters.paymentsType);
-                  if ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id!=undefined && $scope.filters.paymentsType.id=="2" && ($scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus!="6") && $scope.monitor.filter.isBillingUploaded){
+                  if ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id!=undefined && $scope.filters.paymentsType.id=="2" && ($scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus!="6") && $scope.filters.isBillingUploaded){
                       $scope.monitor.filter.isBillingUploaded      = 1;
                   }else{
                       $scope.monitor.filter.isBillingUploaded      = 0;
+                  }
+                  if ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id!=undefined && $scope.filters.paymentsType.id=="2" && ($scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus!="3" && $scope.filters.ticketStatus.idStatus!="6") && $scope.filters.isPaymentSucceeded){
+                      $scope.monitor.filter.isPaymentSucceeded      = 1;
+                  }else{
+                      $scope.monitor.filter.isPaymentSucceeded     = 0;
                   }
                   //$scope.monitor.filter.isHasRefundsOpen = $scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus=="6" && $scope.filters.isHasRefundsOpen?1:0;
                   $scope.monitor.filter.isHasRefundsOpen        = $scope.filters.isHasRefundsOpen?1:0;
@@ -3799,7 +3808,6 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   if(response.status==200){
                       $scope.listTicktTmp =  response.data.response;
                       if (filter.isInitialDeliveryActive==1){ //isInitialDeliveryActive
-                        console.log($scope.listTickt);
                         for(var i=0;i<$scope.listTicktTmp.length;i++){
                             //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
                             //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive[0].expiration_state);
@@ -3807,6 +3815,19 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               $scope.listTickt.push($scope.listTicktTmp[i]);
                             }
                         }
+                        console.log($scope.listTickt);
+                        //MP PAYMENT Succeeded
+                      //}else if (filter.isPaymentSucceeded==1 && filter.idTypePaymentKf=="2"){
+                      //  console.log("filter.isPaymentSucceeded: ",filter.isPaymentSucceeded);
+                      //  console.log("filter.idTypePaymentKf   : ",filter.idTypePaymentKf);
+                      //  for(var i=0;i<$scope.listTicktTmp.length;i++){
+                      //      //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
+                      //      //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive[0].expiration_state);
+                      //      if ( $scope.listTicktTmp[i].idTypePaymentKf=='2' && $scope.listTicktTmp[i].idPaymentDeliveryKf==null && $scope.listTicktTmp[i].idStatusTicketKf!='6' && $scope.listTicktTmp[i].idStatusTicketKf!='3' && $scope.listTicktTmp[i].idPaymentKf!=null && $scope.listTicktTmp[i].idPaymentKf!=undefined && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=undefined && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=0 && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=null && $scope.listTicktTmp[i].paymentDetails.mp_status_detail=="accredited"){
+                      //        $scope.listTickt.push($scope.listTicktTmp[i]);
+                      //      }
+                      //  }
+                      //  console.log($scope.listTickt);
                       }else{
                         $scope.listTickt    =  response.data.response;
                       }

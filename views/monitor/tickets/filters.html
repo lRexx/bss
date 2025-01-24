@@ -227,25 +227,25 @@
                                 </div>
                                 </div>
                             </div>
-                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.ticketStatus.idStatus=='8' && (filters.paymentsType.id=='1' || filters.paymentsType.id=='2')" class="col-md-4 col-xs-6">
+                            <div ng-if="sysLoggedUser.idProfileKf=='1' && (filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && (filters.paymentsType.id=='1' || (filters.paymentsType.id=='2' && filters.isPaymentSucceeded)))" class="col-md-4 col-xs-12">
                                 <div class="col-md-12 col-xs-12" ><label class="clf-size">Incluir pedidos con facturación iniciada</label></div>
-                                <div class="col-md-4 col-xs-2">
+                                <div class="col-md-4 col-xs-4">
                                 <label class="switch switch-2x" for="isBillingInitiated-search">
                                     <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isBillingInitiated" id="isBillingInitiated-search">
                                     <span class="slider slider-2x flat"></span>
                                 </label>
                                 </div>
                             </div>
-                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.ticketStatus.idStatus=='8' && (filters.paymentsType.id=='2')" class="col-md-4 col-xs-6">
+                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && filters.paymentsType.id=='2' && filters.isPaymentSucceeded" class="col-md-4 col-xs-12">
                                 <div class="col-md-12 col-xs-12" ><label class="clf-size">Excluir pedidos con factura cargadas</label></div>
-                                <div class="col-md-4 col-xs-2">
+                                <div class="col-md-4 col-xs-4">
                                 <label class="switch switch-2x" for="isBillingUploaded-search">
                                     <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isBillingUploaded" id="isBillingUploaded-search">
                                     <span class="slider slider-2x flat"></span>
                                 </label>
                                 </div>
                             </div>
-                            <div ng-if="sysLoggedUser.idProfileKf==1 && (filters.ticketStatus.idStatus=='1' || filters.ticketStatus.idStatus=='5')" class="col-md-12 n-padding-l n-padding-r" ng-class="
+                            <div ng-if="sysLoggedUser.idProfileKf==1 && (filters.ticketStatus.idStatus=='1' || filters.ticketStatus.idStatus=='5')" class="col-md-12 col-xs-12 n-padding-l n-padding-r" ng-class="
                                 {	'has-success': 
                                     filters.idDeliveryCompanyKf.idDeliveryCompany!='' && filtersTicket.idDeliveryCompanyKf.$valid,
                                 }">
@@ -281,7 +281,17 @@
                             </div>-->
                         </div>
                         <div class="row">
-                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-12">
+                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.paymentsType.id=='2'" class="col-md-4 col-xs-12">
+                                <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar pedidos pagados</label></div>
+                                <div class="col-md-4 col-xs-4">
+                                    <label class="switch switch-2x" for="isPaymentSucceeded-search">
+                                        <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isPaymentSucceeded" id="isPaymentSucceeded-search">
+                                        <span class="slider slider-2x flat"></span>
+                                    </label>
+                                </div>
+                            </div>
+                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.paymentsType.id=='2'" class="col-md-5 col-xs-12">
                             <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
                                 <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar pedidos con reintegros <span class="badge badge-warning">pendientes</span></label></div>
                                 <div class="col-md-4 col-xs-4">
@@ -291,7 +301,7 @@
                                 </label>
                                 </div>
                             </div>
-                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-6 col-xs-12">
+                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-3 col-xs-12">
                                 <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
                                 <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
                                 <div class="col-md-4 col-xs-4">
@@ -451,7 +461,7 @@
                                     </div>
                                 </div>
                                 <!-- EXPORT BILLING EXCEL LIST -->
-                                <div ng-if="filters.ticketStatus.idStatus=='8' && (filters.paymentsType.id=='1' || filters.paymentsType.id=='2')" ng-click="modalConfirmation('exportBillingExcelList', 0, listTickt)" class="col-md-3" data-toggle="tooltip" data-placement="bottom"  title="Listado a facturar" style="margin-bottom: 1em;">
+                                <div ng-if="filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && (filters.paymentsType.id=='1' || (filters.paymentsType.id=='2' && filters.isPaymentSucceeded))" ng-click="modalConfirmation('exportBillingExcelList', 0, listTickt)" class="col-md-3" data-toggle="tooltip" data-placement="bottom"  title="Listado a facturar" style="margin-bottom: 1em;">
                                     <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                         <i class="fas fa-file-download"></i>
