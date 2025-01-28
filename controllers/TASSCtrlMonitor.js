@@ -2045,9 +2045,6 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               }
             break;
             case "search":
-              if ($scope.filters.ticketStatus!=undefined && ($scope.filters.ticketStatus.idStatus=="3" || $scope.filters.ticketStatus.idStatus=="6")){
-                  $scope.filters.isPaymentSucceeded=false
-              }
               switch ($scope.sysLoggedUser.idProfileKf){
                 case "1":
                   $scope.monitor.filter.idClientAdminFk         = $scope.filterCompanyKf.selected!=undefined && $scope.filterCompanyKf.selected.idClientTypeFk=="1"?$scope.filterCompanyKf.selected.idClient:"";
@@ -2062,27 +2059,31 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.monitor.filter.idTypePaymentKf         = $scope.filters.paymentsType=="" || $scope.filters.paymentsType==undefined?"":$scope.filters.paymentsType.id;
                   $scope.monitor.filter.isInitialDeliveryActive = $scope.filters.isInitialDeliveryActive?1:0;
                   //console.log($scope.filters.paymentsType);
-                  if ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id!=undefined && $scope.filters.paymentsType.id=="2" && ($scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus!="6") && $scope.filters.isPaymentSucceeded){
+                  if ($scope.filters.paymentsType!='' && $scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id!=undefined && $scope.filters.paymentsType.id=="2" && ($scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus!="3" && $scope.filters.ticketStatus.idStatus!="6") && $scope.filters.isPaymentSucceeded && ($scope.filters.isBillingUploaded)){
                       $scope.monitor.filter.isBillingUploaded      = 1;
                       $scope.filters.isBillingUploaded             = true
                   }else{
                       $scope.monitor.filter.isBillingUploaded      = 0;
-                      $scope.filters.isBillingUploaded             = true
+                      $scope.filters.isBillingUploaded             = false
                   }
-                  if ((($scope.filters.paymentsType!='' && $scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id!=undefined) || ($scope.filters.paymentsType==undefined || $scope.filters.paymentsType=='')) && (($scope.filters.ticketStatus!=undefined || $scope.filters.ticketStatus!=null || $scope.filters.ticketStatus==null || $scope.filters.ticketStatus=='')) && 
+                  if ((($scope.filters.paymentsType!='' && $scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id!=undefined) || ($scope.filters.paymentsType==undefined || $scope.filters.paymentsType==null || $scope.filters.paymentsType=='')) && (($scope.filters.ticketStatus!=undefined || $scope.filters.ticketStatus!=null || $scope.filters.ticketStatus==null || $scope.filters.ticketStatus=='')) && 
                      (
-                      ((($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id!='1' && $scope.filters.paymentsType.id!='2') || ($scope.filters.paymentsType==undefined || $scope.filters.paymentsType=='')) && !$scope.filters.isPaymentSucceeded) ||
-                      ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id=="2" && $scope.filters.isPaymentSucceeded && $scope.filters.isBillingInitiated) || 
-                      ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id=="1" && $scope.filters.isBillingInitiated))
+                      ((($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id!='1' && $scope.filters.paymentsType.id!='2') || ($scope.filters.paymentsType==undefined || $scope.filters.paymentsType==null || $scope.filters.paymentsType=='')) && !$scope.filters.isPaymentSucceeded) ||
+                      ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id=="2" && $scope.filters.isPaymentSucceeded && $scope.filters.isBillingInitiated) || 
+                      ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id=="1" && $scope.filters.isBillingInitiated))
                     ){
                       $scope.monitor.filter.isBillingInitiated     = 1;
+                      $scope.filters.isBillingInitiated            = true
                   }else{
                       $scope.monitor.filter.isBillingInitiated     = 0;
+                      $scope.filters.isBillingInitiated            = false
                   }
-                  if ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType.id!=undefined && $scope.filters.paymentsType.id=="2" && (($scope.filters.ticketStatus!=undefined || $scope.filters.ticketStatus=='') && $scope.filters.ticketStatus.idStatus!="3" && $scope.filters.ticketStatus.idStatus!="6") && $scope.filters.isPaymentSucceeded){
-                      $scope.monitor.filter.isPaymentSucceeded      = 1;
+                  if ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id!=undefined && $scope.filters.paymentsType.id=="2" && (($scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus!="3" && $scope.filters.ticketStatus.idStatus!="6") || $scope.filters.ticketStatus==null) && $scope.filters.isPaymentSucceeded){
+                      $scope.monitor.filter.isPaymentSucceeded     = 1;
+                      $scope.filters.isPaymentSucceeded            = true
                   }else{
                       $scope.monitor.filter.isPaymentSucceeded     = 0;
+                      $scope.filters.isPaymentSucceeded            = false
                   }
                   //$scope.monitor.filter.isHasRefundsOpen = $scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus=="6" && $scope.filters.isHasRefundsOpen?1:0;
                   $scope.monitor.filter.isHasRefundsOpen        = $scope.filters.isHasRefundsOpen?1:0;

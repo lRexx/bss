@@ -75,8 +75,8 @@
                             </div>
 
                             <!-- Building Name-->
-                            <div ng-if="sysLoggedUser.idProfileKf=='1' && (sysContent=='listKeys' || sysContent=='listKeysProcess')" class="form-group col-md-9 n-padding-l n-padding-r" style="z-index: 1000;">
-                                  <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" >
+                            <div ng-if="sysLoggedUser.idProfileKf=='1' && (sysContent=='listKeys' || sysContent=='listKeysProcess')" class="form-group n-padding-l n-padding-r" ng-class="{'col-md-12': (select.filterCategoryKey==null || select.filterCategoryKey==undefined),'col-md-9':select.buildings.selected!=undefined && select.filterCategoryKey!=undefined && select.filterCategoryKey=='1'}" style="z-index: 1000;">
+                                  <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" style="margin-bottom: 0 !important;">
                                       <label style="padding-left: 15px;">Edificio</label>
                                       <div class="input-group s-ui-width s-ui-m-left">
                                           <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
@@ -97,7 +97,7 @@
                                   </div>
                             </div>
                             <!-- Departments of the building selected"-->
-                            <div ng-if="sysContent=='listKeys'" class="col-md-3 col-sm-3 col-xs-6">
+                            <div ng-if="sysContent=='listKeys' && select.filterCategoryKey!=undefined && select.filterCategoryKey=='1' && select.buildings.selected!=undefined" class="col-md-3 col-sm-3 col-xs-6">
                               <label style="padding-left: 15px;">Departamento</label>  
                               <div class="col-xs-12 selectContainer">
                                   <div class="input-group" style="padding-bottom: 2%;">
@@ -115,6 +115,27 @@
                               </div>
                             </div>
                   </div>
+                  <div ng-if="sysContent=='listKeys' || sysContent=='listKeysProcess'" class="col-md-12 n-padding-l n-padding-r" style="margin-top: 2.7%;">
+                    <div class="form-group col-lg-12 n-padding-l n-padding-r">
+                      <!--<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Categoria</label></div>-->
+                      <div class="row n-margin-l n-margin-r">  
+                        <div ng-class="col-md-12">
+                            <div class="col-md-12 col-xs-12">
+                              <input id="categoryKeyAll" class="radio-2x categoryTypeAll" type="radio" ng-click="select.filterCategoryKey=undefined;sysContent=='listKeys'?getKeychainListFn(customerFound.idClient,null,null,select.keychainStatus.idKeychainStatus,select.idDepartmenKf, select.reasonKf.idReasonDisabledItem,select.codeSearch,0,pagination.pageSizeSelected, false, true):getKeychainProcessFn(select.idTypeTicketKf,customerFound.idClient,null,select.filterCategoryKey,0,pagination.pageSizeSelected, false, true)" ng-checked="true" name="categoryType" autofocus>
+                              <label for="categoryKeyAll" class="radio-2x-label">
+                                <span>Todos</span>
+                              </label>
+                            </div>
+                            <div ng-repeat="item in rsCategoryKeyChainsData" class="col-md-2 col-sm-4 col-xs-6">
+                              <input id="categoryKey-{{item.idCategory}}" class="radio-2x" type="radio" ng-click="sysContent=='listKeys'?getKeychainListFn(customerFound.idClient,null,select.filterCategoryKey,select.keychainStatus.idKeychainStatus,select.idDepartmenKf, select.reasonKf.idReasonDisabledItem,select.codeSearch,0,pagination.pageSizeSelected, false, true):getKeychainProcessFn(select.idTypeTicketKf,customerFound.idClient,null,select.filterCategoryKey,0,pagination.pageSizeSelected, false, true)" name="categoryType" value="{{item.idCategory}}" ng-model="select.filterCategoryKey" autofocus>
+                              <label for="categoryKey-{{item.idCategory}}" class="radio-2x-label">
+                                <span>{{item.name}}</span>
+                              </label>
+                            </div>
+                        </div>
+                      </div>
+                    </div>
+                </div>
                   <div class="col-md-12 n-padding-l n-padding-r" ng-if="sysContent=='listKeys' && select.filterCategoryKey!='' && select.filterCategoryKey!=undefined && select.buildings.selected!=undefined">
                     <div class="col-md-2 col-xs-2 pull-right">
                       <!-- New Key button -->
@@ -195,27 +216,6 @@
                       </div>
                     </div>
                   </div>
-                  <div ng-if="sysContent=='listKeys' || sysContent=='listKeysProcess'" class="col-md-12 n-padding-l n-padding-r">
-                      <div class="form-group col-lg-12 n-padding-l n-padding-r" style="margin-top: 15px;">
-                        <!--<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Categoria</label></div>-->
-                        <div class="row n-margin-l n-margin-r">  
-                          <div ng-class="col-md-12">
-                              <div class="col-md-12 col-xs-12">
-                                <input id="categoryKeyAll" class="radio-2x categoryTypeAll" type="radio" ng-click="select.filterCategoryKey=undefined;sysContent=='listKeys'?getKeychainListFn(customerFound.idClient,null,null,select.keychainStatus.idKeychainStatus,select.idDepartmenKf, select.reasonKf.idReasonDisabledItem,select.codeSearch,0,pagination.pageSizeSelected, false, true):getKeychainProcessFn(select.idTypeTicketKf,customerFound.idClient,null,select.filterCategoryKey,0,pagination.pageSizeSelected, false, true)" ng-checked="true" name="categoryType" autofocus>
-                                <label for="categoryKeyAll" class="radio-2x-label">
-                                  <span>Todos</span>
-                                </label>
-                              </div>
-                              <div ng-repeat="item in rsCategoryKeyChainsData" class="col-md-2 col-sm-4 col-xs-6">
-                                <input id="categoryKey-{{item.idCategory}}" class="radio-2x" type="radio" ng-click="sysContent=='listKeys'?getKeychainListFn(customerFound.idClient,null,select.filterCategoryKey,select.keychainStatus.idKeychainStatus,select.idDepartmenKf, select.reasonKf.idReasonDisabledItem,select.codeSearch,0,pagination.pageSizeSelected, false, true):getKeychainProcessFn(select.idTypeTicketKf,customerFound.idClient,null,select.filterCategoryKey,0,pagination.pageSizeSelected, false, true)" name="categoryType" value="{{item.idCategory}}" ng-model="select.filterCategoryKey" autofocus>
-                                <label for="categoryKey-{{item.idCategory}}" class="radio-2x-label">
-                                  <span>{{item.name}}</span>
-                                </label>
-                              </div>
-                          </div>
-                        </div>
-                      </div>
-                    </div>
                     <div class="clear-fix"></div>
                     <!-- TABLE LIST WHERE IS DISPLAYED THE CUSTOMER -->
                     <div ng-if="sysContent=='listKeys'" class="col-md-12 n-padding-l n-padding-r" ng-include="'views/keys/list/listKeys.html'"></div>

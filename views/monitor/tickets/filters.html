@@ -212,6 +212,22 @@
                                 </div>
                                 </div>
                             </div>
+                            <div ng-if="sysLoggedUser.idProfileKf==1 && filters.typDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='1' || filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" class="col-md-4 col-xs-12 n-padding-l n-padding-r" ng-class="
+                                {	'has-success': 
+                                    filters.idDeliveryCompanyKf.idDeliveryCompany!='' && filtersTicket.idDeliveryCompanyKf.$valid,
+                                }">
+                                <div class="form-group col-md-12 col-xs-12">
+                                    <label>Empresa de envío</label>
+                                    <div class="col-xl-12 selectContainer">
+                                        <div class="input-group">
+                                            <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                                            <select name="idDeliveryCompanyKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.deliveryCompanyName for item in listDeliveryCompanies_filter"  ng-model="filters.deliveryCompanyKf"  >
+                                            <option value="">Todos</option>
+                                            </select>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
                             <!-- Filter Type of Payment-->
                             <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
                                 {	'has-success': 
@@ -227,38 +243,14 @@
                                 </div>
                                 </div>
                             </div>
-                            <div ng-if="sysLoggedUser.idProfileKf=='1' && (filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && (filters.paymentsType.id=='1' || (filters.paymentsType.id=='2' && filters.isPaymentSucceeded)))" class="col-md-4 col-xs-12">
-                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Incluir pedidos con facturación iniciada</label></div>
+                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-4 col-xs-12">
+                                <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
                                 <div class="col-md-4 col-xs-4">
-                                <label class="switch switch-2x" for="isBillingInitiated-search">
-                                    <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isBillingInitiated" id="isBillingInitiated-search">
-                                    <span class="slider slider-2x flat"></span>
-                                </label>
-                                </div>
-                            </div>
-                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && filters.paymentsType.id=='2' && filters.isPaymentSucceeded" class="col-md-4 col-xs-12">
-                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Excluir pedidos con factura cargadas</label></div>
-                                <div class="col-md-4 col-xs-4">
-                                <label class="switch switch-2x" for="isBillingUploaded-search">
-                                    <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isBillingUploaded" id="isBillingUploaded-search">
-                                    <span class="slider slider-2x flat"></span>
-                                </label>
-                                </div>
-                            </div>
-                            <div ng-if="sysLoggedUser.idProfileKf==1 && (filters.ticketStatus.idStatus=='1' || filters.ticketStatus.idStatus=='5')" class="col-md-12 col-xs-12 n-padding-l n-padding-r" ng-class="
-                                {	'has-success': 
-                                    filters.idDeliveryCompanyKf.idDeliveryCompany!='' && filtersTicket.idDeliveryCompanyKf.$valid,
-                                }">
-                                <div class="form-group col-md-4 col-xs-12">
-                                    <label>Empresa de envío</label>
-                                    <div class="col-xl-12 selectContainer">
-                                        <div class="input-group">
-                                            <span class="input-group-addon"><i class="fas fa-tag"></i></span>
-                                            <select name="idDeliveryCompanyKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.deliveryCompanyName for item in listDeliveryCompanies_filter"  ng-model="filters.deliveryCompanyKf"  >
-                                            <option value="">Todos</option>
-                                            </select>
-                                        </div>
-                                    </div>
+                                    <label class="switch switch-2x" for="isInitialDeliveryActive-search">
+                                        <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isInitialDeliveryActive" id="isInitialDeliveryActive-search">
+                                        <span class="slider slider-2x flat"></span>
+                                    </label>
                                 </div>
                             </div>
                             <!-- Filter Top -->
@@ -286,29 +278,39 @@
                                 <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar pedidos pagados</label></div>
                                 <div class="col-md-4 col-xs-4">
                                     <label class="switch switch-2x" for="isPaymentSucceeded-search">
-                                        <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isPaymentSucceeded" id="isPaymentSucceeded-search">
+                                        <input type="checkbox" class="success" ng-change="filters.isBillingUploaded=true;mainSwitchFn('search', null)" ng-model="filters.isPaymentSucceeded" id="isPaymentSucceeded-search">
                                         <span class="slider slider-2x flat"></span>
                                     </label>
                                 </div>
                             </div>
-                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.paymentsType.id=='2'" class="col-md-5 col-xs-12">
-                            <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                            <div ng-if="sysLoggedUser.idProfileKf=='1' && (filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && (filters.paymentsType.id=='1' || (filters.paymentsType.id=='2' && filters.isPaymentSucceeded)))" class="col-md-4 col-xs-12">
+                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Incluir pedidos con facturación iniciada</label></div>
+                                <div class="col-md-4 col-xs-4">
+                                <label class="switch switch-2x" for="isBillingInitiated-search">
+                                    <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isBillingInitiated" id="isBillingInitiated-search">
+                                    <span class="slider slider-2x flat"></span>
+                                </label>
+                                </div>
+                            </div>
+                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && filters.paymentsType.id=='2' && filters.isPaymentSucceeded" class="col-md-4 col-xs-12">
+                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Excluir pedidos con factura cargadas</label></div>
+                                <div class="col-md-4 col-xs-4">
+                                <label class="switch switch-2x" for="isBillingUploaded-search">
+                                    <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isBillingUploaded" id="isBillingUploaded-search">
+                                    <span class="slider slider-2x flat"></span>
+                                </label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.paymentsType.id=='2'" class="col-md-12 col-xs-12">
+                                <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
                                 <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar pedidos con reintegros <span class="badge badge-warning">pendientes</span></label></div>
                                 <div class="col-md-4 col-xs-4">
                                 <label class="switch switch-2x" for="isHasRefundsOpen-search">
                                     <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasRefundsOpen" id="isHasRefundsOpen-search">
                                     <span class="slider slider-2x flat"></span>
                                 </label>
-                                </div>
-                            </div>
-                            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-3 col-xs-12">
-                                <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
-                                <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
-                                <div class="col-md-4 col-xs-4">
-                                    <label class="switch switch-2x" for="isInitialDeliveryActive-search">
-                                        <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isInitialDeliveryActive" id="isInitialDeliveryActive-search">
-                                        <span class="slider slider-2x flat"></span>
-                                    </label>
                                 </div>
                             </div>
                         </div>
