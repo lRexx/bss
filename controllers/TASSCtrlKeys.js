@@ -1582,7 +1582,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.isEditKey      = true;
                             $scope.isNewKeyMulti  = false;
                             console.log(obj);
-                            $scope.keys.llavero.idKeychain      = obj.idKeychain;
+                            $scope.keys.llavero.idKeychain      = obj.categoryKey;
                             $scope.keys.llavero.idProductKf     = obj.products.selected.idProduct;
                             $scope.keys.llavero.codExt          = obj.codigoExt;
                             $scope.keys.llavero.codigo          = obj.codigo;
