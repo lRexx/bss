@@ -81,7 +81,7 @@
 					</ul>
 				</div>
 			</div>
-			<!-- Text Address for Admins & TASS-->
+			<!-- Text Address for Admins & BSS-->
 			<div ng-if="(sysLoggedUser.idProfileKf!=1 && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected && buildingList.length>0) || (sysLoggedUser.idProfileKf==1 && buildingList.length>0)" class="form-group n-padding-r" ng-class="
 				{	'col-md-6': 
 					sysLoggedUser.idProfileKf=='1',
@@ -126,7 +126,7 @@
 								<h4 class="text-muted">Costo Gestion</h4>
 							</div>
 							<div class="options">
-							<span data-toggle="tooltip" data-placement="bottom" title="Costo de gestion" class="badge badge-light">{{buildingServiceValue}}</span>
+							<span data-toggle="tooltip" data-placement="bottom" title="Costo de gestion" class="badge badge-light">$ {{buildingServiceValue | number : 0}}</span>
 							</div>
 						</div>
 					</div>
@@ -139,7 +139,7 @@
 								<h4 class="text-muted">Costo de Envío</h4>
 							</div>
 							<div class="options">
-								<span data-toggle="tooltip" data-placement="bottom" title="Costo de envio" class="badge badge-light">{{buildingDeliveryCost}}</span>
+								<span data-toggle="tooltip" data-placement="bottom" title="Costo de envio" class="badge badge-light">$ {{buildingDeliveryCost | number : 0}}</span>
 							</div>
 						</div>
 					</div>
@@ -173,14 +173,14 @@
 							<th>Costo</th>
 					</thead>
 					<tbody >
-						<tr style="align-content: center;" ng-repeat="keys in rsKeyProductsData">
+						<tr style="align-content: center;" ng-repeat="keys in rsKeyProductsData | filter:showNoNullValues">
 						
 							<td>{{$index+1}}</td>
 							<td><span ng-if="keys.item=='Llaveros'"><i class="fas fa-key"> </i></span>
 								<span ng-if="keys.item=='Sticket Vehicular'"><i class="fas fa-car"> </i></span>
 								<span ng-if="keys.item=='Credencial Movil'"><i class="fas fa-mobile-alt"> </i></span>{{keys.descriptionProduct}}</td>
 							<td><span class="badge" ng-class="{'badge-warning':keys.idStatusFk!='1', 'badge-success':keys.idStatusFk=='1',}">{{keys.contractStatus}}</span></td>
-							<td>$ {{keys.priceFabric}}</td>
+							<td>$ {{keys.priceFabric | number : 0}}</td>
 						</tr>
 					</tbody>
 				</table>

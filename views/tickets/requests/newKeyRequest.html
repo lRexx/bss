@@ -433,7 +433,7 @@
 										<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="tckt in list_keys">
 											<td style="vertical-align: middle;text-align: center;"><span class="font-size-18px">{{$index+1}}</span></td>
 											<td>{{tckt.key.descriptionProduct}} <span class="badge badge-warning">{{tckt.key.brand}}</span></td>
-											<td style="vertical-align: middle;text-align: right;">$ {{tckt.key.priceFabric | number : 2}}</td>
+											<td style="vertical-align: middle;text-align: right;">$ {{tckt.key.priceFabric | number : 0}}</td>
 											<td ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
 												<span class="label label-default">{{tckt.key.categoryName}}</span>
 											</td>
