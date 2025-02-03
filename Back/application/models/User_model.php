@@ -1696,6 +1696,7 @@ class User_model extends CI_Model
                 'token' 				=> $token,
                 'idUserApproverKf' 		=> $user['idUserApproverKf'],
                 'idUserRequestorKf' 	=> $user['idUserRequestorKf'],
+				'idClientKf' 			=> $user['idClientKf'],
 				'created_at' 			=> $now->format('Y-m-d H:i:s'),
 				'expirationTime'  		=> 24,
 				'idTokenStatusKf' 		=> 1
@@ -1774,7 +1775,14 @@ class User_model extends CI_Model
 
 				$rs2 = $qry2->result_array();
 				$rs[$i]['userRequestorKf'] = $rs2;
+				
+				$this->db->select("tb_clients.idClient,tb_clients.name,tb_clients.address,tb_clients.idStatusFk")->from("tb_clients");
+				$qry3 = $this->db->where('tb_clients.idClient', $item['idClientKf'])->get();
+				$rs3 = $qry3->result_array();
+				$rs[$i]['client_details'] = $rs3;
+
 				$i++;
+
 			}
 	
 			// Si se actualizó algún registro, realizar la consulta nuevamente

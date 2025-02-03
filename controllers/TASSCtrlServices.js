@@ -542,6 +542,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.data_param.user.emailUser            = cObj.emailUser;
                         $scope.data_param.user.fullNameUser         = cObj.fullNameUser ;
                         $scope.data_param.user.clientName           = $scope.customerFound.name;
+                        $scope.data_param.user.idClientKf           = $scope.customerFound.idClient;
                         $scope.data_param.user.idUserApproverKf     = cObj.idUser;
                         $scope.data_param.user.idUserRequestorKf    = $scope.sysLoggedUser.idUser;
                         $scope.addAuthorizationTokenFn($scope.data_param);
