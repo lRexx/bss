@@ -3361,9 +3361,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         if ($scope.ticket.delivery.otherAddress==null){
                             $scope.ticket.delivery.otherAddress = {'streetName':undefined, 'streetNumber':undefined, 'floor':undefined, 'department':undefined, 'province':{'selected':undefined}, 'location':{'selected':undefined}};
                         }
-                        $scope.selectedUserToDelivery = null;
+                        $scope.selectedUserToDelivery       = null;
+                        $scope.selectedUserToDelivery       = obj.whoPickUp!=undefined?obj.whoPickUp:obj;
                         $scope.ticket.delivery.idDeliveryTo = obj2!=undefined?obj2:null;
-                        $scope.selectedUserToDelivery = obj.whoPickUp!=undefined?obj.whoPickUp:obj;
+                        $scope.ticket.delivery.deliveryTo   = obj.whoPickUp!=undefined?obj.whoPickUp:obj;
                         if ($scope.ticket.delivery.whoPickUp.id==undefined){
                             inform.add('Completar los campos de direccion a la cual se hara la entrega del pedido.',{
                                 ttl:5000, type: 'info'
@@ -3377,6 +3378,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log(obj);
                         console.log(obj2);
                         $scope.ticket.delivery.otherAddress = obj;
+                        $scope.ticket.delivery.thirdPerson  = null;
                         $('#RegisterDeliveryToOtherAddress').modal("hide");
                         inform.add('El '+obj2.nameProfile+' '+obj2.fullNameUser+' recibira el pedido en el domicilio indicado.',{
                             ttl:5000, type: 'success'
@@ -3402,10 +3404,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     case "setThirdPersonData":
                         //console.log(obj);
                         if ($scope.ticket.delivery.idTypeDeliveryKf!=1){
-                            var streetName = obj.streetName;
-                            $scope.ticket.delivery.thirdPerson.address=streetName.toUpperCase()+' '+obj.streetNumber;
+                            var streetName                              = obj.streetName;
+                            $scope.ticket.delivery.thirdPerson.address  = streetName.toUpperCase()+' '+obj.streetNumber;
                         }
-                        $scope.ticket.delivery.deliveryTo = $scope.ticket.delivery.thirdPerson;
+                        $scope.ticket.delivery.deliveryTo               = $scope.ticket.delivery.thirdPerson;
+                        $scope.ticket.delivery.otherAddress             = null;
                         console.log($scope.ticket);
                         $('#RegisterThirdPerson').modal("hide");
                         if ($scope.ticket.delivery.idTypeDeliveryKf==1){
@@ -3421,6 +3424,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                     case "setCosts":
                         console.log($scope.costs);
+                        console.log($scope.ticket.cost);
                         if ($scope.ticket.optionTypeSelected.name=="building" && ($scope.ticket.radioButtonBuilding=="4" || $scope.ticket.radioButtonBuilding=="5")){
                             var subTotalKeys = 0;
                             var subTotalDelivery = 0;
@@ -3458,15 +3462,32 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             if(((($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) || ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
                                                 var subTotalDelivery = 0;
                                                 if ($scope.ticket.delivery.idTypeDeliveryKf!=undefined && $scope.ticket.delivery.idTypeDeliveryKf!=null && $scope.ticket.delivery.idTypeDeliveryKf!=1){
-                                                    if (($scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo<=2) || 
+                                                    if (($scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo<=1) || 
                                                         ($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id==2)){
-                                                        $scope.ticket.cost.delivery=$scope.ticket.building.valor_envio;
-                                                        subTotalDelivery = Number($scope.ticket.building.valor_envio);
-                                                        $scope.costs.delivery.cost=subTotalDelivery.toFixed(2);
+                                                        if ($scope.ticket.cost.service > 0){
+                                                            subTotalDelivery            = Number(0);
+                                                        }else{
+                                                            $scope.ticket.cost.delivery = $scope.ticket.building.valor_envio;
+                                                            subTotalDelivery            = Number($scope.ticket.building.valor_envio);
+                                                        }
+                                                        $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
                                                     }else{
-                                                        $scope.ticket.cost.delivery=$scope.ticket.delivery.zone.valor_envio;
-                                                        subTotalDelivery = Number($scope.ticket.delivery.zone.valor_envio);
-                                                        $scope.costs.delivery.cost=subTotalDelivery.toFixed(2);
+                                                        if(($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id!=3) || ($scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo==1 && $scope.ticket.delivery.whoPickUp.idUser!=undefined)){
+                                                            console.log("1");
+                                                            console.log($scope.ticket);
+                                                            if ($scope.ticket.cost.service > 0){
+                                                                subTotalDelivery            = Number(0);
+                                                            }else{
+                                                                $scope.ticket.cost.delivery = $scope.ticket.delivery.zone!=null && $scope.ticket.delivery.zone!=undefined?$scope.ticket.delivery.zone.valor_envio:$scope.ticket.building.valor_envio;
+                                                                subTotalDelivery            = Number($scope.ticket.cost.delivery);
+                                                            }
+                                                        }else{
+                                                            console.log("2");
+                                                            console.log($scope.ticket);
+                                                            $scope.ticket.cost.delivery     = $scope.ticket.delivery.zone!=null && $scope.ticket.delivery.zone!=undefined?$scope.ticket.delivery.zone.valor_envio:$scope.ticket.building.valor_envio;
+                                                            subTotalDelivery                = Number($scope.ticket.cost.delivery);
+                                                        }
+                                                        $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
                                                     }
                                                 }else{
                                                     $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);

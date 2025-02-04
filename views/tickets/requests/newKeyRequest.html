@@ -555,11 +555,11 @@
 																<span ng-if="ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.idDeliveryTo==2 && (ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==1)" class="label label-default"> {{ticket.delivery.otherAddress.streetName | uppercase}} {{ticket.delivery.otherAddress.streetNumber}}</span>
 																<span ng-if="ticket.delivery.idTypeDeliveryKf==2 && ticket.delivery.idDeliveryTo==null && ticket.delivery.whoPickUp.id==3" class="label label-default"> {{ticket.delivery.thirdPerson.streetName | uppercase}} {{ticket.delivery.thirdPerson.streetNumber}}</span>
 															</td>
-															<td ng-show="ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
+															<td ng-show="ticket.delivery.deliveryTo!=null && ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
 																<span ng-if="ticket.delivery.idTypeDeliveryKf==1"> por </span>
 																<span ng-if="ticket.delivery.idTypeDeliveryKf==2"> a </span>
 															</td>
-															<td ng-show="ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
+															<td ng-show="ticket.delivery.deliveryTo!=null && ticket.delivery.deliveryTo.fullNameUser!=undefined" style="padding-right: 5px;">
 																<span class="label label-default"> {{ticket.delivery.deliveryTo.fullNameUser}}</span>
 																<span ng-if="ticket.delivery.whoPickUp.id==undefined || ticket.delivery.whoPickUp.id==2" class="badge badge-warning"> {{ticket.delivery.deliveryTo.nameProfile}}</span>
 																<span ng-if="ticket.delivery.whoPickUp.id==3" class="badge badge-warning"> Tercera Persona</span>
