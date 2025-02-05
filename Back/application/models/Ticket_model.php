@@ -669,6 +669,8 @@ class Ticket_model extends CI_Model
 							$body.='<tr width="100%" bgcolor="#ffffff">';
 							if($lastTicketUpdatedQuery[0]['idTypePaymentKf']==1){
 								$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Estamos preparando su pedido para '.$deliveryMethod.'</td>';
+							}else if (! is_null($lastTicketUpdatedQuery[0]['paymentDetails']) && (! is_null($lastTicketUpdatedQuery[0]['paymentDetails']['mp_payment_id']) && $lastTicketUpdatedQuery[0]['paymentDetails']['mp_payment_id']!=0)){
+								$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Estamos preparando su pedido para '.$deliveryMethod.'</td>';	
 							}else{
 								$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Recibira un correo con el Link de MercadoPago para efectuar el pago del pedido, una vez efectuado el pago sera preparado su pedido para '.$deliveryMethod.'</td>';	
 							}
@@ -1173,96 +1175,98 @@ class Ticket_model extends CI_Model
 					if ($queryUser->num_rows() > 0) {
 						$user = $queryUser->row_array();
 						if ($lastTicketUpdatedQuery[0]['sendNotify']==1 || $lastTicketUpdatedQuery[0]['sendNotify']==null){
-							#MAIL TO USER
-							$rs = null;
-							$to = $user['emailUser'];
-							$body.='<tr width="100%" bgcolor="#ffffff">';
-							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>'.$user['fullNameUser'].'</b>,</td>';
-							$body.='</tr>';
-							$body.='<tr width="100%" bgcolor="#ffffff">';
-							$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su Pedido N°: <b>'.$lastTicketUpdatedQuery[0]['codTicket'].'</b>, se encuentra <b>'.$lastTicketUpdatedQuery[0]['statusTicket']['statusName'].'</b></td>';
-							$body.='</tr>';
-							$deliveryMethod = null;
-							$deliveredDate 	= null;
-							$deliveredTo 	= null;
-							$deliveredAddr 	= null;
-							$deliveryDate 	= null;
-							$body.='<tr width="100%" bgcolor="#ffffff">';
-							if($lastTicketUpdatedQuery[0]['idTypeDeliveryKf']==1){
-								if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==7){
-									$deliveryMethod='retirar por nuestras oficinas, Dirección: Carlos Calvo 3430 <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://www.google.com/maps?ll=-34.623655,-58.414103&z=16&t=m&hl=es-ES&gl=US&mapclient=embed&q=Carlos+Calvo+3430+C1230ABH+CABA" target="_blank" style="text-decoration: none; color: #ffffff;">Ver en el mapa</a></span>';
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede pasar a '.$deliveryMethod.'</td>';	
-									$body.='</tr>';
-								}
-								if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==1){
-									setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
-									date_default_timezone_set('America/Argentina/Buenos_Aires');
-									$deliveredDate =  strftime( "%A %d de %B del %Y", strtotime($ticket['delivered_at']));
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>'.$lastTicketUpdatedQuery[0]['retiredByFullName'].'</b>, el dia '.$deliveredDate.'</td>';	
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
-									$body.='</tr>';
-								}
-							}else if($lastTicketUpdatedQuery[0]['idTypeDeliveryKf']==2){
-								setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
-								date_default_timezone_set('America/Argentina/Buenos_Aires');
-								if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==5){
-									$deliveryDate =  strftime( "%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La entrega de su pedido esta programado para el dia  '.$deliveryDate.' en la franja horaria de 15h a 20h.</td>';
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">En caso de no poder entregar el pedido, se hará un segundo intento al dia siguiente en el mismo horario.</td>';
-									$body.='</tr>';
-								}
-								if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==1){
-									setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
-									date_default_timezone_set('America/Argentina/Buenos_Aires');
-									$deliveredDate 	=  strftime( "%A %d de %B del %Y", strtotime($ticket['delivered_at']));
-									$deliveredTo 	= null;
-									$deliveredAddr 	= null;
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									switch($lastTicketUpdatedQuery[0]['idWhoPickUp']){
-										case 1:
-											$deliveredTo=$lastTicketUpdatedQuery[0]['userDelivery']['fullNameUser'];
-											switch($lastTicketUpdatedQuery[0]['idDeliveryTo']){
-												case 1:
-													$deliveredAddr = $lastTicketUpdatedQuery[0]['deliveryAddress']['address'];
-												break;
-												case 2:
-													$deliveredAddr = $lastTicketUpdatedQuery[0]['otherDeliveryAddress']['address']." ".$lastTicketUpdatedQuery[0]['otherDeliveryAddress']['number'];
-												break;
-											}
-											break;
-										case 2:
-											if ($lastTicketUpdatedQuery[0]['idDeliveryTo']==null){
-												$deliveredTo 	=$lastTicketUpdatedQuery[0]['userDelivery']['fullNameUser'];
-												$deliveredAddr 	= $lastTicketUpdatedQuery[0]['building']['address'];
-											}
-											break;
-										case 3:
-											if ($lastTicketUpdatedQuery[0]['idDeliveryTo']==null){
-												$deliveredTo   = $lastTicketUpdatedQuery[0]['thirdPersonDelivery']['fullName'];
-												$deliveredAddr = $lastTicketUpdatedQuery[0]['thirdPersonDelivery']['address']." ".$lastTicketUpdatedQuery[0]['thirdPersonDelivery']['number'];
-											}
-											break;
+							if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==7 || $lastTicketUpdatedQuery[0]['idStatusTicketKf']==1 || $lastTicketUpdatedQuery[0]['idStatusTicketKf']==5){
+								#MAIL TO USER
+								$rs = null;
+								$to = $user['emailUser'];
+								$body.='<tr width="100%" bgcolor="#ffffff">';
+								$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>'.$user['fullNameUser'].'</b>,</td>';
+								$body.='</tr>';
+								$body.='<tr width="100%" bgcolor="#ffffff">';
+								$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su Pedido N°: <b>'.$lastTicketUpdatedQuery[0]['codTicket'].'</b>, se encuentra <b>'.$lastTicketUpdatedQuery[0]['statusTicket']['statusName'].'</b></td>';
+								$body.='</tr>';
+								$deliveryMethod = null;
+								$deliveredDate 	= null;
+								$deliveredTo 	= null;
+								$deliveredAddr 	= null;
+								$deliveryDate 	= null;
+								$body.='<tr width="100%" bgcolor="#ffffff">';
+								if($lastTicketUpdatedQuery[0]['idTypeDeliveryKf']==1){
+									if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==7){
+										$deliveryMethod='retirar por nuestras oficinas, Dirección: Carlos Calvo 3430 <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://www.google.com/maps?ll=-34.623655,-58.414103&z=16&t=m&hl=es-ES&gl=US&mapclient=embed&q=Carlos+Calvo+3430+C1230ABH+CABA" target="_blank" style="text-decoration: none; color: #ffffff;">Ver en el mapa</a></span>';
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede pasar a '.$deliveryMethod.'</td>';	
+										$body.='</tr>';
 									}
-									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido ha sido entregado a <b>'.$deliveredTo.'</b>, el dia '.$deliveredDate.' en la siguiente dirección: <b>'.$deliveredAddr.'</b></td>';	
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-									$body.='</tr>';
-									$body.='<tr width="100%" bgcolor="#ffffff">';
-									$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
-									$body.='</tr>';
-								}
-								
-							}					
-							$this->mail_model->sendMail($title, $to, $body, $subject);
+									if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==1){
+										setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
+										date_default_timezone_set('America/Argentina/Buenos_Aires');
+										$deliveredDate =  strftime( "%A %d de %B del %Y", strtotime($ticket['delivered_at']));
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>'.$lastTicketUpdatedQuery[0]['retiredByFullName'].'</b>, el dia '.$deliveredDate.'</td>';	
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+										$body.='</tr>';
+									}
+								}else if($lastTicketUpdatedQuery[0]['idTypeDeliveryKf']==2){
+									setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
+									date_default_timezone_set('America/Argentina/Buenos_Aires');
+									if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==5){
+										$deliveryDate =  strftime( "%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La entrega de su pedido esta programado para el dia  '.$deliveryDate.' en la franja horaria de 15h a 20h.</td>';
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">En caso de no poder entregar el pedido, se hará un segundo intento al dia siguiente en el mismo horario.</td>';
+										$body.='</tr>';
+									}
+									if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==1){
+										setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
+										date_default_timezone_set('America/Argentina/Buenos_Aires');
+										$deliveredDate 	=  strftime( "%A %d de %B del %Y", strtotime($ticket['delivered_at']));
+										$deliveredTo 	= null;
+										$deliveredAddr 	= null;
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										switch($lastTicketUpdatedQuery[0]['idWhoPickUp']){
+											case 1:
+												$deliveredTo=$lastTicketUpdatedQuery[0]['userDelivery']['fullNameUser'];
+												switch($lastTicketUpdatedQuery[0]['idDeliveryTo']){
+													case 1:
+														$deliveredAddr = $lastTicketUpdatedQuery[0]['deliveryAddress']['address'];
+													break;
+													case 2:
+														$deliveredAddr = $lastTicketUpdatedQuery[0]['otherDeliveryAddress']['address']." ".$lastTicketUpdatedQuery[0]['otherDeliveryAddress']['number'];
+													break;
+												}
+												break;
+											case 2:
+												if ($lastTicketUpdatedQuery[0]['idDeliveryTo']==null){
+													$deliveredTo 	=$lastTicketUpdatedQuery[0]['userDelivery']['fullNameUser'];
+													$deliveredAddr 	= $lastTicketUpdatedQuery[0]['building']['address'];
+												}
+												break;
+											case 3:
+												if ($lastTicketUpdatedQuery[0]['idDeliveryTo']==null){
+													$deliveredTo   = $lastTicketUpdatedQuery[0]['thirdPersonDelivery']['fullName'];
+													$deliveredAddr = $lastTicketUpdatedQuery[0]['thirdPersonDelivery']['address']." ".$lastTicketUpdatedQuery[0]['thirdPersonDelivery']['number'];
+												}
+												break;
+										}
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido ha sido entregado a <b>'.$deliveredTo.'</b>, el dia '.$deliveredDate.' en la siguiente dirección: <b>'.$deliveredAddr.'</b></td>';	
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+										$body.='</tr>';
+										$body.='<tr width="100%" bgcolor="#ffffff">';
+										$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+										$body.='</tr>';
+									}
+									
+								}					
+								$this->mail_model->sendMail($title, $to, $body, $subject);
+							}
 						}
 					}
 				}
