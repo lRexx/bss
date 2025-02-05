@@ -576,17 +576,26 @@ class Ticket_model extends CI_Model
 	{
 		$idTicketKf  = $ticket['idTicket'];
 		$ticketQuery = null;
+		$ticketObj 	 = null;
 		$ticketQuery = $this->ticketById($idTicketKf);
 		if (($ticketQuery[0]['idStatusTicketKf']!=9 && $ticket['idTypePaymentKf']==2)|| 
 			($ticketQuery[0]['idStatusTicketKf']==9 && $ticket['idTypePaymentKf']==2)){
 			if (! is_null($ticketQuery[0]['paymentDetails']) && (! is_null($ticketQuery[0]['paymentDetails']['mp_payment_id']) && $ticketQuery[0]['paymentDetails']['mp_payment_id']!=0)){
 				$idStatusTicketKf = 8;
+				$ticketObj['history']['idUserKf'] 			= "1";
+				$ticketObj['history']['idTicketKf']  		= $idTicketKf;
+				$ticketObj['history']['descripcion'] 		= "";
+				$ticketObj['history']['idCambiosTicketKf'] 	= "13";
 			}else {
 				$idStatusTicketKf = 3;
 			}
 
 		}else if ($ticket['idTypePaymentKf']==2 && $ticketQuery[0]['idStatusTicketKf']==11){
 			$idStatusTicketKf = 8;
+			$ticketObj['history']['idUserKf'] 			= "1";
+			$ticketObj['history']['idTicketKf']  		= $idTicketKf;
+			$ticketObj['history']['descripcion'] 		= "";
+			$ticketObj['history']['idCambiosTicketKf'] 	= "13";
 		}
 		$this->db->set(
 			array(
@@ -607,6 +616,9 @@ class Ticket_model extends CI_Model
 						"descripcion" 		=> @$key['descripcion'] ,
 						"idCambiosTicketKf" => @$key['idCambiosTicketKf']
 					));
+				}
+				if (isset($ticketObj)){
+					$this->Ticket_model->addTicketTimeline($ticketObj);
 				}
 			}
 			$lastTicketUpdatedQuery = null;
@@ -1198,7 +1210,7 @@ class Ticket_model extends CI_Model
 							}else if($lastTicketUpdatedQuery[0]['idTypeDeliveryKf']==2){
 								setlocale(LC_ALL,"es_ES@euro","es_ES","esp");
 								date_default_timezone_set('America/Argentina/Buenos_Aires');
-								if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==4){
+								if ($lastTicketUpdatedQuery[0]['idStatusTicketKf']==5){
 									$deliveryDate =  strftime( "%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
 									$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La entrega de su pedido esta programado para el dia  '.$deliveryDate.' en la franja horaria de 15h a 20h.</td>';
 									$body.='</tr>';
