@@ -3936,6 +3936,9 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.list_requests=[];
                   for (var f in obj){
                     //console.log(obj[f]);
+                    var costDelivery  = null;
+                    var costService   = null;
+                    var priceFabric   = 0;
                     var floor         = obj[f].idTypeRequestFor=="1"?obj[f].department.floor:"";
                     var depto         = obj[f].idTypeRequestFor=="1"?obj[f].department.departament:obj[f].typeRequestFor.name;
                     var department    = obj[f].idTypeRequestFor=="1"?floor+" - "+depto.toUpperCase():depto.toUpperCase();
@@ -3943,8 +3946,12 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     var fileName      = obj[f].idTicket+"_"+codTicket.substr(5)+".pdf";
                     var fullNameUser  = obj[f].idUserRequestBy!=null && obj[f].userRequestBy.fullNameUser!=undefined?obj[f].userRequestBy.fullNameUser:"no asignado";
                     var dniUser       = obj[f].idUserRequestBy!=null && obj[f].userRequestBy.dni!=undefined?obj[f].userRequestBy.dni:"no asignado";
+                    costDelivery      = parseFloat(obj[f].costDelivery);
+                    costService       = parseFloat(obj[f].costService);
+                    priceFabric       = parseFloat(obj[f].keys[0].priceFabric);
                     if (obj[f].created_at!=null){
-                        if(obj[f].keys.length>1){
+
+                        /*if(obj[f].keys.length>1){
                           var i = 1;
                           var costDelivery = null;
                           var costService  = null;
@@ -4043,7 +4050,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             i++;
                           }
                           //console.log($scope.list_requests);
-                        }else{
+                        }else{*/
                           if(obj[f].idTypePaymentKf=="1"){
                             $scope.list_requests.push({
                               'idTicket':obj[f].idTicket,
@@ -4057,9 +4064,9 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               'CostoEnvio':costDelivery, 
                               'CostoGestion':costService,
                               'CantidadLlaveros': obj[f].keys.length,
-                              'idProducto':obj[f].keys[key].idProduct,
-                              'Producto': obj[f].keys[key].model,
-                              'PrecioUnitario':obj[f].keys[key].priceFabric,
+                              'idProducto':obj[f].keys[0].idProduct,
+                              'Producto': obj[f].keys[0].model,
+                              'PrecioUnitario':priceFabric,
                             });
                           }else{
                             $scope.list_requests.push({
@@ -4071,16 +4078,16 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               'Departamento':department,
                               'SolicitadoPor':obj[f].userRequestBy.fullNameUser,
                               'dniSolicitante':dniUser,
-                              'CostoEnvio':obj[f].costDelivery, 
-                              'CostoGestion':obj[f].costService,
+                              'CostoEnvio':costDelivery, 
+                              'CostoGestion':costService,
                               'CantidadLlaveros': obj[f].keys.length,
                               'idProducto':obj[f].keys[0].idProduct,
                               'Producto': obj[f].keys[0].model,
-                              'PrecioUnitario':obj[f].keys[0].priceFabric,
+                              'PrecioUnitario':priceFabric,
                               'FacturaNombre':fileName
                             });
                           }
-                        }
+                       // }
                     }
                   }
                   console.log($scope.list_requests);
@@ -4317,6 +4324,32 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 };
                 wb.SheetNames.push(sheetName);
                 workSheet = XLSX.utils.json_to_sheet(myArrList);
+                // Apply styles to specific cells
+                let cellAddress = "A1"; // Example: Style the first cell (A1)
+                if (workSheet[cellAddress]) {
+                    workSheet[cellAddress].s = {
+                        alignment: {
+                            horizontal: "center", // left, center, right
+                            vertical: "center",
+                            wrapText: true
+                        },
+                        font: {
+                            bold: true,
+                            color: { rgb: "FF0000" }, // Red text color
+                            name: "Arial",
+                            sz: 12 // Font size
+                        },
+                        fill: {
+                            fgColor: { rgb: "FFFF00" } // Yellow background
+                        },
+                        border: {
+                            top: { style: "thin", color: { rgb: "000000" } },
+                            bottom: { style: "thin", color: { rgb: "000000" } },
+                            left: { style: "thin", color: { rgb: "000000" } },
+                            right: { style: "thin", color: { rgb: "000000" } }
+                        }
+                    };
+                }
                 //var ws_data = [['hello' , 'world']];
                 //var ws = XLSX.utils.aoa_to_sheet(ws_data);
                 wb.Sheets[sheetName] = workSheet;
