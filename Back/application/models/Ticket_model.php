@@ -2763,29 +2763,30 @@ class Ticket_model extends CI_Model
 	{
 		//var_dump($todo);
 		foreach ($todo as $key => $ticket) {
+			//print_r($ticket['idTypeRequestFor']);
 			$this->db->select("*")->from("tb_category_keychain");
-			$quuery                       = $this->db->where("idCategory = " , $ticket['idTypeRequestFor'])->get();
+			$quuery                       = $this->db->where("idCategory = " , @$ticket['idTypeRequestFor'])->get();
 			$todo[$key]['typeRequestFor'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_typeticket");
-			$quuery                   = $this->db->where("idTypeTicket = " , $ticket['idTypeTicketKf'])->get();
+			$quuery                   = $this->db->where("idTypeTicket = " , @$ticket['idTypeTicketKf'])->get();
 			$todo[$key]['typeticket'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_clients");
 			$this->db->join('tb_zonas', 'tb_zonas.idZona = tb_clients.idZonaFk', 'left');
             $this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
             $this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
-			$quuery                 = $this->db->where("idClient = " , $ticket['idBuildingKf'])->get();
+			$quuery                 = $this->db->where("idClient = " , @$ticket['idBuildingKf'])->get();
 			$todo[$key]['building'] = @$quuery->result_array()[0];
-			if (! is_null($ticket['idBuildingKf'])) {
+			if (! is_null(@$ticket['idBuildingKf'])) {
 				//print($this->checkIsDeviceOnline($ticket['idBuildingKf']));
-				$todo[$key]['building']['isHasInternetOnline']=$this->checkIsDeviceOnline($ticket['idBuildingKf']);
+				$todo[$key]['building']['isHasInternetOnline']=$this->checkIsDeviceOnline(@$ticket['idBuildingKf']);
 			}else{
-				print("No defined");
+				//print("No defined");
 				$todo[$key]['building']['isHasInternetOnline']="false";
 			}
 
-			if ($ticket['idTypeRequestFor']==1){
+			if (@$ticket['idTypeRequestFor']==1){
 
 				$this->db->select("*")->from("tb_client_departament");
 				$quuery                   = $this->db->where("idClientDepartament = " , $ticket['idDepartmentKf'])->get();
@@ -2796,7 +2797,7 @@ class Ticket_model extends CI_Model
 				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery                   = $this->db->where("idUser = " , $ticket['idUserMadeBy'])->get();
+				$quuery                   = $this->db->where("idUser = " , @$ticket['idUserMadeBy'])->get();
 				$todo[$key]['userMadeBy'] = @$quuery->result_array()[0];
 
 				$this->db->select("*")->from("tb_user");
@@ -2804,14 +2805,14 @@ class Ticket_model extends CI_Model
 				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery                   = $this->db->where("idUser = " , $ticket['idUserRequestBy'])->get();
+				$quuery                   = $this->db->where("idUser = " , @$ticket['idUserRequestBy'])->get();
 				$todo[$key]['userRequestBy'] = @$quuery->result_array()[0];
 
 				$this->db->select("*")->from("tb_clients");
 				$quuery                    = $this->db->where("idClient = " , $todo[$key]['building']['idClientAdminFk'])->get();
 				$todo[$key]['clientAdmin'] = @$quuery->result_array()[0];
 
-			} else if ($ticket['idTypeRequestFor']==2 || $ticket['idTypeRequestFor']==3 || $ticket['idTypeRequestFor']==4 || $ticket['idTypeRequestFor']==5 || $ticket['idTypeRequestFor']==6){
+			} else if (@$ticket['idTypeRequestFor']==2 || @$ticket['idTypeRequestFor']==3 || @$ticket['idTypeRequestFor']==4 || @$ticket['idTypeRequestFor']==5 || @$ticket['idTypeRequestFor']==6){
 
 				$this->db->select("*")->from("tb_user");
 				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
@@ -2832,15 +2833,15 @@ class Ticket_model extends CI_Model
 				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery                   = $this->db->where("idUser = " , $ticket['idUserMadeBy'])->get();
+				$quuery                   = $this->db->where("idUser = " , @$ticket['idUserMadeBy'])->get();
 				$todo[$key]['userMadeBy'] = @$quuery->result_array()[0];
 
 				$this->db->select("*")->from("tb_clients");
-				$quuery                      = $this->db->where("idClient = " , $ticket['idUserRequestBy'])->get();
+				$quuery                      = $this->db->where("idClient = " , @$ticket['idUserRequestBy'])->get();
 				$todo[$key]['clientCompani'] = @$quuery->result_array()[0];
 
 				$this->db->select("*")->from("tb_clients");
-				$quuery                    = $this->db->where("idClient = " , $ticket['idUserRequestBy'])->get();
+				$quuery                    = $this->db->where("idClient = " , @$ticket['idUserRequestBy'])->get();
 				$todo[$key]['clientAdmin'] = @$quuery->result_array()[0];
 	
 			}
@@ -2848,7 +2849,7 @@ class Ticket_model extends CI_Model
 			$this->db->join('tb_keychain' , 'tb_keychain.idKeychain = tb_ticket_keychain.idKeychainKf' , 'left');
 			$this->db->join('tb_products' , 'tb_products.idProduct = tb_ticket_keychain.idProductKf' , 'left');
 			$this->db->join('tb_user' , 'tb_user.idUser = tb_ticket_keychain.idUserKf' , 'left');
-			$quuery             = $this->db->where("idTicketKf = " , $ticket['idTicket'])->get();
+			$quuery             = $this->db->where("idTicketKf = " , @$ticket['idTicket'])->get();
 			$todo[$key]['keys'] = @$quuery->result_array();
 				$i=0;
 				foreach ($todo[$key]['keys'] as $item => $keychain) {
@@ -2867,11 +2868,11 @@ class Ticket_model extends CI_Model
 					$i++;
 				}
 			$this->db->select("*")->from("tb_type_delivery");
-			$quuery                    = $this->db->where("idTypeDelivery = " , $ticket['idTypeDeliveryKf'])->get();
+			$quuery                    = $this->db->where("idTypeDelivery = " , @$ticket['idTypeDeliveryKf'])->get();
 			$todo[$key]['typeDeliver'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_pick_receive");
-			$quuery                  = $this->db->where("idWhoPickUp = " , $ticket['idWhoPickUp'])->get();
+			$quuery                  = $this->db->where("idWhoPickUp = " , @$ticket['idWhoPickUp'])->get();
 			$todo[$key]['whoPickUp'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_user");
@@ -2879,20 +2880,20 @@ class Ticket_model extends CI_Model
 			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 			$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-			$quuery                     = $this->db->where("idUser = " , $ticket['idUserDelivery'])->get();
+			$quuery                     = $this->db->where("idUser = " , @$ticket['idUserDelivery'])->get();
 			$todo[$key]['userDelivery'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_ticket_delivery");
-			$quuery                   = $this->db->where("id = " , $ticket['idDeliveryTo'])->get();
+			$quuery                   = $this->db->where("id = " , @$ticket['idDeliveryTo'])->get();
 			$todo[$key]['deliveryTo'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_clients");
 			$this->db->join('tb_zonas', 'tb_zonas.idZona = tb_clients.idZonaFk', 'left');
             $this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
             $this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
-			$quuery                        = $this->db->where("idClient = " , $ticket['idDeliveryAddress'])->get();
+			$quuery                        = $this->db->where("idClient = " , @$ticket['idDeliveryAddress'])->get();
 			$todo[$key]['deliveryAddress'] = @$quuery->result_array()[0];
-			if ($ticket['idTypeDeliveryKf']=='1' && $todo[$key]['deliveryAddress']==null){
+			if (@$ticket['idTypeDeliveryKf']=='1' && $todo[$key]['deliveryAddress']==null){
 				$todo[$key]['deliveryAddress']['address']="Carlos Calvo 3430";
 				$todo[$key]['deliveryAddress']['province']="Ciudad Autonoma de Buenos Aires";
 				$todo[$key]['deliveryAddress']['location']="Boedo";
@@ -2901,30 +2902,30 @@ class Ticket_model extends CI_Model
 			$this->db->select("*")->from("tb_ticket_other_delivery_address");
 			$this->db->join('tb_location', 'tb_location.idLocation = tb_ticket_other_delivery_address.idLocationFk', 'left');
             $this->db->join('tb_province', 'tb_province.idProvince = tb_ticket_other_delivery_address.idProvinceFk', 'left');
-			$quuery                             = $this->db->where("id = " , $ticket['idOtherDeliveryAddressKf'])->get();
+			$quuery                             = $this->db->where("id = " , @$ticket['idOtherDeliveryAddressKf'])->get();
 			$todo[$key]['otherDeliveryAddress'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_ticket_third_person_delivery");
 			$this->db->join('tb_location', 'tb_location.idLocation = tb_ticket_third_person_delivery.idLocationFk', 'left');
             $this->db->join('tb_province', 'tb_province.idProvince = tb_ticket_third_person_delivery.idProvinceFk', 'left');
-			$quuery                            = $this->db->where("id = " , $ticket['idThirdPersonDeliveryKf'])->get();
+			$quuery                            = $this->db->where("id = " , @$ticket['idThirdPersonDeliveryKf'])->get();
 			$todo[$key]['thirdPersonDelivery'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_ticket_payment_type");
-			$quuery                      = $this->db->where("id = " , $ticket['idTypePaymentKf'])->get();
+			$quuery                      = $this->db->where("id = " , @$ticket['idTypePaymentKf'])->get();
 			$todo[$key]['typePaymentKf'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_statusticket");
-			$quuery                     = $this->db->where("idStatus = " , $ticket['idStatusTicketKf'])->get();
+			$quuery                     = $this->db->where("idStatus = " , @$ticket['idStatusTicketKf'])->get();
 			$todo[$key]['statusTicket'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_mp_payments");
 			$this->db->join('tb_ticket_payment_manual_type', 'tb_ticket_payment_manual_type.id = tb_mp_payments.idManualPaymentTypeKf', 'left');
-			$quuery                     = $this->db->where("idPayment = " , $ticket['idPaymentKf'])->get();
+			$quuery                     = $this->db->where("idPayment = " , @$ticket['idPaymentKf'])->get();
 			$todo[$key]['paymentDetails'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_mp_payments");			
-			$quuery                     = $this->db->where("idPayment = " , $ticket['idPaymentDeliveryKf'])->get();
+			$quuery                     = $this->db->where("idPayment = " , @$ticket['idPaymentDeliveryKf'])->get();
 			$todo[$key]['paymentDeliveryDetails'] = @$quuery->result_array()[0];
 
 			$this->db->select("*")->from("tb_ticket_changes_history");
@@ -2934,9 +2935,9 @@ class Ticket_model extends CI_Model
 			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
 			$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-			$quuery                        = $this->db->where("idTicketKf = " , $ticket['idTicket'])->get();
+			$quuery                        = $this->db->where("idTicketKf = " , @$ticket['idTicket'])->get();
 			$todo[$key]['changes_history'] = @$quuery->result_array();
-			if ($ticket['isBillingUploaded']==1){
+			if (@$ticket['isBillingUploaded']==1){
 				$this->db->select("*")->from("tb_ticket_files_list");
 				$quuery                        = $this->db->where("idTicketKf = " , $ticket['idTicket'])->get();
 				$todo[$key]['billingReceiptDetails'] = @$quuery->result_array();
@@ -2944,12 +2945,12 @@ class Ticket_model extends CI_Model
 				$todo[$key]['billingReceiptDetails'] = null;
 			}
 			$this->db->select("*")->from("tb_ticket_delivery_company");
-			$quuery                     = $this->db->where("idDeliveryCompany = " , $ticket['idDeliveryCompanyKf'])->get();
+			$quuery                     = $this->db->where("idDeliveryCompany = " , @$ticket['idDeliveryCompanyKf'])->get();
 			$todo[$key]['deliveryCompanyDetails'] = @$quuery->result_array()[0];
 			
 			$this->db->select("*")->from("tb_tickets_refunds");
 			$this->db->join('tb_tickets_refunds_status', 'tb_tickets_refunds_status.idRefundType = tb_tickets_refunds.idRefundTypeKf', 'left');
-			$quuery                            = $this->db->where("idTicketKf = " , $ticket['idTicket'])->get();
+			$quuery                            = $this->db->where("idTicketKf = " , @$ticket['idTicket'])->get();
 			if ($quuery->num_rows() > 0) {
 				$todo[$key]['refundsDetails'] = @$quuery->result_array();
 			}else{
@@ -2957,7 +2958,7 @@ class Ticket_model extends CI_Model
 			}
 			//INITIAL DELIVERY DATA
 			$this->db->select("*")->from("tb_client_initial_delivery");
-			$quuery = $this->db->where("tb_client_initial_delivery.idClientKf =", $ticket['idBuildingKf'])->get();
+			$quuery = $this->db->where("tb_client_initial_delivery.idClientKf =", @$ticket['idBuildingKf'])->get();
 
 			$rs9            = $quuery->result_array();
 			$todo[$key]['building']['isInitialDeliveryActive'] = $rs9;
