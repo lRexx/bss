@@ -376,13 +376,13 @@
                             <span class="btn-label" ><i class="fas fa-ban"></i></span>Cancelar</a>
                     </div>-->
                     <div class="col-xs-10 col-sm-10 col-md-10">
-                      <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.idTypePaymentKf=='2' && tkupdate.billingReceiptDetails==null && (tkupdate.isBillingUploaded==null || tkupdate.isBillingUploaded=='0') && (tkupdate.idStatusTicketKf==4 || tkupdate.idStatusTicketKf==5 || tkupdate.idStatusTicketKf==8) && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
+                      <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.idTypePaymentKf=='2' && (tkupdate.billingReceiptDetails==undefined || tkupdate.billingReceiptDetails==null) && (tkupdate.isBillingUploaded==undefined || tkupdate.isBillingUploaded==null || tkupdate.isBillingUploaded=='0') && (tkupdate.idStatusTicketKf==1 || tkupdate.idStatusTicketKf==4 || tkupdate.idStatusTicketKf==5 || tkupdate.idStatusTicketKf==8) && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
                         <button for="uploadTicketBillingFile" class="btn btn-labeled btn-file btn-warning"><span class="btn-label"><i class="fas fa-file-invoice"></i></span>Subir Factura
                           <input id="uploadTicketBillingFile" name="uploadTicketBillingFile" type="file" class="form-control" accept="*/*" onchange="angular.element(this).scope().loadPDFFilesFn(this)" ng-model="filesInput" />
                         </button>
                       </div>
                       <!-- UPLOAD TICKET BILL -->
-                      <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.billingReceiptDetails!=null && tkupdate.isBillingUploaded!=null && tkupdate.isBillingUploaded=='1' && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
+                      <div ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.billingReceiptDetails!=undefined && tkupdate.billingReceiptDetails!=null && tkupdate.isBillingUploaded!=undefined && tkupdate.isBillingUploaded!=null && tkupdate.isBillingUploaded=='1' && tkupdate.isCancelRequested!='1'" class="col-xs-3 col-sm-4 col-md-2">
                         <a id="removeBillingFile" ng-click="modalConfirmation('deleteSingleFile', 0, tkupdate.billingReceiptDetails[0])" type="button" class="btn btn-labeled btn-danger">
                           <span class="btn-label"><i class="fas fa-trash-alt"></i></span>Borrar Factura</a>
                       </div>
