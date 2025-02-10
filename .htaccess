@@ -9,6 +9,7 @@ RewriteEngine on
 SetEnvIf Referer "^https?://(www\.)?devbss.sytes\.net" allowed_referer
 SetEnvIf Referer "^https?://(www\.)?dev.bss\.com.ar" allowed_referer
 SetEnvIf Referer "^https?://(www\.)?sistema.bss\.com.ar" allowed_referer
+SetEnvIf Referer "^https?://(www\.)?mi.bss\.com.ar" allowed_referer
 # Don't rewrite files or directories
 RewriteCond %{REQUEST_FILENAME} -f [OR]
 RewriteCond %{REQUEST_FILENAME} -d
