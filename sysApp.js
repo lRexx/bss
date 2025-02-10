@@ -207,13 +207,14 @@ app.config(['$routeProvider', '$locationProvider',
         $locationProvider.html5Mode(true);
 }]);
 
-app.constant("serverHost","https://sistema.bss.com.ar");
+//app.constant("serverHost","https://sistema.bss.com.ar");
+app.constant("serverHost","https://mi.bss.com.ar");
 app.constant("serverBackend","/Back/index.php/");
 app.constant("serverHeaders", {'headers':{'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Credentials': true, 'Access-Control-Allow-Origin': '*'}});
 app.constant('APP_SYS', {
   'app_name': 'Gestion de Clientes',
   'version' : '1.0',
-  'api_url' : 'https://sistema.bss.com.ar/',
+  'api_url' : 'https://mi.bss.com.ar/',
   'api_path': 'Back/index.php/',
   'headers' : {'headers':{'Content-Type': 'application/json; charset=utf-8', 'Access-Control-Allow-Credentials': true, 'Access-Control-Allow-Origin': '*'}},
   'timezone': 'America/Argentina/Buenos_Aires'
