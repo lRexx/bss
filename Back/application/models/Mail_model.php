@@ -79,7 +79,7 @@ class Mail_model extends CI_Model
                     <tbody>
                         <tr width="100%" bgcolor="#ffffff">
                             <td width="40%" style="text-align:left;" bgcolor="#ffffff">
-                                <img src="https://sistema.bss.com.ar/images/logo_2.png" alt="logos juntos.png" width="60%" class="logo_mail">
+                                <img src="https://'.BSS_HOST.'/images/logo_2.png" alt="logos juntos.png" width="60%" class="logo_mail">
                             </td>
                             <td width="60%" style="text-align:left"><h1 style="font-size:2vw;" bgcolor="#ffffff">'.$title.'</h1></td>
                         </tr>
