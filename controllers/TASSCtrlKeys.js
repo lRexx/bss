@@ -1842,7 +1842,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 wout      = null;
                 wopts     = null;
                 myArrList = obj;
-                sheetName = $scope.keys.file.building.idClient;
+                sheetName = "Llaveros_cliente_"+$scope.keys.file.building.idClient;
                 console.log(myArrList);
                 wb = XLSX.utils.book_new();
                 wb.Props = {
