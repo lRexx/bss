@@ -2304,6 +2304,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             break;
             case "upload_billing_ticket":
               console.log(obj);
+              $scope.isUploadSingleFile = true;
               $scope.uploadSingleFile(obj)
             break;
             case "deleteSingleFile":
@@ -4689,6 +4690,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
           **************************************/
             $scope.uploadFilesFn = function(file, idTicketKf, item){
               $scope.uploadTicketData={};
+              //console.log(file);
+              //console.log(idTicketKf);
               //console.log(item);
               ticketServices.uploadTicketFiles(file, idTicketKf).then(function(rsupload){
                 //console.log(rsupload);
@@ -4709,9 +4712,11 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                 ttl:2000, type: 'success'
                           });                    
                           item.uploadStatus=true;
-                          $('#pdfUploadModal').modal('hide');
-                          $scope.mainSwitchFn('search', null);
-                          $scope.openTicketFn($scope.uploadTicketData.idTicketKf);
+                          if ($scope.isUploadSingleFile){
+                            $('#pdfUploadModal').modal('hide');
+                            $scope.mainSwitchFn('search', null);
+                            $scope.openTicketFn($scope.uploadTicketData.idTicketKf);
+                          }
                         }
                       });
                     }else if(response.status==404){
@@ -4743,15 +4748,18 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
           /**************************************
           *          UPLOAD ALL FILES           *
           **************************************/
-            $scope.uploadAllFiles = function(fileList){
+            $scope.uploadAllFiles_old = function(fileList){
               console.log(fileList);
               console.log(fileList.length);
+              console.log($scope.filesUploadList);
               for (var item in fileList){
                 //console.log(fileList[item]);
+
                 if (fileList[item].uploadStatus==false){
                   for (var key in $scope.filesUploadList){
                     if ($scope.filesUploadList[key].name==fileList[item].name && $scope.filesUploadList[key].type==fileList[item].type){
-                        var file      =  $scope.filesUploadList[key];
+                        fileList[item].obj    =  $scope.filesUploadList[key];
+                        fileList[item].isReady = true;
                         //var fileTitle  =  fileList[item].fileTitle==''?'':fileList[item].fileTitle.replace(/ /g,"_");;
                       //SEND DATA TO THE UPLOAD SERVICE
                       //console.log("=====================================================");
@@ -4759,11 +4767,70 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       //console.log(fileList[item].idTicketKf)
                       //console.log(fileList[item])
                       //console.log("=====================================================");
-                      $scope.uploadFilesFn(file, fileList[item].idTicketKf, fileList[item]);
+                      //$scope.uploadFilesFn(file, fileList[item].idTicketKf, fileList[item]);
                     }
                   }
                 }
+                //console.log(fileList);
               }
+              var assignedFiles = [];
+              angular.forEach(fileList,function(file){
+                var deferredFiles = $q.defer();
+                assignedFiles.push(deferredFiles.promise);
+                //ASSIGN DEPARTMENT SERVICE
+                $timeout(function() {
+                  deferredFiles.resolve();
+                  ticketServices.uploadTicketFiles(file.obj, file.idTicketKf).then(function(rsupload){
+                    if(rsupload.status==200){
+                      $scope.uploadTicketData={};
+                      $scope.uploadTicketData.idTicketKf = rsupload.data.idTicketKf;
+                      $scope.uploadTicketData.urlFile    = rsupload.data.dir+rsupload.data.filename;
+                      $scope.uploadTicketData.name       = rsupload.data.filename;
+                      $scope.uploadTicketData.type       = rsupload.data.type;
+                      $scope.uploadTicketData.history    = [];
+                      $scope.uploadTicketData.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"20"});
+                      //console.log($scope.uploadTicketData);
+                      ticketServices.addUploadedTicketFile($scope.uploadTicketData).then(function(response){
+                          if(response.status==200){
+                            ticketServices.setIsBillingUploaded($scope.uploadTicketData.idTicketKf, 1).then(function(rsBillingUploaded){
+                              if(rsBillingUploaded.status==200){
+                                var fileName=item.fileTitle==''?item.name:item.fileTitle;
+                                inform.add('Archivo '+fileName+' subido satisfactoriamente. ',{
+                                      ttl:2000, type: 'success'
+                                });                    
+                                file.uploadStatus=true;
+                              }
+                            });
+                          }else if(response.status==404){
+                            console.log("not found, contact administrator");
+                            inform.add('Error: [404] Contacta al area de soporte. ',{
+                                  ttl:20000, type: 'danger'
+                            });
+                            //$('#RegisterModalCustomer').modal('hide');
+                          }else if(response.status==500){
+                            console.log("file uploaded not added into the db, contact administrator");
+                            inform.add('Error: [500] Contacta al area de soporte. ',{
+                                  ttl:20000, type: 'danger'
+                            });
+                            item.uploadStatus=null;
+                            //$('#RegisterModalCustomer').modal('hide');
+                          }
+                        });
+                      }else if(response.status==404){
+                        inform.add('Error: [404] Ocurrio un error al subir el archivo '+fileName+' Contacta al area de soporte. ',{
+                          ttl:20000, type: 'danger'
+                        });
+                      }else if(response.status==500){
+                        inform.add('Error: [500][uploadTicketFiles] Ocurrio un error en el servidor, Contacta al area de soporte. ',{
+                          ttl:20000, type: 'danger'
+                        });
+                      }
+                    });
+                }, 1000);
+            });
+              $q.all(assignedFiles).then(function () {
+                console.log(fileList);
+              });
               //blockUI.start('');
               //$timeout(function() {
               //  blockUI.message('Actualizando listado de pedidos.');
@@ -4773,6 +4840,89 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               //  blockUI.stop();
               //}, 1500);
             }
+            $scope.uploadAllFiles = function(fileList) {
+              console.log(fileList);
+              
+              let assignedFiles = [];
+          
+              angular.forEach(fileList, function(file) {
+                  if (file.uploadStatus) return; // Skip already uploaded files
+          
+                  // Find matching file object in filesUploadList
+                  let fileObj = $scope.filesUploadList.find(f => f.name === file.name && f.type === file.type);
+                  if (!fileObj) {
+                      console.log("File object not found:", file.name);
+                      return;
+                  }
+          
+                  file.obj = fileObj;
+                  file.isReady = true;
+          
+                  let deferredFiles = $q.defer();
+                  assignedFiles.push(deferredFiles.promise);
+          
+                  // Upload File
+                  ticketServices.uploadTicketFiles(file.obj, file.idTicketKf)
+                      .then(rsupload => {
+                          if (rsupload.status !== 200) {
+                              throw { status: rsupload.status, message: "File upload failed" };
+                          }
+          
+                          // 🟢 Create a new object per file (avoids overwriting issues)
+                          let uploadTicketData = {
+                              idTicketKf: rsupload.data.idTicketKf,
+                              urlFile: rsupload.data.dir + rsupload.data.filename,
+                              name: rsupload.data.filename,
+                              type: rsupload.data.type,
+                              history: [{
+                                  idUserKf: $scope.sysLoggedUser.idUser,
+                                  descripcion: null,
+                                  idCambiosTicketKf: "20"
+                              }]
+                          };
+          
+                          // Add uploaded file to DB
+                          return ticketServices.addUploadedTicketFile(uploadTicketData)
+                              .then(response => ({ response, uploadTicketData })); // Pass the data along
+                      })
+                      .then(({ response, uploadTicketData }) => {
+                          if (response.status !== 200) {
+                              throw { status: response.status, message: "Error adding file to DB" };
+                          }
+          
+                          // Mark as billing uploaded (Uses correct `uploadTicketData`)
+                          return ticketServices.setIsBillingUploaded(uploadTicketData.idTicketKf, 1);
+                      })
+                      .then(rsBillingUploaded => {
+                          if (rsBillingUploaded.status !== 200) {
+                              throw { status: rsBillingUploaded.status, message: "Billing upload failed" };
+                          }
+          
+                          let fileName = file.fileTitle ? file.fileTitle : file.name;
+                          inform.add('Archivo ' + fileName + ' subido satisfactoriamente.', {
+                              ttl: 2000, type: 'success'
+                          });
+          
+                          file.uploadStatus = true;
+                          deferredFiles.resolve(); // Resolve after success
+                      })
+                      .catch(error => {
+                          console.error("Upload error:", error);
+                          
+                          let errorMessage = `[${error.status}] Ocurrió un error en el servidor. Contacta al área de soporte.`;
+                          inform.add(errorMessage, { ttl: 20000, type: 'danger' });
+          
+                          file.uploadStatus = null;
+                          deferredFiles.reject(error);
+                      });
+              });
+          
+              // Wait for all uploads to complete
+              $q.all(assignedFiles).then(() => {
+                  console.log("All uploads complete", fileList);
+              });
+            };
+          
           /**************************************
           *          REMOVE SINGLE FILE         *
           **************************************/
