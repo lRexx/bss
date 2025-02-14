@@ -818,6 +818,9 @@ input.fileUpload{
 .srvs-panel-head-danger{
     color: #c9302c !important;
 }
+.badge{
+  white-space: normal !important;
+}
 /***********************************/
 /*  table row spacing between      */
 /***********************************/
@@ -3474,6 +3477,9 @@ img.circle-border {
   .show-tag-2{
     display: none;
   }
+  .badge{
+    font-size: 1vw !important;
+  }
 }
 @media screen and (min-width: 992px) and (max-width: 1024px){
   .font-size-bar-1{
@@ -3632,6 +3638,9 @@ img.circle-border {
   }
   .show-tag-2{
     display: none;
+  }
+  .badge{
+    font-size: 1vw !important;
   }
 }
 

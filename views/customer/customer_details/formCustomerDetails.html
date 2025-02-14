@@ -320,6 +320,30 @@
                   </div>
                 </div>
             </div>
+            <!-- ATTENDANTS LIST -->
+            <div ng-if="customer.details.idClientTypeFk=='2'" ng-click="switchCustomersFn('details_customer', null, 'list_attendants')" class="col-md-3" style="margin-bottom: 1em;">
+              <div class="card-customer">
+                <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+                  <i class="fas fa-user-tie"></i>
+                </div>
+                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
+                                'sticky-success': 
+                                attendantListByClient.length>0,
+                                'sticky-warning':  
+                                attendantListByClient.length==0,
+                              }">
+                  <span ng-if="attendantListByClient.length>0">
+                    <i class="fas fa-check-circle"></i>
+                  </span>
+                  <span ng-if="attendantListByClient.length==0" data-toggle="tooltip" data-placement="top" title="No hay encargados.">
+                    <i class="fas fa-exclamation-triangle"></i>
+                  </span>
+                </div>
+                <div class="col-md-12 card-title">
+                  <h4 class="text-uppercase right">Encargados</h4>
+                </div>
+              </div>
+          </div>
           </div>        
           <div class="clearfix"> </div> 
         </div>   

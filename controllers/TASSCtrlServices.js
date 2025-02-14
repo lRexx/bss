@@ -640,6 +640,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         console.log($scope.customer.update);
                         $scope.updateInitialDeliveryFn($scope.customer.update); 
                     break; 
+                    case "list_attendants":
+                        $('#attendantList').modal({backdrop: 'static', keyboard: true});
+                    break;
                 }
             break;
         }
@@ -1308,7 +1311,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "sign_and_enable_contract":
                                 if (confirm==0){
-                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirmaActivacion+".     Confirmar?";
+                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirma+".     Confirmar?";
                                 $scope.argObj={};
                                 $scope.argObj = obj;
                                 console.log('Contrato a Aprovar y Activar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
@@ -1320,7 +1323,22 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'activateDate');
                                     $('#confirmRequestModal').modal('hide');
                                 }            
-                            break;             
+                            break;
+                            case "activate_and_enable_contract":
+                                if (confirm==0){
+                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirma+".     Confirmar?";
+                                $scope.argObj={};
+                                $scope.argObj = obj;
+                                console.log('Contrato a Aprovar y Activar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
+                                console.log("============================================================================")
+                                console.log($scope.argObj);
+                                $('#activationDateContractWindows').modal('hide');
+                                $('#confirmRequestModal').modal('toggle');
+                                }else if (confirm==1){
+                                    $scope.switchCustomersFn('contract', $scope.argObj, 'activateDate');
+                                    $('#confirmRequestModal').modal('hide');
+                                }            
+                            break;  
                             case "contract_enable":
                                 if (confirm==0){
                                 $scope.mess2show="El contrato "+obj.numeroContrato+" sera activado.     Confirmar?";
@@ -1664,6 +1682,35 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
              $scope.filterTypeOfMaintenance = function(item){
                       return item.idTypeMaintenance != "3" 
               };
+              /**************************************************
+              *                                                 *
+              *         LIST OF ATTENDANTS BY ID ADDRESS        *
+              *                                                 *
+              **************************************************/
+              $scope.attendantListByClient = [];
+              $scope.getAttendantListFn = function(idClient){
+                  $scope.attendantListByClient = [];
+                  userServices.attendantsOnlyList(idClient).then(function(response) {
+                      if(response.status==200){
+                          $scope.attendantListByClient = response.data;
+                          $scope.attendantFound=true;
+                      }else if (response.status==404){
+                          $scope.attendantFound=false;
+                          $scope.attendantListByClient = [];
+                          if ($scope.isRequest!="costs"){
+                              inform.add('No se encontraron Encargados asociados al consorcio seleccionado. ',{
+                                  ttl:5000, type: 'info'
+                              });
+                          }
+                      }else if (response.status==500){
+                          $scope.attendantFound=false;
+                          inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                          });
+                      }
+                  });
+                  
+              }
             /**************************************************
             *                                                 *
             *                 SEARCH CUSTOMERS                *
@@ -1727,6 +1774,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     ttl:10000, type: 'danger'
                             });
                         }
+                        $timeout(function() {
+                            $scope.getAttendantListFn($scope.customerFound.idClient);
+                        }, 700);
                     }
                     if ($scope.customerFound.idClientType=="4"){
                         if ($scope.customerFound.idClientCompaniFk!=null && $scope.customerFound.idClientCompaniFk!=undefined){
@@ -2071,7 +2121,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 var formatedDate       = moment(rawDate).format('YYYY-MM-DD');
                                 console.log(typeof formatedDate);
                                 $scope.contract.new.fechaFirmaVigencia   = formatedDate;
-                                $scope.contract.new.fechaFirmaActivacion = null;
+                                $scope.contract.new.fechaFirma = null;
                                 var parsedDate = moment($scope.contract.new.dateOfSign, 'DD/MM/YYYY');
                                 var short_date = parsedDate.format('DDMMYY');
                                 $scope.contract.new.dateCodeDigits       = short_date;
@@ -2111,8 +2161,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 //console.log($scope.contract.update);
                             break;
                             case "activateDate": //ENABLE CUSTOMER CONRACT
-                                contract.idStatusFk=1;
-                                contract.fechaFirmaActivacion=$scope.contract.tmpFechaFirmaActivacion;                
+                                contract.idStatusFk = 1;
+                                contract.fechaFirma = $scope.contract.tmpFechaFirma;                
                                 console.log(contract);
                                 $scope.setSignDateContractFn(contract);
                             break;

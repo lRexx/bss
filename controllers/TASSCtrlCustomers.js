@@ -3731,6 +3731,9 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       case "initial_delivery":
                         $('#customerInitialDeliveryDetails').modal('show');
                       break;
+                      case "list_attendants":
+                        $('#attendantList').modal({backdrop: 'static', keyboard: true});
+                      break;
                   }
                 break;
                 case "details_company":
@@ -5178,6 +5181,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                       $scope.customer.details.IsInDebtURL                 = serverHost+"/status/client/"+$scope.customer.details.idClient;
                       $scope.customer.details.servicesStatustURL          = serverHost+"/status/services/"+$scope.customer.details.idClient;
                       $scope.customer.details.infoURL                     = serverHost+"/info/client/"+$scope.customer.details.idClient;
+                      $scope.getAttendantListFn(obj.idClient)
                       switch (subOption){
                         case "1": //ADMINISTRATION CUSTOMER
                           arrProvince = $scope.getCustomerProvinceNameFromIdFn($scope.customer.details.idProvinceFk);
@@ -5962,6 +5966,35 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 }
                 //console.log($scope.zoneInfo);
                 return $scope.zoneInfo;
+              }
+              /**************************************************
+              *                                                 *
+              *         LIST OF ATTENDANTS BY ID ADDRESS        *
+              *                                                 *
+              **************************************************/
+              $scope.attendantListByClient = [];
+              $scope.getAttendantListFn = function(idClient){
+                  $scope.attendantListByClient = [];
+                  userServices.attendantsOnlyList(idClient).then(function(response) {
+                      if(response.status==200){
+                          $scope.attendantListByClient = response.data;
+                          $scope.attendantFound=true;
+                      }else if (response.status==404){
+                          $scope.attendantFound=false;
+                          $scope.attendantListByClient = [];
+                          if ($scope.isRequest!="costs"){
+                              inform.add('No se encontraron Encargados asociados al consorcio seleccionado. ',{
+                                  ttl:5000, type: 'info'
+                              });
+                          }
+                      }else if (response.status==500){
+                          $scope.attendantFound=false;
+                          inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                          });
+                      }
+                  });
+                  
               }
           /**************************************************/
           /**************************************************

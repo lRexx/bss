@@ -81,56 +81,57 @@
                   <h3 class="panel-title">CLIENTE</h3>
                 </div>
                 <div class="panel-body">
-                  <!-- CUSTOMER COLUMN -->
-                  <div  class="col-md-8 col-xs-8 well-checkbox n-margin-r n-margin-l customer-frame">
-                    <!-- LEFT COLUMN -->
-                    <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
-                      <div class="col-md-12 col-xs-12"><span class="badge badge-default">sistema web</span><span> N° de Cliente : {{customerFound.idClient}}</span></div>                      
-                      <div class="col-md-12 col-xs-12"><span>Nombre: {{customerFound.name | uppercase}}</span></div>
-                      <div ng-if="customerFound.idClientType!='5'" class="col-md-12 col-xs-12"><span>Dirección: {{customerFound.address | uppercase}}</span></div>
-                      <div ng-if="customerFound.idClientType=='5'" class="col-md-12 col-xs-12"><span>Dirección: {{customerFound.billing_information_details.businessAddress | uppercase}}</span></div>
-                      <div ng-if="customerFound.idClientType=='5'" class="col-md-12 col-xs-12"><span>Mail: {{customerFound.mail}}</span></div>
-                      <div ng-if="customerFound.idClientType=='2' || customerFound.idClientType=='4'" class="col-md-12 col-xs-12">
-                        <span ng-if="customerFound.idClientType=='2'">Administracion: {{customerFound.companyBusinessName}}</span>
-                        <span ng-if="customerFound.idClientType=='4'">Empresa: {{customerFound.companyBusinessName}}</span>
-                      </div>
-                      <div ng-if="customerFound.idClientType!='5'" class="col-md-12 col-xs-12">
-                        <span ng-if="customerFound.zona!=null">Zona: {{customerFound.zona.n_zona}} - {{customerFound.zona.descripcion | uppercase}}</span>
-                        <span ng-if="customerFound.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
-                      </div>
-                    </div>
-                    <!-- RIGHT COLUMN -->
-                    <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
-                      <div class="col-md-12 col-xs-12">
-                        <span class="badge badge-default">sistema de gestion</span>
-                        <span ng-if="customerFound.idClientAssociated_SE!=null"> N° de Cliente : {{customerFound.idClientAssociated_SE}}</span>
-                        <span ng-if="customerFound.idClientAssociated_SE==null"> N° de Cliente : <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-default">n/a</label></span>
-                      </div>
-                      <div class="col-md-12 col-xs-12"><span>Tipo de Cliente: {{customerFound.ClientType | uppercase}}</span></div>
-                      <div ng-if="customerFound.idClientType=='1' || customerFound.idClientType=='3'" class="col-md-12 col-xs-12"><span>Razón Social: {{customerFound.businessName | uppercase}}</span></div>
-                      <div ng-if="customerFound.idClientType=='1' || customerFound.idClientType=='3'" class="col-md-12 col-xs-12"><span>CUIT: {{customerFound.CUIT}}</span></div>
-                      <div class="col-md-12 col-xs-12"><span>IVA: {{customerFound.billing_information_details.typeTax | uppercase}}</span></div>
-                      <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12 col-xs-12">
-                        <div class="col-md-12 col-xs-12 n-padding-l" >
-                          <span>Estatus Servicios:</span>
-                          <button data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customerFound.servicesStatustURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
-                          <a data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerFound.servicesStatustURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
+                  <div  class="col-md-8 col-xs-12 n-margin-r n-margin-l">
+                    <!-- CUSTOMER COLUMN -->
+                    <div  class="col-md-12 col-xs-12 well-checkbox n-margin-r n-margin-l customer-frame">
+                      <!-- LEFT COLUMN -->
+                      <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
+                        <div class="col-md-12 col-xs-12"><span class="badge badge-default">sistema web</span><span> N° de Cliente : {{customerFound.idClient}}</span></div>                      
+                        <div class="col-md-12 col-xs-12"><span>Nombre: {{customerFound.name | uppercase}}</span></div>
+                        <div ng-if="customerFound.idClientType!='5'" class="col-md-12 col-xs-12"><span>Dirección: {{customerFound.address | uppercase}}</span></div>
+                        <div ng-if="customerFound.idClientType=='5'" class="col-md-12 col-xs-12"><span>Dirección: {{customerFound.billing_information_details.businessAddress | uppercase}}</span></div>
+                        <div ng-if="customerFound.idClientType=='5'" class="col-md-12 col-xs-12"><span>Mail: {{customerFound.mail}}</span></div>
+                        <div ng-if="customerFound.idClientType=='2' || customerFound.idClientType=='4'" class="col-md-12 col-xs-12">
+                          <span ng-if="customerFound.idClientType=='2'">Administracion: {{customerFound.companyBusinessName}}</span>
+                          <span ng-if="customerFound.idClientType=='4'">Empresa: {{customerFound.companyBusinessName}}</span>
+                        </div>
+                        <div ng-if="customerFound.idClientType!='5'" class="col-md-12 col-xs-12">
+                          <span ng-if="customerFound.zona!=null">Zona: {{customerFound.zona.n_zona}} - {{customerFound.zona.descripcion | uppercase}}</span>
+                          <span ng-if="customerFound.zona==null">Zona: <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="Zona no asignada" class="label label-default">n/a</label></span>
                         </div>
                       </div>
-                      <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12 col-xs-12">
-                        <div class="col-md-12 col-xs-12 n-padding-l" >
-                          <span>Link de Fotos:</span>
-                          <button ng-if="customerFound.clientPhotosURL!=null && customerFound.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customerFound.clientPhotosURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
-                          <a ng-if="customerFound.clientPhotosURL!=null && customerFound.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerFound.clientPhotosURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
-                          <span ng-if="customerFound.clientPhotosURL==null || customerFound.clientPhotosURL==undefined"><label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-warning">Link no definido</label></span>
+                      <!-- RIGHT COLUMN -->
+                      <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
+                        <div class="col-md-12 col-xs-12">
+                          <span class="badge badge-default">sistema de gestion</span>
+                          <span ng-if="customerFound.idClientAssociated_SE!=null"> N° de Cliente : {{customerFound.idClientAssociated_SE}}</span>
+                          <span ng-if="customerFound.idClientAssociated_SE==null"> N° de Cliente : <label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-default">n/a</label></span>
+                        </div>
+                        <div class="col-md-12 col-xs-12"><span>Tipo de Cliente: {{customerFound.ClientType | uppercase}}</span></div>
+                        <div ng-if="customerFound.idClientType=='1' || customerFound.idClientType=='3'" class="col-md-12 col-xs-12"><span>Razón Social: {{customerFound.businessName | uppercase}}</span></div>
+                        <div ng-if="customerFound.idClientType=='1' || customerFound.idClientType=='3'" class="col-md-12 col-xs-12"><span>CUIT: {{customerFound.CUIT}}</span></div>
+                        <div class="col-md-12 col-xs-12"><span>IVA: {{customerFound.billing_information_details.typeTax | uppercase}}</span></div>
+                        <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12 col-xs-12">
+                          <div class="col-md-12 col-xs-12 n-padding-l" >
+                            <span>Estatus Servicios:</span>
+                            <button data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customerFound.servicesStatustURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
+                            <a data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerFound.servicesStatustURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
+                          </div>
+                        </div>
+                        <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12 col-xs-12">
+                          <div class="col-md-12 col-xs-12 n-padding-l" >
+                            <span>Link de Fotos:</span>
+                            <button ng-if="customerFound.clientPhotosURL!=null && customerFound.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customerFound.clientPhotosURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
+                            <a ng-if="customerFound.clientPhotosURL!=null && customerFound.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerFound.clientPhotosURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
+                            <span ng-if="customerFound.clientPhotosURL==null || customerFound.clientPhotosURL==undefined"><label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-warning">Link no definido</label></span>
+                          </div>
                         </div>
                       </div>
                     </div>
-
                   </div>
-                  <div  class="col-md-4 col-xs-4">
+                  <div  class="col-md-4 col-xs-12 n-margin-r n-margin-l">
                       <!-- NEW CONTRACT -->
-                      <div class="col-md-4 col-xs-6">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="NUEVO CONTRATO" ng-click="switchCustomersFn('contract', customerFound, 'new_contract_windows');">
                           <div class="depto-icon">
                                 <span><i class="default-sys-color fas fa-file-signature"></i></span>
@@ -142,7 +143,7 @@
                       </div>
                       <!-- //NEW CONTRACT -->
                       <!-- NEW SERVICE -->
-                      <div class="col-md-4 col-xs-6">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="NUEVO SERVICIO" ng-click="switchCustomersFn('services', customerFound, 'select_contract_first', '');">
                           <div class="depto-icon">
                                 <span><i class="default-sys-color fas fa-wrench"></i></span>
@@ -153,7 +154,7 @@
                         </div>
                       </div>
                       <!-- INITIAL PRICE & KEYS "-->
-                      <div class="col-md-4 col-xs-6">
+                      <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="ENTREGA INICIAL" ng-click="switchCustomersFn('customers', customerFound, 'new_enableInitialKeys', '');">
                           <div class="depto-icon">
                             <div ng-if="customerFound.initial_delivery.length>0" class="ribbon ribbon-top-right" 
@@ -170,18 +171,28 @@
                           </div>
                         </div>
                       </div>
+                      <!-- LIST ATTENDANTS -->
+                      <div class="col-md-6 col-sm-6 col-xs-12">
+                        <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="Encargados" ng-click="switchCustomersFn('customers', customerFound, 'list_attendants', '');">
+                          <div class="depto-icon">
+                                <span><i class="default-sys-color fas fa-user-tie"></i></span>
+                          <div class="text-badge">
+                              <span class="registered-customer badge badge-light"> ENCARGADOS </span>
+                          </div>
+                        </div>
+                      </div>
                   </div>
-                  <!-- CONTRACT LIST -->
-                  <div class="col-md-12 n-padding-l n-padding-r">
-                    <label class="clf-size from-left-from-label" style="margin-left: 6em; padding-bottom: 15px;">CONTRATOS</label>
-                    <div ng-include="'views/services/list/listContracts.html'"></div>
                   </div>
+                <!-- CONTRACT LIST -->
+                <div class="col-md-12 n-padding-l n-padding-r">
+                  <label class="clf-size from-left-from-label" style="margin-left: 6em; padding-bottom: 15px;">CONTRATOS</label>
+                  <div ng-include="'views/services/list/listContracts.html'"></div>
+                </div>
                   <!--<div class="col-md-12">
                     <label class="clf-size from-left-from-label" style="margin-left: 6em; padding-bottom: 15px;">SERVICIOS</label>
                     <div ng-include="'views/services/list/listServices.html'"></div>
                   </div>-->
                 </div>
-                <!-- //NEW SERVICE -->
                 <div class="modal-footer">
                   <div class="row">
                       <div class="col-xs-3 col-sm-1 col-md-1">
@@ -190,6 +201,7 @@
                       </div>
                   </div>
                 </div>
+              
             </div>
         </div>
     </div>
@@ -199,6 +211,7 @@
 <div ng-include="'views/services/list/listServicesUserLicense.html'"></div>
 <div ng-include="'views/services/list/listCameras.html'"></div>
 <div ng-include="'views/services/list/usersServicesDVR.html'"></div>
+<div ng-include="'views/services/list/attendantList.html'"></div>
 
 
 <div ng-include="'views/services/new/components/ControlAcess/formRegisterAccessControl.html'"></div>
