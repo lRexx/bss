@@ -117,6 +117,36 @@
 									</ul>
 								</div>
 							</div>
+							<!-- Text Address for Admins & BSS
+							ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && listOffices.length>0 && (customerSearch.name!='' || customerSearch.name!=undefined || customerSearch.name!=null) "
+							-->
+							<div ng-if="(sysLoggedUser.idProfileKf!=1 && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected && buildingList.length>0) || (sysLoggedUser.idProfileKf==1 && buildingList.length>0)" class="form-group n-padding-l" ng-class="
+								{	'col-md-6': 
+									sysLoggedUser.idProfileKf=='1',
+									'col-md-12':  
+									sysLoggedUser.idProfileKf!='1',
+								}">
+								<label style="padding-left: 15px;">Consorcio</label>
+								<div class="col-xs-12 selectContainer">
+									<div class="input-group">
+									<span class="input-group-addon"><i class="icon-suitcase"></i></span>
+										<ui-select 
+											name="buildings"
+											ng-change="mainSwitchFn('loadBuildingData', select.buildings.selected, null); ticket.idClientDepartament=undefined; enabledNextBtn();"
+											ng-disabled="buildingList.length==0"
+											ng-model="select.buildings.selected">
+										<ui-select-match allow-clear="true" placeholder="Selecione una opción" >{{$select.selected.name | uppercase}}</ui-select-match>
+											<ui-select-choices repeat="item in buildingList | filter: $select.search">
+												<div ng-bind-html="item.name | highlight: $select.search"></div>
+												<small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+											</ui-select-choices>
+											<ui-select-no-choice>
+												<span ng-if="buildingList.length == 0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay consorcios asociados</span>
+											</ui-select-no-choice>
+										</ui-select>
+									</div>
+								</div>
+							</div>
 							<!-- SELECT DE OPTION TYPE TO CONTINUE WITH THE REQUEST-->
 							<div ng-if="(sysLoggedUser.idProfileKf==1 && select.buildings.selected!=undefined)||(select.buildings.selected.IsInDebt!='1' && select.buildings.selected!=undefined && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected)" class="col-md-12 col-xs-12" style="padding-bottom: 2em;">
 								<!-- NEW TICKET -->
