@@ -14,18 +14,18 @@ class Mail_model extends CI_Model
             //print_r($param['0']['value']);
     			 //TASS
     			$config = array(
-                    'protocol' => 'smtp',
-                    'smtp_host' => 'bss.com.ar',
-                    'smtp_user' => $param['0']['value'], 
-                    'smtp_pass' => $param['1']['value'], 
-                    'smtp_port' => '465',
-                    'mailtype' => 'html',
-                    'wordwrap' => TRUE,
-                    'charset' => 'utf-8',
-                    'smtp_timeout' => 30,
-                    'crlf' => "\r\n",
-                    'newline' => "\r\n",
-                    'smtp_crypto'  => 'ssl'
+                    'protocol'      => 'smtp',
+                    'smtp_host'     => 'smtp.gmail.com',
+                    'smtp_user'     => $param['0']['value'], 
+                    'smtp_pass'     => $param['1']['value'], 
+                    'smtp_port'     => 587, // Use 587 for TLS (recommended)
+                    'smtp_crypto'   => 'tls', // TLS is recommended for port 587
+                    'mailtype'      => 'html',
+                    'wordwrap'      => TRUE,
+                    'charset'       => 'utf-8',
+                    'smtp_timeout'  => 30,
+                    'crlf'          => "\r\n",
+                    'newline'       => "\r\n"
     			);
     			 //LOCAL
     			#$config = array(
