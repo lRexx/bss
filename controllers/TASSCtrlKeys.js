@@ -229,7 +229,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                     if (confirm==0){
                         $scope.keyList=obj;
                             console.log(obj)
-                            $scope.mess2show="El listado de llaveros generados sera descargado a su computadora a continuación.     Confirmar?";
+                            $scope.mess2show="El listado de llaveros generados sera descargado a continuación.     Confirmar?";
                         
                             console.log("Descargar Archivo  execel");
                             console.log("============================================================================");
@@ -297,6 +297,18 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                     $('#confirmRequestModal').modal('toggle');
                     }else if (confirm==1){
                         $scope.switchKeysFn("deleteKey_init", $scope.keyObj);
+                    $('#confirmRequestModal').modal('hide');
+                    }
+                break;
+                case "downloadKeyChainFileList":
+                    if (confirm==0){
+                            $scope.mess2show="El listado de llaveros sera descargado a continuación.     Confirmar?";
+                            console.log("Descargar Archivo  excel");
+                            console.log("============================================================================");
+                            //console.log(obj);
+                    $('#confirmRequestModal').modal('toggle');
+                    }else if (confirm==1){
+                        $scope.switchKeysFn("downloadKeyChainFileList", null);
                     $('#confirmRequestModal').modal('hide');
                     }
                 break;
@@ -789,7 +801,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                           var i=0;
                           if (string!=undefined && string!=""){
                               $scope.customerFound={};
-                              $scope.getCustomerLisServiceFn(string, "0", "2", null, 0, 10, strict).then(function(response){
+                              $scope.getCustomerLisServiceFn(string, "0", "2", null, 0, 25, strict).then(function(response){
                                   if(response.status==undefined){
                                   $scope.listCustomerFound = response.customers;
                                   //$scope.pagination.totalCount = response.customers.length;
@@ -1764,6 +1776,13 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                         case "uploadKeyFile":
                             $scope.addMultiKeys(obj);
                         break;
+                        case "downloadKeyChainFileList":
+                            var idKeychainStatus  = $scope.select.keychainStatus!=undefined?$scope.select.keychainStatus.idKeychainStatus:null;
+                            var filterCategoryKey = $scope.select.filterCategoryKey!=undefined?$scope.select.filterCategoryKey:null;
+                            var idDepartmenKf     = $scope.select.idDepartmenKf!=undefined?$scope.select.idDepartmenKf:null;
+                            $scope.setKeyChainListAsArrayFn($scope.customerFound.idClient,null,filterCategoryKey,idKeychainStatus,idDepartmenKf,0,null, false, false);
+                            $("#newKeysFile").modal('hide');
+                        break;
                         default:
                     }
                 }
@@ -1827,7 +1846,66 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 console.log($scope.list_departments);
                 $scope.buildXLS($scope.list_departments);
             }
+            $scope.setKeyChainListAsArrayFn = function(idClientKf,create_at,idCategoryKf,idKeychainStatusKf,idDepartmenKf,start,limit,strict,totalCount){
+                $scope.list_building_keys = [];
+                var idClientKf          = idClientKf!=undefined && idClientKf!=null?idClientKf:null;
+                if (idCategoryKf!=undefined && idCategoryKf!="" && idCategoryKf!=null){
+                    var idCategoryKf    = idCategoryKf;
+                }else{
+                    var idCategoryKf    = "1,5,6"
+                    var idDepartmenKf   = null;
+                }
+                var idKeychainStatusKf  = idKeychainStatusKf!=undefined && idKeychainStatusKf!="" && idKeychainStatusKf!=null?idKeychainStatusKf:null;
+                var idDepartmenKf       = idDepartmenKf!=undefined && idDepartmenKf!="" && idDepartmenKf!=null?idDepartmenKf:null;
+                var create_at           = null;
+                var start               = 0;
+                var limit               = null;
+                var strict              = null;
+                var totalCount          = null;
+                console.log("=================================================");
+                console.log("                 getKeychainListFn               ");
+                console.log("=================================================");
+                console.log("idClientKf           : "+idClientKf);
+                console.log("create_at            : "+create_at);
+                console.log("idCategoryKf         : "+idCategoryKf);
+                console.log("idKeychainStatusKf   : "+idKeychainStatusKf);
+                console.log("idDepartmenKf        : "+idDepartmenKf);
+                console.log("start                : "+start);
+                console.log("limit                : "+limit);
+                console.log("strict               : "+strict);
+                console.log("totalCount           : "+totalCount);
+                $scope.keychainSearch={
+                    "idClientKf":idClientKf,
+                    "idCategoryKf":idCategoryKf,
+                    "idKeychainStatusKf":idKeychainStatusKf,
+                    "idDepartmenKf":idDepartmenKf,
+                    "create_at":create_at,
+                    "start":start,
+                    "limit":limit,
+                    "strict":strict,
+                    "totalCount":totalCount,
+                    };
+                KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
+                    if(response.status==200){
+                        for (var key in response.data.tb_keychain){
+                            if ((idKeychainStatusKf==null) || (idKeychainStatusKf!=null && response.data.tb_keychain[key].idKeychainStatusKf==idKeychainStatusKf)){
+                                var Depto = response.data.tb_keychain[key].idCategoryKf!="1"?"-":response.data.tb_keychain[key].Depto
+                                $scope.list_building_keys.push({
+                                    'Unidad': response.data.tb_keychain[key].categoryKeychain,
+                                    'Departamento': response.data.tb_keychain[key].Depto, 
+                                    'Descripcion': response.data.tb_keychain[key].descriptionProduct,
+                                    'Codigo': response.data.tb_keychain[key].codigo,
+                                    'CodigoExterno': response.data.tb_keychain[key].codExt,
+                                    'Estatus': response.data.tb_keychain[key].statusKey
+                                });
+                            }
+                        }
 
+                        console.log($scope.list_building_keys);
+                        $scope.buildXLS_KeyList($scope.list_building_keys);
+                    }
+                });
+            }
             var myArrList = null;
             var sheetName = null;
             var wb        = null;
@@ -1874,6 +1952,45 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 $scope.customerFound={};
                 $scope.customerSearch.address = undefined;
                 $scope.customerSearch.name    = undefined;
+            }
+            $scope.buildXLS_KeyList = function(obj) {
+                myArrList = null;
+                sheetName = null;
+                wb        = null;
+                workSheet = null;
+                wout      = null;
+                wopts     = null;
+                myArrList = obj;
+                sheetName = "Llaveros_cliente_"+$scope.customerFound.idClient;
+                console.log(myArrList);
+                wb = XLSX.utils.book_new();
+                wb.Props = {
+                    Title: sheetName,
+                    Subject: "BSS Seguridad",
+                    Author: "BSS Seguridad",
+                    CreatedDate: sysDate
+                };
+                wb.SheetNames.push(sheetName);
+                workSheet = XLSX.utils.json_to_sheet(myArrList);
+                //var ws_data = [['hello' , 'world']];
+                //var ws = XLSX.utils.aoa_to_sheet(ws_data);
+                wb.Sheets[sheetName] = workSheet;
+                //if(!wb.A1.c) wb.A1.c = [];
+                //wb.A1.c.push({a:"SheetJS", t:"This comment is visible"});
+                wopts = { bookType:'xlsx', bookSST:false, type:'binary' };
+                wout = XLSX.write(wb,wopts);
+                //XLSX.utils.book_append_sheet(wb, workSheet, "test");
+                //var wbout = XLSX.writeFile(wb, {bookType:'xlsx',type: "binary"});
+                function xdw(s) { 
+                    var buf = new ArrayBuffer(s.length); //convert s to arrayBuffer
+                    var view = new Uint8Array(buf);  //create uint8array as viewer
+                    for (var i=0; i<s.length; i++) view[i] = s.charCodeAt(i) & 0xFF; //convert to octet
+                    return buf;
+                }
+                // Use FileSaver.js to download the file
+                saveAs(new Blob([xdw(wout)],{type:"application/octet-stream"}), sheetName+'.xlsx');
+                //$scope.downloadXLS(wout);
+                $scope.list_building_keys = [];
             }
             $scope.downloadXLS = function(wout){
                 saveAs(new Blob([xdw(wout)],{type:"application/octet-stream"}), sheetName+'.xlsx');

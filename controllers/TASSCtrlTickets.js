@@ -2142,7 +2142,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             if (obj!=undefined && ($scope.sysLoggedUser.idProfileKf=="1" || ($scope.sysLoggedUser.idProfileKf=="4" && $scope.isCompanyAdministrator && !$scope.isHomeSelected))){
                                 $scope.ticket.building                      = obj;
                                 if ($scope.isRequest!="costs"){
-                                    $scope.buildingDeliveryCost                 = obj.valor_envio;
+                                    $scope.buildingDeliveryCost             = obj.valor_envio;
                                 }
                                 $scope.getCostByCustomer.rate.idCustomer    = obj.idClient;
                                 if(($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state) || 

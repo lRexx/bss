@@ -255,7 +255,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                 break;
                 case "downloadFile":
                     if (confirm==0){
-                            $scope.mess2show="El listado de llaveros sera descargado a su computadora a continuación.     Confirmar?";
+                            $scope.mess2show="El listado de llaveros sera descargado a continuación.     Confirmar?";
                             console.log("Descargar Archivo  excel");
                             console.log("============================================================================");
                             //console.log(obj);
@@ -600,7 +600,6 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         }else{
                             $scope.functions.autoApproveAll=true
                         }
-                        
                     }
                 break;
                 case "autoApproveOwners":
@@ -5279,15 +5278,17 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                 KeysServices.getKeychainList($scope.keychainSearch).then(function(response){
                     if(response.status==200){
                         for (var key in response.data.tb_keychain){
-                            var Depto = response.data.tb_keychain[key].idCategoryKf!="1"?"-":response.data.tb_keychain[key].Depto
-                            $scope.list_building_keys.push({
-                                'Unidad': response.data.tb_keychain[key].categoryKeychain,
-                                'Departamento': response.data.tb_keychain[key].Depto, 
-                                'Descripcion': response.data.tb_keychain[key].descriptionProduct,
-                                'Codigo': response.data.tb_keychain[key].codigo,
-                                'CodigoExterno': response.data.tb_keychain[key].codExt,
-                                'Estatus': response.data.tb_keychain[key].statusKey
-                            });
+                            if (response.data.tb_keychain[key].idKeychainStatusKf=="1"){
+                                var Depto = response.data.tb_keychain[key].idCategoryKf!="1"?"-":response.data.tb_keychain[key].Depto
+                                $scope.list_building_keys.push({
+                                    'Unidad': response.data.tb_keychain[key].categoryKeychain,
+                                    'Departamento': response.data.tb_keychain[key].Depto, 
+                                    'Descripcion': response.data.tb_keychain[key].descriptionProduct,
+                                    'Codigo': response.data.tb_keychain[key].codigo,
+                                    'CodigoExterno': response.data.tb_keychain[key].codExt,
+                                    'Estatus': response.data.tb_keychain[key].statusKey
+                                });
+                            }
                         }
 
                         console.log($scope.list_building_keys);
@@ -5315,7 +5316,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                 wout      = null;
                 wopts     = null;
                 myArrList = obj;
-                sheetName = $scope.customerFound.address;
+                sheetName = "Llaveros_cliente_"+$scope.customerFound.idClient;
                 console.log(myArrList);
                 wb = XLSX.utils.book_new();
                 wb.Props = {

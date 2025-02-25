@@ -73,7 +73,6 @@
                                   <input type="text" class="form-control" ng-keydown="$event.keyCode === 13 && getKeychainListFn(customerFound.idClient,null,select.filterCategoryKey,select.keychainStatus.idKeychainStatus,select.idDepartmenKf, select.reasonKf.idReasonDisabledItem,select.codeSearch,0,pagination.pageSizeSelected, false, true)" ng-model="select.codeSearch" placeholder="Presione Enter para Buscar...">
                                   </div>
                             </div>
-
                             <!-- Building Name-->
                             <div ng-if="sysLoggedUser.idProfileKf=='1' && (sysContent=='listKeys' || sysContent=='listKeysProcess')" class="form-group n-padding-l n-padding-r" ng-class="{'col-md-12': (select.filterCategoryKey==null || select.filterCategoryKey==undefined),'col-md-9':select.buildings.selected!=undefined && select.filterCategoryKey!=undefined && select.filterCategoryKey=='1'}" style="z-index: 1000;">
                                   <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r" style="margin-bottom: 0 !important;">
@@ -88,9 +87,9 @@
                                               move-to-list input-selector="'.input-search'"
                                               list-items-selector="'.list-group li'"
                                               placeholder="Presione Enter para buscar..."
-                                              style="border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;z-index: 1055 !important;"
+                                              style="border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;z-index: 1045 !important;"
                                               required="true" />
-                                          <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.name!=undefined || customerSearch.name!=null)" style="height: 0px;padding-top: 2.38em !important; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);max-height: 200px;position: fixed;width: 73%;z-index: 1050 !important;border-radius: 0px 0px 0px 0px;" >
+                                          <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.name!=undefined || customerSearch.name!=null)" style="height: 0px;padding-top: 2.38em !important; box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);max-height: 200px;position: fixed;width: 73%;z-index: 1040 !important;border-radius: 0px 0px 0px 0px;" >
                                               <li tabindex="0" id="customerList-{{$index}}"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-click="loadCustomerFieldsFn(item, false);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
                                           </ul>
                                       </div>
@@ -115,7 +114,7 @@
                               </div>
                             </div>
                   </div>
-                  <div ng-if="sysContent=='listKeys' || sysContent=='listKeysProcess'" class="col-md-12 n-padding-l n-padding-r" style="margin-top: 2.7%;">
+                  <div ng-if="sysContent=='listKeys' || sysContent=='listKeysProcess'" class="col-md-12 n-padding-l n-padding-r">
                     <div class="form-group col-lg-12 n-padding-l n-padding-r">
                       <!--<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Categoria</label></div>-->
                       <div class="row n-margin-l n-margin-r">  
@@ -134,12 +133,6 @@
                             </div>
                         </div>
                       </div>
-                    </div>
-                </div>
-                  <div class="col-md-12 n-padding-l n-padding-r" ng-if="sysContent=='listKeys' && select.filterCategoryKey!='' && select.filterCategoryKey!=undefined && select.buildings.selected!=undefined">
-                    <div class="col-md-2 col-xs-2 pull-right">
-                      <!-- New Key button -->
-                      <button ng-click="switchKeysFn('newSingle', null)" style="margin-left: 0.5px;" data-toggle="tooltip" data-placement="top" title="Nueva Llave" type="button" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="fas fa-key"></i> </span>Alta Llavero</button> 
                     </div>
                   </div>
                   <div ng-if="sysContent=='listKeysProcess'" class="col-md-12 n-padding-l n-padding-r">
@@ -164,54 +157,66 @@
                     </div>
                   </div>
                   <!--<div ng-if="sysContent=='listKeys'" class="col-md-12 n-padding-l n-padding-r">
-                    <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">
-                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar pedidos con reintegros <span class="badge badge-warning">pendientes</span></label></div>
-                        <div class="col-md-4 col-xs-2">
-                        <label class="switch switch-2x" for="isHasRefundsOpen-search">
-                            <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasRefundsOpen" id="isHasRefundsOpen-search">
-                            <span class="slider slider-2x flat"></span>
-                        </label>
-                        </div>
-                    </div>
-                     <!--<div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-6 col-xs-6">
-                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
-                        <div class="col-md-4 col-xs-2">
-                            <label class="switch switch-2x" for="isInitialDeliveryActive-search">
-                                <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isInitialDeliveryActive" id="isInitialDeliveryActive-search">
-                                <span class="slider slider-2x flat"></span>
-                            </label>
-                        </div>
-                    </div>
-                  </div>-->
-                  <!-- Filter Type of Status of Keychain-->
-                  <div ng-if="sysContent=='listKeys'" class="form-group col-md-4 col-xs-12">
-                      <label>Estatus</label>
-                      <div class="col-xl-12 selectContainer">
-                      <div class="input-group">
-                              <span class="input-group-addon"><i class="fas fa-tag"></i></span>
-                              <select name="typeStatus" class="form-control" ng-change="getKeychainListFn(customerFound.idClient,null,select.filterCategoryKey,select.keychainStatus.idKeychainStatus,select.idDepartmenKf, select.reasonKf.idReasonDisabledItem,select.codeSearch,0,pagination.pageSizeSelected, false, true)"  ng-options="statusKey as statusKey.keychainStatusName for statusKey in listStatusKeychain " ng-model="select.keychainStatus" >
-                              <option value="">Todos</option>
-                              </select>
-                      </div>
+                  <div ng-if="sysLoggedUser.idProfileKf=='1' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">
+                      <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar pedidos con reintegros <span class="badge badge-warning">pendientes</span></label></div>
+                      <div class="col-md-4 col-xs-2">
+                      <label class="switch switch-2x" for="isHasRefundsOpen-search">
+                          <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasRefundsOpen" id="isHasRefundsOpen-search">
+                          <span class="slider slider-2x flat"></span>
+                      </label>
                       </div>
                   </div>
-                  <div ng-if="select.keychainStatus!=undefined && select.keychainStatus.idKeychainStatus=='-1' && (sysContent=='listKeys' || sysContent=='listKeysProcess')" class="col-md-8 col-xs-12 n-padding-l n-padding-r">
-                    <div class="form-group col-lg-12 n-padding-l n-padding-r" style="margin-top: 15px;">
-                      <!--<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Categoria</label></div>-->
-                      <div class="row n-margin-l n-margin-r">  
-                        <div ng-class="col-md-12">
-                            <div class="col-md-12 col-xs-12">
-                              <input id="reasonTypeAll" class="radio-2x categoryTypeAll" type="radio" ng-click="sysContent=='listKeys'?getKeychainListFn(customerFound.idClient,null,null,select.keychainStatus.idKeychainStatus,select.idDepartmenKf,select.reasonKf.idReasonDisabledItem,select.codeSearch,0,pagination.pageSizeSelected, false, true):getKeychainProcessFn(select.idTypeTicketKf,customerFound.idClient,null,select.filterCategoryKey,0,pagination.pageSizeSelected, false, true)" ng-checked="true" name="reasonDisabledType" autofocus>
-                              <label for="reasonTypeAll" class="radio-2x-label">
-                                <span>Todos</span>
-                              </label>
-                            </div>
-                            <div ng-repeat="item in reasonDisabledKey" class="col-md-3 col-sm-4 col-xs-6">
-                              <input id="reasonType-{{item.idReasonDisabledItem}}" class="radio-2x" type="radio" ng-click="sysContent=='listKeys'?getKeychainListFn(customerFound.idClient,null,select.filterCategoryKey,select.keychainStatus.idKeychainStatus,select.idDepartmenKf,select.reasonKf,select.codeSearch,0,pagination.pageSizeSelected, false, true):getKeychainProcessFn(select.idTypeTicketKf,customerFound.idClient,null,select.filterCategoryKey,0,pagination.pageSizeSelected, false, true)" name="reasonDisabledType" value="{{item.idReasonDisabledItem}}" ng-model="select.reasonKf" autofocus>
-                              <label for="reasonType-{{item.idReasonDisabledItem}}" class="radio-2x-label">
-                                <span>{{item.reasonDisabledItem}}</span>
-                              </label>
-                            </div>
+                    <!--<div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-6 col-xs-6">
+                      <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
+                      <div class="col-md-4 col-xs-2">
+                          <label class="switch switch-2x" for="isInitialDeliveryActive-search">
+                              <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isInitialDeliveryActive" id="isInitialDeliveryActive-search">
+                              <span class="slider slider-2x flat"></span>
+                          </label>
+                      </div>
+                  </div>
+                </div>-->
+                  <!-- Filter Type of Status of Keychain-->
+                  <div ng-if="sysContent=='listKeys'" class="form-group col-md-12" style="margin-bottom: 0px !important;">
+                    <div class="form-group col-md-6 col-xs-12">
+                      <label>Estatus</label>
+                      <div class="col-xl-12 selectContainer">
+                        <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                                <select name="typeStatus" class="form-control" ng-change="getKeychainListFn(customerFound.idClient,null,select.filterCategoryKey,select.keychainStatus.idKeychainStatus,select.idDepartmenKf, select.reasonKf.idReasonDisabledItem,select.codeSearch,0,pagination.pageSizeSelected, false, true)"  ng-options="statusKey as statusKey.keychainStatusName for statusKey in listStatusKeychain " ng-model="select.keychainStatus" >
+                                <option value="">Todos</option>
+                                </select>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="col-md-2 col-xs-6 pull-right" style="margin-top: 2%;" ng-if="select.filterCategoryKey!='' && select.filterCategoryKey!=undefined && select.buildings.selected!=undefined">
+                        <!-- New Key button -->
+                        <button ng-click="switchKeysFn('newSingle', null)" style="margin-left: 0.5px;float: right !important;" data-toggle="tooltip" data-placement="top" title="Nueva Llave" type="button" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="fas fa-key"></i> </span>Alta Llavero</button> 
+                    </div>
+                    <div class="col-md-2 col-xs-6 pull-right" style="margin-top: 2%;" ng-if="select.buildings.selected!=undefined">
+                        <!-- New Key button -->
+                        <button ng-click="modalConfirmation('downloadKeyChainFileList', 0, null,null)" style="margin-left: 0.5px;float: right !important;" data-toggle="tooltip" data-placement="top" title="Exportar" type="button" class="btn btn-md btn-labeled btn-warning"><span class="btn-label"><i class="fas fa-file-download"></i> </span>Exportar Listado</button> 
+                    </div>
+                  </div>
+                  <div class="col-md-12"> 
+                    <div ng-if="select.keychainStatus!=undefined && select.keychainStatus.idKeychainStatus=='-1' && (sysContent=='listKeys' || sysContent=='listKeysProcess')" class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+                      <div class="form-group col-lg-12 n-padding-l n-padding-r" style="margin-top: 15px;">
+                        <!--<div class="col-md-12 col-xs-5"><label class="clf-size clf-p-left">Categoria</label></div>-->
+                        <div class="row n-margin-l n-margin-r">  
+                          <div ng-class="col-md-12">
+                              <div class="col-md-12 col-xs-12">
+                                <input id="reasonTypeAll" class="radio-2x categoryTypeAll" type="radio" ng-click="sysContent=='listKeys'?getKeychainListFn(customerFound.idClient,null,null,select.keychainStatus.idKeychainStatus,select.idDepartmenKf,select.reasonKf.idReasonDisabledItem,select.codeSearch,0,pagination.pageSizeSelected, false, true):getKeychainProcessFn(select.idTypeTicketKf,customerFound.idClient,null,select.filterCategoryKey,0,pagination.pageSizeSelected, false, true)" ng-checked="true" name="reasonDisabledType" autofocus>
+                                <label for="reasonTypeAll" class="radio-2x-label">
+                                  <span>Todos</span>
+                                </label>
+                              </div>
+                              <div ng-repeat="item in reasonDisabledKey" class="col-md-3 col-sm-4 col-xs-6">
+                                <input id="reasonType-{{item.idReasonDisabledItem}}" class="radio-2x" type="radio" ng-click="sysContent=='listKeys'?getKeychainListFn(customerFound.idClient,null,select.filterCategoryKey,select.keychainStatus.idKeychainStatus,select.idDepartmenKf,select.reasonKf,select.codeSearch,0,pagination.pageSizeSelected, false, true):getKeychainProcessFn(select.idTypeTicketKf,customerFound.idClient,null,select.filterCategoryKey,0,pagination.pageSizeSelected, false, true)" name="reasonDisabledType" value="{{item.idReasonDisabledItem}}" ng-model="select.reasonKf" autofocus>
+                                <label for="reasonType-{{item.idReasonDisabledItem}}" class="radio-2x-label">
+                                  <span>{{item.reasonDisabledItem}}</span>
+                                </label>
+                              </div>
+                          </div>
                         </div>
                       </div>
                     </div>
