@@ -1852,7 +1852,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                 if (idCategoryKf!=undefined && idCategoryKf!="" && idCategoryKf!=null){
                     var idCategoryKf    = idCategoryKf;
                 }else{
-                    var idCategoryKf    = "1,5,6"
+                    var idCategoryKf    = null;
                     var idDepartmenKf   = null;
                 }
                 var idKeychainStatusKf  = idKeychainStatusKf!=undefined && idKeychainStatusKf!="" && idKeychainStatusKf!=null?idKeychainStatusKf:null;
