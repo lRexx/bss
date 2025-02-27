@@ -4263,7 +4263,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido sera pagado por expensas, habilitado por el consorcio.', 'idCambiosTicketKf':"4"});
                                 $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
                                 $scope.new.ticket.status = 8;
-                            }else if (($scope.sysLoggedUser.idProfileKf == "4" && (obj.building.mpPaymentMethod=="1" || obj.building.mpPaymentMethod!="1") && $scope.new.ticket.idTypePaymentKf=="2") || ($scope.sysLoggedUser.idProfileKf=="1" && (obj.building.mpPaymentMethod=="1" || obj.building.mpPaymentMethod!="1") && ($scope.new.ticket.sendNotify==null || $scope.new.ticket.sendNotify==undefined))){
+                            }else if (($scope.sysLoggedUser.idProfileKf == "4" && (obj.building.mpPaymentMethod=="1" || obj.building.mpPaymentMethod!="1") && $scope.new.ticket.idTypePaymentKf=="2") || ($scope.sysLoggedUser.idProfileKf=="1" && (obj.building.mpPaymentMethod=="1" || obj.building.mpPaymentMethod!="1") && ($scope.new.ticket.sendNotify==null || $scope.new.ticket.sendNotify==1 || $scope.new.ticket.sendNotify==undefined))){
                                 $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                 if ($scope.new.ticket.total==0 && $scope.sysLoggedUser.idProfileKf=="4"){
                                     $scope.new.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': 'Pedido aprobado por la Administración automaticamente.', 'idCambiosTicketKf':"2"});
