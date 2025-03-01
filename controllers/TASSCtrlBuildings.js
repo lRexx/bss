@@ -1163,27 +1163,47 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 ((($scope.attendant.new!=undefined && $scope.attendant.tmp.dni!=value && opt=="dni") || ($scope.attendant.new!=undefined && $scope.attendant.tmp.mail!=value && opt=="mail")) ||
                                 (($scope.attendant.update!=undefined && $scope.attendant.tmp.dni!=value && opt=="dni") || ($scope.attendant.update!=undefined && $scope.attendant.tmp.mail!=value && opt=="mail")))
                                 ){
-                                userServices.findUserByEmail(value).then(function(response) {
-                                //console.log(response);
-                                if(response.status==200){
-                                    if(APP_REGEX.checkDNI.test(value)){
-                                    $scope.sysDNIRegistered=true;
-                                    //console.log(response.data[0].fullNameUser);
-                                    $scope.tenant.new.dni=undefined;
-                                    $scope.attendant.new.dni=undefined;
-                                    }
-                                    if(APP_REGEX.checkEmail.test(value)){
-                                    $scope.sysEmailRegistered=true;
-                                    }
-                                }else if (response.status==404){
-                                    if(APP_REGEX.checkDNI.test(value)){
-                                    $scope.sysDNIRegistered=false;
-                                    }
-                                    if(APP_REGEX.checkEmail.test(value)){
-                                    $scope.sysEmailRegistered=false;
+                                if((APP_REGEX.check8Numeric.test(value) && APP_REGEX.checkDNI.test(value) && opt=="dni") || (APP_REGEX.checkEmail.test(value) && opt=="mail")){
+                                    userServices.findUserByEmail(value).then(function(response) {
+                                        //console.log(response);
+                                        if(response.status==200){
+                                            switch (opt){
+                                                case "dni":
+                                                    $scope.sysDNIRegistered=true;
+                                                    //console.log(response.data[0].fullNameUser);
+                                                    $scope.tenant.new.dni=undefined;
+                                                    $scope.attendant.new.dni=undefined;
+                                                break;
+                                                case "mail":
+                                                    $scope.sysEmailRegistered=true;
+                                                break;
+                                            }
+                                        }else if (response.status==404){
+                                            switch (opt){
+                                                case "dni":
+                                                    $scope.sysDNIRegistered=false;
+                                                break;
+                                                case "mail":
+                                                    $scope.sysEmailRegistered=false;
+                                                break;
+                                            }
+                                        }
+                                    });
+                                }else{
+                                    switch (opt){
+                                        case "dni":
+                                            inform.add('El documento ingresado no es valido por favor verifique que el número ingresado sea correcto.',{
+                                                ttl:30000, type: 'danger'
+                                            });
+                                            $scope.tenant.new.dni=undefined;
+                                        break;
+                                        case "mail":
+                                            inform.add('La dirección de correo ingresada no es valida por favor verifique que la dirección sea correcta.',{
+                                                ttl:30000, type: 'warning'
+                                            });
+                                        break;
                                     }
                                 }
-                                });
                             }
                         }
                     }

@@ -1039,46 +1039,86 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
         *                                                 *|
         **************************************************/
             $scope.sysCheck4Duplicates = function(value, opt){
+                console.log("$scope.sysDNIRegistered  : "+$scope.sysDNIRegistered);
+                console.log("$scope.sysEmailRegistered: "+$scope.sysEmailRegistered);
                 if(value){
                     //console.log($scope.users.update.mail);
                     //console.log(value);
-                    //console.log(opt);
+                    console.log(opt);
                     if (((($scope.tenant.new!=undefined && $scope.tenant.new.dni!="" && opt=="dni") || ($scope.tenant.new!=undefined && $scope.tenant.new.mail!="" && opt=="mail")) || 
                         (($scope.tenant.update!=undefined && $scope.tenant.tmp.dni!=value && opt=="dni") || ($scope.tenant.update!=undefined && $scope.tenant.tmp.mail!=value && opt=="mail"))) ||
                         ((($scope.attendant.new!=undefined && $scope.attendant.tmp.dni!=value && opt=="dni") || ($scope.attendant.new!=undefined && $scope.attendant.tmp.mail!=value && opt=="mail")) ||
                         (($scope.attendant.update!=undefined && $scope.attendant.tmp.dni!=value && opt=="dni") || ($scope.attendant.update!=undefined && $scope.attendant.tmp.mail!=value && opt=="mail")))
                         ){
-                        userServices.findUserByEmail(value).then(function(response) {
-                            console.log(response.data);
-                            console.log($scope.tenant.new);
-                            if(response.status==200){
-                                if(APP_REGEX.checkDNI.test(value)){
-                                    $scope.sysDNIRegistered=true;
-                                    //console.log(response.data[0].fullNameUser);
-                                    if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf!="1"){
-                                        $scope.tenant.new.dni=undefined;
-                                    }else{
-                                        $scope.tenant.new.idUser = response.data[0].idUser;
-                                        $scope.tenant.new.fullname = response.data[0].fullNameUser;
-                                        $scope.tenant.new.dni = response.data[0].dni;
-                                        $scope.tenant.new.mail = response.data[0].emailUser;
-                                        $scope.tenant.new.phoneMovilNumberUser = response.data[0].phoneNumberUser;
-                                        $scope.tenant.new.phonelocalNumberUser = response.data[0].phoneLocalNumberUser;
+                        if((APP_REGEX.check8Numeric.test(value) && APP_REGEX.checkDNI.test(value) && opt=="dni") || (APP_REGEX.checkEmail.test(value) && opt=="mail")){
+                            userServices.findUserByEmail(value).then(function(response) {
+                                console.log(response.data);
+                                console.log($scope.tenant.new);
+                                if(response.status==200){
+                                    switch (opt){
+                                        case "dni":
+                                            $scope.sysDNIRegistered=true;
+                                            inform.add('La número de documeto ya se encuentra registrado, Verifique por favor los datos en pantalla, si desea asociarlo tambien a este departamento, para completar el proceso haga click en el boton Asociar.',{
+                                                ttl:30000, type: 'warning'
+                                            });
+                                            if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf=="1"){
+                                                $scope.tenant.new.idUser = response.data[0].idUser;
+                                                $scope.tenant.new.fullname = response.data[0].fullNameUser;
+                                                $scope.tenant.new.dni = response.data[0].dni;
+                                                $scope.tenant.new.mail = response.data[0].emailUser;
+                                                $scope.tenant.new.phoneMovilNumberUser = response.data[0].phoneNumberUser;
+                                                $scope.tenant.new.phonelocalNumberUser = response.data[0].phoneLocalNumberUser;
+                                            }
+                                        break;
+                                        case "mail":
+                                            inform.add('La dirección de correo ingresada ya se encuentra registrada, sin embargo puede registrar un nuevo usuario con una dirección de correo existente.',{
+                                                ttl:30000, type: 'warning'
+                                            });
+                                            $scope.sysEmailRegistered=true;
+                                            if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf!="1"){
+                                                $scope.tenant.new.dni=undefined;
+                                            }
+                                        break;
                                     }
                                     $scope.attendant.new.dni=undefined;
+                                }else if (response.status==404){
+                                    $scope.tenant.new.fullname              = "";
+                                    $scope.tenant.new.phoneMovilNumberUser  = "";
+                                    $scope.tenant.new.phonelocalNumberUser  = "";
+                                    switch (opt){
+                                        case "dni":
+                                            $scope.sysDNIRegistered   = false;
+                                            $scope.sysEmailRegistered = false;
+                                            $scope.tenant.new.mail          = "";
+                                        break;
+                                        case "mail":
+                                            $scope.sysEmailRegistered=false;
+                                        break;
+                                    }
                                 }
-                                if(APP_REGEX.checkEmail.test(value)){
-                                    $scope.sysEmailRegistered=true;
-                                }
-                            }else if (response.status==404){
-                                if(APP_REGEX.checkDNI.test(value)){
-                                    $scope.sysDNIRegistered=false;
-                                }
-                                if(APP_REGEX.checkEmail.test(value)){
+                            });
+                        }else{
+                            $scope.tenant.new.fullname              = "";
+                            $scope.tenant.new.phoneMovilNumberUser  = "";
+                            $scope.tenant.new.phonelocalNumberUser  = "";
+                            switch (opt){
+                                case "dni":
+                                    inform.add('El documento ingresado no es valido por favor verifique que el número ingresado sea correcto.',{
+                                        ttl:30000, type: 'danger'
+                                    });
+                                    $scope.tenant.new.dni = undefined;
+                                    $scope.tenant.new.mail = undefined;
+                                    $scope.sysDNIRegistered   = false;
+                                break;
+                                case "mail":
+                                    inform.add('La dirección de correo ingresada no es valida por favor verifique que la dirección sea correcta.',{
+                                        ttl:30000, type: 'warning'
+                                    });
+                                    $scope.tenant.new.mail = undefined;
                                     $scope.sysEmailRegistered=false;
-                                }
+                                break;
                             }
-                        });
+                        }
                     }
                 }
             }

@@ -64,12 +64,12 @@
                             <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
-                                    <input name="emailUser" ng-blur="sysCheck4Duplicates(tenant.new.mail, 'mail');" placeholder="E-Mail" class="form-control" ng-model="tenant.new.mail"  type="email" required autofocus />
+                                    <input name="emailUser" ng-blur="sysCheck4Duplicates(tenant.new.mail, 'mail');" placeholder="E-Mail" class="form-control" ng-model="tenant.new.mail"  type="email" ng-disabled="sysDNIRegistered" required autofocus />
                                 </div>
                             </div>
                     </div>
                     <div ng-if="sysDNIRegistered || sysEmailRegistered" class="form-group row n-margin-t n-margin-b">
-                        <div ng-if="sysDNIRegistered && tenant.new.idTypeTenantKf!='1'" class="form-group n-margin-t n-margin-b" ng-class="{
+                        <div ng-if="sysDNIRegistered" class="form-group n-margin-t n-margin-b" ng-class="{
                             'col-md-6':
                                 sysDNIRegistered && sysEmailRegistered,
                             'col-md-12':
@@ -82,7 +82,7 @@
                                 </button>
                             </div>
                         </div>
-                        <div ng-if="sysEmailRegistered && tenant.new.idTypeTenantKf!='1'" class="form-group n-margin-t n-margin-b" ng-class="{
+                        <div ng-if="sysEmailRegistered" class="form-group n-margin-t n-margin-b" ng-class="{
                             'col-md-6':
                                 sysDNIRegistered && sysEmailRegistered,
                             'col-md-12':
@@ -90,6 +90,19 @@
                                 }">
                             <div class="alert alert-warning" role="alert">
                                 <strong><i class="fas fa-exclamation-triangle">&nbsp </i>ATENCION: </strong>la direccion de correo ingresada se encuentra registrada.
+                                <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                    <!--<span aria-hidden="true">&times;</span> -->
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="sysDNIRegistered" class="form-group row n-margin-t n-margin-b">
+                        <div ng-if="sysDNIRegistered" class="form-group n-margin-t n-margin-b" ng-class="{
+                            'col-md-12':
+                                sysDNIRegistered,
+                                }">
+                            <div class="alert alert-info" role="alert">
+                                <strong><i class="fas fa-info-circle">&nbsp </i>IMPORTANTE: </strong>Verifique por favor los datos en pantalla, si desea asociarlo tambien a este departamento, para completar el proceso haga click en el boton Asociar.
                                 <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                                     <!--<span aria-hidden="true">&times;</span> -->
                                 </button>
@@ -107,11 +120,11 @@
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
-                                <input name="fullname" placeholder="Nombres y Apellidos" class="form-control" ng-model="tenant.new.fullname" type="text" required autofocus />
+                                <input name="fullname" placeholder="Nombres y Apellidos" class="form-control" ng-model="tenant.new.fullname" type="text" ng-disabled="sysDNIRegistered" required autofocus />
                             </div>
                         </div>
                     </div>
-                    <div class="col-md-12 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;">
+                    <div ng-if="!sysDNIRegistered" class="col-md-12 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;">
                         <div class="alert alert-info" role="alert">
                             <h4><strong>IMPORTANTE!! </strong>PARA QUE UTILIZA BSS LOS DATOS ?</h4><br>
                             <span><strong>DNI:</strong>  se utiliza para verificar la identidad al momento de la entrega del pedido, en caso de no coincidir NO SE REALIZARÁ LA ENTREGA DEL PEDIDO por razonos de seguridad. Por favor, antes de aceptar, verificá que este cargado correctamente.</span><br>
@@ -133,7 +146,7 @@
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                <input name="phoneLocal" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phonelocalNumberUser" type="text" autofocus  ng-keydown="fnLoadPhoneMask();" ng-required="tenant.new.phoneMovilNumberUser==''" />
+                                <input name="phoneLocal" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phonelocalNumberUser" type="text" autofocus  ng-keydown="fnLoadPhoneMask();" ng-disabled="sysDNIRegistered" ng-required="tenant.new.phoneMovilNumberUser==''" />
                             </div>
                         </div>
                     </div>
@@ -150,7 +163,7 @@
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                                <input name="phoneMovil" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phoneMovilNumberUser"  type="text"  ng-keydown="fnLoadPhoneMask();" ng-required="tenant.new.phonelocalNumberUser==''" autofocus />
+                                <input name="phoneMovil" ng-minlength="8" class="form-control input--phone" ng-model="tenant.new.phoneMovilNumberUser"  type="text"  ng-keydown="fnLoadPhoneMask();" ng-disabled="sysDNIRegistered" ng-required="tenant.new.phonelocalNumberUser==''" autofocus />
                             </div>
                         </div>
                     </div>
