@@ -13,8 +13,8 @@ class Contrato_model extends CI_Model {
         $this->db->insert('tb_contratos', [
                 "idClientFk"           => $client['idClientFk'],
                 "fechaFirmaVigencia"   => $client['fechaFirmaVigencia'],
-                "fechaFirma"           => $client['fechaFirma'],
-                "fechaActivacion"      => $client['fechaActivacion'],
+                "fechaFirmaActivacion" => $client['fechaFirmaActivacion'],
+                //"fechaActivacion"      => $client['fechaActivacion'],
                 "numeroContrato"       => $client['numeroContrato'],
                 "contratoType"         => $client['contratoType'],
                 "maintenanceType"      => $client['maintenanceType'],
@@ -56,8 +56,8 @@ class Contrato_model extends CI_Model {
         $this->db->set([
                 "idClientFk"                        => $client['idClientFk'],
                 "fechaFirmaVigencia"                => $client['fechaFirmaVigencia'],
-                "fechaFirma"                        => $client['fechaFirma'],
-                "fechaActivacion"                   => $client['fechaActivacion'],
+                "fechaFirmaActivacion"              => $client['fechaFirmaActivacion'],
+                //"fechaActivacion"                   => $client['fechaActivacion'],
                 "numeroContrato"                    => $client['numeroContrato'],
                 "contratoType"                      => $client['contratoType'],
                 "maintenanceType"                   => $client['maintenanceType'],
@@ -1042,7 +1042,7 @@ class Contrato_model extends CI_Model {
         $this->db->set([
                 "idClientFk"           => $contrato['idClientFk'],
                 "fechaFirmaVigencia"   => $contrato['fechaFirmaVigencia'],
-                "fechaFirma"           => $contrato['fechaFirma'],
+                "fechaFirmaActivacion" => $contrato['fechaFirmaActivacion'],
                 "numeroContrato"       => $contrato['numeroContrato'],
                 "contratoType"         => $contrato['contratoType'],
                 "maintenanceType"      => $contrato['maintenanceType'],
