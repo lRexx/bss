@@ -33,7 +33,7 @@
       <div ng-if="checkStatus.services" class="form-group col-md-12 n-padding-l">
         <legend style="text-align: left;">Link de Fotos</legend>
         <a ng-if="customerStatus.clientPhotosURL!=null && customerStatus.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerStatus.clientPhotosURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
-        <a ng-if="customerStatus.clientPhotosURL!=null && customerStatus.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerStatus.clientPhotosURL}}">{{customerStatus.clientPhotosURL}}</a>
+        <a ng-if="customerStatus.clientPhotosURL!=null && customerStatus.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerStatus.clientPhotosURL}}">ir al Link de fotos</a>
         <span ng-if="customerStatus.clientPhotosURL==null || customerStatus.clientPhotosURL==undefined"><label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-warning">Link no definido</label></span>
       </div>
       <div class="clearfix"> </div>
@@ -52,24 +52,33 @@
               </div>
               <div id="{{contract.numeroContrato}}" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
                 <div class="panel-body">
+                  <div class="col-md-12 n-padding-l">
+                    <legend>Tipo de Mantenimiento</legend>
+                    <div class="form-group col-md-12 n-padding-l col-xs-12 n-padding-r">                        
+                      <div class="col-md-12 col-xs-12 n-padding-l n-padding-r">
+                        <label><i class="fas fa-screwdriver"></i> {{contract.typeMaintenance | uppercase}}</label>
+                      </div>				    
+                    </div>
+                    <div class="clearfix"> </div>
+                  </div>
+                  <!-- -->
                   <div ng-if="checkStatus.services && contract.isSystemUnderLock==1" class="col-md-12 n-padding-l">
-                    <legend>Sistema Bajo Llave                     
+                    <legend>Sistema Bajo Llave
                       <span ng-if="contract.isSystemUnderLock=='1'" data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span>
-                      <span ng-if="contract.isSystemUnderLock=='0'" data-toggle="tooltip" data-placement="top"  title="No" class="font-size-18px"><i class="text-danger fas fa-window-close"></i></span></legend> 
-
-                  <div class="clearfix"> </div>
-                  <div ng-if="contract.isSystemUnderLock==1"class="form-group col-md-12 n-padding-l col-xs-12 n-padding-r">                        
-                    <div class="col-md-12 col-xs-12">
-                      <label ng-if="contract.companyHasKeys=='1'"><i class="fas fa-user-cog"></i> LLAVES EN TASS <span data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span></label> 
-                      <label ng-if="contract.customerHasKeys=='1'"><i class="fas fa-user-tie"></i> LLAVES EN CLIENTE <span data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span></label> 
-                    </div>				    
-                  </div>
-                  <div class="clearfix"> </div>
-                  <!-- Observaciones Generales -->
-                  <div ng-if="contract.isSystemUnderLock==1" class="form-group col-md-12 col-xs-12  n-padding-l n-padding-r">
-                    <label class="col-md-12 col-xs-12" >Aclaración</label> 
-                      <textarea style="resize: none;" name="ObserGenerales" rows="3" placeholder="indique una Aclaración." class="form-control font-size-12px" ng-model="contract.comment_systemUnderLock" readonly="true"></textarea>							
-                  </div>
+                      <span ng-if="contract.isSystemUnderLock=='0'" data-toggle="tooltip" data-placement="top"  title="No" class="font-size-18px"><i class="text-danger fas fa-window-close"></i></span></legend>
+                    <div class="clearfix"> </div>
+                    <div ng-if="contract.isSystemUnderLock==1"class="form-group col-md-12 n-padding-l col-xs-12 n-padding-r">                        
+                      <div class="col-md-12 col-xs-12 n-padding-l">
+                        <label ng-if="contract.companyHasKeys=='1'"><i class="fas fa-user-cog"></i> LLAVES EN TASS <span data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span></label> 
+                        <label ng-if="contract.customerHasKeys=='1'"><i class="fas fa-user-tie"></i> LLAVES EN CLIENTE <span data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span></label> 
+                      </div>				    
+                    </div>
+                    <div class="clearfix"> </div>
+                    <!-- Observaciones Generales -->
+                    <div ng-if="contract.isSystemUnderLock==1" class="form-group col-md-12 col-xs-12  n-padding-l n-padding-r">
+                      <label class="col-md-12 col-xs-12" >Aclaración</label> 
+                        <textarea style="resize: none;" name="ObserGenerales" rows="3" placeholder="indique una Aclaración." class="form-control font-size-12px" ng-model="contract.comment_systemUnderLock" readonly="true"></textarea>							
+                    </div>
                   </div>
                   <legend style="text-align: left;">Servicios</legend>
                   <div ng-if="contract.services_active.length>0" ng-repeat="service in contract.services_active"  ng-trim="true" class="media-middle text-center">

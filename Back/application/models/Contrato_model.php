@@ -13,7 +13,8 @@ class Contrato_model extends CI_Model {
         $this->db->insert('tb_contratos', [
                 "idClientFk"           => $client['idClientFk'],
                 "fechaFirmaVigencia"   => $client['fechaFirmaVigencia'],
-                "fechaFirmaActivacion" => $client['fechaFirmaActivacion'],
+                "fechaFirma"           => $client['fechaFirma'],
+                "fechaActivacion"      => $client['fechaActivacion'],
                 "numeroContrato"       => $client['numeroContrato'],
                 "contratoType"         => $client['contratoType'],
                 "maintenanceType"      => $client['maintenanceType'],
@@ -55,7 +56,8 @@ class Contrato_model extends CI_Model {
         $this->db->set([
                 "idClientFk"                        => $client['idClientFk'],
                 "fechaFirmaVigencia"                => $client['fechaFirmaVigencia'],
-                "fechaFirmaActivacion"              => $client['fechaFirmaActivacion'],
+                "fechaFirma"                        => $client['fechaFirma'],
+                "fechaActivacion"                   => $client['fechaActivacion'],
                 "numeroContrato"                    => $client['numeroContrato'],
                 "contratoType"                      => $client['contratoType'],
                 "maintenanceType"                   => $client['maintenanceType'],
@@ -574,9 +576,10 @@ class Contrato_model extends CI_Model {
     public function getIdClient($idClientFk) {
 
             $this->db->select("*")->from("tb_contratos");
+            $this->db->join('tb_type_contrato', 'tb_type_contrato.idTypeContrato = tb_contratos.contratoType', 'left');
+            $this->db->join('tb_type_maintenance', 'tb_type_maintenance.idTypeMaintenance = tb_contratos.maintenanceType', 'left');
             $this->db->join('tb_systemunderlock', 'tb_systemunderlock.idContratoFk = tb_contratos.idContrato', 'left');
             $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-            $this->db->join('tb_type_contrato', 'tb_type_contrato.idTypeContrato = tb_contratos.maintenanceType', 'left');
             $this->db->join('tb_client_service_reason_down', 'tb_client_service_reason_down.idReason = tb_contratos.idReasonTypeKf', 'left');
             $this->db->where('idClientFk', $idClientFk);
             $rsContract  = $this->db->where("tb_contratos.idStatusFk !=", null)->get();
@@ -1015,12 +1018,31 @@ class Contrato_model extends CI_Model {
 
         return $contract;
 
-    }    
+    }
+    public function fechaFirmaContrato($contrato) {
+        $now = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
+        $this->db->set([
+                "idClientFk"           => $contrato['idClientFk'],
+                "fechaFirmaVigencia"   => $contrato['fechaFirmaVigencia'],
+                "fechaActivacion"      => $now->format('Y-m-d') ,
+                "numeroContrato"       => $contrato['numeroContrato'],
+                "contratoType"         => $contrato['contratoType'],
+                "maintenanceType"      => $contrato['maintenanceType'],
+                "idStatusFk"           => $contrato['idStatusFk'],
+            ]
+        )->where("idContrato", $contrato['idContrato'])->update("tb_contratos");
+
+        if ($this->db->affected_rows() >= 0) {
+            return true;
+        } else {
+            return false;
+        }
+    } 
     public function fechaActivacionContrato($contrato) {
         $this->db->set([
                 "idClientFk"           => $contrato['idClientFk'],
                 "fechaFirmaVigencia"   => $contrato['fechaFirmaVigencia'],
-                "fechaFirmaActivacion" => $contrato['fechaFirmaActivacion'],
+                "fechaFirma"           => $contrato['fechaFirma'],
                 "numeroContrato"       => $contrato['numeroContrato'],
                 "contratoType"         => $contrato['contratoType'],
                 "maintenanceType"      => $contrato['maintenanceType'],
