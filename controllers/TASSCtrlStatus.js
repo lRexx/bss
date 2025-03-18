@@ -2,7 +2,11 @@
 * Status Controller
 **/
 var sysStatus = angular.module("module.Status", ["tokenSystem", "angular.filter", "services.Customers","services.Address", "services.Products", "services.Contracts", "services.Service", "services.User", "ngAnimate", "ngSanitize", "ui.bootstrap", "ui.select", "services.Utilities", "bootstrapLightbox"]);
-
+sysStatus.filter('toDate', function() {
+  return function(items) {
+    return new Date(items);
+  };
+});
 sysStatus.controller('statusCtrl', function($scope, $location, $routeParams, blockUI, $q, Lightbox, $timeout, inform, CustomerServices, ProductsServices, ContractServices, serviceServices, addressServices, userServices, tokenSystem, $window, serverHost, UtilitiesServices, $filter, APP_SYS){
     console.log(APP_SYS.app_name+" Modulo Status");
       console.log($routeParams);
