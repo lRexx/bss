@@ -284,7 +284,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             var current_date = new Date()
                             var date = moment.tz(current_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
                             var newDate = date.toDate();
-                            $scope.contract.tmpFechaFirmaActivacion = moment(newDate).format('DD/MM/YYYY');
+                            $scope.contract.activateDate.tmpFechaFirmaActivacion = moment(newDate).format('DD/MM/YYYY');
                         }
                     break;
                     case "activateDate":
