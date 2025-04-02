@@ -12,9 +12,8 @@ class Contrato_model extends CI_Model {
 
         $this->db->insert('tb_contratos', [
                 "idClientFk"           => $client['idClientFk'],
-                #"fechaFirmaVigencia"   => $client['fechaFirmaVigencia'],
-                #"fechaFirmaActivacion" => $client['fechaFirmaActivacion'], #NUEVO
-                "fechaFirmaActivacion" => $client['dateOfSign'], #REMOVER DESPUES
+                "fechaFirmaVigencia"   => $client['fechaFirmaVigencia'],
+                "fechaFirmaActivacion" => $client['fechaFirmaActivacion'],
                 //"fechaActivacion"      => $client['fechaActivacion'],
                 "numeroContrato"       => $client['numeroContrato'],
                 "contratoType"         => $client['contratoType'],
@@ -58,7 +57,6 @@ class Contrato_model extends CI_Model {
                 "idClientFk"                        => $client['idClientFk'],
                 "fechaFirmaVigencia"                => $client['fechaFirmaVigencia'],
                 "fechaFirmaActivacion"              => $client['fechaFirmaActivacion'],
-                //"fechaActivacion"                   => $client['fechaActivacion'],
                 "numeroContrato"                    => $client['numeroContrato'],
                 "contratoType"                      => $client['contratoType'],
                 "maintenanceType"                   => $client['maintenanceType'],
