@@ -1311,7 +1311,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "sign_and_enable_contract":
                                 if (confirm==0){
-                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirma+".     Confirmar?";
+                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirmaActivacion+".     Confirmar?";
                                 $scope.argObj={};
                                 $scope.argObj = obj;
                                 console.log('Contrato a Aprovar y Activar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
@@ -1326,7 +1326,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "activate_and_enable_contract":
                                 if (confirm==0){
-                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirma+".     Confirmar?";
+                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirmaActivacion+".     Confirmar?";
                                 $scope.argObj={};
                                 $scope.argObj = obj;
                                 console.log('Contrato a Aprovar y Activar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
@@ -2163,7 +2163,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "activateDate": //ENABLE CUSTOMER CONRACT
                                 contract.idStatusFk = 1;
-                                contract.fechaFirmaActivacion = $scope.contract.tmpFechaFirma;                
+                                contract.fechaFirmaActivacion = $scope.contract.tmpFechaFirmaActivacion;                
                                 console.log(contract);
                                 $scope.setSignDateContractFn(contract);
                             break;
