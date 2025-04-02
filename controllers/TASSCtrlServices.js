@@ -2121,7 +2121,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 var formatedDate       = moment(rawDate).format('YYYY-MM-DD');
                                 console.log(typeof formatedDate);
                                 $scope.contract.new.fechaFirmaVigencia   = formatedDate;
-                                $scope.contract.new.fechaFirmaActivacion = formatedDate;
+                                $scope.contract.new.fechaFirmaActivacion = null;
                                 $scope.contract.new.fechaFirma = null;
                                 var parsedDate = moment($scope.contract.new.dateOfSign, 'DD/MM/YYYY');
                                 var short_date = parsedDate.format('DDMMYY');

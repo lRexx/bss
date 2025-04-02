@@ -105,7 +105,7 @@
           <span data-toggle="tooltip" data-placement="bottom" title="No Contratado" class="text-danger media-middle text-center font-size-18px" ng-if="service.item_contracted<=0 || service.service_items==undefined"><i class="fas fa-times-circle"></i></span>
         </td>
         <td style="vertical-align: middle;" ng-trim="true" class="media-middle text-center" >{{contract.fechaFirmaVigencia | date:'dd/MM/yyyy'}}</td>
-        <td style="vertical-align: middle;" ng-trim="true" ng-if="contract.fechaFirmaActivacion=='' || contract.fechaFirmaActivacion!=undefined || contract.fechaFirmaActivacion!=null" class="media-middle text-center" >{{contract.fechaFirmaActivacion}}</td>
+        <td style="vertical-align: middle;" ng-trim="true" ng-if="contract.fechaFirmaActivacion=='' || contract.fechaFirmaActivacion!=undefined || contract.fechaFirmaActivacion!=null" class="media-middle text-center" >{{contract.fechaFirmaActivacion  | date:'dd/MM/yyyy'}}</td>
         <td style="vertical-align: middle;" ng-trim="true" ng-if="contract.fechaFirmaActivacion==undefined || contract.fechaFirmaActivacion==null" class="media-middle text-center" ><label class="text-uppercase label label-warning">sin firmar</label></td>
         <td style="vertical-align: middle;" ng-trim="true" ng-click="" class="media-middle text-center">
           <label ng-if="contract.idStatusFk==1" class="label label-success">ACTIVO</label>
