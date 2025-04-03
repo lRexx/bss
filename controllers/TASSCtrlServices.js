@@ -2163,7 +2163,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "activateDate": //ENABLE CUSTOMER CONRACT
                                 contract.idStatusFk = 1;
-                                contract.fechaFirmaActivacion = $scope.contract.tmpFechaFirmaActivacion;                
+                                contract.fechaFirmaActivacion = $scope.contract.activateDate.tmpFechaFirmaActivacion;                
                                 console.log(contract);
                                 $scope.setSignDateContractFn(contract);
                             break;
