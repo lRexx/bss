@@ -641,8 +641,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
         $scope.editComment=false;
         ticketServices.ticketById(idTicket).then(function(response){
             if(response.status==200){
-              $scope.rsData.ticket = (response.data[0]);
-              $scope.tkupdate = response.data[0];
+              $scope.rsData.ticket = (response.data.tickets[0]);
+              $scope.tkupdate = response.data.tickets[0];
               console.log($scope.rsData);
             }else if (response.status==404){
                 $scope.rsData = {};
@@ -2471,7 +2471,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               $scope.keysTotalPrice=subTotalKeys.toFixed(2);
               console.log("subTotalKeys: "+subTotalKeys+"\n"+"keyTotalAllowed :"+keyTotalAllowed);
               if (($scope.keysTotalPrice>=keyTotalAllowed) || 
-                  ($scope.ticket.building!=undefined && $scope.ticket.building.isInitialDeliveryActive.length==1 && $scope.ticket.building.isInitialDeliveryActive[0].expiration_state!=undefined && !$scope.ticket.building.isInitialDeliveryActive[0].expiration_state)||
+                  ($scope.ticket.building!=undefined && $scope.ticket.isInitialDeliveryActive.length==1)||
                   ($scope.ticket.building.isStockInBuilding=="1")){
                   $scope.deliveryCostFree = 1;
               }else{
@@ -3823,8 +3823,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 $scope.listTickt = [];
                 ticketServices.all(filter).then(function(response){
                   if(response.status==200){
-                      $scope.listTicktTmp =  response.data.response;
-                      if (filter.isInitialDeliveryActive==1){ //isInitialDeliveryActive
+                      $scope.listTicktTmp =  response.data.response.tickets;
+                      if (filter.isInitialDeliveryActive_TMP==1){ //isInitialDeliveryActive
                         for(var i=0;i<$scope.listTicktTmp.length;i++){
                             //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
                             //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive[0].expiration_state);
@@ -3834,19 +3834,20 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         }
                         console.log($scope.listTickt);
                         //MP PAYMENT Succeeded
-                      //}else if (filter.isPaymentSucceeded==1 && filter.idTypePaymentKf=="2"){
-                      //  console.log("filter.isPaymentSucceeded: ",filter.isPaymentSucceeded);
-                      //  console.log("filter.idTypePaymentKf   : ",filter.idTypePaymentKf);
-                      //  for(var i=0;i<$scope.listTicktTmp.length;i++){
-                      //      //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
-                      //      //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive[0].expiration_state);
-                      //      if ( $scope.listTicktTmp[i].idTypePaymentKf=='2' && $scope.listTicktTmp[i].idPaymentDeliveryKf==null && $scope.listTicktTmp[i].idStatusTicketKf!='6' && $scope.listTicktTmp[i].idStatusTicketKf!='3' && $scope.listTicktTmp[i].idPaymentKf!=null && $scope.listTicktTmp[i].idPaymentKf!=undefined && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=undefined && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=0 && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=null && $scope.listTicktTmp[i].paymentDetails.mp_status_detail=="accredited"){
-                      //        $scope.listTickt.push($scope.listTicktTmp[i]);
-                      //      }
-                      //  }
-                      //  console.log($scope.listTickt);
+                        //else if (filter.isPaymentSucceeded==1 && filter.idTypePaymentKf=="2")
+                        //  console.log("filter.isPaymentSucceeded: ",filter.isPaymentSucceeded);
+                        //  console.log("filter.idTypePaymentKf   : ",filter.idTypePaymentKf);
+                        //  for(var i=0;i<$scope.listTicktTmp.length;i++){
+                        //      //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive.length);
+                        //      //console.log($scope.listTicktTmp[i].building.isInitialDeliveryActive[0].expiration_state);
+                        //      if ( $scope.listTicktTmp[i].idTypePaymentKf=='2' && $scope.listTicktTmp[i].idPaymentDeliveryKf==null && $scope.listTicktTmp[i].idStatusTicketKf!='6' && $scope.listTicktTmp[i].idStatusTicketKf!='3' && $scope.listTicktTmp[i].idPaymentKf!=null && $scope.listTicktTmp[i].idPaymentKf!=undefined && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=undefined && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=0 && $scope.listTicktTmp[i].paymentDetails.mp_payment_id!=null && $scope.listTicktTmp[i].paymentDetails.mp_status_detail=="accredited"){
+                        //        $scope.listTickt.push($scope.listTicktTmp[i]);
+                        //      }
+                        //  }
+                        //  console.log($scope.listTickt);
                       }else{
-                        $scope.listTickt    =  response.data.response;
+                        $scope.listTickt  = response.data.response.tickets;
+                        console.log($scope.listTickt);
                       }
                       
                       $scope.totalTickets = $scope.listTickt.length;
@@ -3864,7 +3865,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       $scope.listTickt =  [];
                       $scope.totalTickets = 0;
                   }
-                  });
+                });
             }
             $scope.greaterThan = function(prop, val){
                 return function(item){
@@ -3942,7 +3943,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     var priceFabric   = 0;
                     var floor         = obj[f].idTypeRequestFor=="1"?obj[f].department.floor:"";
                     var depto         = obj[f].idTypeRequestFor=="1"?obj[f].department.departament:obj[f].typeRequestFor.name;
-                    var department    = obj[f].idTypeRequestFor=="1"?floor+" - "+depto.toUpperCase():depto.toUpperCase();
+                    var department    = obj[f].idTypeRequestFor=="1"?floor.toUpperCase()+"-"+depto.toUpperCase():depto.toUpperCase();
                     var codTicket     = obj[f].codTicket;
                     var fileName      = obj[f].idTicket+"_"+codTicket.substr(5)+".pdf";
                     var fullNameUser  = obj[f].idUserRequestBy!=null && obj[f].userRequestBy.fullNameUser!=undefined?obj[f].userRequestBy.fullNameUser:"no asignado";
@@ -3951,14 +3952,12 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     costService       = parseFloat(obj[f].costService);
                     priceFabric       = parseFloat(obj[f].keys[0].priceFabric);
                     if (obj[f].created_at!=null){
-
-                        /*if(obj[f].keys.length>1){
+                        if(obj[f].isInitialDeliveryActive && obj[f].keys.length>1){
                           var i = 1;
                           var costDelivery = null;
                           var costService  = null;
                           var CantidadLlaveros = 0;
                           var keyModel = null;
-                          var priceFabric = 0;
                           var keyList = obj[f].keys;
                           for (var key = 0; key < obj[f].keys.length; key++) {
                             costDelivery = i == 1 ?obj[f].costDelivery:0;
@@ -3979,14 +3978,17 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             //console.log(data);
                             // Contar las coincidencias del valor de la key "model"
                             let occurrences = 0;
-
+                            console.log("j          : " +j);
+                            console.log("keyModel   : " +keyModel);
+                            console.log("priceFabric: " +obj[f].keys[key].priceFabric);
                             // Iterar sobre el array de objetos
                             data.forEach(item => {
-                              if (item.model === keyModel) {
+                              console.log("item.priceFabric: " +item.priceFabric);
+                              if (item.model === keyModel && item.priceFabric === obj[f].keys[key].priceFabric) {
                                 occurrences++;
                               }
                             });
-                            
+                            console.log("occurrences: " +occurrences);
                             //console.log("keyModel: " +keyModel);
                             //let occurrences = 0;
                             //const obj2 = JSON.parse(keyList);
@@ -3995,22 +3997,26 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             //      occurrences++;
                             //    }
                             //}
-                            if (occurrences==1 && j==occurrences){
+                            if(obj[f].keys[key].priceFabric!=0){
+                              if (occurrences==1 && j==occurrences){
+                                CantidadLlaveros=1
+                                console.log("j:" +j);
+                                //console.log("occurrences:" +occurrences);
+                                console.log("CantidadLlaveros:" +CantidadLlaveros)
+                              }else if (occurrences>1 && j<occurrences){
+                                CantidadLlaveros=0
+                                //console.log("j:" +j);
+                                //console.log("occurrences:" +occurrences);
+                                //console.log("CantidadLlaveros:" +CantidadLlaveros)
+                                j++;
+                              }else if (occurrences>1 && j==occurrences){
+                                CantidadLlaveros=occurrences
+                                //console.log("j:" +j);
+                                //console.log("occurrences:" +occurrences);
+                                //console.log("CantidadLlaveros:" +CantidadLlaveros);
+                              }
+                            }else{
                               CantidadLlaveros=1
-                              //console.log("j:" +j);
-                              //console.log("occurrences:" +occurrences);
-                              //console.log("CantidadLlaveros:" +CantidadLlaveros)
-                            }else if (occurrences>1 && j<occurrences){
-                              CantidadLlaveros=0
-                              //console.log("j:" +j);
-                              //console.log("occurrences:" +occurrences);
-                              //console.log("CantidadLlaveros:" +CantidadLlaveros)
-                              j++;
-                            }else if (occurrences>1 && j==occurrences){
-                              CantidadLlaveros=occurrences
-                              //console.log("j:" +j);
-                              //console.log("occurrences:" +occurrences);
-                              //console.log("CantidadLlaveros:" +CantidadLlaveros);
                             }
                             if(obj[f].idTypePaymentKf=="1"){
                                 $scope.list_requests.push({
@@ -4022,12 +4028,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                   'Departamento':department,
                                   'SolicitadoPor':fullNameUser,
                                   'dniSolicitante':dniUser,
-                                  'CostoEnvio':costDelivery, 
-                                  'CostoGestion':costService,
+                                  'CostoEnvio':parseFloat(costDelivery).toFixed(0), 
+                                  'CostoGestion':parseFloat(costService).toFixed(0),
                                   'CantidadLlaveros': CantidadLlaveros,
                                   'idProducto':obj[f].keys[key].idProduct,
                                   'Producto': obj[f].keys[key].model,
-                                  'PrecioUnitario':obj[f].keys[key].priceFabric,
+                                  'PrecioUnitario':parseFloat(obj[f].keys[key].priceFabric).toFixed(0),
+                                  'EntregaInicial':"1",
                                 });
                             }else{
                                 $scope.list_requests.push({
@@ -4039,19 +4046,20 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                   'Departamento':department,
                                   'SolicitadoPor':fullNameUser,
                                   'dniSolicitante':dniUser,
-                                  'CostoEnvio':costDelivery, 
-                                  'CostoGestion':costService,
+                                  'CostoEnvio':parseFloat(costDelivery).toFixed(0),
+                                  'CostoGestion':parseFloat(costService).toFixed(0),
                                   'CantidadLlaveros': CantidadLlaveros,
                                   'idProducto':obj[f].keys[key].idProduct,
                                   'Producto': obj[f].keys[key].model,
-                                  'PrecioUnitario':obj[f].keys[key].priceFabric,
-                                  'FacturaNombre':fileName
+                                  'PrecioUnitario':parseFloat(obj[f].keys[key].priceFabric).toFixed(0),
+                                  'FacturaNombre':fileName,
+                                  'EntregaInicial':"1",
                                 });
                             }
                             i++;
                           }
                           //console.log($scope.list_requests);
-                        }else{*/
+                        }else{
                           if(obj[f].idTypePaymentKf=="1"){
                             $scope.list_requests.push({
                               'idTicket':obj[f].idTicket,
@@ -4062,12 +4070,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               'Departamento':department,
                               'SolicitadoPor':fullNameUser,
                               'dniSolicitante':dniUser,
-                              'CostoEnvio':costDelivery, 
-                              'CostoGestion':costService,
+                              'CostoEnvio':parseFloat(costDelivery).toFixed(0),
+                              'CostoGestion':parseFloat(costService).toFixed(0),
                               'CantidadLlaveros': obj[f].keys.length,
                               'idProducto':obj[f].keys[0].idProduct,
                               'Producto': obj[f].keys[0].model,
-                              'PrecioUnitario':priceFabric,
+                              'PrecioUnitario':parseFloat(priceFabric).toFixed(0),
+                              'EntregaInicial':"0",
                             });
                           }else{
                             $scope.list_requests.push({
@@ -4079,16 +4088,17 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                               'Departamento':department,
                               'SolicitadoPor':obj[f].userRequestBy.fullNameUser,
                               'dniSolicitante':dniUser,
-                              'CostoEnvio':costDelivery, 
-                              'CostoGestion':costService,
+                              'CostoEnvio':parseFloat(costDelivery).toFixed(0),
+                              'CostoGestion':parseFloat(costService).toFixed(0),
                               'CantidadLlaveros': obj[f].keys.length,
                               'idProducto':obj[f].keys[0].idProduct,
                               'Producto': obj[f].keys[0].model,
-                              'PrecioUnitario':priceFabric,
-                              'FacturaNombre':fileName
+                              'PrecioUnitario':parseFloat(priceFabric).toFixed(0),
+                              'FacturaNombre':fileName,
+                              'EntregaInicial':"0",
                             });
                           }
-                       // }
+                       }
                     }
                   }
                   console.log($scope.list_requests);

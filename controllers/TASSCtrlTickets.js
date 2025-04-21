@@ -3677,10 +3677,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log("[New Ticket]");
                         console.log(obj);
                         $scope.new.ticket={'idTypeRequestFor': null,'idTypeTicketKf':  null,'idUserMadeBy':  null,'idUserRequestBy':  null,'idBuildingKf': null,'idDepartmentKf': null,'keys': [],'idTypeDeliveryKf': null,'idWhoPickUp': null,'idUserDelivery': null,'idDeliveryTo': null,'idDeliveryAddress': null,'otherDeliveryAddress': {'address': null,'number': null,'floor': null,'idProvinceFk': null,'idLocationFk': null},'thirdPersonDelivery': {'fullName': null,'dni': null,'movilPhone': null,'address': null,'number': null,'floor': null,'idProvinceFk': null,'idLocationFk': null},'idTypePaymentKf': null,'sendNotify': null,'description': null,'costService': null,'costKeys': null,'costDelivery': null,'total': null,'urlToken': null,'autoApproved': null,'isNew': null,'history': []};
-                        $scope.new.ticket.idTypeTicketKf    = 1;
-                        $scope.new.ticket.idBuildingKf      = obj.building.idClient;
-                        $scope.new.ticket.idUserMadeBy      = $scope.sysLoggedUser.idUser;
-                        $scope.new.ticket.idTypeDeliveryKf  = obj.delivery.idTypeDeliveryKf
+                        $scope.new.ticket.idTypeTicketKf            = 1;
+                        $scope.new.ticket.idBuildingKf              = obj.building.idClient;
+                        $scope.new.ticket.idUserMadeBy              = $scope.sysLoggedUser.idUser;
+                        $scope.new.ticket.idTypeDeliveryKf          = obj.delivery.idTypeDeliveryKf
+                        $scope.new.ticket.isInitialDeliveryActive   = obj.building.isInitialDeliveryActive?1:0;
                         $scope.new.ticket.keys = [];
                             $scope.new.ticket.mail = '';
                             $scope.new.ticket.mail = '<table width="100%" style="max-width: 768px;min-width: 100%;border-collapse: collapse; padding-top:2%; padding-bottom:2%;font-size:1vw;font-family:sans-serif;color:#555555;padding:2%">';
