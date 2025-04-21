@@ -2639,6 +2639,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             var id = 1;
                             if ($scope.select.buildings.selected.initial_delivery!=undefined && $scope.select.buildings.selected.initial_delivery.length>0 && !$scope.select.buildings.selected.initial_delivery[0].expiration_state && (($scope.list_keys.length+1))<=parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty)){
                                 productSelected.priceFabric = 0;
+                            }else if ($scope.select.buildings.selected.initial_delivery.length>0 && !$scope.select.buildings.selected.initial_delivery[0].expiration_state && (($scope.list_keys.length+1))>parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty)){
+                                productSelected.priceFabric = Number($scope.select.buildings.selected.initial_delivery[0].initial_price);
                             }
                             console.log(productSelected);
                             $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'doors':doorsSelected});
