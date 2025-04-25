@@ -2776,7 +2776,7 @@ class Ticket_model extends CI_Model
 		$rs_tickets['tickets']=$todo;
 		$quuery  = $this->db->select("*")->from("tb_statusticket")->get();
 		$dashboard['dashboard']['total'] = null;
-		if (count($rs_tickets['tickets'])>1){
+		if (count($rs_tickets['tickets'])>=1){
 			foreach (@$quuery->result_array() as $status){
 				//print_r(" id: ".strval($status['idStatus'])." status: ".str_replace(' ', '_', $status['statusName'])."\n");
 				if (is_null($dashboard['dashboard']['total'])){
