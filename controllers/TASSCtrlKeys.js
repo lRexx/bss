@@ -1212,7 +1212,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                     $scope.listTickt = [];
                     ticketServices.all(filter).then(function(response){
                         if(response.status==200){
-                            $scope.listTicktTmp =  response.data.response;
+                            $scope.listTicktTmp =  response.data.response.tickets;
                             if (filter.isInitialDeliveryActive==1){ //isInitialDeliveryActive
                             console.log($scope.listTickt);
                             for(var i=0;i<$scope.listTicktTmp.length;i++){
@@ -1223,7 +1223,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                                 }
                             }
                             }else{
-                            $scope.listTickt    =  response.data.response;
+                            $scope.listTickt    =  response.data.response.tickets;
                             }
                             
                             $scope.totalTickets = $scope.listTickt.length;
@@ -1260,14 +1260,14 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.listTickt = [];
                             $scope.filters.idTypeTicketKf      = "";
                             $scope.filters.idProfileKf         = $scope.sysLoggedUser.idProfileKf;
-                            $scope.filters.isBillingInitiated  = 1;
-                            $scope.filters.isBillingUploaded   = 1;
+                            $scope.filters.isBillingInitiated  = null;
+                            $scope.filters.isBillingUploaded   = null;
                             $scope.filters.topfilter           = "10";
                             $scope.filters.codTicket           = string_search;
                             ticketServices.all($scope.filters).then(function(response){
                                 console.log(response);
                                 if(response.status==200){
-                                    $scope.listTickt    =  response.data.response;
+                                    $scope.listTickt    =  response.data.response.tickets;
                                     $scope.totalTickets = $scope.listTickt.length;
                                     console.info($scope.listTickt);
                                 }else if (response.status==404){
