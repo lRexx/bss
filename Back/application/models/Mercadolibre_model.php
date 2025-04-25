@@ -468,29 +468,29 @@ class Mercadolibre_model extends CI_Model
 				$to = null;
 				$title = "Link de Pago Generado";
 
-				if ((! @$data['isManualPayment'] || $lastTicketUpdatedQuery[0]['isManualPayment']==0 || is_null($lastTicketUpdatedQuery[0]['isManualPayment'])) && ($lastTicketUpdatedQuery[0]['idTypeRequestFor']==1 && ($lastTicketUpdatedQuery[0]['sendNotify']==1 || $lastTicketUpdatedQuery[0]['sendNotify']==null))){
+				if ((! @$data['isManualPayment'] || $lastTicketUpdatedQuery['isManualPayment']==0 || is_null($lastTicketUpdatedQuery['isManualPayment'])) && ($lastTicketUpdatedQuery['idTypeRequestFor']==1 && ($lastTicketUpdatedQuery['sendNotify']==1 || $lastTicketUpdatedQuery['sendNotify']==null))){
 					//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
 					$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
 					$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
 					$this->db->join('tb_clients AS b', 'b.idClient = tb_client_departament.idClientFk', 'left');
 					$this->db->join('tb_client_type', 'tb_client_type.idClientType = b.idClientTypeFk', 'left');
-					$queryBuilding = $this->db->where("tb_client_departament.idClientDepartament = ", $lastTicketUpdatedQuery[0]['idDepartmentKf'])->get();
+					$queryBuilding = $this->db->where("tb_client_departament.idClientDepartament = ", $lastTicketUpdatedQuery['idDepartmentKf'])->get();
 					if ($queryBuilding->num_rows() > 0) {
 						$building = $queryBuilding->row_array();
 					}
 					if (! $data['paymentForDelivery']){
 						$subject = "Pedido Llavero :: ".$building['Depto']." :: Link de Pago";
-						$link_mp = $lastTicketUpdatedQuery[0]['paymentDetails']['mp_prod_init_point'];
+						$link_mp = $lastTicketUpdatedQuery['paymentDetails']['mp_prod_init_point'];
 					}else{
 						$subject = "Pedido Llavero :: ".$building['Depto']." :: Link de Pago de Envío";
-						$link_mp = $lastTicketUpdatedQuery[0]['paymentDeliveryDetails']['mp_prod_init_point'];
+						$link_mp = $lastTicketUpdatedQuery['paymentDeliveryDetails']['mp_prod_init_point'];
 					}
 					//GET USER
 					$this->db->select("*")->from("tb_user");
 					$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
 					$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 					$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-					$queryUser = $this->db->where("idUser =", $lastTicketUpdatedQuery[0]['idUserRequestBy'])->get();
+					$queryUser = $this->db->where("idUser =", $lastTicketUpdatedQuery['idUserRequestBy'])->get();
 					if ($queryUser->num_rows() > 0) {
 						$user = $queryUser->row_array();
 						#MAIL TO USER
@@ -500,7 +500,7 @@ class Mercadolibre_model extends CI_Model
 						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>'.$user['fullNameUser'].'</b>,</td>';
 						$body.='</tr>';
 						$body.='<tr width="100%" bgcolor="#ffffff">';
-						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Se ha generado el siguiente link de MercadoPago para pagar el Pedido N°: <b>'.$lastTicketUpdatedQuery[0]['codTicket'].'</b></td>';
+						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Se ha generado el siguiente link de MercadoPago para pagar el Pedido N°: <b>'.$lastTicketUpdatedQuery['codTicket'].'</b></td>';
 						$body.='</tr>';
 						$body.='<tr width="100%" bgcolor="#ffffff">';
 						$body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede efectuar el pago haciendo click en <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="'.$link_mp.'" target="_blank" style="text-decoration: none; color: #ffffff;">PAGAR</a></span> </td>';
