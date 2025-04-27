@@ -12,13 +12,12 @@ moduleProfilesServices.service("ProfileServices", ['$http', 'tokenSystem', '$tim
             var sMsg=searchFilter==null||searchFilter==undefined?"All":searchFilter;
             console.log("[Profile Services] => criterio de busqueda: "+sMsg);
               return $http.post(serverHost+serverBackend+"profiles/search",sFilter)
-                .then(function mySucess(response, status) {
-                  rsJson=response.data;
-                  return rsJson;
-                },function myError(response) { 
-                  console.log("Error: "+response.error); 
+                .then(function mySucess(response) {
                   return response;
-                })  
+              },function myError(response, error) { 
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");  
+                return response;
+              });
           },
           byIdProfile: function(id) {
             console.log("[Profile Services]: buscar profile por el id "+id);
@@ -33,18 +32,17 @@ moduleProfilesServices.service("ProfileServices", ['$http', 'tokenSystem', '$tim
                     return response;
             });   
           },
-          getSysModules: function(id) {
+          getSysModules: function() {
             console.log("[Profile Services]: Get Modules ");
               return $http({
                     method : "GET",
                     url : serverHost+serverBackend+"profiles/modules"
                   }).then(function mySuccess(response) {
-                    rsJson=response.data;
-                    return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.error); 
                     return response;
-            });   
+                  }).catch(function onError(response) {
+                    console.log("Error: "+response); 
+                    return response;
+              })
           },
           /* NEW SYSTEM PROFILE */
           newSysProfile: function(newProfile) {

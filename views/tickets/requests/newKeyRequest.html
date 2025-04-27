@@ -297,6 +297,17 @@
                         <div class="row">
                             <div ng-if="rsKeyProductsData.length>0" class="container-fluid justify-content-md-center">
 								<legend style="text-align: center;">Llaves disponibles</legend>
+								<div class="col-md-12" ng-if="ticket.building!=undefined && ticket.building.initial_delivery.length==1 && ticket.building.initial_delivery[0].expiration_state!=undefined && !ticket.building.initial_delivery[0].expiration_state">
+									<div class="alert alert-info" role="alert" >
+										<span style="padding: 4px !important;">
+											<strong>INFORMACION IMPORTANTE: </strong><br></span>
+											<ul>
+												<li><span>Se cargaran automaticamente ({{ticket.building.initial_delivery[0].initial_qtty}}) llaveros al pedido a consto $0.</li>
+												<li><span>Si desea agregar uno o más llaveros adicionales tendran un costo de $ {{ticket.building.initial_delivery[0].initial_price | number: 2}}</li>
+											</ul>
+										</span>
+									</div>
+								</div>
                                 <!-- List Open Devices Products For RESERVA-->
                                 <div  class="form-group col-md-6 n-padding-r"  ng-class="
                                     {	'has-success': 
@@ -881,10 +892,10 @@
 											<table class="table table-bordered table-condensed table-list table-responsive" style="margin-bottom: 0px !important;">
 												<tbody style="text-align: right;">
 													<tr>
-														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Gestión</td><td>$ {{ticket.cost.service | number : 2 }}</td>
-														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Llaves</td><td>$ {{ticket.cost.keys | number : 2 }}</td>
-														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Envío</td><td>$ {{ticket.cost.delivery | number : 2 }}</td>
-														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Total</td><td>$ {{ticket.cost.total | number : 2 }}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Gestión</td><td>$ {{ ticket.cost.service }}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Llaves</td><td>$ {{ ticket.cost.keys }}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Envío</td><td>$ {{ ticket.cost.delivery }}</td>
+														<td style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Total</td><td>$ {{ ticket.cost.total }}</td>
 													</tr>
 												</tbody>
 											</table>

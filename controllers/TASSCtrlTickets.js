@@ -75,6 +75,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
     $scope.att= {'ownerOption':undefined}
     $scope.update={'user':{'fullNameUser':null, 'emailUser': null, 'phoneNumberUser': null, 'phoneLocalNumberUser': null, 'idAddresKf': null, 'idProfileKf': null, 'idTypeTenantKf': null, 'idCompanyKf': null, 'idTyepeAttendantKf': null, 'descOther': null, 'idDepartmentKf':null, 'isEdit': null, 'requireAuthentication': null, 'dni': null, 'idSysProfileFk': null, 'isCreateByAdmin': null, 'typeTenantChange':false}};
     $scope.thirdPerson = {};
+    $scope.initialLoopExecuted = false;
     $scope.selectedRequestKeyOwnerUser = undefined;
     $scope.selectedUser = undefined;
     $scope.selectSubType = false;
@@ -1583,6 +1584,15 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             function NaN2Zero(n){
                 return isNaN( n ) ? 0 : n; 
             }
+            function normalizeDecimal(n) {
+                if (typeof n === 'string') {
+                    n = n.replace(',', '.');  // Cambiar coma por punto
+                }
+                return Number(n);
+            }
+            function formatDecimalLatam(n) {
+                return Number(n).toFixed(2).replace('.', ',');
+            }
         /**************************************************
         *                                                 *
         *   GET COST OF SERVICES BY CUSTOMER ID           *
@@ -1592,22 +1602,22 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             $scope.getServiceCostByCustomerFn = function(data){
                 serviceServices.getServiceCostByCustomer(data).then(function(response) {
                     if(response.status==200){
-                        $scope.ticket.cost.service   = Number(response.data.technician_service_cost[0].cost);
-                        $scope.buildingServiceValue  = Number(response.data.technician_service_cost[0].cost);
+                        $scope.ticket.cost.service   = formatDecimalLatam(response.data.technician_service_cost[0].cost);
+                        $scope.buildingServiceValue  = NaN2Zero(normalizeDecimal(response.data.technician_service_cost[0].cost));
                         $scope.customerCosts=true;
                     }else if (response.status==404){
                         inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de BSS.',{
                             ttl:3000, type: 'warning'
                         });
                         $scope.customerCosts=false;
-                        $scope.ticket.cost.service  = 0;
-                        $scope.buildingServiceValue = 0;
+                        $scope.ticket.cost.service  = formatDecimalLatam(normalizeDecimal(0));
+                        $scope.buildingServiceValue = NaN2Zero(normalizeDecimal(0));
                     }else if (response.status==500){
                         inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
                         ttl:3000, type: 'danger'
                         });
-                        $scope.ticket.cost.service  = 0;
-                        $scope.buildingServiceValue = 0;
+                        $scope.ticket.cost.service  = formatDecimalLatam(normalizeDecimal(0));
+                        $scope.buildingServiceValue = NaN2Zero(normalizeDecimal(0));
                         $scope.customerCosts=false;
                     }
                 });
@@ -1953,7 +1963,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.tenant = {'namesTenant':null, 'addressTenant':null, 'movilPhoneTenant':null, 'localPhoneTenant':null, 'emailTenant':null}
                         $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':undefined, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
                         $scope.ticket.delivery.thirdPerson={};
-                        $scope.costs={'keys':{'cost':0, 'manual':false}, 'delivery':{'cost':0, 'manual':false}, 'service':{'cost':0, 'manual':false}, 'total':0};
+                        $scope.costs={'keys':{'cost':formatDecimalLatam(0), 'manual':false}, 'delivery':{'cost':formatDecimalLatam(0), 'manual':false}, 'service':{'cost':formatDecimalLatam(0), 'manual':false}, 'total':formatDecimalLatam(0)};
+                        console.log($scope.costs);
                         $scope.selectedUser = undefined;
                         $scope.ticketRegistered = null;
                         $scope.formValidated=false;
@@ -1998,7 +2009,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.tenant = {'namesTenant':null, 'addressTenant':null, 'movilPhoneTenant':null, 'localPhoneTenant':null, 'emailTenant':null}
                         $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'reason':undefined,'optionTypeSelected': {}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':undefined, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
                         $scope.ticket.delivery.thirdPerson={};
-                        $scope.costs={'keys':{'cost':0, 'manual':false}, 'delivery':{'cost':0, 'manual':false}, 'service':{'cost':0, 'manual':false}, 'total':0};
+                        $scope.costs={'keys':{'cost':formatDecimalLatam(0), 'manual':false}, 'delivery':{'cost':formatDecimalLatam(0), 'manual':false}, 'service':{'cost':formatDecimalLatam(0), 'manual':false}, 'total':formatDecimalLatam(0)};
+                        console.log($scope.costs);
                         $scope.selectedUser = undefined;
                         $scope.formValidated=false;
                         $scope.list_doors = [];
@@ -2044,7 +2056,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.select = {'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined};
                         $scope.tenant = {'namesTenant':null, 'addressTenant':null, 'movilPhoneTenant':null, 'localPhoneTenant':null, 'emailTenant':null}
                         $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
-                        $scope.costs={'keys':{'cost':0, 'manual':false}, 'delivery':{'cost':0, 'manual':false}, 'service':{'cost':0, 'manual':false}, 'total':0};
+                        $scope.costs={'keys':{'cost':formatDecimalLatam(0), 'manual':false}, 'delivery':{'cost':formatDecimalLatam(0), 'manual':false}, 'service':{'cost':formatDecimalLatam(0), 'manual':false}, 'total':formatDecimalLatam(0)};
                         $scope.selectedUser = undefined;
                         $scope.formValidated=false;
                         $scope.list_doors = [];
@@ -2182,7 +2194,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             if (obj!=undefined && ($scope.sysLoggedUser.idProfileKf=="1" || ($scope.sysLoggedUser.idProfileKf=="4" && $scope.isCompanyAdministrator && !$scope.isHomeSelected))){
                                 $scope.ticket.building                      = obj;
                                 if ($scope.isRequest!="costs"){
-                                    $scope.buildingDeliveryCost             = obj.valor_envio;
+                                    $scope.buildingDeliveryCost             = NaN2Zero(normalizeDecimal(obj.valor_envio));
                                 }
                                 $scope.getCostByCustomer.rate.idCustomer    = obj.idClient;
                                 if(($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state) || 
@@ -2219,14 +2231,17 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }, 1700);
                                 $timeout(function() {
                                     if ($scope.isRequest=="costs"){
-                                        var subTotalDelivery = 0;
+                                        var subTotalDelivery = NaN2Zero(normalizeDecimal(0));
                                         if ($scope.buildingServiceValue > 0){
-                                            subTotalDelivery            = Number(0);
+                                            subTotalDelivery            = NaN2Zero(normalizeDecimal(0));
                                         }else{
-                                            subTotalDelivery            = Number(obj.valor_envio);
+                                            subTotalDelivery            = NaN2Zero(normalizeDecimal(obj.valor_envio));
                                         }
-                                        $scope.buildingDeliveryCost     = subTotalDelivery.toFixed(2);
+                                        console.log("subTotalDelivery : "+subTotalDelivery);
+                                        $scope.buildingDeliveryCost     = subTotalDelivery;
                                     }
+                                    console.log("$scope.buildingServiceValue :"+$scope.buildingServiceValue);
+                                    console.log("$scope.buildingDeliveryCost :"+$scope.buildingDeliveryCost);
                                     //$scope.mainSwitchFn('autoSelectDoors', null, null);
                                     blockUI.stop();
                                 }, 2000);
@@ -2250,20 +2265,24 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }, 1700);
                                 $timeout(function() {
                                     if ($scope.isRequest=="costs"){
-                                        var subTotalDelivery = 0;
+                                        var subTotalDelivery = NaN2Zero(normalizeDecimal(0));
                                         if ($scope.buildingServiceValue > 0){
-                                            subTotalDelivery            = Number(0);
+                                            subTotalDelivery            = NaN2Zero(normalizeDecimal(0));
                                         }else{
-                                            subTotalDelivery            = Number(obj.valor_envio);
+                                            subTotalDelivery            = NaN2Zero(normalizeDecimal(obj.valor_envio));
                                         }
-                                        $scope.buildingDeliveryCost     = subTotalDelivery.toFixed(2);
+                                        console.log("subTotalDelivery : "+subTotalDelivery);
+                                        $scope.buildingDeliveryCost     = subTotalDelivery;
                                     }else{
                                         $scope.mainSwitchFn('autoSelectDoors', null, null);
                                     }
                                     blockUI.stop();
                                     $scope.enabledNextBtn();
                                     $scope.isDataLoaded=true;
+                                    console.log("$scope.buildingServiceValue :"+$scope.buildingServiceValue);
+                                    console.log("$scope.buildingDeliveryCost :"+$scope.buildingDeliveryCost);
                                 }, 2000);
+
                             }
                         }else{
                             $scope.clientName=obj.name;
@@ -2517,11 +2536,23 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             ($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0' && $scope.ticket.building.isStockInBuilding=='1') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')||
                             ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0' && $scope.ticket.building.isStockInOffice=='1') && ($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0')){
                             $scope.whoPickUpList.push({'id': 2, 'fullNameUser': "Encargado", 'type':"Otros"});
+                            if (!$scope.initialLoopExecuted) {
+                                $scope.initialLoopExecuted = true;
+                                var initialQtty = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
+                                console.log(initialQtty);
+                                if (!isNaN(initialQtty)) {
+                                    for (let  vQtty = 0; vQtty < initialQtty; vQtty++) {
+                                        console.log(`Looping: vQtty=${vQtty}, initialQtty=${initialQtty}`);
+                                        $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
+                                    }
+                                }
+                            }
                         }
                         if ($scope.ticket.building!=undefined && (($scope.ticket.building.initial_delivery.length==0) || ($scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && $scope.ticket.building.initial_delivery[0].expiration_state))){
                             $scope.whoPickUpList.push({'id': 3, 'fullNameUser': "Tercera Persona", 'type':"Otros"});
                         }
                         console.log($scope.whoPickUpList);
+                        
                     break;
                     case "selectedUser":
                         $scope.selectedUser=obj!=undefined?obj:undefined;
@@ -3481,12 +3512,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         console.log($scope.costs);
                         console.log($scope.ticket.cost);
                         if ($scope.ticket.optionTypeSelected.name=="building" && ($scope.ticket.radioButtonBuilding=="4" || $scope.ticket.radioButtonBuilding=="5")){
-                            var subTotalKeys = 0;
-                            var subTotalDelivery = 0;
-                            var subTotalService = 0;
-                            $scope.ticket.cost.keys = subTotalKeys.toFixed(2);
-                            $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);
-                            $scope.ticket.cost.service = subTotalService.toFixed(2);
+                            var subTotalKeys        = NaN2Zero(normalizeDecimal(0));
+                            var subTotalDelivery    = NaN2Zero(normalizeDecimal(0));
+                            var subTotalService     = NaN2Zero(normalizeDecimal(0));
+                            $scope.ticket.cost.keys     = formatDecimalLatam(subTotalKeys);
+                            $scope.ticket.cost.delivery = formatDecimalLatam(subTotalDelivery);
+                            $scope.ticket.cost.service  = formatDecimalLatam(subTotalService);
                         }else{
                             if (($scope.ticket.userNotify==null || $scope.ticket.userNotify=="1")){
                                 console.info("userNotify: 1/null");
@@ -3498,16 +3529,16 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         for (var key in $scope.list_keys){
                                             var keyCost = $scope.list_keys[key].key.priceFabric!=undefined?$scope.list_keys[key].key.priceFabric:0;
                                             if (subTotalKeys == 0){
-                                                subTotalKeys = Number(keyCost);
+                                                subTotalKeys = NaN2Zero(normalizeDecimal(keyCost));
                                             }else{
-                                                subTotalKeys = Number(subTotalKeys)+Number(keyCost);
+                                                subTotalKeys = NaN2Zero(normalizeDecimal(subTotalKeys))+NaN2Zero(normalizeDecimal(keyCost));
                                             }
                                         }
-                                        $scope.ticket.cost.keys = subTotalKeys.toFixed(2);
-                                        $scope.costs.keys.cost  = subTotalKeys.toFixed(2);
+                                        $scope.ticket.cost.keys = formatDecimalLatam(subTotalKeys);
+                                        $scope.costs.keys.cost  = formatDecimalLatam(subTotalKeys);
                                     }else{
-                                        subTotalKeys = $scope.costs.keys.cost;
-                                        subTotalKeys = $scope.ticket.cost.keys;
+                                        subTotalKeys = NaN2Zero(normalizeDecimal($scope.costs.keys.cost));
+                                        subTotalKeys = NaN2Zero(normalizeDecimal($scope.ticket.cost.keys));
                                     }
                                 //DELIVERY COSTS
                                 //$scope.isRequest
@@ -3522,10 +3553,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                                         if ($scope.ticket.cost.service > 0){
                                                             subTotalDelivery            = Number(0);
                                                         }else{
-                                                            $scope.ticket.cost.delivery = $scope.ticket.building.valor_envio;
-                                                            subTotalDelivery            = Number($scope.ticket.building.valor_envio);
+                                                            $scope.ticket.cost.delivery = formatDecimalLatam($scope.ticket.building.valor_envio);
+                                                            subTotalDelivery            = NaN2Zero(normalizeDecimal($scope.ticket.building.valor_envio));
                                                         }
-                                                        $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
+                                                        $scope.costs.delivery.cost  = formatDecimalLatam(subTotalDelivery);
                                                     }else{
                                                         if(($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id!=3) || ($scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo==1 && $scope.ticket.delivery.whoPickUp.idUser!=undefined)){
                                                             console.log("1");
@@ -3533,29 +3564,31 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                                             if ($scope.ticket.cost.service > 0){
                                                                 subTotalDelivery            = Number(0);
                                                             }else{
-                                                                $scope.ticket.cost.delivery = $scope.ticket.delivery.zone!=null && $scope.ticket.delivery.zone!=undefined?$scope.ticket.delivery.zone.valor_envio:$scope.ticket.building.valor_envio;
-                                                                subTotalDelivery            = Number($scope.ticket.cost.delivery);
+                                                                $scope.ticket.cost.delivery = $scope.ticket.delivery.zone!=null && $scope.ticket.delivery.zone!=undefined?formatDecimalLatam($scope.ticket.delivery.zone.valor_envio):formatDecimalLatam($scope.ticket.building.valor_envio);
+                                                                subTotalDelivery            = NaN2Zero(normalizeDecimal($scope.ticket.cost.delivery));
                                                             }
                                                         }else{
                                                             console.log("2");
                                                             console.log($scope.ticket);
-                                                            $scope.ticket.cost.delivery     = $scope.ticket.delivery.zone!=null && $scope.ticket.delivery.zone!=undefined?$scope.ticket.delivery.zone.valor_envio:$scope.ticket.building.valor_envio;
-                                                            subTotalDelivery                = Number($scope.ticket.cost.delivery);
+                                                            $scope.ticket.cost.delivery     = $scope.ticket.delivery.zone!=null && $scope.ticket.delivery.zone!=undefined?formatDecimalLatam($scope.ticket.delivery.zone.valor_envio):formatDecimalLatam($scope.ticket.building.valor_envio);
+                                                            subTotalDelivery                = NaN2Zero(normalizeDecimal($scope.ticket.cost.delivery));
                                                         }
-                                                        $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
+                                                        $scope.costs.delivery.cost  = formatDecimalLatam(subTotalDelivery);
                                                     }
                                                 }else{
-                                                    $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);
-                                                    $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
+                                                    $scope.ticket.cost.delivery = formatDecimalLatam(subTotalDelivery);
+                                                    $scope.costs.delivery.cost  = formatDecimalLatam(subTotalDelivery);
                                                 }
                                             }
                                         }else{
-                                            $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);
-                                            $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
+                                            console.log("Deliver cost is free");
+                                            $scope.ticket.cost.delivery = formatDecimalLatam(subTotalDelivery);
+                                            $scope.costs.delivery.cost  = formatDecimalLatam(subTotalDelivery);
                                         }
                                     }else{
-                                        subTotalDelivery=$scope.costs.delivery.cost;
-                                        subTotalDelivery=$scope.ticket.cost.delivery;
+                                        console.log("Deliver cost is manually set by user");
+                                        subTotalDelivery=NaN2Zero(normalizeDecimal($scope.costs.delivery.cost));
+                                        subTotalDelivery=NaN2Zero(normalizeDecimal($scope.ticket.cost.delivery));
                                     }
                                 //SERVICE COSTS
                                     var subTotalService = 0;
@@ -3564,88 +3597,88 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             console.log("SERVICE COSTS");
                                             console.log("$scope.ticket.cost.service: "+$scope.buildingServiceValue);
                                             var subTotalService = 0;
-                                            subTotalService = Number($scope.buildingServiceValue);
-                                            $scope.costs.service.cost=subTotalService.toFixed(2);
+                                            subTotalService             = NaN2Zero(normalizeDecimal($scope.buildingServiceValue));
+                                            $scope.costs.service.cost   = formatDecimalLatam(subTotalService);
                                         }else{
-                                            subTotalService=$scope.costs.service.cost;
-                                            subTotalService=$scope.ticket.cost.service;
+                                            subTotalService=NaN2Zero(normalizeDecimal($scope.costs.service.cost));
+                                            subTotalService=NaN2Zero(normalizeDecimal($scope.ticket.cost.service));
                                         }
                                     }else{
-                                        $scope.costs.service.cost=subTotalService.toFixed(2);
-                                        $scope.ticket.cost.service = subTotalService.toFixed(2);
+                                        $scope.costs.service.cost   = formatDecimalLatam(subTotalService);
+                                        $scope.ticket.cost.service  = formatDecimalLatam(subTotalService);
                                     }
                             }else{
                                 console.info("userNotify: 0");
                                 var subTotalKeys = 0;
                                 var subTotalDelivery = 0;
                                 var subTotalService = 0;
-                                $scope.ticket.cost.keys = subTotalKeys.toFixed(2);
-                                $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);
-                                $scope.ticket.cost.service = subTotalService.toFixed(2);
+                                $scope.ticket.cost.keys     = formatDecimalLatam(subTotalKeys);
+                                $scope.ticket.cost.delivery = formatDecimalLatam(subTotalDelivery);
+                                $scope.ticket.cost.service  = formatDecimalLatam(subTotalService);
                             }
                         }
                         //TOTAL COST
                         var subTotalCosts = 0;
                         $scope.ticket.cost.total = 0;
-                        console.log("subTotalService "+Number(subTotalService))
-                        console.log("subTotalKeys "+Number(subTotalKeys))
-                        console.log("subTotalDelivery "+Number(subTotalDelivery))
-                        subTotalCosts = Number(subTotalService)+Number(subTotalKeys)+Number(subTotalDelivery);
-                        $scope.ticket.cost.total = subTotalCosts.toFixed(2);
-                        $scope.costs.total       = subTotalCosts.toFixed(2);
+                        console.log("subTotalService    : "+formatDecimalLatam(subTotalService))
+                        console.log("subTotalKeys       : "+formatDecimalLatam(subTotalKeys))
+                        console.log("subTotalDelivery   : "+formatDecimalLatam(subTotalDelivery))
+                        subTotalCosts = subTotalService + subTotalKeys + subTotalDelivery;
+                        $scope.ticket.cost.total = formatDecimalLatam(subTotalCosts);
+                        $scope.costs.total       = formatDecimalLatam(subTotalCosts);
                         console.log($scope.costs);
                     break;
                     case "recalculateCosts":
                         if ($scope.ticket.userNotify==null || $scope.ticket.userNotify=="1"){
-                            var subTotalKeys        = NaN2Zero(Number($scope.ticket.cost.keys));
-                            var subTotalService     = NaN2Zero(Number($scope.ticket.cost.service));
-                            var subTotalDelivery    = NaN2Zero(Number($scope.ticket.cost.delivery));
+                            var subTotalKeys        = NaN2Zero(normalizeDecimal($scope.ticket.cost.keys));
+                            var subTotalService     = NaN2Zero(normalizeDecimal($scope.ticket.cost.service));
+                            var subTotalDelivery    = NaN2Zero(normalizeDecimal($scope.ticket.cost.delivery));
                             var subTotalCosts = 0;
-                            console.log("subTotalService  : "+Number(subTotalService))
-                            console.log("subTotalKeys     : "+Number(subTotalKeys))
-                            console.log("subTotalDelivery : "+Number(subTotalDelivery))
-                            console.log("Obj : "+Number(obj))
+                            console.log("subTotalService  : "+formatDecimalLatam(subTotalService));
+                            console.log("subTotalKeys     : "+formatDecimalLatam(subTotalKeys));
+                            console.log("subTotalDelivery : "+formatDecimalLatam(subTotalDelivery));
+                            console.log("Obj : "+NaN2Zero(normalizeDecimal(obj)));
                             var opt2 = obj2;
                             switch (opt2){
                                 case "service":
-                                    if (Number(subTotalService) != Number(obj)){
-                                        subTotalService=obj;
-                                        $scope.costs.service.cost  =subTotalService;
-                                        $scope.ticket.cost.service = subTotalService;
-                                        $scope.costs.service.manual=true;
+                                    if (Number(subTotalService) != NaN2Zero(normalizeDecimal(obj))){
+                                        subTotalService = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
+                                        $scope.costs.service.cost       = formatDecimalLatam(subTotalService);
+                                        $scope.ticket.cost.service      = formatDecimalLatam(subTotalService);
+                                        $scope.costs.service.manual     = true;
                                     }
                                 break;
                                 case "keys":
-                                    if (Number(subTotalKeys) != Number(obj)){
-                                        subTotalKeys = obj;
-                                        $scope.costs.keys.cost      = subTotalKeys;
-                                        $scope.ticket.cost.keys     = subTotalKeys;
-                                        $scope.costs.keys.manual    = true;
+                                    if (Number(subTotalKeys) != NaN2Zero(normalizeDecimal(obj))){
+                                        subTotalKeys = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
+                                        $scope.costs.keys.cost          = formatDecimalLatam(subTotalKeys);
+                                        $scope.ticket.cost.keys         = formatDecimalLatam(subTotalKeys);
+                                        $scope.costs.keys.manual        = true;
                                     }
                                 break;
                                 case "delivery":
-                                    if (Number(subTotalDelivery) != Number(obj)){
-                                        subTotalDelivery = obj;
-                                        $scope.costs.delivery.cost      = subTotalDelivery;
-                                        $scope.ticket.cost.delivery     =  subTotalDelivery;
+                                    if (Number(subTotalDelivery) != NaN2Zero(normalizeDecimal(obj))){
+                                        subTotalDelivery = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
+                                        $scope.costs.delivery.cost      = formatDecimalLatam(subTotalDelivery);
+                                        $scope.ticket.cost.delivery     = formatDecimalLatam(subTotalDelivery);
                                         $scope.costs.delivery.manual    = true;
                                     }
                                 break;
                             }
-                            subTotalCosts = NaN2Zero(Number(subTotalService))+NaN2Zero(Number(subTotalKeys))+NaN2Zero(Number(subTotalDelivery));
+                            subTotalCosts = (subTotalService + subTotalKeys + subTotalDelivery).toFixed(2);
                             
-                            $scope.ticket.cost.total = subTotalCosts.toFixed(2);
-                            $scope.costs.total       = subTotalCosts.toFixed(2);
+                            $scope.ticket.cost.total = formatDecimalLatam(subTotalCosts);
+                            $scope.costs.total       = formatDecimalLatam(subTotalCosts);
                             console.log($scope.costs);
                         }else{
                             var subTotalKeys        = 0;
                             var subTotalDelivery    = 0;
                             var subTotalService     = 0;
                             var subTotalCosts       = 0;
-                            $scope.ticket.cost.keys     = subTotalKeys.toFixed(2);
-                            $scope.ticket.cost.delivery = subTotalDelivery.toFixed(2);
-                            $scope.ticket.cost.service  = subTotalService.toFixed(2);
-                            $scope.ticket.cost.total    = subTotalCosts.toFixed(2);
+                            $scope.ticket.cost.keys     = formatDecimalLatam(subTotalKeys);
+                            $scope.ticket.cost.delivery = formatDecimalLatam(subTotalDelivery);
+                            $scope.ticket.cost.service  = formatDecimalLatam(subTotalService);
+                            $scope.ticket.cost.total    = formatDecimalLatam(subTotalCosts);
                         }
                     break;
                     case "sendNotification":
@@ -3655,17 +3688,17 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 var subTotalDelivery = 0;
                                 var subTotalService = 0;
                                 var subTotalCosts = 0;
-                                $scope.costs.keys.cost      = subTotalKeys.toFixed(2);
-                                $scope.costs.service.cost   = subTotalService.toFixed(2);
-                                $scope.costs.delivery.cost  = subTotalDelivery.toFixed(2);
-                                $scope.costs.total          = subTotalCosts.toFixed(2);
+                                $scope.costs.keys.cost      = formatDecimalLatam(subTotalKeys);
+                                $scope.costs.service.cost   = formatDecimalLatam(subTotalService);
+                                $scope.costs.delivery.cost  = formatDecimalLatam(subTotalDelivery);
+                                $scope.costs.total          = formatDecimalLatam(subTotalCosts);
                                 $scope.mainSwitchFn('setCosts', null, null);
                             break;
                             case "1":
                                 if ($scope.costs.keys.cost==0 && $scope.costs.delivery.cost==0 && $scope.costs.service.cost==0){
-                                    $scope.costs.keys.cost       = NaN2Zero(Number($scope.ticket.cost.keys));
-                                    $scope.costs.delivery.cost   = NaN2Zero(Number($scope.ticket.cost.delivery));
-                                    $scope.costs.service.cost    = NaN2Zero(Number($scope.ticket.cost.service));
+                                    $scope.costs.keys.cost       = formatDecimalLatam($scope.ticket.cost.keys);
+                                    $scope.costs.delivery.cost   = formatDecimalLatam($scope.ticket.cost.delivery);
+                                    $scope.costs.service.cost    = formatDecimalLatam($scope.ticket.cost.service);
                                 }
                                 $scope.mainSwitchFn('setCosts', null, null);
                             break;
@@ -4031,10 +4064,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.new.ticket.idTypePaymentKf               = obj.cost.idTypePaymentKf;
                         $scope.new.ticket.sendNotify                    = $scope.sysLoggedUser.idProfileKf=="1"?obj.userNotify:null;
                         $scope.new.ticket.description                   = obj.description;
-                        $scope.new.ticket.costService                   = obj.cost.service;
-                        $scope.new.ticket.costKeys                      = obj.cost.keys;
-                        $scope.new.ticket.costDelivery                  = obj.cost.delivery;
-                        $scope.new.ticket.total                         = obj.cost.total;
+                        $scope.new.ticket.costService                   = NaN2Zero(normalizeDecimal(obj.cost.service));
+                        $scope.new.ticket.costKeys                      = NaN2Zero(normalizeDecimal(obj.cost.keys));
+                        $scope.new.ticket.costDelivery                  = NaN2Zero(normalizeDecimal(obj.cost.delivery));
+                        $scope.new.ticket.total                         = NaN2Zero(normalizeDecimal(obj.cost.total));
                         $scope.new.ticket.urlToken                      = $scope.sysTokenFn(128);
                         $scope.new.ticket.autoApproved                  = obj.building.autoApproveAll == "1" || (($scope.new.ticket.idUserRequestByProfile=="3" || $scope.new.ticket.idUserRequestByProfile=="4" || $scope.new.ticket.idUserRequestByProfile=="6")&&$scope.new.ticket.idUserRequestByTypeTenant=="1" && obj.building.autoApproveOwners=="1")?1:0;
                         $scope.new.ticket.isNew                         = 1;
@@ -4109,7 +4142,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                         ////$scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
                                         $scope.new.ticket.status = 9;
-                                    }else if ($scope.new.ticket.total==0 && (obj.idClientDepartament.isAprobatedAdmin=="1" || obj.idClientDepartament.isAprobatedAdmin!="1") && $scope.sysLoggedUser.idProfileKf!="4"){
+                                    }else if ($scope.new.ticket.total==0 && (obj.idClientDepartament.isAprobatedAdmin=="1" || obj.idClientDepartament.isAprobatedAdmin!="1") && ($scope.sysLoggedUser.idProfileKf=="3" || $scope.sysLoggedUser.idProfileKf=="6")){
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
+                                        $scope.new.ticket.status = 2;
+                                    }else if ($scope.new.ticket.total==0 && (obj.idClientDepartament.isAprobatedAdmin=="1" || obj.idClientDepartament.isAprobatedAdmin!="1") && $scope.sysLoggedUser.idProfileKf!="4" && $scope.sysLoggedUser.idProfileKf!="3"){
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido aprobado por BSS, automaticamente.', 'idCambiosTicketKf':"2"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"4"});
@@ -4868,11 +4904,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         });
                         $('.circle-loader').toggleClass('load-complete');
                         $('.checkmark').toggle();
-                        $scope.ticketRegistered = response.data.response[0];
+                        $scope.ticketRegistered = response.data.response;
                     }, 2500);
-                    if((response.data.response[0].idStatusTicketKf=="3" || response.data.response[0].idStatusTicketKf=="9") && response.data.response[0].idTypePaymentKf=="2" && response.data.response[0].total>0){
+                    if((response.data.response.idStatusTicketKf=="3" || response.data.response.idStatusTicketKf=="9") && response.data.response.idTypePaymentKf=="2" && response.data.response.total>0){
                         $timeout(function() {
-                            $scope.mainSwitchFn("linkMP",response.data.response[0],null);
+                            $scope.mainSwitchFn("linkMP",response.data.response,null);
                         }, 2700);
                     }
                     }else if(response.status==500){
@@ -4902,11 +4938,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                        });
                        $('.circle-loader').toggleClass('load-complete');
                        $('.checkmark').toggle();
-                       $scope.ticketRegistered = response.data.response[0];
+                       $scope.ticketRegistered = response.data.response;
                    }, 2500);
-                   if((response.data.response[0].idStatusTicketKf=="3" || response.data.response[0].idStatusTicketKf=="9") && response.data.response[0].idTypePaymentKf=="2" && response.data.response[0].total>0){
+                   if((response.data.idStatusTicketKf=="3" || response.data.idStatusTicketKf=="9") && response.data.idTypePaymentKf=="2" && response.data.total>0){
                        $timeout(function() {
-                           $scope.mainSwitchFn("linkMP",response.data.response[0],null);
+                           $scope.mainSwitchFn("linkMP",response.data,null);
                        }, 2700);
                    }
                    }else if(response.status==500){
@@ -4980,7 +5016,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         inform.add('La solicitud de pago ha sido registrada Satisfactoriamente. ',{
                                 ttl:5000, type: 'success'
                         });
-                        $scope.addPaymentDetailsFn = response.data.response[0];
+                        $scope.addPaymentDetailsFn = response.data.response;
                     }else if(response.status==500){
                         $scope.addPaymentDetailsFn = null;
                         console.log("Payment request has failed, contact administrator");

@@ -1027,6 +1027,19 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             });
         }
         
+
+      function NaN2Zero(n){
+          return isNaN( n ) ? 0 : n; 
+      }
+      function normalizeDecimal(n) {
+          if (typeof n === 'string') {
+              n = n.replace(',', '.');  // Cambiar coma por punto
+          }
+          return Number(n);
+      }
+      function formatDecimalLatam(n) {
+          return Number(n).toFixed(2).replace('.', ',');
+      }
       /**************************************************
       *                                                 *
       *               TICKET FILTER LIST                *
@@ -1943,9 +1956,6 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             }
           };
 
-          function NaN2Zero(n){
-            return isNaN( n ) ? 0 : n; 
-          }
     /**************************************************
     *                                                 *
     *            TICKETS MONITOR FUNCTION             *
@@ -2387,12 +2397,11 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               $scope.mp.payment.data.client_id                = "8877359900700578";
 
               $scope.mp.payment.data.collector_id             = null;
-              var manualPaymentDate = new Date(obj.manualPaymentDate);
-              var date = moment.tz(manualPaymentDate, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
-              var newPaymentDate = date.toDate();
-              $scope.mp.payment.data.manualPaymentDate        = obj.manualPaymentDate;
+              var manualPaymentDate = moment.tz(obj.manualPaymentDate, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+              $scope.mp.payment.data.manualPaymentDate        = manualPaymentDate;
               var current_date = new Date();
               var date = moment.tz(current_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+              console.log($scope.mp.payment.data);
               var newDate = date.toDate();
               var dateTimeString =
                   String(current_date.getDate()).padStart(2, '0') +      // dd
@@ -2494,7 +2503,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.otherDeliveryAddress                           = {};
                   $scope.thirdPersonDelivery                            = {};
                   $scope.costDelivery                                   = obj.selected.costDelivery!=null?Number(obj.selected.costDelivery):null;
-                  $scope.subTotalDelivery                               = Number(obj.cost.delivery);
+                  $scope.subTotalDelivery                               = NaN2Zero(normalizeDecimal(obj.cost.delivery));
                   $scope.update.ticket.refund                           = [];
                   switch (obj.selected.idTypePaymentKf){
                     case "1":
@@ -2774,14 +2783,14 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.update.ticket.isNew                  = obj.selected.isNew;
                   $scope.update.ticket.costService            = obj.selected.costService;
                   $scope.update.ticket.costKeys               = obj.selected.costKeys;
-                  var subTotalKeys                            = NaN2Zero(Number(obj.selected.costKeys));
-                  var subTotalService                         = NaN2Zero(Number(obj.selected.costService));
+                  var subTotalKeys                            = NaN2Zero(normalizeDecimal(obj.selected.costKeys));
+                  var subTotalService                         = NaN2Zero(normalizeDecimal(obj.selected.costService));
                   console.log("SE MODIFICA STATUS POR VALOR ACTUA");
                   console.log($scope.update.ticket.idStatusTicketKf);
                   //$scope.update.ticket.idStatusTicketKf     = obj.selected.idStatusTicketKf;
                   $scope.update.ticket.costDelivery           = $scope.subTotalDelivery;
-                  subTotalCosts = NaN2Zero(Number(subTotalService))+NaN2Zero(Number(subTotalKeys))+NaN2Zero(Number($scope.subTotalDelivery));
-                  $scope.update.ticket.total                  = subTotalCosts.toFixed(2);
+                  subTotalCosts = subTotalService + subTotalKeys + $scope.subTotalDelivery;
+                  $scope.update.ticket.total                  = formatDecimalLatam(subTotalCosts);
                   $scope.update.ticket.idPaymentDeliveryKf    = obj.selected.idPaymentDeliveryKf!=null?obj.selected.idPaymentDeliveryKf:null;
                   $scope.update.ticket.isDeliveryHasChanged   = 1;
                   console.log($scope.update);
@@ -3428,17 +3437,17 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 console.log($scope.costs);
             break;
             case "recalculateCosts":
-                var subTotalKeys = $scope.ticket.cost.keys;
-                var subTotalService = $scope.ticket.cost.service;
-                var subTotalDelivery = $scope.ticket.cost.delivery;
+                var subTotalKeys      = $scope.ticket.cost.keys;
+                var subTotalService   = $scope.ticket.cost.service;
+                var subTotalDelivery  = $scope.ticket.cost.delivery;
                 var subTotalCosts = 0;
-                console.log("subTotalService  : "+Number(subTotalService))
-                console.log("subTotalKeys     : "+Number(subTotalKeys))
-                console.log("subTotalDelivery : "+Number(subTotalDelivery))
+                console.log("subTotalService  : "+NaN2Zero(normalizeDecimal(subTotalService)));
+                console.log("subTotalKeys     : "+NaN2Zero(normalizeDecimal(subTotalKeys)));
+                console.log("subTotalDelivery : "+NaN2Zero(normalizeDecimal(subTotalDelivery)));
                 var opt2 = obj2;
                 switch (opt2){
                     case "service":
-                        if (Number(subTotalService) != Number(obj)){
+                        if (NaN2Zero(normalizeDecimal(subTotalService)) != NaN2Zero(normalizeDecimal(obj))){
                             subTotalService=obj;
                             $scope.costs.service.cost   = subTotalService;
                             $scope.ticket.cost.service  = subTotalService;
@@ -3462,7 +3471,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         }
                     break;
                 }
-                subTotalCosts = NaN2Zero(Number(subTotalService))+NaN2Zero(Number(subTotalKeys))+NaN2Zero(Number(subTotalDelivery));
+                subTotalCosts = NaN2Zero(normalizeDecimal(subTotalService))+NaN2Zero(normalizeDecimal(subTotalKeys))+NaN2Zero(normalizeDecimal(subTotalDelivery));
                 
                 $scope.ticket.cost.total = subTotalCosts.toFixed(2);
                 $scope.costs.total       = subTotalCosts.toFixed(2);
@@ -3509,7 +3518,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       });
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
-                      $scope.ticketRegistered = response.data.response[0];
+                      $scope.ticketRegistered = response.data.response;
                       response.data.response[0].createNewMPLinkForDelivery=pedido.ticket.createNewMPLinkForDelivery;
                     }, 2500);
                     if((pedido.ticket.createNewMPLink || pedido.ticket.createNewMPLinkForDelivery) && response.data.response[0].idTypePaymentKf=="2"){
@@ -3604,7 +3613,10 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         inform.add('La solicitud de pago ha sido registrada Satisfactoriamente. ',{
                                 ttl:5000, type: 'success'
                         });
-                        $scope.addPaymentDetailsFn = response.data.response[0];
+                        $scope.addPaymentDetailsFn = response.data.response;
+                        $timeout(function() {
+                          $scope.openTicketFn($scope.mp.payment.data.idTicketKf);
+                        }, 500);
                     }else if(response.status==500){
                         $scope.addPaymentDetailsFn = null;
                         console.log("Payment request has failed, contact administrator");
@@ -3632,7 +3644,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       });
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
-                      $scope.ticketRegistered = response.data[0];
+                      $scope.ticketRegistered = response.data;
                       $scope.openTicketFn($scope.ticketRegistered.idTicket);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                       $scope.mainSwitchFn('search', null);
@@ -3665,7 +3677,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       });
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
-                      $scope.ticketRegistered = response.data[0];
+                      $scope.ticketRegistered = response.data;
                       $scope.openTicketFn(pedido.ticket.idTicket);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                       $scope.mainSwitchFn('search', null);
@@ -3717,17 +3729,17 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     inform.add('Ticket ha sido aprobado satisfactoriamente.',{
                       ttl:3000, type: 'success'
                     });
-                    $timeout(function() {
-                      if (ticket.idTypePaymentKf=="2" && ticket.idStatusTicketKf!=9 && ticket.idStatusTicketKf!=11){
-                        $scope.mainSwitchFn("linkMP",response.data[0],null);
-                      }
-                      $scope.mainSwitchFn('search', null);
-                  }, 2500);
+                    if(response.data.idTypePaymentKf=="2" && (response.data.idStatusTicketKf!="9" || response.data.idStatusTicketKf!="11") && NaN2Zero(normalizeDecimal(response.data.total))>0){
+                      $timeout(function() {
+                          $scope.mainSwitchFn("linkMP",response.data,null);
+                          $scope.mainSwitchFn('search', null);
+                      }, 2500);
+                    }
                     $timeout(function() {
 
                         $('.circle-loader').toggleClass('load-complete');
                         $('.checkmark').toggle();
-                        $scope.ticketRegistered = response.data[0];
+                        $scope.ticketRegistered = response.data;
                         $scope.openTicketFn($scope.ticketRegistered.idTicket);
                         //$scope.filters.ticketStatus.idStatus = $scope.ticketRegistered.idStatusTicketKf;
                         $scope.mainSwitchFn('search', null);
@@ -4442,7 +4454,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                           console.info("the ticket id is "+ticketId);
                           ticketServices.ticketById(ticketId).then(function(response){
                             if(response.status==200){
-                              $scope.rsData.ticket = (response.data[0]);
+                              $scope.rsData.ticket = (response.data.tickets[0]);
                               //console.log($scope.rsData);
                               ticketServices.billingFileUploaded(ticketId).then(function(response){
                                 if(response.status==404){
@@ -4586,7 +4598,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                             console.info("the ticket id is "+ticketId);
                             ticketServices.ticketById(ticketId).then(function(response){
                               if(response.status==200){
-                                $scope.rsData.ticket = (response.data[0]);
+                                $scope.rsData.ticket = (response.data.tickets[0]);
                                 //console.log($scope.rsData);
                                 ticketServices.billingFileUploaded(ticketId).then(function(response){
                                   if(response.status==404){

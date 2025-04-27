@@ -11,11 +11,26 @@ class MercadoLibre extends REST_Controller
 		$this->load->model('Mercadolibre_model');
 		/*MAIL*/
 		$this->load->model('mail_model');
+		$this->load->helper('url');
 	}
 
 	public function crearEnlaceMercadoPago_post()
 	{
 
+		$headers = $this->input->request_headers();
+		log_message('info', 'Host				  :' . @$headers['Host']);
+		log_message('info', 'User-Agent		  :' . @$headers['User-Agent']);
+		log_message('info', 'Accept			  :' . @$headers['Accept']);
+		log_message('info', 'Content-Typ		  :' . @$headers['Content-Type']);
+		log_message('info', 'X-Forwarded-For	  :' . @$headers['X-Forwarded-For']);
+		log_message('info', 'X-Forwarded-Host	  :' . @$headers['X-Forwarded-Host']);
+		log_message('info', 'X-Forwarded-Server :' . @$headers['X-Forwarded-Server']);
+		log_message('info', 'Content-Length	  :' . @$headers['Content-Length']);
+		log_message('info', 'Connection		  :' . @$headers['Connection']);		
+		log_message('info', 'x-signature 		  :' . @$headers['x-signature']);
+		log_message('info', 'x-request-id 	  :' . @$headers['x-request-id']);
+		$body = file_get_contents('php://input');
+		log_message('info', 'Cuerpo de la notificación: ' . $body);
 		$rr = null;
 		if (!$this->post('data')){
 			$this->response(null , 404);
@@ -88,17 +103,17 @@ class MercadoLibre extends REST_Controller
 	{
 		$rs = null;
 		$headers = $this->input->request_headers();
-		log_message('info', $headers['Host']);
-		log_message('info', $headers['User-Agent']);
-		log_message('info', $headers['Accept']);
-		log_message('info', $headers['Content-Type']);
-		log_message('info', @$headers['X-Forwarded-For']);
-		log_message('info', @$headers['X-Forwarded-Host']);
-		log_message('info', @$headers['X-Forwarded-Server']);
-		log_message('info', $headers['Content-Length']);
-		log_message('info', $headers['Connection']);		
-		log_message('info', $headers['x-signature']);
-		log_message('info', $headers['x-request-id']);
+		log_message('info', 'Host				  :' . @$headers['Host']);
+		log_message('info', 'User-Agent		  :' . @$headers['User-Agent']);
+		log_message('info', 'Accept			  :' . @$headers['Accept']);
+		log_message('info', 'Content-Typ		  :' . @$headers['Content-Type']);
+		log_message('info', 'X-Forwarded-For	  :' . @$headers['X-Forwarded-For']);
+		log_message('info', 'X-Forwarded-Host	  :' . @$headers['X-Forwarded-Host']);
+		log_message('info', 'X-Forwarded-Server :' . @$headers['X-Forwarded-Server']);
+		log_message('info', 'Content-Length	  :' . @$headers['Content-Length']);
+		log_message('info', 'Connection		  :' . @$headers['Connection']);		
+		log_message('info', 'x-signature 		  :' . @$headers['x-signature']);
+		log_message('info', 'x-request-id 	  :' . @$headers['x-request-id']);
 		$body = file_get_contents('php://input');
 		log_message('info', 'Cuerpo de la notificación: ' . $body);
 		$post_req = $this->post();

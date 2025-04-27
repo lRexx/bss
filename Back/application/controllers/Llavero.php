@@ -297,5 +297,19 @@ class Llavero extends REST_Controller
             $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
         }
     }
+	public function findKeyByCode_get($code, $idClientKf) {
+        
+  
+        $rs = null;
+        $rs = $this->llavero_model->find_by_code($code, $idClientKf);
+
+        if (!is_null($rs)) {
+           //$this->response(['2'], 200);
+		   //$this->response([ 'codigo' => $rs['codigo'] ], 200);
+		   $this->response([ 'codigo' => true ], 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
 
 }
