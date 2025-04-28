@@ -490,5 +490,16 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                     return response;
                   })
           },
+          ticketInitialDeliveryActiveByDeptoId: function(data) {
+            console.log("ticketInitialDeliveryActiveByDeptoId");
+            //console.log(ticket);
+            return $http.post(serverHost+serverBackend+"Ticket/ticketInitialDeliveryActiveByDeptoId",data, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) { 
+                console.log("Error: "+response.data.error); 
+                return response;
+              })
+          },
       }
 }]);
