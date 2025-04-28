@@ -485,10 +485,25 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     case 3: console.log($scope.ticket);
                         if ($scope.fSwitch=="n" && $scope.sysLoggedUser.idProfileKf!=0){
                             //PASO 4: MÉTODO DE PAGO
-                            if ($scope.ticket.cost.idTypePaymentKf==null || $scope.ticket.cost.idTypePaymentKf==undefined){
-                                $scope.formValidated=false;
+                            console.info("ENTRO AL CASE 4 : ALTA DE LLAVE - PASO 4: MÉTODO DE PAGO");
+                            if (($scope.ticket.cost.idTypePaymentKf==null || $scope.ticket.cost.idTypePaymentKf==undefined)){
+                                if ($scope.sysLoggedUser.idProfileKf==1 && ($scope.ticket.userNotify==null || $scope.ticket.userNotify==undefined || $scope.ticket.userNotify=='')){
+                                    $scope.formValidated=false;
+                                    console.info(" User Admin BSS ");
+                                    console.info("False because $scope.ticket.userNotify == "+$scope.ticket.userNotify);
+                                }
+                                if ($scope.sysLoggedUser.idProfileKf!=1){
+                                    $scope.formValidated=false;
+                                } 
                             }else{
-                                $scope.formValidated=true;
+                                if ($scope.sysLoggedUser.idProfileKf==1 && ($scope.ticket.userNotify!=null && $scope.ticket.userNotify!=undefined && $scope.ticket.userNotify!='')){
+                                    $scope.formValidated=true;
+                                }else{
+                                    $scope.formValidated=false;
+                                }
+                                if ($scope.sysLoggedUser.idProfileKf!=1){
+                                    $scope.formValidated=true;
+                                } 
                             }
                         }else if ($scope.sysLoggedUser.idProfileKf==3 || ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1)){
                             //alert("ENTRO");
@@ -3743,7 +3758,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $scope.mainSwitchFn('setCosts', null, null);
                             break;
                         }
-
+                        $scope.enabledNextBtn();
                     break;
                     case "up": // SOLOCITUD DE ALTA
                         console.log("---------------------------------------");

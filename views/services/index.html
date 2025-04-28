@@ -86,7 +86,7 @@
                     <div  class="col-md-12 col-xs-12 well-checkbox n-margin-r n-margin-l customer-frame">
                       <!-- LEFT COLUMN -->
                       <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
-                        <div class="col-md-12 col-xs-12"><span class="badge badge-default">sistema web</span><span> N° de Cliente : {{customerFound.idClient}}</span></div>                      
+                        <div class="col-md-12 col-xs-12"><span class="badge badge-default">sistema web</span><span> N° de Cliente : {{customerFound.idClient}}</span></div>
                         <div class="col-md-12 col-xs-12"><span>Nombre: {{customerFound.name | uppercase}}</span></div>
                         <div ng-if="customerFound.idClientType!='5'" class="col-md-12 col-xs-12"><span>Dirección: {{customerFound.address | uppercase}}</span></div>
                         <div ng-if="customerFound.idClientType=='5'" class="col-md-12 col-xs-12"><span>Dirección: {{customerFound.billing_information_details.businessAddress | uppercase}}</span></div>

@@ -670,13 +670,13 @@
 								  <div class="panel-body">
 									  <div class="form-check form-check-inline">
 										<div class="col-md-3 col-md-offset-3 col-xs-3 col-xs-offset-3">
-											  <input id="sendnotify1" class="radio-custom" ng-model="ticket.userNotify" ng-click="mainSwitchFn('sendNotification', ticket.userNotify, null)" type="radio" value="1" required autofocus>
+											  <input id="sendnotify1" class="radio-custom" ng-model="ticket.userNotify" ng-required="sysLoggedUser.idProfileKf==1" ng-click="mainSwitchFn('sendNotification', ticket.userNotify, null)" type="radio" value="1" required autofocus>
 											  <label for="sendnotify1" class="radio-custom-label">
 												  <span>SI</span>
 											  </label>
 										  </div>
 										  <div class="col-md-3 col-xs-3">
-											  <input id="sendnotify2" class="radio-custom" ng-model="ticket.userNotify" ng-click="mainSwitchFn('sendNotification', ticket.userNotify, null)" type="radio" value="0" required autofocus>
+											  <input id="sendnotify2" class="radio-custom" ng-model="ticket.userNotify" ng-required="sysLoggedUser.idProfileKf==1" ng-click="mainSwitchFn('sendNotification', ticket.userNotify, null)" type="radio" value="0" required autofocus>
 											  <label for="sendnotify2" class="radio-custom-label">
 												  <span>NO</span>
 											  </label> 

@@ -2,19 +2,19 @@
 <table ng-if="sysContent=='registeredCustomers'"  id="tableCustomer" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
     <thead style=" background: #4d5d6f; color: white;">
       <tr style="text-align: center;">
-          <th width="4%" ng-click="sort_by('idClientIndex')">
-            <span class="glyphicon sort-icon" ng-show="sortingOrder=='idClientIndex'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          <th width="4%">
+            <span class="glyphicon sort-icon"></span>
           </th>
-          <th width="4%" ng-click="sort_by('idClientIndex')">ID 
-            <span class="glyphicon sort-icon" ng-show="sortingOrder=='idClientIndex'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          <th width="4%">ID 
+            <span class="glyphicon sort-icon"></span>
           </th>
           <th width="25%" ng-click="sort_by('name')"><i class="glyphicon glyphicon-user" > </i> Nombres 
-            <span class="glyphicon sort-icon" ng-show="sortingOrder=='name'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+            <span class="glyphicon sort-icon" ng-show="sortingOrder=='name'"></span>
           </th>
-          <th width="25%" ng-click="sort_by('businessName')"><i class="fas fa-file-signature"> </i> Raz&#243n Social <span class="glyphicon sort-icon" ng-show="sortingOrder=='businessName'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          <th width="25%" ng-click="sort_by('businessName')"><i class="fas fa-file-signature"> </i> Raz&#243n Social <span class="glyphicon sort-icon" ng-show="sortingOrder=='businessName'"></span>
           </th>
           <!--<th width="20%"><i class="glyphicon glyphicon-envelope"> </i> Emails</th>-->
-          <th width="10%" style="vertical-align: middle;text-align: center;" ng-click="sort_by('ClientType')"><i class="glyphicon glyphicon-user"> </i>Tipo <span class="glyphicon sort-icon" ng-show="sortingOrder=='ClientType'" ng-class="{'glyphicon-chevron-up':reverse,'glyphicon-chevron-down':!reverse}"></span>
+          <th width="10%" style="vertical-align: middle;text-align: center;" ng-click="sort_by('ClientType')"><i class="glyphicon glyphicon-user"> </i>Tipo <span class="glyphicon sort-icon" ng-show="sortingOrder=='ClientType'"></span>
           </th>
           <th width="10%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Estatus</th>
           <th width="10%" style="vertical-align: middle;text-align: center;"><i class="glyphicon icon-flag"> </i> Condición</th>
@@ -29,7 +29,7 @@
         <!--<tr class="animate-repeat" style="align-content: center; cursor: pointer;"  dir-paginate="item in rsCustomerListData|orderBy:idClient:reverse|filter:searchboxfilter|itemsPerPage:10">-->
         <td class="media-middle text-center" style="vertical-align: middle;">
           <label class="switch switch-2x" for="customer-{{item.idClient}}">
-            <input type="checkbox" class="success" ng-model="item.selected" ng-click="mainSwitchFn('customers','check_list_item', rsCustomerListData)" id="customer-{{item.idClient}}">
+            <input type="checkbox" class="success" ng-model="item.selected" ng-click="mainSwitchFn('check_list_item', rsCustomerListData)" id="customer-{{item.idClient}}">
             <span class="slider slider-2x flat"></span>
           </label>
         </td>

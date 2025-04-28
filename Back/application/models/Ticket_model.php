@@ -2307,7 +2307,8 @@ class Ticket_model extends CI_Model
 				$this->db->where("idUserRequestBy = " , @$data['idClientCompaniFk']);
 			}
 			if (@$data['idTypeTenantKf']=='1' || @$data['idTypeTenantKf']=='2'){
-				$this->db->where("sendNotify = 1");
+				$where = "(ISNULL(sendNotify) OR sendNotify = '1')";
+				$this->db->where($where);
 			}
 			//DATE FROM THE TICKET REQUEST WAS DONE
 			if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']==''){
@@ -2497,8 +2498,8 @@ class Ticket_model extends CI_Model
 					$this->db->select("*");
 					$this->db->from("tb_tickets_2");
 					if (@$data['idTypeTenantKf']=='1' || @$data['idTypeTenantKf']=='2'){
-						$where = "(ISNULL(sendNotify) OR isBillingInitiated = '1')";
-						$this->db->or_where($where);
+						$where = "(ISNULL(sendNotify) OR sendNotify = '1') AND (ISNULL(isBillingInitiated) OR isBillingInitiated = '1')";
+						$this->db->where($where);
 					}
 					if (@$data['idProfileKf']=='3' || (@$data['idProfileKf']=='4' && @$data['idTypeTenantKf']=='1' && @$data['isHomeSelected'])){
 						if (@$data['idBuildingKf']!=''){

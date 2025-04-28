@@ -1,0 +1,76 @@
+<!-- Department Tenants -->
+<div id="departmentGuestList" tabindex="-1" style="top: 130px;" class="modal fade modal-dialog-centered in" style="top: 130px;" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h4 class="modal-title"><i class="product-success fas fa-user"></i> INVITADOS DEL DEPARTAMENTO :: <span class="badge badge-default font-size-18px text-uppercase">{{departmentSelected.floor}}-{{departmentSelected.departament}}</span>
+              </h4>
+          </div>
+        <div class="modal-body n-padding-l n-padding-r">
+          <div class="clearfix"> </div> 
+          <!-- keys -->
+            <div class=" col-md-12">
+                <table ng-if="departmentSelected.tenants.length>0" class="table table-striped table-list table-responsive table-hover">
+                    <thead style=" background: #4d5d6f; color: white;">
+                        <tr>
+                            <th width="30%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; "><i class="fas fa-user"> </i> Nombres</th>
+                            <th width="35%" class="dpto-th-head " style="border-right: 1px solid #ddd !important;"><i class="fas fa-key"> </i> Llavero</th>
+                            <th width="10%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; "><i class="glyphicon icon-flag"> </i> Status</th>
+                            <th width="13%" class="dpto-th-head " style="border-right: 1px solid #ddd !important; "><i class="fas fa-user"> </i> Acciones</th>
+                        </tr>
+                    </thead>
+                    <tbody style="height: auto !important;overflow: auto;box-shadow: 0px 4px 5px -2px rgba(0, 0, 0, .30);">
+                        <tr ng-repeat="tenant in departmentSelected.guest" style="font-size: 16px;">
+                            <td class="td-depto media-middle">
+                                <span  style="font-weight: 600; color: #f0ad4e"> {{tenant.names | uppercase}}</span>
+                            </td>
+                            <td class="td-depto media-middle" style="vertical-align: middle;text-align: center;">
+                                <div ng-if="departmentSelected.keys.length >=1 && departmentSelected.isAprobatedAdmin!=null" class="col-xs-12 selectContainer">
+                                    <div class="input-group">
+                                        <select id="idGuestKey-{{tenant.idGuest}}" ng-change="modalConfirmation('assignKeyToUser', 0, tenant)" ng-model="tenant.key" ng-disabled="departmentSelected.keys.length==0" class="form-control text-uppercase" ng-options="item.idKeychain as item.codigo+' :: '+item.descriptionProduct for item in departmentSelected.keys | filter:filterKeyForOwners" autofocus >
+                                            <option value="">Llavero</option>
+                                        </select>
+                                        <span ng-if="tenant.myKeys!=null" ng-click="tenant.key=null; modalConfirmation('assignKeyToUser', 0, tenant)" data-toggle="tooltip" data-placement="bottom" title="Desvincular llave" class="input-group-addon" style="background-color: #d43f3a;color: white;cursor: pointer;"><i class="fas fa-window-close"></i></span>
+                                    </div>
+                                </div>
+                                <div ng-if="departmentSelected.keys.length == 0">
+                                    <span class="label label-warning"><i class="fas fa-exclamation-triangle"> </i> Llaveros no disponibles</span>
+                                </div>
+                                <div ng-if="tenant.isRequesLowByTenant!=null && tenant.isRequesLowByTenant!='0'">
+                                    <span class="label label-warning"><i class="fas fa-exclamation-triangle"> </i> Baja solicitada</span>
+                                </div>
+                                <div ng-if="tenant.idTypeTenantKf=='2' && tenant.isDepartmentApproved==null && tenant.isRequesLowByTenant!='1'">
+                                    <span class="label label-warning"><i class="fas fa-exclamation-triangle"> </i> Alta solicitada</span>
+                                </div>
+                            </td>
+                            <td class="td-depto media-middle" style="vertical-align: middle;text-align: center;">
+                                    <label style="font-size: 80%" class="label label-success" ng-class="{'label-success': tenant.idStatusKf=='1', 'label-warning': tenant.idStatusKf=='0'}">
+                                        <span>{{tenant.statusTenantName}}</span>
+                                    </label>
+                            </td>
+                            <td class="td-depto" style="vertical-align: middle;text-align: center;">
+                                <button ng-click="switchBuildingFn('editGuest',tenant)" data-toggle="tooltip" data-placement="bottom" title="Editar" class="btn btn-xs btn-warning" type="button"><i class="fas fa-pen-square"> </i> </button>
+                                <button ng-click="modalConfirmation('removeg', 0, tenant, departmentSelected)" data-toggle="tooltip" data-placement="bottom" title="Eliminar" class="btn btn-xs btn-danger" type="button"><i class="fas fa-window-close"> </i> </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+                <div ng-if="departmentSelected.tenants.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning" style="text-align: center;"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Invitados asociados al departamento</h5></div>
+            </div>
+          <div class="clearfix"> </div> 
+        </div>
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a  ng-click="switchBuildingFn('newGuest', departmentSelected);" type="button" class="btn btn-labeled btn-primary">
+                            <span class="btn-label"><i class="fas fa-user-plus"></i></span>Nuevo</a>
+                    <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // Department Tenants -->

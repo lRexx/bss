@@ -79,18 +79,18 @@
             <table class="table table-striped table-bordered table-list table-responsive table-hover fade in" style="border: 0 !important;">
                 <thead class="dpto-t-head">
                     <tr>
-                        <th width="20%" class="dpto-th-head " style="vertical-align: middle !important; border-right: 1px solid #ddd !important; "><i class="fas fa-users-cog"></i> Gestión</th>
+                        <th width="20%" class="dpto-th-head" style="vertical-align: middle !important; border-right: 1px solid #ddd !important; "><i class="fas fa-users-cog"></i> Gestión</th>
                         <!--<th>ID</th>-->
-                        <th width="15%" class="dpto-th-head " style="vertical-align: middle !important; border-right: 1px solid #ddd !important; "><i class="fas fa-home"></i> Unidad</th>
-                        <th width="10%" class="dpto-th-head " style="vertical-align: middle !important; border-right: 1px solid #ddd !important; "><i class="fas fa-key"></i> Llaveros</th>
-                        <th width="15%" class="dpto-th-head " style="vertical-align: middle !important; text-align: center;"><i class="fas fa-bookmark"></i> Propietario asignado</th>
-                        <th width="20%" class="dpto-th-head " style="vertical-align: middle !important; text-align: center;"><i class="fas fa-bookmark"></i> Notificaciones</th>
+                        <th width="15%" class="dpto-th-head" style="vertical-align: middle !important; border-right: 1px solid #ddd !important; "><i class="fas fa-home"></i> Unidad</th>
+                        <th width="10%" class="dpto-th-head" style="vertical-align: middle !important; border-right: 1px solid #ddd !important; "><i class="fas fa-key"></i> Llaveros</th>
+                        <th width="15%" class="dpto-th-head" style="vertical-align: middle !important; border-right: 1px solid #ddd !important; "><i class="fas fa-bookmark"></i> Propietario asignado</th>
+                        <th width="20%" class="dpto-th-head" style="vertical-align: middle !important; text-align: center;"><i class="fas fa-bookmark"></i> Notificaciones</th>
                     </tr>
                 </thead>
                 <tbody>
                     <!-- Shows the department List by the Selected Address-->
                     <tr style="align-content: center; cursor: pointer;" ng-repeat-start="item in ListDpto | toArray:false | filter: idStatusFk | filter: (!!select.depto || undefined) && {Depto:select.depto}:true | filter: (!!select.floor || undefined) && {floor:select.floor}:true">
-                        <td class="td-depto media-middle">
+                        <td class="td-depto media-middle" style="vertical-align: middle !important;text-align: left;">
                             <div class="btn-group">
                                 <button type="button" ng-disabled="(sysLoggedUser.idProfileKf==3||sysLoggedUser.idProfileKf==6) && item.isAprobatedAdmin!=1" ng-click="selectTableRow($index, item, 'depto');" class="btn btn-sm btn-xs" ng-class="dayDataCollapse[$index]?'btn-info':'btn-success'">
                                 <i ng-if="dayDataCollapse[$index]" title="Ver Habitantes" class="categoryDepartament glyphicon glyphicon-plus"></i>
@@ -108,9 +108,9 @@
                             </div>
                         </td>
                         <!--<td>{{item.idDepartment}}</td>-->
-                        <td class="td-depto media-middle font-size-18px" style="vertical-align: middle;text-align: center;">{{item.Depto}}</td>
-                        <td ng-if="item.keys.length>0" class="td-depto media-middle" style="vertical-align: middle;text-align: center;"><span class="label label-primary">{{item.keys.length}}</span></td>
-                        <td ng-if="item.keys.length==0" class="td-depto media-middle" style="vertical-align: middle;text-align: center;"><span class="label label-warning">No hay llaves asociadas</span></td>
+                        <td class="td-depto media-middle font-size-18px" style="vertical-align: middle !important;text-align: center;">{{item.Depto}}</td>
+                        <td ng-if="item.keys.length>0" class="td-depto media-middle" style="vertical-align: middle !important;text-align: center;"><span class="label label-primary">{{item.keys.length}}</span></td>
+                        <td ng-if="item.keys.length==0" class="td-depto media-middle" style="vertical-align: middle !important;text-align: center;"><span class="label label-warning">No hay llaves asociadas</span></td>
                         <!-- Status for Administrator -->
                         <td class="td-depto media-middle" ng-if="sysLoggedUser.idProfileKf!=3" style="vertical-align: middle !important;text-align: center;">
                                 <!-- STATUS ASSGIN SUCCESS -->
@@ -137,7 +137,7 @@
                                 </ul>-->
                         </td>
                         <!-- Notifications -->
-                        <td class="td-depto media-middle" style="vertical-align: middle;text-align: center;">
+                        <td class="td-depto media-middle" style="vertical-align: middle !important;text-align: center;">
                             <div ng-if="item.pending_notifications.authorizations.length>0" ng-click="selectTableRow($index, item, 'depto');" class="alert alert-warning" role="alert" style="margin-bottom: 0px !important;">
                                 <strong>[ {{item.pending_notifications.authorizations.length}} ] </strong> Autorizaciones pendientes.
                             </div>
