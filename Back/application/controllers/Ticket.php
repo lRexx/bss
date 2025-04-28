@@ -543,6 +543,29 @@ class Ticket extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+    public function ticketByType_post()
+    {
+        $data = $this->post();
+        //$this->response($filter , 200);
+        $rs = $this->ticket_model->ticketByType($data);
+        if (!is_null($rs)){
+            $this->response(array('response' => $rs) , 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS') , 404);
+        }
+    }
+    public function ticketInitialDeliveryActiveByDeptoId_post()
+    {
+        $data = $this->post();
+        //$this->response($filter , 200);
+        $rs = $this->ticket_model->ticketInitialDeliveryActiveByDeptoId($data);
+        if (!is_null($rs)){
+            $this->response(array('response' => $rs) , 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS') , 404);
+        }
+    }
 
+    
 }
 ?>

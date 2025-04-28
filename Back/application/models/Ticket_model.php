@@ -2709,6 +2709,38 @@ class Ticket_model extends CI_Model
 		}
 		return null;
 	}
+
+	public function ticketByType($data)
+	{
+		$quuery = null;
+
+		$this->db->select("COUNT(*)")->from("tb_tickets_2");
+		$this->db->where("idTypeRequestFor = " , $data['idTypeRequestFor']);
+		$this->db->where("idBuildingKf = " , $data['idBuildingKf']);
+		$this->db->where("isInitialDeliveryActive = " , $data['isInitialDeliveryActive']);
+		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
+		$quuery = $this->db->get();
+		if ($quuery->num_rows() > 0){
+			return true;
+		}
+		return null;
+	}
+	public function ticketInitialDeliveryActiveByDeptoId($data)
+	{
+		$quuery = null;
+
+		$this->db->select("*")->from("tb_tickets_2");
+		$this->db->where("idTypeRequestFor = " , 1);
+		$this->db->where("idBuildingKf = " , $data['idBuildingKf']);
+		$this->db->where("isInitialDeliveryActive = " , 1);
+		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
+		$quuery = $this->db->get();
+		//print_r($quuery->result_array());
+		if ($quuery->num_rows() > 0){
+			return true;
+		}
+		return null;
+	}
 	/* VERIFY IF BILLING RECEIPT TICKET IS UPLOADED ALREADY BY TICKET ID */
 	public function billingUploaded($id)
 	{
