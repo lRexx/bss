@@ -341,8 +341,8 @@ class Mercadolibre_model extends CI_Model
 		// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //Undefined index
 		/*MAIL*/
 		if((isset($response['type']) && @$response['type'] != "test") || $response['live_mode']){
-			$title = "MercadoPago Webhook Notification DEVBSS";
-			$subject = "Webhook Payment Notification from MercadoPago to DEVBSS - [". $response['type']."] - ID: ".$response['data']['id'];
+			$title = "MercadoPago Webhook Notification MiBss";
+			$subject = "Webhook Payment Notification from MercadoPago to MiBss - [". $response['type']."] - ID: ".$response['data']['id'];
 			$body='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Api version: <b>'.$response['api_version'].'</b></td>'; 
 			$body.='</tr>';	
@@ -363,8 +363,8 @@ class Mercadolibre_model extends CI_Model
 			$body.='</tr>';
 			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
 		}else{
-			$title = "MercadoPago Webhook Notification DEVBSS";
-			$subject = "Webhook Payment Notification from MercadoPago to DEVBSS [TEST] - ID: ".@$response['data']['id'];
+			$title = "MercadoPago Webhook Notification MiBss";
+			$subject = "Webhook Payment Notification from MercadoPago to MiBss [TEST] - ID: ".@$response['data']['id'];
 			$body='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Api version: <b>'.@$response['api_version'].'</b></td>'; 
 			$body.='</tr>';
