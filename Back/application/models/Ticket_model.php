@@ -2147,6 +2147,9 @@ class Ticket_model extends CI_Model
 				}else if(@$data['idClientCompaniFk']!=''){
 					$this->db->where("idUserRequestBy = " , @$data['idClientCompaniFk']);
 				}
+				if (@$data['idBuildingKf']!=''){
+					$this->db->where("idBuildingKf = " , @$data['idBuildingKf']);
+				}
 				//DATE FROM THE TICKET REQUEST WAS DONE
 				if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']==''){
 					$where = "created_at > '".@$data['dateCreatedFrom']."'";
@@ -2472,6 +2475,7 @@ class Ticket_model extends CI_Model
 					$whereD = "(idUserKf = ".$data['idUserRequestBy'].")";
 				}
 				if (@$data['idBuildingKf']!=''){
+					$whereD .= "AND (idClientFk = ".$data['idBuildingKf'].")"; 
 					$rsList = $this->db->where($whereD)->get();
 				}else{
 					$rsList = $this->db->where($whereD)->get();
