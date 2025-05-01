@@ -253,6 +253,7 @@ class Department_model extends CI_Model
 
         }
 		if ($quuery->num_rows() > 0) {
+            
 			return $quuery->result_array();
 		}
 		return null;

@@ -1959,8 +1959,12 @@ class Client_model extends CI_Model {
                     //print("currentDate   : ".$currentDate);
                     if ($currentDateFormatted > $dateToCompareFormatted) {
                         $rs['initial_delivery'][0]['expiration_state'] = true;
+                        $rs['isInitialDeliveryActive'] = false;
+                        
                     }else{
                         $rs['initial_delivery'][0]['expiration_state'] = false;
+                        $rs['isInitialDeliveryActive'] = true;
+                        
                     }
                 }
 

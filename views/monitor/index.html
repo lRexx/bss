@@ -152,6 +152,7 @@
                             <li ng-if="tk.idTypeRequestFor=='1' && tk.idTypeTicketKf<=2"><i class="fas fa-home"></i> Depto:
                                 <span ng-if="tk.department!=undefined" class="label label-default text-uppercase">{{tk.department.floor}}-{{tk.department.departament}}</span>
                                 <span ng-if="tk.department==undefined" class="label label-default">n/a</span>
+                                <span data-toggle="tooltip" data-placement="top"  title="Autorización Pendiente" ng-if="(sysLoggedUser.idProfileKf==1 && tk.department.isAprobatedAdmin!=1 && tk.department.idUserKf==tk.userRequestBy.idUser && (tk.userRequestBy.idProfileKf=='3' || tk.userRequestBy.idProfileKf=='4' || tk.userRequestBy.idProfileKf=='6') && tk.userRequestBy.idTypeTenantKf=='1' && tk.idStatusTicketKf!='6') || (sysLoggedUser.idProfileKf==1 && tk.userRequestBy.isDepartmentApproved==null && (tk.userRequestBy.idProfileKf=='4' || tk.userRequestBy.idProfileKf=='5' || tk.userRequestBy.idProfileKf=='6') && tk.userRequestBy.idTypeTenantKf=='2' && tk.idStatusTicketKf!='6')" class="badge badge-warning">Autorización pendiente</span>
                             </li>
                             <li ng-show="tk.idTypeTicketKf==3"><i class="fas fa-wrench"></i> Servicio:&nbsp;
                                 <span ng-if="tk.typeServices">{{tk.typeServices}}</span>
