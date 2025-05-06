@@ -1420,7 +1420,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
     *                 CUSTOMER OPTIONS                *
     **************************************************/
       $scope.checkDeliveryMethod = function(item){
-        if($scope.ticket.building!=undefined && (($scope.ticket.isInitialDeliveryActive!=undefined && $scope.ticket.isInitialDeliveryActive==1) || $scope.ticket.building.isStockInBuilding=='1' || (($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')))){
+        //console.log($scope.ticket);
+        if($scope.ticket.building!=undefined && (($scope.ticket.selected.isInitialDeliveryActive!=undefined && $scope.ticket.selected.isInitialDeliveryActive==1) || $scope.ticket.building.isStockInBuilding=='1' || (($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')))){
             return item.idTypeDelivery != "1";
         }else{
             return item.idTypeDelivery;
@@ -2480,7 +2481,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               $scope.keysTotalPrice=subTotalKeys.toFixed(2);
               console.log("subTotalKeys: "+subTotalKeys+"\n"+"keyTotalAllowed :"+keyTotalAllowed);
               if (($scope.keysTotalPrice>=keyTotalAllowed) || 
-                  ($scope.ticket.building!=undefined && $scope.ticket.isInitialDeliveryActive!=undefined && $scope.ticket.isInitialDeliveryActive==1)||
+                  ($scope.ticket.building!=undefined && $scope.ticket.selected.isInitialDeliveryActive!=undefined && $scope.ticket.selected.isInitialDeliveryActive==1)||
                   ($scope.ticket.building.isStockInBuilding=="1")){
                   $scope.deliveryCostFree = 1;
               }else{
