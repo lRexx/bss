@@ -3219,14 +3219,14 @@ class Ticket_model extends CI_Model
 				//print("dateToCompare : ".$dateToCompareFormatted);
 				//print("currentDate   : ".$currentDate);
 				if ($currentDateFormatted > $dateToCompareFormatted) {
-					$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'] = false;
+					$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'][0]['expiration_state'] = true;
 					$rs_tickets['tickets'][$key]['building']['initial_delivery'][0]['expiration_state'] = true;
 				}else{
-					$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'] = true;
+					$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'][0]['expiration_state'] = false;
 					$rs_tickets['tickets'][$key]['building']['initial_delivery'][0]['expiration_state'] = false;
 				}
 			}else{
-				$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'] = false;
+				$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'] = [];
 			}
 		}
 		if (count($rs_tickets['tickets'])>=1){
