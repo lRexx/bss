@@ -27,8 +27,8 @@ class MercadoLibre extends REST_Controller
 		log_message('info', 'X-Forwarded-Server :' . @$headers['X-Forwarded-Server']);
 		log_message('info', 'Content-Length     :' . @$headers['Content-Length']);
 		log_message('info', 'Connection         :' . @$headers['Connection']);		
-		log_message('info', 'x-signature        :' . @$headers['x-signature']);
-		log_message('info', 'x-request-id       :' . @$headers['x-request-id']);
+		//log_message('info', 'x-signature        :' . @$headers['x-signature']);
+		//log_message('info', 'x-request-id       :' . @$headers['x-request-id']);
 		$body = file_get_contents('php://input');
 		log_message('info', 'Cuerpo de la notificación: ' . $body);
 		$rr = null;
