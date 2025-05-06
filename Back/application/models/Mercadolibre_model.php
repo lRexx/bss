@@ -250,16 +250,16 @@ class Mercadolibre_model extends CI_Model
 					$dataObj['data']['external_reference']   = $response_decode->external_reference;
 					$idTicketKf = $lastPaymentAddedQuery_decode->idTicketKf;
 					log_message('info', ':::::::::::::::::PAYMENT DETAILS' );
-					log_message('info', 'url						:' . $uri);
-					log_message('info', 'collection_status			:' . $dataObj['data']['collection_status']);
-					log_message('info', 'status_detail				:' . $dataObj['data']['status_detail']);
-					log_message('info', 'payment_id					:' . $dataObj['data']['payment_id']);
-					log_message('info', 'payment_type				:' . $dataObj['data']['payment_type']);
-					log_message('info', 'merchant_order_id			:' . $dataObj['data']['merchant_order_id']);
-					log_message('info', 'site_id					:' . $dataObj['data']['site_id']);
-					log_message('info', 'processing_mode			:' . $dataObj['data']['processing_mode']);
-					log_message('info', 'merchant_account_id		:' . $dataObj['data']['merchant_account_id']);
-					log_message('info', 'external_reference				:' . $dataObj['data']['external_reference']);		
+					log_message('info', 'url                     :' . $uri);
+					log_message('info', 'collection_status       :' . $dataObj['data']['collection_status']);
+					log_message('info', 'status_detail           :' . $dataObj['data']['status_detail']);
+					log_message('info', 'payment_id              :' . $dataObj['data']['payment_id']);
+					log_message('info', 'payment_type            :' . $dataObj['data']['payment_type']);
+					log_message('info', 'merchant_order_id       :' . $dataObj['data']['merchant_order_id']);
+					log_message('info', 'site_id                 :' . $dataObj['data']['site_id']);
+					log_message('info', 'processing_mode         :' . $dataObj['data']['processing_mode']);
+					log_message('info', 'merchant_account_id     :' . $dataObj['data']['merchant_account_id']);
+					log_message('info', 'external_reference      :' . $dataObj['data']['external_reference']);		
 					$rsPaymentUpdated = $this->updatePayment($dataObj['data']);
 					$ticketObj = null;
 					$changeStatusRs=null;
@@ -268,8 +268,11 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['descripcion'] 		= "Pago del pedido has sido aprobado y acreditado";
 					$ticketObj['history']['idCambiosTicketKf'] 	= "4";
 					$this->Ticket_model->addTicketTimeline($ticketObj);
-					$ticket2Update = $this->Ticket_model->ticketById($idTicketKf);
-					if ($ticket2Update['tickets'][0]['idStatusTicketKf']=="9"){
+					$ticketQuery 	= $this->Ticket_model->ticketById($idTicketKf);
+					$ticket2Update = $ticketQuery['tickets'][0];
+					log_message('info', 'Ticket ID				:' . $ticket2Update['idTicket']);
+					if ($ticket2Update['idStatusTicketKf']=="9"){
+						log_message('info', 'idStatusTicketKf		:' . $ticket2Update['idStatusTicketKf']);
 						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"11");
 						if ($changeStatusRs){
 							$ticketObj = null;
@@ -280,6 +283,7 @@ class Mercadolibre_model extends CI_Model
 						}
 						$this->Ticket_model->addTicketTimeline($ticketObj);
 					}else{
+						log_message('info', 'idStatusTicketKf		:' . $ticket2Update['idStatusTicketKf']);
 						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"8");
 						if ($changeStatusRs){
 							$ticketObj = null;
@@ -332,6 +336,7 @@ class Mercadolibre_model extends CI_Model
 			]);
 		}
 	}
+
 
 	public function getNotificationFromMP($response)
 	{

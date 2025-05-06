@@ -2439,7 +2439,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       $scope.update.ticket.delivery_schedule_at  = null;
                       $scope.update.ticket.delivered_at          = null
                       $scope.update.ticket.history               = [];
-                      $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': "El pago ha sido registro de forma manual", 'idCambiosTicketKf':"4"});
+                      $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': "El pago ha sido registrado de forma manual", 'idCambiosTicketKf':"4"});
                       $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"13"});
                       console.log($scope.update);
                       $timeout(function() {
