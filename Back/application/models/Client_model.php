@@ -1966,6 +1966,8 @@ class Client_model extends CI_Model {
                         $rs['isInitialDeliveryActive'] = true;
                         
                     }
+                }else{
+                    $rs['isInitialDeliveryActive'] = false;
                 }
 
                 if (! is_null($rs['idClientAdminFk'])){
