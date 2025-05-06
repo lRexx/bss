@@ -407,7 +407,7 @@
                       <span class="btn-label"><i class="fas fa-ban"></i></span>Cancelar</a>
                   </div>
                   <!-- CHANGE DELIVERY -->
-                  <div ng-if="tkupdate.idTypeTicketKf=='1' && tkupdate.idStatusTicketKf!=1 && tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!=1 && tkupdate.isDeliveryHasChanged!=1" class="col-xs-3 col-sm-4 col-md-2">
+                  <div ng-if="((tkupdate.isInitialDeliveryActive==undefined || tkupdate.isInitialDeliveryActive==null || tkupdate.isInitialDeliveryActive=='0') && (tkupdate.idTypeTicketKf=='1' && tkupdate.idStatusTicketKf!=1 && tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!=1 && tkupdate.isDeliveryHasChanged!=1))" class="col-xs-3 col-sm-4 col-md-2">
                     <a id="deliveryChange" ng-click="mainSwitchFn('ticket_delivery_change', tkupdate, null)" type="button" class="btn btn-labeled btn-info">
                       <span class="btn-label"><i class="fas fa-truck"></i></span>Cambiar envío</a>
                   </div>
