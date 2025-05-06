@@ -204,7 +204,7 @@
                             <i class="fas fa-ban"></i>
                         </button>
                         <!-- DELIVERY CHANGE -->
-                        <button ng-if="(tk.idTypeTicketKf<2 && tk.isDeliveryHasChanged!=1 && ((tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1) || (tk.idStatusTicketKf==10 && tk.isCancelRequested==1)))" ng-click="mainSwitchFn('ticket_delivery_change', tk, null)" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6) || tk.idStatusTicketKf==1 || tk.isCancelRequested || tk.isChangeDeliverylRequested" type="button" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="left"  title="Delivery">
+                        <button ng-if="((tk.isInitialDeliveryActive==undefined || tk.isInitialDeliveryActive==null || tk.isInitialDeliveryActive=='0') && (tk.idTypeTicketKf<2 && tk.isDeliveryHasChanged!=1 && ((tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1) || (tk.idStatusTicketKf==10 && tk.isCancelRequested==1))))" ng-click="mainSwitchFn('ticket_delivery_change', tk, null)" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6) || tk.idStatusTicketKf==1 || tk.isCancelRequested || tk.isChangeDeliverylRequested" type="button" class="btn btn-xs btn-info" data-toggle="tooltip" data-placement="left"  title="Delivery">
                             <i style="font-size: 1em" class="fas fa-truck"></i> 
                         </button>
                         <button ng-if="tk.idTypeTicketKf==4 && sysLoggedUser.idProfileKf==1 || !tk.idUserCancelTicket && tk.idTypeTicketKf==4 && sysLoggedUser.idProfileKf==1" ng-click="resolvedTicketFn(tk, 1)" ng-disabled="(tk.idStatusTicketKf!=3)" type="button" class="btn btn-xs btn-success" data-toggle="tooltip" data-placement="left"  title="Finalizar">
