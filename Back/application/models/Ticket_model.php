@@ -2218,7 +2218,7 @@ class Ticket_model extends CI_Model
 					$where = "(isInitialDeliveryActive = '".@$data['isInitialDeliveryActive']."')";
 					$this->db->where($where);
 				}else{
-					$where = "(ISNULL(isInitialDeliveryActive) OR isInitialDeliveryActive = '".@$data['isInitialDeliveryActive']."' OR isInitialDeliveryActive <> '".@$data['isInitialDeliveryActive']."')";
+					$where = "(ISNULL(isInitialDeliveryActive) OR isInitialDeliveryActive = '0')";
 					$this->db->where($where);
 				}
 				//MP PAYMENT Succeeded
@@ -2784,7 +2784,7 @@ class Ticket_model extends CI_Model
 				$where = "(isInitialDeliveryActive = '".@$data['isInitialDeliveryActive']."')";
 				$this->db->where($where);
 			}else{
-				$where = "(ISNULL(isInitialDeliveryActive) OR isInitialDeliveryActive = '".@$data['isInitialDeliveryActive']."' OR isInitialDeliveryActive <> '".@$data['isInitialDeliveryActive']."')";
+				$where = "(ISNULL(isInitialDeliveryActive) OR isInitialDeliveryActive = '0')";
 				$this->db->where($where);
 			}
 			//MP PAYMENT Succeeded
