@@ -259,7 +259,8 @@ class Mercadolibre_model extends CI_Model
 					log_message('info', 'site_id                 :' . $dataObj['data']['site_id']);
 					log_message('info', 'processing_mode         :' . $dataObj['data']['processing_mode']);
 					log_message('info', 'merchant_account_id     :' . $dataObj['data']['merchant_account_id']);
-					log_message('info', 'external_reference      :' . $dataObj['data']['external_reference']);		
+					log_message('info', 'external_reference      :' . $dataObj['data']['external_reference']);
+					
 					$rsPaymentUpdated = $this->updatePayment($dataObj['data']);
 					$ticketObj = null;
 					$changeStatusRs=null;
@@ -270,9 +271,9 @@ class Mercadolibre_model extends CI_Model
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 					$ticketQuery 	= $this->Ticket_model->ticketById($idTicketKf);
 					$ticket2Update = $ticketQuery['tickets'][0];
-					log_message('info', 'Ticket ID				:' . $ticket2Update['idTicket']);
+					log_message('info', 'Ticket ID               :' . $ticket2Update['idTicket']);
 					if ($ticket2Update['idStatusTicketKf']=="9"){
-						log_message('info', 'idStatusTicketKf		:' . $ticket2Update['idStatusTicketKf']);
+						log_message('info', 'idStatusTicketKf		 :' . $ticket2Update['idStatusTicketKf']);
 						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"11");
 						if ($changeStatusRs){
 							$ticketObj = null;
@@ -283,7 +284,7 @@ class Mercadolibre_model extends CI_Model
 						}
 						$this->Ticket_model->addTicketTimeline($ticketObj);
 					}else{
-						log_message('info', 'idStatusTicketKf		:' . $ticket2Update['idStatusTicketKf']);
+						log_message('info', 'idStatusTicketKf		 :' . $ticket2Update['idStatusTicketKf']);
 						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"8");
 						if ($changeStatusRs){
 							$ticketObj = null;
@@ -337,7 +338,6 @@ class Mercadolibre_model extends CI_Model
 		}
 	}
 
-
 	public function getNotificationFromMP($response)
 	{
 		log_message('info', ':::::::::::::::::getNotificationFromMP' );
@@ -345,9 +345,9 @@ class Mercadolibre_model extends CI_Model
 		//var_dump($response['api_version']);		 
 		// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //Undefined index
 		/*MAIL*/
-		if((isset($response['type']) && @$response['type'] != "test") || $response['live_mode']){
-			$title = "MercadoPago Webhook Notification MiBss";
-			$subject = "Webhook Payment Notification from MercadoPago to MiBss - [". $response['type']."] - ID: ".$response['data']['id'];
+		if((isset($response['type']) && @$response['type'] != "test") || !@$response['live_mode']){
+			$title = BSS_MP_WEBHOOK_SUBJECT;
+			$subject = "Webhook Payment Notification from MercadoPago to DEVBSS - [". $response['type']."] - ID: ".$response['data']['id'];
 			$body='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Api version: <b>'.$response['api_version'].'</b></td>'; 
 			$body.='</tr>';	
@@ -368,8 +368,8 @@ class Mercadolibre_model extends CI_Model
 			$body.='</tr>';
 			$this->mail_model->sendMail($title, "rexx84@gmail.com", $body, $subject);
 		}else{
-			$title = "MercadoPago Webhook Notification MiBss";
-			$subject = "Webhook Payment Notification from MercadoPago to MiBss [TEST] - ID: ".@$response['data']['id'];
+			$title = BSS_MP_WEBHOOK_SUBJECT;
+			$subject = "Webhook Payment Notification from MercadoPago to DEVBSS [TEST] - ID: ".@$response['data']['id'];
 			$body='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Api version: <b>'.@$response['api_version'].'</b></td>'; 
 			$body.='</tr>';
@@ -377,7 +377,7 @@ class Mercadolibre_model extends CI_Model
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Action: <b>'.@$response['action'].'</b></td>'; 
 			$body.='</tr>';
 			$body.='<tr width="100%" bgcolor="#ffffff">';
-			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">ID: <b>'.$response['data']['id'].'</b></td>'; 
+			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">ID: <b>'.@$response['data']['id'].'</b></td>'; 
 			$body.='</tr>';
 			$body.='<tr width="100%" bgcolor="#ffffff">';
 			$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Type: <b>'.@$response['type'].'</b></td>'; 
@@ -392,7 +392,7 @@ class Mercadolibre_model extends CI_Model
 		}
 
 		
-		if ((isset($response['type']) && @$response['type'] == "test") || !$response['live_mode']){
+		if ((isset($response['type']) && @$response['type'] == "test") || !@$response['live_mode']){
 			return true;
 		}else{
 			$paymentDetails  		= $this->getPaymentMPDetails($response['data']['id']);
@@ -528,8 +528,8 @@ class Mercadolibre_model extends CI_Model
 	public function updatePayment($data) {
 		$idPaymentKf = null;
 		$lastPaymentUpdatedQuery = null;
-		log_message('info', ':::::::::::::::::updatePayment');
-		log_message('info', $data['payment_id']);
+		log_message('info', ':::::::::::::::::updatedPayment');
+		log_message('info', 'payment_id              :' .$data['payment_id']);
 		$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
         $this->db->set(
             [
@@ -546,6 +546,7 @@ class Mercadolibre_model extends CI_Model
 		)->where("mp_external_reference", $data['external_reference'])->update("tb_mp_payments");
 		if ($this->db->affected_rows() == 1) {
 			//$lastPaymentUpdatedQuery = $this->paymentById($data['payment_id']);
+			log_message('info', 'payment_id              :' .$data['payment_id'].' :::: UPDATE SUCCEDED');
 			return true;
 		}else{
 			return null;
