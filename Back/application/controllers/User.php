@@ -371,7 +371,7 @@ class User extends REST_Controller {
         }
 
         $user = null;
-        $user = $this->user_model->changueStatus($id, -1);
+        $user = $this->user_model->deleteUser($id);
 
         if (!is_null($user)) {
             $this->response($user, 200);
