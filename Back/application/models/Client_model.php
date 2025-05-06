@@ -2228,6 +2228,8 @@ class Client_model extends CI_Model {
                             $rs['customers'][$i]['initial_delivery'][0]['expiration_state'] = false;
                             $rs['customers'][$i]['isInitialDeliveryActive'] = true;
                         }
+                    }else{
+                        $rs['customers'][$i]['isInitialDeliveryActive'] = false;
                     }
                     
                     if (! is_null($row->idClientAdminFk)){
