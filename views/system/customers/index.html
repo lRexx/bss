@@ -93,9 +93,9 @@
                   <span style="cursor: pointer; margin-top: -2.5%;" class="badge ng-scope" ng-class="{'badge-success':select.checkList.selected}">Seleccionar todos clientes de la pagina: {{pagination.pageIndex}}</span>
                   <button ng-click="mainSwitchFn('customers','process_list', rsCustomerListData)" ng-if="select.checkList.selected || listItemSelected" data-toggle="tooltip" data-placement="bottom" title="crear" type="button" style="margin-left: 20px; margin-top: -2em;"   class="btn btn-xs btn-success"><i class="fas fa-tools"></i> Crear servicios</button>
               </div>
-              <div class="col-md-2 col-sm-2 col-xs-2 " style="margin-top: 2%;">
+              <!--<div class="col-md-2 col-sm-2 col-xs-2 " style="margin-top: 2%;">
                 <button ng-click="modalConfirmation('createService4AllCustomers', 0 , customerSearch.typeClient)" data-toggle="tooltip" ng-disabled="select.checkList.selected || listItemSelected" data-placement="bottom" title="crear" type="button" style="margin-left: 20px; margin-top: -2em;"   class="btn btn-sm btn-warning"><i class="fas fa-tools"></i> Crear servicios masivo</button>
-              </div>
+              </div>-->
               <div class="clear-fix"></div>
               <!-- TABLE LIST WHERE IS DISPLAYED THE CUSTOMER -->
               <div ng-include="'views/system/customers/list/listCustomers.html'" style="margin-top: 0.4% !important;"></div>

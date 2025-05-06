@@ -2480,7 +2480,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               $scope.keysTotalPrice=subTotalKeys.toFixed(2);
               console.log("subTotalKeys: "+subTotalKeys+"\n"+"keyTotalAllowed :"+keyTotalAllowed);
               if (($scope.keysTotalPrice>=keyTotalAllowed) || 
-                  ($scope.ticket.building!=undefined && $scope.ticket.isInitialDeliveryActive.length==1)||
+                  ($scope.ticket.building!=undefined && $scope.ticket.isInitialDeliveryActive!=undefined && $scope.ticket.isInitialDeliveryActive.length==1)||
                   ($scope.ticket.building.isStockInBuilding=="1")){
                   $scope.deliveryCostFree = 1;
               }else{
