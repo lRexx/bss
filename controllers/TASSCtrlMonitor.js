@@ -3860,7 +3860,14 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         //  console.log($scope.listTickt);
                       }else{
                         $scope.listTickt  = response.data.response.tickets;
+                        $scope.totalRegistros = response.data.response.dashboard.total;
                         console.log($scope.listTickt);
+                        // Actualizás el slider dinámicamente
+                        $scope.slider.options.ceil = $scope.totalRegistros;
+                        const partes = 10;
+                        $scope.slider.options.step = Math.ceil(($scope.totalRegistros - $scope.slider.options.floor) / partes);
+                        // Forzás el render del slider
+                        $scope.$broadcast('rzSliderForceRender');
                       }
                       
                       $scope.totalTickets = $scope.listTickt.length;
