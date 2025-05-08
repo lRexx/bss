@@ -1192,13 +1192,12 @@ class User_model extends CI_Model
 	{
 		$this->db->delete('tb_user', array('idUser' => $id));  
 		
-		if ($this->db->affected_rows() === 1) {
+		if ($this->db->affected_rows() > 0) {
 			return true;
 		} else {
 			return false;
 		}
 	}
-
 
 
 	// GET DE LISTADO ENCARGADOS POR ID DIRECCION //
