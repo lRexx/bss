@@ -164,7 +164,7 @@
                     <div class="col-md-12 col-sm-12 col-xs-12"> 
                         <!-- KEYS -->
                           <div ng-click="mainSwitchFn('ticket_keyList', tkupdate.keys, null)" style="margin-bottom: 1em;"
-                          ng-class="{'col-md-3 col-xs-12':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-12':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
+                          ng-class="{'col-md-3 col-xs-12':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-12':tkupdate.isHasRefundsOpen=='1' || tkupdate.refundsDetails.length>=1}">
                               <div class="card-customer">
                                 <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                     <i class="fas fa-key"></i>
@@ -189,7 +189,7 @@
                           </div>          
                         <!-- USER -->
                           <div ng-show="tkupdate.idTypeRequestFor=='1'" ng-click="mainSwitchFn('ticket_user', tkupdate, null)" style="margin-bottom: 1em;"
-                          ng-class="{'col-md-3 col-xs-12':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-12':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
+                          ng-class="{'col-md-3 col-xs-12':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-12':tkupdate.isHasRefundsOpen=='1' || tkupdate.refundsDetails.length>=1}">
                               <div class="card-customer">
                                 <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                     <i class="fas fas fa-user"></i> 
@@ -214,7 +214,7 @@
                           </div>
                         <!-- DELIVERY -->
                           <div ng-if="tkupdate.idTypeTicketKf=='1'" ng-click="mainSwitchFn('ticket_delivery', tkupdate, null)" class="" style="margin-bottom: 1em;"
-                          ng-class="{'col-md-3 col-xs-12':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-12':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
+                          ng-class="{'col-md-3 col-xs-12':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-12':tkupdate.isHasRefundsOpen=='1' || tkupdate.refundsDetails.length>=1}">
                               <div class="card-customer">
                                 <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                     <i class="fas fa-truck"></i>
@@ -239,7 +239,7 @@
                           </div>
                         <!-- PAYMENTS -->
                           <div ng-if="tkupdate.paymentDetails!=null" ng-click="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))?mainSwitchFn('ticket_payment', tkupdate, null):''" style="margin-bottom: 1em;"
-                          ng-class="{'col-md-3 col-xs-12':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-12':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
+                          ng-class="{'col-md-3 col-xs-12':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-12':tkupdate.isHasRefundsOpen=='1' || tkupdate.refundsDetails.length>=1}">
                               <div class="card-customer">
                                 <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                     <i class="fas fa-receipt"></i>
@@ -263,7 +263,7 @@
                               </div>
                           </div>
                         <!-- REFUNDS -->
-                        <div ng-click="(tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1))?mainSwitchFn('ticket_refunds', tkupdate, null):''" class="col-md-2 col-xs-6" style="margin-bottom: 1em;" ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1)">
+                        <div ng-click="(tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen=='1' || tkupdate.refundsDetails.length>=1))?mainSwitchFn('ticket_refunds', tkupdate, null):''" class="col-md-2 col-xs-6" style="margin-bottom: 1em;" ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1)">
                           <div class="card-customer">
                             <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                 <i class="fas fa-hand-holding-usd"></i>
