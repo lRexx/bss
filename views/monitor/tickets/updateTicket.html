@@ -263,21 +263,21 @@
                               </div>
                           </div>
                         <!-- REFUNDS -->
-                        <div ng-click="(tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1))?mainSwitchFn('ticket_refunds', tkupdate, null):''" class="col-md-2 col-xs-6" style="margin-bottom: 1em;" ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1)">
+                        <div ng-click="(tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1))?mainSwitchFn('ticket_refunds', tkupdate, null):''" class="col-md-2 col-xs-6" style="margin-bottom: 1em;" ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen=='1' || tkupdate.refundsDetails.length>=1)">
                           <div class="card-customer">
                             <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                 <i class="fas fa-hand-holding-usd"></i>
                             </div>
                             <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
                                             'sticky-success': 
-                                            (tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1)),
+                                            (tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen=='1' || tkupdate.refundsDetails.length>=1)),
                                             'sticky-warning':  
                                             tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2',
                                           }">
                               <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
                                 <i class="fas fa-check-circle"></i>
                               </span>
-                              <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && (!tkupdate.isHasRefundsOpen  || tkupdate.isHasRefundsOpen=='0')" data-toggle="tooltip" data-placement="top" title="">
+                              <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && (!tkupdate.isHasRefundsOpen || tkupdate.isHasRefundsOpen=='0')" data-toggle="tooltip" data-placement="top" title="">
                                 <i class="fas fa-exclamation-triangle"></i>
                               </span>                                       
                             </div>
