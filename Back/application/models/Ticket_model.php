@@ -129,7 +129,7 @@ class Ticket_model extends CI_Model
 						if (count($key['doors'] ) > 0)/* asociamos las puertas relacionadas a la llave */{
 							foreach ($key['doors'] as $door) {
 								$this->db->insert('tb_ticket_keychain_doors' , array(
-									idTicketKeychainKf" 		=> $idKeychain ,
+									"idTicketKeychainKf" 		=> $idKeychain ,
 									"idContractKf" 		 		=> @$door['idContrato'] ,
 									"idAccessControlDoorKf"   	=> @$door['idAccessControlDoor'] ,
 									"idServiceKf" 	 		 	=> @$door['idService'] ,
