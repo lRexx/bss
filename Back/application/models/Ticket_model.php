@@ -2876,7 +2876,6 @@ class Ticket_model extends CI_Model
 		$this->db->where("idBuildingKf = " , $data['idBuildingKf']);
 		$this->db->where("isInitialDeliveryActive = " , 1);
 		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
-		$this->db->where("idDepartmentKf = ", $data['idDepartmentKf']);
 		$this->db->where("idStatusTicketKf !=", 6);
 		$quuery = $this->db->get();
 		//print_r($quuery->result_array());
