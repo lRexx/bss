@@ -2814,7 +2814,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         var keyTotalAllowed = Number($scope.keyTotalAllowed);
                         console.log("subTotalKeys: "+subTotalKeys+"\n"+"keyTotalAllowed :"+keyTotalAllowed);
                         if (($scope.keysTotalPrice>=keyTotalAllowed) || 
-                            ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state)||
+                            ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && isInitialDeliveryActive)||
                             ($scope.ticket.building.isStockInBuilding=="1")){
                             $scope.deliveryCostFree = 1;
                         }else{
@@ -3698,7 +3698,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             switch (opt2){
                                 case "service":
                                     if (Number(subTotalService) != NaN2Zero(normalizeDecimal(obj))){
-                                        subTotalService = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
+                                        subTotalService                 = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
                                         $scope.costs.service.cost       = formatDecimalLatam(subTotalService);
                                         $scope.ticket.cost.service      = formatDecimalLatam(subTotalService);
                                         $scope.costs.service.manual     = true;
@@ -3706,7 +3706,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 break;
                                 case "keys":
                                     if (Number(subTotalKeys) != NaN2Zero(normalizeDecimal(obj))){
-                                        subTotalKeys = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
+                                        subTotalKeys                    = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
                                         $scope.costs.keys.cost          = formatDecimalLatam(subTotalKeys);
                                         $scope.ticket.cost.keys         = formatDecimalLatam(subTotalKeys);
                                         $scope.costs.keys.manual        = true;
@@ -3714,7 +3714,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 break;
                                 case "delivery":
                                     if (Number(subTotalDelivery) != NaN2Zero(normalizeDecimal(obj))){
-                                        subTotalDelivery = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
+                                        subTotalDelivery                = NaN2Zero(NaN2Zero(normalizeDecimal(obj)));
                                         $scope.costs.delivery.cost      = formatDecimalLatam(subTotalDelivery);
                                         $scope.ticket.cost.delivery     = formatDecimalLatam(subTotalDelivery);
                                         $scope.costs.delivery.manual    = true;

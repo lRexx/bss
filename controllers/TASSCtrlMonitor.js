@@ -3730,7 +3730,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     inform.add('Ticket ha sido aprobado satisfactoriamente.',{
                       ttl:3000, type: 'success'
                     });
-                    if(response.data.idTypePaymentKf=="2" && (response.data.idStatusTicketKf!="9" || response.data.idStatusTicketKf!="11") && NaN2Zero(normalizeDecimal(response.data.total))>0){
+                    if(response.data.idTypePaymentKf=="2" && (response.data.paymentDetails==undefined || response.data.paymentDetails==null) && (response.data.idStatusTicketKf!="9" && response.data.idStatusTicketKf!="11") && NaN2Zero(normalizeDecimal(response.data.total))>0){
                       $timeout(function() {
                           $scope.mainSwitchFn("linkMP",response.data,null);
                           $scope.mainSwitchFn('search', null);
