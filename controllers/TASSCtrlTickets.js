@@ -2563,11 +2563,19 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         //}
                         if (($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && $scope.ticket.building.initial_delivery[0].expiration_state)||
                             ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==0)){
-                            for (var key in $scope.list_keys){
-                                if ($scope.list_keys[key].user!=null){
-                                    $scope.whoPickUpList.push($scope.list_keys[key].user);
+                                for (var key in $scope.list_keys) {
+                                    var user = $scope.list_keys[key].user;
+                                
+                                    if (user != null && user !== undefined) {
+                                        var isDuplicate = $scope.whoPickUpList.some(function(u) {
+                                            return u.idUser === user.idUser;
+                                        });
+                                
+                                        if (!isDuplicate) {
+                                            $scope.whoPickUpList.push(user);
+                                        }
+                                    }
                                 }
-                            }
                         }
                         if ($scope.ticket.optionTypeSelected.name=="building" && $scope.ticket.radioButtonBuilding!="4" && $scope.ticket.radioButtonBuilding!="5"){
                             for (var key in $scope.ticket.companyUserList){
