@@ -2585,10 +2585,15 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             ($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0' && $scope.ticket.building.isStockInBuilding=='1') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')||
                             ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0' && $scope.ticket.building.isStockInOffice=='1') && ($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0')){
                             $scope.whoPickUpList.push({'id': 2, 'fullNameUser': "Encargado", 'type':"Otros"});
-                            if (!$scope.ticket.departmentHasTicketsInitialDelivery){
+                            if (($scope.ticket.idClientDepartament!=undefined && $scope.ticket.idClientDepartament!=null && !$scope.ticket.departmentHasTicketsInitialDelivery) || $scope.ticket.building.isInitialDeliveryActive){
                                 if (!$scope.initialLoopExecuted) {
                                     $scope.initialLoopExecuted = true;
-                                    var initialQtty = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
+                                    var initialQtty     = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
+                                    if ($scope.ticket.radioButtonBuilding=='1' && (userSelected==null || userSelected==undefined)){
+                                        var userSelected    = $scope.selectedUser;
+                                    }else if ($scope.ticket.radioButtonBuilding=='1' && ($scope.selectedUser==null || $scope.selectedUser==undefined)){
+                                        $scope.selectedUser = userSelected;
+                                    }
                                     console.log(initialQtty);
                                     if (!isNaN(initialQtty)) {
                                         for (let  vQtty = 0; vQtty < initialQtty; vQtty++) {
