@@ -2734,13 +2734,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             if ($scope.list_keys.length<$scope.keysAllowed){
                                 for (var key in $scope.list_keys){
                                     if ($scope.list_keys[key].user!=null && userSelected!=null && $scope.list_keys[key].user.idUser == $scope.selectedUser.idUser){
-                                        inform.add("El Llavero seleccionado no ha sido agregado a la lista.",{
-                                            ttl:5000, type: 'warning'
-                                        });
-                                        inform.add("El Usuario "+$scope.selectedUser.fullNameUser+", ya se encuentra asociado a un llavero de la lista.",{
-                                            ttl:5000, type: 'warning'
-                                        });
-                                        $scope.isUserExist=true;
+                                        //inform.add("El Llavero seleccionado no ha sido agregado a la lista.",{
+                                        //    ttl:5000, type: 'warning'
+                                        //});
+                                        //inform.add("El Usuario "+$scope.selectedUser.fullNameUser+", ya se encuentra asociado a un llavero de la lista.",{
+                                        //    ttl:5000, type: 'warning'
+                                        //});
+                                        $scope.isUserExist=false;
                                         break;
                                         //console.log($scope.isUserExist);
                                     }else{
