@@ -2814,7 +2814,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         var keyTotalAllowed = Number($scope.keyTotalAllowed);
                         console.log("subTotalKeys: "+subTotalKeys+"\n"+"keyTotalAllowed :"+keyTotalAllowed);
                         if (($scope.keysTotalPrice>=keyTotalAllowed) || 
-                            ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && isInitialDeliveryActive)||
+                            ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.isInitialDeliveryActive)||
                             ($scope.ticket.building.isStockInBuilding=="1")){
                             $scope.deliveryCostFree = 1;
                         }else{
