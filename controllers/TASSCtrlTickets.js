@@ -1202,10 +1202,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 userServices.checBuildingTitularAttendant(idAddress).then(function(response){
                     if(response.status==200){
                         $scope.titularAttendantFound=true;
-                        console.log("EL CONSORCIO   : "+idAddress+" Ya tiene un Encargado Titular Asociado");
+                        console.log("EL Consorcio   : "+idAddress+" Ya tiene un Encargado Titular Asociado");
                     }else if(response.data==false){
                         $scope.titularAttendantFound=false;
-                        console.log("EL CONSORCIO   : "+idAddress+" No tiene un Encargado Titular Asociado");
+                        console.log("EL Consorcio   : "+idAddress+" No tiene un Encargado Titular Asociado");
                     }
                 });
             }
@@ -2680,7 +2680,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     productSelected.isKeyTenantOnly     = $scope.ticket.userRequestBy.idTypeTenantKf!=null && $scope.ticket.userRequestBy.idTypeTenantKf == "2"?1:null;                                    
                                 }else{
                                     productSelected.idCategoryKf        = 6;
-                                    productSelected.categoryName        = "Consorcio";
+                                    productSelected.categoryName        = "Personal del Edificio";
                                     productSelected.idClientKf          = $scope.select.buildings.selected.idClient;
                                     productSelected.idDepartmenKf       = null;
                                     productSelected.isKeyTenantOnly     = null
@@ -2747,13 +2747,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             if ($scope.list_keys.length<$scope.keysAllowed){
                                 for (var key in $scope.list_keys){
                                     if ($scope.list_keys[key].user!=null && userSelected!=null && $scope.list_keys[key].user.idUser == $scope.selectedUser.idUser){
-                                        //inform.add("El Llavero seleccionado no ha sido agregado a la lista.",{
-                                        //    ttl:5000, type: 'warning'
-                                        //});
-                                        //inform.add("El Usuario "+$scope.selectedUser.fullNameUser+", ya se encuentra asociado a un llavero de la lista.",{
-                                        //    ttl:5000, type: 'warning'
-                                        //});
-                                        $scope.isUserExist=false;
+                                        inform.add("El Llavero seleccionado no ha sido agregado a la lista.",{
+                                            ttl:5000, type: 'warning'
+                                        });
+                                        inform.add("El Usuario "+$scope.selectedUser.fullNameUser+", ya se encuentra asociado a un llavero de la lista.",{
+                                            ttl:5000, type: 'warning'
+                                        });
+                                        $scope.isUserExist=true;
                                         break;
                                         //console.log($scope.isUserExist);
                                     }else{
@@ -2793,7 +2793,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }else{
                                 if($scope.ticket.radioButtonBuilding=="1"){
                                     if (userSelected==null){
-                                        inform.add('El llavero '+productSelected.descriptionProduct+' asociado al Consorcio:  '+$scope.select.buildings.selected.name+' ha sido agregado al pedido.',{
+                                        inform.add('El llavero '+productSelected.descriptionProduct+' asociado al Personal del Edificio:  '+$scope.select.buildings.selected.name+' ha sido agregado al pedido.',{
                                             ttl:5000, type: 'success'
                                         }); 
                                     }else{
@@ -2865,7 +2865,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     productSelected.isKeyTenantOnly     = $scope.ticket.userRequestBy.idTypeTenantKf!=null && $scope.ticket.userRequestBy.idTypeTenantKf == "2"?1:null;
                                 }else{
                                     productSelected.idCategoryKf        = 6;
-                                    productSelected.categoryName        = "Consorcio";
+                                    productSelected.categoryName        = "Personal del Edificio";
                                     productSelected.idClientKf          = $scope.select.buildings.selected.idClient;
                                     productSelected.idDepartmenKf       = null;
                                     productSelected.isKeyTenantOnly     = null;
@@ -2995,7 +2995,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }else{
                                 if($scope.ticket.radioButtonBuilding=="1"){
                                     if (userSelected==null){
-                                        inform.add('El llavero '+productSelected.descriptionProduct+' asociado al Consorcio:  '+$scope.select.buildings.selected.name+' ha sido agregado al pedido.',{
+                                        inform.add('El llavero '+productSelected.descriptionProduct+' asociado al Personal del Edificio:  '+$scope.select.buildings.selected.name+' ha sido agregado al pedido.',{
                                             ttl:5000, type: 'success'
                                         }); 
                                     }else{
@@ -3054,7 +3054,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }else{
                             if($scope.ticket.radioButtonBuilding=="1"){
                                 if (obj.user==null){
-                                    inform.add('El llavero '+obj.key.descriptionProduct+' asociado al Consorcio:  '+$scope.select.buildings.selected.name+' ha sido removido al pedido.',{
+                                    inform.add('El llavero '+obj.key.descriptionProduct+' asociado al Personal del Edificio:  '+$scope.select.buildings.selected.name+' ha sido removido al pedido.',{
                                         ttl:5000, type: 'warning'
                                     }); 
                                 }else{
@@ -3816,13 +3816,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }else if (obj.radioButtonBuilding!=undefined && obj.radioButtonBuilding=='2'){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Administración</td>';
                             }else if (obj.radioButtonBuilding!=undefined && (obj.radioButtonBuilding!='1' && obj.radioButtonBuilding!='2')){
-                                $scope.new.ticket.mail +='<td align="left" valign="middle">Consorcio</td>';
+                                $scope.new.ticket.mail +='<td align="left" valign="middle">Personal del Edificio</td>';
                             }
                             $scope.new.ticket.mail +='</tr></tbody>';
                             $scope.new.ticket.mail += '<tbody><tr><td align="center" valign="middle" colspan="4" style="background:#427a9d;color:white; padding:0.4%">Detalles - Dirección</td></tr>';
                             $scope.new.ticket.mail += '<tr><td align="center" valign="middle" style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Administracíon</td>';
                             $scope.new.ticket.mail +='<td align="left" valign="middle">'+obj.administration.name+'</td>';
-                            $scope.new.ticket.mail += '<td align="center" valign="middle" style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Consorcio</td>';
+                            $scope.new.ticket.mail += '<td align="center" valign="middle" style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Personal del Edificio</td>';
                             $scope.new.ticket.mail +='<td align="left" valign="middle">'+obj.building.name+'</td>';
                             $scope.new.ticket.mail +='</tr></tbody>';
                             /*-- KEYS REQUESTED --*/
@@ -3862,7 +3862,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+$scope.list_keys[i].user.nameProfile+'</b></span>';
                                 }
                                 if (obj.optionTypeSelected.name=='building' && obj.radioButtonBuilding!=undefined && obj.radioButtonBuilding!='1' && obj.radioButtonBuilding!='2' && $scope.list_keys[i].key.idCategoryKf!='5' && $scope.list_keys[i].key.idCategoryKf!='6'){
-                                    $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>Consorcio</b></span>';
+                                    $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>Personal del Edificio</b></span>';
                                 }
                                 if (obj.optionTypeSelected.name=='building' && obj.radioButtonBuilding=='2' && $scope.list_keys[i].key.idCategoryKf=='5'){
                                     $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>Administracíon</b></span>';
@@ -4486,7 +4486,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }else if (obj.radioButtonBuilding!=undefined && obj.radioButtonBuilding=='2'){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Administración</td>';
                             }else if (obj.radioButtonBuilding!=undefined && (obj.radioButtonBuilding!='1' && obj.radioButtonBuilding!='2')){
-                                $scope.new.ticket.mail +='<td align="left" valign="middle">Consorcio</td>';
+                                $scope.new.ticket.mail +='<td align="left" valign="middle">Personal del Edificio</td>';
                             }
                             $scope.new.ticket.mail +='</tr></tbody>';
                             $scope.new.ticket.mail += '<tbody><tr><td align="center" valign="middle" colspan="4" style="background:#427a9d;color:white; padding:0.4%">Detalles - Dirección</td></tr>';
