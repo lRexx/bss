@@ -171,7 +171,9 @@ class Department_model extends CI_Model
             $this->db->where("tb_client_departament.isAprobatedAdmin =", 0);
             $this->db->or_where("tb_client_departament.isAprobatedAdmin =", null);
             $this->db->group_end();
-		}
+		}else{
+            $this->db->where("tb_client_departament.idStatusFk !=", -1);
+        }
 		$quuery = $this->db->order_by("tb_clients.address", "asc")->get();
 
 
