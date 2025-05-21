@@ -303,12 +303,19 @@
 								</div>
 							</div>														
 							<!-- TOTEM: puerto http -->
-							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect">
+							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect" ng-class="
+									{	'has-success': 
+										service.update.isHasInternetConnect!=undefined && 
+										service.update.isHasInternetConnect!='' && fCustomerUpdateService.portHttp.$valid,
+										'has-error':  
+										(service.update.isHasInternetConnect=='' || 
+										service.update.isHasInternetConnect==undefined || service.update.isHasInternetConnect==null) && fCustomerUpdateService.portHttp.$touched,
+									}">
 							  <label style="padding-left: 15px;">Puerto http</label>  
 								  <div class="col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
-										<input name="portHttp" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-model="service.update.portHttp" />
+										<input name="portHttp" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-required="service.update.isHasInternetConnect" ng-model="service.update.portHttp" />
 								  </div>
 								</div>
 							</div>

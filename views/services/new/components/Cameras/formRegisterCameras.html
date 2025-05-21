@@ -301,12 +301,19 @@
 								</div>
 							</div>														
 							<!-- Camaras: puerto http -->
-							<div class="form-group col-md-3" ng-show="service.new.isHasInternetConnect">
+							<div class="form-group col-md-3" ng-show="service.new.isHasInternetConnect" ng-class="
+									{	'has-success': 
+										service.new.isHasInternetConnect!=undefined && 
+										service.new.isHasInternetConnect!='' && fCustomerNewService.portHttp.$valid,
+										'has-error':  
+										(service.new.isHasInternetConnect=='' || 
+										service.new.isHasInternetConnect==undefined || service.new.isHasInternetConnect==null) && fCustomerNewService.portHttp.$touched,
+									}">
 							  <label style="padding-left: 15px;">Puerto http</label>  
 								  <div class="col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
-										<input name="portHttp" ng-disabled="!service.new.isHasInternetConnect" type="text" class="form-control" ng-model="service.new.portHttp" />
+										<input name="portHttp" ng-disabled="!service.new.isHasInternetConnect" type="text" class="form-control" ng-required="service.new.isHasInternetConnect" ng-model="service.new.portHttp" />
 								  </div>
 								</div>
 							</div>
