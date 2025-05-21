@@ -323,7 +323,7 @@
 							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect" ng-class="
 									{	'has-success': 
 										service.update.numberPortRouter!=undefined && 
-										service.update.numberPortRouter>=1 && fCustomerUpdateService.numberPortRouter.$valid,
+										service.update.numberPortRouter!='' && fCustomerUpdateService.routerPort.$valid,
 										'has-error':  
 										(service.update.numberPortRouter=='' || service.update.numberPortRouter==0 || 
 										service.update.numberPortRouter==undefined || service.update.numberPortRouter==null) && fCustomerUpdateService.routerPort.$touched,
