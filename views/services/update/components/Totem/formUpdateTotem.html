@@ -397,9 +397,9 @@
 							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect" ng-class="
 									{	'has-success': 
 										service.update.numberPortRouter!=undefined && 
-										service.update.numberPortRouter!='' && fCustomerUpdateService.numberPortRouter.$valid,
+										service.update.numberPortRouter>=1 && fCustomerUpdateService.numberPortRouter.$valid,
 										'has-error':  
-										(service.update.numberPortRouter=='' || 
+										(service.update.numberPortRouter=='' || service.update.numberPortRouter==0 || 
 										service.update.numberPortRouter==undefined || service.update.numberPortRouter==null) && fCustomerUpdateService.routerPort.$touched,
 									}">
 							  <label style="padding-left: 15px;">N° de puerto de router</label>  
@@ -409,7 +409,7 @@
 										<input name="routerPort" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-required="service.update.isHasInternetConnect" ng-model="service.update.numberPortRouter" />
 								  </div>
 								</div>
-							</div>													
+							</div>												
 							<!-- TOTEM: nombre de puerto 1-->
 							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect">
 							  <label style="padding-left: 15px;">Nombre de puerto</label>  

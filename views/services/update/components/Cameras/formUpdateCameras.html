@@ -323,9 +323,9 @@
 							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect" ng-class="
 									{	'has-success': 
 										service.update.numberPortRouter!=undefined && 
-										service.update.numberPortRouter!='' && fCustomerUpdateService.numberPortRouter.$valid,
+										service.update.numberPortRouter>=1 && fCustomerUpdateService.numberPortRouter.$valid,
 										'has-error':  
-										(service.update.numberPortRouter=='' || 
+										(service.update.numberPortRouter=='' || service.update.numberPortRouter==0 || 
 										service.update.numberPortRouter==undefined || service.update.numberPortRouter==null) && fCustomerUpdateService.routerPort.$touched,
 									}">
 							  <label style="padding-left: 15px;">N° de puerto de router</label>  
