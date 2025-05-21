@@ -320,12 +320,19 @@
 								</div>
 							</div>
 							<!-- TOTEM: numero de puerto de router -->
-							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect">
+							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect" ng-class="
+									{	'has-success': 
+										service.update.numberPortRouter!=undefined && 
+										service.update.numberPortRouter!='' && fCustomerUpdateService.numberPortRouter.$valid,
+										'has-error':  
+										(service.update.numberPortRouter=='' || 
+										service.update.numberPortRouter==undefined || service.update.numberPortRouter==null) && fCustomerUpdateService.routerPort.$touched,
+									}">
 							  <label style="padding-left: 15px;">N° de puerto de router</label>  
 								  <div class="col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
-										<input name="routerPort" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-model="service.update.numberPortRouter" />
+										<input name="routerPort" ng-disabled="!service.update.isHasInternetConnect" type="text" class="form-control" ng-required="service.update.isHasInternetConnect" ng-model="service.update.numberPortRouter" />
 								  </div>
 								</div>
 							</div>												

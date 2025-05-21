@@ -303,11 +303,11 @@
 							<!-- Camaras: puerto http -->
 							<div class="form-group col-md-3" ng-show="service.new.isHasInternetConnect" ng-class="
 									{	'has-success': 
-										service.new.isHasInternetConnect!=undefined && 
-										service.new.isHasInternetConnect!='' && fCustomerNewService.portHttp.$valid,
+										service.new.portHttp!=undefined && 
+										service.new.portHttp!='' && fCustomerNewService.portHttp.$valid,
 										'has-error':  
-										(service.new.isHasInternetConnect=='' || 
-										service.new.isHasInternetConnect==undefined || service.new.isHasInternetConnect==null) && fCustomerNewService.portHttp.$touched,
+										(service.new.portHttp=='' || 
+										service.new.portHttp==undefined || service.new.portHttp==null) && fCustomerNewService.portHttp.$touched,
 									}">
 							  <label style="padding-left: 15px;">Puerto http</label>  
 								  <div class="col-xs-12">
@@ -318,12 +318,19 @@
 								</div>
 							</div>
 							<!-- Camaras: numero de puerto de router -->
-							<div class="form-group col-md-3" ng-show="service.new.isHasInternetConnect">
+							<div class="form-group col-md-3" ng-show="service.new.isHasInternetConnect" ng-class="
+									{	'has-success': 
+										service.new.numberPortRouter!=undefined && 
+										service.new.numberPortRouter!='' && fCustomerNewService.portHttp.$valid,
+										'has-error':  
+										(service.new.numberPortRouter=='' || 
+										service.new.numberPortRouter==undefined || service.new.numberPortRouter==null) && fCustomerNewService.routerPort.$touched,
+									}">
 							  <label style="padding-left: 15px;">N° de puerto de router</label>  
 								  <div class="col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
-										<input name="routerPort" ng-disabled="!service.new.isHasInternetConnect" type="text" class="form-control" ng-model="service.new.numberPortRouter" />
+										<input name="routerPort" ng-disabled="!service.new.isHasInternetConnect" type="text" class="form-control" ng-required="service.new.isHasInternetConnect" ng-model="service.new.numberPortRouter" />
 								  </div>
 								</div>
 							</div>												
