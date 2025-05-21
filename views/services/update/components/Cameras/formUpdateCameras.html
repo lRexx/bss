@@ -305,11 +305,11 @@
 							<!-- TOTEM: puerto http -->
 							<div class="form-group col-md-3" ng-show="service.update.isHasInternetConnect" ng-class="
 									{	'has-success': 
-										service.update.isHasInternetConnect!=undefined && 
-										service.update.isHasInternetConnect!='' && fCustomerUpdateService.portHttp.$valid,
+										service.update.portHttp!=undefined && 
+										service.update.portHttp!='' && fCustomerUpdateService.portHttp.$valid,
 										'has-error':  
-										(service.update.isHasInternetConnect=='' || 
-										service.update.isHasInternetConnect==undefined || service.update.isHasInternetConnect==null) && fCustomerUpdateService.portHttp.$touched,
+										(service.update.portHttp=='' || 
+										service.update.portHttp==undefined || service.update.portHttp==null) && fCustomerUpdateService.portHttp.$touched,
 									}">
 							  <label style="padding-left: 15px;">Puerto http</label>  
 								  <div class="col-xs-12">
