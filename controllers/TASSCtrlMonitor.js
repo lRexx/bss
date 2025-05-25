@@ -2410,12 +2410,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   current_date.getFullYear() +                           // yyyy
                   String(current_date.getHours()).padStart(2, '0') +     // hh
                   String(current_date.getMinutes()).padStart(2, '0');    // mm
+              $scope.mp.payment.data.idPayment                = obj.selected.paymentDetails.idPayment;
               $scope.mp.payment.data.date_created             = newDate;
-              $scope.mp.payment.data.id                       = "90000"+dateTimeString;
+              $scope.mp.payment.data.id                       = obj.selected.paymentDetails.mp_preference_id!=undefined?obj.selected.paymentDetails.mp_preference_id:"90000"+dateTimeString;
               $scope.mp.payment.data.expires                  = null;
               $scope.mp.payment.data.external_reference       = obj.idManualPayment!="3"?obj.selected.idTicket+"_"+obj.manualPaymentNumber:obj.selected.idTicket+"_"+dateTimeString;
-              $scope.mp.payment.data.init_point               = null;
-              $scope.mp.payment.data.sandbox_init_point       = null;
+              $scope.mp.payment.data.init_point               = obj.selected.paymentDetails.mp_prod_init_point;
+              $scope.mp.payment.data.sandbox_init_point       = obj.selected.paymentDetails.mp_dev_init_point;
               $scope.mp.payment.data.operation_type           = "regular_payment";
               $scope.mp.payment.data.paymentForDelivery       = false;
               $scope.mp.payment.data.manualPaymentDescription = obj.manualPaymentDescription;
