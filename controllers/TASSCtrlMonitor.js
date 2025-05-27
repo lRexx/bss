@@ -1421,7 +1421,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
     **************************************************/
       $scope.checkDeliveryMethod = function(item){
         //console.log($scope.ticket);
-        if($scope.ticket.building!=undefined && (($scope.ticket.selected.isInitialDeliveryActive!=undefined && $scope.ticket.selected.isInitialDeliveryActive==1) || $scope.ticket.building.isStockInBuilding=='1' || (($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')))){
+        if($scope.ticket.building!=undefined && ((($scope.ticket.selected!=undefined && $scope.ticket.selected.isInitialDeliveryActive!=undefined && $scope.ticket.selected.isInitialDeliveryActive==1)||($scope.ticket.isInitialDeliveryActive!=undefined && $scope.ticket.isInitialDeliveryActive==1)) || $scope.ticket.building.isStockInBuilding=='1' || (($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')))){
             return item.idTypeDelivery != "1";
         }else{
             return item.idTypeDelivery;
@@ -2792,7 +2792,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   //$scope.update.ticket.idStatusTicketKf     = obj.selected.idStatusTicketKf;
                   $scope.update.ticket.costDelivery           = $scope.subTotalDelivery;
                   subTotalCosts = subTotalService + subTotalKeys + $scope.subTotalDelivery;
-                  $scope.update.ticket.total                  = formatDecimalLatam(subTotalCosts);
+                  $scope.update.ticket.total                  = NaN2Zero(normalizeDecimal(subTotalCosts));
                   $scope.update.ticket.idPaymentDeliveryKf    = obj.selected.idPaymentDeliveryKf!=null?obj.selected.idPaymentDeliveryKf:null;
                   $scope.update.ticket.isDeliveryHasChanged   = 1;
                   console.log($scope.update);
@@ -3487,17 +3487,25 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 console.log(obj);
                 $scope.mp.link={'new':{'data':{}},'url':null}; //codTicket
                 $scope.mp.link.new.data={'idPago': null,'monto':  null,'linkDeNotificacion':  null,'back_url':  null,'metadata': {}};
-                $scope.mp.link.new.data.idTicket              = obj.idTicket;
-                $scope.mp.link.new.data.ticket_number         = obj.codTicket;
-                $scope.mp.link.new.data.monto                 = obj.createNewMPLinkForDelivery?Number(parseInt(obj.costDelivery)):Number(parseInt(obj.total));
+                $scope.mp.link.new.data.idTicket                = obj.idTicket;
+                $scope.mp.link.new.data.ticket_number           = obj.codTicket;
+                $scope.mp.link.new.data.monto                   = obj.createNewMPLinkForDelivery?Number(parseInt(obj.costDelivery)):Number(parseInt(obj.total));
                 //$scope.mp.link.new.data.linkDeNotificacion    = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
                 //$scope.mp.link.new.data.back_url              = serverHost+"/monitor";
-                $scope.mp.link.new.data.linkDeNotificacion    = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
-                $scope.mp.link.new.data.back_url              = "";
-                $scope.mp.link.new.data.description           = obj.typeticket.TypeTicketName;
-                $scope.mp.link.new.data.quantity              = obj.keys.length;
-                $scope.mp.link.new.data.idPayment             = obj.idPaymentKf!=null || obj.idPaymentKf!=undefined?obj.idPaymentKf:null;
-                $scope.mp.link.new.data.metadata.paymentFor   = obj.createNewMPLinkForDelivery?3:1;
+                $scope.mp.link.new.data.linkDeNotificacion      = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
+                $scope.mp.link.new.data.back_url                = "";
+                $scope.mp.link.new.data.description             = obj.typeticket.TypeTicketName;
+                $scope.mp.link.new.data.quantity                = obj.keys.length;
+                if (obj.createNewMPLinkForDelivery){
+                  $scope.mp.link.new.data.idPayment             = obj.idPaymentDeliveryKf; 
+                }else if(!obj.createNewMPLinkForDelivery && (obj.idPaymentKf!=null || obj.idPaymentKf!=undefined)){
+                  $scope.mp.link.new.data.idPayment             = obj.idPaymentKf
+                }else{
+                  $scope.mp.link.new.data.idPayment             = null;
+                }
+                $scope.mp.link.new.data.metadata.idTicket       = obj.idTicket;
+                $scope.mp.link.new.data.metadata.ticket_number  = obj.codTicket;
+                $scope.mp.link.new.data.metadata.paymentFor     = obj.createNewMPLinkForDelivery?3:1;
                 console.log($scope.mp.link);
                 $scope.mpCreateLinkFn($scope.mp.link.new);                  
             break;
@@ -3521,11 +3529,11 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                       $('.circle-loader').toggleClass('load-complete');
                       $('.checkmark').toggle();
                       $scope.ticketRegistered = response.data.response;
-                      response.data.response[0].createNewMPLinkForDelivery=pedido.ticket.createNewMPLinkForDelivery;
+                      response.data.response.createNewMPLinkForDelivery=pedido.ticket.createNewMPLinkForDelivery;
                     }, 2500);
-                    if((pedido.ticket.createNewMPLink || pedido.ticket.createNewMPLinkForDelivery) && response.data.response[0].idTypePaymentKf=="2"){
+                    if((pedido.ticket.createNewMPLink || pedido.ticket.createNewMPLinkForDelivery) && response.data.response.idTypePaymentKf=="2"){
                       $timeout(function() {
-                          $scope.mainSwitchFn("linkMP",response.data.response[0],null);
+                          $scope.mainSwitchFn("linkMP",response.data.response,null);
                       }, 2700);
                     }else{
                       $scope.mainSwitchFn('search', null);
@@ -3555,8 +3563,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                         inform.add('Link de pago generado satisfactoriamente. ',{
                               ttl:5000, type: 'success'
                         });
-                        $scope.mp.link.url      = response.data[0].data.response.sandbox_init_point;
-                        $scope.mp.data          = response.data[0].data.response;
+                        $scope.mp.link.url                        = response.data[0].data.response.sandbox_init_point;
+                        $scope.mp.data                            = response.data[0].data.response;
                         console.log($scope.mp.data);
                         $scope.addPaymentFn(response.data[0].data.response);
                       }else{
@@ -3593,20 +3601,21 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             $scope.addPaymentFn = function(payment){
                 console.log($scope.mp);
                 console.log(payment);
-                $scope.mp.payment.data.idTicketKf         = $scope.mp.link.new.data.idTicket;
-                $scope.mp.payment.data.client_id          = payment.client_id;
-                $scope.mp.payment.data.id                 = payment.id;
-                $scope.mp.payment.data.collector_id       = payment.collector_id;
-                $scope.mp.payment.data.date_created       = payment.date_created;
-                $scope.mp.payment.data.expires            = payment.expires;
-                $scope.mp.payment.data.external_reference = payment.external_reference;
-                $scope.mp.payment.data.init_point         = payment.init_point;
-                $scope.mp.payment.data.sandbox_init_point = payment.sandbox_init_point;
-                $scope.mp.payment.data.operation_type     = payment.operation_type;
-                $scope.mp.payment.data.isManualPayment    = false;
+                $scope.mp.payment.data.idTicketKf           = $scope.mp.link.new.data.idTicket;
+                $scope.mp.payment.data.idPayment            = $scope.mp.link.new.data.idPayment;
+                $scope.mp.payment.data.client_id            = payment.client_id;
+                $scope.mp.payment.data.id                   = payment.id;
+                $scope.mp.payment.data.collector_id         = payment.collector_id;
+                $scope.mp.payment.data.date_created         = payment.date_created;
+                $scope.mp.payment.data.expires              = payment.expires;
+                $scope.mp.payment.data.external_reference   = payment.external_reference;
+                $scope.mp.payment.data.init_point           = payment.init_point;
+                $scope.mp.payment.data.sandbox_init_point   = payment.sandbox_init_point;
+                $scope.mp.payment.data.operation_type       = payment.operation_type;
+                $scope.mp.payment.data.isManualPayment      = false;
                 console.log($scope.mp.payment.data);
-                $scope.mp.payment.data.paymentForDelivery = $scope.update.ticket.createNewMPLinkForDelivery?$scope.update.ticket.createNewMPLinkForDelivery:false;
-                $scope.addPaymentDetailsFn = null;
+                $scope.mp.payment.data.paymentForDelivery   = $scope.update.ticket.createNewMPLinkForDelivery?$scope.update.ticket.createNewMPLinkForDelivery:false;
+                $scope.addPaymentDetailsFn                  = null;
                 console.log($scope.mp.payment.data);
                 ticketServices.addPayment($scope.mp.payment).then(function(response){
                     //console.log(response);
