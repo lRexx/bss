@@ -340,7 +340,7 @@
 														<span class="font-size-18px" style="color: #5cb85c">
 															<i class="text-success fas fa-house-user"></i>
 														</span>
-														<span class="label label-default">{{key.fullNameUser}} </span><span class="badge badge-warning">{{key.nameProfile}}</span>
+														<span class="label label-default">{{key.fullNameUser}} </span><span class="badge badge-warning">{{key.nameSysProfile}}</span>
 													</span>
 													<span ng-if="ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && key.idCategoryKf!=5 && key.idCategoryKf!=6">
 														<span class="font-size-18px" style="color: #5cb85c">
@@ -367,7 +367,8 @@
 														<i class="text-success fas fa-check-circle"></i>
 													</span>
 													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null" class="font-size-16px">{{key.fullNameUser}}</span>
-													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null" class="badge badge-default">{{key.nameProfile}}</span>
+													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf!='6'" class="badge badge-warning">{{key.nameProfile}}</span>
+													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf=='6'" class="badge badge-warning">{{key.nameSysProfile}}</span>
 													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf=='6'" class="badge badge-warning">{{key.typeTenantName}}</span>
 													
 													<span ng-if="key.idUserKf==undefined || key.idUserKf==null" data-toggle="tooltip" data-placement="top" title="No asociado" class="text-danger media-middle text-center font-size-18px">
@@ -442,13 +443,13 @@
 									<div class="panel-body">
 										<div class="form-check form-check-inline">
 										<div class="col-md-3 col-md-offset-3 col-xs-3 col-xs-offset-3">
-												<input id="sendnotify1" class="radio-custom" ng-model="ticket.userNotify" ng-click="getNotify(1)" type="radio" value="1" required autofocus>
+												<input id="sendnotify1" class="radio-custom" ng-model="ticket.userNotify" ng-click="getNotify(1);enabledNextBtn();" type="radio" value="1" required autofocus>
 												<label for="sendnotify1" class="radio-custom-label">
 													<span>SI</span>
 												</label>
 											</div>
 											<div class="col-md-3 col-xs-3">
-												<input id="sendnotify2" class="radio-custom" ng-model="ticket.userNotify" ng-click="getNotify(0)" type="radio" value="0" required autofocus>
+												<input id="sendnotify2" class="radio-custom" ng-model="ticket.userNotify" ng-click="getNotify(0);enabledNextBtn();" type="radio" value="0" required autofocus>
 												<label for="sendnotify2" class="radio-custom-label">
 													<span>NO</span>
 												</label> 
@@ -582,7 +583,7 @@
 														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo </th>
 														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo Externo </th>
 														<th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
-														<!--<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>-->
+														<th class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Asignado</th>
 													</tr>
 												</thead>
 												<tbody style="overflow: auto;">
@@ -594,20 +595,24 @@
 														<td ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
 															<span class="label label-default">{{tckt.key.categoryKeychain}}</span>
 														</td>
-														<td ng-if="ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
-															<span ng-if="ticket.radioButtonBuilding=='1'">
+														<td ng-if="ticket.optionTypeSelected.name=='department' || ticket.optionTypeSelected.name=='building'" style="vertical-align: middle;text-align: center;">
+															<span ng-if="((ticket.radioButtonBuilding!=nul && ticket.radioButtonBuilding=='1') || (ticket.radioButtonDepartment!=nul && (ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')))">
 																<span class="font-size-18px" style="color: #5cb85c">
 																	<i class="text-success fas fa-house-user"></i>
 																</span>
-																<span class="label label-default">{{tckt.key.fullNameUser}} </span><span class="badge badge-warning">{{tckt.key.nameProfile}}</span>
+																<span class="label label-default">{{tckt.key.fullNameUser}} </span>
+																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf!='6'" class="badge badge-warning">{{tckt.key.nameProfile}}</span>
+																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf=='6'" class="badge badge-warning">{{tckt.key.nameSysProfile}}</span>
+																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf=='6'" class="badge badge-warning">{{tckt.key.typeTenantName}}</span>
+
 															</span>
-															<span ng-if="ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && tckt.key.idCategoryKf!=5 && tckt.key.idCategoryKf!=6">
+															<span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && tckt.key.idCategoryKf!=5 && tckt.key.idCategoryKf!=6">
 																<span class="font-size-18px" style="color: #5cb85c">
 																	<i class="text-success icon-building"></i>
 																</span>
 																<span class="label label-default">{{tckt.key.nameClientBuilding}}</span>
 															</span>
-															<span ng-if="ticket.radioButtonBuilding=='2' && tckt.key.idCategoryKf==5">
+															<span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='2' && tckt.key.idCategoryKf==5">
 																<span class="font-size-18px" style="color: #5cb85c">
 																	<i class="text-success fas fa-user-tie"></i>
 																</span>
@@ -663,8 +668,8 @@
 											<table class="table table-bordered table-condensed table-list table-responsive" style="margin-bottom: 0px !important;">
 												<tbody style="text-align: right;">
 													<tr>
-														<td colspan="2" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Gestión</td><td colspan="2">$ {{ticket.cost.service | number : 2 }}</td>
-														<td colspan="2" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Total</td><td colspan="2">$ {{ticket.cost.total | number : 2 }}</td>
+														<td colspan="2" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Gestión</td><td colspan="2">$ {{ticket.cost.service }}</td>
+														<td colspan="2" style="width: 10%; background-color: #b8c3d2;font-size: 14px;color: #fff;text-align: center;">Total</td><td colspan="2">$ {{ticket.cost.total }}</td>
 													</tr>
 												</tbody>
 											</table>

@@ -1691,6 +1691,20 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           blockUI.stop();
                         }, 2500); 
                       }
+                    }else{
+                      $timeout(function() {
+                        blockUI.message('Usuario: '+$scope.update.user.fullNameUser+' actualizado con exito');
+                      }, 1500);
+                      $timeout(function() {
+                        //USERS DEFAULT
+                        $('#UpdateUser').modal('hide');
+                        console.log("UPDATE SUCCESSFULLY");
+                        inform.add('Usuario '+$scope.update.user.fullNameUser+' actualizado satisfactoriamente.',{
+                          ttl:5000, type: 'success'
+                        });
+                        $scope.refreshList();
+                        blockUI.stop();
+                      }, 2500); 
                     }
                   }else{
                     $timeout(function() {
@@ -1699,7 +1713,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     $timeout(function() {
                       //USERS DEFAULT
                       $('#UpdateUser').modal('hide');
-                      console.log("REGISTERED SUCCESSFULLY");
+                      console.log("UPDATE SUCCESSFULLY");
                       inform.add('Usuario '+$scope.update.user.fullNameUser+' actualizado satisfactoriamente.',{
                         ttl:5000, type: 'success'
                       });

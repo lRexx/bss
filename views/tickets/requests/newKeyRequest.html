@@ -371,7 +371,7 @@
 									<span ng-if="selectedUser==undefined" class="btn-label"><i class="fas fa-user-tag"></i> </span>
 									<span ng-if="selectedUser!=undefined" class="btn-label"><i class="fas fa-check-square"></i> </span>
 									<span ng-if="selectedUser!=undefined">Encargado seleccionado</span>
-									<span ng-if="selectedUser==undefined">Seleccionar Encargado</span>
+									<span ng-if="selectedUser==undefined">Seleccionar Personal</span>
 								</button>
 								<button ng-if="ticket.optionTypeSelected.name=='department' || (ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3'))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar Llave" 
 								ng-disabled="((ticket.optionTypeSelected.name=='department' && ((selectedRequestKeyOwnerUser==undefined || selectedRequestKeyOwnerUser==null) || select.products.selected==undefined || list_doors.length==0)) || 

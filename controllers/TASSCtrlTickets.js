@@ -483,7 +483,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                     break;
                     case 3: console.log($scope.ticket);
-                        if ($scope.fSwitch=="n" && $scope.sysLoggedUser.idProfileKf!=0){
+                        if (($scope.fSwitch=="n" || $scope.fSwitch=="d") && $scope.sysLoggedUser.idProfileKf!=0){
                             //PASO 4: MÉTODO DE PAGO
                             console.info("ENTRO AL CASE 4 : ALTA DE LLAVE - PASO 4: MÉTODO DE PAGO");
                             if (($scope.ticket.cost.idTypePaymentKf==null || $scope.ticket.cost.idTypePaymentKf==undefined)){
@@ -504,13 +504,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if ($scope.sysLoggedUser.idProfileKf!=1){
                                     $scope.formValidated=true;
                                 } 
-                            }
-                        }else if ($scope.sysLoggedUser.idProfileKf==3 || ($scope.sysLoggedUser.idProfileKf==3 && $scope.sysLoggedUser.idTypeTenantKf==1)){
-                            //alert("ENTRO");
-                            if (!$scope.ticket.idClientDepartament || $scope.tenant.namesTenant==""){
-                                $scope.formValidated=false;
-                            }else{
-                                $scope.formValidated=true;
                             }
                         }
                     break;
@@ -1746,6 +1739,30 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             }
         /**************************************************
         *                                                 *
+        *    GET KEY LIST BY ID ADDRESS OF BUILDING       *
+        *                                                 *
+        **************************************************/
+            $scope.getKeyListByBuildingIdFn = function (idClient){
+                if(idClient!=undefined){
+                    KeysServices.getKeyListByBuildingId(idClient).then(function(response_keys) {
+                        if(response_keys.status==200){
+                            $scope.ticket.building.keys=response_keys.data;
+                            $scope.ticket.keys = response_keys.data;
+                            $scope.keyList = response_keys.data;
+                        }else if (response_keys.status==404){
+                            $scope.ticket.building.keys = [];
+                            $scope.ticket.keys = [];
+                            $scope.keyList = [];
+                        }else if (response_keys.status==500){
+                            $scope.ticket.building.keys = [];
+                            $scope.ticket.keys = [];
+                            $scope.keyList = [];
+                        }
+                    });
+                }
+            };
+        /**************************************************
+        *                                                 *
         *               PROVINCE FILTER                   *
         *                                                 *
         **************************************************/  
@@ -2154,6 +2171,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $scope.getUsersByCompanyClientIdFn($scope.select.admins.selected.idClient);
                         }else{
                             $scope.getAttendantListFn($scope.ticket.building.idClient);
+                            $scope.getKeyListByBuildingIdFn($scope.ticket.building.idClient);
                         }
                         console.log($scope.ticket);
                     break;
@@ -2952,11 +2970,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             productSelected = null;
                         }
                         $scope.item_added           = false;
- 
+                        var radioButtonDepartment   = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
+                        var radioButtonDepartment   = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
+                        var radioButtonBuilding     = $scope.ticket.radioButtonBuilding!=undefined?$scope.ticket.radioButtonBuilding:null;
                         if ($scope.list_keys.length == 0 && obj.selected==true){
                             $scope.keysTotalPrice=0;
                             var id = 1;
-                            $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'selected':obj.selected});
+                            $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':obj, 'selected':obj.selected});
                             $scope.item_added = true;
                         }else{
                             for (var key in $scope.list_keys){
@@ -2977,7 +2997,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }
                             if(!$scope.isKeyExist){
                                 var id = ($scope.list_keys.length+1);
-                                $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':productSelected, 'user':userSelected, 'selected':obj.selected});
+                                $scope.list_keys.push({'id':id, 'optionTypeSelected':$scope.ticket.optionTypeSelected.name, 'radioButtonDepartment':radioButtonDepartment, 'radioButtonBuilding':radioButtonBuilding, 'key':obj, 'selected':obj.selected});
                                 $scope.item_added = true;
                             }
                         }
