@@ -563,6 +563,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         if ($scope.ticket.optionTypeSelected.name==undefined){
                             $scope.ticket.optionTypeSelected.name = elem[0].getAttribute("id");
                             $scope.ticket.optionTypeSelected.obj = elem;
+                            $scope.ticket.radioButtonBuilding=undefined;
                             elem.removeClass('btn-primary').addClass("btn-success");
                         }else if ($scope.ticket.optionTypeSelected.name!=elem[0].getAttribute("id")){
                             document.getElementById("typeOption1").checked=false;
@@ -580,6 +581,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         if ($scope.ticket.optionTypeSelected.name==undefined){
                             $scope.ticket.optionTypeSelected.name = elem[0].getAttribute("id");
                             elem.removeClass('btn-primary').addClass("btn-success");
+                            $scope.ticket.radioButtonDepartment=undefined;
+                            $scope.ticket.idClientDepartament=undefined;
                         }else if ($scope.ticket.optionTypeSelected.name!=elem[0].getAttribute("id")){
                             //document.getElementById("typeTenant1").checked=false;
                             //document.getElementById("typeTenant2").checked=false;
@@ -596,7 +599,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     default:
                 }
                 console.log($scope.ticket);
-             };
+            };
         /**************************************************
         *                                                 *
         *            GET ADMINISTRATION LIST              *
@@ -2249,7 +2252,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 if(($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state) || 
                                    ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==0 && $scope.ticket.building.isStockInBuilding=='1' && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) || 
                                    ($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && $scope.ticket.building.initial_delivery[0].expiration_state && $scope.ticket.building.isStockInBuilding=='1' && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) ||
-                                   ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0')){
+                                   ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0')||
+                                   ($scope.ticket.building!=undefined && $scope.ticket.building.allowOfficePickup!='1')){
                                     $scope.ticket.delivery.idTypeDeliveryKf="2"
                                 }
                                 //serviceCostFree
@@ -3961,8 +3965,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.mail += '<td align="center" valign="middle" colspan="4" style="background-color: #d9edf7;font-size: 1.2vw !important;color: #31708f;border-left: 1px solid transparent !important;border-right: 1px solid transparent !important;border-top: 1px solid transparent !important;border-radius: 40px 40px 0px 0px;border-color: #bce8f1;"><strong>INFORMACION IMPORTANTE</strong></td>';
                                     $scope.new.ticket.mail +='</tr><tr>';
                                     $scope.new.ticket.mail += '<td align="center" valign="middle" colspan="4" style="background-color: #d9edf7;color: #31708f;border-bottom: 1px solid transparent !important;border-left: 1px solid transparent !important;border-right: 1px solid transparent !important;border-top: 0px;border-radius: 0px 0px 40px 40px;border-color: #bce8f1;"><ul style="padding-right: 15px;font-size: 0.9vw !important;">';
-                                    $scope.new.ticket.mail += '<li style="text-align:justify;padding-right: 15px;">todos los pedidos autorizados y pagados antes de los dias lunes a las 12 hs serán repartidos por la empresa de logística los dias martes de 15 a 20 hs (con un segundo intento de entregalos dias miércoles en el mismo horario)</li>';
-                                    $scope.new.ticket.mail += '<li style="text-align:justify;padding-right: 15px;">todos los pedidos autorizados y pagados antes de los dias miércoles a las 12 hs serán repartidos por la empresa de logística los dias juevess de 15 a 20 hs (con un segundo intento de entregalos dias viernes en el mismo horario)</li>';
+                                    $scope.new.ticket.mail += '<li style="text-align:justify;padding-right: 15px;">todos los pedidos autorizados y pagados antes de los dias lunes a las 12 hs serán etregados por la empresa de logística los dias martes de 15 a 21 hs (con un segundo intento de entrega los dias miércoles)</li>';
+                                    $scope.new.ticket.mail += '<li style="text-align:justify;padding-right: 15px;">todos los pedidos autorizados y pagados antes de los dias jueves a las 12 hs serán repartidos por la empresa de logística los dias viernes de 15 a 21 hs (con un segundo intento de entrega los dias lunes)</li>';
                                     $scope.new.ticket.mail += '<li style="list-style:none;text-align: justify;"><br>En ambos casos el solicitante recibirá un correo confirmando que el pedido se encuentra en la lista de entrega.</li>';
                                     $scope.new.ticket.mail += '<li style="list-style:none;text-align: justify;"><br>Podrá verificar el estado en todo momento desde la pantalla MONITOR DE PEDIDOS</li>';
                                     $scope.new.ticket.mail += '</ul></td>';

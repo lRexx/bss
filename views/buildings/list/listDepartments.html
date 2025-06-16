@@ -102,7 +102,7 @@
                                 <button data-toggle="tooltip" data-placement="right" title="Nuevo Habitante" ng-if="item.categoryDepartament.indexOf('Porteria')<0 || item.categoryDepartament.indexOf('Porteria')>=0" ng-disabled="(sysLoggedUser.idProfileKf==3||sysLoggedUser.idProfileKf==6) && item.isAprobatedAdmin!=1" type="button" ng-click="selectMembersTypeFn(item);" class="btn btn-sm btn-xs btn-info">
                                 <i class="fas fa-user-plus"></i><span class="show-tag-1">&nbsp;Nuevo</span> <span class="show-tag-2"></span></button>
                             </div>
-                            <div ng-if="(((sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && item.idUserKf==null || item.idUserKf==0) || (sysLoggedUser.idProfileKf!=5 || item.idUserK>0))" class="btn-group">
+                            <div ng-if="(((sysLoggedUser.idProfileKf==1) && item.idUserKf==null || item.idUserKf==0))" class="btn-group">
                                 <button data-toggle="tooltip" data-placement="right" title="Asignar Habitante" ng-if="item.categoryDepartament.indexOf('Porteria')<0 || item.categoryDepartament.indexOf('Porteria')>=0" type="button" ng-click="switchBuildingFn('listUsersToAssign', item); " class="btn btn-sm btn-xs btn-info">
                                 <i class="fas fa-user-tag"></i> <span class="show-tag-1">&nbsp;Asignar</span> <span class="show-tag-2"></span></button>
                             </div>

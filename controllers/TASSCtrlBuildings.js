@@ -646,6 +646,46 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         }
                     }
                 break;
+                case "allowOfficePickup":
+                    if (confirm==0){
+                        $scope.buildingObj.client=$scope.select.buildings.selected;
+                        console.log($scope.functions)
+                            //console.log(obj)
+                            if($scope.functions.allowOfficePickup){
+                                $scope.mess2show="Habilitar retiro de pedidos por oficina,     Confirmar y Aprobar?";
+                                console.log("============================================================================");
+                                console.log("Habilitar retiro de pedidos por oficina BSS");
+                                console.log("============================================================================");
+                                console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
+                                console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
+                                console.log("============================================================================");
+                            }else{
+                                $scope.mess2show="Deshabilitar retiro de pedidos por oficina,     Confirmar y Aprobar?";
+                                console.log("============================================================================");
+                                console.log("Deshabilitar retiro de pedidos por oficina BSS");
+                                console.log("============================================================================");
+                                console.log("ID del Cliente             : "+$scope.buildingObj.client.idClient);
+                                console.log("Dirección del consorcio    : "+$scope.buildingObj.client.address);
+                                console.log("============================================================================");
+                            }
+                            console.log($scope.buildingObj);
+                    $('#confirmRequestModalCustom').modal('toggle');
+                    }else if (confirm==1){
+                        if($scope.functions.allowOfficePickup){
+                            $scope.buildingObj.client.allowOfficePickup=1;
+                        }else{
+                            $scope.buildingObj.client.allowOfficePickup=0;
+                        }
+                        $scope.switchBuildingFn("allowOfficePickup", $scope.buildingObj);
+                    $('#confirmRequestModalCustom').modal('hide');
+                    }else if (confirm==null){
+                        if ($scope.buildingObj.client.allowOfficePickup==0 || $scope.buildingObj.client.allowOfficePickup==null){
+                            $scope.functions.allowOfficePickup=false
+                        }else{
+                            $scope.functions.allowOfficePickup=true
+                        }
+                    }
+                break;
                 case "cancelRequest":
                     if (confirm==0){
                         $scope.deptoObj=obj;
@@ -3123,6 +3163,30 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
 
                         }
                     });
+                }
+            /**************************************************
+            *                                                 *
+            *           ENABLE/DISABLE OFFICE PICKUP          *
+            *                                                 *
+            **************************************************/
+                $scope.setAllowOfficePickupFn = function(obj){
+                    console.log(obj);
+                    CustomerServices.allowOfficePickup(obj).then(function(response){
+                        //console.log(response);
+                        if(response.status==200){
+                            if (obj.client.allowOfficePickup){
+                                inform.add('Habilitada la opción de retiro por oficina satisfactoriamente.',{
+                                    ttl:5000, type: 'success'
+                                });
+                            }else{
+                                inform.add('Deshabilitada la opción de retiro por oficina satisfactoriamente.',{
+                                    ttl:5000, type: 'warning'
+                                });
+
+                            }
+
+                        }
+                    });
                 } 
             /**************************************************
             *                                                 *
@@ -3545,7 +3609,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                     
                 }
                 $scope.categoryFilter = function(item) {
-                    return item.idCategory == "1" || item.idCategory == "5" || item.idCategory == "6";
+                    return item.idCategory == "1" || item.idCategory == "3" || item.idCategory == "5" || item.idCategory == "6";
                 };
             /**************************************************
             *                                                 *
@@ -4114,6 +4178,20 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             }
                             $timeout(function() {
                                 $scope.setAutoApproveOwnersFn(obj);
+                            }, 2000);
+                            $timeout(function() {
+                                blockUI.stop();
+                            }, 3000);
+                        break;
+                        case "allowOfficePickup":
+                            console.log(obj);
+                            if (obj.client.allowOfficePickup==0 || obj.client.allowOfficePickup==null){
+                                blockUI.start('Deshabilitando la opción de retiro de pedido por oficina del consorcio: '+obj.client.address);
+                            }else{
+                                blockUI.start('Habilitando la opción de retiro de pedido por oficina del consorcio: '+obj.client.address);
+                            }
+                            $timeout(function() {
+                                $scope.setAllowOfficePickupFn(obj);
                             }, 2000);
                             $timeout(function() {
                                 blockUI.stop();
@@ -4911,11 +4989,12 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.sysSubContent       = 'authorization';
                             $scope.ListDpto            = [];
                             $scope.keyListByBuildingId = [];
-                            $scope.functions={'expensePayment': false, 'autoApproveAll': false, 'autoApproveOwners': false, 'mpPaymentMethod':false};
+                            $scope.functions={'expensePayment': false, 'autoApproveAll': false, 'autoApproveOwners': false, 'mpPaymentMethod':false, 'allowOfficePickup':false};
                             $scope.functions.expensePayment     = obj.chargeForExpenses==1?true:false;
                             $scope.functions.autoApproveAll     = obj.autoApproveAll==1?true:false
                             $scope.functions.autoApproveOwners  = obj.autoApproveOwners==1?true:false;
                             $scope.functions.mpPaymentMethod    = obj.mpPaymentMethod==1?true:false;
+                            $scope.functions.allowOfficePickup  = obj.allowOfficePickup==1?true:false;
                             console.log(obj);
                         break;
                         case "building_keys":

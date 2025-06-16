@@ -502,9 +502,9 @@
 											<div class="col-md-12 n-padding-l n-padding-r">
 												<div ng-repeat="item in typedelivery | filter:checkDeliveryMethod" class="col-md-4 col-xs-4" ng-class="
 													{
-														'col-md-offset-2 col-xs-offset-2':(ticket.building!=undefined && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0' || ticket.building.isStockInOffice=='1') && (ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0')),
+														'col-md-offset-2 col-xs-offset-2':(ticket.building!=undefined && ticket.building.allowOfficePickup=='1' && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0' || ticket.building.isStockInOffice=='1') && (ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0')),
 														'col-md-offset-4 col-xs-offset-4':
-														((ticket.building!=undefined && (ticket.building.isStockInBuilding=='1' || ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))
+														((ticket.building!=undefined && ticket.building.allowOfficePickup!='1') || (ticket.building!=undefined && (ticket.building.isStockInBuilding=='1' || ticket.building.isStockInBuilding==null || ticket.building.isStockInBuilding=='0') && (ticket.building.isStockInOffice==null || ticket.building.isStockInOffice=='0')))
 													}">
 													<input id="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom" type="radio" ng-click="mainSwitchFn('checkWhoPickUp', ticket.delivery, null); enabledNextBtn();" name="idTypeDeliveryKf" value="{{item.idTypeDelivery}}" ng-model="ticket.delivery.idTypeDeliveryKf" required autofocus>
 													<label for="idTypeDeliveryKf-{{item.idTypeDelivery}}" class="radio-custom-label">
@@ -611,8 +611,8 @@
 								<span style="padding: 4px !important;">
 									<strong>INFORMACION IMPORTANTE: </strong><br></span>
 									<ul>
-										<li><span>todos los pedidos autorizados y pagados antes de los dias lunes a las 12 hs serán repartidos por la empresa de logística los dias martes de 15 a 20 hs (con un segundo intento de entregalos dias miércoles en el mismo horario)</span></li>
-										<li><span>todos los pedidos autorizados y pagados antes de los dias miércoles a las 12 hs serán repartidos por la empresa de logística los dias juevess de 15 a 20 hs (con un segundo intento de entregalos dias viernes en el mismo horario)</span></li>
+										<li><span>todos los pedidos autorizados y pagados antes de los dias lunes a las 12 hs serán etregados por la empresa de logística los dias martes de 15 a 21 hs <br>(con un segundo intento de entrega los dias miércoles)</span></li>
+										<li><span>todos los pedidos autorizados y pagados antes de los dias jueves a las 12 hs serán repartidos por la empresa de logística los dias viernes de 15 a 21 hs <br>(con un segundo intento de entrega los dias lunes)</span></li>
 									</ul>
 									<br>
 									<span>En ambos casos el solicitante recibirá un correo confirmando que el pedido se encuentra en la lista de entrega.<br></span>
@@ -645,7 +645,7 @@
 														</span>
 													</label>
 												</div>
-												<div class="well col-md-3 col-xs-3" style="padding-right: 0px !important;" ng-class="{
+												<div ng-if="(ticket.radioButtonDepartment=!undefined || (ticket.radioButtonBuilding!=undefined && (ticket.radioButtonBuilding=='1'|| ticket.radioButtonBuilding=='2')))" class="well col-md-3 col-xs-3" style="padding-right: 0px !important;" ng-class="{
 														'well-success': 
 														ticket.cost.idTypePaymentKf=='2',
 														'col-md-offset-2':

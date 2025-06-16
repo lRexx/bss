@@ -15,7 +15,7 @@
                 <div class="form-group" style="padding-bottom: 25px;">
                     <!-- Administration List-->
                     <div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-12" ng-class="{'col-md-6 col-xs-6 col-sm-6': buildingList.length>0}">
-                        <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-r" >
+                        <div class="col-md-12 col-xs-12 col-sm-12 n-padding-r n-padding-l" >
                             <label ng-if="customerFound.idClientTypeFk==undefined" style="padding-left: 15px;">CLIENTE</label>
                             <label ng-if="customerFound.idClientTypeFk=='1'" style="padding-left: 15px;">Administración</label>
                             <label ng-if="customerFound.idClientTypeFk=='2'" style="padding-left: 15px;">Consorcio</label>

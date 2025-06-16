@@ -82,6 +82,25 @@
                     </div>
                 </div>
             </div>
+            <!-- Type APPROVE Office Pickup-->
+            <div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-12 col-xs-12 n-padding-r n-padding-l n-margin-b">
+                <div class="well well-md col-md-6 col-xs-12" style="margin-right: 0.2em; padding: 10px !important;" ng-class="{'well-checkbox-success': functions.allowOfficePickup}">
+                    <div class="col-md-3 col-xs-3 n-padding-r" style="padding-top: 10px !important;">
+                        <label class="switch switch-2x" for="allowOfficePickup">
+                            <input type="checkbox" class="success" ng-click="modalConfirmation('allowOfficePickup', 0, select.buildings.selected)" ng-disabled="functions.autoApproveAll" ng-model="functions.allowOfficePickup" id="allowOfficePickup">
+                            <span class="slider slider-2x flat"></span>
+                        </label>
+                    </div>
+                    <div class="col-md-9 col-xs-9 n-padding-l" style="padding-top: 10px !important;">
+                        <span class="font-size-16px">Habilitar retiro de <span class="badge badge-light">Pedidos</span> por oficina <span data-toggle="tooltip" data-placement="bottom" title="habilitado" ng-if="functions.allowOfficePickup" class="badge badge-warning"><i class="fas fa-lock"></i></span></span>
+                    </div>
+                </div>
+                <div class="col-md-5 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;">
+                    <div class="alert alert-info" role="alert">
+                        <strong>INFO: </strong>Habilitar la opción de retiro de pedidos por oficina.
+                    </div>
+                </div>
+            </div>
         </div>
         <div class="clear-fix"></div>
       </div>
