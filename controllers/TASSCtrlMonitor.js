@@ -3079,10 +3079,10 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               console.log(obj);
               $scope.ticketSelected=obj;
 
-              if ((($scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4) && obj.department.isAprobatedAdmin!=1 && obj.department.idUserKf==obj.userRequestBy.idUser && (obj.userRequestBy.idProfileKf=='3' || obj.userRequestBy.idProfileKf=='4' || obj.userRequestBy.idProfileKf=='6') && obj.userRequestBy.idTypeTenantKf=='1') || 
-                  (($scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4) && obj.userRequestBy.isDepartmentApproved==null && (obj.userRequestBy.idProfileKf=='4' || obj.userRequestBy.idProfileKf=='5' || obj.userRequestBy.idProfileKf=='6') && obj.userRequestBy.idTypeTenantKf=='2')){
-                $scope.ticketSelected.approveDepto=true;
-                $scope.modalConfirmation('approveDepto', 0, $scope.ticketSelected)
+              if ((($scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4) && obj.idTypeRequestFor=='1' && obj.department.isAprobatedAdmin!=1 && obj.department.idUserKf==obj.userRequestBy.idUser && (obj.userRequestBy.idProfileKf=='3' || obj.userRequestBy.idProfileKf=='4' || obj.userRequestBy.idProfileKf=='6') && obj.userRequestBy.idTypeTenantKf=='1') || 
+                  (($scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4) && obj.idTypeRequestFor=='1' && obj.userRequestBy.isDepartmentApproved==null && (obj.userRequestBy.idProfileKf=='4' || obj.userRequestBy.idProfileKf=='5' || obj.userRequestBy.idProfileKf=='6') && obj.userRequestBy.idTypeTenantKf=='2')){
+                  $scope.ticketSelected.approveDepto=true;
+                  $scope.modalConfirmation('approveDepto', 0, $scope.ticketSelected)
               }else{
                 $scope.ticketSelected.approveDepto=false;
                 $scope.modalConfirmation('approve', 0, $scope.ticketSelected)
