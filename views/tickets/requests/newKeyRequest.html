@@ -754,12 +754,12 @@
     								<tr>
 										<td style="width: 12%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Fecha de solicitud</td><td>{{ticket.requestDate | date:'dd-MM-yyyy / HH:mm'}} </td>
 										<td style="width: 12%; background-color: #b8c3d2;font-size: 14px;color: #fff;">Solicitado para</td>
-										<td ng-if="ticket.radioButtonDepartment!=undefined && (ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')">Departamento
+										<td ng-if="ticket.optionTypeSelected.name=='department' && ticket.radioButtonDepartment!=undefined && (ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2')">Departamento
 											<span ng-if="ticket.radioButtonDepartment!=undefined && ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'" class="badge badge-warning">{{ticket.idClientDepartament.Depto}}</span>
 										</td>
-										<td ng-if="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='1'">Personal del Edificio</td>
-										<td ng-if="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='2'">Administración</td>
-										<td ng-if="ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2'">Consorcio</td>
+										<td ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='1'">Personal del Edificio</td>
+										<td ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding=='2'">Administración</td>
+										<td ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding!=undefined && ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2'">Consorcio</td>
 									</tr>
 								</tbody>
 								<tbody>
