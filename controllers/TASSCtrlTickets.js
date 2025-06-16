@@ -3835,13 +3835,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             var formatedDate    = requestDate.getDate()+"-"+(requestDate.getMonth()+1)+"-"+requestDate.getFullYear()+ " / " +requestDate.getHours() + ":" + requestDate.getMinutes();
                             $scope.new.ticket.mail += '<td align="left" valign="middle">'+formatedDate+'</td>';
                             $scope.new.ticket.mail +='<td align="center" valign="middle" style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Solicitado para</td>';
-                            if (obj.radioButtonDepartment!=undefined && (obj.radioButtonDepartment=='1' || obj.radioButtonDepartment=='2')){
+                            if (obj.optionTypeSelected.name=='department' && obj.radioButtonDepartment!=undefined && (obj.radioButtonDepartment=='1' || obj.radioButtonDepartment=='2')){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Departamento <span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+obj.idClientDepartament.Depto+'</b></span></td>';
-                            }else if (obj.radioButtonBuilding!=undefined && obj.radioButtonBuilding=='1'){
+                            }else if (obj.optionTypeSelected.name=='building' && obj.radioButtonBuilding!=undefined && obj.radioButtonBuilding=='1'){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Encargado</td>';
-                            }else if (obj.radioButtonBuilding!=undefined && obj.radioButtonBuilding=='2'){
+                            }else if (obj.optionTypeSelected.name=='building' && obj.radioButtonBuilding!=undefined && obj.radioButtonBuilding=='2'){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Administración</td>';
-                            }else if (obj.radioButtonBuilding!=undefined && (obj.radioButtonBuilding!='1' && obj.radioButtonBuilding!='2')){
+                            }else if (obj.optionTypeSelected.name=='building' && obj.radioButtonBuilding!=undefined && (obj.radioButtonBuilding!='1' && obj.radioButtonBuilding!='2')){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Personal del Edificio</td>';
                             }
                             $scope.new.ticket.mail +='</tr></tbody>';
