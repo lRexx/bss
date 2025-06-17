@@ -3604,6 +3604,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.enabledNextBtn();
                     break;
                     case "setCosts":
+                        console.log($scope.ticket);
                         console.log($scope.costs);
                         console.log($scope.ticket.cost);
                         if ($scope.ticket.optionTypeSelected.name=="building" && ($scope.ticket.radioButtonBuilding=="4" || $scope.ticket.radioButtonBuilding=="5")){
