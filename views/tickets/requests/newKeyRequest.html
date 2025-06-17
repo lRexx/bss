@@ -517,6 +517,13 @@
 								</div>
 							</div>
 						</div>
+						<div ng-if="ticket.delivery.idTypeDeliveryKf==2" class="col-md-12">
+							<div class="col-md-offset-3 col-md-5">
+								<div class="alert alert-success" style="border: 3px solid;border-radius: 15px;" role="alert">
+									<span style="text-align: center;" class="">El envío a domicilio es Sin Cargo adicional dentro de CABA.</span>
+								</div>
+							</div>
+						</div>
 						<div ng-if="ticket.delivery.idTypeDeliveryKf!=null" class="form-group">
 							<!-- Select of Who pick up the request -->
 							<legend ng-if="ticket.delivery.idTypeDeliveryKf==1" style="text-align: center;">Quien retira</legend>
@@ -588,10 +595,6 @@
 										</div>
 									</div>
 							</div>
-							<!-- **********************************************************************************************-->
-
-
-							<!-- **********************************************************************************************-->
 
 						</div>
 						<div class="col-md-12" ng-if="ticket.delivery.idTypeDeliveryKf=='1'">
