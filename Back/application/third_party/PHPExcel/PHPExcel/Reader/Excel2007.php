@@ -1684,10 +1684,18 @@ class PHPExcel_Reader_Excel2007 extends PHPExcel_Reader_Abstract implements PHPE
                     }
 
                     if ((!$this->readDataOnly) || (!empty($this->loadSheetsOnly))) {
-                        // active sheet index
-                        $activeTab = intval($xmlWorkbook->bookViews->workbookView["activeTab"]); // refers to old sheet index
-
-                        // keep active sheet index if sheet is still loaded, else first sheet is set as the active
+                        // Validar que exista el nodo activeTab
+                        if (
+                            isset($xmlWorkbook->bookViews) &&
+                            isset($xmlWorkbook->bookViews->workbookView) &&
+                            isset($xmlWorkbook->bookViews->workbookView["activeTab"])
+                        ) {
+                            $activeTab = intval($xmlWorkbook->bookViews->workbookView["activeTab"]);
+                        } else {
+                            $activeTab = 0; // valor por defecto si no está definido
+                        }
+                    
+                        // Mantener la hoja activa si aún está cargada, si no usar la primera
                         if (isset($mapSheetId[$activeTab]) && $mapSheetId[$activeTab] !== null) {
                             $excel->setActiveSheetIndex($mapSheetId[$activeTab]);
                         } else {
