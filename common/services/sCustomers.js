@@ -281,6 +281,16 @@ moduleCustomerServices.service("CustomerServices", ['$http', '$q', 'tokenSystem'
                  return response;
             });
           },
+          allowOfficePickup: function(userData) {
+            console.log("[Service][allowOfficePickup]---> Customer Allow office pickup ");
+            return $http.post(serverHost+serverBackend+"Clientes/allowOfficePickup",userData, serverHeaders)
+              .then(function mySucess(response) {
+                 return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                 return response;
+            });
+          },
           setClientInDebt: function(data) {
             rsCustomer.client = data;
             console.log("[Service][setClientInDebt]---> Customer is in debt ");
