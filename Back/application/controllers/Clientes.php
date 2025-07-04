@@ -62,7 +62,23 @@ class Clientes extends REST_Controller {
 			$this->response([ 'response' => "Cliente ya se encuentra registrado" ], 203);
 		}
 	}
+    public function allowOfficePickup_post() {
 
+		$rs = null;
+		if (! $this->post('client')) {
+			$this->response(null, 404);
+		}
+
+		$rs = $this->client_model->allowOfficePickup($this->post('client'));
+//		$this->response($rs);
+		if ($rs == 1) {
+			$this->response([ 'response' => "Registro exitoso" ], 200);
+		} elseif ($rs == 0) {
+			$this->response([ 'error' => "Sin Resultados" ], 500);
+		} elseif ($rs == 2) {
+			$this->response([ 'response' => "Cliente ya se encuentra registrado" ], 203);
+		}
+	}
 	public function aprobarPedidoClientDepartment_post() {
 
 		$pofile = null;

@@ -216,6 +216,34 @@ class Client_model extends CI_Model {
 
 	}
 
+        public function allowOfficePickup($client)
+	{
+		$val = false;
+		$query = $this->db->select("*")->from("tb_clients")->where('idClient', $client['idClient'])->get();
+		if ($query->num_rows() > 0) { //si existe el cliente
+			if (!is_null($client['allowOfficePickup'])) {
+				if ($client['allowOfficePickup'] == 1) {
+					$val = true;
+				}
+				if ($client['allowOfficePickup'] == 0) {
+					$val = true;
+				}
+			}
+		} else {
+			return 0;
+		}
+		if ($val) {
+			$this->db->set(
+				[
+					'allowOfficePickup' => $client['allowOfficePickup'],
+				]
+			)->where("idClient", $client['idClient'])->update("tb_clients");
+			return 1;
+		} else {
+			return 0;
+		}
+
+	}
 	public function aprobarPedidoClientDepartment($client)
 	{
 		$val = false;
