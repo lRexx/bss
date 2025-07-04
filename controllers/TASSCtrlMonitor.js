@@ -1419,14 +1419,29 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
     *            SHOW ONLY ADMIN AND COMPANY          *
     *                 CUSTOMER OPTIONS                *
     **************************************************/
-      $scope.checkDeliveryMethod = function(item){
+      /*$scope.checkDeliveryMethod = function(item){
         //console.log($scope.ticket);
-        if($scope.ticket.building!=undefined && ((($scope.ticket.selected!=undefined && $scope.ticket.selected.isInitialDeliveryActive!=undefined && $scope.ticket.selected.isInitialDeliveryActive==1)||($scope.ticket.isInitialDeliveryActive!=undefined && $scope.ticket.isInitialDeliveryActive==1)) || $scope.ticket.building.isStockInBuilding=='1' || (($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')))){
+        if($scope.ticket.building!=undefined && ((($scope.ticket.selected!=undefined && $scope.ticket.selected.isInitialDeliveryActive!=undefined && $scope.ticket.selected.isInitialDeliveryActive==1)||($scope.ticket.isInitialDeliveryActive!=undefined && $scope.ticket.isInitialDeliveryActive==1)) || 
+          $scope.ticket.building.isStockInBuilding=='1' || (($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')))){
             return item.idTypeDelivery != "1";
         }else{
             return item.idTypeDelivery;
         }
         
+      };*/
+      $scope.checkDeliveryMethod = function(item){
+          if(($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state) || 
+          ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInBuilding=='1' && $scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0' && (
+          $scope.ticket.building.isStockInOffice=='0' || $scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) || 
+              ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0') || 
+              ($scope.ticket.building!=undefined && $scope.ticket.building.allowOfficePickup!='1')){
+              //console.log(item);
+              $scope.ticket.delivery.idTypeDeliveryKf="2";
+              return item.idTypeDelivery != "1";
+          }else{
+              return item.idTypeDelivery;
+          }
+          
       };
     /******************************
     *    UTIL FOR CUSTOMER DATA   *
