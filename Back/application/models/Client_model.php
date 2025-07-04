@@ -187,6 +187,7 @@ class Client_model extends CI_Model {
 		}
 
 	}
+    
     public function autoAprobarPedidoPropietarios($client)
 	{
 		$val = false;
