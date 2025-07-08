@@ -2423,6 +2423,7 @@ class Client_model extends CI_Model {
     public function getControlAccessDoorsAssociatedToACustomerServices($idClient = null) {
         $quuery      = null;
         $rs          = null;
+        $rs_final    = null;
         $where_string= null;
         if (! is_null($idClient)) {
             $this->db->select("tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_contratos.idContrato, tb_servicios_del_contrato_cuerpo.idAccCrtlDoor, tb_servicios_del_contrato_cuerpo.idServiciosDelContratoCuerpo, tb_servicios_del_contrato_cuerpo.idServiceTypeFk, tb_access_control_door.*", FALSE)->from("tb_contratos");
@@ -2439,30 +2440,31 @@ class Client_model extends CI_Model {
                 $i = 0;
                 foreach ($quuery->result_array() as $key => $ticket) {
                     #print_r($ticket);
-                    $this->db->select("itemAclaracion")->from("tb_servicios_del_contrato_cuerpo");
-                    $this->db->where('idServiciosDelContratoCuerpo', $ticket['idServiciosDelContratoCuerpo']);
-                    $this->db->where('idServiceTypeFk', 1);
-                    $cuerpo = $this->db->get();
-                    if ($cuerpo->num_rows()>0) {
-                        if (!is_null($ticket['idAccessControlDoor'])){
-                            #print_r($cuerpo->result_array());
-                            $rs[$i]['itemAclaracion']=$cuerpo->result_array()[0]['itemAclaracion'];
-                        }
-                    }
-                    #print_r($ticket);
                     $this->db->select("tb_client_services_access_control.idClientServicesAccessControl AS idService, tb_client_services_access_control.addressClient, tb_client_services_access_control.addressVpn, tb_client_services_access_control.portHttp, tb_client_services_access_control.portVpn, tb_client_services_access_control.passVpn, tb_client_services_access_control.useVpn")->from("tb_client_services_access_control");
                     $this->db->where('idContracAssociated_SE', $ticket['idContrato']);
                     $this->db->where('idDoorFk', $ticket['idAccessControlDoor']);
                     $service = $this->db->get();
                     if ($service->num_rows()>0) {
+                        $rs_final[$i] = $rs[$i];
                         if (!is_null($ticket['idContrato'])){
                             //print_r($service->result_array());                            
-                            $rs[$i]['controlAccessInternet']=$service->result_array()[0];
+                           $rs_final[$i]['controlAccessInternet']=$service->result_array()[0];
+                        }
+                        #print_r($ticket);
+                        $this->db->select("itemAclaracion")->from("tb_servicios_del_contrato_cuerpo");
+                        $this->db->where('idServiciosDelContratoCuerpo', $ticket['idServiciosDelContratoCuerpo']);
+                        $this->db->where('idServiceTypeFk', 1);
+                        $cuerpo = $this->db->get();
+                        if ($cuerpo->num_rows()>0) {
+                            if (!is_null($ticket['idAccessControlDoor'])){
+                                #print_r($cuerpo->result_array());
+                               $rs_final[$i]['itemAclaracion']=$cuerpo->result_array()[0]['itemAclaracion'];
+                            }
                         }
                     }
                     $i++;
                 }
-                return $rs;
+                return $rs_final;
             }else{
                 return null;
             }
