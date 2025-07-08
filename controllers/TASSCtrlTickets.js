@@ -2612,6 +2612,25 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 $scope.whoPickUpList[key].type="Usuarios";
                             }
                         }
+                        // Al inicio de tu función o controller:
+                        console.log('BUILDING:', $scope.ticket.building);
+                        console.log('INITIAL_DELIVERY:', $scope.ticket.building.initial_delivery);
+                        console.log('LENGTH:', $scope.ticket.building.initial_delivery.length);
+
+                        if ($scope.ticket.building !== undefined) {
+                            console.log('✔ building definido');
+                            if ($scope.ticket.building.initial_delivery.length === 1) {
+                                console.log('✔ length == 1');
+                                const exp = $scope.ticket.building.initial_delivery[0].expiration_state;
+                                console.log('EXPIRATION_STATE:', exp);
+                                if (exp !== undefined) {
+                                console.log('✔ expiration_state definido');
+                                if (!exp) {
+                                    console.log('✔ !expiration_state === true → toda la condición es true');
+                                }
+                                }
+                            }
+                        }
                         if (($scope.ticket.building!=undefined && $scope.ticket.building.initial_delivery.length==1 && $scope.ticket.building.initial_delivery[0].expiration_state!=undefined && !$scope.ticket.building.initial_delivery[0].expiration_state)&&
                             ($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')||
                             ($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0' && $scope.ticket.building.isStockInBuilding=='1') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')||
