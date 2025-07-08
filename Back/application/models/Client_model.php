@@ -2431,7 +2431,8 @@ class Client_model extends CI_Model {
             $this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_servicios_del_contrato_cuerpo.idAccCrtlDoor', 'left');
             $this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
             $where_string = "tb_contratos.idClientFk = $idClient AND tb_contratos.idStatusFk = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 AND tb_servicios_del_contrato_cuerpo.idServiceTypeFk = 1
-            GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
+            ORDER BY tb_access_control_door.idAccessControlDoor;";
+            //GROUP BY tb_servicios_del_contrato_cuerpo.idAccCrtlDoor,tb_servicios_del_contrato_cabecera.serviceName 
             $quuery = $this->db->where($where_string)->get();
             $rs = $quuery->result_array();
             if ($quuery->num_rows() > 0) {
