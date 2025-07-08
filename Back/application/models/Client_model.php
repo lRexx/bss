@@ -2462,8 +2462,8 @@ class Client_model extends CI_Model {
                                $rs_final[$i]['itemAclaracion']=$cuerpo->result_array()[0]['itemAclaracion'];
                             }
                         }
+                        $i++;
                     }
-                    $i++;
                 }
                 return $rs_final;
             }else{
