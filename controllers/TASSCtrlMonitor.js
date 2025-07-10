@@ -1436,7 +1436,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0') || 
               ($scope.ticket.building!=undefined && $scope.ticket.building.allowOfficePickup!='1')){
               //console.log(item);
-              //$scope.ticket.delivery.idTypeDeliveryKf="2";
+              $scope.ticket.delivery = {};
+              $scope.ticket.delivery.idTypeDeliveryKf="2";
               return item.idTypeDelivery != "1";
           }else{
               return item.idTypeDelivery;
