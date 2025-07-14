@@ -3413,7 +3413,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                 if((($scope.ticket.building.isStockInBuilding!=null && $scope.ticket.building.isStockInBuilding!='0') || ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
                                     var subTotalDelivery = 0;
                                     if ($scope.ticket.delivery.idTypeDeliveryKf!=1){
-                                        if (($scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo==1) || 
+                                        if (($scope.ticket.delivery.whoPickUp!=undefined && $scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo==1) || 
                                             ($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id==2)){
                                             $scope.ticket.cost.delivery=$scope.ticket.building.valor_envio;
                                             subTotalDelivery = Number($scope.ticket.building.valor_envio);
