@@ -3419,8 +3419,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                                             subTotalDelivery = Number($scope.ticket.building.valor_envio);
                                             $scope.costs.delivery.cost=subTotalDelivery.toFixed(2);
                                         }else{
-                                            $scope.ticket.cost.delivery=$scope.ticket.delivery.zone.valor_envio;
-                                            subTotalDelivery = Number($scope.ticket.delivery.zone.valor_envio);
+                                            $scope.ticket.cost.delivery=$scope.ticket.delivery.zone==undefined?$scope.ticket.building.valor_envio:$scope.ticket.delivery.zone.valor_envio;
+                                            subTotalDelivery = Number($scope.ticket.cost.delivery);
                                             $scope.costs.delivery.cost=subTotalDelivery.toFixed(2);
                                         }
                                     }else{
