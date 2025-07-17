@@ -92,8 +92,7 @@ class Mercadolibre_model extends CI_Model
 	}
 	//https://dev.bss.com.ar/Back/index.php/MercadoLibre/getNotificationOfMP
 	public function createMPLink($data)
-	{	
-		log_message('info', ':::::::::::::::::createMPLink');
+	{
 		$data               = json_decode(json_encode($data));
 		$external_reference = $data->idTicket."_".(rand() * 8) . "_" . (time() * 4);
 		$paymentFor = $data->metadata->paymentFor;
@@ -148,11 +147,13 @@ class Mercadolibre_model extends CI_Model
 			//print_r($response);
 			log_message('info',$response);
 			if ($err){
+				log_message('error', 'Ha ocurrido un error al registrar el pago, cod err 404');
 				return json_encode([
 					'message' => 'Ha ocurrido un error al registrar el pago, cod err 404' ,
 					'status' => 404 ,
 					'data' => $err
 				]);
+				
 			} else if ($response!=null){
 					$ticketObj = null;
 					$ticketObj['history']['idUserKf'] 			= "1";
@@ -161,7 +162,7 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idCambiosTicketKf'] 	= $paymentFor==1?"5":"18";
 					//print_r($ticketObj);
 					$this->Ticket_model->addTicketTimeline($ticketObj);
-
+				log_message('info', ':::::::::::::::::createMPLink :::: SUCCEEDED');
 				return json_encode([
 					'message' => 'Datos registrados exitosamente' ,
 					'status' => 200 ,
@@ -175,6 +176,8 @@ class Mercadolibre_model extends CI_Model
 				$ticketObj['history']['idCambiosTicketKf'] 	= "25";
 				//print_r($ticketObj);
 				$this->Ticket_model->addTicketTimeline($ticketObj);
+				
+				log_message('error', 'Ocurrio un error con la Api de MercadoLibre');
 				return json_encode([
 					'message' => 'Ocurrio un error con la Api de MercadoLibre' ,
 					'status' => 500 ,
@@ -190,10 +193,93 @@ class Mercadolibre_model extends CI_Model
 		}
 	}
 
+	public function updateMPExpiration($mp_preference_id)
+	{
+		log_message('info', ':::::::::: updateMPExpiration for preference: ' . $mp_preference_id);
+	try {
+			$MP_TOKEN = BSS_MP_TOKEN; // Ensure this constant is defined with your access token
+		
+			// Generate current date in MercadoPago format
+			#$expiration_date = date('Y-m-d') . 'T23:59:00.000-00:00';  // Or you can add days using strtotime
+			// Set expiration date to tomorrow at 23:59 UTC
+			#$expiration_date = date('Y-m-d', strtotime('+1 day')) . 'T23:59:00.000-00:00';
+			//$expiration_date = date('Y-m-d\TH:i:s.000P', strtotime('+1 hour'));
+			// Fecha actual en formato ISO 8601 (UTC)
+			$expiration_date = gmdate("Y-m-d\TH:i:s.000\Z");
+		
+			$url = "https://api.mercadopago.com/checkout/preferences/" . $mp_preference_id;
+		
+			$payload = json_encode([
+				"expiration_date_to" => $expiration_date
+			]);
+		
+			$headers = [
+				"Authorization: Bearer " . $MP_TOKEN,
+				"Content-Type: application/json",
+				"Accept: application/json"
+			];
+		
+			$certificates_dir = realpath(APPPATH . '../certificate');
+		
+			$curl = curl_init();
+		
+			curl_setopt_array($curl, [
+				CURLOPT_URL            => $url,
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING       => "",
+				CURLOPT_MAXREDIRS      => 10,
+				CURLOPT_TIMEOUT        => 30,
+				CURLOPT_CUSTOMREQUEST  => "PUT",
+				CURLOPT_POSTFIELDS     => $payload,
+				CURLOPT_CAINFO         => $certificates_dir . "/curl-ca-bundle.crt",
+				CURLOPT_STDERR         => fopen('curl_mp.log', 'a+'),
+				CURLOPT_HTTPHEADER     => $headers
+			]);
+			//print_r($curl);
+			log_message('info', $curl);
+			$response = curl_exec($curl);
+			$http_code = curl_getinfo($curl, CURLINFO_HTTP_CODE);
+			// Manejo de error
+			if (curl_errno($curl)) {
+				log_message('error', 'cURL error: ' . curl_error($curl));
+				curl_close($curl);
+				show_error('Error al contactar con Mercado Pago.');
+			}
+			curl_close($curl);
+		
+		
+			//print_r($http_code);
+			// Devolver resultado
+			if ($http_code >= 200 && $http_code < 300) {
+				log_message('info', "MP Response: " . $response);
+				log_message('info', ':::::::::: updateMPExpiration :::: SUCCEEDED');
+				return [
+					"status" => 'success',
+					"message" => 'Link inhabilitado correctamente',
+					"data" => json_decode($response, true, JSON_UNESCAPED_SLASHES)
+				];
+			} else {
+				log_message('info', ':::::::::: updateMPExpiration :::: FAILED');
+				return [
+					"status" => 'error',
+					"message" => 'No se pudo actualizar el link',
+					"error" => $response
+				];
+			}
+		} catch (\Exception $e) {
+			return json_encode([
+				'message' => 'Ha ocurrido un error al inhabilitar el link de pago' ,
+				'status' => 404 ,
+				'data' => $e
+			]);
+		}
+	}
+	
+
 	public function getPaymentMPDetails($id)
 	{	
 		log_message('info', ':::::::::::::::::getPaymentMPDetails');
-		log_message('info', 'MP_ID				  	  :' . $id);
+		log_message('info', 'MP_ID				  	 :' . $id);
 		$ticket2Update = null;
 		$MP_TOKEN=BSS_MP_TOKEN;
 		if (!$id) {
@@ -274,7 +360,7 @@ class Mercadolibre_model extends CI_Model
 					$ticket2Update = $ticketQuery['tickets'][0];
 					log_message('info', 'Ticket ID               :' . $ticket2Update['idTicket']);
 					if ($ticket2Update['idStatusTicketKf']=="9"){
-						log_message('info', 'idStatusTicketKf		 :' . $ticket2Update['idStatusTicketKf']);
+						log_message('info', 'idStatusTicketKf    :' . $ticket2Update['idStatusTicketKf']);
 						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"11");
 						if ($changeStatusRs){
 							$ticketObj = null;
@@ -285,7 +371,7 @@ class Mercadolibre_model extends CI_Model
 						}
 						$this->Ticket_model->addTicketTimeline($ticketObj);
 					}else{
-						log_message('info', 'idStatusTicketKf		 :' . $ticket2Update['idStatusTicketKf']);
+						log_message('info', 'idStatusTicketKf    :' . $ticket2Update['idStatusTicketKf']);
 						$changeStatusRs = $this->Ticket_model->quickChangueStatus($idTicketKf,"8");
 						if ($changeStatusRs){
 							$ticketObj = null;
@@ -341,7 +427,6 @@ class Mercadolibre_model extends CI_Model
 
 	public function getNotificationFromMP($response)
 	{
-		log_message('info', ':::::::::::::::::getNotificationFromMP' );
 		//print_r($response);
 		log_message('info', 'response: '.$response );
 		//var_dump($response['api_version']);		 
@@ -444,6 +529,7 @@ class Mercadolibre_model extends CI_Model
         ]);
 
 		if ($this->db->affected_rows() === 1) {
+			log_message('info', ':::::::::::::::::addPayment  :::: SUCCEEDED');
 			$idPaymentKf = $this->db->insert_id();
 			if (! $data['paymentForDelivery']){
 				$this->db->set(
@@ -530,7 +616,6 @@ class Mercadolibre_model extends CI_Model
 	public function updatePayment($data) {
 		$idPaymentKf = null;
 		$lastPaymentUpdatedQuery = null;
-		log_message('info', ':::::::::::::::::updatedPayment');
 		log_message('info', 'payment_id              :' .$data['payment_id']);
 		$now        = new DateTime(null , new DateTimeZone('America/Argentina/Buenos_Aires'));
         $this->db->set(
@@ -548,7 +633,7 @@ class Mercadolibre_model extends CI_Model
 		)->where("mp_external_reference", $data['external_reference'])->update("tb_mp_payments");
 		if ($this->db->affected_rows() == 1) {
 			//$lastPaymentUpdatedQuery = $this->paymentById($data['payment_id']);
-			log_message('info', 'payment_id              :' .$data['payment_id'].' :::: UPDATE SUCCEDED');
+			log_message('info', ':::::::::::::::::updatedPayment :::: SUCCEEDED');
 			return true;
 		}else{
 			return null;

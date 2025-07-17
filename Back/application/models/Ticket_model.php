@@ -1226,7 +1226,7 @@ class Ticket_model extends CI_Model
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									if ($lastTicketUpdatedQuery['idStatusTicketKf']==5){
 										$deliveryDate =  strftime( "%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
-										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La entrega de su pedido esta programado para el dia  '.$deliveryDate.' en la franja horaria de 15h a 20h.</td>';
+										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La entrega de su pedido esta programado para el dia  '.$deliveryDate.' en la franja horaria de 16h a 22h.</td>';
 										$body.='</tr>';
 										$body.='<tr width="100%" bgcolor="#ffffff">';
 										$body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">En caso de no poder entregar el pedido, se hará un segundo intento al dia siguiente en el mismo horario.</td>';

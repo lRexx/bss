@@ -18,7 +18,8 @@ class MercadoLibre extends REST_Controller
 	{
 
 		$headers = $this->input->request_headers();
-		log_message('info', 'Host               :' . @$headers['Host']);
+		log_message('info', ':::::::::::::::::createMPLink');
+		log_message('info', 'Host               :' . ($headers['Host'] ?? 'N/A'));
 		log_message('info', 'User-Agent         :' . @$headers['User-Agent']);
 		log_message('info', 'Accept             :' . @$headers['Accept']);
 		log_message('info', 'Content-Typ        :' . @$headers['Content-Type']);
@@ -30,7 +31,7 @@ class MercadoLibre extends REST_Controller
 		//log_message('info', 'x-signature        :' . @$headers['x-signature']);
 		//log_message('info', 'x-request-id       :' . @$headers['x-request-id']);
 		$body = file_get_contents('php://input');
-		log_message('info', 'Cuerpo de la notificación: ' . $body);
+		log_message('info', 'Cuerpo (parcial): ' . substr($body, 0, 500));
 		$rr = null;
 		if (!$this->post('data')){
 			$this->response(null , 404);
@@ -103,7 +104,8 @@ class MercadoLibre extends REST_Controller
 	{
 		$rs = null;
 		$headers = $this->input->request_headers();
-		log_message('info', 'Host                :' . @$headers['Host']);
+		log_message('info', ':::::::::::::::::getNotificationFromMP' );
+		log_message('info', 'Host                :' . ($headers['Host'] ?? 'N/A'));
 		log_message('info', 'User-Agent          :' . @$headers['User-Agent']);
 		log_message('info', 'Accept              :' . @$headers['Accept']);
 		log_message('info', 'Content-Typ         :' . @$headers['Content-Type']);
@@ -115,7 +117,7 @@ class MercadoLibre extends REST_Controller
 		//log_message('info', 'x-signature 		  :' . @$headers['x-signature']);
 		//log_message('info', 'x-request-id 	  :' . @$headers['x-request-id']);
 		$body = file_get_contents('php://input');
-		log_message('info', 'Cuerpo de la notificación: ' . $body);
+		log_message('info', 'Cuerpo (parcial): ' . substr($body, 0, 500));
 		$post_req = $this->post();
 		if (!$post_req && !$this->notification_get($post_req, $headers)){
 			$this->response(array('error' => "Paratameters not received") , 404);
@@ -197,7 +199,7 @@ class MercadoLibre extends REST_Controller
 
         // Proceso exitoso, manejar la notificación
         log_message('info', 'Notificación recibida y validada correctamente.');
-        log_message('info', 'Cuerpo de la notificación: ' . $body);
+        log_message('info', 'Cuerpo (parcial): ' . substr($body, 0, 500));
 		log_message('info', 'Signature validation has been done successfully');
 		//$this->response(array('response' => TRUE) , 200);
 		return true;
@@ -208,6 +210,21 @@ class MercadoLibre extends REST_Controller
 		if (!$this->post('data')){
 			$this->response(null , 404);
 		}
+		log_message('info', ':::::::::::::::::addPayment');
+		$headers = $this->input->request_headers();
+		log_message('info', 'Host                :' . ($headers['Host'] ?? 'N/A'));
+		log_message('info', 'User-Agent          :' . @$headers['User-Agent']);
+		log_message('info', 'Accept              :' . @$headers['Accept']);
+		log_message('info', 'Content-Typ         :' . @$headers['Content-Type']);
+		log_message('info', 'X-Forwarded-For     :' . @$headers['X-Forwarded-For']);
+		log_message('info', 'X-Forwarded-Host    :' . @$headers['X-Forwarded-Host']);
+		log_message('info', 'X-Forwarded-Server  :' . @$headers['X-Forwarded-Server']);
+		log_message('info', 'Content-Length      :' . @$headers['Content-Length']);
+		log_message('info', 'Connection          :' . @$headers['Connection']);		
+		//log_message('info', 'x-signature 		  :' . @$headers['x-signature']);
+		//log_message('info', 'x-request-id 	  :' . @$headers['x-request-id']);
+		$body = file_get_contents('php://input');
+		log_message('info', 'Cuerpo (parcial): ' . substr($body, 0, 500));
 		$rs = $this->Mercadolibre_model->addPayment($this->post('data'));
 		if (!is_null($rs)){
 			$this->response(array('response' => $rs) , 200);
@@ -218,8 +235,51 @@ class MercadoLibre extends REST_Controller
 	}
 	public function updatePayment_post()
 	{
-
+		log_message('info', ':::::::::::::::::updatedPayment');
+		$headers = $this->input->request_headers();
+		log_message('info', 'Host                :' . ($headers['Host'] ?? 'N/A'));
+		log_message('info', 'User-Agent          :' . @$headers['User-Agent']);
+		log_message('info', 'Accept              :' . @$headers['Accept']);
+		log_message('info', 'Content-Typ         :' . @$headers['Content-Type']);
+		log_message('info', 'X-Forwarded-For     :' . @$headers['X-Forwarded-For']);
+		log_message('info', 'X-Forwarded-Host    :' . @$headers['X-Forwarded-Host']);
+		log_message('info', 'X-Forwarded-Server  :' . @$headers['X-Forwarded-Server']);
+		log_message('info', 'Content-Length      :' . @$headers['Content-Length']);
+		log_message('info', 'Connection          :' . @$headers['Connection']);		
+		//log_message('info', 'x-signature 		  :' . @$headers['x-signature']);
+		//log_message('info', 'x-request-id 	  :' . @$headers['x-request-id']);
+		$body = file_get_contents('php://input');
+		log_message('info', 'Cuerpo (parcial): ' . substr($body, 0, 500));
 		$rs = $this->Mercadolibre_model->updatePayment($this->post('data'));
+		if (!is_null($rs)){
+			$this->response(array('response' => $rs) , 200);
+		} else {
+			$this->response(array('error' => "ERROR INESPERADO") , 500);
+		}
+
+	}
+
+	public function updateMPExpiration_put($preference_id)
+	{
+		log_message('info', ':::::::::::::::::updateMPExpiration');
+		$headers = $this->input->request_headers();
+		log_message('info', 'Host                :' . ($headers['Host'] ?? 'N/A'));
+		log_message('info', 'User-Agent          :' . @$headers['User-Agent']);
+		log_message('info', 'Accept              :' . @$headers['Accept']);
+		log_message('info', 'Content-Typ         :' . @$headers['Content-Type']);
+		log_message('info', 'X-Forwarded-For     :' . @$headers['X-Forwarded-For']);
+		log_message('info', 'X-Forwarded-Host    :' . @$headers['X-Forwarded-Host']);
+		log_message('info', 'X-Forwarded-Server  :' . @$headers['X-Forwarded-Server']);
+		log_message('info', 'Content-Length      :' . @$headers['Content-Length']);
+		log_message('info', 'Connection          :' . @$headers['Connection']);		
+		if (empty($preference_id)) {
+			log_message('error', 'Falta preference_id');
+			$this->response(['error' => 'Falta preference_id'], 400);
+			return;
+		}
+		log_message('info', 'Cuerpo (parcial): ' . substr($preference_id, 0, 500));
+
+		$rs = $this->Mercadolibre_model->updateMPExpiration($preference_id);
 		if (!is_null($rs)){
 			$this->response(array('response' => $rs) , 200);
 		} else {
