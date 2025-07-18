@@ -4996,6 +4996,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.mp.link.new.data.description           = obj.typeticket.TypeTicketName;
                         $scope.mp.link.new.data.quantity              = obj.keys.length;
                         $scope.mp.link.new.data.metadata.paymentFor   = 1;
+                        $scope.mp.link.new.data.metadata.newTicket    = true;
                         console.log($scope.mp.link);
                         $scope.mpCreateLinkFn($scope.mp.link.new);                  
                     break;

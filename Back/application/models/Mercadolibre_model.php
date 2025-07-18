@@ -96,6 +96,16 @@ class Mercadolibre_model extends CI_Model
 		$data               = json_decode(json_encode($data));
 		$external_reference = $data->idTicket."_".(rand() * 8) . "_" . (time() * 4);
 		$paymentFor = $data->metadata->paymentFor;
+		if (isset($data->metadata->createdBy)){
+			$createdBy = $data->metadata->createdBy;
+		}else{
+			$createdBy = null;
+		}
+		if (isset($data->metadata->newTicket)){
+			$newTicket = $data->metadata->newTicket;
+		}else{
+			$newTicket = null;
+		}
 		$MP_TOKEN=BSS_MP_TOKEN;
 		log_message('info', 'Ticket : '.$data->idTicket);
 		try {
@@ -155,6 +165,32 @@ class Mercadolibre_model extends CI_Model
 				]);
 				
 			} else if ($response!=null){
+
+				if (!is_null($createdBy) && $paymentFor==1){
+					$ticketObj = null;
+					$ticketObj['history']['idUserKf'] 			= $createdBy;
+					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
+					$ticketObj['history']['descripcion'] 		= "Nuevo link generado para pago de pedido.";
+					$ticketObj['history']['idCambiosTicketKf'] 	= "32";
+					//print_r($ticketObj);
+					$this->Ticket_model->addTicketTimeline($ticketObj);
+				}else if (!is_null($createdBy) && $paymentFor==3){
+					$ticketObj = null;
+					$ticketObj['history']['idUserKf'] 			= $createdBy;
+					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
+					$ticketObj['history']['descripcion'] 		= "Nuevo link generado para pago envio.";
+					$ticketObj['history']['idCambiosTicketKf'] 	= "33";
+					//print_r($ticketObj);
+					$this->Ticket_model->addTicketTimeline($ticketObj);
+				}else if (!is_null($newTicket) && $paymentFor==1){
+					$ticketObj = null;
+					$ticketObj['history']['idUserKf'] 			= "1";
+					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
+					$ticketObj['history']['descripcion'] 		= "link generado para pago de pedido.";
+					$ticketObj['history']['idCambiosTicketKf'] 	= "34";
+					//print_r($ticketObj);
+					$this->Ticket_model->addTicketTimeline($ticketObj);
+				}
 					$ticketObj = null;
 					$ticketObj['history']['idUserKf'] 			= "1";
 					$ticketObj['history']['idTicketKf']  		= $data->idTicket;
@@ -205,7 +241,7 @@ class Mercadolibre_model extends CI_Model
 			#$expiration_date = date('Y-m-d', strtotime('+1 day')) . 'T23:59:00.000-00:00';
 			//$expiration_date = date('Y-m-d\TH:i:s.000P', strtotime('+1 hour'));
 			// Fecha actual en formato ISO 8601 (UTC)
-			$expiration_date = gmdate("Y-m-d\TH:i:s.000\Z");
+			$expiration_date = gmdate("Y-m-d\TH:i:s.000\Z", time() - (4 * 3600));
 		
 			$url = "https://api.mercadopago.com/checkout/preferences/" . $mp_preference_id;
 		
