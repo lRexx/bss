@@ -12,7 +12,7 @@
                 <form class="form-horizontal" name="fDeleteKey" novalidate>
                     <fieldset>
                         <div class="col-md-12 form-group">
-                            <div class="col-md-4" ng-repeat="reason in reasonDisabledKey | filter: {idReasonDisabledItem: '!4'}">
+                            <div class="col-md-4" ng-repeat="reason in reasonDisabledKey | filter: excludeIdReasons">
                                 <div class="col-md-12 col-xs-12 depto-widget well well-md n-padding-l n-padding-r" data-toggle="tooltip" data-placement="bottom" title="{{reason.reasonDisabledItem}}">
                                     <div class="depto-icon">
                                         <span>
