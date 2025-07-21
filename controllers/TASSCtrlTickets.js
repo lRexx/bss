@@ -1981,27 +1981,27 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             $scope.excludeIdReasons = function(reason) {
                 return reason.idReasonDisabledItem !== "4" && reason.idReasonDisabledItem !== "5";
             };
-            $scope.selectedCategoryKeychain = function(category){
+            $scope.selectedCategoryKeychain = function(item){
                 switch($scope.ticket.optionTypeSelected.name){
                     case "department":
-                        return category.idCategoryKf == "1"
+                        return item.idCategoryKf == "1" && item.idKeychainStatusKf!="-1";
                     break;
                     case "building":
                         switch($scope.ticket.radioButtonBuilding){
                             case "1":
-                                return category.idCategoryKf == "6";
+                                return item.idCategoryKf == "6" && item.idKeychainStatusKf!="-1";
                             break;
                             case "2":
-                                return category.idCategoryKf == "5";
+                                return item.idCategoryKf == "5" && item.idKeychainStatusKf!="-1";
                             break;
                             case "3":
-                                return category.idCategoryKf == "3";
+                                return item.idCategoryKf == "3" && item.idKeychainStatusKf!="-1";
                             break;
                             case "4":
-                                return category.idCategoryKf == "2";
+                                return item.idCategoryKf == "2" && item.idKeychainStatusKf!="-1";
                             break;
                             case "5":
-                                return category.idCategoryKf == "4";
+                                return item.idCategoryKf == "4" && item.idKeychainStatusKf!="-1";
                             break;
                         }
                     break;
