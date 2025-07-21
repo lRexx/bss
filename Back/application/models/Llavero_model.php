@@ -49,7 +49,7 @@ class Llavero_model extends CI_Model
 	{
 		$quuery = null;
 		$rs = [];
-		$fields_selected="tb_keychain_process_events.*,tb_reason_disabled_item.*,tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly, tb_keychain.idKeychainStatusKf, tb_keychain_status.idKeychainStatus, tb_keychain_status.keychainStatusName AS statusKey,
+		$fields_selected="tb_keychain_process_events.*_,tb_reason_disabled_item.*,tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly, tb_keychain.idKeychainStatusKf, tb_keychain_status.idKeychainStatus, tb_keychain_status.keychainStatusName AS statusKey,
 		UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto, tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain, a.idClient as idClientKfDepto, a.address as addressA, b.idClient as idClientKfKeychain, b.address as addressB,
 		tb_products.descriptionProduct, tb_products.model";
 		$this->db->select($fields_selected)->from("tb_keychain");
