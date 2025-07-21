@@ -3077,19 +3077,21 @@ class Ticket_model extends CI_Model
 				$rs_tickets['tickets'][$key]['clientAdmin'] = @$quuery->result_array()[0];
 	
 			}
-			$this->db->select("tb_products.idProduct,tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model, tb_ticket_keychain.*, tb_keychain.*, tb_category_keychain.*, tb_products_classification.*, tb_user.*")->from("tb_ticket_keychain");
-			$this->db->join('tb_keychain' , 'tb_keychain.idKeychain = tb_ticket_keychain.idKeychainKf' , 'left');
+			$this->db->select("tb_products.idProduct,tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model, tb_ticket_keychain.*, tb_category_keychain.name AS categoryName, tb_products_classification.*")->from("tb_ticket_keychain");
+			#$this->db->join('tb_keychain' , 'tb_keychain.idKeychain = tb_ticket_keychain.idKeychainKf' , 'left');
 			$this->db->join('tb_category_keychain' , 'tb_category_keychain.idCategory = tb_ticket_keychain.idCategoryKf' , 'left');
 			$this->db->join('tb_products' , 'tb_products.idProduct = tb_ticket_keychain.idProductKf' , 'left');
 			$this->db->join('tb_products_classification' , 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk' , 'left');
-			$this->db->join('tb_user' , 'tb_user.idUser = tb_ticket_keychain.idUserKf' , 'left');
 			$quuery             = $this->db->where("idTicketKf = " , @$ticket['idTicket'])->get();
 			$rs_tickets['tickets'][$key]['keys'] = @$quuery->result_array();
 				$i=0;
-				foreach ($rs_tickets['tickets'][$key]['keys'] as $keychain) {
-					$idKeyChain = $keychain['id'];
+				foreach ($rs_tickets['tickets'][$key]['keys'] as $ticketKeychain) {
+					$idTicketKeychain = $ticketKeychain['idTicketKeychain'];
+					$this->db->select("*")->from("tb_keychain");
+					$quuery             = $this->db->where("tb_keychain.idKeychain = " , @$ticketKeychain['idKeychainKf'])->get();
+					$rs_tickets['tickets'][$key]['keys'][$i]['keychain'] = @$quuery->result_array()[0];
 					$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_type_contrato.description, tb_type_maintenance.typeMaintenance, tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model,  tb_products.idStatusFk, tb_access_control_door.*, tb_ticket_keychain.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
-					$this->db->join('tb_ticket_keychain' , 'tb_ticket_keychain.id = tb_ticket_keychain_doors.idTicketKeychainKf' , 'left');
+					$this->db->join('tb_ticket_keychain' , 'tb_ticket_keychain.idTicketKeychain = tb_ticket_keychain_doors.idTicketKeychainKf' , 'left');
 					$this->db->join('tb_contratos' , 'tb_contratos.idContrato = tb_ticket_keychain_doors.idContractKf' , 'left');
 					$this->db->join('tb_type_contrato' , 'tb_type_contrato.idTypeContrato = tb_contratos.contratoType' , 'left');					
 					$this->db->join('tb_type_maintenance' , 'tb_type_maintenance.idTypeMaintenance = tb_contratos.maintenanceType' , 'left');
@@ -3100,10 +3102,14 @@ class Ticket_model extends CI_Model
 					$this->db->join('tb_products_classification' , 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk' , 'left');
 					$this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_ticket_keychain_doors.idAccessControlDoorKf', 'left');
 					$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-					$where_string = "tb_ticket_keychain_doors.idTicketKeychainKf = $idKeyChain AND tb_contratos.idStatusFk = 1 AND tb_ticket_keychain_doors.doorSelected = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 
+					$where_string = "tb_ticket_keychain_doors.idTicketKeychainKf = $idTicketKeychain AND tb_contratos.idStatusFk = 1 AND tb_ticket_keychain_doors.doorSelected = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1 
 					GROUP BY tb_access_control_door.idAccessControlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
 					$quuery             = $this->db->where($where_string)->get();
 					$rs_tickets['tickets'][$key]['keys'][$i]['doors'] = @$quuery->result_array();
+
+					$this->db->select("*")->from("tb_user");
+					$quuery             = $this->db->where("tb_user.idUser = " , @$rs_tickets['tickets'][$key]['keys'][$i]['keychain']["idUserKf"])->get();
+					$rs_tickets['tickets'][$key]['keys'][$i]['user'] = @$quuery->result_array()[0];
 					$i++;
 				}
 			$this->db->select("*")->from("tb_type_delivery");

@@ -10,7 +10,7 @@
 					<fieldset class="animate-switch" ng-switch-when="PASO 1: RAZÓN">
 						<div class="row">
 							<div class="col-md-12 form-group">
-								<div class="col-md-4" ng-repeat="reason in reasonDisabledKey | filter: {idReasonDisabledItem: '!4'}"">
+								<div class="col-md-4" ng-repeat="reason in reasonDisabledKey | filter: excludeIdReasons">
 									<div class="col-md-12 col-xs-12 depto-widget well well-md n-padding-l n-padding-r" data-toggle="tooltip" data-placement="bottom" title="{{reason.reasonDisabledItem}}">
 										<div class="depto-icon">
 											<span>
@@ -327,7 +327,7 @@
 											</tr>
 										</thead>
 										<tbody style="overflow: auto;">
-											<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in keyList">
+											<tr  style="align-content: center; cursor: pointer;" data-ng-repeat="key in keyList | filter: selectedCategoryKeychain">
 												<td style="vertical-align: middle;text-align: center;"><span class="font-size-16px">{{$index+1}}</span></td>
 												<td>{{key.descriptionProduct}}</td>
 												<td class="font-size-16px" style="vertical-align: middle;text-align: center;">{{key.codigo}}</td>
@@ -538,10 +538,14 @@
 										</span>{{ticket.reason_details.reasonDisabledItem}}
 										<span ng-if="ticket.reason=='1'" class="alert alert-danger" role="alert" style="padding: 4px !important;">
 											<strong>IMPORTANTE: </strong>Si sufrio un robo, por motivos de seguridad comuniquese a nuestro telefono de urgencias <a href="tel:0800">0800-BSS</a>
-										</span>
-										<span ng-if="ticket.reason=='3'" class="alert alert-info" role="alert" style="padding: 4px !important;">
-											<strong>Información: </strong>BSS se pondra en contacto para informarle si el llavero se encuentra en garantía.
 										</span></td>
+									</tr>
+									<tr ng-if="ticket.optionTypeSelected.name=='building'">
+										<td colspan="4">
+											<span ng-if="ticket.reason=='3'" class="alert alert-info" role="alert" style="padding: 4px !important;">
+												<strong>Información: </strong>BSS se pondra en contacto para informarle si el llavero se encuentra en garantía.
+											</span>
+										</td>
 									</tr>
 									<tr ng-if="ticket.optionTypeSelected.name=='department'">
 										<!-- REASON -->

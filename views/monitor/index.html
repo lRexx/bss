@@ -27,7 +27,7 @@
                             <i ng-if="tk.idStatusTicketKf=='3' && tk.idTypeTicketKf==4" class="i-success fas fa-question"></i>
                             <i ng-if="tk.idStatusTicketKf=='6' && (tk.isCancelRequested==null || tk.isCancelRequested=='1')" class="i-cancel fas fa-ban"></i>
                             <i ng-if="tk.idStatusTicketKf=='8' && tk.idTypeTicketKf<=2 && tk.isCancelRequested!='1'" class="i-default fas fa-box-open"></i>
-                            <i ng-if="tk.idStatusTicketKf=='12' && tk.idTypeTicketKf=='2' && tk.isCancelRequested!='1'" class="i-default fas fa-box-open"></i>
+                            <i ng-if="tk.idStatusTicketKf=='12' && tk.idTypeTicketKf=='2' && tk.isCancelRequested!='1'" class="i-warning fas fa-key"></i>
                             <i ng-if="tk.idStatusTicketKf==10  && tk.isCancelRequested=='1' && tk.idTypeTicketKf<=2" class="i-warning fas fa-times-circle"></i>
                             <i ng-if="tk.idStatusTicketKf==7 && tk.idTypeTicketKf<=2" class="i-warning fas fa-box"></i>
 
@@ -59,7 +59,7 @@
                                     <span data-toggle="tooltip" data-placement="right" title="Cancelación solicitada" class="label label-warning">{{tk.statusTicket.statusName}}</span>
                                 </span>
                                 <!-- BAJA Pendiente ID#: 12-->
-                                <span ng-if="(tk.idStatusTicketKf=='12' && tk.idTypeTicketKf=='2' && tk.isCancelRequested!='1')" data-toggle="tooltip" data-placement="right" title="Baja pendiente" class="label label-default">{{tk.statusTicket.statusName}}</span>
+                                <span ng-if="(tk.idStatusTicketKf=='12' && tk.idTypeTicketKf=='2' && tk.isCancelRequested!='1')" data-toggle="tooltip" data-placement="right" title="Baja pendiente" class="label label-warning">{{tk.statusTicket.statusName}}</span>
                                 <span data-toggle="tooltip" data-placement="right" title="Solicitado por: {{tk.tmp_nameUserRequestChOrCancel}}"  class="label label-danger" ng-if="tk.idTmpDeliveryData && tk.isCancelRequested"><i class="fas fa-exclamation-circle"></i> Cancelacion Solicitada</span>
                                 <span data-toggle="tooltip" data-placement="right" title="Solicitado por: {{tk.tmp_nameUserRequestChOrCancel}}"  class="label label-warning" ng-if="tk.idTmpDeliveryData && tk.isChangeDeliverylRequested"><i class="fas fa-exclamation-circle"></i> Cambio de envio Solicitado</span>
                             </li>
