@@ -2146,11 +2146,11 @@ class Ticket_model extends CI_Model
 					$this->db->where('tb_clients.isStockInBuilding  IS NOT NULL');
 				}
 				$rsA = [];
-				if (@$data['idClientAdminFk']!=''){
-					$this->db->where("idUserRequestBy = " , @$data['idClientAdminFk']);
-				}else if(@$data['idClientCompaniFk']!=''){
-					$this->db->where("idUserRequestBy = " , @$data['idClientCompaniFk']);
-				}
+				//if (@$data['idClientAdminFk']!=''){
+				//	$this->db->where("idUserRequestBy = " , @$data['idClientAdminFk']);
+				//}else if(@$data['idClientCompaniFk']!=''){
+				//	$this->db->where("idUserRequestBy = " , @$data['idClientCompaniFk']);
+				//}
 				if (@$data['idBuildingKf']!=''){
 					$this->db->where("idBuildingKf = " , @$data['idBuildingKf']);
 				}
@@ -2436,11 +2436,11 @@ class Ticket_model extends CI_Model
 			$this->db->select("*");
 			$this->db->from("tb_tickets_2");
 			$rsA = [];
-			if (@$data['idClientAdminFk']!=''){
-				$this->db->where("idUserRequestBy = " , @$data['idClientAdminFk']);
-			}else if(@$data['idClientCompaniFk']!=''){
-				$this->db->where("idUserRequestBy = " , @$data['idClientCompaniFk']);
-			}
+			//if (@$data['idClientAdminFk']!=''){
+			//	$this->db->where("idUserRequestBy = " , @$data['idClientAdminFk']);
+			//}else if(@$data['idClientCompaniFk']!=''){
+			//	$this->db->where("idUserRequestBy = " , @$data['idClientCompaniFk']);
+			//}
 			if (@$data['idTypeTenantKf']=='1' || @$data['idTypeTenantKf']=='2'){
 				$where = "(ISNULL(sendNotify) OR sendNotify = '1')";
 				$this->db->where($where);
