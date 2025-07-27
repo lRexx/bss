@@ -2168,19 +2168,13 @@ class Ticket_model extends CI_Model
 						if (@$data['idBuildingKf']!='' || @$data['idBuildingKf']==''){
 							$this->db->where("idBuildingKf = " , $row->idClient);
 						}
-						if (@$data['idClientAdminFk']!=''){
-							$this->db->or_where("idUserRequestBy = " , $row->idClient);
-						}
-						if (@$data['idClientBranchFk']!=''){
-							$this->db->or_where("idUserRequestBy = " , $row->idClient);
-						}
 						//ID USER OF WHO REQUEST THE TICKET
 						if (@$data['idUserRequestBy']!=''){
-							$this->db->or_where("idUserRequestBy = " , @$data['idUserRequestBy']);
+							$this->db->where("idUserRequestBy = " , @$data['idUserRequestBy']);
 						}
 						//ID USER OF WHO MADE THE TICKET
 						if (@$data['idUserMadeBy']!=''){
-							$this->db->or_where("idUserMadeBy = " , @$data['idUserMadeBy']);
+							$this->db->where("idUserMadeBy = " , @$data['idUserMadeBy']);
 						}
 						//TICKET TYPE
 						if (@$data['idTypeTicketKf']!=''){
@@ -2331,19 +2325,13 @@ class Ticket_model extends CI_Model
 					if (@$data['idBuildingKf']!='' || @$data['idBuildingKf']==''){
 						$this->db->where("idBuildingKf = " , $row->idClient);
 					}
-					if (@$data['idClientAdminFk']!=''){
-						$this->db->or_where("idUserRequestBy = " , $row->idClient);
-					}
-					if (@$data['idClientBranchFk']!=''){
-						$this->db->or_where("idUserRequestBy = " , $row->idClient);
-					}
 					//ID USER OF WHO REQUEST THE TICKET
 					if (@$data['idUserRequestBy']!=''){
-						$this->db->or_where("idUserRequestBy = " , @$data['idUserRequestBy']);
+						$this->db->where("idUserRequestBy = " , @$data['idUserRequestBy']);
 					}
 					//ID USER OF WHO MADE THE TICKET
 					if (@$data['idUserMadeBy']!=''){
-						$this->db->or_where("idUserMadeBy = " , @$data['idUserMadeBy']);
+						$this->db->where("idUserMadeBy = " , @$data['idUserMadeBy']);
 					}
 					//TICKET TYPE
 					if (@$data['idTypeTicketKf']!=''){
