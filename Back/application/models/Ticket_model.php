@@ -2433,7 +2433,7 @@ class Ticket_model extends CI_Model
 				}		
 			}
 		}else if (@$data['idProfileKf']=='4' && !@$data['isHomeSelected']){
-			$this->db->select("*");
+			$this->db->select("*_");
 			$this->db->from("tb_tickets_2");
 			$rsA = [];
 			if (@$data['idClientAdminFk']!=''){
