@@ -4472,7 +4472,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }else if ($scope.sysLoggedUser.idProfileKf=="1" && ($scope.new.ticket.total>0 || $scope.new.ticket.total==0) && obj.building.mpPaymentMethod=="1" && obj.building.autoApproveAll!="1"){
                                     $scope.new.ticket.status = 9;
                                 }
-                            }else if (($scope.sysLoggedUser.idProfileKf=="1" && $scope.new.ticket.sendNotify!=null && $scope.new.ticket.sendNotify==0)){
+                            }else if (($scope.sysLoggedUser.idProfileKf=="1" && (($scope.new.ticket.sendNotify!=null && $scope.new.ticket.sendNotify==0) || $scope.new.ticket.sendNotify==null))){
                                 $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                 $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido aprobado por BSS, automaticamente.', 'idCambiosTicketKf':"2"});
                                 $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Proceso de pago interno.', 'idCambiosTicketKf':"4"});
@@ -4505,7 +4505,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }else if ($scope.sysLoggedUser.idProfileKf=="1" && ($scope.new.ticket.total>0 || $scope.new.ticket.total==0) && obj.building.mpPaymentMethod=="1" && obj.building.autoApproveAll!="1"){
                                     $scope.new.ticket.status = 9;
                                 }
-                            }else if (($scope.sysLoggedUser.idProfileKf=="1" && $scope.new.ticket.sendNotify!=null && $scope.new.ticket.sendNotify==0)){
+                            }else if (($scope.sysLoggedUser.idProfileKf=="1" && (($scope.new.ticket.sendNotify!=null && $scope.new.ticket.sendNotify==0) || $scope.new.ticket.sendNotify==null))){
                                 $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                 $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Pedido aprobado por BSS, automaticamente.', 'idCambiosTicketKf':"2"});
                                 $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': 'Proceso de pago interno.', 'idCambiosTicketKf':"4"});
