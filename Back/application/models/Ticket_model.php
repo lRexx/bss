@@ -2139,139 +2139,8 @@ class Ticket_model extends CI_Model
 		if(@$data['idProfileKf']=='1' && (@$data['idClientAdminFk']!='' || @$data['idClientCompaniFk']!='')){
 			if ((((@$data['idClientAdminFk']!='' && @$data['idBuildingKf']=='') || (@$data['idClientAdminFk']!='' && @$data['idBuildingKf']!='')) && @$data['idClientCompaniFk']=='' && @$data['idClientBranchFk']=='') ||
 				(((@$data['idClientCompaniFk']!='' && @$data['idClientBranchFk']=='') || (@$data['idClientCompaniFk']!='' && @$data['idClientBranchFk']!='')) && @$data['idClientAdminFk']=='' && @$data['idBuildingKf']=='')){
-				$this->db->select("*");
-				$this->db->from("tb_tickets_2");
-				if (@$data['isHasStockInBuilding']=='1'){
-					$this->db->join('tb_clients', 'tb_clients.idClient = tb_tickets_2.idBuildingKf', 'left');
-					$this->db->where('tb_clients.isStockInBuilding  IS NOT NULL');
-				}
 				$rsA = [];
-				if (@$data['idClientAdminFk']!=''){
-					$this->db->where("idUserRequestBy = " , @$data['idClientAdminFk']);
-				}else if(@$data['idClientCompaniFk']!=''){
-					$this->db->where("idUserRequestBy = " , @$data['idClientCompaniFk']);
-				}
-				if (@$data['idBuildingKf']!=''){
-					$this->db->where("idBuildingKf = " , @$data['idBuildingKf']);
-				}
-				//ID USER OF WHO REQUEST THE TICKET
-				if (@$data['idUserRequestBy']!=''){
-					$this->db->where("idUserRequestBy = " , @$data['idUserRequestBy']);
-				}
-				//ID USER OF WHO MADE THE TICKET
-				if (@$data['idUserMadeBy']!=''){
-					$this->db->where("idUserMadeBy = " , @$data['idUserMadeBy']);
-				}
-				//TICKET TYPE
-				if (@$data['idTypeTicketKf']!=''){
-					$this->db->where("idTypeTicketKf = " , @$data['idTypeTicketKf']);
-				}
-				//DATE FROM THE TICKET REQUEST WAS DONE
-				if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']==''){
-					$where = "created_at > '".@$data['dateCreatedFrom']."'";
-					$this->db->where($where);
-				}else if (@$data['dateCreatedTo']!='' && @$data['dateCreatedFrom']==''){
-					$where = "created_at < '".@$data['dateCreatedTo']."'";
-					$this->db->where($where);
-				}else if (@$data['dateCreatedFrom']!='' && @$data['dateCreatedTo']!=''){
-					$where = "DATE(created_at) BETWEEN '".@$data['dateCreatedFrom']."' AND '".@$data['dateCreatedTo']."'";
-					$this->db->where($where);
-				}
-				//DATE FROM THE TICKET REQUEST WAS DELIVERED
-				if (@$data['dateDeliveredFrom']!='' && @$data['dateDeliveredTo']==''){
-					$where = "delivered_at > '".@$data['dateDeliveredFrom']."'";
-					$this->db->where($where);
-				}else if (@$data['dateDeliveredTo']!='' && @$data['dateDeliveredFrom']==''){
-					$where = "delivered_at < '".@$data['dateDeliveredTo']."'";
-					$this->db->where($where);
-				}else if (@$data['dateDeliveredFrom']!='' && @$data['dateDeliveredTo']!=''){
-					$where = "DATE(delivered_at) BETWEEN '".@$data['dateDeliveredFrom']."' AND '".@$data['dateDeliveredTo']."'";
-					$this->db->where($where);
-				}
-				//TICKET STATUS
-				if (@$data['idStatusTicketKf']!=''){
-					if(@$data['idStatusTicketKf']=='10'){
-						$where = "isCancelRequested = 1 AND idStatusTicketKf = ".@$data['idStatusTicketKf'];
-						$this->db->where($where);
-					}else{
-						$this->db->where("idStatusTicketKf = " , @$data['idStatusTicketKf']);
-					}
-				}
-				//TICKET TYPE DELIVERY
-				if (@$data['idTypeDeliveryKf']!=''){
-					$this->db->where("idTypeDeliveryKf = " , @$data['idTypeDeliveryKf']);
-				}
-				//TICKET TYPE OF PAYMENT
-				if (@$data['idTypePaymentKf']!=''){
-					$this->db->where("idTypePaymentKf = " , @$data['idTypePaymentKf']);
-				}
-				//REFUND INITIATED 
-				if (@$data['isHasRefundsOpen']=='1'){
-					$where = "(isHasRefundsOpen = '".@$data['isHasRefundsOpen']."')";
-					$this->db->where($where);
-				}else{
-					$where = "(ISNULL(isHasRefundsOpen) OR isHasRefundsOpen = '".@$data['isHasRefundsOpen']."' OR isHasRefundsOpen <> '".@$data['isHasRefundsOpen']."')";
-					$this->db->where($where);
-				}
-				//INITIAL DELIVERY INITIATED 
-				if (@$data['isInitialDeliveryActive']=='1'){
-					$where = "(isInitialDeliveryActive = '".@$data['isInitialDeliveryActive']."')";
-					$this->db->where($where);
-				}else{
-					$where = "(ISNULL(isInitialDeliveryActive) OR isInitialDeliveryActive = '0')";
-					$this->db->where($where);
-				}
-				//MP PAYMENT Succeeded
-				if (@$data['isPaymentSucceeded']=='1'){
-					$where = "(ISNULL(isManualPayment) AND idStatusTicketKf!='3' AND idStatusTicketKf!='5' AND idTypePaymentKf = 2 AND idPaymentKf != '' AND tb_mp_payments.mp_payment_id != '' AND tb_mp_payments.mp_status_detail='accredited')";
-					$this->db->join('tb_mp_payments', 'tb_mp_payments.idPayment = tb_tickets_2.idPaymentKf', 'left');
-					$this->db->where($where);
-				}
-				//BILLING INITIATED
-				if (@$data['isBillingInitiated']=='1'){
-					$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '".@$data['isBillingInitiated']."')";
-					$this->db->where($where);
-				}else if (@$data['isBillingInitiated']=='0'){
-					$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '".@$data['isBillingInitiated']."')";
-					$this->db->where($where);
-				}else{
-					$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '0' OR isBillingInitiated = '1')";
-					$this->db->where($where);
-				}
-				//MGMT METHOD
-				if (@$data['idMgmtMethodKf']!='' && @$data['idMgmtMethodKf']!=null){
-					$where = "(idMgmtMethodKf = '".@$data['idMgmtMethodKf']."')";
-					$this->db->where($where);
-				}
-				//BILLING UPLOADED
-				if (@$data['isBillingUploaded']=='1'){
-					$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '".@$data['isBillingUploaded']."')";
-					$this->db->where($where);
-				}
-				//DELIVERY COMPANY SELECTED 
-				if (@$data['idDeliveryCompanyKf']!=''){
-					$this->db->where("idDeliveryCompanyKf = " , @$data['idDeliveryCompanyKf']);
-				}
-				if (@$data['codTicket']!=''){
-					//$this->db->where("codTicket = " , @$data['codTicket']);
-					$where = "codTicket LIKE '%".@$data['codTicket']."%'";
-					$this->db->where($where);
-				}
-				if (@$data['topfilter']!=''){
-					$this->db->limit($data['topfilter']);
-				}
-				$quuery = $this->db->order_by("idTicket" , "DESC")->get();
-				if (count($quuery->result_array())>=1){
-					//print_r("entro ". $i);
-					//print_r($quuery->result_array());
-					foreach ($quuery->result_array() as $ticket) {
-						$rsA[] = $ticket;
-					}
-					//$rsA[$i]=$quuery->result_array();
-					//print_r($rsA);
-				}
 
-				$rsB=array();
 				$this->db->select("*")->from("tb_clients");
 				if (@$data['idClientAdminFk']!='' && @$data['idBuildingKf']!='' && @$data['idClientCompaniFk']=='' && @$data['idClientBranchFk']==''){
 					$this->db->where("idClient = " , @$data['idBuildingKf']);
@@ -2299,15 +2168,23 @@ class Ticket_model extends CI_Model
 						if (@$data['idBuildingKf']!='' || @$data['idBuildingKf']==''){
 							$this->db->where("idBuildingKf = " , $row->idClient);
 						}
-						if (@$data['idUserRequestBy']!=''){
-							$this->db->or_where("idUserRequestBy = " , $row->idClient);
+						if ($row->idTypeRequestFor != "1" && $row->idTypeRequestFor != "6"){
+							if (@$data['idClientAdminFk']!=''){
+								$this->db->where("idUserRequestBy = " , $row->idClient);
+							}
+							if (@$data['idClientBranchFk']!=''){
+								$this->db->where("idUserRequestBy = " , $row->idClient);
+							}
 						}
-						if (@$data['idClientBranchFk']!=''){
-							$this->db->where("idUserRequestBy = " , $row->idClient);
-						}
-						//ID USER OF WHO MADE THE TICKET
-						if (@$data['idUserMadeBy']!=''){
-							$this->db->where("idUserMadeBy = " , @$data['idUserMadeBy']);
+						if ($row->idTypeRequestFor == "1" || $row->idTypeRequestFor == "6"){
+							//ID USER OF WHO REQUEST THE TICKET
+							if (@$data['idUserRequestBy']!=''){
+								$this->db->where("idUserRequestBy = " , @$data['idUserRequestBy']);
+							}
+							//ID USER OF WHO MADE THE TICKET
+							if (@$data['idUserMadeBy']!=''){
+								$this->db->where("idUserMadeBy = " , @$data['idUserMadeBy']);
+							}
 						}
 						//TICKET TYPE
 						if (@$data['idTypeTicketKf']!=''){
@@ -2458,16 +2335,23 @@ class Ticket_model extends CI_Model
 					if (@$data['idBuildingKf']!='' || @$data['idBuildingKf']==''){
 						$this->db->where("idBuildingKf = " , $row->idClient);
 					}
-					//ID USER OF WHO REQUEST THE TICKET
-					if (@$data['idUserRequestBy']!=''){
-						$this->db->where("idUserRequestBy = " , @$data['idUserRequestBy']);
+					if ($row->idTypeRequestFor != "1" && $row->idTypeRequestFor != "6"){
+						if (@$data['idClientAdminFk']!=''){
+							$this->db->where("idUserRequestBy = " , $row->idClient);
+						}
+						if (@$data['idClientBranchFk']!=''){
+							$this->db->where("idUserRequestBy = " , $row->idClient);
+						}
 					}
-					if (@$data['idClientBranchFk']!=''){
-						$this->db->where("idUserRequestBy = " , $row->idClient);
-					}
-					//ID USER OF WHO MADE THE TICKET
-					if (@$data['idUserMadeBy']!=''){
-						$this->db->where("idUserMadeBy = " , @$data['idUserMadeBy']);
+					if ($row->idTypeRequestFor == "1" || $row->idTypeRequestFor == "6"){
+						//ID USER OF WHO REQUEST THE TICKET
+						if (@$data['idUserRequestBy']!=''){
+							$this->db->where("idUserRequestBy = " , @$data['idUserRequestBy']);
+						}
+						//ID USER OF WHO MADE THE TICKET
+						if (@$data['idUserMadeBy']!=''){
+							$this->db->where("idUserMadeBy = " , @$data['idUserMadeBy']);
+						}
 					}
 					//TICKET TYPE
 					if (@$data['idTypeTicketKf']!=''){
