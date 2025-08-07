@@ -3628,8 +3628,8 @@ class Ticket_model extends CI_Model
 		$query = $this->db->get();
 		$rs = $query->result_array();
 		if ($query->num_rows() > 0) {
-			//dTicketKf = $rs['idTicketKf'];
-			foreach ($rs as $key => $ticket) {
+			//dTicketKf = $ticket['idTicketKf'];
+			foreach ($rs as $ticket) {
 				// Extraer la parte final después del último ' - '
 				$codParte = trim(strrchr($ticket['codTicket'], '-'));
 				$codParte = ltrim($codParte, '- '); // limpia espacios y guiones
@@ -3761,7 +3761,6 @@ class Ticket_model extends CI_Model
 
 								}
 							}
-							return $lastTicketUpdatedQuery;
 
 						} else {
 							log_message('error', 'Ticket ' . $ticket['idTicket'] . ' was not updated in tb_tickets_2.');
@@ -3777,7 +3776,7 @@ class Ticket_model extends CI_Model
 					log_message('info', $output);
 				}
 			}
-			#return true;
+			return true;
 		} else {
 			log_message('info', 'postBilling process no ticket found to be prossesed');
 			return false;
