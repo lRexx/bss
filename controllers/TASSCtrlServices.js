@@ -1321,7 +1321,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             case "sign_and_enable_contract":
                                 if (confirm==0){
                                     var rawDate                             = moment($scope.contract.activateDate.tmpFechaFirmaActivacion).toDate();
-                                    $scope.contract.tmpFechaFirmaActivacion = moment(rawDate).format('YYYY-MM-DD');
+                                    $scope.contract.tmpFechaFirmaActivacion = moment(rawDate).format('DD/MM/YYYY');
                                     $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirmaActivacion+".     Confirmar?";
                                     $scope.argObj={};
                                     $scope.argObj = obj;
@@ -1338,7 +1338,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             case "activate_and_enable_contract":
                                 if (confirm==0){
                                     var rawDate                             = moment($scope.contract.activateDate.tmpFechaFirmaActivacion).toDate();
-                                    $scope.contract.tmpFechaFirmaActivacion = moment(rawDate).format('YYYY-MM-DD');
+                                    $scope.contract.tmpFechaFirmaActivacion = moment(rawDate).format('DD/MM/YYYY');
                                     $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirmaActivacion+".     Confirmar?";
                                     $scope.argObj={};
                                     $scope.argObj = obj;
