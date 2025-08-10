@@ -287,11 +287,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.modalConfirmation('contract_enable', 0, cObj)
                         }else{
                             $('#activationDateContractWindows').modal('show');
-                            var currentDate        = new Date();
-                            var rawDate            = moment(currentDate).toDate();
-                            var formatedDate       = moment(rawDate).format('YYYY-MM-DD');
-                            $scope.contract.activateDate.tmpFechaFirmaActivacion = formatedDate;
-                            //$scope.contract.activateDate.tmpFechaFirmaActivacion = moment(newDate).format('DD/MM/YYYY');
+                            $scope.contract.activateDate.tmpFechaFirmaActivacion = new Date();
+                                                        //$scope.contract.activateDate.tmpFechaFirmaActivacion = moment(newDate).format('DD/MM/YYYY');
                         }
                     break;
                     case "activateDate":
