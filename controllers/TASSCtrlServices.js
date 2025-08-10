@@ -1320,14 +1320,16 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "sign_and_enable_contract":
                                 if (confirm==0){
-                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirmaActivacion+".     Confirmar?";
-                                $scope.argObj={};
-                                $scope.argObj = obj;
-                                console.log('Contrato a Aprovar y Activar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
-                                console.log("============================================================================")
-                                console.log($scope.argObj);
-                                $('#activationDateContractWindows').modal('hide');
-                                $('#confirmRequestModal').modal('toggle');
+                                    var rawDate                             = moment($scope.contract.activateDate.tmpFechaFirmaActivacion).toDate();
+                                    $scope.contract.tmpFechaFirmaActivacion = moment(rawDate).format('YYYY-MM-DD');
+                                    $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirmaActivacion+".     Confirmar?";
+                                    $scope.argObj={};
+                                    $scope.argObj = obj;
+                                    console.log('Contrato a Aprovar y Activar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
+                                    console.log("============================================================================")
+                                    console.log($scope.argObj);
+                                    $('#activationDateContractWindows').modal('hide');
+                                    $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'activateDate');
                                     $('#confirmRequestModal').modal('hide');
@@ -1335,14 +1337,16 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "activate_and_enable_contract":
                                 if (confirm==0){
-                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirmaActivacion+".     Confirmar?";
-                                $scope.argObj={};
-                                $scope.argObj = obj;
-                                console.log('Contrato a Aprovar y Activar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
-                                console.log("============================================================================")
-                                console.log($scope.argObj);
-                                $('#activationDateContractWindows').modal('hide');
-                                $('#confirmRequestModal').modal('toggle');
+                                    var rawDate                             = moment($scope.contract.activateDate.tmpFechaFirmaActivacion).toDate();
+                                    $scope.contract.tmpFechaFirmaActivacion = moment(rawDate).format('YYYY-MM-DD');
+                                    $scope.mess2show="El contrato "+obj.numeroContrato+" sera Aprobado y Activado en la fecha: "+$scope.contract.tmpFechaFirmaActivacion+".     Confirmar?";
+                                    $scope.argObj={};
+                                    $scope.argObj = obj;
+                                    console.log('Contrato a Aprovar y Activar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
+                                    console.log("============================================================================")
+                                    console.log($scope.argObj);
+                                    $('#activationDateContractWindows').modal('hide');
+                                    $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'activateDate');
                                     $('#confirmRequestModal').modal('hide');
@@ -1350,13 +1354,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "contract_enable":
                                 if (confirm==0){
-                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera activado.     Confirmar?";
-                                $scope.argObj={};
-                                $scope.argObj = obj;
-                                console.log('Contrato a habilitar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
-                                console.log("============================================================================")
-                                console.log($scope.argObj);
-                                $('#confirmRequestModal').modal('toggle');
+                                    $scope.mess2show="El contrato "+obj.numeroContrato+" sera activado.     Confirmar?";
+                                    $scope.argObj={};
+                                    $scope.argObj = obj;
+                                    console.log('Contrato a habilitar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
+                                    console.log("============================================================================")
+                                    console.log($scope.argObj);
+                                    $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'enable');
                                     $('#confirmRequestModal').modal('hide');
@@ -1364,13 +1368,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "contract_disable":
                                 if (confirm==0){
-                                $scope.mess2show="El contrato "+obj.numeroContrato+" sera desactivado. por favor confirmar, Confirmar?";
-                                $scope.argObj={};
-                                $scope.argObj = obj;
-                                console.log('Contrato a desahibilitar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
-                                console.log("============================================================================")
-                                console.log($scope.argObj);
-                                $('#confirmRequestModal').modal('toggle');
+                                    $scope.mess2show="El contrato "+obj.numeroContrato+" sera desactivado. por favor confirmar, Confirmar?";
+                                    $scope.argObj={};
+                                    $scope.argObj = obj;
+                                    console.log('Contrato a desahibilitar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
+                                    console.log("============================================================================")
+                                    console.log($scope.argObj);
+                                    $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.switchCustomersFn('contract', $scope.argObj, 'disable');
                                     $('#confirmRequestModal').modal('hide');
