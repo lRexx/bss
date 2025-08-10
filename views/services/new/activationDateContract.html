@@ -7,12 +7,12 @@
             	<h3 class="modal-title"><i class="product-success fas fa-tasks"></i> APROBAR CONTRACTO</h3>
         	</div>
     		<div class="modal-body"  style="overflow-y: scroll;">
-    			<form class="form-horizontal" name="fServiceApprovalContract">			
-					<!-- Activation Date -->						  
-					<div class="form-group col-md-12" ng-class="
-								{	'has-success': 
+    			<form class="form-horizontal" name="fServiceApprovalContract">
+					<!-- Activation Date -->
+					<!-- <div class="form-group col-md-12" ng-class="
+								{	'has-success':
 									contract.activateDate.fechaFirmaActivacion!='' && fServiceApprovalContract.serviceContractApproval.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(contract.activateDate.fechaFirmaActivacion=='' || contract.activateDate.fechaFirmaActivacion==undefined) && fServiceApprovalContract.serviceContractApproval.$touched,
 								}">
 					  	<label style="padding-left: 15px;">Fecha de Aprobación</label>
@@ -22,7 +22,34 @@
 				    			<input name="serviceContractApproval" type="text" ng-keydown="fnLoadPhoneMask()" class="form-control input--date" ng-required="true" ng-model="contract.activateDate.tmpFechaFirmaActivacion" />
 				    		</div>
 				    	</div>
-					</div>					
+					</div>-->
+					<!-- Activation Date -->
+					<div class="form-group col-md-12" ng-class="
+								{	'has-success':
+									contract.activateDate.tmpFechaFirmaActivacion!='' && fServiceApprovalContract.serviceContractApproval.$valid,
+								 	'has-error':
+									(contract.activateDate.tmpFechaFirmaActivacion=='' || contract.activateDate.tmpFechaFirmaActivacion==undefined) && fServiceApprovalContract.serviceContractApproval.$touched,
+								}">
+						<label style="padding-left: 15px;">Fecha de Aprobación</label>
+						<div class="col-xs-12 ">
+							<div class="input-group">
+								<span ng-click="open_activation_date()" class="input-group-addon"><i ng-click="open_activation_date()" class="far fa-calendar-alt"></i></span>
+								<input
+									ng-click="open_activation_date()"
+									type="text"
+									name="serviceContractApproval"
+									class="form-control"
+									uib-datepicker-popup="{{format}}"
+									ng-model="contract.activateDate.tmpFechaFirmaActivacion"
+									is-open="popup_activation_date.opened"
+									ng-required="true"
+									close-text="Cerrar"
+									clear-text="Borrar"
+									current-text="Hoy"
+									alt-input-formats="altInputFormats" />
+							</div>
+						</div>
+					</div>
 				</form>
 			</div>
 			<!-- Actions Button -->
@@ -40,4 +67,4 @@
             </div>
 		</div>
 	</div>
-</div>				
+</div>
