@@ -290,8 +290,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             var currentDate        = new Date();
                             var rawDate            = moment(currentDate).toDate();
                             var formatedDate       = moment(rawDate).format('YYYY-MM-DD');
-                            var newDate            = formatedDate.toDate();
-                            $scope.contract.activateDate.tmpFechaFirmaActivacion = newDate;
+                            $scope.contract.activateDate.tmpFechaFirmaActivacion = formatedDate;
                             //$scope.contract.activateDate.tmpFechaFirmaActivacion = moment(newDate).format('DD/MM/YYYY');
                         }
                     break;
