@@ -50,7 +50,32 @@ class Ticket extends REST_Controller
         }
 
     }
+    public function updateTicketKeychain_post()
+    {
+        $headers = $this->input->request_headers();
+        log_message('info', '============================ begin updateTicketKeychain ============================');
+        log_message('info', 'Host               :' . @$headers['Host']);
+        log_message('info', 'User-Agent         :' . @$headers['User-Agent']);
+        log_message('info', 'Accept             :' . @$headers['Accept']);
+        log_message('info', 'Content-Typ        :' . @$headers['Content-Type']);
+        log_message('info', 'X-Forwarded-For    :' . @$headers['X-Forwarded-For']);
+        log_message('info', 'X-Forwarded-Host   :' . @$headers['X-Forwarded-Host']);
+        log_message('info', 'X-Forwarded-Server :' . @$headers['X-Forwarded-Server']);
+        log_message('info', 'Content-Length     :' . @$headers['Content-Length']);
+        log_message('info', 'Connection         :' . @$headers['Connection']);
+        //log_message('info', 'x-signature        :' . @$headers['x-signature']);
+        //log_message('info', 'x-request-id       :' . @$headers['x-request-id']);
+        $body = file_get_contents('php://input');
+        log_message('info', 'Body: ' . json_encode($body, JSON_PRETTY_PRINT));
+        log_message('info', '============================ end updateTicketKeychain ============================');
+        $rs = $this->ticket_model->updateTicketKeychain($this->post('llavero'));
+        if (!is_null($rs)) {
+            $this->response(array('response' => $rs), 200);
+        } else {
+            $this->response(array('error' => "ERROR INESPERADO"), 500);
+        }
 
+    }
     /*Dar de baja*/
     public function index3_post()
     {
@@ -392,13 +417,15 @@ class Ticket extends REST_Controller
     public function billingUploaded_get($id)
     {
 
-
+        log_message('info', ':::::::::::::::::verifyfBillingUpload');
         $rs = null;
         $rs = $this->ticket_model->billingUploaded($id);
 
         if (!is_null($rs)) {
+            log_message('info', ':::::::::::::::::verifyfBillingUpload => Billing Uploaded already');
             $this->response($rs, 200);
         } else {
+            log_message('info', ':::::::::::::::::verifyfBillingUpload => Billing has not been Uploaded yet');
             $this->response(array('error' => 'Factura no ha sido subida al server.'), 404);
         }
     }
@@ -570,16 +597,19 @@ class Ticket extends REST_Controller
 
     public function setIsBillingUploaded_get($idTicketKf, $setValue)
     {
+        log_message('info', ':::::::::::::::::setBillingUploaded');
         if (!$idTicketKf) {
             $this->response(array('error' => 'Missing, Ticket ID'), 404);
         }
-
+        log_message('info', ':::::::::::::::::setBillingUploaded => idTicket: ' . $idTicketKf);
         $rs = null;
         $rs = $this->ticket_model->setIsBillingUploaded($idTicketKf, $setValue);
 
         if (!is_null($rs)) {
+            log_message('info', ':::::::::::::::::setBillingUploaded => SUCCEEDED');
             $this->response($rs, 200);
         } else {
+            log_message('info', ':::::::::::::::::setBillingUploaded => FAILED');
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
@@ -605,6 +635,31 @@ class Ticket extends REST_Controller
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+
+    public function sendPostBillingMailNotification_get($idTicket, $filename)
+    {
+        log_message('info', ':::::::::::::::::BillingUploadedNotification');
+
+        if (!$idTicket) {
+            log_message('error', 'Missing, Ticket ID');
+            $this->response(array('error' => 'Missing, Ticket ID'), 404);
+        }
+        if (!$filename) {
+            log_message('error', 'Missing, filename');
+            $this->response(array('error' => 'Missing, Filename'), 404);
+        }
+        log_message('info', ':::::::::::::::::setBillingUploaded => idTicket: ' . $idTicket);
+        log_message('info', ':::::::::::::::::setBillingUploaded => filename: ' . $filename);
+        $rs = $this->ticket_model->sendPostBillingMailNotification($idTicket, $filename);
+        if (!is_null($rs)) {
+            log_message('info', ':::::::::::::::::BillingUploadedNotification ::: COMPLETED SUCCESSFULLLY');
+            $this->response(array('response' => $rs), 200);
+        } else {
+            log_message('info', ':::::::::::::::::BillingUploadedNotification ::: COMPLETED WITH ERROR');
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
     public function postBillingTickets_get()
     {
         log_message('info', ':::::::::::::::::PostBilling');
@@ -619,7 +674,6 @@ class Ticket extends REST_Controller
             log_message('info', ':::::::::::::::::PostBilling ::: COMPLETED WITH ERROR');
         }
     }
-
 }
 ?>
 

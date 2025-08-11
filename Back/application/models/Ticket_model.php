@@ -3553,14 +3553,6 @@ class Ticket_model extends CI_Model
 			)
 		)->where("idTicket", $idTicket)->update("tb_tickets_2");
 		if ($this->db->affected_rows() === 1) {
-			$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
-			$this->db->insert('tb_ticket_changes_history', array(
-				"idUserKf" => "1",
-				"idTicketKf" => $idTicket,
-				"created_at" => $now->format('Y-m-d H:i:s'),
-				"descripcion" => "Facturación completada",
-				"idCambiosTicketKf" => "20",
-			));
 			return true;
 		} else {
 			return false;
@@ -3600,6 +3592,100 @@ class Ticket_model extends CI_Model
 			return false;
 		}
 	}
+	public function sendPostBillingMailNotification($idTicket, $fileName)
+	{
+		$bill_url = "https://" . BSS_HOST . "/facturas/" . $fileName;
+		$lastTicketUpdatedQuery = null;
+		$lastTicketUpdatedQueryTmp = $this->ticketById($idTicket);
+		$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
+		//MAIL
+		$user = null;
+		$building = null;
+		$title = null;
+		$subject = null;
+		$body = null;
+		$to = null;
+		if ($lastTicketUpdatedQuery['idTypeRequestFor'] == 1) {
+			//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
+			$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
+			$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+			$this->db->join('tb_clients AS b', 'b.idClient = tb_client_departament.idClientFk', 'left');
+			$this->db->join('tb_client_type', 'tb_client_type.idClientType = b.idClientTypeFk', 'left');
+			$queryBuilding = $this->db->where("tb_client_departament.idClientDepartament = ", $lastTicketUpdatedQuery['idDepartmentKf'])->get();
+			if ($queryBuilding->num_rows() > 0) {
+				$building = $queryBuilding->row_array();
+			}
+			$title = "Factura";
+			$subject = "Factura de Pedido de Llavero :: " . $building['Depto'] . " :: Disponible";
+			//GET USER
+			$this->db->select("*")->from("tb_user");
+			$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
+			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
+			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
+			$queryUser = $this->db->where("idUser =", $lastTicketUpdatedQuery['idUserRequestBy'])->get();
+			if ($queryUser->num_rows() > 0) {
+				$user = $queryUser->row_array();
+				#MAIL TO USER
+				$rs = null;
+				$to = $user['emailUser'];
+				$body .= '<tr width="100%" bgcolor="#ffffff">';
+				$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>' . $user['fullNameUser'] . '</b>,</td>';
+				$body .= '</tr>';
+				$body .= '<tr width="100%" bgcolor="#ffffff">';
+				$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La Factura de su Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b>, se encuentra disponible para descargar/visualizar hacer click en <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="' . $bill_url . '" target="_blank" title="Descargar" style="text-decoration: none; color: #ffffff;">Descargar</span></td>';
+				$body .= '</tr>';
+				$body .= '<tr width="100%" bgcolor="#ffffff">';
+				$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Tambien puede visualizar y/o descargar la factura de su pedido desde la web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+				$body .= '</tr>';
+				$body .= '<tr width="100%" bgcolor="#ffffff">';
+				$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+				$body .= '</tr>';
+				$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+				if ($rsMail == "Enviado") {
+					log_message('info', 'Billing mail notification for ticket ID: ' . $idTicket . ' ::: [SENT]');
+					return true;
+				}
+			}
+		} else {
+			if ($lastTicketUpdatedQuery['sendNotify'] == 1 || $lastTicketUpdatedQuery['sendNotify'] == null) {
+				$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
+				$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+				$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $lastTicketUpdatedQuery['idBuildingKf'];
+				$quuery = $this->db->where($where)->get();
+				if ($quuery->num_rows() > 0) {
+					$buildingAdminMail = $quuery->row_array();
+					$title = null;
+					$subject = null;
+					$body = null;
+					$to = null;
+					#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
+					$to = $buildingAdminMail['mailContact'];
+					$title = "Factura";
+					$subject = "Factura de Pedido de Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Disponible";
+					$body = '<tr width="100%" bgcolor="#ffffff">';
+					$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>' . $lastTicketUpdatedQuery['clientAdmin']['name'] . '</b>,</td>';
+					$body .= '</tr>';
+					$body .= '<tr width="100%" bgcolor="#ffffff">';
+					$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La Factura de su Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b>, se encuentra disponible para descargar/visualizar hacer click en <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="' . $bill_url . '" target="_blank" title="Descargar" style="text-decoration: none; color: #ffffff;">Descargar</span></td>';
+					$body .= '</tr>';
+					$body .= '<tr width="100%" bgcolor="#ffffff">';
+					$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Tambien puede visualizar y/o descargar la factura de su pedido desde la web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+					$body .= '</tr>';
+					$body .= '<tr width="100%" bgcolor="#ffffff">';
+					$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+					$body .= '</tr>';
+					$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+					if ($rsMail == "Enviado") {
+						log_message('info', 'Billing mail notification for ticket ID: ' . $idTicket . ' ::: [SENT]');
+						return true;
+					} else {
+						return false;
+					}
+				}
+
+			}
+		}
+	}
 	public function postBillingTickets()
 	{
 		$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
@@ -3628,8 +3714,8 @@ class Ticket_model extends CI_Model
 		$query = $this->db->get();
 		$rs = $query->result_array();
 		if ($query->num_rows() > 0) {
-			//dTicketKf = $ticket['idTicketKf'];
-			foreach ($rs as $ticket) {
+			//dTicketKf = $rs['idTicketKf'];
+			foreach ($rs as $key => $ticket) {
 				// Extraer la parte final después del último ' - '
 				$codParte = trim(strrchr($ticket['codTicket'], '-'));
 				$codParte = ltrim($codParte, '- '); // limpia espacios y guiones
@@ -3652,13 +3738,13 @@ class Ticket_model extends CI_Model
 					$ticketData = [
 						'idTicketKf' => $ticket['idTicket'],
 						'name' => $fileName,
-						'urlFile' => '/facturas/' . $fileName,  // Ruta relativa al archivo
+						'urlFile' => '/facturas/' . $fileName,
 						'type' => 'application/pdf',
 						'history' => [
 							[
-								'idUserKf' => '1', // si está en sesión
+								'idUserKf' => '1',
 								'descripcion' => 'Archivo PDF cargado automáticamente',
-								'idCambiosTicketKf' => '20' // un ID de cambio, ejemplo
+								'idCambiosTicketKf' => '20'
 							]
 						]
 					];
@@ -3668,97 +3754,9 @@ class Ticket_model extends CI_Model
 						// Actualizar los campos en la tabla tb_tickets_2
 						if ($this->setIsBillingUploaded($ticket['idTicket'], 1) && $this->setIsBillingCompleted($ticket['idTicket'], 1)) {
 							log_message('info', 'Ticket ' . $ticket['idTicket'] . ' updated successfully in tb_tickets_2.');
-							$lastTicketUpdatedQuery = null;
-							$lastTicketUpdatedQueryTmp = $this->ticketById($ticket['idTicket']);
-							$lastTicketUpdatedQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
-							//MAIL
-							$user = null;
-							$building = null;
-							$title = null;
-							$subject = null;
-							$body = null;
-							$to = null;
-							$bill_url = "https://" . BSS_HOST . "/facturas/" . $fileName;
-							if ($lastTicketUpdatedQuery['idTypeRequestFor'] == 1) {
-								//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
-								$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
-								$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
-								$this->db->join('tb_clients AS b', 'b.idClient = tb_client_departament.idClientFk', 'left');
-								$this->db->join('tb_client_type', 'tb_client_type.idClientType = b.idClientTypeFk', 'left');
-								$queryBuilding = $this->db->where("tb_client_departament.idClientDepartament = ", $lastTicketUpdatedQuery['idDepartmentKf'])->get();
-								if ($queryBuilding->num_rows() > 0) {
-									$building = $queryBuilding->row_array();
-								}
-								$title = "Factura";
-								$subject = "Factura de Pedido de Llavero :: " . $building['Depto'] . " :: Disponible";
-								//GET USER
-								$this->db->select("*")->from("tb_user");
-								$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-								$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-								$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-								$queryUser = $this->db->where("idUser =", $lastTicketUpdatedQuery['idUserRequestBy'])->get();
-								if ($queryUser->num_rows() > 0) {
-									$user = $queryUser->row_array();
-									#MAIL TO USER
-									$rs = null;
-									$to = $user['emailUser'];
-									$body .= '<tr width="100%" bgcolor="#ffffff">';
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>' . $user['fullNameUser'] . '</b>,</td>';
-									$body .= '</tr>';
-									$body .= '<tr width="100%" bgcolor="#ffffff">';
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La Factura de su Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b>, se encuentra disponible para descargar/visualizar hacer click en <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="' . $bill_url . '" target="_blank" title="Descargar" style="text-decoration: none; color: #ffffff;">Descargar</span></td>';
-									$body .= '</tr>';
-									$body .= '<tr width="100%" bgcolor="#ffffff">';
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Tambien puede visualizar y/o descargar la factura de su pedido desde la web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-									$body .= '</tr>';
-									$body .= '<tr width="100%" bgcolor="#ffffff">';
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
-									$body .= '</tr>';
-									$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
-									if ($rsMail == "Enviado") {
-										log_message('info', 'Billing mail notification for ticket ID: ' . $ticket['idTicket'] . ' ::: [SENT]');
-										if ($this->setPostBillingCompleted($ticket['idTicket'])) {
-											log_message('info', 'PostBillingTicket ' . $ticket['idTicket'] . ' isPostBilled updated successfully in tb_tickets_billing.');
-										}
-									}
-								}
-							} else {
-								if ($lastTicketUpdatedQuery['sendNotify'] == 1 || $lastTicketUpdatedQuery['sendNotify'] == null) {
-									$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
-									$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
-									$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $lastTicketUpdatedQuery['idBuildingKf'];
-									$quuery = $this->db->where($where)->get();
-									if ($quuery->num_rows() > 0) {
-										$buildingAdminMail = $quuery->row_array();
-										$title = null;
-										$subject = null;
-										$body = null;
-										$to = null;
-										#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
-										$to = $buildingAdminMail['mailContact'];
-										$title = "Factura";
-										$subject = "Factura de Pedido de Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Disponible";
-										$body = '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>' . $lastTicketUpdatedQuery['clientAdmin']['name'] . '</b>,</td>';
-										$body .= '</tr>';
-										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La Factura de su Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b>, se encuentra disponible para descargar/visualizar hacer click en <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="' . $bill_url . '" target="_blank" title="Descargar" style="text-decoration: none; color: #ffffff;">Descargar</span></td>';
-										$body .= '</tr>';
-										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Tambien puede visualizar y/o descargar la factura de su pedido desde la web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-										$body .= '</tr>';
-										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
-										$body .= '</tr>';
-										$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
-										if ($rsMail == "Enviado") {
-											log_message('info', 'Billing mail notification for ticket ID: ' . $ticket['idTicket'] . ' ::: [SENT]');
-											if ($this->setPostBillingCompleted($ticket['idTicket'])) {
-												log_message('info', 'PostBillingTicket ' . $ticket['idTicket'] . ' isPostBilled updated successfully in tb_tickets_billing.');
-											}
-										}
-									}
-
+							if ($this->sendPostBillingMailNotification($ticket['idTicket'], $fileName)) {
+								if ($this->setPostBillingCompleted($ticket['idTicket'])) {
+									log_message('info', 'PostBillingTicket ' . $ticket['idTicket'] . ' isPostBilled updated successfully in tb_tickets_billing.');
 								}
 							}
 
