@@ -1,0 +1,6 @@
+# .htaccess en /facturas
+Options -Indexes
+
+<FilesMatch "\.pdf$">
+    Require all granted
+</FilesMatch>
