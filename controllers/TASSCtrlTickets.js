@@ -2797,9 +2797,13 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                         if ($scope.list_keys.length == 0){
                             $scope.keysTotalPrice=0;
-                            console.log("$scope.select.buildings.selected.initial_delivery[0].initial_qtty  : "+parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty));
+                            if($scope.select.buildings.selected.initial_delivery!=undefined){
+                                console.log("$scope.select.buildings.selected.initial_delivery[0].initial_qtty  : "+parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty));
+                            }
                             console.log("$scope.list_keys.length                                            : "+parseInt((($scope.list_keys.length+1))));
-                            console.log("$scope.ticket.departmentHasTicketsInitialDelivery                  : "+$scope.ticket.departmentHasTicketsInitialDelivery);
+                            if($scope.ticket.departmentHasTicketsInitialDelivery!=undefined){
+                                console.log("$scope.ticket.departmentHasTicketsInitialDelivery                  : "+$scope.ticket.departmentHasTicketsInitialDelivery);
+                            }
                             var id = 1;
                             if (!$scope.ticket.departmentHasTicketsInitialDelivery && $scope.select.buildings.selected.initial_delivery!=undefined && $scope.select.buildings.selected.initial_delivery.length>0 && !$scope.select.buildings.selected.initial_delivery[0].expiration_state && (($scope.list_keys.length+1))<=parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty)){
                                 productSelected.priceFabric = 0;
