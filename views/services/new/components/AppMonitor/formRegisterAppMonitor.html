@@ -12,9 +12,9 @@
 					<fieldset>
 						<!-- APP_MONITOR: nombre -->
 						<div class="form-group n-padding-l n-padding-r" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									service.new.name!='' && fCustomerNewService.service_name.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.new.name=='' || service.new.name==undefined) && fCustomerNewService.service_name.$touched,
 									'col-md-12':service.idApplicationFk=='1',
 									'col-md-6':service.idApplicationFk=='2' || service.idApplicationFk!='1',
@@ -26,20 +26,20 @@
 									<input id="service_name" name="service_name" type="text" class="form-control" ng-model="service.new.name" ng-required="true" />
 							  </div>
 							</div>
-						</div>					
+						</div>
 						<!-- APP_MONITOR: contrato -->
 						<div class="form-group col-md-6 n-padding-l n-padding-r" ng-class="
-									{	'has-success': 
+									{	'has-success':
 										service.new.idContratoFk!='' && fCustomerNewService.service_contract.$valid,
-									 	'has-error':  
+									 	'has-error':
 										(service.new.idContratoFk=='' || service.new.idContratoFk==undefined) && fCustomerNewService.service_contract.$touched,
 									}">
-						  <label style="padding-left: 15px;">Contrato asociado</label>  
+						  <label style="padding-left: 15px;">Contrato asociado</label>
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
-									<select name="service_contract" 
-									class="form-control" 
+									<select name="service_contract"
+									class="form-control"
 									ng-options="item.idContrato as item.numeroContrato for item in rsCustomerContractListData" ng-model="service.new.idContratoFk"
 									ng-change="switchContractService(service.new)" ng-required="true" autofocus >
 									    <option class="text-uppercase" value="">Selecciona un contrato</option>
@@ -49,9 +49,9 @@
 						</div>
 						<!-- APP_MONITOR: N° Abonado -->
 						<div class="form-group col-md-6 n-padding-l n-padding-r" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									(service.new.sucribeNumber!='' && service.new.sucribeNumber!=undefined) && fCustomerNewService.service_numberCustomer.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.new.sucribeNumber=='' || service.new.sucribeNumber==undefined) && fCustomerNewService.service_numberCustomer.$touched,
 								}">
 						  <label style="padding-left: 15px;">N° de Abonado</label><br>
@@ -61,9 +61,9 @@
 									<input name="service_numberCustomer" type="text" class="form-control" ng-model="service.new.sucribeNumber" ng-required="true" />
 							  </div>
 							</div>
-						</div>						
-						<!-- APP_MONITOR: Maintenance Type -->					  
-						<div class="form-group col-md-6 n-padding-l n-padding-r" >  
+						</div>
+						<!-- APP_MONITOR: Maintenance Type -->
+						<div class="form-group col-md-6 n-padding-l n-padding-r" >
 						  	<label style="padding-left: 15px;">Tipo de mantenimiento</label>
 						    <div class="col-xs-12 ">
 							    <div class="input-group">
@@ -71,28 +71,28 @@
 					    			<input name="service_mnt_type" type="text" class="form-control" ng-disabled="true" ng-model="service.new.MntType" />
 					    		</div>
 					    	</div>
-						</div>					
+						</div>
 						<!-- APP_MONITOR: Start_date -->
 						<div class="form-group col-md-6 col-xs-6" ng-class="
-										{'has-success': 
+										{'has-success':
 											service.new.dateUp!='' && fCustomerNewService.service_start_date.$valid,
-										'has-error':  
+										'has-error':
 											(service.new.dateUp=='' || service.new.dateUp==undefined) && fCustomerNewService.service_start_date.$touched,
 										}">
 							<label style="padding-left: 15px;">Fecha de alta</label>
 							<div class="col-xs-12 ">
 								<div class="input-group">
 									<span ng-click="open_start_date()" class="input-group-addon"><i ng-click="open_start_date()" class="far fa-calendar-alt"></i></span>
-									<input 
-										ng-click="open_start_date()" 
-										type="text" 
+									<input
+										ng-click="open_start_date()"
+										type="text"
 										name="service_start_date"
-										class="form-control" 
-										uib-datepicker-popup="{{format}}" 
-										ng-model="service.new.dateUp" 
-										is-open="popup_start_date.opened"  
-										ng-required="true" 
-										close-text="Cerrar" 
+										class="form-control"
+										uib-datepicker-popup="{{format}}"
+										ng-model="service.new.dateUp"
+										is-open="popup_start_date.opened"
+										ng-required="true"
+										close-text="Cerrar"
 										clear-text="Borrar"
 										current-text="Hoy"
 										alt-input-formats="altInputFormats" />
@@ -105,17 +105,17 @@
 							<div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
-									<input 
-									ng-click="open_end_date()" 
-									type="text" 
+									<input
+									ng-click="open_end_date()"
+									type="text"
 									name="service_end_date"
-									class="form-control" 
-									uib-datepicker-popup="{{format}}" 
-									ng-model="service.new.dateDown" 
-									is-open="popup_end_date.opened"  
+									class="form-control"
+									uib-datepicker-popup="{{format}}"
+									ng-model="service.new.dateDown"
+									is-open="popup_end_date.opened"
 									ng-required="false"
 									ng-disabled="true"
-									close-text="Cerrar" 
+									close-text="Cerrar"
 									clear-text="Borrar"
 									current-text="Hoy"
 									alt-input-formats="altInputFormats" />
@@ -124,17 +124,17 @@
 						</div>
 						<!-- APP_MONITOR: empresa monitoreo -->
 						<div class="form-group col-md-6 n-padding-l n-padding-r" ng-class="
-									{	'has-success': 
+									{	'has-success':
 										service.new.idCompanyMonitorFK!='' && fCustomerNewService.service_monitorCompany.$valid,
-									 	'has-error':  
+									 	'has-error':
 										(service.new.idCompanyMonitorFK=='' || service.new.idCompanyMonitorFK==undefined) && fCustomerNewService.service_monitorCompany.$touched,
 									}">
-						  <label style="padding-left: 15px;">Empresa de monitoreo</label>  
+						  <label style="padding-left: 15px;">Empresa de monitoreo</label>
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-broadcast-tower"></i></span>
-									<select name="service_monitorCompany" 
-									class="form-control" 
+									<select name="service_monitorCompany"
+									class="form-control"
 									ng-options="item.idMonitorCompany as item.monitorCompany for item in rsMonitorCompanyListData" ng-model="service.new.idCompanyMonitorFK"
 									ng-required="true" autofocus >
 									    <option class="text-uppercase" value="">Selecciona una empresa</option>
@@ -144,17 +144,17 @@
 						</div>
 						<!-- APP_MONITOR: Application -->
 						<div class="form-group col-md-6 n-padding-l n-padding-r" ng-class="
-									{	'has-success': 
+									{	'has-success':
 										service.idApplicationFk!='' && fCustomerNewService.application.$valid,
-									 	'has-error':  
+									 	'has-error':
 										(service.idApplicationFk=='' || service.idApplicationFk==undefined) && fCustomerNewService.application.$touched,
 									}">
-						  <label style="padding-left: 15px;">Aplicación</label>  
+						  <label style="padding-left: 15px;">Aplicación</label>
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fab fa-microsoft"></i></span>
-									<select name="application" 
-									class="form-control" 
+									<select name="application"
+									class="form-control"
 									ng-options="item.idApplication as item.applicationName for item in rsAppMonitorApplicationListData" ng-model="service.idApplicationFk"
 									ng-required="true" autofocus >
 									    <option class="text-uppercase" value="">Selecciona una Aplicación</option>
@@ -164,9 +164,9 @@
 						</div>
 						<!-- APP_MONITOR: clave aplicacion -->
 						<div ng-if="service.idApplicationFk=='1'" class="form-group col-md-6 n-padding-l n-padding-r" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									(service.passwordApp!='' && service.passwordApp!=undefined) && fCustomerNewService.service_passwordApp.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.passwordApp=='' || service.passwordApp==undefined) && fCustomerNewService.service_passwordApp.$touched,
 								}">
 						  <label style="padding-left: 15px;">Clave Applicación</label><br>
@@ -187,17 +187,17 @@
 						  	<label style="padding-left: 15px; margin-top: 5px;">Cantidad de nuevas licencias:</label>
 						</div>
 						<div ng-show="!isCollapsed" class="form-group col-md-3  col-xs-6 n-padding-r n-padding-l" ng-class="
-									{	'has-success': 
+									{	'has-success':
 										service.numbOfNewLicence>=1 && service.numbOfNewLicence!=undefined && service.numbOfNewLicence!=null && fCustomerNewService.service_numbOfLicences.$valid,
-									 	'has-error':  
+									 	'has-error':
 										(service.numbOfNewLicence=='' || service.numbOfNewLicence==undefined) && fCustomerNewService.service_numbOfLicences.$touched,
 									}">
 							<div class="col-xs-12">
 							    <div class="input-group">
 							    	<span class="input-group-addon"><i class="fas fa-sort-numeric-up-alt"></i></span>
-									<input name="service_numbOfLicences" class="form-control input--number" type="number" min="0" max="999" ng-min="0" ng-max="999" only-number ng-keydown="fnLoadPhoneMask();" ng-model="service.numbOfNewLicence" ng-required="service.numbOfLicenceSet<=0 || list_user_licence.length==0" autofocus>				    			
+									<input name="service_numbOfLicences" class="form-control input--number" type="number" min="0" max="999" ng-min="0" ng-max="999" only-number ng-keydown="fnLoadPhoneMask();" ng-model="service.numbOfNewLicence" ng-required="service.numbOfLicenceSet<=0 || list_user_licence.length==0" autofocus>
 					    		</div>
-					    	</div>						
+					    	</div>
 						</div>
 						<div ng-show="!isCollapsed" class="form-group col-md-4  col-xs-6">
 							<div class="input-group">
@@ -224,7 +224,7 @@
 									'label-warning':	service.numbOfLicenceRemains==1,
 									'label-danger':		service.numbOfLicenceRemains==0 }">{{service.numbOfLicenceRemains}}</label>
 								</span>
-							</div>							
+							</div>
 							<div class="col-md-3">
 								<span ng-if="service.numbOfLicenceSet>0 && isCollapsed">
 									<label class="label label-default">Licencias asignadas:&nbsp;</label>&nbsp;
@@ -258,10 +258,10 @@
 											<!-- Deparments for customer building -->
 										    <div class="input-group col-md-4">
 										    	<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-										  		<select name="deparment_registered_list" 
+										  		<select name="deparment_registered_list"
 										  				class="form-control input-sm"
 										  				ng-change="search(service.idDepartmentList, '', true);"
-										  				ng-options="item.idDepto as item.Depto for item in rsBuildingDepartmentsData" 
+										  				ng-options="item.idDepto as item.Depto for item in rsBuildingDepartmentsData"
 										  				ng-required="false"
 										  				ng-model="service.idDepartmentList" autofocus >
 												    <option value="">Filtrar por departamento</option>
@@ -273,7 +273,7 @@
 										<div ng-include="'views/services/list/userLicencesListByDepto.html'"></div>
 				                      	<!-- PAGINATION -->
 										<div ng-if="list_depto_user_licence.length>=7" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
-				                      	<!-- //PAGINATION -->								    	
+				                      	<!-- //PAGINATION -->
 									</div>
 								</div>
 							</div>
@@ -284,12 +284,12 @@
 						</div>
 						<!-- Observaciones Generales -->
 						<div class="form-group col-md-12">
-						  <label class="col-xs-12" >Observaciones Generales</label> 
-								<textarea style="resize: none;" name="ObserGenerales" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="service.new.generalComments" ></textarea>							
-						</div>																									
+						  <label class="col-xs-12" >Observaciones Generales</label>
+								<textarea style="resize: none;" name="ObserGenerales" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="service.new.observation" ></textarea>
+						</div>
 					</fieldset>
 				</form>
-				<div class="clearfix"> </div> 
+				<div class="clearfix"> </div>
 			</div>
 			<!-- Actions Button -->
             <div class="modal-footer">

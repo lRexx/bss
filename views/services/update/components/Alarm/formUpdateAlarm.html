@@ -12,9 +12,9 @@
 					<fieldset>
 						<!-- ALARM: Puerta -->
 						<div class="form-group col-md-12" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									service.update.name!='' && fCustomerUpdateService.service_name.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.update.name=='' || service.update.name==undefined) && fCustomerUpdateService.service_name.$touched,
 								}">
 						  <label style="padding-left: 15px;">Nombre</label><br>
@@ -27,17 +27,17 @@
 						</div>
 						<!-- ALARM: Puerta -->
 						<div class="form-group col-md-6" ng-class="
-									{	'has-success': 
+									{	'has-success':
 										service.update.idContratoFk!='' && fCustomerUpdateService.service_contract.$valid,
-									 	'has-error':  
+									 	'has-error':
 										(service.update.idContratoFk=='' || service.update.idContratoFk==undefined) && fCustomerUpdateService.service_contract.$touched,
 									}">
-						  <label style="padding-left: 15px;">Contrato asociado</label>  
+						  <label style="padding-left: 15px;">Contrato asociado</label>
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
-									<select name="service_contract" 
-									class="form-control" 
+									<select name="service_contract"
+									class="form-control"
 									ng-options="item.idContrato as item.numeroContrato for item in rsCustomerContractListData" ng-model="service.update.idContratoFk"
 									ng-change="switchContractService(service.new)" required="true" autofocus >
 									    <option class="text-uppercase" value="">Selecciona un contrato</option>
@@ -45,8 +45,8 @@
 							  </div>
 							</div>
 						</div>
-						<!-- ALARM: Maintenance Type -->					  
-						<div class="form-group col-md-6" >  
+						<!-- ALARM: Maintenance Type -->
+						<div class="form-group col-md-6" >
 						  	<label style="padding-left: 15px;">Tipo de mantenimiento</label>
 						    <div class="col-xs-12 ">
 							    <div class="input-group">
@@ -54,28 +54,28 @@
 					    			<input name="service_mnt_type" type="text" class="form-control" ng-disabled="true" ng-model="service.update.MntType" />
 					    		</div>
 					    	</div>
-						</div>					
+						</div>
 						<!-- ALARM: Start_date -->
 						<div class="form-group col-md-6" ng-class="
-							{	'has-success': 
+							{	'has-success':
 								service.update.dateUp!='' && service.update.dateUp!=undefined,
-								'has-error':  
+								'has-error':
 								(service.update.dateUp=='' || service.update.dateUp==undefined),
 							}">
-							<label style="padding-left: 15px;">Fecha de alta</label>  
+							<label style="padding-left: 15px;">Fecha de alta</label>
 							<div class="col-xs-12">
 								<div class="input-group">
 									<span ng-click="open_start_date()" class="input-group-addon"><i ng-click="open_start_date()" class="far fa-calendar-alt"></i></span>
-									<input 
-										ng-click="open_start_date()" 
-										type="text" 
+									<input
+										ng-click="open_start_date()"
+										type="text"
 										name="service_start_date"
-										class="form-control" 
-										uib-datepicker-popup="{{format}}" 
-										ng-model="service.update.dateUp" 
-										is-open="popup_start_date.opened"  
-										ng-required="false" 
-										close-text="Cerrar" 
+										class="form-control"
+										uib-datepicker-popup="{{format}}"
+										ng-model="service.update.dateUp"
+										is-open="popup_start_date.opened"
+										ng-required="false"
+										close-text="Cerrar"
 										clear-text="Borrar"
 										current-text="Hoy"
 										alt-input-formats="altInputFormats" />
@@ -84,21 +84,21 @@
 						</div>
 						<!-- ALARM: End_date -->
 						<div class="form-group col-md-6">
-							<label style="padding-left: 15px;">Fecha de baja</label>  
+							<label style="padding-left: 15px;">Fecha de baja</label>
 							<div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
-									<input 
-									ng-click="open_end_date()" 
-									type="text" 
+									<input
+									ng-click="open_end_date()"
+									type="text"
 									name="service_end_date"
-									class="form-control" 
+									class="form-control"
 									uib-datepicker-popup="{{format}}"
-									ng-model="service.update.dateDown" 
-									is-open="popup_end_date.opened"  
+									ng-model="service.update.dateDown"
+									is-open="popup_end_date.opened"
 									ng-required="false"
 									ng-disabled="true"
-									close-text="Cerrar" 
+									close-text="Cerrar"
 									clear-text="Borrar"
 									current-text="Hoy"
 									ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
@@ -108,32 +108,32 @@
 						</div>
 						<!-- Empresa_de_monitoreo -->
 						<div class="form-group col-md-6" ng-class="
-									{	'has-success': 
+									{	'has-success':
 										service.update.idCompanyMonitorFK!='' && fCustomerUpdateService.service_monitorCompany.$valid,
-									 	'has-error':  
+									 	'has-error':
 										(service.update.idCompanyMonitorFK=='' || service.update.idCompanyMonitorFK==undefined) && fCustomerUpdateService.service_monitorCompany.$touched,
 									}">
-						  <label style="padding-left: 15px;">Empresa de monitoreo</label>  
+						  <label style="padding-left: 15px;">Empresa de monitoreo</label>
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-broadcast-tower"></i></span>
-									<select name="service_monitorCompany" 
-									class="form-control" 
+									<select name="service_monitorCompany"
+									class="form-control"
 									ng-options="item.idMonitorCompany as item.monitorCompany for item in rsMonitorCompanyListData" ng-model="service.update.idCompanyMonitorFK"
 									required="true" autofocus >
 									    <option class="text-uppercase" value="">Selecciona una empresa</option>
 								    </select>
 							  </div>
 							</div>
-						</div>	
+						</div>
 						<!-- Empresa_de_monitoreo -->
-						<!-- Numero de abonado -->					  
+						<!-- Numero de abonado -->
 						<div class="form-group col-md-6" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									(service.update.numberCustomer!='' && service.update.numberCustomer!=undefined) && fCustomerUpdateService.service_numberCustomer.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.update.numberCustomer=='' || service.update.numberCustomer==undefined) && fCustomerUpdateService.service_numberCustomer.$touched,
-								}">  
+								}">
 						  	<label style="padding-left: 15px;">N° de Abonado</label>
 						    <div class="col-xs-12">
 							    <div class="input-group">
@@ -141,25 +141,25 @@
 					    			<input name="service_numberCustomer" type="text" class="form-control" ng-model="service.update.numberCustomer" />
 					    		</div>
 					    	</div>
-						</div>			
-						<div class="form-group col-md-12 text-badge"> <h3>Sistema a Instalar</h3></div>		
-						<!-- Left Colunm -->						
+						</div>
+						<div class="form-group col-md-12 text-badge"> <h3>Sistema a Instalar</h3></div>
+						<!-- Left Colunm -->
 						<div class="well-checkbox form-group col-md-12">
 							<!-- Alarmas: panel de alarma -->
 							<div class="form-group col-md-6 n-padding-l" ng-class="
-									  			{	'has-success': 
+									  			{	'has-success':
 									  				service.alarmPanel.selected!=undefined && fCustomerUpdateService.service_alarm_panel.$valid,
-									  			 	'has-error':  
+									  			 	'has-error':
 									  				(service.alarmPanel.selected==undefined) && fCustomerUpdateService.service_alarm_panel.$touched,
 									  			}">
 							<div class="col-md-8"><label style="padding-left: 15px;">Panel de alarma</label></div>
 							<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.alarmPanel.selected==undefined" ng-click="compServiceProductDetailsFn(service.alarmPanel.selected, productListType.PANEL_ALARM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-							  	<button ng-if="service.alarmPanel.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.alarmPanel.selected, productListType.PANEL_ALARM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>  
-							    <div class="col-xs-12 selectContainer">							   
+							  	<button ng-if="service.alarmPanel.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.alarmPanel.selected, productListType.PANEL_ALARM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+							    <div class="col-xs-12 selectContainer">
 								    <div class="input-group">
 						              <span class="input-group-addon"><i class="fas fa-desktop"></i></span>
-						              <ui-select name="service_alarm_panel"  
-						              			 ng-change="compServiceProductDetailsFn(service.alarmPanel.selected, productListType.PANEL_ALARM, null)" 
+						              <ui-select name="service_alarm_panel"
+						              			 ng-change="compServiceProductDetailsFn(service.alarmPanel.selected, productListType.PANEL_ALARM, null)"
 						              			 ng-model="service.alarmPanel.selected"
 						              			 ng-required="true"
 						              			 ng-disabled="service.alarmPanel.selected!=undefined"
@@ -168,7 +168,7 @@
 						                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.PANEL_ALARM | filter: $select.search">
 						                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 						                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-						                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+						                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 						                    </ui-select-choices>
 						                    <ui-select-no-choice>
 											    No hay resultados, contacte are de soporte.
@@ -179,19 +179,19 @@
 							</div>
 							<!-- ALARM: entranceReader -->
 							<div class="form-group col-md-6 n-padding-l" ng-class="
-									  			{	'has-success': 
+									  			{	'has-success':
 									  				service.alarmKeyboard.selected!=undefined && fCustomerUpdateService.service_teclado_alarma.$valid,
-									  			 	'has-error':  
+									  			 	'has-error':
 									  				(service.alarmKeyboard.selected==undefined) && fCustomerUpdateService.service_teclado_alarma.$touched,
 									  			}">
 							<div class="col-md-8"><label style="padding-left: 15px;">Teclado de Alarma</label></div>
 							<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.alarmKeyboard.selected==undefined" ng-click="compServiceProductDetailsFn(service.alarmKeyboard.selected, productListType.TECLADO_ALARM)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-							  	<button ng-if="service.alarmKeyboard.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.alarmKeyboard.selected, productListType.TECLADO_ALARM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>  
-							    <div class="col-xs-12 selectContainer">							   
+							  	<button ng-if="service.alarmKeyboard.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-click="removeProductDetailsFn(service.alarmKeyboard.selected, productListType.TECLADO_ALARM, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+							    <div class="col-xs-12 selectContainer">
 								    <div class="input-group">
 						              <span class="input-group-addon"><i class="fas fa-keyboard"></i></span>
-						              <ui-select name="service_teclado_alarma"  
-						              			 ng-change="compServiceProductDetailsFn(service.alarmKeyboard.selected, productListType.TECLADO_ALARM, null)" 
+						              <ui-select name="service_teclado_alarma"
+						              			 ng-change="compServiceProductDetailsFn(service.alarmKeyboard.selected, productListType.TECLADO_ALARM, null)"
 						              			 ng-model="service.alarmKeyboard.selected"
 						              			 ng-required="true"
 						              			 ng-disabled="service.alarmKeyboard.selected!=undefined"
@@ -200,7 +200,7 @@
 						                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.TECLADO_ALARM | filter: $select.search">
 						                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 						                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-						                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+						                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 						                    </ui-select-choices>
 						                    <ui-select-no-choice>
 											    No hay resultados, contacte are de soporte.
@@ -211,11 +211,11 @@
 							</div>
 							<!-- Installation Password -->
 							<div class="form-group col-md-6 n-padding-l" ng-class="
-									{	'has-success': 
+									{	'has-success':
 										(service.update.installationPassword!='' && service.update.installationPassword!=null && service.update.installationPassword!=undefined) && fCustomerUpdateService.service_installationPassword.$valid,
-										'has-error':  
+										'has-error':
 										(service.update.installationPassword=='' || service.update.installationPassword==null || service.update.installationPassword==undefined) && fCustomerUpdateService.service_installationPassword.$touched,
-									}">  
+									}">
 								<label style="padding-left: 15px;">Clave de Instalador</label>
 								<div class="col-xs-12">
 									<div class="input-group">
@@ -229,14 +229,14 @@
 						<div class="well-checkbox form-group col-md-12">
 							<!-- ALARM: exitReader -->
 							<div class="form-group col-md-12 n-padding-l n-padding-r" ng-class="
-								  			{	'has-success': 
-								  				service.zonesQttyInstalled.length>0 && 
+								  			{	'has-success':
+								  				service.zonesQttyInstalled.length>0 &&
 								  				service.zonesQttyInstalled.length!=0 && fCustomerUpdateService.service_zonas_cant_instaladas.$valid,
-								  			 	'has-error':  
-								  				(service.zonesQttyInstalled.length==0 || 
+								  			 	'has-error':
+								  				(service.zonesQttyInstalled.length==0 ||
 								  				service.zonesQttyInstalled==0 || service.zonesQttyInstalled==undefined) && fCustomerUpdateService.service_zonas_cant_instaladas.$touched,
 								  			}">
-							  <label style="padding-left: 15px;">Cantidad de Zonas a Instalar</label>  
+							  <label style="padding-left: 15px;">Cantidad de Zonas a Instalar</label>
 								  <div class="col-xs-12">
 									<div class="input-group">
 										<span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
@@ -248,7 +248,7 @@
 							<div class="col-md-12">
 								<div class="col-md-10"><label class="clf-p-left">Sensores de alarma</label></div>
 								<div class="pull-right col-md-2" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.sensor.selected)" ng-disabled="service.sensor.selected==undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Zona</button></div>
-							    <div class="selectContainer">							   
+							    <div class="selectContainer">
 								    <div class="col-md-12 input-group">
 						              	<span class="input-group-addon"><i class="far fa-dot-circle"></i></span>
 						              	<ui-select name="serviceAlarmSensor"
@@ -260,7 +260,7 @@
 						                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.SENSOR_ALARM | filter: $select.search">
 						                    	<div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 						                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-						                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+						                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 						                    </ui-select-choices>
 						                    <ui-select-no-choice>
 											    No hay resultados, contacte are de soporte.
@@ -296,8 +296,8 @@
 								      	</tr>
 								  	</table>
 								  	<div ng-if="list_sensors.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay sensores cargados</h5></div>
-								</div>						  	
-							</div>							
+								</div>
+							</div>
 						</div>
 						<!-- Left Colunm -->
 						<div class="well-checkbox form-group col-md-6" style="height: 262px;">
@@ -306,7 +306,7 @@
 								<div class="col-md-8">
 									<label class="clf-p-left">Backups de Energia</label></div>
 								<div class="pull-right col-md-4 n-padding-r" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.batteries.selected)" ng-disabled="service.batteries.selected==undefined" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
-							    <div class="selectContainer">							   
+							    <div class="selectContainer">
 								    <div class="col-md-12 input-group">
 						              	<span class="input-group-addon"><i class="fas fa-car-battery"></i></span>
 						              	<ui-select name="service_energyBackups"
@@ -317,7 +317,7 @@
 						                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.BACKUP_ENERGIA | filter: $select.search">
 						                    	<div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 						                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-						                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+						                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 						                    </ui-select-choices>
 						                    <ui-select-no-choice>
 											    No hay resultados, contacte are de soporte.
@@ -365,14 +365,14 @@
 						</div>
 						<div class="form-group col-md-2">
 							<div class="input-group col-md-12">
-								<button  ng-click="compServiceAlarmDetailsFn()" class="btn btn-sm" 
+								<button  ng-click="compServiceAlarmDetailsFn()" class="btn btn-sm"
 								ng-class="{	'btn-success':
 												aditional_alarm.length>=1 && aditional_alarm!=null && aditional_alarm!=undefined,
 											'btn-warning':
 												aditional_alarm.length<=0 || aditional_alarm==null || aditional_alarm==undefined,
 										  }">
-										 	<i ng-if="aditional_alarm.length<=0 || aditional_alarm==null || aditional_alarm==undefined" class="fas fa-plus"></i> 
-										 	<i ng-if="aditional_alarm.length>=1 && aditional_alarm!=null && aditional_alarm!=undefined" class="fas fa-eye"></i> 
+										 	<i ng-if="aditional_alarm.length<=0 || aditional_alarm==null || aditional_alarm==undefined" class="fas fa-plus"></i>
+										 	<i ng-if="aditional_alarm.length>=1 && aditional_alarm!=null && aditional_alarm!=undefined" class="fas fa-eye"></i>
 										Adicionales</button>
 							</div>
 						</div>
@@ -388,12 +388,12 @@
 						</div>
 						<!-- Observaciones Generales -->
 						<div class="form-group col-md-12">
-						  <label class="col-xs-12" >Observaciones Generales</label> 
-								<textarea style="resize: none;" name="ObserGenerales" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="service.update.observation" ></textarea>							
+						  <label class="col-xs-12" >Observaciones Generales</label>
+								<textarea style="resize: none;" name="ObserGenerales" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="service.update.observation" ></textarea>
 						</div>
 					</fieldset>
 				</form>
-				<div class="clearfix"> </div> 
+				<div class="clearfix"> </div>
 			</div>
 			<!-- Actions Button  || aditional_alarm.length<=0 -->
             <div class="modal-footer">

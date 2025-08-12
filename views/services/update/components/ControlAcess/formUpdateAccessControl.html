@@ -12,9 +12,9 @@
 					<fieldset>
 					<!-- Control_de_Acceso: Puerta -->
 					<div class="form-group col-md-6" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									service.update.idDoorFk!='' && fCustomerUpdateService.service_door.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.update.idDoorFk=='' || service.update.idDoorFk==undefined) && fCustomerUpdateService.service_door.$touched,
 								}">
 					  <label style="padding-left: 15px;">Puerta</label>
@@ -27,7 +27,7 @@
 						  </div>
 						</div>
 					</div>
-					<!-- Control_de_Acceso: Aclaracion Other Doors-->					  
+					<!-- Control_de_Acceso: Aclaracion Other Doors-->
 					<!--<div ng-if="service.update.idDoorFk=='7'" class="form-group col-md-6">
 					  	<label style="padding-left: 15px;">Aclaraci&#243;n Puerta Otros</label>
 					    <div class="col-xs-12">
@@ -37,11 +37,11 @@
 				    		</div>
 				    	</div>
 					</div>-->
-					<!-- Control_de_Acceso: Aclaracion -->					  
+					<!-- Control_de_Acceso: Aclaracion -->
 					<div class="form-group col-md-6" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									service.update.aclaration!='' && fCustomerUpdateService.service_aclaration.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.update.aclaration=='' || service.update.aclaration==undefined) && fCustomerUpdateService.service_aclaration.$touched,
 								}">
 					  	<label style="padding-left: 15px;">Aclaraci&#243;n</label>
@@ -51,20 +51,20 @@
 				    			<input name="service_aclaration" type="text" class="form-control" ng-required="false" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" ng-model="service.update.aclaration" />
 				    		</div>
 				    	</div>
-					</div>					
+					</div>
 					<!-- Control_de_Acceso: Puerta -->
 					<div class="form-group col-md-6" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									service.update.idContratoFk!='' && fCustomerUpdateService.service_contract.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.update.idContratoFk=='' || service.update.idContratoFk==undefined) && fCustomerUpdateService.service_contract.$touched,
 								}">
-					  <label style="padding-left: 15px;">Contrato asociado</label>  
+					  <label style="padding-left: 15px;">Contrato asociado</label>
 						  <div class="col-xs-12">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="fas fa-file-contract"></i></span>
-								<select name="service_contract" 
-								class="form-control" 
+								<select name="service_contract"
+								class="form-control"
 								ng-options="item.idContrato as item.numeroContrato for item in rsCustomerContractListData" ng-model="service.update.idContratoFk"
 								ng-change="switchContractService(service.update);" required="true" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" autofocus >
 								    <option class="text-uppercase" value="">Selecciona un contrato</option>
@@ -72,8 +72,8 @@
 						  </div>
 						</div>
 					</div>
-					<!-- Control_de_Acceso: Maintenance Type -->					  
-					<div class="form-group col-md-6" >  
+					<!-- Control_de_Acceso: Maintenance Type -->
+					<div class="form-group col-md-6" >
 					  	<label style="padding-left: 15px;">Tipo de mantenimiento</label>
 					    <div class="col-xs-12 ">
 						    <div class="input-group">
@@ -81,29 +81,29 @@
 				    			<input name="service_mnt_type" type="text" class="form-control" ng-disabled="true" ng-model="service.update.MntType" />
 				    		</div>
 				    	</div>
-					</div>					
+					</div>
 					<!-- Control_de_Acceso: Start_date -->
 					<div class="form-group col-md-6" ng-class="
-						{	'has-success': 
+						{	'has-success':
 							service.update.dateUp!='' && service.update.dateUp!=undefined,
-							'has-error':  
+							'has-error':
 							(service.update.dateUp=='' || service.update.dateUp==undefined),
 						}">
-						<label style="padding-left: 15px;">Fecha de alta</label>  
+						<label style="padding-left: 15px;">Fecha de alta</label>
 						<div class="col-xs-12">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
-								<input 
-									ng-click="open_start_date()" 
-									type="text" 
+								<input
+									ng-click="open_start_date()"
+									type="text"
 									name="service_start_date"
-									class="form-control" 
+									class="form-control"
 									ng-model-options="{ timezone: 'America/Argentina/Buenos_Aires' }"
 									uib-datepicker-popup="{{format}}"
-									ng-model="service.update.dateUp" 
+									ng-model="service.update.dateUp"
 									is-open="popup_start_date.opened"
 									ng-required="false"
-									close-text="Cerrar" 
+									close-text="Cerrar"
 									clear-text="Borrar"
 									current-text="Hoy"
 									ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
@@ -113,21 +113,21 @@
 					</div>
 					<!-- Control_de_Acceso: End_date -->
 					<div class="form-group col-md-6">
-						<label style="padding-left: 15px;">Fecha de baja</label>  
+						<label style="padding-left: 15px;">Fecha de baja</label>
 						<div class="col-xs-12">
 							<div class="input-group">
 								<span class="input-group-addon"><i class="far fa-calendar-alt"></i></span>
-								<input 
-								ng-click="open_end_date()" 
-								type="text" 
+								<input
+								ng-click="open_end_date()"
+								type="text"
 								name="service_end_date"
-								class="form-control" 
+								class="form-control"
 								uib-datepicker-popup="{{format}}"
-								ng-model="service.update.dateDown" 
-								is-open="popup_end_date.opened"  
+								ng-model="service.update.dateDown"
+								is-open="popup_end_date.opened"
 								ng-required="false"
 								ng-disabled="true"
-								close-text="Cerrar" 
+								close-text="Cerrar"
 								clear-text="Borrar"
 								current-text="Hoy"
 								ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
@@ -138,19 +138,19 @@
 					<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r" style="width: auto;">
 						<!-- Control_de_Acceso: control of access -->
 						<div class="form-group col-md-6" ng-class="
-								  			{	'has-success': 
+								  			{	'has-success':
 								  				service.crtlAccess.selected!=undefined && fCustomerUpdateService.service_crtl_access.$valid,
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(service.crtlAccess.selected==undefined) && fCustomerUpdateService.service_crtl_access.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Control de Acceso</label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="service.crtlAccess.selected==undefined" ng-click="compServiceProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS, null)" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
-						  	<button ng-if="service.crtlAccess.selected!=undefined" data-toggle="tooltip" data-placement="right" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" title="Remover" ng-click="removeProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>  
-						    <div class="col-xs-12 selectContainer">							   
+						  	<button ng-if="service.crtlAccess.selected!=undefined" data-toggle="tooltip" data-placement="right" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" title="Remover" ng-click="removeProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
+						    <div class="col-xs-12 selectContainer">
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-door-open"></i></span>
-					              <ui-select name="service_crtl_access"  
-					              			 ng-change="compServiceProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS, null)" 
+					              <ui-select name="service_crtl_access"
+					              			 ng-change="compServiceProductDetailsFn(service.crtlAccess.selected, productListType.CONTROL_DE_ACCESOS, null)"
 					              			 ng-model="service.crtlAccess.selected"
 					              			 ng-required="true"
 					              			 ng-disabled="service.crtlAccess.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
@@ -159,7 +159,7 @@
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.CONTROL_DE_ACCESOS | filter: $select.search">
 					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 					                    </ui-select-choices>
 					                    <ui-select-no-choice>
 										    No hay resultados, contacte are de soporte.
@@ -170,19 +170,19 @@
 						</div>
 						<!-- Control_de_Acceso: lock -->
 						<div class="form-group col-md-6" ng-class="
-								  			{	'has-success': 
+								  			{	'has-success':
 								  				service.lockedIt.selected!=undefined && fCustomerUpdateService.service_locked.$valid,
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(service.lockedIt.selected==undefined) && fCustomerUpdateService.service_locked.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Cerradura </label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.lockedIt.selected, productListType.CERRADURA)" ng-disabled="service.lockedIt.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  <button ng-if="service.lockedIt.selected!=undefined" data-toggle="tooltip" data-placement="top" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" title="Remover" ng-click="removeProductDetailsFn(service.lockedIt.selected, productListType.CERRADURA, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
-						    <div class="col-xs-12 selectContainer">							   
+						    <div class="col-xs-12 selectContainer">
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-lock"></i></span>
-					              <ui-select name="service_locked"  
-					              			 ng-change="compServiceProductDetailsFn(service.lockedIt.selected, productListType.CERRADURA, null);" 
+					              <ui-select name="service_locked"
+					              			 ng-change="compServiceProductDetailsFn(service.lockedIt.selected, productListType.CERRADURA, null);"
 					              			 ng-model="service.lockedIt.selected"
 					              			 ng-required="true"
 					              			 ng-disabled="service.lockedIt.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
@@ -191,7 +191,7 @@
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.CERRADURA | filter: $select.search">
 					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 					                    </ui-select-choices>
 					                    <ui-select-no-choice>
 										    No hay resultados, contacte are de soporte.
@@ -202,19 +202,19 @@
 						</div>
 						<!-- Control_de_Acceso: lock2 -->
 						<div class="form-group col-md-6" ng-class="
-								  			{	'has-success': 
+								  			{	'has-success':
 								  				service.lockedIt2.selected!=undefined && fCustomerUpdateService.service_locked2.$valid,
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(service.lockedIt2.selected==undefined) && fCustomerUpdateService.service_locked2.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Cerradura adicional </label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA2, 'lockedIt2')" ng-disabled="service.lockedIt2.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  <button ng-if="service.lockedIt2.selected!=undefined" data-toggle="tooltip" data-placement="top" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" title="Remover" ng-click="removeProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA2, 'lockedIt2')" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
-						    <div class="col-xs-12 selectContainer">							   
+						    <div class="col-xs-12 selectContainer">
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-lock"></i></span>
-					              <ui-select name="service_locked2"  
-					              			 ng-change="compServiceProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA2, 'lockedIt2');" 
+					              <ui-select name="service_locked2"
+					              			 ng-change="compServiceProductDetailsFn(service.lockedIt2.selected, productListType.CERRADURA2, 'lockedIt2');"
 					              			 ng-model="service.lockedIt2.selected"
 					              			 ng-required="false"
 					              			 ng-disabled="service.lockedIt2.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
@@ -223,7 +223,7 @@
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.CERRADURA2 | filter: $select.search">
 					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 					                    </ui-select-choices>
 					                    <ui-select-no-choice>
 										    No hay resultados, contacte are de soporte.
@@ -234,19 +234,19 @@
 						</div>
 						<!-- Control_de_Acceso: entranceReader -->
 						<div class="form-group col-md-6" ng-class="
-								  			{	'has-success': 
+								  			{	'has-success':
 								  				service.entranceReader.selected!=undefined && fCustomerUpdateService.service_entranceReader.$valid,
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(service.entranceReader.selected==undefined) && fCustomerUpdateService.service_entranceReader.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Lector de entrada </label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.entranceReader.selected, productListType.LECTOR_ENT, 'entrance')" ng-disabled="service.entranceReader.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  <button ng-if="service.entranceReader.selected!=undefined" data-toggle="tooltip" data-placement="right" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" title="Remover" ng-click="removeProductDetailsFn(service.entranceReader.selected, productListType.LECTOR_ENT, 'entrance')" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
-						    <div class="col-xs-12 selectContainer">							   
+						    <div class="col-xs-12 selectContainer">
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
-					              <ui-select name="service_entranceReader"  
-					              			 ng-change="compServiceProductDetailsFn(service.entranceReader.selected, productListType.LECTOR_ENT, 'entrance');" 
+					              <ui-select name="service_entranceReader"
+					              			 ng-change="compServiceProductDetailsFn(service.entranceReader.selected, productListType.LECTOR_ENT, 'entrance');"
 					              			 ng-model="service.entranceReader.selected"
 					              			 ng-required="true"
 					              			 ng-disabled="service.entranceReader.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
@@ -255,7 +255,7 @@
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.LECTOR | filter: $select.search">
 					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 					                    </ui-select-choices>
 					                    <ui-select-no-choice>
 										    No hay resultados, contacte are de soporte.
@@ -266,19 +266,19 @@
 						</div>
 						<!-- Control_de_Acceso: powerSupply -->
 						<div class="form-group col-md-6" ng-class="
-								  			{	'has-success': 
+								  			{	'has-success':
 								  				service.powerSupply.selected!=undefined && fCustomerUpdateService.service_powerSupply.$valid,
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(service.powerSupply.selected==undefined) && fCustomerUpdateService.service_powerSupply.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Fuente</label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.powerSupply.selected, productListType.FUENTE)" ng-disabled="service.powerSupply.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 						  	<button ng-if="service.powerSupply.selected!=undefined" data-toggle="tooltip" data-placement="top" title="Remover" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" ng-click="removeProductDetailsFn(service.powerSupply.selected, productListType.FUENTE, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
-						    <div class="col-xs-12 selectContainer">							   
+						    <div class="col-xs-12 selectContainer">
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-plug"></i></span>
-					              <ui-select name="service_powerSupply"  
-					              			 ng-change="compServiceProductDetailsFn(service.powerSupply.selected, productListType.FUENTE, null);" 
+					              <ui-select name="service_powerSupply"
+					              			 ng-change="compServiceProductDetailsFn(service.powerSupply.selected, productListType.FUENTE, null);"
 					              			 ng-model="service.powerSupply.selected"
 					              			 ng-required="true"
 					              			 ng-disabled="service.powerSupply.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
@@ -287,7 +287,7 @@
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.FUENTE | filter: $select.search">
 					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 					                    </ui-select-choices>
 					                    <ui-select-no-choice>
 										    No hay resultados, contacte are de soporte.
@@ -295,40 +295,40 @@
 					                </ui-select>
 					            </div>
 						  	</div>
-						</div>						
+						</div>
 						<!-- Control_de_Acceso: exitReader -->
 						<div class="form-group col-md-6" ng-class="
-								  			{	'has-success': 
+								  			{	'has-success':
 								  				service.exitReader.selected!=undefined && fCustomerUpdateService.service_exitReader.$valid,
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(service.exitReader.selected==undefined) && fCustomerUpdateService.service_exitReader.$touched,
 								  			}">
-							<div class="col-md-5 n-padding-r">  			
+							<div class="col-md-5 n-padding-r">
 								<label ng-if="!service.update.isOuputButom">Lector de salida</label>
 								<label ng-if="service.update.isOuputButom">Pulsador de salida</label>
 							</div>
 							<div class="col-md-3 n-padding-l n-padding-r" style="font-size: 90%;">
 						    	<label class="switch switch-1x">
-						    		<input type="checkbox" 
-						    		class="success" 
-						    		ng-change="switchProducList(service.update.isOuputButom)" 
-						    		ng-model="service.update.isOuputButom" 
-						    		id="isOuputButom" 
+						    		<input type="checkbox"
+						    		class="success"
+						    		ng-change="switchProducList(service.update.isOuputButom)"
+						    		ng-model="service.update.isOuputButom"
+						    		id="isOuputButom"
 									ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 						    		style="margin: 0px !important; display: inherit !important;">
 									<span class="slider slider-1x flat"></span>
 								</label>
 								<label>Pulsador&nbsp;</label>
-							</div>									  			
-							<div class="pull-right col-md-4 n-padding-r">  			
+							</div>
+							<div class="pull-right col-md-4 n-padding-r">
 								<button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.exitReader.selected, productListType.PRODUCT_EXIT, 'exit')" ng-disabled="service.exitReader.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 								  <button ng-if="service.exitReader.selected!=undefined" data-toggle="tooltip" data-placement="top" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" title="Remover" ng-click="removeProductDetailsFn(service.exitReader.selected, productListType.PRODUCT_EXIT, 'exit')" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button>
-							</div>					
-						    <div class="col-xs-12 selectContainer">							   
+							</div>
+						    <div class="col-xs-12 selectContainer">
 							    <div class="input-group">
 					              <span class="input-group-addon"><i class="fas fa-sim-card"></i></span>
-					              <ui-select name="service_exitReader"  
-					              			 ng-change="compServiceProductDetailsFn(service.exitReader.selected, productListType.PRODUCT_EXIT, 'exit');" 
+					              <ui-select name="service_exitReader"
+					              			 ng-change="compServiceProductDetailsFn(service.exitReader.selected, productListType.PRODUCT_EXIT, 'exit');"
 					              			 ng-model="service.exitReader.selected"
 					              			 ng-required="true"
 					              			 ng-disabled="service.exitReader.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
@@ -337,7 +337,7 @@
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.PRODUCT_EXIT | filter: $select.search">
 					                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 					                    </ui-select-choices>
 					                    <ui-select-no-choice>
 										    No hay resultados, contacte are de soporte.
@@ -348,12 +348,12 @@
 						</div>
 						<!-- Control_de_Acceso: rackLocation -->
 						<div class="form-group col-md-6" ng-class="
-								  			{	'has-success': 
+								  			{	'has-success':
 								  				service.update.locationGabinet!='' && fCustomerUpdateService.service_rackLocation.$valid,
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(service.update.locationGabinet==''|| service.update.locationGabinet==undefined) && fCustomerUpdateService.service_rackLocation.$touched,
 								  			}">
-						  <label style="padding-left: 15px;">Ubicacion del gabinete</label>  
+						  <label style="padding-left: 15px;">Ubicacion del gabinete</label>
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-location-arrow"></i></span>
@@ -366,7 +366,7 @@
 							<div class="col-md-10">
 								<label class="clf-p-left">Dispositivos de Apertura</label></div>
 							<div class="pull-right col-md-2 n-padding-r" style="padding-bottom: 5px;"><button ng-click="loadDetailModalWindow(service.openDevices.selected)" ng-disabled="service.openDevices.selected==undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" class="btn btn-sm btn-success"><i class="fas fa-plus"></i> Agregar</button></div>
-						    <div class="selectContainer">							   
+						    <div class="selectContainer">
 							    <div class="col-md-12 input-group">
 					              	<span class="input-group-addon"><i class="fas fa-key"></i></span>
 					              	<ui-select name="service_openDevices"
@@ -378,7 +378,7 @@
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.DISP_APERTURA | filter: $select.search">
 					                    	<div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 					                    </ui-select-choices>
 					                    <ui-select-no-choice>
 										    No hay resultados, contacte are de soporte.
@@ -400,8 +400,8 @@
 							      	</tr>
 							  	</table>
 							  	<div ng-if="list_open_devices.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No hay dispositivos de apertura cargados</h5></div>
-							</div>						  	
-						</div>							
+							</div>
+						</div>
 					</div>
 					<div class="well-checkbox form-group col-md-12" style="width: auto;">
 						<!-- Battery List -->
@@ -421,7 +421,7 @@
 					                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.BATERIA | filter: $select.search">
 					                    	<div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 					                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+					                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 					                    </ui-select-choices>
 					                    <ui-select-no-choice>
 										    No hay resultados, contacte are de soporte.
@@ -459,22 +459,22 @@
 			                	<input id="isHasLockingScrewUpdate2" class="radio-2x" type="radio" value="0" name="isHasLockingScrew" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" ng-click="service.update.acaration2Tmp=service.update.acaration2; service.update.acaration2=''" ng-model="service.update.isBlocklingScrew" required autofocus>
 			                    <label for="isHasLockingScrewUpdate2" class="radio-2x-label">
 			                      <span>No</span>
-			                    </label> 
+			                    </label>
 			                </div>
 			            </div>
-						<!-- Control_de_Acceso: Aclaracion 2 -->					  
+						<!-- Control_de_Acceso: Aclaracion 2 -->
 						<div class="form-group col-md-6 col-xs-12" ng-class="
-									  			{	'has-success': 
+									  			{	'has-success':
 									  				service.update.isBlocklingScrew==1 && service.update.acaration2!='' && fCustomerUpdateService.service_aclaration2.$valid,
-									  			 	'has-error':  
+									  			 	'has-error':
 									  				(service.update.acaration2=='' || service.update.acaration2==undefined) &&
 									  				service.update.isBlocklingScrew==1 && fCustomerUpdateService.service_aclaration2.$touched,
-									  			}">  
+									  			}">
 						  	<label style="padding-left: 15px;">Aclaraci&#243;n</label>
 						    <div class="col-xs-12">
 							    <div class="input-group">
 							    	<span class="input-group-addon"><i class="far fa-sticky-note"></i></span>
-					    			<input name="service_aclaration2" type="text" class="form-control" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='') || service.update.isBlocklingScrew==0 || service.update.isBlocklingScrew==undefined || service.update.isBlocklingScrew==null" 
+					    			<input name="service_aclaration2" type="text" class="form-control" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='') || service.update.isBlocklingScrew==0 || service.update.isBlocklingScrew==undefined || service.update.isBlocklingScrew==null"
 					    			ng-required="service.update.isBlocklingScrew!=0 && service.update.isBlocklingScrew!=undefined && service.update.isBlocklingScrew!=null" ng-model="service.update.acaration2" />
 					    		</div>
 					    	</div>
@@ -482,19 +482,19 @@
 					</div>
 					<!-- Control_de_Acceso: EmergencyButton -->
 					<div class="form-group col-md-6" ng-class="
-								  			{	'has-success': 
+								  			{	'has-success':
 								  				service.emergencyButton.selected!=undefined && fCustomerUpdateService.service_emergencyButton.$valid,
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(service.emergencyButton.selected==undefined) && fCustomerUpdateService.service_emergencyButton.$touched,
 								  			}">
 						<div class="col-md-8"><label style="padding-left: 15px;">Pulsador de Emergencia</label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG)" ng-disabled="service.emergencyButton.selected==undefined" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 					  	<button ng-if="service.emergencyButton.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" ng-click="removeProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
-					    <div class="col-xs-12 selectContainer">							   
+					    <div class="col-xs-12 selectContainer">
 						    <div class="input-group">
 				              <span class="input-group-addon"><i class="fas fa-square"></i></span>
-				              <ui-select name="service_emergencyButton"  
-				              			 ng-change="compServiceProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG);" 
+				              <ui-select name="service_emergencyButton"
+				              			 ng-change="compServiceProductDetailsFn(service.emergencyButton.selected, productListType.PULSADOR_EMERG);"
 				              			 ng-model="service.emergencyButton.selected"
 				              			 ng-disabled="service.emergencyButton.selected!=undefined"
 				              			 theme="bootstrap" autofocus>
@@ -502,7 +502,7 @@
 				                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.PULSADOR_EMERG | filter: $select.search">
 				                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 				                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-				                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+				                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 				                    </ui-select-choices>
 				                    <ui-select-no-choice>
 									    No hay resultados, contacte are de soporte.
@@ -511,8 +511,8 @@
 				            </div>
 					  	</div>
 					</div>
-					<!-- Control_de_Acceso: Location -->					  
-					<div class="form-group col-md-6" >  
+					<!-- Control_de_Acceso: Location -->
+					<div class="form-group col-md-6" >
 					  	<label style="padding-left: 15px; padding-bottom: 2.5px;">Ubicaci&#243;n</label>
 					    <div class="col-xs-12">
 						    <div class="input-group">
@@ -523,19 +523,19 @@
 					</div>
 					<!-- Control_de_Acceso: TurnOffKeyboard -->
 					<div class="form-group col-md-6" ng-class="
-								  			{	'has-success': 
+								  			{	'has-success':
 								  				service.TurnOffKey.selected!=undefined && fCustomerUpdateService.service_TurnOffKey.$valid,
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(service.TurnOffKey.selected==undefined) && fCustomerUpdateService.service_TurnOffKey.$touched,
 								  			}">
 					  	<div class="col-md-8"><label style="padding-left: 15px;">Tecla de apagado</label></div>
 						<div class="pull-right col-md-4 n-padding-r"><button  data-toggle="tooltip" data-placement="top" title="Ver" ng-click="compServiceProductDetailsFn(service.TurnOffKey.selected, productListType.TECLA_APAG)" ng-disabled="service.TurnOffKey.selected==undefined"  class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 					  <button ng-if="service.TurnOffKey.selected!=undefined" data-toggle="tooltip" data-placement="right" title="Remover" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-click="removeProductDetailsFn(service.TurnOffKey.selected, productListType.TECLA_APAG, null)" class="btn btn-xs btn-danger"><i class="far fa-times-circle"></i></button></div>
-					    <div class="col-xs-12 selectContainer">							   
+					    <div class="col-xs-12 selectContainer">
 						    <div class="input-group">
 				              <span class="input-group-addon"><i class="fas fa-keyboard"></i></span>
-				              <ui-select name="service_TurnOffKey"  
-				              			 ng-change="compServiceProductDetailsFn(service.TurnOffKey.selected, productListType.TECLA_APAG);" 
+				              <ui-select name="service_TurnOffKey"
+				              			 ng-change="compServiceProductDetailsFn(service.TurnOffKey.selected, productListType.TECLA_APAG);"
 				              			 ng-model="service.TurnOffKey.selected"
 				              			 ng-disabled="service.TurnOffKey.selected!=undefined || (service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 				              			 theme="bootstrap" autofocus>
@@ -543,7 +543,7 @@
 				                    <ui-select-choices class="ui-select-choices" repeat="item in productListByType.TECLA_APAG | filter: $select.search">
 				                      <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
 				                      	<small ng-bind-html="item.model | highlight: $select.search"></small>
-				                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>					                      	
+				                      	<small ng-bind-html="item.brand | highlight: $select.search"></small>
 				                    </ui-select-choices>
 				                    <ui-select-no-choice>
 									    No hay resultados, contacte are de soporte.
@@ -552,15 +552,15 @@
 				            </div>
 					  	</div>
 					</div>
-					<!-- Control_de_Acceso: Location -->					  
+					<!-- Control_de_Acceso: Location -->
 					<div class="form-group col-md-6" ng-class="
-								  			{	'has-success': 
+								  			{	'has-success':
 								  				service.update.locationOffKey!='' && service.update.locationOffKey!=undefined &&
 								  				service.update.isBlocklingScrew==1 && fCustomerUpdateService.service_locationOffKey.$valid,
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(service.update.locationOffKey=='' || service.update.locationOffKey==undefined) &&
 								  				service.update.isBlocklingScrew==1 && fCustomerUpdateService.service_locationOffKey.$touched,
-								  			}">  
+								  			}">
 					  	<label style="padding-left: 15px;">Ubicaci&#243;n</label>
 					    <div class="col-xs-12">
 						    <div class="input-group">
@@ -576,20 +576,20 @@
 							</div>
 							<div class="form-group col-md-9">
 						    	<label class="switch switch-1x">
-						    		<input type="checkbox" 
-						    		class="success" 
-						    		ng-change="" 
-						    		ng-model="service.update.isHasInternetConnect" 
-						    		id="conexionInternet" 
-									ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')" 
+						    		<input type="checkbox"
+						    		class="success"
+						    		ng-change=""
+						    		ng-model="service.update.isHasInternetConnect"
+						    		id="conexionInternet"
+									ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"
 						    		style="margin: 0px !important; display: inherit !important;">
 									<span class="slider slider-1x flat"></span>
 								</label>
 							</div>
-						</div>	
+						</div>
 						<!-- Control_de_Acceso: numero de puerto de router -->
 						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-						  <label style="padding-left: 15px;">N° de puerto de router</label>  
+						  <label style="padding-left: 15px;">N° de puerto de router</label>
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-ethernet"></i></span>
@@ -599,7 +599,7 @@
 						</div>
 						<!-- Control_de_Acceso: puerto http -->
 						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Puerto http de la placa</label>  
+						  <label style="padding-left: 15px;">Puerto http de la placa</label>
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
@@ -609,7 +609,7 @@
 						</div>
 						<!-- Control_de_Acceso: direccion del cliente -->
 						<div class="form-group col-md-12" ng-show="service.update.isHasInternetConnect">
-						  <label style="padding-left: 15px;">IP de la placa</label>  
+						  <label style="padding-left: 15px;">IP de la placa</label>
 							  <div class="col-xs-12">
 								<div class="input-group" ng-show="service.update.isHasInternetConnect">
 									<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
@@ -619,7 +619,7 @@
 						</div>
 						<!-- Control_de_Acceso: usuario -->
 						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-							<label style="padding-left: 15px;">Usuario</label>  
+							<label style="padding-left: 15px;">Usuario</label>
 								<div class="col-xs-12">
 								  <div class="input-group">
 									  <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
@@ -629,7 +629,7 @@
 						  </div>
 						  <!-- Control_de_Acceso: contraseña -->
 						  <div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-							<label style="padding-left: 15px;">Contraseña</label>  
+							<label style="padding-left: 15px;">Contraseña</label>
 								<div class="col-xs-12">
 								  <div class="input-group">
 									  <span class="input-group-addon"><i class="fas fa-key"></i></span>
@@ -639,8 +639,8 @@
 						  </div>
 						<!-- Control_de_Acceso: direccion vpn -->
 						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-						  <label style="padding-left: 15px;">Direcci&#243;n VPN</label> 
-						  <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="service.update.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{service.update.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
+						  <label style="padding-left: 15px;">Direcci&#243;n VPN</label>
+						  <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="service.update.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{service.update.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>
 							  <div class="col-xs-12">
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
@@ -650,7 +650,7 @@
 						</div>
 						<!-- Control_de_Acceso: puerto vpn -->
 						<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-							<label style="padding-left: 15px;">Puerto VPN</label>  
+							<label style="padding-left: 15px;">Puerto VPN</label>
 								<div class="col-xs-12">
 								  <div class="input-group">
 									  <span class="input-group-addon"><i class="fas fa-project-diagram"></i></span>
@@ -672,7 +672,7 @@
 						  </div>
 						<!-- Control_de_Acceso: usuario -->
 						<!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-							<label style="padding-left: 15px;">Usuario</label>  
+							<label style="padding-left: 15px;">Usuario</label>
 								<div class="col-xs-12">
 								  <div class="input-group">
 									  <span class="input-group-addon"><i class="fas fa-user"></i></span>
@@ -682,7 +682,7 @@
 						  </div>-->
 						  <!-- Control_de_Acceso: contraseña -->
 						  <!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
-							<label style="padding-left: 15px;">Contraseña</label>  
+							<label style="padding-left: 15px;">Contraseña</label>
 								<div class="col-xs-12">
 								  <div class="input-group">
 									  <span class="input-group-addon"><i class="fas fa-key"></i></span>
@@ -693,12 +693,12 @@
 					</div>
 					<!-- Observaciones Generales -->
 					<div class="form-group col-md-12">
-						<label class="col-xs-12" >Observaciones Adicionales</label> 
-						<textarea style="resize: none;" name="ObserGenerales" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="service.update.generalComments" ></textarea>							
+						<label class="col-xs-12" >Observaciones Adicionales</label>
+						<textarea style="resize: none;" name="ObserGenerales" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="service.update.observation" ></textarea>
 					</div>
 					</fieldset>
 				</form>
-				<div class="clearfix"> </div> 
+				<div class="clearfix"> </div>
 			</div>
 			<!-- Actions Button -->
             <div class="modal-footer">
