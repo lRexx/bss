@@ -2797,7 +2797,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         }
                         if ($scope.list_keys.length == 0){
                             $scope.keysTotalPrice=0;
-                            if($scope.select.buildings.selected.initial_delivery!=undefined){
+                            if($scope.select.buildings.selected.initial_delivery!=undefined && $scope.select.buildings.selected.initial_delivery.length>0){
                                 console.log("$scope.select.buildings.selected.initial_delivery[0].initial_qtty  : "+parseInt($scope.select.buildings.selected.initial_delivery[0].initial_qtty));
                             }
                             console.log("$scope.list_keys.length                                            : "+parseInt((($scope.list_keys.length+1))));
