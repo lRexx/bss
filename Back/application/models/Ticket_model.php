@@ -3512,7 +3512,6 @@ class Ticket_model extends CI_Model
 		} else {
 			return false;
 		}
-
 	}
 	public function postDeleteFiles($fileName)
 	{
@@ -3686,6 +3685,26 @@ class Ticket_model extends CI_Model
 			}
 		}
 	}
+
+	public function addEventLog($id, $codTicket, $eventName, $msg)
+	{
+		$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
+		$this->db->insert(
+			'event_log',
+			[
+				'event_name' => $eventName,
+				'idTicketKf' => $id,
+				'cod_ticket' => $codTicket,
+				'message' => $msg,
+				"created_at" => $now->format('Y-m-d H:i:s'),
+			]
+		);
+		if ($this->db->affected_rows() === 1) {
+			return true;
+		} else {
+			return false;
+		}
+	}
 	public function postBillingTickets()
 	{
 		$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
@@ -3757,6 +3776,10 @@ class Ticket_model extends CI_Model
 							if ($this->sendPostBillingMailNotification($ticket['idTicket'], $fileName)) {
 								if ($this->setPostBillingCompleted($ticket['idTicket'])) {
 									log_message('info', 'PostBillingTicket ' . $ticket['idTicket'] . ' isPostBilled updated successfully in tb_tickets_billing.');
+									$msg = "Pedido " . $ticket['codTicket'] . " de tb_tickets_billing procesado y actualizado campo isPostBilled satisfactoriamente";
+									if ($this->addEventLog($ticket['idTicket'], $ticket['codTicket'], "postTicketBillingProcess", $msg)) {
+										log_message('info', 'PostBillingTicket ' . $ticket['idTicket'] . ' event_log entry added successfully.');
+									}
 								}
 							}
 
