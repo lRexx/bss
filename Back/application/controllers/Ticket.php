@@ -540,16 +540,21 @@ class Ticket extends REST_Controller
     }
     public function uploadFile_post()
     {
+        log_message('info', ':::::::::::::::::uploadBillingFile');
         if (!empty($_FILES)) {
             $ticketId = $this->post('idTicketKf');
+            log_message('info', ':::::::::::::::::uploadBillingFile => idTicket: ' . $ticketId);
             $file = $_FILES;
+            log_message('info', ':::::::::::::::::uploadBillingFile => File: ' . $file);
         } else {
             $upload = null;
         }
         $upload = $this->ticket_model->postUploadFiles($ticketId, $file);
         if (!is_null($upload)) {
+            log_message('info', ':::::::::::::::::uploadBillingFile => SUCCEEDED');
             $this->response($upload, 200);
         } else {
+            log_message('info', ':::::::::::::::::uploadBillingFile => FAILED');
             $this->response(['error' => 'NO HAY RESULTADOS'], 404);
         }
 
@@ -558,13 +563,19 @@ class Ticket extends REST_Controller
     public function addUploadedTicketFile_post()
     {
 
+        log_message('info', ':::::::::::::::::uploadBillingData');
+        $body = file_get_contents('php://input');
+        log_message('info', 'RequestBody: ' . $body);
         $rs = $this->ticket_model->addTicketUploadedFile($this->post('ticket'));
         if (!is_null($rs)) {
+            log_message('info', ':::::::::::::::::uploadBillingData => SUCCEEDED');
             $this->response(['response' => "Registro Exitoso"], 200);
         } else {
+            log_message('info', ':::::::::::::::::uploadBillingData => FAILED');
             $this->response(['error' => 'NO HAY RESULTADOS'], 404);
         }
     }
+
 
     public function deleteFile_post()
     {
