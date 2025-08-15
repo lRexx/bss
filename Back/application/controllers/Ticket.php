@@ -545,7 +545,7 @@ class Ticket extends REST_Controller
             $ticketId = $this->post('idTicketKf');
             log_message('info', ':::::::::::::::::uploadBillingFile => idTicket: ' . $ticketId);
             $file = $_FILES;
-            log_message('info', ':::::::::::::::::uploadBillingFile => File: ' . $file);
+            log_message('info', ':::::::::::::::::uploadBillingFile => File: ' . $file["file"]["name"]);
         } else {
             $upload = null;
         }
