@@ -21,7 +21,7 @@
                     <span>:: Reintegro de &nbsp;</span>
                     <span class="label label-default">{{refund.refundAmount | number:2}} &nbsp;</span>
                     <span ng-class="{'label label-warning': refund.idRefundTypeKf=='1', 'label label-success': refund.idRefundTypeKf=='2' }">{{refund.refundName}}</span>
-                    
+
                   </a>
               </ul>
             </span>
@@ -41,15 +41,15 @@
                           <div class="col-md-12"><span>Realizado por: {{tkupdate.userMadeBy.fullNameUser}}</span> <span data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userMadeBy.nameProfile}}</span></div>
                           <div class="col-md-12"><span>Solicitado por: {{tkupdate.userRequestBy.fullNameUser}}</span> <span data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userRequestBy.nameProfile}}</span></div>
                           <div class="col-md-12">
-                              <span>Estado: 
-                              <span ng-if="tkupdate.isCancelRequested=='1' || tkupdate.isCancelRequested!='1'" class="label" ng-class="{  
-                                'label-default': 
+                              <span>Estado:
+                              <span ng-if="tkupdate.isCancelRequested=='1' || tkupdate.isCancelRequested!='1'" class="label" ng-class="{
+                                'label-default':
                                 tkupdate.idStatusTicketKf=='8',
-                                'label-success':  
+                                'label-success':
                                 tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='5',
-                                'label-warning':  
+                                'label-warning':
                                 tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='7' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11' || tkupdate.idStatusTicketKf=='12',
-                                'label-danger':  
+                                'label-danger':
                                 tkupdate.idStatusTicketKf=='6',
                               }">{{tkupdate.statusTicket.statusName}}</span>
                               </span>
@@ -133,14 +133,14 @@
                             <ul class="file-list file-list-5">
                               <li ng-repeat="file in tkupdate.billingReceiptDetails">
                                 <a data-toggle="tooltip" data-placement="top" title="{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}" ng-if="file.typeFile.substr(0,5)=='image'" class="thumbnail" ng-click="openLightboxModal(customer.files.files_uploaded, $index)">
-                                  <img ng-src="{{file.urlFile}}" />               
+                                  <img ng-src="{{file.urlFile}}" />
                                 </a>
                                 <!--<a data-toggle="tooltip" data-placement="top" title="{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}" ng-if="file.typeFile=='application/pdf'" ng-click="openPDFViewerModal(file.urlFile)" class="thumbnail">
                                   <img src="images/pdf-thumb.png" ng-if="file.typeFile=='application/pdf'"/>
                                 </a>-->
                                 <a data-toggle="tooltip" data-placement="top" title="{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}" ng-if="file.typeFile.substr(0,5)!='image' && file.typeFile!='application/pdf'" class="thumbnail">
                                   <img src="images/doc-thumb.png" ng-if="file.typeFile=='application/vnd.openxmlformats-officedocument.wordprocessingml.document' || file.typeFile=='application/msword'"/>
-                                  <img src="images/excel-thumb.png" ng-if="file.typeFile=='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.typeFile=='application/vnd.ms-excel'"/>                 
+                                  <img src="images/excel-thumb.png" ng-if="file.typeFile=='application/vnd.openxmlformats-officedocument.spreadsheetml.sheet' || file.typeFile=='application/vnd.ms-excel'"/>
                                 </a>
                                 <div class="caption">
                                   <span class="label label-default">{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}</span><br/><br/>
@@ -156,12 +156,12 @@
                                   <button ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.billingReceiptDetails!=null && tkupdate.isBillingUploaded!=null && tkupdate.isBillingUploaded=='1'" type="button" data-toggle="tooltip" data-placement="bottom" title="Eliminar archivo" class="btn btn-danger btn-xs" ng-click="modalConfirmation('deleteSingleFile', 0, tkupdate.billingReceiptDetails[0])" >
                                       <i class="fas fa-trash-alt"></i>
                                   </button>
-                                </div>                  
+                                </div>
                               </li>
-                            </ul>            
+                            </ul>
                         </div>
                     </div>
-                    <div class="col-md-12 col-sm-12 col-xs-12"> 
+                    <div class="col-md-12 col-sm-12 col-xs-12">
                         <!-- KEYS -->
                           <div ng-click="mainSwitchFn('ticket_keyList', tkupdate.keys, null)" style="margin-bottom: 1em;"
                           ng-class="{'col-md-3 col-xs-12':!tkupdate.isHasRefundsOpen  || tkupdate.isHasRefundsOpen=='0' || tkupdate.refundsDetails.length==0, 'col-md-2 col-xs-12':tkupdate.isHasRefundsOpen=='1' || tkupdate.refundsDetails.length>=1}">
@@ -169,10 +169,10 @@
                                 <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                     <i class="fas fa-key"></i>
                                 </div>
-                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                'sticky-success': 
+                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                'sticky-success':
                                                 tkupdate.keys.length>0,
-                                                'sticky-warning':  
+                                                'sticky-warning':
                                                 tkupdate.keys.length==0,
                                               }">
                                   <span ng-if="tkupdate.keys.length>0">
@@ -180,24 +180,24 @@
                                   </span>
                                   <span ng-if="tkupdate.keys.length==0" data-toggle="tooltip" data-placement="top" title="No se registran llaveros asociados al pedido">
                                     <i class="fas fa-exclamation-triangle"></i>
-                                  </span>                    
+                                  </span>
                                 </div>
                                 <div class="col-md-12 card-title">
                                   <h4 class="text-uppercase right">Llaveros</h4>
                                 </div>
                               </div>
-                          </div>          
+                          </div>
                         <!-- USER -->
                           <div ng-show="tkupdate.idTypeRequestFor=='1'" ng-click="mainSwitchFn('ticket_user', tkupdate, null)" style="margin-bottom: 1em;"
                           ng-class="{'col-md-3 col-xs-12':!tkupdate.isHasRefundsOpen  || tkupdate.isHasRefundsOpen=='0' || tkupdate.refundsDetails.length==0, 'col-md-2 col-xs-12':tkupdate.isHasRefundsOpen=='1' || tkupdate.refundsDetails.length>=1}">
                               <div class="card-customer">
                                 <div class="col-md-6 col-xs-6 n-padding-l card-icon">
-                                    <i class="fas fas fa-user"></i> 
+                                    <i class="fas fas fa-user"></i>
                                 </div>
-                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                'sticky-success': 
+                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                'sticky-success':
                                                 tkupdate.userRequestBy!=null && tkupdate.userMadeBy!=null,
-                                                'sticky-warning':  
+                                                'sticky-warning':
                                                 tkupdate.userRequestBy==null,
                                               }">
                                   <span ng-if="tkupdate.userRequestBy!=null && tkupdate.userMadeBy!=null">
@@ -219,10 +219,10 @@
                                 <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                     <i class="fas fa-truck"></i>
                                 </div>
-                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                'sticky-success': 
+                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                'sticky-success':
                                                 tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null,
-                                                'sticky-warning': 
+                                                'sticky-warning':
                                                 tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null,
                                               }">
                                   <span ng-if="tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null">
@@ -230,7 +230,7 @@
                                   </span>
                                   <span ng-if="tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null" data-toggle="tooltip" data-placement="top" title="Faltan datos de envío.">
                                     <i class="fas fa-exclamation-triangle"></i>
-                                  </span>                                    
+                                  </span>
                                 </div>
                                 <div class="col-md-12 card-title">
                                   <h4 class="text-uppercase right">Envío</h4>
@@ -244,10 +244,10 @@
                                 <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                     <i class="fas fa-receipt"></i>
                                 </div>
-                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                                'sticky-success': 
+                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                'sticky-success':
                                                 ((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2')),
-                                                'sticky-warning':  
+                                                'sticky-warning':
                                                 tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2',
                                               }">
                                   <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
@@ -255,7 +255,7 @@
                                   </span>
                                   <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2'" data-toggle="tooltip" data-placement="top" title="Pago pendiente por autorización del pedido">
                                     <i class="fas fa-exclamation-triangle"></i>
-                                  </span>                                       
+                                  </span>
                                 </div>
                                 <div class="col-md-12 card-title">
                                   <h4 class="text-uppercase right">Pago</h4>
@@ -268,10 +268,10 @@
                             <div class="col-md-6 col-xs-6 n-padding-l card-icon">
                                 <i class="fas fa-hand-holding-usd"></i>
                             </div>
-                            <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{  
-                                            'sticky-success': 
+                            <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                            'sticky-success':
                                             (tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen=='1' || tkupdate.refundsDetails.length>=1)),
-                                            'sticky-warning':  
+                                            'sticky-warning':
                                             tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2',
                                           }">
                               <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
@@ -279,7 +279,7 @@
                               </span>
                               <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && (!tkupdate.isHasRefundsOpen || tkupdate.isHasRefundsOpen=='0')" data-toggle="tooltip" data-placement="top" title="">
                                 <i class="fas fa-exclamation-triangle"></i>
-                              </span>                                       
+                              </span>
                             </div>
                             <div class="col-md-12 card-title">
                               <h4 class="text-uppercase right">Reintegro</h4>
@@ -354,9 +354,21 @@
                     </div>
                 </fieldset>
             </form>
+            <div class="row">
+              <!-- Observaciones Adicionales -->
+                <div class="col-xs-12 col-sm-12">
+                <legend style="text-align: left;">Observaciones Adicionales</legend>
+                <!-- Form Special Request sru= Special Request Up -->
+                <div style="margin-left: 15px; padding-right: 40px;" class="form-group col-md-12">
+                  <div class="col-md-12 col-xs-12 input-group">
+                    <textarea style="resize: vertical;" name="sruTenant" rows="4" ng-disabled="true" placeholder="Describa aqui si desea realizar una solicitud especial." class="form-control" ng-model="tkudate.description" ></textarea>
+                  </div>
+                </div>
+              </div>
+            </div>
             <!-- TIMELINE TICKET HISTORY -->
             <div class="col-xs-12 col-sm-12"><div ng-include="'views/monitor/tickets/timeline_history.html'"></div></div>
-            <div class="clearfix"> </div> 
+            <div class="clearfix"> </div>
         </div>
         <!-- Actions Button -->
         <div class="modal-footer">
@@ -411,13 +423,13 @@
                     <a id="deliveryChange" ng-click="mainSwitchFn('ticket_delivery_change', tkupdate, null)" type="button" class="btn btn-labeled btn-info">
                       <span class="btn-label"><i class="fas fa-truck"></i></span>Cambiar envío</a>
                   </div>
-                </div> 
+                </div>
                 <div class="col-xs-2 col-sm-2 col-md-2 pull-right">
                   <div class="col-xs-12 col-sm-12 col-md-12 pull-right">
                     <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
                   </div>
-                </div> 
+                </div>
             </div>
         </div>
     </div>
