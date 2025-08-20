@@ -30,7 +30,8 @@
                         <div ng-if="history.idCambiosTicketKf=='27'" class="timeline-badge default"><i class="fas fa-box-open"></i></div>
                         <div ng-if="history.idCambiosTicketKf=='32' || history.idCambiosTicketKf=='33' || history.idCambiosTicketKf=='34'" class="timeline-badge default"><i class="fas fa-link"></i></div>
                         <div ng-if="history.idCambiosTicketKf=='35' || history.idCambiosTicketKf=='36'" class="timeline-badge danger"><i class="fas fa-unlink"></i></div>
-                        
+                        <div ng-if="history.idCambiosTicketKf=='38'" class="timeline-badge success"><i class="fas fa-file-invoice-dollar"></i></div>
+
                         <div class="timeline-panel">
                             <div class="timeline-heading">
                                 <h4 class="timeline-title"><i class="far fa-clock"></i> {{history.created_at}}</h4>
@@ -108,6 +109,9 @@
                                 <span ng-if="sysLoggedUser.idProfileKf=='1' && (history.idCambiosTicketKf=='35' || history.idCambiosTicketKf=='36')"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;
                                 <span ng-if="sysLoggedUser.idProfileKf=='1'" data-toggle="tooltip" data-placement="top" title="{{history.fullNameUser}}" class="label label-default text-uppercase">{{history.name | limitTo: 13 }}{{history.name > 13 ? '...' : ''}}</span><span ng-if="sysLoggedUser.idProfileKf=='1'">&nbsp;</span>
                                 <span class="label label-danger">{{history.descripcion}}</span></span>
+                                <span ng-if="sysLoggedUser.idProfileKf=='1' && (history.idCambiosTicketKf=='38')"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;
+                                <span data-toggle="tooltip" data-placement="top" title="{{history.fullNameUser}}" class="label label-default text-uppercase">{{history.name | limitTo: 13 }}{{history.name > 13 ? '...' : ''}}</span><span ng-if="sysLoggedUser.idProfileKf=='1'">&nbsp;</span>
+                                <span class="label label-danger">{{history.descripcion}}</span></span>
                             </div>
                         </div>
                     </li>
@@ -155,7 +159,7 @@
                         <div class="timeline-body">
                             <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
                             <p>Mussum ipsum cacilds, vidis litro abertis. Consetis adipiscings elitis. Pra lá , depois divoltis porris, paradis. Paisis, filhis, espiritis santis. Mé faiz elementum girarzis, nisi eros vermeio, in elementis mé pra quem é amistosis quis leo. Manduma pindureta quium dia nois paga. Sapien in monti palavris qui num significa nadis i pareci latim. Interessantiss quisso pudia ce receita de bolis, mais bolis eu num gostis.</p>
-                            
+
                         </div>
                     </div>
                 </li>
