@@ -663,26 +663,26 @@ class Ticket extends REST_Controller
         log_message('info', ':::::::::::::::::setBillingUploaded => filename: ' . $filename);
         $rs = $this->ticket_model->sendPostBillingMailNotification($idTicket, $filename);
         if (!is_null($rs)) {
-            log_message('info', ':::::::::::::::::BillingUploadedNotification ::: COMPLETED SUCCESSFULLLY');
+            log_message('info', ':::::::::::::::::BillingUploadedNotification Process ::: [COMPLEED]');
             $this->response(array('response' => $rs), 200);
         } else {
-            log_message('info', ':::::::::::::::::BillingUploadedNotification ::: COMPLETED WITH ERROR');
+            log_message('info', ':::::::::::::::::BillingUploadedNotification Process ::: [COMPLETED WITH ERROR]');
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
 
     public function postBillingTickets_get()
     {
-        log_message('info', ':::::::::::::::::PostBilling');
+        log_message('info', ':::::::::::::::::PostBilling Process Initiated');
 
 
         $rs = $this->ticket_model->postBillingTickets();
         if (!is_null($rs)) {
             #$this->response(array('response' => $rs) , 200);
-            log_message('info', ':::::::::::::::::PostBilling ::: COMPLETED SUCCESSFULLLY');
+            log_message('info', ':::::::::::::::::PostBilling Process ::: [COMPLEED]');
         } else {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
-            log_message('info', ':::::::::::::::::PostBilling ::: COMPLETED WITH ERROR');
+            log_message('info', ':::::::::::::::::PostBilling Process ::: [FAILED]');
         }
     }
 }
