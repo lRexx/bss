@@ -39,7 +39,10 @@
                             <span> N° de Ticket: {{tkupdate.codTicket}}</span>
                           </div>
                           <div class="col-md-12"><span>Realizado por: {{tkupdate.userMadeBy.fullNameUser}}</span> <span data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userMadeBy.nameProfile}}</span></div>
-                          <div class="col-md-12"><span>Solicitado por: {{tkupdate.userRequestBy.fullNameUser}}</span> <span data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userRequestBy.nameProfile}}</span></div>
+                          <div class="col-md-12">
+                            <span ng-show="tkupdate.idTypeRequestFor=='1'">Solicitado por: {{tkupdate.userRequestBy.fullNameUser}}</span> <span ng-show="tkupdate.idTypeRequestFor=='1'" data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.userRequestBy.nameProfile}}</span>
+                            <span ng-show="tkupdate.idTypeRequestFor=='6'">Solicitado por: {{tkupdate.keys[0].user.fullNameUser}}</span> <span ng-show="tkupdate.idTypeRequestFor=='6'" data-toggle="tooltip" data-placement="top"  title="Perfil" style="font-size: 85%;" class="badge badge-warning">{{tkupdate.keys[0].user.nameProfile}}</span>
+                          </div>
                           <div class="col-md-12">
                               <span>Estado:
                               <span ng-if="tkupdate.isCancelRequested=='1' || tkupdate.isCancelRequested!='1'" class="label" ng-class="{
