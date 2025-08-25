@@ -3800,9 +3800,9 @@ class Ticket_model extends CI_Model
 					if ($output) {
 						log_message('info', $output);
 					}
-					$msg = "Pedido " . $ticket['codTicket'] . " Factura " . $fileName . " no encontrada.";
+					$msg = "Pedido " . $ticket['codTicket'] . " Factura " . $fileName . " no encontrada en el directorio /facturas";
 					if ($this->addEventLog($ticket['idTicket'], $ticket['codTicket'], "postTicketBillingProcess", $msg)) {
-						log_message('info', 'PostBillingTicket Ticket ' . $ticket['codTicket'] . ' ID:' . $ticket['idTicket'] . ' event_log entry added successfully.');
+						log_message('info', 'PostBillingTicket Ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' event_log entry added successfully.');
 					}
 				}
 			}
