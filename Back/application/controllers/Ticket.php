@@ -663,7 +663,7 @@ class Ticket extends REST_Controller
         log_message('info', ':::::::::::::::::setBillingUploaded => filename: ' . $filename);
         $rs = $this->ticket_model->sendPostBillingMailNotification($idTicket, $filename);
         if (!is_null($rs)) {
-            log_message('info', ':::::::::::::::::BillingUploadedNotification Process ::: [COMPLEED]');
+            log_message('info', ':::::::::::::::::BillingUploadedNotification Process ::: [COMPLETED]');
             $this->response(array('response' => $rs), 200);
         } else {
             log_message('info', ':::::::::::::::::BillingUploadedNotification Process ::: [COMPLETED WITH ERROR]');
@@ -679,7 +679,7 @@ class Ticket extends REST_Controller
         $rs = $this->ticket_model->postBillingTickets();
         if (!is_null($rs)) {
             #$this->response(array('response' => $rs) , 200);
-            log_message('info', ':::::::::::::::::PostBilling Process ::: [COMPLEED]');
+            log_message('info', ':::::::::::::::::PostBilling Process ::: [COMPLETED]');
         } else {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
             log_message('info', ':::::::::::::::::PostBilling Process ::: [FAILED]');
