@@ -3582,6 +3582,7 @@ class Ticket_model extends CI_Model
 	{
 		$this->db->set(
 			array(
+				'isBilled' => 1,
 				'isPostBilled' => 1
 			)
 		)->where("idTicketKf", $idTicketKf)->update("tb_tickets_billing");
