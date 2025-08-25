@@ -3752,7 +3752,7 @@ class Ticket_model extends CI_Model
 				// Verificar si el archivo existe
 				if (file_exists($filePath)) {
 					// El archivo existe
-					$output = shell_exec('ls -lh ' . escapeshellarg($filePath));
+					$output = shell_exec('ls -lh ' . escapeshellarg($filePath) . ' 2>/dev/null');
 					log_message('info', 'Bill for ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' ::: [Exist]');
 					log_message('info', 'Bill found: ' . $fileName);
 					log_message('info', $output);
@@ -3796,8 +3796,10 @@ class Ticket_model extends CI_Model
 					// El archivo no existe
 					log_message('info', 'Bill for ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' ::: [Not Exist]');
 					log_message('info', 'Bill not found: ' . $fileName);
-					$output = shell_exec('ls -lh ' . escapeshellarg($filePath));
-					log_message('info', $output);
+					$output = shell_exec('ls -lh ' . escapeshellarg($filePath) . ' 2>/dev/null');
+					if ($output) {
+						log_message('info', $output);
+					}
 					$msg = "Pedido " . $ticket['codTicket'] . " Factura " . $fileName . " no encontrada.";
 					if ($this->addEventLog($ticket['idTicket'], $ticket['codTicket'], "postTicketBillingProcess", $msg)) {
 						log_message('info', 'PostBillingTicket Ticket ' . $ticket['codTicket'] . ' ID:' . $ticket['idTicket'] . ' event_log entry added successfully.');
