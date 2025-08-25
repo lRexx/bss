@@ -3798,11 +3798,17 @@ class Ticket_model extends CI_Model
 					log_message('info', 'Bill not found: ' . $fileName);
 					$output = shell_exec('ls -lh ' . escapeshellarg($filePath));
 					log_message('info', $output);
+					$msg = "Pedido " . $ticket['codTicket'] . " Factura " . $fileName . " no encontrada.";
+					if ($this->addEventLog($ticket['idTicket'], $ticket['codTicket'], "postTicketBillingProcess", $msg)) {
+						log_message('info', 'PostBillingTicket Ticket ' . $ticket['codTicket'] . ' ID:' . $ticket['idTicket'] . ' event_log entry added successfully.');
+					}
 				}
 			}
 			return true;
 		} else {
 			log_message('info', 'postBilling process no ticket found to be prossesed');
+			$msg = "No hay pedidos facturados pendientes por procesar .";
+			$this->addEventLog(null, null, "postTicketBillingProcess", $msg);
 			return false;
 		}
 
