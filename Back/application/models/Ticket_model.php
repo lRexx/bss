@@ -3753,8 +3753,8 @@ class Ticket_model extends CI_Model
 				if (file_exists($filePath)) {
 					// El archivo existe
 					$output = shell_exec('ls -lh ' . escapeshellarg($filePath) . ' 2>/dev/null');
-					log_message('info', 'Bill for ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' ::: [Exist]');
-					log_message('info', 'Bill found: ' . $fileName);
+					log_message('info', 'Billing file for ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' ::: [Exist]');
+					log_message('info', 'Billing file found: ' . $filePath);
 					log_message('info', $output);
 					log_message('info', 'adding entry at tb_ticket_files_list ');
 					$ticketData = [
@@ -3794,8 +3794,8 @@ class Ticket_model extends CI_Model
 					}
 				} else {
 					// El archivo no existe
-					log_message('info', 'Bill for ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' ::: [Not Exist]');
-					log_message('info', 'Bill not found: ' . $fileName);
+					log_message('info', 'Billing file for ticket ' . $ticket['codTicket'] . ' ID: ' . $ticket['idTicket'] . ' ::: [Not Exist]');
+					log_message('info', 'Billing file not found: ' . $filePath);
 					$output = shell_exec('ls -lh ' . escapeshellarg($filePath) . ' 2>/dev/null');
 					if ($output) {
 						log_message('info', $output);
