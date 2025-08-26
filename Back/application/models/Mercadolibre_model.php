@@ -359,8 +359,8 @@ class Mercadolibre_model extends CI_Model
 			$response_decode = json_decode(json_encode($rs_decode));
 			log_message('info', 'MP Response Status			  	 :' . $httpcode);
 			log_message('info', 'MP Response				  	 :');
+			log_message('info', $rs_decode);
 			log_message('info', $response_decode);
-			log_message('info', $httpcode);
 			curl_close($curl);
 			if ($httpcode == 200 && $response_decode->status == "approved" && $response_decode->status_detail == "accredited") {
 				$lastPaymentAddedQuery = null;
