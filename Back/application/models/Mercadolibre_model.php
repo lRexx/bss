@@ -761,21 +761,21 @@ class Mercadolibre_model extends CI_Model
 	/* GET PAYMENT BY ID */
 	public function paymentById($id)
 	{
-		$query = null;
-		$rs = null;
+		$this->db->select("*")
+			->from("tb_mp_payments")
+			->where("mp_external_reference", $id);
 
-		$this->db->select("*")->from("tb_mp_payments");
-		$this->db->where("idPayment = ", $id);
-		$this->db->or_where("mp_external_reference", $id);
 		$query = $this->db->get();
 
-		if ($query->num_rows() > 0) {
-			$rs = $query->result_array();
-			return $rs;
-		} else {
-			return null;
+		// if no external_reference found, try idPayment
+		if ($query->num_rows() === 0) {
+			$this->db->select("*")
+				->from("tb_mp_payments")
+				->where("idPayment", $id);
+			$query = $this->db->get();
 		}
 
+		return $query->num_rows() > 0 ? $query->result_array() : null;
 	}
 
 }
