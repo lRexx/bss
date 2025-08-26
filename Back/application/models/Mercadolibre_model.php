@@ -359,6 +359,7 @@ class Mercadolibre_model extends CI_Model
 			$response_decode = json_decode(json_encode($rs_decode));
 			log_message('info', 'MP Response Status		: ' . $httpcode);
 			log_message('info', 'MP Response            : ');
+			log_message('info', $response);
 			log_message('info', $response->status);
 			log_message('info', $response->status_detail);
 			curl_close($curl);
@@ -463,6 +464,8 @@ class Mercadolibre_model extends CI_Model
 					'status' => $httpcode,
 					'data' => $response_decode->error,
 				]);
+			} else {
+				log_message('info', 'Unexpected response json format, verify please.');
 			}
 		} catch (\Exception $e) {
 			return json_encode([
