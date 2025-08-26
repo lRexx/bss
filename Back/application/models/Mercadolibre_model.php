@@ -356,8 +356,7 @@ class Mercadolibre_model extends CI_Model
 			$err = curl_error($curl);
 			$httpcode = curl_getinfo($curl, CURLINFO_HTTP_CODE);
 			#$rs_decode = json_decode($response, true, JSON_UNESCAPED_SLASHES);
-			$rs_decode = json_decode($response, true, JSON_UNESCAPED_SLASHES);
-			$response_decode = json_decode(json_encode($rs_decode), true);
+			$response_decode = json_decode($response);
 			$rs_decoded = json_decode($response, true);
 			log_message('info', 'MP Response Status		         : ' . $httpcode);
 			log_message('info', 'MP status		                 : ' . $rs_decoded['status']);
