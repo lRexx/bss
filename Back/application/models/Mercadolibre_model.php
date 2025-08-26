@@ -362,13 +362,15 @@ class Mercadolibre_model extends CI_Model
 			log_message('info', 'MP status		                 : ' . $rs_decoded['status']);
 			log_message('info', 'MP status_detail		                 : ' . $rs_decoded['status_detail']);
 			log_message('info', 'MP Response                               : ');
-			log_message('info', print_r($response_decode->status_detail, true));
+			log_message('info', $response_decode->status);
+			log_message('info', $response_decode->status_detail);
+			log_message('info', $response_decode->external_reference);
 			curl_close($curl);
 			if ($httpcode == 200 && ($response_decode->status == "approved" && $response_decode->status_detail == "accredited")) {
 				$lastPaymentAddedQuery = null;
 				$lastPaymentAddedQuery = $this->paymentById($response_decode->external_reference);
 				$lastPaymentAddedQuery_decode = json_decode(json_encode($lastPaymentAddedQuery[0]));
-				log_message('info', print_r($lastPaymentAddedQuery_decode));
+				log_message('info', json_decode($lastPaymentAddedQuery[0]));
 				if (is_null($lastPaymentAddedQuery_decode->mp_payment_id) || $lastPaymentAddedQuery_decode->mp_payment_id == 0) {
 					//print("El pago no se encuentra registado"); $response_decode->id;
 					$dataObj = null;
