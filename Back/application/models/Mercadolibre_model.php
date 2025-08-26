@@ -472,7 +472,7 @@ class Mercadolibre_model extends CI_Model
 	public function getNotificationFromMP($response)
 	{
 		//print_r($response);
-		log_message('info', 'response: ' . $response);
+		//log_message('info', 'response: ' . $response);
 		//var_dump($response['api_version']);
 		// ENVIAMOS EL MAIL DE CONFIRMAR REGISTRO //Undefined index
 		/*MAIL*/
