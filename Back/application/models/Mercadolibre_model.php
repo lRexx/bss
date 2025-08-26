@@ -766,7 +766,6 @@ class Mercadolibre_model extends CI_Model
 
 		$this->db->select("*")->from("tb_mp_payments");
 		$this->db->where("idPayment = ", $id);
-		$this->db->or_where("mp_preference_id", $id);
 		$this->db->or_where("mp_external_reference", $id);
 		$query = $this->db->get();
 
