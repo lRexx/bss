@@ -319,7 +319,7 @@ class Mercadolibre_model extends CI_Model
 	public function getPaymentMPDetails($id)
 	{
 		log_message('info', ':::::::::::::::::getPaymentMPDetails');
-		log_message('info', 'MP_ID				  	 :' . $id);
+		log_message('info', 'MP_ID				  	 : ' . $id);
 		$ticket2Update = null;
 		$MP_TOKEN = BSS_MP_TOKEN;
 		if (!$id) {
@@ -365,6 +365,8 @@ class Mercadolibre_model extends CI_Model
 			log_message('info', print_r($response_decode->status_detail, true));
 			curl_close($curl);
 			if ($httpcode == 200 && ($response_decode->status == "approved" && $response_decode->status_detail == "accredited")) {
+				log_message('info', $response_decode->status);
+				log_message('info', $response_decode->status_detail);
 				$lastPaymentAddedQuery = null;
 				$lastPaymentAddedQuery = $this->paymentById($response_decode->external_reference);
 				$lastPaymentAddedQuery_decode = json_decode(json_encode($lastPaymentAddedQuery[0]));
