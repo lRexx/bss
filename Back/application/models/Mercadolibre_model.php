@@ -370,7 +370,7 @@ class Mercadolibre_model extends CI_Model
 				$lastPaymentAddedQuery = null;
 				$lastPaymentAddedQuery = $this->paymentById($response_decode->external_reference);
 				$lastPaymentAddedQuery_decode = json_decode(json_encode($lastPaymentAddedQuery[0]));
-				//log_message('info', json_decode(json_encode($lastPaymentAddedQuery[0])));
+				log_message('info', print_r($lastPaymentAddedQuery_decode, true));
 				if (empty($lastPaymentAddedQuery_decode->mp_payment_id) || is_null($lastPaymentAddedQuery_decode->mp_payment_id) || $lastPaymentAddedQuery_decode->mp_payment_id == 0) {
 					log_message('info', 'El pago no se encuentra registado');
 					$dataObj = null;
