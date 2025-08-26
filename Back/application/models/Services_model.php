@@ -2309,7 +2309,7 @@ class Services_model extends CI_Model
         $this->db->join('tb_access_control_door acd', 'acd.idAccessControlDoor = td.idAccessControlDoorKf', 'left');
         $this->db->join('tb_contratos tc', 'tc.idContrato = td.idContractKf', 'left');
         $this->db->join('tb_status tst', 'tst.idStatusTenant = tc.idStatusFk', 'left');
-        $this->db->join('tb_ticket_keychain tkc', 'tkc.id = td.idTicketKeychainKf', 'left');
+        $this->db->join('tb_ticket_keychain tkc', 'tkc.idTicketKeychain = td.idTicketKeychainKf', 'left');
         $this->db->join('tb_products tp', 'tp.idProduct = tkc.idProductKf', 'left');
         $this->db->join('tb_products_classification tpc', 'tpc.idProductClassification = tp.idProductClassificationFk', 'left');
         $this->db->join('tb_tickets_2 t2', 't2.idTicket = tkc.idTicketKf', 'left');
