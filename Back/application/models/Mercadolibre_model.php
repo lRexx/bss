@@ -443,6 +443,7 @@ class Mercadolibre_model extends CI_Model
 					}
 				} else {
 					$paymentUpdated = "El pago ya se encuentra registrado en el sistema.";
+					log_message('info', 'El pago ya se encuentra registrado en el sistema.');
 				}
 				return json_encode([
 					'message' => 'Conexion con la API de Mercado Pago Exitosa',
