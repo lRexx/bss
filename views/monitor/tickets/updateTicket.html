@@ -34,7 +34,7 @@
                 <fieldset>
                     <div  class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame">
                         <!-- LEFT COLUMN -->
-                        <div class="col-md-6 col-xs-12 n-padding-l n-padding-r">
+                        <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-6 col-xs-12 n-padding-l n-padding-r">
                           <div class="col-md-12 col-xs-12">
                             <span> ID de Ticket: </span><span data-toggle="tooltip" data-placement="right"  title="id" style="font-size: 105%;" class="label label-default">{{tkupdate.idTicket}}</span>
                           </div>
