@@ -695,14 +695,14 @@ class Mercadolibre_model extends CI_Model
 							$subject = "Pedido Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Link de Pago de Envío";
 							$link_mp = $lastTicketUpdatedQuery['paymentDeliveryDetails']['mp_prod_init_point'];
 						}
+						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+						$to = implode(",", $emails);
 						if ($lastTicketUpdatedQuery['userMadeBy']['idProfileKf'] == "4") {
 							$userMadeByEmail = $lastTicketUpdatedQuery['userMadeBy']['emailUser'];
+							$to = $to . "," . $userMadeByEmail;
 						} else {
 							$userMadeByEmail = "";
 						}
-						#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
-						$to = implode(",", $emails);
-						$to = $to . "," . $userMadeByEmail;
 						log_message('info', 'Client Key Email Addresses: ' . $to);
 						$body = '<tr width="100%" bgcolor="#ffffff">';
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>' . $lastTicketUpdatedQuery['clientAdmin']['name'] . '</b>,</td>';
