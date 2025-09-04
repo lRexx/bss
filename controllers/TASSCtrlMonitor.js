@@ -50,6 +50,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
       $scope.keyTotalAllowed=50000;
       $scope.deliveryCostFree=0;
       $scope.update={'ticket':{}, 'user':{}};
+      $scope.update.ticket.editCommentBtn=false;
       /*DATE PICKER*/
       $scope.formats = ['dd-MM-yyyy', 'dd/MM/yyyy', 'yyyy/MM/dd', 'dd.MM.yyyy', 'shortDate'];
       $scope.format = $scope.formats[1];
@@ -532,7 +533,19 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.mainSwitchFn("approveDepto", $scope.tenantObj);
                   $('#confirmRequestModal').modal('hide');
                 }
-            break;
+              break;
+              case "updateComment":
+                if (confirm==0){
+                    $scope.ticketObj=obj;
+                        console.log(obj)
+                        $scope.mess2show="Desea actualizar las observaciones/comentarios del pedido, Confirmar ?";
+                        //console.log(obj);
+                  $('#confirmRequestModal').modal('toggle');
+                }else if (confirm==1){
+                  $scope.mainSwitchFn("updateComment", $scope.ticketObj);
+                  $('#confirmRequestModal').modal('hide');
+                }
+              break;
               default:
           }
         }
@@ -2993,6 +3006,19 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               $timeout(function() {
                 $scope.changeTicketStatusRequestFn($scope.update);
               }, 2000);
+            break;
+            case "updateComment":
+                  console.log(obj);
+                  $scope.update.ticket                                  = obj;
+                  $scope.update.ticket.createNewMPLink                  = false;
+                  $scope.update.ticket.createNewMPLinkForDelivery       = false;
+                  $scope.update.ticket.history                          = [];
+                  $scope.update.ticket.refund                           = [];
+                  $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                  $scope.update.ticket.editCommentBtn = false;
+                  $timeout(function() {
+                    $scope.updateUpRequestFn($scope.update);
+                  }, 2000);
             break;
             case "change_ticket_status_multi":
               $scope.selectedTicketList = [];

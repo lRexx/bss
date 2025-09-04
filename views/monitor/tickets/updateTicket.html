@@ -364,11 +364,16 @@
               <div class="row">
                 <!-- Observaciones Adicionales -->
                   <div class="col-md-12">
-                    <legend style="text-align: left;">Observaciones Adicionales</legend>
+                    <legend style="text-align: left;">Observaciones Adicionales
+                        <!-- EDIT BUTTON -->
+                        <button ng-show="!update.ticket.editCommentBtn" data-toggle="tooltip" data-placement="right" ng-click="update.ticket.editCommentBtn = !update.ticket.editCommentBtn" title="Editar" class="btn btn-xs btn-warning"><i class="fas fa-edit"></i></button>
+                        <!-- SAVE BUTTON -->
+                        <button ng-show="update.ticket.editCommentBtn" ng-click="modalConfirmation('updateComment',0, tkupdate)" data-toggle="tooltip" data-placement="right" title="Guardar" class="btn btn-xs btn-success"><i class="fas fa-save"></i></button>
+                    </legend>
                     <!-- Form Special Request sru= Special Request Up -->
                     <div style="margin-left: 15px; padding-right: 40px;" class="form-group col-md-12">
                       <div class="col-md-12 col-xs-12 input-group">
-                        <textarea style="resize: vertical;" name="sruTenant" rows="4" ng-disabled="true" placeholder="Observaciones adicionales del pedido" class="form-control" ng-model="tkupdate.description" ></textarea>
+                        <textarea style="resize: vertical;" name="sruTenant" rows="4" ng-disabled="!update.ticket.editCommentBtn" placeholder="Observaciones adicionales del pedido" class="form-control" ng-model="tkupdate.description" ></textarea>
                       </div>
                     </div>
                 </div>
