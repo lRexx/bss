@@ -216,14 +216,14 @@ class Ticket_model extends CI_Model
 							$subject = null;
 							$body = null;
 							$to = null;
+							#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+							$to = implode(",", $emails);
 							if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "4") {
 								$userMadeByEmail = $lastTicketAddQuery['userMadeBy']['emailUser'];
+								$to = $to . "," . $userMadeByEmail;
 							} else {
 								$userMadeByEmail = "";
 							}
-							#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
-							$to = implode(",", $emails);
-							$to = $to . "," . $userMadeByEmail;
 							log_message('info', 'Client Key Email Addresses: ' . $to);
 							$title = "Pedido Alta Llavero";
 							$subject = "Pedido Alta Llavero :: " . $building['Depto'];
@@ -254,8 +254,15 @@ class Ticket_model extends CI_Model
 							$body .= '</tr>';
 
 							//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
-							$this->mail_model->sendMail($title, $to, $body, $subject);
+							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+							if ($rsMail == "Enviado") {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [SENT]');
+							} else {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
+							}
 						}
+					} else {
+						log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
 					}
 				}
 			} else {
@@ -274,14 +281,14 @@ class Ticket_model extends CI_Model
 						$subject = null;
 						$body = null;
 						$to = null;
+						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+						$to = implode(",", $emails);
 						if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "4") {
 							$userMadeByEmail = $lastTicketAddQuery['userMadeBy']['emailUser'];
+							$to = $to . "," . $userMadeByEmail;
 						} else {
 							$userMadeByEmail = "";
 						}
-						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
-						$to = implode(",", $emails);
-						$to = $to . "," . $userMadeByEmail;
 						log_message('info', 'Client Key Email Addresses: ' . $to);
 						$title = "Pedido Alta Llavero";
 						$subject = "Pedido Alta Llavero :: " . $lastTicketAddQuery['typeRequestFor']['name'];
@@ -310,7 +317,12 @@ class Ticket_model extends CI_Model
 							$body .= '</tr>';
 						}
 						//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
-						$this->mail_model->sendMail($title, $to, $body, $subject);
+						$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+						if ($rsMail == "Enviado") {
+							log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [SENT]');
+						} else {
+							log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
+						}
 					}
 				}
 			}
@@ -466,18 +478,30 @@ class Ticket_model extends CI_Model
 						$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
 					}
 					if ($rs == "Enviado" || ($ticket['sendNotify'] || !$ticket['sendNotify'])) {
+						log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [SENT]');
 						$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
 						$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
 						$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $building['idBuilding'];
 						$quuery = $this->db->where($where)->get();
 						if ($quuery->num_rows() > 0) {
-							$buildingAdminMail = $quuery->row_array();
+							log_message('info', ':::::::::::::::::Notification Emails Addresses');
+							log_message('info', '$quuery->num_rows: ' . $quuery->num_rows());
+							foreach ($quuery->result() as $row) {
+								$emails[] = $row->mailContact;
+							}
 							$title = null;
 							$subject = null;
 							$body = null;
 							$to = null;
-							#MAIL TO THE BUILDING OR ADMINISTRATION
-							$to = $buildingAdminMail['mailContact'];
+							#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+							$to = implode(",", $emails);
+							if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "4") {
+								$userMadeByEmail = $lastTicketAddQuery['userMadeBy']['emailUser'];
+								$to = $to . "," . $userMadeByEmail;
+							} else {
+								$userMadeByEmail = "";
+							}
+							log_message('info', 'Client Key Email Addresses: ' . $to);
 							$title = "Pedido Baja Llavero";
 							$subject = "Pedido Baja Llavero :: " . $building['Depto'];
 							$body = '<tr width="100%" bgcolor="#ffffff">';
@@ -507,8 +531,15 @@ class Ticket_model extends CI_Model
 							}
 
 							//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
-							$this->mail_model->sendMail($title, $to, $body, $subject);
+							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+							if ($rsMail == "Enviado") {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [SENT]');
+							} else {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
+							}
 						}
+					} else {
+						log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
 					}
 				}
 			} else {
@@ -518,13 +549,24 @@ class Ticket_model extends CI_Model
 					$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $ticket['idBuildingKf'];
 					$quuery = $this->db->where($where)->get();
 					if ($quuery->num_rows() > 0) {
-						$buildingAdminMail = $quuery->row_array();
+						log_message('info', ':::::::::::::::::Notification Emails Addresses');
+						log_message('info', '$quuery->num_rows: ' . $quuery->num_rows());
+						foreach ($quuery->result() as $row) {
+							$emails[] = $row->mailContact;
+						}
 						$title = null;
 						$subject = null;
 						$body = null;
 						$to = null;
-						#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
-						$to = $buildingAdminMail['mailContact'];
+						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+						$to = implode(",", $emails);
+						if ($lastTicketAddQuery['userMadeBy']['idProfileKf'] == "4") {
+							$userMadeByEmail = $lastTicketAddQuery['userMadeBy']['emailUser'];
+							$to = $to . "," . $userMadeByEmail;
+						} else {
+							$userMadeByEmail = "";
+						}
+						log_message('info', 'Client Key Email Addresses: ' . $to);
 						$title = "Pedido Baja Llavero";
 						$subject = "Pedido Baja Llavero :: " . $lastTicketAddQuery['typeRequestFor']['name'];
 						$body = '<tr width="100%" bgcolor="#ffffff">';
@@ -552,7 +594,12 @@ class Ticket_model extends CI_Model
 							$body .= '</tr>';
 						}
 						//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
-						$this->mail_model->sendMail($title, $to, $body, $subject);
+						$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+						if ($rsMail == "Enviado") {
+							log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [SENT]');
+						} else {
+							log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
+						}
 					}
 				}
 			}
@@ -1303,7 +1350,138 @@ class Ticket_model extends CI_Model
 								}
 
 							}
-							$this->mail_model->sendMail($title, $to, $body, $subject);
+							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+							if ($rsMail == "Enviado") {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
+							} else {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
+							}
+						}
+					}
+				}
+			} else {
+				if ($lastTicketUpdatedQuery['sendNotify'] == 1 || $lastTicketUpdatedQuery['sendNotify'] == null) {
+					//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
+					$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
+					$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
+					$where = "tb_client_mails.idTipoDeMailFk = 1 AND tb_client_mails.idClientFk = " . $lastTicketUpdatedQuery['idBuildingKf'];
+					$quuery = $this->db->where($where)->get();
+					if ($quuery->num_rows() > 0) {
+						log_message('info', ':::::::::::::::::Notification Emails Addresses');
+						log_message('info', '$quuery->num_rows: ' . $quuery->num_rows());
+						foreach ($quuery->result() as $row) {
+							$emails[] = $row->mailContact;
+						}
+						$title = null;
+						$subject = null;
+						$body = null;
+						$to = null;
+						$subject = "Pedido de Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
+						$title = $lastTicketUpdatedQuery['statusTicket']['statusName'];
+						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
+						$to = implode(",", $emails);
+						if ($lastTicketUpdatedQuery['userMadeBy']['idProfileKf'] == "4") {
+							$userMadeByEmail = $lastTicketUpdatedQuery['userMadeBy']['emailUser'];
+							$to = $to . "," . $userMadeByEmail;
+						} else {
+							$userMadeByEmail = "";
+						}
+						log_message('info', 'Client Key Email Addresses: ' . $to);
+						if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 7 || $lastTicketUpdatedQuery['idStatusTicketKf'] == 1 || $lastTicketUpdatedQuery['idStatusTicketKf'] == 5) {
+							#MAIL TO USER
+							$rs = null;
+							$body .= '<tr width="100%" bgcolor="#ffffff">';
+							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>' . $lastTicketUpdatedQuery['clientAdmin']['name'] . '</b>,</td>';
+							$body .= '</tr>';
+							$body .= '<tr width="100%" bgcolor="#ffffff">';
+							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b>, se encuentra <b>' . $lastTicketUpdatedQuery['statusTicket']['statusName'] . '</b></td>';
+							$body .= '</tr>';
+							$deliveryMethod = null;
+							$deliveredDate = null;
+							$deliveredTo = null;
+							$deliveredAddr = null;
+							$deliveryDate = null;
+							$body .= '<tr width="100%" bgcolor="#ffffff">';
+							if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 1) {
+								if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 7) {
+									$deliveryMethod = 'retirar por nuestras oficinas, Dirección: Carlos Calvo 3430 <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://www.google.com/maps?ll=-34.623655,-58.414103&z=16&t=m&hl=es-ES&gl=US&mapclient=embed&q=Carlos+Calvo+3430+C1230ABH+CABA" target="_blank" style="text-decoration: none; color: #ffffff;">Ver en el mapa</a></span>';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede pasar a ' . $deliveryMethod . '</td>';
+									$body .= '</tr>';
+								}
+								if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
+									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+									date_default_timezone_set('America/Argentina/Buenos_Aires');
+									$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>' . $lastTicketUpdatedQuery['retiredByFullName'] . '</b>, el dia ' . $deliveredDate . '</td>';
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+									$body .= '</tr>';
+								}
+							} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2) {
+								setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+								date_default_timezone_set('America/Argentina/Buenos_Aires');
+								if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 5) {
+									$deliveryDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La entrega de su pedido esta programado para el dia  ' . $deliveryDate . ' en la franja horaria de 16h a 22h.</td>';
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">En caso de no poder entregar el pedido, se hará un segundo intento al dia siguiente en el mismo horario.</td>';
+									$body .= '</tr>';
+								}
+								if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
+									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+									date_default_timezone_set('America/Argentina/Buenos_Aires');
+									$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
+									$deliveredTo = null;
+									$deliveredAddr = null;
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									switch ($lastTicketUpdatedQuery['idWhoPickUp']) {
+										case 1:
+											$deliveredTo = $lastTicketUpdatedQuery['userDelivery']['fullNameUser'];
+											switch ($lastTicketUpdatedQuery['idDeliveryTo']) {
+												case 1:
+													$deliveredAddr = $lastTicketUpdatedQuery['deliveryAddress']['address'];
+													break;
+												case 2:
+													$deliveredAddr = $lastTicketUpdatedQuery['otherDeliveryAddress']['address'] . " " . $lastTicketUpdatedQuery['otherDeliveryAddress']['number'];
+													break;
+											}
+											break;
+										case 2:
+											if ($lastTicketUpdatedQuery['idDeliveryTo'] == null) {
+												$deliveredTo = $lastTicketUpdatedQuery['userDelivery']['fullNameUser'];
+												$deliveredAddr = $lastTicketUpdatedQuery['building']['address'];
+											}
+											break;
+										case 3:
+											if ($lastTicketUpdatedQuery['idDeliveryTo'] == null) {
+												$deliveredTo = $lastTicketUpdatedQuery['thirdPersonDelivery']['fullName'];
+												$deliveredAddr = $lastTicketUpdatedQuery['thirdPersonDelivery']['address'] . " " . $lastTicketUpdatedQuery['thirdPersonDelivery']['number'];
+											}
+											break;
+									}
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido ha sido entregado a <b>' . $deliveredTo . '</b>, el dia ' . $deliveredDate . ' en la siguiente dirección: <b>' . $deliveredAddr . '</b></td>';
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+									$body .= '</tr>';
+								}
+
+							}
+							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+							if ($rsMail == "Enviado") {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
+							} else {
+								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
+							}
 						}
 					}
 				}
