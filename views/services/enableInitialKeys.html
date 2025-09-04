@@ -15,25 +15,25 @@
                         <div class="form-group">
                             <!-- End_date -->
                             <div class="form-group col-md-12 col-md-12 col-xs-12" ng-class="
-                            {'has-success': 
+                            {'has-success':
                             customer.update.expirationDate!='' && customer.update.expirationDate!=undefined && customer.update.expirationDate!=null && fInitialKey.bonus_end_date.$valid,
-                            'has-error':  
+                            'has-error':
                                 (customer.update.expirationDate=='' || customer.update.expirationDate==undefined) && fInitialKey.bonus_end_date.$touched,
                             }">
                                 <label style="padding-left: 15px;">Fecha de finalización</label>
                                 <div class="col-xs-12">
                                     <div class="input-group">
                                         <span ng-click="open_end_date()" class="input-group-addon"><i ng-click="open_end_date()" class="far fa-calendar-alt"></i></span>
-                                        <input 
-                                        ng-click="open_end_date()" 
-                                        type="text" 
+                                        <input
+                                        ng-click="open_end_date()"
+                                        type="text"
                                         name="bonus_end_date"
                                         class="form-control"
-                                        uib-datepicker-popup="{{format}}" 
-                                        ng-model="customer.update.expirationDate" 
-                                        is-open="popup_end_date.opened"  
+                                        uib-datepicker-popup="{{format}}"
+                                        ng-model="customer.update.expirationDate"
+                                        is-open="popup_end_date.opened"
                                         ng-required="true"
-                                        close-text="Cerrar" 
+                                        close-text="Cerrar"
                                         clear-text="Borrar"
                                         current-text="Hoy"
                                         alt-input-formats="altInputFormats" />
@@ -43,22 +43,22 @@
                         </div>
                         <div class="form-group">
                             <div class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="{
-                                'has-success': 
-                                    customer.update.initial_qtty!='' && customer.update.initial_qtty!=null && customer.update.initial_qtty>0  && fInitialKey.mainQttyKeys.$valid,
+                                'has-success':
+                                    customer.update.initial_qtty!='' && customer.update.initial_qtty!=null && customer.update.initial_qtty>=0  && fInitialKey.mainQttyKeys.$valid,
                                 'has-error':
-                                    (!customer.update.initial_qtty || customer.update.initial_qtty==undefined || customer.update.initial_qtty==0) &&  fInitialKey.mainQttyKeys.$touched,
+                                    (!customer.update.initial_qtty || customer.update.initial_qtty==undefined) &&  fInitialKey.mainQttyKeys.$touched,
                                 }">
-                                <label style="padding-left: 15px;">N° de Llaves para cada unidad</label>  
+                                <label style="padding-left: 15px;">N° de Llaves para cada unidad</label>
                                 <div class="col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-sort-numeric-up-alt"></i></span>
-                                        <input 
-                                            name="mainQttyKeys" 
+                                        <input
+                                            name="mainQttyKeys"
                                             ng-minlength="0"
-                                            class="form-control input--number" 
-                                            ng-model="customer.update.initial_qtty"  
-                                            type="text" 
-                                            ng-blur="fnLoadPhoneMask();" 
+                                            class="form-control input--number"
+                                            ng-model="customer.update.initial_qtty"
+                                            type="text"
+                                            ng-blur="fnLoadPhoneMask();"
                                             ng-keydown="fnLoadPhoneMask();" autofocus />
                                     </div>
                                 </div>
@@ -66,23 +66,23 @@
                         </div>
                         <div class="form-group">
                             <div class="form-group ol-md-12 col-sm-12 col-xs-12" ng-class="{
-                                'has-success': 
+                                'has-success':
                                     customer.update.initial_price!='' && customer.update.initial_price!=null && customer.update.initial_price>0  && fInitialKey.mainKeyPrice.$valid,
                                 'has-error':
                                     (!customer.update.initial_price || customer.update.initial_price==undefined || customer.update.initial_price==0) &&  fInitialKey.mainKeyPrice.$touched,
                                 }">
-                                <label style="padding-left: 15px;">Precio</label>  
+                                <label style="padding-left: 15px;">Precio</label>
                                 <div class="col-xs-12">
                                     <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-dollar-sign"></i></span>
-                                        <input 
-                                            name="mainKeyPrice" 
-                                            ng-minlength="0" 
-                                            class="form-control input--decimal" 
+                                        <input
+                                            name="mainKeyPrice"
+                                            ng-minlength="0"
+                                            class="form-control input--decimal"
                                             placeholder="$0,00"
-                                            ng-model="customer.update.initial_price"  
-                                            type="text" 
-                                            ng-blur="fnLoadPhoneMask();" 
+                                            ng-model="customer.update.initial_price"
+                                            type="text"
+                                            ng-blur="fnLoadPhoneMask();"
                                             ng-keydown="fnLoadPhoneMask();" autofocus />
                                     </div>
                                 </div>
@@ -91,7 +91,7 @@
 
                     </fieldset>
                 </form>
-                <div class="clearfix"> </div> 
+                <div class="clearfix"> </div>
             </div>
 			<!-- Actions Button -->
             <div class="modal-footer">
