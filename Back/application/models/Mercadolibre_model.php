@@ -682,7 +682,12 @@ class Mercadolibre_model extends CI_Model
 						$subject = null;
 						$body = null;
 						$to = null;
-						$buildingAdminMail = $quuery->row_array();
+						log_message('info', ':::::::::::::::::Notification Emails Addresses');
+						log_message('info', '$quuery->num_rows: ' . $quuery->num_rows());
+						foreach ($quuery->result() as $row) {
+							$emails[] = $row->mailContact;
+							log_message('info', '$row->mailContact: ' . $row->mailContact);
+						}
 						if (!$data['paymentForDelivery']) {
 							$subject = "Pedido Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Link de Pago";
 							$link_mp = $lastTicketUpdatedQuery['paymentDetails']['mp_prod_init_point'];
@@ -690,8 +695,15 @@ class Mercadolibre_model extends CI_Model
 							$subject = "Pedido Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: Link de Pago de Envío";
 							$link_mp = $lastTicketUpdatedQuery['paymentDeliveryDetails']['mp_prod_init_point'];
 						}
+						if ($lastTicketUpdatedQuery['userMadeBy']['idProfileKf'] == "4") {
+							$userMadeByEmail = $lastTicketUpdatedQuery['userMadeBy']['emailUser'];
+						} else {
+							$userMadeByEmail = "";
+						}
 						#MAIL TO THE BUILDING OR ADMINISTRATION typeRequestFor
-						$to = $buildingAdminMail['mailContact'];
+						$to = implode(",", $emails);
+						$to = $to . "," . $userMadeByEmail;
+						log_message('info', 'Client Key Email Addresses: ' . $to);
 						$body = '<tr width="100%" bgcolor="#ffffff">';
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>' . $lastTicketUpdatedQuery['clientAdmin']['name'] . '</b>,</td>';
 						$body .= '</tr>';
