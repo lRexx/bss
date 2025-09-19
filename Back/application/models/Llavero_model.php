@@ -792,7 +792,7 @@ class Llavero_model extends CI_Model
 		$this->db->join('tb_products tp', 'tp.idProduct = tkc.idProductKf', 'left');
 		$this->db->join('tb_products_classification tpc', 'tpc.idProductClassification = tp.idProductClassificationFk', 'left');
 		$this->db->where('td.idServiceKf', $idService);
-		$this->db->where('tk.idDepartmenKf IS NOT NULL');
+		//$this->db->where('tk.idDepartmenKf IS NOT NULL');
 		$quuery = $this->db->get();
 
 		if ($quuery->num_rows() > 0) {
