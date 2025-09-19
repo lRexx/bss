@@ -1497,8 +1497,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             ttl:8000, type: 'warning'
                                     });
                                     $('#confirmRequestModalCustom').modal('hide');
-                                }else if (confirm<0){
-                                    $scope.customer={};
+                                }else if (confirm==null){
+                                    $scope.skipTicketValidationTmp=false
                                 }
                             break;
                             default:
