@@ -783,7 +783,7 @@ class Llavero_model extends CI_Model
 		$this->db->join('tb_access_control_door acd', 'acd.idAccessControlDoor = td.idAccessControlDoorKf', 'left');
 		$this->db->join('tb_contratos tc', 'tc.idContrato = td.idContractKf', 'left');
 		$this->db->join('tb_status tst', 'tst.idStatusTenant = tc.idStatusFk', 'left');
-		$this->db->join('tb_ticket_keychain tkc', 'tkc.id = td.idTicketKeychainKf', 'left');
+		$this->db->join('tb_ticket_keychain tkc', 'tkc.idTicketKeychain = td.idTicketKeychainKf', 'left');
 		$this->db->join('tb_keychain tk', 'tk.idKeychain = tkc.idKeychainKf', 'left');
 		$this->db->join('tb_client_departament d', 'd.idClientDepartament = tk.idDepartmenKf', 'left');
 		$this->db->join('tb_user u', 'u.idUser = tk.idUserKf', 'left');
