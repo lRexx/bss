@@ -14,6 +14,23 @@
 						<div class="col-md-12">
 							<label class="from-left-from-label text-uppercase" > Ticket Asociados </label> <span class="badge badge-warning">Requerido</span>
 						</div>
+						<div ng-if="rsTicketData.length>0" class="col-md-12 col-sm-12 col-xs-12 ">
+							<div class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
+								<div class="col-md-6 col-sm-6 col-xs-6 n-padding-l n-padding-r">
+									<div class="n-padding-r">
+									<label class="switch switch-2x" for="isStockInBuilding-set">
+										<input type="checkbox" class="success"
+											ng-disabled="rsTicketData.length==0"
+											ng-click="modalConfirmation('skipTicketValidation', 0, skipTicketValidationTmp)"
+											ng-model="skipTicketValidationTmp"
+											id="skipTicketValidationTmp-set">
+										<span class="slider slider-2x flat"></span>
+									</label>
+									<span class="font-size-10px"><span ng-if="skipTicketValidationTmp" style="cursor: pointer; margin-top: -8%;" class="badge badge-success">Omitir validación</span></span>
+									</div>
+								</div>
+							</div>
+						</div>
 						<div ng-if="rsTicketData.length>0" class="col-md-12">
 							<div class="alert alert-warning" role="alert">
 								<strong>IMPORTANTE: </strong>Los tickets listado deben ser completados para realizar la baja del servicio.
@@ -49,13 +66,13 @@
 					</div>
 					</fieldset>
 				</form>
-				<div class="clearfix"> </div> 
+				<div class="clearfix"> </div>
 			</div>
 			<!-- Actions Button -->
             <div class="modal-footer">
                 <div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-						<button type="submit" ng-click="switchCustomersFn('contract', contract.update, 'requiredInputForContractTermination')" ng-disabled="rsInternetServiceData>0 || rsTicketData.length>0 || rsServiceData.length>0" class="btn btn-labeled btn-success">
+						<button type="submit" ng-click="switchCustomersFn('contract', contract.update, 'requiredInputForContractTermination')" ng-disabled="skipTicketValidation || rsInternetServiceData>0 || rsTicketData.length>0 || rsServiceData.length>0" class="btn btn-labeled btn-success">
 							<span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Continuar</button>
                         <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
