@@ -4087,7 +4087,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                                     //    }
                                                     //});
                                                     blockUI.message('Verificando si existen Llaveros Asociados.');
-                                                    serviceServices.checkKeysAssigned2DepartmentByService(serv.idServicesFk).then(function(response_keys){
+                                                    KeysServices.checkKeysAssigned2DepartmentByService(serv.idServicesFk).then(function(response_keys){
                                                         if(response_keys.status==200){
                                                             $scope.rsKeysDataTmp=$scope.rsKeysDataTmp.concat(response_keys.data.keys_assigned);
                                                         }else if (response_keys.status==404){

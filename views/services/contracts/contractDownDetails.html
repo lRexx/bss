@@ -13,8 +13,7 @@
 					<div class="well-checkbox form-group col-md-12 n-padding-b">
 						<div class="col-md-4">
 							<label  class="from-left-from-label text-uppercase" > Ticket Asociados </label>
-							<span  ng-show="!skipTicketValidationTmp" class="badge badge-warning">Requerido</span>
-							<span ng-show="skipTicketValidationTmp" class="badge badge-info">No Requerido</span>
+							<span  class="badge badge-warning">Requerido</span>
 						</div>
 						<div ng-if="rsTicketData.length>0" class="col-md-6 col-sm-6 col-xs-6 n-padding-l">
 							<div class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
@@ -30,7 +29,7 @@
 									</label>
 									<span class="font-size-10px">
 										<span ng-if="!skipTicketValidationTmp" style="cursor: pointer; margin-top: -14%;" class="badge badge-default">Omitir validación</span>
-										<span ng-if="skipTicketValidationTmp" style="cursor: pointer; margin-top: -14%;" class="badge badge-warning">Omitir validación</span>
+										<span ng-if="skipTicketValidationTmp" style="cursor: pointer; margin-top: -14%;" class="badge badge-success">Validación omitida</span>
 									</span>
 									</div>
 								</div>
