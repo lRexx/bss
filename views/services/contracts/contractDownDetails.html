@@ -12,8 +12,9 @@
 					<fieldset>
 					<div class="well-checkbox form-group col-md-12 n-padding-b">
 						<div class="col-md-4">
-							<label ng-if="!skipTicketValidationTmp" class="from-left-from-label text-uppercase" > Ticket Asociados </label> <span class="badge badge-warning">Requerido</span>
-							<label ng-if="skipTicketValidationTmp" class="from-left-from-label text-uppercase" > Ticket Asociados </label> <span class="badge badge-info">No Requerido</span>
+							<label  class="from-left-from-label text-uppercase" > Ticket Asociados </label>
+							<span  ng-if="!skipTicketValidationTmp" class="badge badge-warning">Requerido</span>
+							<span ng-if="skipTicketValidationTmp" class="badge badge-info">No Requerido</span>
 						</div>
 						<div ng-if="rsTicketData.length>0" class="col-md-6 col-sm-6 col-xs-6 n-padding-l">
 							<div class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r">
@@ -76,7 +77,7 @@
             <div class="modal-footer">
                 <div class="row">
 					<div class="col-xs-12 col-sm-12 col-md-6 pull-right">
-						<button type="submit" ng-click="switchCustomersFn('contract', contract.update, 'requiredInputForContractTermination')" ng-disabled="!skipTicketValidation || rsInternetServiceData>0 || rsTicketData.length>0 || rsServiceData.length>0" class="btn btn-labeled btn-success">
+						<button type="submit" ng-click="switchCustomersFn('contract', contract.update, 'requiredInputForContractTermination')" ng-disabled="(!skipTicketValidation || (rsInternetServiceData>0 || rsTicketData.length>0 || rsServiceData.length>0))" class="btn btn-labeled btn-success">
 							<span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Continuar</button>
                         <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
