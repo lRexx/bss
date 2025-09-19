@@ -1489,9 +1489,11 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             case "skipTicketValidation":
                                 if (confirm==0){
                                     $scope.argObj=obj;
-                                      $scope.mess2show="Deshabilitar la validación de los tickets asociados al contrato,     Confirmar?";
+                                    console.log("skipTicketValidationTmp: "+$scope.argObj);
+                                    $scope.mess2show="Deshabilitar la validación de los tickets asociados al contrato,     Confirmar?";
                                     $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
                                 }else if (confirm==1){
+                                    console.log("skipTicketValidationTmp: "+$scope.argObj);
                                     $scope.skipTicketValidation=$scope.argObj;
                                     inform.add('Validación deshabilitada, continuar con la baja del contrato. ',{
                                             ttl:8000, type: 'warning'
