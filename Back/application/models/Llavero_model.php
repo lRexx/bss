@@ -794,7 +794,7 @@ class Llavero_model extends CI_Model
 		$this->db->where('td.idServiceKf', $idService);
 		//$this->db->where('tk.idDepartmenKf IS NOT NULL');
 		$quuery = $this->db->get();
-
+		log_message('debug', 'SQL: ' . $this->db->last_query());
 		if ($quuery->num_rows() > 0) {
 			$rs = $quuery->result_array();
 			return $rs;
