@@ -22,14 +22,14 @@
 									<label class="switch switch-2x" for="skipTicketValidationTmp-set">
 										<input type="checkbox" class="success"
 											ng-disabled="rsTicketData.length==0"
-											ng-click="modalConfirmation('skipTicketValidation', 0, skipTicketValidationTmp)"
-											ng-model="skipTicketValidationTmp"
+											ng-click="modalConfirmation('skipTicketValidation', 0, contract.update.skipTicketValidationTmp)"
+											ng-model="contract.update.skipTicketValidationTmp"
 											id="skipTicketValidationTmp-set">
 										<span class="slider slider-2x flat"></span>
 									</label>
 									<span class="font-size-10px">
-										<span ng-if="!skipTicketValidationTmp" style="cursor: pointer; margin-top: -14%;" class="badge badge-default">Omitir validación</span>
-										<span ng-if="skipTicketValidationTmp" style="cursor: pointer; margin-top: -14%;" class="badge badge-success">Validación omitida</span>
+										<span ng-if="!contract.update.skipTicketValidationTmp" style="cursor: pointer; margin-top: -14%;" class="badge badge-default">Omitir validación</span>
+										<span ng-if="contract.update.skipTicketValidationTmp" style="cursor: pointer; margin-top: -14%;" class="badge badge-success">Validación omitida</span>
 									</span>
 									</div>
 								</div>
