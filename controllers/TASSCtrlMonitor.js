@@ -4271,7 +4271,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $scope.getAddressDetailsFn(address, obj[f].thirdPersonDelivery.idProvinceFk);
                   ubicacion_lat   = $scope.ubicacion_lat;
                   ubicacion_lon   = $scope.ubicacion_lon;
-                  whoReceive      = obj[f].thirdPersonDelivery.fullName!=undefined?obj[f].userthirdPersonDeliveryDelivery.fullName:"No asignado";
+                  whoReceive      = obj[f].thirdPersonDelivery.fullName!=undefined?obj[f].thirdPersonDelivery.fullName:"No asignado";
                 }
 
                 var codTicket     = obj[f].codTicket;
