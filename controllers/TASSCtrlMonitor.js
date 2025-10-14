@@ -2965,6 +2965,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             case "change_ticket_status":
               console.log(obj);
               $scope.ticket = obj;
+              $scope.ticket.delivery = {};
               if (obj.idTypeDeliveryKf=='2'){
                 if (obj.idStatusTicketKf!='5'){
                   $scope.ticket.deliveryDate = new Date();
