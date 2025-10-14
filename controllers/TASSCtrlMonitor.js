@@ -1450,7 +1450,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               ($scope.ticket.building!=undefined && $scope.ticket.building.allowOfficePickup!='1')){
               //console.log(item);
               //$scope.ticket.delivery = {};
-              console.log($scope.ticket.delivery);
+              console.log($scope.ticket);
               $scope.ticket.delivery.idTypeDeliveryKf="2";
               return item.idTypeDelivery != "1";
           }else{
