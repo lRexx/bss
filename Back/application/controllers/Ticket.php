@@ -170,7 +170,40 @@ class Ticket extends REST_Controller
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+    public function addDeliveryCompany_post()
+    {
+        log_message('info', ':::::::::::::::::addDeliveryCompany');
+        if (!$this->post('ticket')) {
+            log_message('info', ':::::::::::::::::addDeliveryCompany => Post (ticket) Object [MISSING]');
+            $this->response(null, 404);
+        }
 
+        $rs = null;
+        $rs = $this->ticket_model->addDeliveryCompany($this->post('ticket'));
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+    public function setTicketDelivered_post()
+    {
+        log_message('info', ':::::::::::::::::setTicketDelivered');
+        if (!$this->post('ticket')) {
+            log_message('info', ':::::::::::::::::setTicketDelivered => Post (ticket) Object [MISSING]');
+            $this->response(null, 404);
+        }
+
+        $rs = null;
+        $rs = $this->ticket_model->setTicketDelivered($this->post('ticket'));
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
     public function completeTicketRefund_post()
     {
 
@@ -388,7 +421,16 @@ class Ticket extends REST_Controller
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+    public function setKeysEnableDisable_post()
+    {
 
+        $rs = $this->ticket_model->setKeysEnableDisable($this->post('ticket'));
+        if (!is_null($rs)) {
+            $this->response(array('response' => $rs), 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
     public function updateTmpTicket_post()
     {
 
@@ -576,7 +618,6 @@ class Ticket extends REST_Controller
         }
     }
 
-
     public function deleteFile_post()
     {
         $urlFile = $this->post('fileName');
@@ -610,6 +651,7 @@ class Ticket extends REST_Controller
     {
         log_message('info', ':::::::::::::::::setBillingUploaded');
         if (!$idTicketKf) {
+            log_message('info', ':::::::::::::::::setBillingUploaded => idTicket [MISSING]');
             $this->response(array('error' => 'Missing, Ticket ID'), 404);
         }
         log_message('info', ':::::::::::::::::setBillingUploaded => idTicket: ' . $idTicketKf);
