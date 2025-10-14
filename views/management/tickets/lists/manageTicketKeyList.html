@@ -44,7 +44,7 @@
                         <h5 class="col-md-offset-1"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Los llaveros destinados al Stock solo podran ser gestionados de forma manual.</span></h5>
                         </div>
                     </div>
-                    <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && ticket.selected.idTypeRequestFor=='1' && tkupdate.idMgmtMethodKf==null && rsAllKeychainListDataFiltered.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
+                    <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && ticket.selected.idTypeRequestFor=='1' && tkupdate.idMgmtMethodKf==null && existingStockKeys.length>0 && rsAllKeychainListDataFiltered.length<tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info" style="margin-bottom:0px !important;">
                         <h5 class="col-md-offset-1"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Hay llaveros suficientes en stock para gestionar el pedido.</span></h5>
                         </div>
