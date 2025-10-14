@@ -306,7 +306,7 @@ class Services_model extends CI_Model
                 'portHttp' => $item['portHttp'],
                 'locationEmergencyButton' => $item['locationEmergencyButton'],
                 'locationOffKey' => $item['locationOffKey'],
-                'observation' => @@$item['observation'],
+                'observation' => @$item['observation'],
                 'terminationReason' => @$item['terminationReason'],
                 'terminationApprovedByIdUserKf' => @$item['terminationApprovedByIdUserKf'],
                 'idReasonTypeKf' => @$item['reasonType'],
@@ -1147,9 +1147,11 @@ class Services_model extends CI_Model
                 //$servicios = $this->db->join('tb_tipo_conexion_remoto', 'tb_tipo_conexion_remoto.idTipoConexionRemoto = tb_client_services_alarms.idTypeConectionRemote', 'LEFT');
             }
             $servicios = $this->db->where('idContracAssociated_SE', $idContrato);
+            $servicios = $this->db->distinct();
             $servicios = $this->db->get();
 
             if ($servicios->num_rows() > 0) {
+                log_message('info', print_r($servicios->result_array(), true));
                 //print_r($servicios->result_array());
                 foreach ($servicios->result_array() as $key => $item) {
                     foreach ($relaciones as $tabla1 => $data) {
@@ -1262,8 +1264,11 @@ class Services_model extends CI_Model
 
                                     } else {
                                         if ($tabla == "tb_client_services_alarms" && $id == 'fk') {
+                                            log_message('info', $servicios->num_rows());
+                                            log_message('info', $tabla);
+                                            log_message('info', $id);
                                             foreach ($data[$id] as $idFk => $item3Fk) {
-
+                                                //log_message('info', $item3Fk);
                                                 foreach ($item3Fk as $idFk2 => $item3Fk2) {
                                                     //print_r($item3Fk[1]);
                                                     if ($idFk2 === "fk") {
