@@ -2752,7 +2752,7 @@ class Ticket_model extends CI_Model
 					}
 				}
 				//arsort($rsA);
-				if (count($rsA) > 0) {
+				if (count($rsA) >= 0) {
 					usort($rsA, function ($a, $b) {
 						return $b['idTicket'] - $a['idTicket']; // Ordenar de mayor a menor
 					});
@@ -2864,7 +2864,7 @@ class Ticket_model extends CI_Model
 				}
 			}
 			//arsort($rsA);
-			if (count($rsA) > 0) {
+			if (count($rsA) >= 0) {
 				usort($rsA, function ($a, $b) {
 					return $b['idTicket'] - $a['idTicket']; // Ordenar de mayor a menor
 				});
@@ -2983,7 +2983,7 @@ class Ticket_model extends CI_Model
 
 				}
 			}
-			if (count($rsA) > 0) {
+			if (count($rsA) >= 0) {
 				usort($rsA, function ($a, $b) {
 					return $b['idTicket'] - $a['idTicket']; // Ordenar de mayor a menor
 				});
