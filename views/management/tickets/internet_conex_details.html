@@ -1,0 +1,82 @@
+<!-- Modal Delivery Change -->
+<div id="CtrlAccessConexDetails" style="top: 50px;" style="top: 100px;padding-left: 12px;z-index: 2160 !important;" class="modal fade modal-dialog-centered"  role="dialog">
+    <div class="modal-dialog modal-xs" >
+      <div class="modal-content">
+              <div class="modal-header">
+                  <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+                  <h3 class="modal-title"><i class="fas fa-network-wired"></i> DETALLES DE CONEXION ONLINE</h3>
+              </div>
+          <div class="modal-body">
+            <div ng-repeat="item in tkupdate.accessControlDoors" class="panel panel-default" style="margin-bottom: 0px !important;">
+                <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyInternetConnection" ng-click="togglePanel('panelBodyInternetConnection')" style="cursor: pointer;">
+                    <h3 class="panel-title">
+                        <i class="product-success fas fa-key"></i> CONTROL DE ACCESO DE PUERTA: <span class="label label-default">{{item.titulo | uppercase}}</span>&nbsp;<span class="label label-success" ><i class="fas fa-check-circle"></i></span>
+                        <i ng-class="{'fa-chevron-up': !panels.panelBodyInternetConnection, 'fa-chevron-down': panels.panelBodyInternetConnection}" class="fas pull-right"></i>
+                    </h3>
+                </div>
+                <div id="panelBodyInternetConnection" class="panel-body n-padding-b collapse " ng-class="{'in': !panels.panelBodyInternetConnection}">
+                    <!-- Control_de_Acceso: direccion vpn -->
+                    <div class="form-group col-md-12" >
+                        <label style="padding-left: 15px;">Direcci&#243;n VPN</label> 
+                        <div class="pull-right col-md-4 n-padding-r" ><a ng-disabled="item.controlAccessInternet.addressVpn==undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{item.controlAccessInternet.urlVpn}}" class="btn btn-xs btn-warning"><i class="fas fa-link"></i> Abril url</a></div>					
+                            <div class="col-xs-12">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                                    <input name="service_address_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.controlAccessInternet.addressVpn" />
+                            </div>
+                            </div>
+                        </div>
+                    <!-- Control_de_Acceso: usuario -->
+                    <div class="form-group col-md-6" >
+                        <label style="padding-left: 15px;">Usuario</label>  
+                            <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-user-shield"></i></span>
+                                <input name="service_username_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.controlAccessInternet.useVpn" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Control_de_Acceso: contraseña -->
+                    <div class="form-group col-md-6" >
+                        <label style="padding-left: 15px;">Contraseña</label>  
+                            <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                <input name="service_userPass_vpn" type="text" class="form-control" ng-disabled="true" ng-model="item.controlAccessInternet.passVpn" />
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Control_de_Acceso: usuario -->
+                    <!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+                        <label style="padding-left: 15px;">Usuario</label>  
+                            <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-user"></i></span>
+                                <input name="service_username_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="false" ng-model="service.update.user" />
+                            </div>
+                        </div>
+                    </div>-->
+                    <!-- Control_de_Acceso: contraseña -->
+                    <!--<div class="form-group col-md-6" ng-show="service.update.isHasInternetConnect">
+                        <label style="padding-left: 15px;">Contraseña</label>  
+                            <div class="col-xs-12">
+                            <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                <input name="service_userPass_router" type="text" class="form-control" ng-disabled="!service.update.isHasInternetConnect" ng-disabled="(service.update.dateDown!=undefined && service.update.dateDown!=null && service.update.dateDown!='')"  ng-required="false" ng-model="service.update.pass" />
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

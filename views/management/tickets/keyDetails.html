@@ -1,0 +1,108 @@
+<!-- CUSTOMER REGISTER FORM -->
+<div id="keyDetails" class="modal fade" style="top: 170px;" role="dialog">
+    <div class="modal-dialog modal-xl" >
+      <div class="modal-content">
+          <div class="modal-header">
+              <button type="button" class="close" ng-click="modalConfirmation('closeKeyDetails', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="product-success fas fa-key"></i> DETALLES DEL LLAVERO :: <span class="label label-default font-size-12px text-uppercase">{{keys.details.categoryKeychain}}</span> 
+                <span class="label font-size-12px text-uppercase" ng-class="{'label-success': keys.details.idKeychainStatus != undefined && keys.details.idKeychainStatus != null && keys.details.idKeychainStatusKf == '1', 'label-warning': keys.details.idKeychainStatus != undefined && keys.details.idKeychainStatus != null && keys.details.idKeychainStatus == '0', 'label-danger': keys.details.idKeychainStatus != undefined && keys.details.idKeychainStatus != null && keys.details.idKeychainStatus != '0' && keys.details.idKeychainStatus != '1', }">{{keys.details.statusKey}}</span>
+              </h3>
+          </div>
+        <div class="modal-body">
+        <div class="row-fluid">
+          <div  class="col-md-12 well-checkbox n-margin-l customer-frame">
+            <!-- LEFT COLUMN -->
+            <div class="col-md-6 n-padding-l n-padding-r">
+              <div class="col-md-12 col-xs-12">
+                <span> ID : 
+                  <label class="badge badge-default">{{keys.details.idKeychain}}</label>
+                </span>
+              </div>
+              <div class="col-md-12"><span>Tipo   : <label class="badge badge-default">{{keys.details.categoryKeychain | uppercase}}</label></span></div>
+              <div class="col-md-12"><span>Codigo : </span><span style="font-weight: 600;"class="text-warning">{{keys.details.codigo | uppercase}}</span></div>
+              <div class="col-md-12"><span>Codigo Externo: </span><span>{{keys.details.codExt | uppercase}}</span></div>
+            </div>
+            <!-- RIGHT COLUMN -->
+            <div class="col-md-6 n-padding-l n-padding-r">
+                <div class="col-md-12 col-xs-12"><span>Consorcio : <label class="badge badge-default"> {{keys.details.buildingAddress}}</label></div>
+                <div class="col-md-12" ng-if="keys.details.idCategoryKey=='1'"><span>Unidad: <label class="badge badge-default">{{keys.details.floor | uppercase}}-{{keys.details.departament | uppercase}}</label></span></div>
+                <div class="col-md-12">
+                  <span>Usuario asignado: 
+                    <span ng-if="keys.details.idUserKf!='' && keys.details.idUserKf!=null && keys.details.idUserKf!=0"><span data-toggle="tooltip" data-placement="top"  title="Si" class="font-size-18px"><i class="text-success fas fa-check-circle"></i></span><span>{{keys.details.keychainUserFullName | uppercase}} </span><label class="badge badge-success"> {{ keys.details.keychainUserProfile }}</label></span>
+                      <label ng-if="keys.details.idUserKf=='' || keys.details.idUserKf==null || keys.details.idUserKf==0" class="badge badge-warning"><i  class="fas fa-lightbulb"></i> No asociado</label>
+                  </span>
+              </div>
+                <div class="col-md-12">
+                    <span>Llave para inquilino: 
+                        <label ng-if="keys.details.isKeyTenantOnly!='' && keys.details.isKeyTenantOnly!=null && keys.details.isKeyTenantOnly!=0" class="badge badge-success"><i class="fas fa-check-circle"></i> Si</label>
+                        <label ng-if="keys.details.isKeyTenantOnly=='' || keys.details.isKeyTenantOnly==null || keys.details.isKeyTenantOnly==0" class="badge badge-warning"><i  class="fas fa-lightbulb"></i> No</label>
+                    </span>
+                </div>
+                <div class="col-md-12">
+                    <span>Llavero: 
+                        <span class="text-capitalize"> {{keys.details.descriptionProduct | lowercase}}</span>
+                        <label class="badge badge-default">{{keys.details.model | uppercase}}</label>
+                    </span>
+                </div>
+          </div>
+        </div>
+        <div class="col-md-12 well-checkbox n-margin-l customer-frame" ng-repeat="key_event in keys.details.tb_keychain_process_events">
+          <!-- LEFT COLUMN -->
+          <div class="col-md-6 n-padding-l n-padding-r">
+            <div class="col-md-12 col-xs-12">
+              <span> Evento: 
+                <label class="badge" ng-class="{'badge-warning':key_event.idTypeTicketKf=='2','badge-success':key_event.idTypeTicketKf=='1'}">{{key_event.TypeTicketName}}</label>
+              </span>
+            </div>
+            <div class="col-md-12"><span>Creado por : </span><span>{{key_event.createdByUserFullName | uppercase}} </span><label class="badge badge-success"> {{ key_event.createdByUserProfile }}</label></div>
+          </div>
+          <!-- RIGHT COLUMN -->
+          <div class="col-md-6 n-padding-l n-padding-r">
+              <div class="col-md-6"><span>Fecha   : {{ key_event.created_at }} </span></div>
+              <div ng-if="key_event.idReasonKf!=null && key_event.idReasonKf!=undefined" class="col-md-12">
+                  <span>Razón:
+                      <label ng-if="key_event.idReasonKf!=null && key_event.idReasonKf!=undefined" class="label" ng-class="{'label-danger':key_event.idReasonKf=='1','label-warning':key_event.idReasonKf=='2','label-default':key_event.idReasonKf=='3' || key_event.idReasonKf=='4'}">
+                        <i class="fas " ng-class="{'fa-mask':key_event.idReasonKf=='1','fa-search-location':key_event.idReasonKf=='2','fa-key':key_event.idReasonKf=='3' || key_event.idReasonKf=='4'}"></i> {{ key_event.reasonDisabledItem | uppercase}} 
+                      </label>
+                      <label ng-if="key_event.idReasonKf==null || key_event.idReasonKf==undefined" class="label label-default" ><i class="fas fa-search-location"></i> - </label>
+                  </span>
+              </div>
+          </div>
+          <div ng-if="key_event.idTypeTicketKf=='2'" class="col-md-12 well-checkbox n-margin-l customer-frame">
+            <span>Descripción: <br></span>
+            <span class="text-capitalize"> {{ key_event.description | uppercase}}</span>
+          </div>
+          <div ng-if="key_event.idKeychainUserLast!=undefined && key_event.idKeychainUserLast!=null && key_event.keychainUserLast_array!=unefined" class="col-md-12 well-checkbox n-margin-l customer-frame">
+            <!-- LEFT COLUMN -->
+            <legend style="text-align: left;">Ultimo usuario asociado:</legend>
+            <div class="col-md-6 n-padding-l n-padding-r">
+              <div class="col-md-12 col-xs-12">
+                  <div class="col-md-12"><span>{{key_event.keychainUserLast_array.keychainUserFullName | uppercase}} </span><label class="badge badge-success"> {{ key_event.keychainUserLast_array.keychainUserProfile }}</label></div>
+              </div>
+            </div>
+          </div>
+          <div ng-if="key_event.idClientAdminLast!=undefined && key_event.idClientAdminLast!=null && key_event.keychainClientAdminLast_array!=unefined" class="col-md-12 well-checkbox n-margin-l customer-frame">
+            <!-- LEFT COLUMN -->
+            <legend style="text-align: left;">Ultima administración asociada:</legend>
+            <div class="col-md-6 n-padding-l n-padding-r">
+              <div class="col-md-12 col-xs-12">
+                  <div class="col-md-12"><span>{{key_event.keychainUserLast_array.keychainUserFullName | uppercase}} </span><label class="badge badge-success"> {{ key_event.keychainUserLast_array.keychainUserProfile }}</label></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="clearfix"> </div> 
+      </div>   
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <a ng-click="modalConfirmation('closeKeyDetails', 0, null)" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                </div>           
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<!-- // CUSTOMER REGISTER FORM -->

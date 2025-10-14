@@ -1,0 +1,632 @@
+<div class="panel-group" id="accordion" role="tablist" aria-multiselectable="true">
+    <div class="panel panel-default">
+    <div class="panel-heading clickable-header" role="tab" id="headingOne">
+        <h4 class="panel-title">
+        <a data-toggle="collapse" data-parent="#accordion" href="#collapse1" class="collapsed" aria-controls="collapse1"><i class="fas fa-filter">&nbsp;</i>Filtrar pedidos</a>
+            <span ng-if="sysLoggedUser.idProfileKf && filters.ticketStatus.statusName" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" class="label_tags label label-success">{{filters.ticketStatus.statusName}}
+            <a ng-click="filters.ticketStatus=undefined; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="right" title="quitar">
+            <i class="fas fa-times-circle"></i></a></span>
+        </h4>
+    </div>
+    <div id="collapse1" class="panel-collapse collapse" role="tabpanel" aria-labelledby="headingOne">
+        <div class="panel-body">
+            <form class="form-horizontal" name="filtersTicket" autocomplete="off" novalidate>
+                <div class="row">
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-12 col-xs-12">
+                        <div class="col-md-2 col-xs-8" ><label class="clf-size">Buscar Cliente</label></div>
+                        <div class="col-md-1 col-xs-4">
+                        <label class="switch switch-2x" for="strict-search">
+                            <input type="checkbox" class="success" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-model="customerSearch.strict" id="strict-search">
+                            <span class="slider slider-2x flat"></span>
+                        </label>
+                        </div>
+                        <div class="col-md-7 col-xs-7 n-padding-l" style="margin-top: 0.2%;margin-left: -3.5% !important;">
+                        <label ng-if="customerSearch.strict" style="cursor: pointer;" class="badge badge-success">Busquéda exacta</label>
+                        <label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
+                        </div>
+                    </div>
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" ng-class="col-md-12" style="padding-bottom: 5% !important;">
+                        <div class="col-md-2 col-xs-6">
+                            <input id="typeClientAll" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-checked="true" name="typeClient" value="" ng-model="customerSearch.typeClient" checked="checked">
+                            <label for="typeClientAll" class="radio-2x-label">
+                            <span>Todos</span>
+                            </label>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <input id="typeClient1" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="1" ng-model="customerSearch.typeClient">
+                            <label for="typeClient1" class="radio-2x-label">
+                            <span>Administracion</span>
+                            </label>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <input id="typeClient2" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="2" ng-model="customerSearch.typeClient">
+                            <label for="typeClient2" class="radio-2x-label">
+                            <span>Edificio</span>
+                            </label>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <input id="typeClient3" class="radio-2x ng-not-empty ng-dirty ng-valid ng-valid-required ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="3" ng-model="customerSearch.typeClient">
+                            <label for="typeClient3" class="radio-2x-label">
+                            <span>Empresa</span>
+                            </label>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <input id="typeClient4" class="radio-2x ng-not-empty ng-valid ng-valid-required ng-dirty ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="4" ng-model="customerSearch.typeClient">
+                            <label for="typeClient4" class="radio-2x-label">
+                            <span>Sucursal</span>
+                            </label>
+                        </div>
+                        <div class="col-md-2 col-xs-6">
+                            <input id="typeClient5" class="radio-2x ng-not-empty ng-valid ng-valid-required ng-dirty ng-valid-parse ng-touched" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="5" ng-model="customerSearch.typeClient">
+                            <label for="typeClient5" class="radio-2x-label">
+                            <span>Particular</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="form-group col-md-8 col-xs-12 col-sm-8 n-padding-l n-padding-r" ng-class="{'col-md-4 col-xs-12 col-sm-4': listOffices.length>0}">
+                    <label style="padding-left: 15px" ng-show="listOffices.length>=0">{{customerFound.ClientType}}</label>
+                    <div class="input-group s-ui-width s-ui-m-left">
+                        <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+                        <input type="text" name="customerSearch"
+                            id="customerSearch"
+                            ng-model="customerSearch.name"
+                            ng-keydown="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict);"
+                            class="form-control text-uppercase"
+                            move-to-list input-selector="'.input-search'"
+                            list-items-selector="'.list-group li'"
+                            placeholder="Presione Enter para buscar..."
+                            style="border-radius: 4px;border-bottom-left-radius: 0px;border-top-left-radius: 0px;"
+                            required="true" />
+                        <ul id="customerList" class="list-group" ng-show="listCustomerFound.length>0 && (customerSearch.name!=undefined || customerSearch.name!=null)" style="height: 0px; z-index: 2000;" >
+                            <li tabindex="0" id="customerList-{{$index}}" style="z-index: 2000;"  class="list-group-item" ng-repeat="item in listCustomerFound" navigate-list-items ng-class="{'padding-t-38': $index==0}" ng-click="loadCustomerFieldsFn(item);" input-selector="'.input-search'" list-items-selector="'.list-group li'" ng-keydown="$event.keyCode === 13 && loadCustomerFieldsFn(item)" > {{item.idClient}} - {{item.name}} <span class="label label-default">{{item.ClientType | uppercase}}</span></li>
+                        </ul>
+                    </div>
+                    </div>
+                    <!-- Administrations & Companies for Users BSS-->
+                    <!-- <div ng-show="sysLoggedUser.idProfileKf==1" class="form-group col-md-6 col-xs-12 n-padding-r">
+                        <label ng-show="sysLoggedUser.idProfileKf==1">Empresa o Administracion</label>
+                        <div class="col-xs-12" style="padding-left: 0px !important;">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
+                                <ui-select ng-show="sysLoggedUser.idProfileKf==1" class="dropdown-select" ng-model="filterCompanyKf.selected" ng-change="filterAddressKf.selected=undefined; getLisOfCustomersByIdFn(filterCompanyKf.selected); mainSwitchFn('search', null);" on-select="mainSwitchFn('search', null)">
+                                <ui-select-match allow-clear="true" placeholder="Todos" >{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices repeat="item in listCustomerFound | filter: $select.search" refresh="findCustomerFn($select.search, customerSearch.typeClient, customerSearch.strict)" refresh-delay="0">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                    <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+                                    </ui-select-choices>
+                                    <ui-select-no-choice>
+                                        No hay resultados, contacte area de soporte.
+                                    </ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>-->
+                    <!-- Address for Admins/BSS-->
+                    <div ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && listOffices.length>0 " ng-disable="sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf==6" class="form-group col-md-4 col-xs-12 n-padding-r">
+                        <label ng-show="sysLoggedUser.idProfileKf==2">Sucursal</label>
+                        <label ng-show="sysLoggedUser.idProfileKf==1">Sucursal o Consorcio</label>
+                        <label ng-show="sysLoggedUser.idProfileKf==4">Consorcio</label>
+                        <div class="col-xs-12" style="padding-left: 0px !important;">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-home"></i></span>
+                            <ui-select class="dropdown-select"  ng-disabled="listOffices.length==0" name="filterAddressKf" ng-change="mainSwitchFn('search', null)"  ng-model="filterAddressKf.selected" on-select="mainSwitchFn('search', null)" autofocus>
+                                <ui-select-match allow-clear="true" placeholder="Todos">{{$select.selected.name}}</ui-select-match>
+                                    <ui-select-choices repeat="item in listOffices | filter: $select.search">
+                                    <div ng-bind-html="item.name | highlight: $select.search"></div>
+                                        <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
+                                    </ui-select-choices>
+                                    <ui-select-no-choice>
+                                        No hay resultados, contacte area de soporte.
+                                    </ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Address for Onwers/AdminConsorcios/Attendants-->
+                    <div class="form-group col-md-4 col-xs-12 col-sm-4 col-xs-padding" ng-disable="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 || (sysLoggedUser.idProfileKf==6 && sysLoggedUser.idTypeTenantKf==2)" ng-if="sysLoggedUser.idProfileKf==3 || (((sysLoggedUser.idProfileKf==4 && isHomeSelected) || sysLoggedUser.idProfileKf==6) && sysLoggedUser.idTypeTenantKf==1)" style=" margin-left: -1em;">
+                        <label style="padding-left: 15px;">Consorcio</label>
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-home"></i></span>
+                            <ui-select class="dropdown-select"  name="filterAddressKf" ng-change="mainSwitchFn('search', null)"  ng-model="filterAddressKf.selected" on-select="mainSwitchFn('search', null)" autofocus>
+                                <ui-select-match allow-clear="true" placeholder="Todos">{{$select.selected.address}}</ui-select-match>
+                                    <ui-select-choices repeat="item in ListTenantAddress | filter: $select.search">
+                                    <div ng-bind-html="item.address | highlight: $select.search"></div>
+                                        <small>Administracion: </small><small ng-bind-html="item.administration.name | highlight: $select.search"></small>
+                                        <!--<small>Gestion: </small><small ng-bind-html="item.priceManagement | highlight: $select.search"></small>
+                                        <small>Envio: </small><small ng-bind-html="item.priceShipping | highlight: $select.search"></small>-->
+                                    </ui-select-choices>
+                                    <ui-select-no-choice>
+                                        No hay resultados, contacte area de soporte.
+                                    </ui-select-no-choice>
+                                </ui-select>
+                            </div>
+                        </div>
+                    </div>
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-4 col-xs-12">
+                        <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
+                        <div class="col-md-4 col-xs-4">
+                            <label class="switch switch-2x" for="isInitialDeliveryActive-search">
+                                <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isInitialDeliveryActive" id="isInitialDeliveryActive-search">
+                                <span class="slider slider-2x flat"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div class="clearfix"> </div>
+                    <!-- Filter Type of Ticket for Onwer User-->
+                    <div ng-if="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" class="form-group col-md-6 col-xs-12">
+                        <label>Tipo de Ticket</label>
+                        <div class="col-xl-12 selectContainer">
+                        <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                                <select name="idTypeTicketKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter:differentThan" ng-required="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" ng-model="filters.typeTicket"  >
+                                <option value="">Todos</option>
+                                </select>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- Filter Type of Ticket for Sys User-->
+                    <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-4 col-xs-12" ng-class="
+                    {	'has-success':
+                        filters.typeTicket.idTypeTicket!='' && filtersTicket.typeTicket.$valid,
+                    }">
+                        <label>Tipo de pedido</label>
+                        <div class="col-xl-12 selectContainer">
+                        <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                                <select name="typeTicket" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket" ng-required="sysLoggedUser.idProfileKf==1" ng-model="filters.typeTicket"  >
+                                <option value="">Todos</option>
+                                </select>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- Filter Type of Status-->
+                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
+                        {	'has-success':
+                            filters.ticketStatus.idStatus!='' && filtersTicket.ticketStatus.$valid,
+                        }">
+                        <label>Estado</label>
+                        <div class="col-xl-12 selectContainer">
+                        <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                                <select name="ticketStatus" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="status as status.statusName for status in listStatusTicket " ng-model="filters.ticketStatus" >
+                                <option value="">Todos</option>
+                                </select>
+                        </div>
+                        </div>
+                    </div>
+                    <!-- Filter Type of Delivery-->
+                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
+                        {	'has-success':
+                            filters.typDelivery.idTypeDelivery!='' && filtersTicket.typDelivery.$valid,
+                        }">
+                        <label>Tipo de entrega</label>
+                        <div class="col-xl-12 selectContainer">
+                        <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                                <select name="typDelivery" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="delivery as delivery.typeDelivery for delivery in typedelivery_filter " ng-model="filters.typDelivery" >
+                                <option value="">Todos</option>
+                                </select>
+                        </div>
+                        </div>
+                    </div>
+                    <div ng-if="sysLoggedUser.idProfileKf==1 && filters.typDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='1' || filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" class="col-md-4 col-xs-12 n-padding-l n-padding-r" ng-class="
+                        {	'has-success':
+                            filters.deliveryCompanyKf.idDeliveryCompany!='' && filtersTicket.idDeliveryCompanyKf.$valid,
+                        }">
+                        <div class="form-group col-md-12 col-xs-12">
+                            <label>Empresa de envío</label>
+                            <div class="col-xl-12 selectContainer">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                                    <select name="idDeliveryCompanyKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.deliveryCompanyName for item in listDeliveryCompanies_filter"  ng-model="filters.deliveryCompanyKf"  >
+                                    <option value="">Todos</option>
+                                    </select>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Filter Type of Payment-->
+                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
+                        {	'has-success':
+                            filters.paymentsType.id!='' && filtersTicket.paymentsType.$valid,
+                        }">
+                        <label>Tipo Pago</label>
+                        <div class="col-xl-12 selectContainer">
+                        <div class="input-group">
+                                <span class="input-group-addon"><i class="fas fa-tag"></i></span>
+                                <select name="paymentsType" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="payment as payment.descripcion for payment in paymentsType " ng-model="$parent.filters.paymentsType" >
+                                <option value="">Todos</option>
+                                </select>
+                        </div>
+                        </div>
+                    </div>
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-4 col-xs-12">
+                        <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Pedidos con Stock <span class="badge badge-warning">En Edificio</span></label></div>
+                        <div class="col-md-4 col-xs-4">
+                            <label class="switch switch-2x" for="isHasStockInBuilding-search">
+                                <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasStockInBuilding" id="isHasStockInBuilding-search">
+                                <span class="slider slider-2x flat"></span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-6 col-xs-12">
+                        <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Forma de Gestión</label></div>
+                        <div class=" n-padding-l col-md-4 col-xs-4" style="margin-top: -0.6% !important;">
+                            <input id="mgmtAllKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="mgmtKeyMethod" value="" ng-checked="true" ng-model="filters.mgmtKeyMethod">
+                            <label for="mgmtAllKeyMethod" class="radio-2x-label">
+                            <span class="badge badge-default">Todos</span>
+                            </label>
+                        </div>
+                        <div class=" n-padding-l col-md-4 col-xs-4" style="margin-top: -0.6% !important;">
+                            <input id="mgmtStockKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="mgmtKeyMethod" value="1" ng-model="filters.mgmtKeyMethod">
+                            <label for="mgmtStockKeyMethod" class="radio-2x-label">
+                            <span class="badge badge-success">Stock</span>
+                            </label>
+                        </div>
+                        <div class=" n-padding-l col-md-4 col-xs-4" style="margin-top: -0.6% !important;">
+                            <input id="mgmtManualKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="mgmtKeyMethod" value="2" ng-model="filters.mgmtKeyMethod">
+                            <label for="mgmtManualKeyMethod" class="radio-2x-label">
+                            <span class="badge badge-warning">Manual</span>
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-6 col-xs-12">
+                        <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Forma de Habilitación</label></div>
+                        <div class=" n-padding-l col-md-4 col-xs-4" style="margin-top: -0.6% !important;">
+                            <input id="activationAllKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="activationKeyMethod" value="" ng-checked="true" ng-model="filters.activationKeyMethod">
+                            <label for="activationAllKeyMethod" class="radio-2x-label">
+                            <span class="badge badge-default">Todos</span>
+                            </label>
+                        </div>
+                        <div class=" n-padding-l col-md-4 col-xs-4" style="margin-top: -0.6% !important;">
+                            <input id="onlineActivationKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="activationKeyMethod" value="1" ng-model="filters.activationKeyMethod">
+                            <label for="onlineActivationKeyMethod" class="radio-2x-label">
+                            <span class="badge badge-success">Online</span>
+                            </label>
+                        </div>
+                        <div class=" n-padding-l col-md-4 col-xs-4" style="margin-top: -0.6% !important;">
+                            <input id="offlineActivationKeyMethod" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="activationKeyMethod" value="2" ng-model="filters.activationKeyMethod">
+                            <label for="offlineActivationKeyMethod" class="radio-2x-label">
+                            <span class="badge badge-warning">Offline (Edificio)</span>
+                            </label>
+                        </div>
+                    </div>
+                    <!-- Filter Top -->
+                    <!--<div ng-if="sysLoggedUser.idProfileKf" class="form-group col-md-2 col-xs-6">
+                        <label>Top</label>
+                        <div class="col-xl-12 selectContainer">
+                        <div class="input-group">
+                            <span class="input-group-addon"><i class="fas fa-align-justify"></i></span>
+                            <select class="form-control" ng-change="mainSwitchFn('search', null)" ng-model="filters.topDH">
+                                <option value="">Todos</option>
+                                <option value="5">5</option>
+                                <option value="10">10</option>
+                                <option value="20">20</option>
+                                <option value="30">30</option>
+                                <option value="50">50</option>
+                                <option value="100">100</option>
+                            </select>
+                        </div>
+                        </div>
+                    </div>-->
+                </div>
+                <div class="row">
+                    <div ng-if="filters.paymentsType.id=='2'" class="col-md-4 col-xs-12">
+                        <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar pedidos pagados</label></div>
+                        <div class="col-md-4 col-xs-4">
+                            <label class="switch switch-2x" for="isPaymentSucceeded-search">
+                                <input type="checkbox" class="success" ng-change="filters.isBillingUploaded=true;mainSwitchFn('search', null)" ng-model="filters.isPaymentSucceeded" id="isPaymentSucceeded-search">
+                                <span class="slider slider-2x flat"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-if="(filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && (filters.paymentsType.id=='1' || (filters.paymentsType.id=='2' && filters.isPaymentSucceeded)))" class="col-md-4 col-xs-12">
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Incluir pedidos con facturación iniciada</label></div>
+                        <div class="col-md-4 col-xs-4">
+                        <label class="switch switch-2x" for="isBillingInitiated-search">
+                            <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isBillingInitiated" id="isBillingInitiated-search">
+                            <span class="slider slider-2x flat"></span>
+                        </label>
+                        </div>
+                    </div>
+                    <div ng-if="filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && (filters.paymentsType.id!='2' || filters.paymentsType.id=='2')" class="col-md-4 col-xs-12">
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Excluir pedidos con factura cargadas</label></div>
+                        <div class="col-md-4 col-xs-4">
+                        <label class="switch switch-2x" for="isBillingUploaded-search">
+                            <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isBillingUploaded" id="isBillingUploaded-search">
+                            <span class="slider slider-2x flat"></span>
+                        </label>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div ng-if="filters.paymentsType.id=='2'" class="col-md-12 col-xs-12">
+                        <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Mostrar pedidos con reintegros <span class="badge badge-warning">pendientes</span></label></div>
+                        <div class="col-md-4 col-xs-4">
+                        <label class="switch switch-2x" for="isHasRefundsOpen-search">
+                            <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasRefundsOpen" id="isHasRefundsOpen-search">
+                            <span class="slider slider-2x flat"></span>
+                        </label>
+                        </div>
+                    </div>
+                </div>
+                <!-- Dates filters -->
+                <div class="row" >
+                    <div class="col-md-6">
+                        <legend style="text-align: left;">Creados</legend>
+                        <div class="form-group col-md-6 col-xs-12" ng-class="
+                            {	'has-success':
+                                filters.dateCreatedFrom!='' && filtersTicket.dateCreatedFrom.$valid,
+                            }">
+                            <label>Desde</label>
+                            <div class="input-group">
+                                <input
+                                    ng-click="open1()"
+                                    type="text"
+                                    name="dateCreatedFrom"
+                                    ng-change="mainSwitchFn('search', null)"
+                                    class="form-control"
+                                    uib-datepicker-popup="{{format}}"
+                                    ng-model="filters.dateCreatedFrom"
+                                    is-open="popup1.opened"
+                                    custom-class="getCreatedDayClass(date, mode)"
+                                    ng-required="true"
+                                    close-text="Cerrar"
+                                    clear-text="Borrar"
+                                    current-text="Hoy"
+                                    alt-input-formats="altInputFormats" />
+                                <span ng-click="open1()" class="input-group-addon">
+                                <i ng-click="open1()" class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 col-xs-12" ng-class="
+                            {	'has-success':
+                                filters.dateCreatedTo!='' && filtersTicket.dateCreatedTo.$valid,
+                            }">
+                            <label>Hasta</label>
+                            <div class="input-group">
+                                <input
+                                    ng-click="open2()"
+                                    type="text"
+                                    name="dateCreatedTo"
+                                    ng-change="mainSwitchFn('search', null)"
+                                    class="form-control"
+                                    uib-datepicker-popup="{{format}}"
+                                    ng-model="filters.dateCreatedTo"
+                                    is-open="popup2.opened"
+                                    custom-class="getCreatedDayClass(date, mode)"
+                                    ng-required="true"
+                                    close-text="Cerrar"
+                                    clear-text="Borrar"
+                                    current-text="Hoy"
+                                    ng-disable="filters.dateCreatedFrom!=null & filters.dateCreatedFrom!=undefined"
+                                    alt-input-formats="altInputFormats" />
+                                <span ng-click="open2()" class="input-group-addon">
+                                <i ng-click="open2()" class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <legend style="text-align: left;">Entregados/Retirados</legend>
+                        <div class="form-group col-md-6 col-xs-12" ng-class="
+                            {	'has-success':
+                                filters.dateDeliveredFrom!='' && filtersTicket.dateDeliveredFrom.$valid,
+                            }">
+                            <label>Desde</label>
+                            <div class="input-group">
+                                <input
+                                    ng-click="open3()"
+                                    type="text"
+                                    name="dateDeliveredFrom"
+                                    ng-change="mainSwitchFn('search', null)"
+                                    class="form-control"
+                                    uib-datepicker-popup="{{format}}"
+                                    ng-model="filters.dateDeliveredFrom"
+                                    is-open="popup3.opened"
+                                    custom-class="getDeliveredDayClass(date, mode)"
+                                    ng-required="true"
+                                    close-text="Cerrar"
+                                    clear-text="Borrar"
+                                    current-text="Hoy"
+                                    alt-input-formats="altInputFormats" />
+                                <span ng-click="open3()" class="input-group-addon">
+                                <i ng-click="open3()" class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                        <div class="form-group col-md-6 col-xs-12" ng-class="
+                            {	'has-success':
+                                filters.dateDeliveredTo!='' && filtersTicket.dateDeliveredTo.$valid,
+                            }">
+                            <label>Hasta</label>
+                            <div class="input-group">
+                                <input
+                                    ng-click="open4()"
+                                    type="text"
+                                    name="dateDeliveredTo"
+                                    ng-change="mainSwitchFn('search', null)"
+                                    class="form-control"
+                                    uib-datepicker-popup="{{format}}"
+                                    ng-model="filters.dateDeliveredTo"
+                                    is-open="popup4.opened"
+                                    custom-class="getDeliveredDayClass(date, mode)"
+                                    ng-required="true"
+                                    close-text="Cerrar"
+                                    clear-text="Borrar"
+                                    current-text="Hoy"
+                                    ng-disable="filters.dateDeliveredFrom!=null & filters.dateDeliveredFrom!=undefined"
+                                    alt-input-formats="altInputFormats" />
+                                <span ng-click="open4()" class="input-group-addon">
+                                <i ng-click="open4()" class="far fa-calendar-alt"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-12 col-sm-12 col-xs-12">
+                        <!-- EXPORT GENERAL EXCEL LIST -->
+                        <div ng-click="mainSwitchFn('exportExcelList', listTickt, null)" class="col-md-3" data-toggle="tooltip" data-placement="bottom"  title="Listado general" style="margin-bottom: 1em;">
+                            <div class="card-customer">
+                            <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+                                <i class="fas fa-file-download"></i>
+                            </div>
+                            <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                            'sticky-success':
+                                            listTickt.length>=1,
+                                            'sticky-warning':
+                                            listTickt.length==0,
+                                            }">
+                                <span ng-if="listTickt.length>0">
+                                <i class="fas fa-check-circle"></i>
+                                </span>
+                                <span ng-if="listTickt.length==0" data-toggle="tooltip" data-placement="top" title="No hay pedidos">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+                            <div class="col-md-12 card-title">
+                                <h4 class="text-uppercase right">General</h4>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- EXPORT BILLING EXCEL LIST -->
+                        <div ng-if="filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && (filters.paymentsType.id=='1' || (filters.paymentsType.id=='2' && filters.isPaymentSucceeded))" ng-click="modalConfirmation('exportBillingExcelList', 0, listTickt)" class="col-md-3" data-toggle="tooltip" data-placement="bottom"  title="Listado a facturar" style="margin-bottom: 1em;">
+                            <div class="card-customer">
+                            <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+                                <i class="fas fa-file-download"></i>
+                            </div>
+                            <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                            'sticky-success':
+                                            listTickt.length>0,
+                                            'sticky-warning':
+                                            listTickt.length==0,
+                                            }">
+                                <span ng-if="listTickt.length>0">
+                                <i class="fas fa-check-circle"></i>
+                                </span>
+                                <span ng-if="listTickt.length==0" data-toggle="tooltip" data-placement="top" title="No hay pedidos">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+                            <div class="col-md-12 card-title">
+                                <h4 class="text-uppercase right">Facturación</h4>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- EXPORT ON ROUTE EXCEL LIST -->
+                        <div ng-if="filters.ticketStatus.idStatus=='5' && filters.deliveryCompanyKf.idDeliveryCompany=='1'" ng-click="modalConfirmation('exportOnExternalRouteExcelList', 0, listTickt)" class="col-md-3" data-toggle="tooltip" data-placement="bottom"  title="Listado envío externo" style="margin-bottom: 1em;">
+                            <div class="card-customer">
+                            <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+                                <i class="fas fa-file-download"></i>
+                            </div>
+                            <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                            'sticky-success':
+                                            listTickt.length>0,
+                                            'sticky-warning':
+                                            listTickt.length==0,
+                                            }">
+                                <span ng-if="listTickt.length>0">
+                                <i class="fas fa-truck-moving"></i>
+                                </span>
+                                <span ng-if="listTickt.length==0" data-toggle="tooltip" data-placement="top" title="No hay pedidos">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+                            <div class="col-md-12 card-title">
+                                <h4 class="text-uppercase right">Ruta externa</h4>
+                            </div>
+                            </div>
+                        </div>
+                        <div ng-if="filters.ticketStatus.idStatus=='5' && filters.deliveryCompanyKf.idDeliveryCompany=='2'" ng-click="modalConfirmation('exportOnInternalRouteExcelList', 0, listTickt)" class="col-md-3" data-toggle="tooltip" data-placement="bottom"  title="Listado envío interno" style="margin-bottom: 1em;">
+                            <div class="card-customer">
+                            <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+                                <i class="fas fa-file-download"></i>
+                            </div>
+                            <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                            'sticky-success':
+                                            listTickt.length>0,
+                                            'sticky-warning':
+                                            listTickt.length==0,
+                                            }">
+                                <span ng-if="listTickt.length>0">
+                                <i class="fas fa-truck-moving"></i>
+                                </span>
+                                <span ng-if="listTickt.length==0" data-toggle="tooltip" data-placement="top" title="No hay pedidos">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+                            <div class="col-md-12 card-title">
+                                <h4 class="text-uppercase right">Ruta interna</h4>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- IMPORT FACTURAS LIST -->
+                        <div ng-click="importBillingTicketfiles()" class="col-md-3" data-toggle="tooltip" data-placement="bottom"  title="Subir facturas" style="margin-bottom: 1em;">
+                            <div class="card-customer">
+                            <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+                                <i class="fas fa-file-upload"></i>
+                            </div>
+                            <div class="col-md-12 card-title">
+                                <h4 class="text-uppercase right">Facturas</h4>
+                                <input id="uploadBillingTicketfiles" name="uploadBillingTicketfiles" type="file" style="visibility: hidden; position: absolute;top:0;" accept="*/*" onchange="angular.element(this).scope().loadMultipleFilesFn(this)" ng-model="multipleFilesInput"  multiple />
+                            </div>
+                            </div>
+                        </div>
+                        <!-- STATUS CHANGE -->
+                        <div ng-if="(((filters.typDelivery.idTypeDelivery==undefined || filters.typDelivery.idTypeDelivery=='1' || filters.typDelivery.idTypeDelivery=='2') && (filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5' || filters.ticketStatus.idStatus=='7')))" ng-click="mainSwitchFn('change_ticket_status_multi', listTickt, null)" data-toggle="tooltip" data-placement="bottom"  title="Cambiar estatus" class="col-md-3" style="margin-bottom: 1em;">
+                            <div class="card-customer">
+                            <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+                                <i class="fas fa-sync"></i>
+                            </div>
+                            <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                    'sticky-success':
+                                    listTickt.length>0,
+                                    'sticky-warning':
+                                    listTickt.length==0,
+                                }">
+                                <span ng-if="listTickt.length>0">
+                                <i class="fas fa-check-circle"></i>
+                                </span>
+                                <span ng-if="listTickt.length==0" data-toggle="tooltip" data-placement="top" title="No hay pedidos">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+                            <div class="col-md-12 card-title">
+                                <h4 class="text-uppercase right">Estatus</h4>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div ng-show="noStatus2" class="col-lg-3">
+                    <span class="glyphicon glyphicon-ok-sign " aria-hidden="true"></span>
+                    <label>Total Ticket Finalizados</label>
+                    <label style="color: #39af24;font-size: 20px;">0</label>
+                </div>
+                <div ng-show="noStatus2" class="col-lg-3">
+                    <span class="glyphicon glyphicon-remove-sign " aria-hidden="true"></span>
+                    <label>Total Ticket Cancelados</label>
+                    <label style="color: #af2424;font-size: 20px;">0</label>
+                </div>
+                <div  ng-show="noStatus2" class="col-lg-3">
+                    <span class="glyphicon glyphicon-ok-sign " aria-hidden="true"></span>
+                    <label>Total Ticket Pendientes</label>
+                    <label  style="color: #af8424;font-size: 20px;">0</label>
+                </div>
+            </form>
+        </div>
+    </div>
+    </div>
+</div>

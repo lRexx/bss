@@ -1,0 +1,61 @@
+    <!-- Filter Bar -->
+    <div class="row" >
+        <div class="filter-bar">
+            <div id="innerRow"  class="row" >
+                <div class="pull-left">
+                    <button ng-class="collapse ? 'btn-success' : 'btn-primary'" ng-click="mainSwitchFn('filtersWindow', null, null)"  class="btn btn-md" data-toggle="collapse" data-target="#filterContents"><i class="fas fa-filter"></i></button>
+                    <span class="label_tags filter_span"> Filtros:</span>
+                </div><!--
+                <div class="col-md-1 pull-right">
+                    <label style="color: white;">Total: </label>
+                    <label style="color: white;">{{totalTickets}}</label>
+                </div> -->  
+                <div class="col-xs-3 pull-right search_box">
+                    <div class="pull-right">
+                        <div class="input-group">
+                        <span class="input-group-addon"><i class="glyphicon glyphicon-search"></i></span>
+                        <input type="text" class="form-control" ng-keydown="$event.keyCode === 13 && mainSwitchFn('search', null)" ng-model="filters.searchFilter" placeholder="Presione Enter para Buscar...">
+                        </div>
+                    </div> 
+                </div>
+                <div class="pull-right update_button">
+                    <button data-toggle="tooltip" data-placement="bottom" title="Actualizar" type="button" ng-click="mainSwitchFn('search', null)" class="btn btn-md btn-primary">
+                        <i title="Actualizar" class="glyphicon glyphicon-refresh"></i>
+                        <span class="label_tags">  </span>
+                    </button>
+                </div> 
+                <div class="col-md-7 font-sticker-4 margin-sticker-1 margin-filter-bar-1 col-xs-4 font-size-bar-1 filter-bar-sticker">
+                    <!--STATIC FILTER TAGS NAMES -->
+                    <span ng-if="sysLoggedUser.idProfileKf==2 || sysLoggedUser.idProfileKf==4" class="label_tags label label-default">{{companyN}}</span>
+                    <span ng-if="(sysLoggedUser.idProfileKf==5 || sysLoggedUser.idProfileKf==6) && sysLoggedUser.idTypeTenantKf==2" class="label_tags label label-default">{{addressN}}</span>
+                    <!--DINAMYC FILTER TAGS NAMES -->
+                    <span ng-if="sysLoggedUser.idProfileKf==1  && filterCompanyKf.selected" class="label_tags label label-success">{{filterCompanyKf.selected.name}} <a ng-click="removeFilterFn(1); mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar"><i class="fas fa-times-circle"></i></a></span>
+                    <span ng-if="sysLoggedUser.idProfileKf && filterAddressKf.selected" class="label_tags label label-success">{{filterAddressKf.selected.address}} 
+                    <a ng-click="removeFilterFn(2); mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
+                    <i class="fas fa-times-circle"></i></a></span>
+                    <span ng-if="sysLoggedUser.idProfileKf && filters.typeTicket" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.typeTicket.TypeTicketName}}" class="label_tags label label-success">
+                    {{filters.typeTicket.TypeTicketName}}
+                    <a ng-click="filters.typeTicket=undefined; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
+                    <i class="fas fa-times-circle"></i></a></span>
+                    <span ng-if="sysLoggedUser.idProfileKf && filters.ticketStatus.statusName" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.ticketStatus.statusName}}" class="label_tags label label-success">{{filters.ticketStatus.statusName}}
+                    <a ng-click="filters.ticketStatus=undefined; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
+                    <i class="fas fa-times-circle"></i></a></span>
+                    <span ng-if="sysLoggedUser.idProfileKf && filters.typDelivery.typeDelivery" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.typDelivery.typeDelivery}}" class="label_tags label label-success">{{filters.typDelivery.typeDelivery}}
+                    <a ng-click="filters.typDelivery=undefined; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
+                    <i class="fas fa-times-circle"></i></a></span>
+                    <span ng-if="sysLoggedUser.idProfileKf && filters.paymentsType.descripcion" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.paymentsType.descripcion}}" class="label_tags label label-success">{{filters.paymentsType.descripcion}}
+                        <a ng-click="filters.paymentsType=null; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
+                        <i class="fas fa-times-circle"></i></a></span>
+                    <span ng-if="sysLoggedUser.idProfileKf=='1' && filters.deliveryCompanyKf" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="{{filters.deliveryCompanyKf.deliveryCompanyName}}" class="label_tags label label-success">
+                        {{filters.deliveryCompanyKf.deliveryCompanyName | limitTo: 7 }}{{filters.deliveryCompanyKf.deliveryCompanyName.length >= 17 ? '...' : ''}}
+                        <a ng-click="filters.deliveryCompanyKf=null; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
+                        <i class="fas fa-times-circle"></i></a></span>
+                    <span ng-if="sysLoggedUser.idProfileKf && filters.topDH" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="Cantidad" class="label_tags label label-success">Top: {{filters.topDH}}
+                    <a ng-click="filters.topDH=''; mainSwitchFn('search', null);" data-toggle="tooltip" data-placement="bottom" title="quitar">
+                    <i class="fas fa-times-circle"></i></a></span>
+                </div>  
+            </div> 
+    
+        </div>
+    </div>
+    <!-- /Filter Bar -->

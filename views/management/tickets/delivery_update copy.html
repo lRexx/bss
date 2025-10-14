@@ -1,0 +1,180 @@
+<!-- Modal Delivery Change -->
+<div id="UpdateModalDelivery" style="top: 130px;" class="modal fade modal-dialog-centered" role="dialog">
+      <div class="modal-dialog modal-lg" >
+        <div class="modal-content">
+              <div class="modal-header">
+                <h3 class="modal-title">Moficaci&#243;n de Envio<a data-dismiss="modal" data-toggle="tooltip" data-placement="top" title="Cerrar" class="close"><i  class="glyphicon glyphicon-remove-sign"> </i></a></h3>
+            </div>
+            <div class="modal-body">
+                <!-- FORM CONTAINER-->
+                <div class="container-fluid">
+                    <form class="form-horizontal" name="fChDeliveryTicket" autocomplete="off" novalidate>
+                        <!-- Select Type of Delivery -->   
+                        <div class="form-group col-md-6"> 
+                          <label class="col-xs-12">Tipo de Entrega</label>
+                            <div class="col-md-12 input-group">
+                                <span class="input-group-addon"><i class="glyphicon icon-truck"></i></span>
+                                    <select name="idTypeDeliveryKf" ng-change="getTotalService(); getAttendantList(tkupdate); delivery.nameAtt=null; select.whoPickUp=Null" class="form-control"  ng-options="item.idTypeDelivery as item.typeDelivery for item in typedelivery" ng-model="delivery.idTypeDeliveryKf" required autofocus >
+                                    <option value=""></option>
+                                    </select>
+                              </div>
+                        </div>
+                        <div class="form-group col-md-6" ng-disable="sessionidProfile!=2" ng-show="delivery.idTypeDeliveryKf && sessionidProfile!=2">
+                              <label ng-if="delivery.idTypeDeliveryKf==1" class="col-xs-12">Quien retira</label>
+                              <label ng-if="delivery.idTypeDeliveryKf==2" class="col-xs-12">Quien recibe</label> 
+                            <div class="col-md-12 input-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                      <select name="whoPickUp" class="form-control" required ng-change=" enabledNextBtn(); delivery.nameAtt=null" ng-model="select.whoPickUp" autofocus >
+                                        <option value=""></option>
+                                        <option ng-if="delivery.idTypeDeliveryKf==1" value="1">Titular</option>
+                                        <option ng-if="delivery.idTypeDeliveryKf==2" value="2">Encargado</option>
+                                        <option value="3">Tercera persona</option>
+                                    </select>
+                                </div>
+                              </div>
+                        </div>
+                        <!-- SHOW THE OWNER WHOM PICKUP OR RECEIVED THE KEY -->
+                        <div ng-if="(sessionidProfile!=3 && sessionidProfile!=6) && delivery.idTypeDeliveryKf==1 && select.whoPickUp==1"  class="form-group col-md-12">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div ng-if="select.whoPickUp==1" class="alert alert-success" role="alert">
+                                     <span style="text-align: center;">Solicitud
+                                         <span ng-if="delivery.idTypeDeliveryKf==1">retirada por el</span>
+                                         <span ng-if="delivery.idTypeDeliveryKf==2">entregada a</span>
+                                            <span style="font-weight: bold;" ng-if="tkupdate.idTypeTicket<=2 && tkupdate.FullUserTenant && tkupdate.profileTenant">{{tkupdate.FullUserTenant}}
+                                                <span ng-if="(sessionidProfile!=5 || sessionidProfile!=6) && sessionidTypeTenant!=2"> ({{tkupdate.profileTenant}})</span>
+                                            </span>
+                                            <span style="font-weight: bold;" ng-if="tkupdate.idTypeTicket<=2 && !tkupdate.FullUserTenant && tkupdate.FullNameUserOwner && tkupdate.profileUserOwner">{{tkupdate.FullNameUserOwner}}
+                                                 <span ng-if="sessionidProfile!=3"> ({{tkupdate.profileUserOwner}})</span>
+                                            </span>
+                                     </span>
+                                     </div>
+                              </div>
+                        </div>
+                        <!-- SHOW THE OWNER WHOM PICKUP OR RECEIVED THE KEY -->
+                        <div ng-if="(sessionidProfile==3 || sessionidProfile==6) && delivery.idTypeDeliveryKf!=0 && select.whoPickUp>0 && select.whoPickUp<3"  class="form-group col-md-12">
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="alert alert-success" role="alert">
+                                         <span style="text-align: center;">Solicitud
+                                             <span ng-if="delivery.idTypeDeliveryKf==1">retirada por titular: </span>
+                                             <span ng-if="delivery.idTypeDeliveryKf==2">entregada a</span>
+                                             <span ng-if="delivery.idTypeDeliveryKf==2 && select.whoPickUp==2">: </span>
+                                             <span ng-if="delivery.idTypeDeliveryKf==1 && select.whoPickUp==1" style="font-weight: bold;">{{sessionNames}}</span>
+
+                                         </span>
+                                         <!-- Attendant Info -->
+                                        <div ng-if="delivery.idTypeDeliveryKf==2 && select.whoPickUp==2 && !delivery.nameAtt && !btnClose" class="input-group col-md-12">
+                                              <select name="nameAtt" class="form-control" ng-disabled="attendantFound!=true"  ng-options="item.idUser as combined(item) for item in listAttendant" ng-required="select.whoPickUp==2" ng-change="getAttData('delivery'); btnClose=true; enabledNextBtn();" ng-model="delivery.nameAtt" autofocus >
+                                                <option value="">Selecciona el encargado</option>
+                                            </select>
+                                        </div>
+                                        <span ng-if="delivery.nameAtt" style="font-weight: bold;">{{delivery.fullNamesAtt}}
+                                            <span ng-if="delivery.nameAtt" style="cursor: pointer;" data-toggle="tooltip" data-placement="bottom" title="Seleccionar otro encargado" ng-click="selectAnotherAtt()" ><i class="glyphicon glyphicon-remove-circle"></i></span>
+                                        </span>
+                                     </div>
+                              </div>
+                        </div>
+                        <!-- **********************************************************************************************-->
+                        <!-- Attendant Info -->
+                        <div ng-if="(sessionidProfile!=3 && sessionidProfile!=6) && delivery.idTypeDeliveryKf==2 && select.whoPickUp==2 && (select.nameAtt == delivery.nameAtt || !select.nameAtt || select.nameAtt)"><br>
+                            <div class="col-md-12 "><legend style="text-align: center;">DATOS DEL ENCARGADO</legend></div>
+                            <!-- Encargado First Name & Lastname -->
+                            <div class="form-group col-md-12" ng-disable="sessionidProfile!=2" ng-show="sessionidProfile!=2">
+                                  <label class="col-xs-12 col-md-offset-1">Nombres</label>  
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                          <select name="nameAtt" class="form-control" ng-disabled="attendantFound!=true"  ng-options="item.idUser as combined(item) for item in listAttendant" ng-required="select.whoPickUp==2" ng-change="getAttData('delivery'); editAttendant=false; isAttUpdated=false; saveAttendant=false; enabledNextBtn();" ng-model="delivery.nameAtt" autofocus >
+                                            <option value="">Seleccione un encargado</option>
+                                        </select>
+                                        <!--BUTTONS -->
+                                        <span data-toggle="tooltip" data-placement="top" title="Modificar" ng-show="attendantFound==true && sessionidProfile!=3 && delivery.nameAtt && !saveAttendant" style="cursor: pointer;" ng-click="editAttendant=true; saveAttendant=true;" class="input-group-addon"><a><i class="glyphicon glyphicon-edit"></i></a></span>
+                                        <span data-toggle="tooltip" data-placement="top" title="Guardar" ng-show="attendantFound==true && sessionidProfile!=3 && delivery.nameAtt && editAttendant" style="cursor: pointer;" ng-click="editAttendant=false; sysFunctionsAtt('update','delivery'); saveAttendant=false;" class="input-group-addon"><a><i class="glyphicon glyphicon-save"></i></a></span>
+                                        <span data-toggle="tooltip" data-placement="top" title="Registrar" ng-show="(!attendantFound || attendantFound) && sessionidProfile!=3 && !delivery.nameAtt && select.idAddressAtt" style="cursor: pointer;" ng-click="sysFunctionsAtt('open')" class="input-group-addon"><a><i class="glyphicon glyphicon-plus"></i></a>
+                                        </span>
+                                        <!-- //BUTTONS -->
+                                    </div>
+                                  </div>
+                            </div>
+                            <!-- Text Local Phone -->       
+                            <div class="form-group col-md-12">
+                              <label class="col-xs-12 col-md-offset-1">Telefono Fijo</label>  
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
+                                              <input name="deliverylocalPhoneAtt" ng-disabled="!editAttendant && sessionidProfile!=0" placeholder="1112345678" class="form-control input--local" ng-keydown="fnLoadPhoneMask()"  ng-model="delivery.localPhoneAtt" type="text" ng-required="select.whoPickUp==2" autofocus />
+                                    </div>
+                              </div>
+                            </div>
+                            <!-- Text Phone 2 -->       
+                            <div class="form-group col-md-12">
+                              <label class="col-xs-12 col-md-offset-1">Telefono Celular</label>  
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                          <input name="deliverymovilPhoneAtt" ng-disabled="!editAttendant && sessionidProfile!=0" placeholder="91112345678" class="form-control input--movil" ng-keydown="fnLoadPhoneMask()"  ng-model="delivery.movilPhoneAtt" type="text" ng-required="select.whoPickUp==2" autofocus />
+                                    </div>
+                              </div>
+                            </div>
+                            <!-- Text Mail-->
+                            <div class="form-group col-md-12">
+                             <label class="col-xs-12 col-md-offset-1">E-Mail</label>
+                               <div class="col-md-10 col-md-offset-1">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
+                                      <input name="deliveryemailAtt" ng-disabled="!editAttendant && sessionidProfile!=0" placeholder="E-Mail" class="form-control" ng-model="delivery.emailAtt"  type="email" ng-required="select.whoPickUp==2" autofocus />
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+
+                        <!-- **********************************************************************************************-->
+                        <!-- Third Person -->
+                        <div ng-if="delivery.idTypeDeliveryKf && select.whoPickUp==3">
+                            <!-- Names Third Person -->       
+                            <div class="form-group col-md-12">
+                              <label class="col-xs-12 col-md-offset-1">Nombres</label>  
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                                              <input name="namesthird" class="form-control" ng-blur="enabledNextBtn();" ng-model="third.names" type="text" ng-required="select.whoPickUp==3" autofocus />
+                                    </div>
+                              </div>
+                            </div>
+                            <!-- Contact Phone Third Person -->       
+                            <div class="form-group col-md-12">
+                              <label class="col-xs-12 col-md-offset-1">Telefono contacto</label>  
+                                <div class="col-md-10 col-md-offset-1">
+                                    <div class="input-group">
+                                        <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+                                          <input name="movilPhonethird" placeholder="91112345678" ng-keydown="fnLoadPhoneMask(); enabledNextBtn();" class="form-control input--movil"  ng-model="third.movilPhone" type="text" ng-required="select.whoPickUp==3" autofocus />
+                                    </div>
+                              </div>
+                            </div>
+                            <!-- Email Third Person-->
+                            <div class="form-group col-md-12">
+                             <label class="col-xs-12 col-md-offset-1">Documento N°: </label>
+                               <div class="col-md-10 col-md-offset-1">
+                                <div class="input-group">
+                                    <span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
+                                      <input name="dnithird" placeholder="99.999.999" class="form-control input--dni" ng-minlength="8" ng-maxlength="8" ng-keydown="fnLoadPhoneMask(); enabledNextBtn();" ng-model="third.dni" type="text" ng-required="select.whoPickUp==3" autofocus />
+                                </div>
+                              </div>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            <!-- Actions Button -->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button type="submit" ng-click="sysUpdateTicketFn()" ng-disabled="fChDeliveryTicket.$invalid" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
+                        <a data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,119 @@
+<!-- Customer Attached Files -->
+<div id="attachBillingTicketFiles" class="modal fade bd-example-modal-lg" role="dialog">
+    <div class="modal-dialog modal-lg" >
+      <div class="modal-content">
+            <div class="modal-header">
+              <button type="button" ng-click="clearFilesQueue('quite')" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="product-success fas fa-paperclip"></i> LISTADO DE FACTURAS </h3>
+          </div>
+        <div class="modal-body">
+        <!-- FORM CONTAINER-->
+        <form class="form-horizontal" name="fAttachCustFiles" novalidate>
+          <fieldset>
+            <div class="form-group col-md-12 col-sm-12">
+                <div class="clf-size clf-p-left">
+                  <button for="uploadBillingTicketfiles2" class="btn btn-sm m-l btn-file btn-warning">Seleccionar archivos
+                    <input id="uploadBillingTicketfiles2" name="uploadBillingTicketfiles2" type="file" accept="*/*" onchange="angular.element(this).scope().loadMultipleFilesFn(this)" ng-model="multipleFilesInput2"  multiple />
+                  </button>
+                </div>
+            </div>   
+          	<div ng-if="fileList.length>0" class="form-group n-padding-l n-padding-r n-padding-t n-padding-b" style="margin-top: 20px;">
+                <table class="table table-striped table-bordered table-condensed table-list table-responsive" style="border: 0 !important;">
+                    <thead class="fixed-head" >
+                        <tr style="text-align: center;">
+                            <th class="th-head" width="20%" style="vertical-align: middle;text-align: center;border-right: 1px solid #ddd !important;">Archivo</th>
+                            <th class="th-head" width="40%" style="border-right: 1px solid #ddd !important;">Descripción</th>
+                            <th class="th-head" width="10%" style="vertical-align: middle;text-align: center; border-right: 1px solid #ddd !important;">Tamaño</th>
+                            <th class="th-head" width="10%" style="vertical-align: middle;text-align: center; border-right: 1px solid #ddd !important;">Estatus</th>
+                            <th class="th-head" width="10%" style="vertical-align: middle;text-align: center; border-right: 1px solid #ddd !important;">Pedido</th>
+                            <th class="th-head" style="vertical-align: middle;text-align: center;">Opciones</th>
+                        </tr>
+                    </thead>              
+                    <tbody class="fixed-body">
+                        <tr ng-repeat="item in fileList">
+                            <td style="vertical-align: middle;" width="20%">
+                              <a href="" class="thumbnail" ng-class="
+                                { 'thumbnail-success': 
+                                  item.uploadStatus==true,
+                                  'thumbnail-warning': 
+                                  item.uploadStatus==false,
+                                  'thumbnail-danger':  
+                                  item.uploadStatus==null,
+                                }">
+                                <img src="images/pdf-thumb.png" class="img-responsive" ng-if="item.type=='application/pdf'" ng-click="openPDFViewerModal(item.src)"/>
+                              </a>
+                            </td>
+                            <td style="vertical-align: middle;" width="40%">
+                              <span>
+                                <label class="label label-default">Nombre:</label>&nbsp;<strong>{{ item.name }}</strong>
+                              </span>
+                              <!--<span>
+                                <label class="label label-default">Titulo&nbsp;&nbsp;&nbsp;&nbsp;:</label>&nbsp;
+                                  <strong ng-if="item.fileTitle" >{{ item.fileTitle }}</strong>
+                                  <strong ng-if="!item.fileTitle" >No asignado</strong>
+                                </label>
+                              </span>&nbsp;-->
+                              <!-- Secret word -->
+
+                              <!--<button ng-if="!item.uploadStatus" data-toggle="tooltip" data-placement="right" title="Asignar titulo" type="button" class="btn btn-success btn-xs" ng-click="customer.upload.editFileTitle = !customer.upload.editFileTitle; editItem(item)">
+                                    <i class="fas fa-pencil-alt"></i>
+                              </button>-->
+                            </td>
+                            <td style="vertical-align: middle;text-align: center;" nowrap width="10%">{{ item.size/1024/1024|number:2 }} MB</td>
+                            <td style="vertical-align: middle;text-align: center;" width="10%">
+                              <label ng-if="item.uploadStatus" class="label label-success">Subido</label>
+                              <label ng-if="!item.uploadStatus && item.uploadStatus!=null" class="label label-warning">Pendiente</label>
+                              <label ng-if="item.uploadStatus==null" class="label label-danger">Error</label>
+                            </td>
+                            <td style="vertical-align: middle;text-align: center;" width="10%">
+                                <label ng-if="item.ticketFound" class="label label-success">OK</label>
+                                <label ng-if="!item.ticketFound || item.ticketFound==null" class="label label-danger">NO</label>
+                            </td>
+                            <td style="vertical-align: middle;" nowrap>
+                                <!--<button type="button" data-toggle="tooltip" data-placement="bottom" title="Subir archivo" class="btn btn-success btn-sm" ng-click="uploadSingleFile(item)" ng-disabled="item.uploadStatus">
+                                    <i class="fas fa-cloud-upload-alt"></i>
+                                </button>-->
+                                <button type="button" data-toggle="tooltip" data-placement="bottom" title="Remover archivo" class="btn btn-warning btn-sm" ng-click="removeSingleFile($index, item)" ng-disabled="item.uploadStatus">
+                                    <i class="fas fa-trash-alt"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+          	</div>          
+          </fieldset>
+        </form>
+        <div class="clearfix"> </div> 
+      </div>
+      <!-- Actions Button ng-click="newSysProfileFn()"-->
+            <div class="modal-footer">
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                        <button ng-if="fileList.length>0" type="submit" ng-click="uploadAllFiles(fileList)" ng-disabled="" class="btn btn-labeled btn-success">
+                            <span class="btn-label"><i class="fas fa-cloud-upload-alt"></i> </span>Subir todo</button>
+                        <a ng-if="fileList.length>0" ng-click="clearFilesQueue()" ng-disabled="!fileList.length" type="button" class="btn btn-labeled btn-warning">
+                            <span class="btn-label"><i class="glyphicon glyphicon-trash"></i></span>Remover todo</a>
+                        <a data-dismiss="modal" ng-click="clearFilesQueue('quite')" type="button" class="btn btn-labeled btn-danger">
+                            <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
+                    </div>
+                </div>
+            </div>
+    </div>
+  </div>
+</div>
+<!-- // Upload Ticket Files -->
+<!-- PDF VIEWER Modal -->
+<div class="modal fade" id="pdfViewerModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <button style="padding: 10px;" type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+          <div class="clearfix"> </div>
+          <div class="modal-body">
+            <div id="pdfobject" class="form-group col-md-12" style="height: 800px;">
+            </div>
+          </div>
+          <div class="clearfix"> </div>
+        </div>
+    </div>
+  </div>
+  <!-- //PDF VIEWER Modal -->

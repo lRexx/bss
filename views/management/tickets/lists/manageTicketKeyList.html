@@ -1,0 +1,345 @@
+<!-- KEY LIST-->
+<div id="ManageTicketKeysList" class="modal fade bd-example-modal-lg" style="top: 185px; z-index: 2151 !important;" role="dialog">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+          <div class="modal-header">
+
+              <button ng-show="((tkupdate.idStatusTicketKf=='1'|| tkupdate.idStatusTicketKf=='6') || (tkupdate.idMgmtMethodKf!=undefined && rsNewKeychainList.length==tkupdate.keys.length && !thereIsKeyWithoutIdKeychain))"  id="closeModalWindow" data-dismiss="modal" type="button" class="close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <button ng-show="(tkupdate.idStatusTicketKf!='1' && tkupdate.idStatusTicketKf!='6' && (tkupdate.idMgmtMethodKf==null || rsNewKeychainList.length!=tkupdate.keys.length || thereIsKeyWithoutIdKeychain))" id="cancelModalWindow" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" type="button" class="close"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+              <h3 class="modal-title"><i class="fas fa-key"></i> LLAVEROS A ASIGNAR -
+                <span class="badge" ng-class="{
+                'badge-success': rsNewKeychainList.length==tkupdate.keys.length,
+                'badge-warning': rsNewKeychainList.length!=tkupdate.keys.length,
+              }" style="font-size: 24px !important;">{{tkupdate.keys.length}}</span><span style="font-size: 24px !important;" ng-if="ticket.idMgmtMethodKf!=undefined"> - METODO: </span>
+                <span ng-if="ticket.idMgmtMethodKf!=undefined" class="badge badge-default" style="font-size: 24px !important;">{{tkupdate.keysMethod.name | uppercase}}</span>
+                <span ng-if="tkupdate.idStatusTicketKf=='6'" class="badge badge-danger" style="font-size: 24px !important;">{{tkupdate.statusTicket.statusName | uppercase}}</span>
+            </h3>
+          </div>
+        <div class="modal-body n-padding-b">
+            <!-- SELECT METHOD-->
+            <div ng-show="tkupdate.idStatusTicketKf=='6'" class="blur-modal-overlay">
+                    <div class="centered-modal-message">El pedido ha sido cancelado.</div>
+            </div>
+            <div class="col-md-12">
+                <!-- SELECT DE OPTION TYPE TO CONTINUE WITH THE REQUEST-->
+                <div class="col-md-12 col-xs-12" style="padding-bottom: 0.5em;">
+                    <!-- NEW TICKET -->
+                    <div class="col-md-6">
+                        <button ng-click="setOptionType($event);" ng-disabled="(ticket.selected.idTypeRequestFor=='2' || (existingStockKeys.length==0 || (rsAllKeychainListDataFiltered.length<tkupdate.keys.length && existingStockKeys<tkupdate.keys.length) || (tkupdate.idMgmtMethodKf!=null && tkupdate.idMgmtMethodKf=='2')))" id="stock" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='stock', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='stock'}">
+                            <i class="fas fa-boxes"></i> STOCK
+                            <span ng-click="" ng-if="tkupdate.building.isStockInOffice!=undefined && tkupdate.building.isStockInOffice=='1'" class="badge badge-warning"> En Oficina</span>
+                            <span ng-click="" ng-if="tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>&nbsp;
+                            <span ng-if="tkupdate.idStatusTicketKf!='1' && ((tkupdate.building.isStockInOffice!='0' && tkupdate.building.isStockInOffice!=null) || (tkupdate.building.isStockInBuilding!='0' && tkupdate.building.isStockInBuilding!=null))" ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{existingStockKeys.length}}</span>
+                            <span ng-if="tkupdate.idStatusTicketKf=='1'" ng-click="" class="badge badge-warning" data-toggle="tooltip" data-placement="right" title="Cantidad de LLaveros">{{rsAllKeychainListDataFiltered.length}}</span>
+                        </button>
+                    </div>
+                    <!-- //NEW TICKET -->
+                    <!-- SERVICES COST -->
+                    <div class="col-md-6">
+                        <button ng-click="setOptionType($event);" id="manual" ng-disabled="(tkupdate.idTypeRequestFor=='4') || (tkupdate.idTypeRequestFor!='4' && tkupdate.idMgmtMethodKf!=null && tkupdate.idMgmtMethodKf=='1')" class="col-md-12 col-xs-6 btn btn-lg" ng-class="{'btn-success': ticket.keysMethod.name=='manual', 'btn-primary': ticket.keysMethod.name==undefined || ticket.keysMethod.name!='manual'}">
+                            <i class="fas fa-pencil-alt"></i> MANUAL</button>
+                    </div>
+                    <div ng-if="ticket.selected.idTypeRequestFor=='2' && tkupdate.idMgmtMethodKf==null" class="col-md-12" style="padding-top: 1% !important;">
+                        <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info" style="margin-bottom:0px !important;">
+                        <h5 class="col-md-offset-1"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Los llaveros destinados al Stock solo podran ser gestionados de forma manual.</span></h5>
+                        </div>
+                    </div>
+                    <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && ticket.selected.idTypeRequestFor=='1' && tkupdate.idMgmtMethodKf==null && rsAllKeychainListDataFiltered.length>=tkupdate.keys.length" class="col-md-12" style="padding-top: 1% !important;">
+                        <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 alert alert-info" style="margin-bottom:0px !important;">
+                        <h5 class="col-md-offset-1"><i class="fas fa-info-circle"> </i> <span style="font-size: 18px; font-weight: 600;">Hay llaveros suficientes en stock para gestionar el pedido.</span></h5>
+                        </div>
+                    </div>
+                    <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && (ticket.selected.idTypeRequestFor=='1' || ticket.selected.idTypeRequestFor=='6') && tkupdate.idMgmtMethodKf==null && (existingStockKeys.length==0 || (existingStockKeys.length<tkupdate.keys.length && rsAllKeychainListDataFiltered.length<tkupdate.keys.length))" class="col-md-12" style="padding-top: 1% !important;">
+                        <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
+                        <h5><i class="fas fa-exclamation-triangle"> </i>
+                            <span ng-if="existingStockKeys.length==0" style="font-size: 18px; font-weight: 600;">No Hay llaveros en stock para gestionar el pedido, realizar la carga manual.</span>
+                            <span ng-if="rsAllKeychainListDataFiltered.length<tkupdate.keys.length" style="font-size: 18px; font-weight: 600;">No Hay llaveros <span class="badge badge-warning">{{tkupdate.keys[0].descriptionProduct}}</span> suficientes en el stock para gestionar el pedido, realizar la carga manual.</span>
+                        </h5>
+                        </div>
+                    </div>
+                </div>
+                <!-- OPTION STOCK-->
+                <div ng-show="ticket.idMgmtMethodKf=='1'">
+                    <div class="col-md-12" style="padding: 10px !important;">
+                        <!--*********KEY STOCK LIST ***********-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyKeyStock" ng-click="togglePanel('panelBodyKeyStock')" style="cursor: pointer;">
+                                <h3 class="panel-title">
+                                    <i ng-click="" class="product-success fas fa-key"></i> Llaveros de Stock
+                                    <i ng-class="{'fas fa-chevron-up': !panels.panelBodyKeyStock, 'fas fa-chevron-down': panels.panelBodyKeyStock}" class="pull-right"></i>
+                                </h3>
+                            </div>
+                            <div id="panelBodyKeyStock" class="panel-body collapse" ng-class="{'in': !panels.panelBodyKeyStock}">
+                                <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listKeys.html'" style="height: 550px;"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- OPTION MANUAL-->
+                <div ng-show="ticket.idMgmtMethodKf=='2'">
+                    <div class="col-md-6" style="padding: 10px !important;">
+                        <!-- KEY REGISTER FORM -->
+                        <div class="panel" ng-class="{'panel-success':fNewKey.$valid, 'panel-default': fNewKey.$invalid}">
+                            <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyForm" ng-click="togglePanel('panelBodyForm')" style="cursor: pointer;">
+                                <h3 class="panel-title">
+                                    <i class="product-success fas fa-key"></i> NUEVO LLAVERO
+                                    <i ng-class="{'fa-chevron-up': !panels.panelBodyForm, 'fa-chevron-down': panels.panelBodyForm}" class="fas pull-right"></i>
+                                </h3>
+                            </div>
+                            <div id="panelBodyForm" class="panel-body collapse"  ng-class="{'in': !panels.panelBodyForm}">
+                                <!-- FORM CONTAINER-->
+                                <form class="form-horizontal" name="fNewKey" novalidate>
+                                    <fieldset>
+                                        <!-- List Department-->
+                                        <!-- ng-if="(select.department==undefined || select.department=='') && keys.new.categoryKey=='1'" -->
+                                        <div ng-if="keys.new.categoryKey=='1'" class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r" ng-class="
+                                            {	'has-success': (keys.new.department!='' && keys.new.department!=undefined && fNewKey.department.$valid) ||
+                                                            (select.department!='' && select.department!=undefined),
+                                                'has-error':
+                                                (keys.new.department=='' || keys.new.department==undefined) && fNewKey.department.$touched,
+                                            }">
+                                            <label style="padding-left: 15px;">Departamento</label>
+                                            <div class="col-xs-12 selectContainer n-padding-l n-padding-r">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+                                                    <select name="department"
+                                                            class="form-control text-uppercase"
+                                                            ng-disabled="keys.new.categoryKey=='1' || tkupdate.idStatusTicketKf=='6'"
+                                                            ng-options="item.idClientDepartament as item.floor+'-'+item.departament for item in ListDpto"
+                                                            ng-required="select.buildings.selected!=undefined"
+                                                            ng-model="keys.new.department" autofocus >
+                                                        <option value="">Seleccione una opci&#243n</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- List Attendant-->
+                                        <!-- ng-if="(select.department==undefined || select.department=='') && keys.new.categoryKey=='1'" -->
+                                        <div ng-if="keys.new.categoryKey=='6' && select.buildings.selected!=undefined" class="form-group col-md-12 col-sm-12 col-xs-12" ng-class="
+                                            {	'has-success': (keys.new.attendant.selected!='' && keys.new.attendant.selected!=undefined && fNewKey.attendant.$valid) ||
+                                                            (keys.new.attendant.selected!='' && keys.new.attendant.selected!=undefined),
+                                                'has-error':
+                                                (keys.new.attendant.selected=='' || keys.new.attendant.selected==undefined) && fNewKey.attendant.$touched,
+                                            }">
+                                            <div class="form-group col-md-2 col-xs-4">
+                                                <label for="isForAttendant" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Encargados:</label>
+                                            </div>
+                                            <div class="form-group col-md-10 col-xs-8">
+                                                <label class="switch switch-1x">
+                                                    <input type="checkbox"
+                                                    class="success"
+                                                    ng-change=""
+                                                    ng-model="keys.new.isForAttendant"
+                                                    id="isForAttendant"
+                                                    style="margin: 0px !important; display: inherit !important;">
+                                                    <span class="slider slider-1x flat"></span>
+                                                </label>
+                                            </div>
+                                            <div ng-if="keys.new.isForAttendant" class="col-xs-12 selectContainer">
+                                                <div class="input-group">
+                                                <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                                <ui-select name="products"
+                                                            ng-required="keys.new.isForAttendant"
+                                                            ng-model="keys.new.attendant.selected" autofocus>
+                                                    <ui-select-match  allow-clear="true" placeholder="Seleccione una opci&#243n">{{$select.selected.fullNameUser}}</ui-select-match>
+                                                        <ui-select-choices style="z-index: 2000;" repeat="item in attendantListByAddress | filter: {idTypeTenantKf:null} | filter: $select.search">
+                                                            <div ng-bind-html="item.fullNameUser | highlight: $select.search"></div>
+                                                            <small>Perfil: </small><small class="label label-default"  ng-bind-html="item.nameProfile | highlight: $select.search"></small>
+                                                            <small>Tipo: </small><small class="label label-warning" ng-bind-html="item.nameTypeAttendant | highlight: $select.search"></small>
+                                                        </ui-select-choices>
+                                                        <ui-select-no-choice>
+                                                            <span ng-if="attendantListByAddress.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay Encargados registrados</span>
+                                                            <span ng-if="attendantListByAddress.length > 0"><i class="fas fa-search"></i>&nbsp;No se encontraron encargados de tipo Titular unicamente.</span>
+                                                        </ui-select-no-choice>
+                                                    </ui-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- List Category Key Type-->
+                                        <div class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r" ng-class="
+                                            {	'has-success':
+                                                keys.new.categoryKey!=undefined && keys.new.categoryKey!='' && fNewKey.categoryKey.$valid,
+                                                'has-error':
+                                                (keys.new.categoryKey==undefined || keys.new.categoryKey=='') && fNewKey.categoryKey.$touched
+                                            }">
+                                            <label style="padding-left: 15px;">Categoria</label>
+                                            <div class="col-xs-12 selectContainer n-padding-l n-padding-r">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
+                                                    <select  name="categoryKey"
+                                                            ng-change="select.filterCategoryKey!='1'?keys.new.department=null:''"
+                                                            ng-options="item.idCategory as (item.name | uppercase) for item in rsCategoryKeyChainsData | filter:filterCategoryKey"
+                                                            class="form-control"
+                                                            ng-model="keys.new.categoryKey"
+                                                            ng-disabled="true">
+                                                        <option value="" >Seleccione una opci&#243n</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- List Open Devices Products-->
+                                        <div  class="form-group col-md-12 col-sm-12 col-xs-12 n-padding-l n-padding-r"  ng-class="
+                                            {	'has-success':
+                                                keys.new.products.selected!=undefined && keys.new.products.selected!=''  && fNewKey.products.$valid,
+                                                'has-error':
+                                                (keys.new.products.selected==undefined || keys.new.products.selected=='') && fNewKey.products.$touched
+                                            }">
+                                            <label style="padding-left: 15px;">Dispositivos de Apertura</label>
+                                            <div class="col-xs-12 selectContainer n-padding-l n-padding-r">
+                                                <div class="input-group">
+                                                <span class="input-group-addon"><i class="fas fa-key"></i></span>
+                                                <ui-select name="products"
+                                                            ng-disabled="tkupdate.idStatusTicketKf=='6'"
+                                                            ng-required="true"
+                                                            ng-model="keys.new.products.selected" autofocus>
+                                                    <ui-select-match  allow-clear="true" placeholder="Seleccione una opci&#243n">{{$select.selected.descriptionProduct}}</ui-select-match>
+                                                        <ui-select-choices repeat="item in rsKeyProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
+                                                            <div ng-bind-html="item.descriptionProduct | highlight: $select.search"></div>
+                                                            <small>Modelo: </small><small class="label label-default"  ng-bind-html="item.model | highlight: $select.search"></small>
+                                                            <small>Tipo: </small><small class="label label-default" ng-bind-html="item.classification | highlight: $select.search"></small>
+                                                        </ui-select-choices>
+                                                        <ui-select-no-choice>
+                                                            <span ng-if="rsKeyProductsData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay productos cargados</span>
+                                                        </ui-select-no-choice>
+                                                    </ui-select>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- codigo -->
+                                        <div class="form-group col-md-6 col-sm-6 col-xs-12 n-padding-l n-padding-r" ng-class="
+                                        {	'has-success':
+                                            keys.new.codigo!='' && fNewKey.codigo.$valid,
+                                            'has-error':
+                                            (keys.new.codigo=='' || keys.new.codigo==undefined) && fNewKey.codigo.$touched,
+                                        }">
+                                        <label style="padding-left: 15px;">Codigo</label>
+                                            <div class="col-xs-12 n-padding-l">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+                                                    <input  name="codigo" autofocus="true" placeholder="Codigo" class="form-control input-key-code" ng-disabled="tkupdate.idStatusTicketKf=='6'" ng-keydown="fnLoadPhoneMask();" ng-model="keys.new.codigo"  type="text" required autofocus/>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <!-- codigo ext -->
+                                        <div class="form-group col-md-6 col-sm-6 col-xs-12 n-padding-l n-padding-r" ng-class="
+                                        {	'has-success':
+                                            keys.new.codigoExt!='' && fNewKey.codigoExt.$valid,
+                                            'has-error':
+                                            (keys.new.codigoExt=='' || keys.new.codigoExt==undefined) && fNewKey.codigoExt.$touched,
+                                        }">
+                                        <label style="padding-left: 15px;" >Codigo Externo</label>
+                                            <div class="col-xs-12 n-padding-r">
+                                                <div class="input-group">
+                                                    <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
+                                                    <input name="codigoExt" placeholder="Codigo Externo" class="form-control input-key-code" ng-disabled="tkupdate.idStatusTicketKf=='6'" ng-keydown="fnLoadPhoneMask();" ng-model="keys.new.codigoExt" type="text" required autofocus />
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="form-group col-md-12 col-xs-12">
+                                            <label for="autoComplete" style="cursor: pointer; font-weight: 600;">Auto completar:</label>
+                                        </div>
+                                        <div class="form-group col-md-6 col-xs-12 n-margin-t n-margin-b" ng-class="
+                                            {	'has-success':
+                                                keys.new.autoComplete!='' && fNewKey.autoComplete.$valid
+                                            }" style="margin-left: 1em;margin-top: 15px;">
+                                            <div class="form-group col-md-2 col-xs-2 n-padding-l" style="padding-left: 15px;">
+                                                <span ng-if="!keys.new.autoComplete" class="badge badge-warning">No</span>
+                                                <span ng-if="keys.new.autoComplete" class="badge badge-success">Si</span>
+                                            </div>
+                                            <div class="col-md-4 col-xs-3">
+                                                <label class="switch switch-1x">
+                                                    <input type="checkbox"
+                                                    name="autoComplete"
+                                                    class="success"
+                                                    ng-disabled="tkupdate.idStatusTicketKf=='6'"
+                                                    ng-model="keys.new.autoComplete"
+                                                    id="autoComplete"
+                                                    style="margin: 0px !important; display: inherit !important;">
+                                                    <span class="slider slider-1x flat"></span>
+                                                </label>
+                                            </div>
+                                            </div>
+                                        <!--<div ng-if="keys.new.autoComplete && ticket.selected.idTypeRequestFor=='2' && (rsNewKeychainList.length==0 || rsNewKeychainList.length==ticket.selected.keys.length)" class="col-md-12 col-xs-12" style="padding-top: 1% !important;padding-bottom: 1% !important;">
+                                                <div class="banner-no-rows banner-no-rows-padding-1 alert alert-info" style="margin-bottom:0px !important;">
+                                                <h5><i class="fas fa-info-circle"> </i> <span style="font-size: 14px; font-weight: 600;">Para usar función auto completar debe indicar solo valores numeros en ambos campos.</span></h5>
+                                                </div>
+                                            </div>-->
+                                            <!--<div ng-if="(!keys.new.autoComplete || keys.new.autoComplete) && ticket.selected.idTypeRequestFor=='2' && rsNewKeychainList.length>=0 && rsNewKeychainList.length<ticket.selected.keys.length" class="col-md-12 col-xs-12" style="padding-top: 1% !important;padding-bottom: 1% !important;">
+                                                <div class="banner-no-rows banner-no-rows-padding-1 alert alert-warning" style="margin-bottom:0px !important;">
+                                                <h5><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 14px; font-weight: 600;">Función auto completar, no disponible continue la carga de forma individual.</span></h5>
+                                                </div>
+                                            </div>-->
+                                    </fieldset>
+                                    <!-- ng-change="verifyExistingKeyList(rsNewKeychainList)" ng-disabled="rsNewKeychainList.length>=0 && rsNewKeychainList.length<=ticket.selected.keys.length" -->
+                                    <!-- Actions Button -->
+                                    <div class="modal-footer">
+                                        <div class="row">
+                                            <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                                                <button type="submit" ng-click="mainSwitchFn('addNewKeyManual', keys.new, null)" ng-disabled="fNewKey.$invalid || rsNewKeychainList.length==tkupdate.keys.length || tkupdate.idStatusTicketKf=='6'" class="btn btn-labeled btn-success">
+                                                    <span class="btn-label"><i class="fas fa-plus"></i> </span>
+                                                    <span ng-if="!keys.new.autoComplete">Agregar</span>
+                                                    <span ng-if="keys.new.autoComplete">Generar</span>
+                                                </button>
+                                                <!--<a data-toggle="collapse" data-target="#panelBody" type="button" class="btn btn-labeled btn-danger">
+                                                    <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>-->
+                                            </div>
+                                        </div>
+                                    </div>
+                                </form>
+                                <div class="clearfix"> </div>
+                                <div ng-if="rsNewKeychainList.length==tkupdate.keys.length" class="blur-overlay">
+                                    <div class="centered-message">Ya ha cargado todos los llaveros del pedido.</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-6" style="padding: 10px !important;">
+                        <!--*********KEY MANUAL***********-->
+                        <div class="panel panel-default">
+                            <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" ng-click="togglePanel('panelBodyExistingKeys')" style="cursor: pointer;">
+                                <h3 class="panel-title">
+                                    <i class="product-success fas fa-key"></i> LLAVEROS ASOCIADOS
+                                    <i ng-class="{'fa-chevron-up': !panels.panelBodyExistingKeys, 'fa-chevron-down': panels.panelBodyExistingKeys}" class="fas pull-right"></i>
+                                </h3>
+                            </div>
+                            <div id="panelBodyExistingKeys" class="panel-body collapse " ng-class="{'in': !panels.panelBodyExistingKeys}" style="height: 390px !important;">
+                                <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/lisExistingKeys.html'"></div>
+                            </div>
+                        </div>
+                    </div>
+                    <!--<div class="col-md-12" style="padding: 10px !important;">
+                        <div class="panel panel-warning" style="margin-bottom: 0px !important;">
+                            <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyNewKeys" ng-click="togglePanel('panelBodyNewKeys')" style="cursor: pointer;">
+                                <h3 class="panel-title">
+                                    <i class="product-success fas fa-key"></i> LISTADO DE NUEVOS LLAVEROS
+                                    <i ng-class="{'fa-chevron-up': !panels.panelBodyNewKeys, 'fa-chevron-down': panels.panelBodyNewKeys}" class="fas pull-right"></i>
+                                </h3>
+                            </div>
+                            <div id="panelBodyNewKeys" class="panel-body n-padding-b collapse " ng-class="{'in': !panels.panelBodyNewKeys}">
+                                <div class="col-md-12 n-padding-l n-padding-r" ng-include="'views/management/tickets/lists/listNewKeys.html'"></div>
+                            </div>
+                        </div>
+                    </div>-->
+                </div>
+            </div>
+            <div class="clearfix"> </div>
+        </div>
+        <!--ng-if="((tkupdate.idMgmtMethodKf==null && rsNewKeychainList.length==tkupdate.keys.length) ||(tkupdate.idMgmtMethodKf!=null && rsNewKeychainList.length!=tkupdate.keys.length))" || sNewKeychainList.length!=tkupdate.keys.length  || rsNewKeychainList.length==tkupdate.keys.length -->
+        <div class="modal-footer">
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
+                    <button ng-if="tkupdate.idStatusTicketKf!='1' && tkupdate.idMgmtMethodKf==null" type="button" ng-click="mainSwitchFn('setMgmtKeys', tkupdate, null)" ng-disabled="
+                    (tkupdate.idStatusTicketKf=='1' || (((ticket.keysMethod && (ticket.keysMethod.name==undefined || ticket.keysMethod.name=='')) || rsNewKeychainList.length!=tkupdate.keys.length) && !thereIsKeyWithoutIdKeychain))" class="btn btn-labeled btn-success">
+                        <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asignar</button>
+                    <a ng-show="(tkupdate.idStatusTicketKf!='1' && tkupdate.idStatusTicketKf!='6' && (tkupdate.idMgmtMethodKf==null || thereIsKeyWithoutIdKeychain))" id="cancelModalWindow" type="button" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
+                    <a ng-show="((tkupdate.idStatusTicketKf=='1'|| tkupdate.idStatusTicketKf=='6') || (tkupdate.idMgmtMethodKf!=undefined && !thereIsKeyWithoutIdKeychain))" id="closeModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
+                        <span class="btn-label"><i class="fas fa-times-circle"></i></span>Cerrar</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</div>
+<div ng-include="'views/management/tickets/keyDetails.html'"></div>
+<div ng-include="'views/utilities/modalConfirmationCustom.html'"></div>

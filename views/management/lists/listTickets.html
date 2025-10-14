@@ -1,0 +1,63 @@
+<!-- LIST TICKETS -->
+<table  id="tableTickets" class="table table-striped table-bordered table-condensed table-list table-responsive table-hover table-hover-selected">
+    <thead style="background-color: rgba(35, 100, 132, 0.66); color: white;">
+      <tr style="text-align: center;">
+          <th ng-if="filters.typDelivery.idTypeDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" width="4%">
+            <span class="glyphicon sort-icon"></span>
+          </th>
+          <th width="4%"  style="vertical-align: middle;text-align: center;" class="media-middle text-center">ID </th>
+          <th width="7%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="glyphicon glyphicon-user" > </i> Ticket</th>
+          <th width="7%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="fas fa-file-signature"> </i> Tipo</th>
+          <th width="20%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="glyphicon icon-flag"> </i> Dirección</th>
+          <th width="7%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="glyphicon icon-flag"> </i> Stock</th>
+          <th width="7%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="glyphicon icon-flag"> </i> Solicitado Para</th>
+          <th width="8%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="glyphicon icon-flag"> </i> Llaveros solicitados</th>
+          <th width="7%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="glyphicon icon-flag"> </i> Estatus</th>
+          <th width="7%" style="vertical-align: middle;text-align: center;" class="media-middle text-center"><i class="fas fa-ellipsis-h"> </i> Fecha Pedido</th>
+          <!--<th><i class="glyphicon icon-calendar"> </i> Registrado</th>-->
+      </tr>
+    </thead>
+    <tbody>
+        <tr class="animate-repeat" style="align-content: center; cursor: pointer;" ng-repeat="item in listTickt">
+          <td ng-show="filters.typDelivery.idTypeDelivery!=undefined && filters.typDelivery.idTypeDelivery=='2' && (filters.ticketStatus.idStatus=='4' || filters.ticketStatus.idStatus=='5')" class="media-middle text-center" style="vertical-align: middle;">
+            <label class="switch switch-2x" for="ticket-{{item.idTicket}}">
+              <input type="checkbox" class="success" ng-model="item.selected" ng-disabled="(item.idDeliveryCompanyKf==undefined || item.idDeliveryCompanyKf==null)" ng-click="mainSwitchFn('check_list_item', listTickt)" id="ticket-{{item.idTicket}}">
+              <span class="slider slider-2x flat"></span>
+            </label>
+          </td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;" class="media-middle text-center">{{item.idTicket}}</td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.codTicket}}</td>
+          <!-- BUSINESS NAME -->
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.typeticket.TypeTicketName}}</td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.building.address}}</td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">
+            <span ng-if="item.building.isStockInBuilding=='1'" class="badge badge-default">En Edificio</span>
+            <span ng-if="item.building.isStockInOffice=='1'" class="badge badge-default">En Oficina</span>
+            <span ng-if="item.building.isStockInBuilding!='1' && item.building.isStockInOffice!='1'" class="badge badge-warning">No definido</span>
+          </td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;"><span class="badge badge-default">{{item.typeRequestFor.name}}</span></td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;"><span class="badge badge-default">{{item.keys.length}}</span></td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">
+
+            <span ng-if="item.isCancelRequested=='1' || item.isCancelRequested!='1'" class="label" ng-class="{
+              'label-default':
+              item.idStatusTicketKf=='8',
+              'label-success':
+              item.idStatusTicketKf=='1' || item.idStatusTicketKf=='5',
+              'label-warning':
+              item.idStatusTicketKf=='3' || item.idStatusTicketKf=='4' || item.idStatusTicketKf=='10' || item.idStatusTicketKf=='2' || item.idStatusTicketKf=='7' || item.idStatusTicketKf=='9' || item.idStatusTicketKf=='11' || item.idStatusTicketKf=='12',
+              'label-danger':
+              item.idStatusTicketKf=='6',
+            }">{{item.statusTicket.statusName}}</span>
+          </td>
+          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.created_at | toDate | date:'dd/MM/yyyy'}}</td>
+        </tr>
+      <!-- Show if there is not ticket are registered -->
+      <tr ng-if="listTickt.length==0" >
+          <td colspan="9"><div class="col-md-12 col-md-offset-5"><span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">Tickets No Encontrados</span></div>
+          </td>
+      </tr>
+       <!--<tr ng-if="searchboxfilter.length==0" class="animate-repeat" style="align-content: center;">no items found</tr>-->
+    </tbody>
+</table>
+<!--// LIST TICKETS -->

@@ -6,6 +6,7 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
       var rsJsonTicket = {};
       var rsTicket={'ticket':{}};
       var checkResult =0;
+      var rsKey={'llavero':{}};
       return {
           /* LISTA ALL TICKETS */
           all: function(ticket) {
@@ -175,11 +176,47 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                 return response;
               })
           },
+          /*CHANCE STATUS TICKET */
+          addDeliveryCompany: function(ticket) {
+            console.log("Adding Delivery Company service :: Triggered");
+            //console.log(tkUpdateData);
+            return $http.post(serverHost+serverBackend+"Ticket/addDeliveryCompany",ticket, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) {
+                console.log("Error: "+response.data.error);
+                return response;
+              })
+          },
+          /*SET TICKET AS DELIVERED */
+          setTicketDelivered: function(ticket) {
+            console.log("Setting Ticket As Delivery Completed :: Triggered");
+            //console.log(tkUpdateData);
+            return $http.post(serverHost+serverBackend+"Ticket/setTicketDelivered",ticket, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) {
+                console.log("Error: "+response.data.error);
+                return response;
+              })
+          },
           /* UPDATE TICKET */
           updateUpRequest: function(ticket) {
               console.log("Updating ticket service :: Triggered");
               //console.log(tkUpdateData);
               return $http.post(serverHost+serverBackend+"Ticket/update",ticket, serverHeaders)
+                .then(function mySucess(response) {
+                  return response;
+                },function myError(response) {
+                  console.log("Error: "+response.data.error);
+                  return response;
+                })
+          },
+          /* SET KEYS ENABLE/DISABLE TICKET */
+          setKeysEnableDisable: function(ticket) {
+              console.log("Setting Keys Enable or Disable ticket service :: Triggered");
+              //console.log(tkUpdateData);
+              return $http.post(serverHost+serverBackend+"Ticket/setKeysEnableDisable",ticket, serverHeaders)
                 .then(function mySucess(response) {
                   return response;
                 },function myError(response) {
@@ -515,6 +552,17 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                 console.log("Error: "+response.data.error);
                 return response;
               })
+          },
+          updateTicketKeychain: function(data) {
+            rsKey.llavero=data.llavero;
+            console.log("[Ticket Services] => update Ticket Keychain");
+            return $http.post(serverHost+serverBackend+"Ticket/updateTicketKeychain",rsKey,serverHeaders)
+              .then(function mySuccess(response) {
+                return response;
+              }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                return response;
+              });
           },
       }
 }]);
