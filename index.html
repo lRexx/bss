@@ -3,7 +3,7 @@
 <head>
 <title>MiBss</title>
 <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-<meta charset="utf-8">    
+<meta charset="utf-8">
 <base href="/">
 <link rel="icon" sizes="192x192" href="images/web_icon.png">
 <link rel="shortcut icon" href="images/web_icon.png" type="image/jpeg"/>
@@ -23,10 +23,10 @@
 <link rel="stylesheet" type="text/css" href="lib/angular/angular-block-ui/css/angular-block-ui.css">
 <link rel="stylesheet" type="text/css" href="lib/angular/angular-inform/css/angular-inform.min.css">
 
-  
+
 <link rel="stylesheet" type="text/css" href="lib/angular/ui-select/css/selectize.default.css">
 <link rel="stylesheet" type="text/css" href="lib/angular/ui-select/css/select.css">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">    
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/select2/3.4.5/select2.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.8.5/css/selectize.default.css">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jasny-bootstrap/3.1.3/css/jasny-bootstrap.min.css">
 <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/angular-loading-bar/0.9.0/loading-bar.min.css" type="text/css" media="all" />
@@ -58,8 +58,8 @@
 				<div class="container-fluid">
 					<div>
 						<div class="nav navbar-nav navbar-left">
-							<!--<h3 class="montserrat-extended">MiBss</h3>-->
 							<img id="comp-k1xl6bdlimgimage" class="sys-logo" data-type="image" itemprop="image" src="images/mi_bss_bold.png">
+							<!--<h4 class="montserrat-extended">MiBss</h4>-->
 						</div>
 						<ul class="nav navbar-nav navbar-right nav-prof nav-role">
 							<li class="dropdown gray" style="color: #fff;">
@@ -106,28 +106,34 @@
 							<span class="icon-bar"></span>
 							<span class="icon-bar"></span>
 						</button>
-						
+
 						</div>
 
 						<!-- Collect the nav links, forms, and other content for toggling -->
 						<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 						<ul class="nav navbar-nav">
 							<li id="m_monitor"  class="icon-m" ng-class="{ active: getRoute('/monitor')}" ng-if="sysModules.idMonitor">
-								<a href="/monitor"> 
+								<a href="/monitor">
 									<i class="fas fa-tachometer-alt icon-4x"></i>
 									<br>Monitor de pedidos
 								</a>
 							</li>
 							<li id="m_pedidos" ng-class="{ active: getRoute('/tickets')}" ng-if="sysModules.idPedidos">
 								<a href="/tickets">
-								<i style="margin-left: 0.1em;" class="icon-file-text icon-4x"></i>
+								<i style="margin-left: 0.1em;" class="fas fa-file-alt icon-4x"></i>
 								<br>Pedidos
+								</a>
+							</li>
+							<li id="m_gestion" ng-class="{ active: getRoute('/ticket_mgmt')}" ng-if="sysModules.idGestion">
+								<a href="/ticket_mgmt">
+								<i style="margin-left: -0.1em;" class="fas fa-tasks icon-4x"></i>
+								<br>Gestión
 								</a>
 							</li>
 							<!--<li id="m_llaveros" ng-class="{ active: getRoute('/keys')}" ng-if="sysModules.idLlaveros">
 								<a href="/keys">
 								<i style="margin-left: 0.1em;" class="icon-file-text icon-4x"></i>
-								<br>Pedidos 
+								<br>Pedidos
 								<b class="caret"></b></a>
 								<ul class="dropdown-menu">
 									<li ng-show="sysLoggedUser.idProfileKf!=2" class="dropdown-header">Llaveros</li>
@@ -147,37 +153,37 @@
 								</a>
 							</li>
 							<li id="m_depto" class="icon-m" ng-class="{ active: getRoute('/buildings')}" ng-if="sysModules.idEdificios">
-								<a href="/buildings"> 
+								<a href="/buildings">
 								<i class="icon-building icon-4x"></i>
 								<br>Gestion de Edificio
 								</a>
 							</li>
 							<li id="m_product" class="icon-m" ng-class="{ active: getRoute('/products')}" ng-if="sysModules.idProducto">
-								<a  href="/products"> 
+								<a  href="/products">
 								<i style="margin-left: -0.5em" class="fas fa-th icon-4x"></i>
 								<br>Productos
 								</a>
-							</li>	
+							</li>
 							<li id="m_services" class="icon-m" ng-class="{ active: getRoute('/services')}" ng-if="sysModules.idServices">
-								<a  href="/services"> 
+								<a  href="/services">
 									<i style="margin-left: -0.58em" class="fas fa-tools icon-4x"></i>
 									<br>Servicios
 								</a>
 							</li>
 							<li id="m_keys" class="icon-m" ng-class="{ active: getRoute('/keys')}" ng-if="sysModules.idKeys">
-								<a  href="/keys"> 
+								<a  href="/keys">
 								<i style="margin-left: -0.58em" class="fas fa-key icon-4x"></i>
 								<br>Llaveros
 								</a>
 							</li>
 							<li id="m_customers" class="icon-m" ng-class="{ active: getRoute('/customers')}" ng-if="sysModules.idCliente">
-								<a  href="/customers"> 
+								<a  href="/customers">
 								<i style="margin-left: -0.58em" class="fas fa-user-tie icon-4x"></i>
 								<br>Clientes
 								</a>
 							</li>
 							<li id="m_users" class="icon-m" ng-class="{ active: getRoute('/users')}" ng-if="sysModules.idUsers">
-								<a  href="/users"> 
+								<a  href="/users">
 								<i style="margin-left: -0.7em" class="fas fa-users icon-4x"></i>
 								<br>Usuarios
 								</a>
@@ -189,7 +195,7 @@
 								</a>
 							</li>
 							<li id="m_config" class="icon-m" ng-class="{ active: getRoute('/system')}" ng-if="sysModules.idConfiguracion">
-								<a  href="/system"> 
+								<a  href="/system">
 								<i style="margin-left: -0.6em" class="icon-cogs icon-4x"></i>
 								<br>Sistema
 								</a>
@@ -225,7 +231,7 @@
 		<div id="loader">&nbsp;</div>
 		<div class="companyName"></div>
 	</div>
-	<!-- //Loader div -->	
+	<!-- //Loader div -->
 	<!-- ng-view div -->
 	<div ng-view></div>
 	<!-- //ng-view div -->
@@ -244,8 +250,11 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" crossorigin="anonymous"></script>
 <!-- Latest compiled and minified JavaScript -->
 <!--<script type="text/javascript" src="//unpkg.com/xlsx/dist/shim.min.js"></script>
-<script type="text/javascript" src="//cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>-->
+<script type="text/javascript" src="//cdn.jsdelivr.net/npm/xlsx/dist/xlsx.full.min.js"></script>
+<script lang="javascript" src="lib/sheetjs/xlsx.core.min.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+
 <script type="text/javascript" src="//unpkg.com/blob.js@1.0.1/Blob.js"></script>
 <script type="text/javascript" src="//unpkg.com/file-saver@1.3.3/FileSaver.js"></script>
 <!--<script src="lib/bootstrap/js/default/bootstrap.min.js"></script>-->
@@ -325,7 +334,7 @@
 <script src="common/services/sKeys.js"></script>
 
 <!--  Seguridad TASS Angular Functions -->
-<script src="controllers/TASSCtrlMenu.js"></script> 
+<script src="controllers/TASSCtrlMenu.js"></script>
 <script src="controllers/TASSCtrlMonitor.js"></script>
 <script src="controllers/TASSCtrlProducts.js"></script>
 <script src="controllers/TASSCtrlKeys.js"></script>
@@ -339,6 +348,7 @@
 <script src="controllers/TASSCtrlUsers.js"></script>
 <script src="controllers/TASSCtrlBuildings.js"></script>
 <script src="controllers/TASSCtrlTickets.js"></script>
+<script src="controllers/BSSCtrlMgmt.js"></script>
 <script src="controllers/TASSCtrlSystem.js"></script>
 <script src="controllers/TASSCtrlLogin.js"></script>
 <script src="controllers/BSSCtrlLogout.js"></script>
