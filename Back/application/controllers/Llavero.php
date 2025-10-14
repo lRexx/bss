@@ -21,8 +21,8 @@ class Llavero extends REST_Controller
 		$obj = $this->llavero_model->add($this->post('llavero'), false);
 
 
-		if (!is_null($obj) && $obj != 0 && $obj != 2){
-			$this->response(array('response' => $obj) , 200);
+		if (!is_null($obj) && $obj != 0 && $obj != 2) {
+			$this->response(array('response' => $obj), 200);
 		} else {
 			if ($obj == 0) {
 				$this->response(['error' => "ERROR INESPERADO"], 500);
@@ -88,7 +88,7 @@ class Llavero extends REST_Controller
 
 	public function varios_post()
 	{
-//		$this->response( $_FILES['excel'], 200);
+		//		$this->response( $_FILES['excel'], 200);
 //
 		$obj = null;
 		if (!$_FILES) {
@@ -136,7 +136,24 @@ class Llavero extends REST_Controller
 			}
 		}
 	}
+	public function delete_delete($llavero)
+	{
+		if (!$llavero) {
+			return $this->response(['error' => 'Parámetro llavero requerido'], 400);
+		}
 
+		$result = $this->llavero_model->delete($llavero);
+
+		if ($result === 1) {
+			return $this->response(['response' => 'Eliminación exitosa'], 200);
+		} elseif ($result === 0) {
+			return $this->response(['error' => 'ERROR INESPERADO'], 500);
+		} elseif ($result === 3) {
+			return $this->response(['error' => 'El elemento no existe'], 404);
+		} else {
+			return $this->response(['error' => 'Resultado desconocido'], 500);
+		}
+	}
 	public function index_get()
 	{
 
@@ -192,35 +209,37 @@ class Llavero extends REST_Controller
 			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
 		}
 	}
-    public function verifyKeysByIdUser_get($idDepto, $idUser) {
-        if (!$idDepto || !$idUser) {
-            $this->response(NULL, 500);
-        }
+	public function verifyKeysByIdUser_get($idDepto, $idUser)
+	{
+		if (!$idDepto || !$idUser) {
+			$this->response(NULL, 500);
+		}
 
-        $rs = null;
-        $rs = $this->llavero_model->verifyKeysByidUser($idDepto, $idUser);
+		$rs = null;
+		$rs = $this->llavero_model->verifyKeysByidUser($idDepto, $idUser);
 
-        if (!is_null($rs)) {
-            $this->response($rs, 200);
-        } else {
-            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
-        }
-    }
+		if (!is_null($rs)) {
+			$this->response($rs, 200);
+		} else {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+		}
+	}
 
-    public function checkKeysAssigned2DepartmentByService_get($id) {
-        if (!$id) {
-            $this->response(NULL, 404);
-        }
+	public function checkKeysAssigned2DepartmentByService_get($id)
+	{
+		if (!$id) {
+			$this->response(NULL, 404);
+		}
 
-        $rs = null;
-        $rs = $this->llavero_model->checkKeysAssigned2DepartmentByService($id);
+		$rs = null;
+		$rs = $this->llavero_model->checkKeysAssigned2DepartmentByService($id);
 
-        if (!is_null($rs)) {
-            $this->response([ 'keys_assigned' => $rs ], 200);
-        } else {
-            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
-        }
-    }
+		if (!is_null($rs)) {
+			$this->response(['keys_assigned' => $rs], 200);
+		} else {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+		}
+	}
 
 	public function addProcessEvent_post()
 	{
@@ -232,8 +251,8 @@ class Llavero extends REST_Controller
 		$obj = $this->llavero_model->addProcess_event($this->post('processEvent'), false);
 
 
-		if (!is_null($obj)){
-			$this->response(array('response' => $obj) , 200);
+		if (!is_null($obj)) {
+			$this->response(array('response' => $obj), 200);
 		} else {
 			if ($obj == 0) {
 				$this->response(['error' => "ERROR INESPERADO"], 500);
@@ -245,23 +264,43 @@ class Llavero extends REST_Controller
 		}
 	}
 
+	public function deleteProcessEvent_delete($idTicketKf)
+	{
+		if (!$idTicketKf) {
+			return $this->response(['error' => 'Parámetro idTicketKf requerido'], 400);
+		}
+
+		$result = $this->llavero_model->deleteProcess_event($idTicketKf);
+
+		if ($result === 1) {
+			return $this->response(['response' => 'Eliminación exitosa'], 200);
+		} elseif ($result === 0) {
+			return $this->response(['error' => 'ERROR INESPERADO'], 500);
+		} elseif ($result === 3) {
+			return $this->response(['error' => 'El elemento no existe'], 404);
+		} else {
+			return $this->response(['error' => 'Resultado desconocido'], 500);
+		}
+	}
+
 	public function listAllKeychain_post()
 	{
-		$rs=null;
-        $idClientKf           	= $this->post('idClientKf');
-        $limit                  = $this->post('limit');
-		$create_at 				= $this->post('create_at');
-		$idCategoryKf 			= $this->post('idCategoryKf');
-		$idKeychainStatusKf 	= $this->post('idKeychainStatusKf');
-		$idDepartmenKf 			= $this->post('idDepartmenKf');
-		$idReasonKf 			= $this->post('idReasonKf');
-		$sysLoggedUserProfile 	= $this->post('sysLoggedUserProfile');
-		$codeSearch 			= $this->post('codeSearch');
-        $start                  = $this->post('start');
-		$strict                 = $this->post('strict');
-		$totalCount             = $this->post('totalCount');
+		$rs = null;
+		$idClientKf = $this->post('idClientKf');
+		$limit = $this->post('limit');
+		$create_at = $this->post('create_at');
+		$idCategoryKf = $this->post('idCategoryKf');
+		$idKeychainStatusKf = $this->post('idKeychainStatusKf');
+		$idDepartmenKf = $this->post('idDepartmenKf');
+		$idReasonKf = $this->post('idReasonKf');
+		$sysLoggedUserProfile = $this->post('sysLoggedUserProfile');
+		$codeSearch = $this->post('codeSearch');
+		$start = $this->post('start');
+		$strict = $this->post('strict');
+		$totalCount = $this->post('totalCount');
+		$getTicketKeychainKf = $this->post('getTicketKeychainKf');
 
-		$rs = $this->llavero_model->get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit, $start, $strict, $totalCount);
+		$rs = $this->llavero_model->get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit, $start, $strict, $totalCount, $getTicketKeychainKf);
 		if (!is_null($rs)) {
 			$this->response($rs, 200);
 		} else {
@@ -270,15 +309,15 @@ class Llavero extends REST_Controller
 	}
 	public function listAllProcessEvents_post()
 	{
-		$rs=null;
-		$idTypeTicketKf         = $this->post('idTypeTicketKf');
-        $idClientKf           	= $this->post('idClientKf');
-        $limit                  = $this->post('limit');
-		$create_at 				= $this->post('create_at');
-		$idCategoryKf 			= $this->post('idCategoryKf');
-        $start                  = $this->post('start');
-		$strict                 = $this->post('strict');
-		$totalCount             = $this->post('totalCount');
+		$rs = null;
+		$idTypeTicketKf = $this->post('idTypeTicketKf');
+		$idClientKf = $this->post('idClientKf');
+		$limit = $this->post('limit');
+		$create_at = $this->post('create_at');
+		$idCategoryKf = $this->post('idCategoryKf');
+		$start = $this->post('start');
+		$strict = $this->post('strict');
+		$totalCount = $this->post('totalCount');
 
 		$rs = $this->llavero_model->get_all_events($idTypeTicketKf, $idClientKf, $create_at, $idCategoryKf, $limit, $start, $strict, $totalCount);
 		if (!is_null($rs)) {
@@ -287,29 +326,31 @@ class Llavero extends REST_Controller
 			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
 		}
 	}
-    public function statusKeychain_get() {
+	public function statusKeychain_get()
+	{
 
-        $result = $this->llavero_model->statusKeychain();
+		$result = $this->llavero_model->statusKeychain();
 
-        if (! is_null($result)) {
-            $this->response($result, 200);
-        } else {
-            $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
-        }
-    }
-	public function findKeyByCode_get($code, $idClientKf) {
-        
-  
-        $rs = null;
-        $rs = $this->llavero_model->find_by_code($code, $idClientKf);
+		if (!is_null($result)) {
+			$this->response($result, 200);
+		} else {
+			$this->response(['error' => 'NO HAY RESULTADOS'], 404);
+		}
+	}
+	public function findKeyByCode_get($code, $idClientKf)
+	{
 
-        if (!is_null($rs)) {
-           //$this->response(['2'], 200);
-		   //$this->response([ 'codigo' => $rs['codigo'] ], 200);
-		   $this->response([ 'codigo' => true ], 200);
-        } else {
-            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
-        }
-    }
+
+		$rs = null;
+		$rs = $this->llavero_model->find_by_code($code, $idClientKf);
+
+		if (!is_null($rs)) {
+			//$this->response(['2'], 200);
+			//$this->response([ 'codigo' => $rs['codigo'] ], 200);
+			$this->response(['codigo' => true], 200);
+		} else {
+			$this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+		}
+	}
 
 }
