@@ -24,6 +24,7 @@ var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                                   "module.Tickets",
                                                   "module.System",
                                                   "module.Validate",
+                                                "module.Management",
                                                   "blockUI",
                                                   "inform",
                                                   //"inform-exception",
@@ -34,14 +35,14 @@ var app = angular.module('systemApp', ["ngRoute", "ngCookies",
                                                   "ui.bootstrap",
                                                   "ngclipboard",
                                                   //"angularUtils.directives.dirPagination",
-                                                  "angular.filter", 
+                                                  "angular.filter",
                                                   "rzSlider",
                                                   "ngLocale",
                                                   "module.Logout",
                                                   "angularCSS"]);
 app.config(function(blockUIConfig) {
       // Tell blockUI not to mark the body element as the main block scope.
-      blockUIConfig.autoInjectBodyBlock = true;  
+      blockUIConfig.autoInjectBodyBlock = true;
       blockUIConfig.autoBlock = true;
 });
 // Configurar el idioma español de Argentina como localización
@@ -124,7 +125,7 @@ app.config(['$routeProvider', '$locationProvider',
             templateUrl: 'views/newpwd/',
             controller: 'NewPwdCtrl',
             css: 'views/login/style-login.css'
-        })    
+        })
         .when('/monitor', {
             templateUrl: 'views/monitor/',
             controller: 'MonitorCtrl',
@@ -163,6 +164,11 @@ app.config(['$routeProvider', '$locationProvider',
         .when('/keys', {
             templateUrl: 'views/keys/',
             controller: 'KeysCtrl',
+            css: 'views/mainapp/style.css'
+        })
+        .when('/ticket_mgmt', {
+            templateUrl: 'views/management/',
+            controller: 'MgmtCtrl',
             css: 'views/mainapp/style.css'
         })
         .when('/tech', {
