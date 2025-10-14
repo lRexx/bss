@@ -1536,18 +1536,19 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.isEditKey      = false;
                             $scope.isNewKeyMulti  = false;
                             //console.log(obj);
-                            $scope.keys.llavero.idProductKf     = obj.products.selected.idProduct;
-                            $scope.keys.llavero.codExt          = obj.codigoExt;
-                            $scope.keys.llavero.codigo          = obj.codigo;
-                            $scope.keys.llavero.idDepartmenKf   = obj.categoryKey=="1"?obj.department:null;
-                            $scope.keys.llavero.idClientKf      = $scope.select.buildings.selected.idClient;
-                            $scope.keys.llavero.idUserKf        = obj.categoryKey=="6" && obj.isForAttendant?obj.attendant.selected.idUser:null;
-                            $scope.keys.llavero.idCategoryKf    = obj.categoryKey;
-                            $scope.keys.llavero.isKeyTenantOnly = 0;
-                            $scope.keys.llavero.idClientAdminKf = obj.categoryKey=="5"?$scope.customerFound.administration_details[0].idClient:null;
-                            $scope.keys.llavero.createdBy       = $scope.sysLoggedUser.idUser;
-                            $scope.keys.llavero.idTicketKf      = obj.isForTickets && $scope.ticketFound==undefined?null:$scope.ticketFound.idTicket;
-                            $scope.keys.llavero.idTypeTicketKf  = 1;
+                            $scope.keys.llavero.idProductKf         = obj.products.selected.idProduct;
+                            $scope.keys.llavero.codExt              = obj.codigoExt;
+                            $scope.keys.llavero.codigo              = obj.codigo;
+                            $scope.keys.llavero.idDepartmenKf       = obj.categoryKey=="1"?obj.department:null;
+                            $scope.keys.llavero.idClientKf          = $scope.select.buildings.selected.idClient;
+                            $scope.keys.llavero.idUserKf            = obj.categoryKey=="6" && obj.isForAttendant?obj.attendant.selected.idUser:null;
+                            $scope.keys.llavero.idCategoryKf        = obj.categoryKey;
+                            $scope.keys.llavero.isKeyTenantOnly     = 0;
+                            $scope.keys.llavero.idClientAdminKf     = obj.categoryKey=="5"?$scope.customerFound.administration_details[0].idClient:null;
+                            $scope.keys.llavero.createdBy           = $scope.sysLoggedUser.idUser;
+                            $scope.keys.llavero.idTicketKf          = obj.isForTickets && $scope.ticketFound==undefined?null:$scope.ticketFound.idTicket;
+                            $scope.keys.llavero.idTypeTicketKf      = 1;
+                            $scope.keys.llavero.idKeychainStatusKf  = 1;
                             console.log($scope.keys.llavero);
                             $scope.addKeyFn($scope.keys);
                         break;
@@ -1692,12 +1693,12 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.rsAllKeychainProcessesData   = null;
                             $scope.customerFound={};
                             $scope.customerSearch.name=undefined;
-                            $scope.getAllKeysFn(true);
+                            //$scope.getAllKeysFn(true);
                             $scope.select={'filterCategoryKey':'', 'department':'', 'keychainStatus':{},'idTypeTicketKf':null, 'filterCustomerIdFk':{'selected':undefined}, 'companies':{'selected':undefined}, 'address':{'selected':undefined}, 'products':{'selected':undefined}, 'products_reserva':{'selected':undefined}, 'products_cocheras':{'selected':undefined}}
                             $scope.customerFound={};
                             $("#categoryKeyAll").prop("checked", true);
                             $("#categoryKeyAll").val("undefined");
-                            $scope.loadPagination($scope.rsKeyListsData, "idKeychain", "10");
+                            //$scope.loadPagination($scope.rsKeyListsData, "idKeychain", "10");
                             $scope.sysContent                         = 'listKeys';
                         break;
                         case "keychain_list":

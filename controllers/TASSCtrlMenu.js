@@ -23,7 +23,7 @@
           function newViewValue(oldViewValue, pos, key) {
             if (!oldViewValue) return key;
             return   [oldViewValue.slice(0, pos), key, oldViewValue.slice(pos)].join('');
-          } 
+          }
       }
     };
   });
@@ -32,22 +32,22 @@
       require: 'ngModel',
       link: function(scope, element, attrs, ngModel) {
         attrs.ngTrim = 'false';
-  
+
         element.bind('keydown', function(e) {
           if (e.which === 32) {
             e.preventDefault();
             return false;
           }
         });
-  
+
         ngModel.$parsers.unshift(function(value) {
           var spacelessValue = value.replace(/ /g, '');
-  
+
           if (spacelessValue !== value) {
             ngModel.$setViewValue(spacelessValue);
             ngModel.$render();
           }
-  
+
           return spacelessValue;
         });
       }
@@ -101,7 +101,7 @@
         $scope.wLoader  = true;
          $timeout(function() {
            $('#loader').fadeOut();
-           $('#wLoader').delay(350).fadeOut('slow'); 
+           $('#wLoader').delay(350).fadeOut('slow');
            $scope.wLoader  = false;
          }, 1500);
        }
@@ -150,7 +150,7 @@
       /**
        * LOAD SYSTEM MODULES AND MENU
        */
-        $scope.sysModules = {'idMonitor':false, 'idLlaveros':false, 'idEdificios':false, 'idConfiguracion':false, 'idPerfilUsuario':false, 'idCliente':false, 'idServicio':false, 'idProducto': false, 'idUsers': false};
+        $scope.sysModules = {'idMonitor':false, 'idLlaveros':false, 'idEdificios':false, 'idConfiguracion':false, 'idPerfilUsuario':false, 'idCliente':false, 'idServicio':false, 'idProducto': false, 'idUsers': false, 'idGestion': false};
         $scope.sysLoadModules = function (){
           for (var key in $scope.sysLoggedUserModules){
           switch ($scope.sysLoggedUserModules[key].idModuleFk){
@@ -187,6 +187,9 @@
             case "11":
               $scope.sysModules.idTechnician=true;
             break;
+            case "12":
+              $scope.sysModules.idGestion=true;
+            break;
             default:
           }
           }
@@ -212,7 +215,7 @@
                       console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                       console.log("============================================================================")
                       console.log($scope.argObj);
-                  }      
+                  }
                 $('#confirmRequestModalMenu').modal('toggle');
               }else if (confirm==1){
                 $scope.updateProfileLoggedUser();
@@ -228,7 +231,7 @@
                       console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                       console.log("============================================================================")
                       console.log($scope.argObj);
-                  }      
+                  }
                 $('#confirmRequestModalMenu').modal('toggle');
               }else if (confirm==1){
                     $scope.sysPwdChangeFn();
@@ -244,7 +247,7 @@
                       console.log('Cierre de session del usuario ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                       console.log("============================================================================")
                       console.log($scope.argObj);
-                  }      
+                  }
                 $('#confirmRequestModalMenu').modal('toggle');
               }else if (confirm==1){
                 $scope.logout();
@@ -320,7 +323,7 @@
 
                       $scope.isSchedItemExist=true;
                       break;
-                      
+
                       }else{
                       $scope.isSchedItemExist=false;
                       }
@@ -381,7 +384,7 @@
                       $scope.list_input_last.fronAm  = $scope.list_schedule_atention[key].fronAm;
                       $scope.list_input_last.toAm    = $scope.list_schedule_atention[key].toAm;
                       $scope.list_input_last.fronPm  = $scope.list_schedule_atention[key].fronPm;
-                      $scope.list_input_last.toPm    = $scope.list_schedule_atention[key].toPm;                      
+                      $scope.list_input_last.toPm    = $scope.list_schedule_atention[key].toPm;
                   }
                   }
                   for (var key in  $scope.list_schedule_atention){
@@ -392,7 +395,7 @@
                           $scope.list_schedule_atention[key].toPm     = obj.toPm;
                       $scope.isSchedItemExist=true;
                       break;
-                      
+
                       }else{
                       $scope.isSchedItemExist=false;
                       }
@@ -409,12 +412,12 @@
                           $scope.list_schedule[key].fronPm = $scope.list_input_first.fronPm;
                           $scope.list_schedule[key].toPm   = $scope.list_input_first.toPm;
                           $scope.list_schedule_atention.push({
-                              'idClienteFk':$scope.customer.update.idClient, 
-                              'day':obj.day, 
-                              'fronAm':$scope.list_input_first.fronAm, 
-                              'toAm': $scope.list_input_first.toAm, 
-                              'fronPm': $scope.list_input_first.fronPm, 
-                              'toPm': $scope.list_input_first.toPm});                      
+                              'idClienteFk':$scope.customer.update.idClient,
+                              'day':obj.day,
+                              'fronAm':$scope.list_input_first.fronAm,
+                              'toAm': $scope.list_input_first.toAm,
+                              'fronPm': $scope.list_input_first.fronPm,
+                              'toPm': $scope.list_input_first.toPm});
                           }else if(list_schedule_atention_length>1){
                           //console.log("adding the data of the last element of the array.");
                           $scope.list_schedule[key].fronAm = $scope.list_input_last.fronAm;
@@ -422,16 +425,16 @@
                           $scope.list_schedule[key].fronPm = $scope.list_input_last.fronPm;
                           $scope.list_schedule[key].toPm   = $scope.list_input_last.toPm;
                           $scope.list_schedule_atention.push({
-                              'idClienteFk':$scope.customer.update.idClient, 
-                              'day':obj.day, 
-                              'fronAm':$scope.list_input_last.fronAm, 
-                              'toAm': $scope.list_input_last.toAm, 
-                              'fronPm': $scope.list_input_last.fronPm, 
+                              'idClienteFk':$scope.customer.update.idClient,
+                              'day':obj.day,
+                              'fronAm':$scope.list_input_last.fronAm,
+                              'toAm': $scope.list_input_last.toAm,
+                              'fronPm': $scope.list_input_last.fronPm,
                               'toPm': $scope.list_input_last.toPm});
                           }
                       }
                   }
-                  
+
                   }
               }
               //console.info($scope.list_schedule_atention);
@@ -453,7 +456,7 @@
               }
               }
           }
-        
+
         }
         $scope.schedTime=[];
         $scope.list_schedule_time_orderBy=[];
@@ -465,7 +468,7 @@
               for (j=0;j<$scope.schedTime.length;j++){
               if($scope.list_schedule[i].day==$scope.schedTime[j].day){
                   //$scope.list_schedule_time_orderBy.push({'day':$scope.schedTime[j].day, 'fronAm':$scope.schedTime[j].fronAm, 'toAm': $scope.schedTime[j].toAm, 'fronPm': $scope.schedTime[j].fronPm, 'toPm': $scope.schedTime[j].toPm});
-                  $scope.list_schedule_time_orderBy.push($scope.schedTime[j]);              
+                  $scope.list_schedule_time_orderBy.push($scope.schedTime[j]);
                   break;
               }
               }
@@ -487,13 +490,13 @@
                               toPm  :'20:00',
                               selected:false
                             },{
-                              id    :2,                          
+                              id    :2,
                               day   :'Martes',
                               fronAm:'',
                               toAm  :'',
                               fronPm:'',
                               toPm  :'',
-                              selected:false                          
+                              selected:false
                             },{
                               id    :3,
                               day   :'Miercoles',
@@ -501,7 +504,7 @@
                               toAm  :'',
                               fronPm:'',
                               toPm  :'',
-                              selected:false                          
+                              selected:false
                             },{
                               id    :4,
                               day   :'Jueves',
@@ -509,7 +512,7 @@
                               toAm  :'',
                               fronPm:'',
                               toPm  :'',
-                              selected:false                          
+                              selected:false
                             },{
                               id    :5,
                               day   :'Viernes',
@@ -517,7 +520,7 @@
                               toAm  :'',
                               fronPm:'',
                               toPm  :'' ,
-                              selected:false                         
+                              selected:false
                             },{
                               id    :6,
                               day   :'Sabado',
@@ -525,7 +528,7 @@
                               toAm  :'',
                               fronPm:'',
                               toPm  :'' ,
-                              selected:false                         
+                              selected:false
                             },{
                               id    :7,
                               day   :'Domingo',
@@ -533,7 +536,7 @@
                               toAm  :'',
                               fronPm:'',
                               toPm  :'',
-                              selected:false                          
+                              selected:false
           }];
        }
 
@@ -556,7 +559,7 @@
               $scope.rsLocations_All2 = data;
               //console.log($scope.rsLocations_API_Data);
           });
-        };        
+        };
       /**************************************************
        *                                                 *
        *                GET TYPE OF IVA                  *
@@ -724,6 +727,7 @@
             *               INPUT PHONE MASK              *
             **********************************************/
               $('.input--phone-no-format').mask('9999999999999');
+              $('.input-key-code').mask('9999999999999');
               $('.input--depto').mask('ZZZ',
                   {
                     translation:{
@@ -733,6 +737,14 @@
                     }
                   }
               );
+              $('.input-code').mask('ZZZZZZZZZZZZZZZZ', {
+                translation: {
+                  'Z': {
+                    pattern: /[a-zA-Z0-9]/, // Allow only alphanumeric characters
+                    optional: false // Ensure the character is required
+                  }
+                }
+              });
               $('.input-contract-number').mask('ZZZZZZZZZZZZZZZZ',
                   {
                     translation:{
@@ -741,7 +753,7 @@
                       }
                     }
                   }
-              );               
+              );
               $('.input--movil').mask('+54 (####) (15) ####-####',
               {
                 reverse: false,
@@ -797,7 +809,7 @@
                   }
                 }
               }
-          ); 
+          );
               $('.input--depto').mask('ZZZ',
                   {
                     translation:{
@@ -806,7 +818,7 @@
                       }
                     }
                   }
-              );          
+              );
               $('.input--floor').mask('XX',
                   {
                     translation:{
@@ -819,7 +831,7 @@
               $('.input--date-number').mask('999999');
               $('.input--date').mask('00/00/0000', {placeholder: "__/__/____"});
               $('.input-ipaddr').mask('099.099.099.099', {placeholder: "___.___.___.___"});
-              $('.input-macaddr').mask('ZZ:ZZ:ZZ:ZZ:ZZ:ZZ', 
+              $('.input-macaddr').mask('ZZ:ZZ:ZZ:ZZ:ZZ:ZZ',
                   {
                     translation:{
                       'Z':{
@@ -843,11 +855,11 @@
                         (e.keyCode >= 35 && e.keyCode <= 39)) {
                             return;
                     }
-    
+
                     if ((e.shiftKey || (e.keyCode < 48 || e.keyCode > 57)) && (e.keyCode < 96 || e.keyCode > 105)) {
                         e.preventDefault();
                     }
-                });      
+                });
           };
         /**************************************************
         *                                                 *
@@ -928,7 +940,7 @@
                   blockUI.stop();
               });
             }, 1500);
-          } 
+          }
         /**************************************************
         *                                                 *
         *             CHECK THE PASSWD STRENG             *
@@ -1033,8 +1045,8 @@
                     }
                   });
               };
-              
-              
+
+
         /**************************************************
         *                                                 *
         *                LOGOUT FUNCTION                  *
@@ -1140,10 +1152,10 @@
                   $interval.cancel(intervalCounter);
                   $scope.warningTimeOut("start_timeout");
                 break;
-                case "close_session": 
+                case "close_session":
                   $timeout.cancel(TimeOut_Thread);
                   $interval.cancel(timeOutCounter);
-                  $interval.cancel(intervalCounter);                  
+                  $interval.cancel(intervalCounter);
                   $timeout(function() {
                     tokenSystem.destroyTokenStorage(1);
                     $scope.sysToken = false;
@@ -1172,9 +1184,9 @@
                   $scope.warningTimeOut("start_timeout");
                   //Get the inputs Events of mouse/keyboard to check the activity.
                   var bodyElement = angular.element($document);
-                  angular.forEach(['keydown', 'keyup', 'click', 'mousemove', 'DOMMouseScroll', 'mousewheel', 'mousedown', 'touchstart', 'touchmove', 'scroll', 'focus'], 
+                  angular.forEach(['keydown', 'keyup', 'click', 'mousemove', 'DOMMouseScroll', 'mousewheel', 'mousedown', 'touchstart', 'touchmove', 'scroll', 'focus'],
                   function(EventName) {
-                      bodyElement.bind(EventName, function (e) { NoActivityTimeOut_Resetter(e) });  
+                      bodyElement.bind(EventName, function (e) { NoActivityTimeOut_Resetter(e) });
                   });
               }
             };
@@ -1182,12 +1194,12 @@
             //console.log(currentUrl); && !currentUrl.match(regexPath)
             console.log($location.path()+" - Match: "+currentUrl.match(regexPathStatusClient));
             console.log($location.path()+" - Match: "+currentUrl.match(regexPathValidateUser))
-            
+
             $scope.sysRouteParams = tokenSystem.getTokenStorage(8);
-            console.log("$scope.sysToken: "+$scope.sysToken);  
+            console.log("$scope.sysToken: "+$scope.sysToken);
             console.log("$scope.sysLoggedUser: "+$scope.sysLoggedUser);
-            console.log("$scope.sysRouteParams:"); 
-            console.log($scope.sysRouteParams); 
+            console.log("$scope.sysRouteParams:");
+            console.log($scope.sysRouteParams);
       if ($location.path() != "/logout" && $location.path() != "/register" && $location.path() != "/forgotpwd" && $location.path() != "/newpwd" && $location.path() !="/validate" && !currentUrl.match(regexPathValidateUser) && !currentUrl.match(regexPathStatusClient)){
         console.log($location.path());
         if (!$scope.sysToken || $scope.sysLoggedUser==undefined || $scope.sysLoggedUserModules==undefined){
@@ -1228,11 +1240,11 @@
             blockUI.start('Cargando...');
             //$scope.globalGetCustomerListFn(null, null); //LOAD CUSTOMER LIST
             $timeout(function() {
-              blockUI.stop(); 
+              blockUI.stop();
             }, 500);
           }
           if (($scope.sysToken) && ($scope.sysRouteParams.Type!=undefined && $scope.sysRouteParams.info!=undefined) && ($scope.sysLoggedUser!=false || $scope.sysLoggedUser!=undefined)){
-            console.log("Redirecting to menu page....");  
+            console.log("Redirecting to menu page....");
             $location.path(currentUrl);
           }else if(($scope.sysToken) && ($scope.sysRouteParams.Type!=undefined || $scope.sysRouteParams.info!=undefined) && ($scope.sysLoggedUser!=false || $scope.sysLoggedUser!=undefined)){
             var switch_opt=$scope.sysRouteParams.Type!=undefined && $scope.sysRouteParams.info==undefined?$scope.sysRouteParams.Type:$scope.sysRouteParams.info
@@ -1258,7 +1270,7 @@
                   if (!sessionStorage.getItem(hasReloadedKey)) {
                       // Establecer el estado en localStorage para evitar recargas adicionales
                       sessionStorage.setItem(hasReloadedKey, 'true');
-                      
+
                       // Recargar la página
                       console.log("reloading windows!!")
                       window.location.reload();
@@ -1269,7 +1281,7 @@
               }, 500);
           }
 
-          
+
         }
       }
       $scope.getRoute = function(route){
