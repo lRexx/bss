@@ -3529,7 +3529,7 @@ class Ticket_model extends CI_Model
 				$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'] = [];
 			}
 		}
-		if (count($rs_tickets['tickets']) >= 1) {
+		if (count($rs_tickets['tickets']) >= 0) {
 			return $rs_tickets;
 		}
 	}
