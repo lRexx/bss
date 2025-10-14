@@ -2257,6 +2257,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               }
             break;
             case "openTicket":
+              $scope.ticket = {'administration':undefined, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
               $scope.update.ticket.editCommentBtn = false;
               $scope.openTicketFn(obj.idTicket);
               $('#UpdateModalTicket').modal({backdrop: 'static', keyboard: false});
