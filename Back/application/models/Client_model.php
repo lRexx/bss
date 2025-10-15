@@ -2654,7 +2654,7 @@ class Client_model extends CI_Model
                     //Check if the Internet Type if BSS Wifi.
                     //print($ticket['idTypeInternetFk']);
                     //print($ticket['idServiceAsociateFk']);
-                    if ($ticket['idTypeInternetFk'] == 1 || $ticket['idTypeInternetFk'] == 2) {
+                    if (!is_null($ticket['idTypeInternetFk'])) {
                         $rs = $quuery->result_array();
                         $servicesAssociated = json_decode($ticket['idServiceAsociateFk']);
                         if (count($servicesAssociated) > 0) {
