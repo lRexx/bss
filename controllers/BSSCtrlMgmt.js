@@ -1140,6 +1140,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           console.log($scope.rsExistingKeyList);
                           console.log(response.data.tb_keychain);
                             $scope.rsExistingKeyList = response.data.tb_keychain;
+                            console.log($scope.rsExistingKeyList);
                             $scope.rsAllKeychainListDataFiltered = angular.copy(
                               response.data.tb_keychain.filter(
                                 s => s.tb_ticket_keychain.idTicketKf == $scope.tkupdate.idTicket
