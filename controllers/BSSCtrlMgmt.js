@@ -2947,6 +2947,35 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             console.log($scope.filters.ticketStatus);
             $scope.mainSwitchFn('search', null);
           }
+          $scope.isAssignButtonDisabled = function() {
+            // 1️⃣ Si el ticket está en estado '1' → siempre deshabilitado
+            if ($scope.tkupdate.idStatusTicketKf == '1') {
+              return true;
+            }
+
+            // 2️⃣ Falta información sobre el método de llaves
+            const hasInvalidKeyMethod =
+              $scope.ticket.keysMethod &&
+              (!$scope.ticket.keysMethod.name || $scope.ticket.keysMethod.name === '');
+
+            // 3️⃣ Faltan llaves por cargar
+            const missingKeys =
+              $scope.rsNewKeychainList.length != $scope.tkupdate.keys.length;
+
+            // 4️⃣ Existen llaves sin ID asignado
+            const hasKeysWithoutId = $scope.thereIsKeyWithoutIdKeychain === true;
+
+            // 5️⃣ Regla general de deshabilitado
+            // Deshabilitado si:
+            //  - el método de llaves es inválido y faltan llaves
+            //  - o faltan llaves en general
+            //  - o hay llaves sin idKeychain
+            return (
+              (hasInvalidKeyMethod && missingKeys) ||
+              missingKeys ||
+              hasKeysWithoutId
+            );
+          };
     /**************************************************
     *                                                 *
     *            TICKETS MONITOR FUNCTION             *
