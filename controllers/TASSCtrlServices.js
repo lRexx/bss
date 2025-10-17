@@ -3738,6 +3738,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         case "update":
                             switch(service.idTipeServiceFk){
                                 case "1": //UPDATE CONTROL ACCESS
+                                    console.log(service);
                                     $timeout(function() {
                                         $scope.service.update.idContracAssociated_SE   = service.idContratoFk;
                                         $scope.service.update.idAccessControlFk        = $scope.service.crtlAccess.selected.idProduct;
