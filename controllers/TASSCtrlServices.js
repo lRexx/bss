@@ -3745,7 +3745,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.update.lock2                    = $scope.service.lockedIt2.selected!=undefined?$scope.service.lockedIt2.selected.idProduct:null;
                                         $scope.service.update.idInputReaderFk          = $scope.service.entranceReader.selected.idProduct;
                                         $scope.service.update.ouputReader              = service.isOuputButom==undefined || !service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
-                                        $scope.service.update.ouputButom               = service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
+                                        $scope.service.update.ouputButom               = service.isOuputButom != undefined && service.isOuputButom?$scope.service.exitReader.selected.idProduct:null;
                                         $scope.service.update.idFontFk                 = $scope.service.powerSupply.selected.idProduct;
                                         $scope.service.update.idEmergencyButtonFk      = $scope.service.emergencyButton.selected.idProduct;
                                         $scope.service.update.idShutdownKeyFk          = $scope.service.TurnOffKey.selected.idProduct;
