@@ -329,7 +329,7 @@
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
                     <button ng-if="tkupdate.idStatusTicketKf!='1' && tkupdate.idMgmtMethodKf==null" type="button" ng-click="mainSwitchFn('setMgmtKeys', tkupdate, null)" ng-disabled="
-                    (tkupdate.idStatusTicketKf=='1' || (((ticket.keysMethod && (ticket.keysMethod.name==undefined || ticket.keysMethod.name=='')) || rsNewKeychainList.length!=tkupdate.keys.length) && !thereIsKeyWithoutIdKeychain))" class="btn btn-labeled btn-success">
+                    (tkupdate.idStatusTicketKf=='1' || (((ticket.keysMethod && (ticket.keysMethod.name==undefined || ticket.keysMethod.name=='')) && rsNewKeychainList.length!=tkupdate.keys.length) && !thereIsKeyWithoutIdKeychain))" class="btn btn-labeled btn-success">
                         <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Asignar</button>
                     <a ng-show="(tkupdate.idStatusTicketKf!='1' && tkupdate.idStatusTicketKf!='6' && (tkupdate.idMgmtMethodKf==null || thereIsKeyWithoutIdKeychain))" id="cancelModalWindow" type="button" ng-click="modalConfirmation('cancelSetMgmtKeys',0, tkupdate)" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cancelar</a>
