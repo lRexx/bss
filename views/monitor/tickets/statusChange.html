@@ -12,9 +12,9 @@
                 <form class="form-horizontal" name="fChStatusTicket" autocomplete="off" novalidate>
                     <!-- Filter Type of Status-->
                     <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-12 col-xs-12 padding-input-left-2 padding-input-both-2" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         ticket.newTicketStatus.idStatus!='' && fChStatusTicket.idStatusKf.$valid,
-                        'has-error':  
+                        'has-error':
                         (ticket.newTicketStatus.idStatus=='' || ticket.newTicketStatus.idStatus==undefined) && fChStatusTicket.idStatusKf.$touched,
                     }">
                         <label>Estado</label>
@@ -28,9 +28,9 @@
                         </div>
                     </div>
                     <div ng-if="sysLoggedUser.idProfileKf!=0 && (ticket.newTicketStatus.idStatus=='5' || ticket.newTicketStatus.idStatus=='1')" class="form-group col-md-12 col-xs-12" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         ticket.deliveryDate!='' && fChStatusTicket.deliveryDate.$valid,
-                        'has-error':  
+                        'has-error':
                         (ticket.deliveryDate=='' || ticket.deliveryDate==undefined) && fChStatusTicket.deliveryDate.$touched,
                     }">
                         <div class="col-md-12" >
@@ -39,17 +39,17 @@
                             <div class="form-group col-md-12 col-xs-12 n-padding-r n-padding-l">
                                 <label>Fecha</label>
                                 <div class="input-group">
-                                    <input 
-                                        ng-click="open5()" 
-                                        type="text" 
+                                    <input
+                                        ng-click="open5()"
+                                        type="text"
                                         name="deliveryDate"
                                         ng-change=""
-                                        class="form-control" 
-                                        uib-datepicker-popup="{{format}}" 
-                                        ng-model="ticket.deliveryDate" 
+                                        class="form-control"
+                                        uib-datepicker-popup="{{format}}"
+                                        ng-model="ticket.deliveryDate"
                                         is-open="popup5.opened"
-                                        ng-required="sysLoggedUser.idProfileKf!=0 && (ticket.newTicketStatus.idStatus=='5' || ticket.newTicketStatus.idStatus=='1')" 
-                                        close-text="Cerrar" 
+                                        ng-required="sysLoggedUser.idProfileKf!=0 && (ticket.newTicketStatus.idStatus=='5' || ticket.newTicketStatus.idStatus=='1')"
+                                        close-text="Cerrar"
                                         clear-text="Borrar"
                                         current-text="Hoy"
                                         alt-input-formats="altInputFormats" />
@@ -62,9 +62,9 @@
                     </div>
                     <!-- DELIVERY COMPANY -->
                     <div ng-if="sysLoggedUser.idProfileKf!=0 && ticket.idTypeDeliveryKf=='2' && ticket.newTicketStatus.idStatus=='5'" class="form-group col-md-12 col-xs-12 padding-input-left-2 padding-input-both-2" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         ticket.idDeliveryCompanyKf!='' && fChStatusTicket.idDeliveryCompanyKf.$valid,
-                        'has-error':  
+                        'has-error':
                         (ticket.idDeliveryCompanyKf=='' || ticket.idDeliveryCompanyKf==undefined) && fChStatusTicket.idDeliveryCompanyKf.$touched,
                     }">
                         <label>Empresa de Envío</label>
@@ -75,16 +75,16 @@
                                 <option value="">Seleccione una empresa de envío</option>
                                 </select>
                         </div>
-                    </div>
+                        </div>
                     </div>
                     <!-- Text DNI-->
                     <div ng-if="sysLoggedUser.idProfileKf!=0 && ticket.newTicketStatus.idStatus=='1' && ticket.idTypeDeliveryKf=='1'" class="form-group col-md-12" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         ticket.dni!='' && fChStatusTicket.dni.$valid,
-                        'has-error':  
+                        'has-error':
                         (ticket.dni=='' || ticket.dni==undefined) && fChStatusTicket.dni.$touched,
                     }">
-                    <label style="padding-left: 15px;">Documento de identidad:</label>  
+                    <label style="padding-left: 15px;">Documento de identidad:</label>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
@@ -94,12 +94,12 @@
                     </div>
                     <!-- Form First & Last Name -->
                     <div ng-if="sysLoggedUser.idProfileKf!=0 && ticket.newTicketStatus.idStatus=='1' && ticket.idTypeDeliveryKf=='1'" class="form-group col-md-12" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         ticket.fullname!='' && fChStatusTicket.fullname.$valid,
-                        'has-error':  
+                        'has-error':
                         (ticket.fullname=='' || ticket.fullname==undefined) && fChStatusTicket.fullname.$touched,
                     }">
-                    <label style="padding-left: 15px;" >Nombres y Apellidos</label> 
+                    <label style="padding-left: 15px;" >Nombres y Apellidos</label>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -109,8 +109,8 @@
                     </div>
                 </form>
             </div>
-            <div class="clearfix"> </div> 
-        </div>   
+            <div class="clearfix"> </div>
+        </div>
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
@@ -120,7 +120,7 @@
                         <span class="btn-label"><i class="glyphicon glyphicon-send"></i> </span>Enviar</button>
                     <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
-                </div>           
+                </div>
             </div>
         </div>
     </div>
