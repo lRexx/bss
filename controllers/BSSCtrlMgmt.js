@@ -1135,8 +1135,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   case "1":
                     $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
                     $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
-                        console.log(response);
                         if(response.status==200){
+                          console.log(response);
+                          console.log($scope.rsExistingKeyList);
+                          console.log(response.data.tb_keychain);
                             $scope.rsExistingKeyList = response.data.tb_keychain;
                             $scope.rsAllKeychainListDataFiltered = angular.copy(
                               response.data.tb_keychain.filter(
