@@ -2970,6 +2970,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             //  - el método de llaves es inválido y faltan llaves
             //  - o faltan llaves en general
             //  - o hay llaves sin idKeychain
+            console.log("hasInvalidKeyMethod: "+hasInvalidKeyMethod);
+            console.log("missingKeys: "+missingKeys);
+            console.log("missingKeys: "+missingKeys);
+            console.log("hasKeysWithoutId: "+hasKeysWithoutId);
             return (
               (hasInvalidKeyMethod && missingKeys) ||
               missingKeys ||
