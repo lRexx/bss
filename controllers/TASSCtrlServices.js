@@ -3764,7 +3764,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.update.open_devices=[];
                                         $scope.service.update.open_devices=$scope.list_open_devices;
                                         blockUI.message('Guardando Servicio '+service.clientTypeServices);
-                                    }, 1500);
+                                    }, 500);
                                     $timeout(function() {
                                         console.log($scope.service.update);
                                         $scope.updateCustomerServiceFn($scope.service.update);
