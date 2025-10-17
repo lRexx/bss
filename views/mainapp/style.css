@@ -1342,6 +1342,31 @@ input.fileUpload{
  .well .srvs-icon-warning i{ display: block; font-size: 36px; line-height: 76px; color: #8a6d3b;}
  .well .srvs-icon-success i{ display: block; font-size: 36px; line-height: 76px; color: #5cb85c;}
 /*********************/
+
+.square-widget {
+  text-align: center;
+  padding: 1.5em 0;
+  border-radius: 8px;
+  transition: transform 0.2s ease;
+}
+
+.square-widget:hover {
+  transform: scale(1.03);
+}
+
+/* 🔸 Badge del número */
+.count-badge {
+  font-size: clamp(1.5rem, 2vw + 1rem, 3rem); /* Escala automática */
+}
+
+/* 🔸 Texto inferior */
+.label-badge {
+  font-size: clamp(0.6rem, 1vw + 0.4rem, 1rem);
+  margin-top: 0.5em;
+  display: inline-block;
+  padding: 0.4em 0.6em;
+}
+
 /*font-size-12px*/
 .f-s-12{
   font-size: 12px !important;
@@ -4413,5 +4438,27 @@ img.circle-border {
   }
   .col-margin-27 {
      width: 83.4%
+  }
+}
+/* 🔸 Ajuste general en pantallas pequeñas */
+@media (max-width: 768px) {
+  .square-widget {
+    padding: 1em 0;
+  }
+  .count-badge {
+    font-size: 1.8rem;
+  }
+  .label-badge {
+    font-size: 0.8rem;
+  }
+}
+
+/* 🔸 Ajuste en pantallas muy pequeñas */
+@media (max-width: 480px) {
+  .count-badge {
+    font-size: 1.4rem;
+  }
+  .label-badge {
+    font-size: 0.7rem;
   }
 }
