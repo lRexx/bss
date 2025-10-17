@@ -3447,6 +3447,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         }
                       }
                       $scope.findKeyByCodeFn($scope.tmpKey.new.codigo, $scope.tkupdate.building.idClient).then(function(isCodeExistInBuilding) {
+                        console.log(isCodeExistInBuilding);
                         switch (isCodeExistInBuilding){
                           case 1:
                             inform.add("El Llavero con el Codigo: ["+$scope.tmpKey.new.codigo+"], ya existe en el Edificio",{
@@ -3460,7 +3461,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             console.log("isCodeExistInBuilding: " + isCodeExistInBuilding);
                           break;
                         }
-                      });
                         if(!$scope.isCodeExist && !$scope.isCodeNewExist){
                           console.log("ADD_NO_EXIST");
                           let depto = $scope.tmpKey.new.Depto!=undefined?$scope.tmpKey.new.Depto:null;
@@ -3495,6 +3495,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           obj.codigo="";
                           obj.codigoExt="";
                         }
+                      });
                     }
                     for (var i = 0; i < $scope.tkupdate.keys.length; i++) {
                       // Ensure the index exists in rsNewKeychainList
