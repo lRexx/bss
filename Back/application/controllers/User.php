@@ -38,7 +38,7 @@ class User extends REST_Controller {
         $user = $this->user_model->add($this->post('user'));
 
         if (!is_null($user)) {
-            if($user == -1){
+            if($user === -1){
                 $this->response(array('error' => "DNI ya se encuentra registrado"),203);
             }else{
                 $this->response(array('response' => "USUARIO SISTEMA AGREGADO "), 200);
@@ -569,6 +569,86 @@ class User extends REST_Controller {
             $this->response(array('response' => "Token is valid"), 200);
         } else {
             $this->response(array('response' => "Token invalid, used or expired"), 404);
+        }
+    }
+
+    public function addGuest_post() {
+        $rs = null;
+         if (!$this->post('guest')) {
+             $this->response(NULL, 404);
+         }
+ 
+         $rs = $this->user_model->addGuest($this->post('guest'));
+ 
+         if (!is_null($rs)) {
+             if($rs === -1){
+                 $this->response(array('error' => "DNI ya se encuentra registrado"),203);
+             }else{
+                 $this->response(array('response' => "INVITADO AGREGADO "), 200);
+             }
+         } else {
+             $this->response(array('error' => "ERROR INESPERADO"), 500);
+         }
+     }
+    public function updateGuest_post() {
+        
+        if (!$this->post('guest')) {
+            $this->response(array('error' => "Post Data is Missing"), 404);
+        }
+
+        $rs = $this->user_model->updateGuest($this->post('guest'));
+
+        if (!is_null($rs)) {
+            if($rs === -1){
+                $this->response(array('error' => "DNI No se encuentra registrado o ha sido eliminado."),203);
+            }else{
+                $this->response(array('response' => "INVITADO ACTUALIZADO "), 200);
+            }
+        } else {
+            $this->response(array('error' => "ERROR INESPERADO"), 500);
+        }
+    }
+    public function findGuest_post() {
+	   
+        if (!$this->post('guest')) {
+            $this->response(array('error' => "Post Data is Missing"), 404);
+        }
+
+        $rs = null;
+        $rs = $this->user_model->findGuest($this->post('guest'));
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+    public function delGuest_delete($id) {
+        if (!$id) {
+            $this->response(NULL, 404);
+        }
+
+        $user = null;
+        $user = $this->user_model->deleteGuest($id);
+
+        if (!is_null($user)) {
+            $this->response(array('response' => "INVITADO ELIMINADO"), 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+    public function getGuestByIdDepartment_get($id) {
+        if (!$id) {
+            $this->response(NULL, 404);
+        }
+
+        $list = null;
+        $list = $this->user_model->getGuestByIdDepartment($id);
+
+        if (!is_null($list)) {
+            $this->response($list, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
 }

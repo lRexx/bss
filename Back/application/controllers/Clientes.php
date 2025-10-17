@@ -11,54 +11,54 @@ class Clientes extends REST_Controller {
 
     public function admin_post() {
 
-        $pofile = null;
+        $rs = null;
         if (! $this->post('client')) {
             $this->response(null, 404);
         }
 
-        $pofile = $this->client_model->addAdmin($this->post('client'));
+        $rs = $this->client_model->addAdmin($this->post('client'));
 
-        if ($pofile == 1) {
+        if ($rs == 1) {
             $this->response([ 'response' => "Registro exitoso" ], 200);
-        } elseif ($pofile == 0) {
+        } elseif ($rs == 0) {
             $this->response([ 'error' => "ERROR INESPERADO" ], 500);
-        } elseif ($pofile == 2) {
+        } elseif ($rs == 2) {
             $this->response([ 'response' => "Cliente ya se encuentra registrado" ], 203);
         }
     }
 
 	public function aprobarPedidoClient_post() {
 
-		$pofile = null;
+		$rs = null;
 		if (! $this->post('client')) {
 			$this->response(null, 404);
 		}
 
-		$pofile = $this->client_model->aprobarPedidoClient($this->post('client'));
-//		$this->response($pofile);
-		if ($pofile == 1) {
+		$rs = $this->client_model->aprobarPedidoClient($this->post('client'));
+//		$this->response($rs);
+		if ($rs == 1) {
 			$this->response([ 'response' => "Registro exitoso" ], 200);
-		} elseif ($pofile == 0) {
+		} elseif ($rs == 0) {
 			$this->response([ 'error' => "Sin Resultados" ], 500);
-		} elseif ($pofile == 2) {
+		} elseif ($rs == 2) {
 			$this->response([ 'response' => "Cliente ya se encuentra registrado" ], 203);
 		}
 	}
 
     public function autoAprobarPedidosOwners_post() {
 
-		$pofile = null;
+		$rs = null;
 		if (! $this->post('client')) {
 			$this->response(null, 404);
 		}
 
-		$pofile = $this->client_model->autoAprobarPedidoPropietarios($this->post('client'));
-//		$this->response($pofile);
-		if ($pofile == 1) {
+		$rs = $this->client_model->autoAprobarPedidoPropietarios($this->post('client'));
+//		$this->response($rs);
+		if ($rs == 1) {
 			$this->response([ 'response' => "Registro exitoso" ], 200);
-		} elseif ($pofile == 0) {
+		} elseif ($rs == 0) {
 			$this->response([ 'error' => "Sin Resultados" ], 500);
-		} elseif ($pofile == 2) {
+		} elseif ($rs == 2) {
 			$this->response([ 'response' => "Cliente ya se encuentra registrado" ], 203);
 		}
 	}
@@ -81,18 +81,18 @@ class Clientes extends REST_Controller {
 	}
 	public function aprobarPedidoClientDepartment_post() {
 
-		$pofile = null;
+		$rs = null;
 		if (! $this->post('client')) {
 			$this->response(null, 404);
 		}
 
-		$pofile = $this->client_model->aprobarPedidoClientDepartment($this->post('client'));
-//		$this->response($pofile);
-		if ($pofile == 1) {
+		$rs = $this->client_model->aprobarPedidoClientDepartment($this->post('client'));
+//		$this->response($rs);
+		if ($rs == 1) {
 			$this->response([ 'response' => "Registro exitoso" ], 200);
-		} elseif ($pofile == 0) {
+		} elseif ($rs == 0) {
 			$this->response([ 'error' => "Sin Resultados" ], 500);
-		} elseif ($pofile == 2) {
+		} elseif ($rs == 2) {
 			$this->response([ 'response' => "Cliente ya se encuentra registrado" ], 203);
 		}
 	}
