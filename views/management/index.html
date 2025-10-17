@@ -5,73 +5,139 @@
         <h3 class="panel-title">GESTION DE PEDIDOS </h3>
       </div>
       <div class="panel-body">
-        <div class="container-fluid">
-            <!-- TOTAL TICKETS -->
-            <div class="col-md-2 col-sm-2 col-xs-4">
-                <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS TOTALES" ng-click="filterByStatusPanel('')">
-                    <div class="depto-icon" style="text-align: center;">
-                        <span class="registered-customer badge badge-success" style="font-size: 3em;"> {{dashboard.tickets.total}} </span>
-                    </div>
-                    <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> PEDIDOS TOTALES </span>
-                    </div>
-                </div>
-            </div>
-            <!-- TOTAL TICKETS PENDIENTE PAGO -->
-            <div class="col-md-2 col-sm-2 col-xs-4">
-                <div class="col-xs-12 depto-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS PENDIENTE APROBACIÓN" ng-click="filterByStatusPanel('2')">
-                    <div class="depto-icon" style="text-align: center;">
-                        <span class="registered-customer badge badge-warning" style="font-size: 3em;"> {{dashboard.tickets.approval_pending}} </span>
-                    </div>
-                    <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> PENDIENTE APROBACIÓN </span>
-                    </div>
-                </div>
-            </div>
-            <!-- TOTAL TICKETS PENDIENTE PAGO -->
-            <div class="col-md-2 col-sm-2 col-xs-4">
-                <div class="col-xs-12 depto-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS PENDIENTE PAGO" ng-click="filterByStatusPanel('3')">
-                    <div class="depto-icon" style="text-align: center;">
-                        <span class="registered-customer badge badge-warning" style="font-size: 3em;"> {{dashboard.tickets.payment_pending}} </span>
-                    </div>
-                    <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> PENDIENTE PAGO </span>
-                    </div>
-                </div>
-            </div>
+        <div class="container-fluid n-margin-l n-margin-r">
             <!-- TOTAL TICKETS EN PREPARACIÓN -->
-            <div class="col-md-2 col-sm-2 col-xs-4">
-                <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS EN PREPARACIÓN" ng-click="filterByStatusPanel('8')">
+            <div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS EN PREPARACIÓN" ng-click="filterByStatusPanel('8')">
                     <div class="depto-icon" style="text-align: center;">
-                        <span class="registered-customer badge badge-success" style="font-size: 3em;"> {{dashboard.tickets.in_progress}} </span>
+                        <span class="registered-customer badge badge-success count-badge"> {{dashboard.tickets.in_progress}} </span>
                     </div>
-                    <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> EN PREPARACIÓN </span>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> EN PREPARACIÓN </span>
+                    </div>
+                </div>
+            </div>
+            <!-- TOTAL TICKETS EN PREPARACIÓN CON ENTREGA INICIAL -->
+            <div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="EN PREPARACIÓN (Entrega Inicial)" ng-click="filterByStatusPanel('8')">
+                    <div class="depto-icon" style="text-align: center;">
+                        <span class="registered-customer badge badge-success count-badge"> {{dashboard.tickets.in_progress_initial_delivery_active}} </span>
+                    </div>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> EN PREPARACIÓN (Entrega Inicial)</span>
+                    </div>
+                </div>
+            </div>
+            <!-- TOTAL TICKETS -->
+            <!--<div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS TOTALES" ng-click="filterByStatusPanel('')">
+                    <div class="depto-icon" style="text-align: center;">
+                        <span class="registered-customer badge badge-success count-badge"> {{dashboard.tickets.total}} </span>
+                    </div>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> PEDIDOS TOTALES </span>
+                    </div>
+                </div>
+            </div>-->
+            <!-- TOTAL TICKETS PENDIENTE PAGO -->
+            <!-- <div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS PENDIENTE APROBACIÓN" ng-click="filterByStatusPanel('2')">
+                    <div class="depto-icon" style="text-align: center;">
+                        <span class="registered-customer badge badge-warning count-badge"> {{dashboard.tickets.approval_pending}} </span>
+                    </div>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> PENDIENTE APROBACIÓN </span>
+                    </div>
+                </div>
+            </div>-->
+            <!-- TOTAL TICKETS PENDIENTE PAGO -->
+            <!-- <div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS PENDIENTE PAGO" ng-click="filterByStatusPanel('3')">
+                    <div class="depto-icon" style="text-align: center;">
+                        <span class="registered-customer badge badge-warning count-badge"> {{dashboard.tickets.payment_pending}} </span>
+                    </div>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> PENDIENTE PAGO </span>
+                    </div>
+                </div>
+            </div>-->
+            <!-- TOTAL TICKETS LISTO PARA RETIRAR -->
+            <div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="LISTO PARA RETIRAR" ng-click="filterByStatusPanel('7')">
+                    <div class="depto-icon" style="text-align: center;">
+                        <span class="registered-customer badge badge-warning count-badge"> {{dashboard.tickets.pickup_ready}} </span>
+                    </div>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> LISTO PARA RETIRAR  </span>
+                    </div>
+                </div>
+            </div>
+            <!-- TOTAL TICKETS PENDIENTE DE ENTREGA -->
+            <div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="PENDIENTE ENTREGA" ng-click="filterByStatusPanel('4')">
+                    <div class="depto-icon" style="text-align: center;">
+                        <span class="registered-customer badge badge-warning count-badge"> {{dashboard.tickets.delivery_pending}} </span>
+                    </div>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> PENDIENTE ENTREGA  </span>
                     </div>
                 </div>
             </div>
             <!-- TOTAL TICKETS EN RUTA -->
-            <div class="col-md-2 col-sm-2 col-xs-4">
-                <div class="col-xs-12 depto-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="EN RUTA" ng-click="filterByStatusPanel('5')">
+            <div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="EN RUTA" ng-click="filterByStatusPanel('5')">
                     <div class="depto-icon" style="text-align: center;">
-                        <span class="registered-customer badge badge-warning" style="font-size: 3em;"> {{dashboard.tickets.in_transit}} </span>
+                        <span class="registered-customer badge badge-warning count-badge"> {{dashboard.tickets.in_transit}} </span>
                     </div>
-                    <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> EN RUTA  </span>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> EN RUTA  </span>
+                    </div>
+                </div>
+            </div>
+            <!-- TOTAL TICKETS EN RUTA -->
+            <div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="BAJA PENDIENTE" ng-click="filterByStatusPanel('12')">
+                    <div class="depto-icon" style="text-align: center;">
+                        <span class="registered-customer badge badge-warning count-badge"> {{dashboard.tickets.down_request_pending}} </span>
+                    </div>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> BAJA PENDIENTE  </span>
+                    </div>
+                </div>
+            </div>
+            <!-- TOTAL TICKETS EN RUTA -->
+            <div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md well-warning" data-toggle="tooltip" data-placement="bottom" title="CANCELACIÓN PENDIENTE" ng-click="filterByStatusPanel('10')">
+                    <div class="depto-icon" style="text-align: center;">
+                        <span class="registered-customer badge badge-warning count-badge"> {{dashboard.tickets.cancel_pending}} </span>
+                    </div>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> CANCELACIÓN PENDIENTE  </span>
                     </div>
                 </div>
             </div>
             <!-- TOTAL TICKETS COMPLETADOS -->
-            <div class="col-md-2 col-sm-2 col-xs-4">
-                <div class="col-xs-12 depto-widget well well-md well-success" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS COMPLETADOS" ng-click="filterByStatusPanel('1')">
+            <!-- <div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md well-success" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS COMPLETADOS" ng-click="filterByStatusPanel('1')">
                     <div class="depto-icon" style="text-align: center;">
-                        <span class="registered-customer badge badge-success" style="font-size: 3em;"> {{dashboard.tickets.completed}} </span>
+                        <span class="registered-customer badge badge-success count-badge"> {{dashboard.tickets.completed}} </span>
                     </div>
-                    <div class="text-badge">
-                        <span class="registered-customer badge badge-light"> COMPLETADOS  </span>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> COMPLETADOS  </span>
                     </div>
                 </div>
-            </div>
+            </div>-->
+            <!-- TOTAL TICKETS COMPLETADOS -->
+            <!--<div class="col-md-2 col-sm-3 col-xs-4" style="width: 14% !important;">
+                <div class="col-xs-12 square-widget well well-md well-success" data-toggle="tooltip" data-placement="bottom" title="PEDIDOS COMPLETADOS" ng-click="filterByStatusPanel('1')">
+                    <div class="depto-icon" style="text-align: center;">
+                        <span class="registered-customer badge badge-success count-badge"> {{dashboard.tickets.completed}} </span>
+                    </div>
+                    <div class="text-badge text-center">
+                        <span class="registered-customer badge badge-light label-badge"> COMPLETADOS  </span>
+                    </div>
+                </div>
+            </div>-->
         </div>
         <!-- Filters -->
         <div class="col-md-12">

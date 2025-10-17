@@ -6342,16 +6342,19 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       //}
                         console.log($scope.listTickt);
                         $scope.dashboard = {'tickets':{}};
-                        $scope.dashboard.tickets.total              = response.data.response.dashboard.total;
-                        $scope.dashboard.tickets.approval_pending   = response.data.response.dashboard.Aprobación_Pendiente;
-                        $scope.dashboard.tickets.canceled           = response.data.response.dashboard.Cancelado;
-                        $scope.dashboard.tickets.completed          = response.data.response.dashboard.Entregado;
-                        $scope.dashboard.tickets.payment_pending    = response.data.response.dashboard.Pago_Pendiente;
-                        $scope.dashboard.tickets.in_progress        = response.data.response.dashboard.En_preparacion;
-                        $scope.dashboard.tickets.delivery_pending   = response.data.response.dashboard.Pendiente_de_entrega;
-                        $scope.dashboard.tickets.in_transit         = response.data.response.dashboard.En_Ruta;
-                        $scope.dashboard.tickets.pickup_ready       = response.data.response.dashboard.Listo_para_Retirar;
-                        $scope.dashboard.tickets.canceled           = response.data.response.dashboard.Cancelado;
+                        $scope.dashboard.tickets.total                                = response.data.response.dashboard.total;
+                        $scope.dashboard.tickets.approval_pending                     = response.data.response.dashboard.Aprobación_Pendiente;
+                        $scope.dashboard.tickets.canceled                             = response.data.response.dashboard.Cancelado;
+                        $scope.dashboard.tickets.completed                            = response.data.response.dashboard.Entregado;
+                        $scope.dashboard.tickets.payment_pending                      = response.data.response.dashboard.Pago_Pendiente;
+                        $scope.dashboard.tickets.in_progress                          = response.data.response.dashboard.En_preparacion;
+                        $scope.dashboard.tickets.in_progress_initial_delivery_active  = response.data.response.dashboard.En_preparacion_entrega_inicial;
+                        $scope.dashboard.tickets.delivery_pending                     = response.data.response.dashboard.Pendiente_de_entrega;
+                        $scope.dashboard.tickets.in_transit                           = response.data.response.dashboard.En_Ruta;
+                        $scope.dashboard.tickets.pickup_ready                         = response.data.response.dashboard.Listo_para_Retirar;
+                        $scope.dashboard.tickets.canceled                             = response.data.response.dashboard.Cancelado;
+                        $scope.dashboard.tickets.down_request_pending                 = response.data.response.dashboard.Baja_pendiente;
+                        $scope.dashboard.tickets.cancel_pending                       = response.data.response.dashboard.Cancelacion_pendiente;
                         $scope.totalTickets = $scope.listTickt.length;
 
                   }else if (response.status==404){
