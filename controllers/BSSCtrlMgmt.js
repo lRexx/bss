@@ -2951,7 +2951,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             $scope.mainSwitchFn('search', null);
           }
           $scope.isAssignButtonDisabled = function() {
-            // Evita errores si aún no están definidas las listas o el objeto tkupdate
+            // 1️⃣ Evita errores si aún no están definidas las listas o el objeto tkupdate
             if (
               !$scope.tkupdate ||
               !$scope.tkupdate.keys ||
@@ -2961,33 +2961,45 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               return true; // deshabilitado hasta que haya datos
             }
 
-            // 1️⃣ Si el ticket está en estado '1' → siempre deshabilitado
+            // 2️⃣ Si el ticket está en estado '1' → siempre deshabilitado
             if ($scope.tkupdate.idStatusTicketKf == '1') {
               return true;
             }
 
-            // 2️⃣ Falta información sobre el método de llaves
+            // 3️⃣ Falta información sobre el método de llaves
             const hasInvalidKeyMethod =
               $scope.ticket.keysMethod &&
               (!$scope.ticket.keysMethod.name || $scope.ticket.keysMethod.name === '');
 
-            // 3️⃣ Faltan llaves por cargar
+            // 4️⃣ Faltan llaves por cargar
             const missingKeys =
               $scope.rsNewKeychainList.length !== $scope.tkupdate.keys.length;
 
-            // 4️⃣ Existen llaves sin ID asignado
+            // 5️⃣ Existen llaves sin ID asignado (no bloquea por sí solo)
             const hasKeysWithoutId = $scope.thereIsKeyWithoutIdKeychain === true;
 
-            //console.log("hasInvalidKeyMethod: "+hasInvalidKeyMethod);
-            //console.log("missingKeys: "+missingKeys);
-            //console.log("missingKeys: "+missingKeys);
-            //console.log("hasKeysWithoutId: "+hasKeysWithoutId);
-            // 5️⃣ Regla general de deshabilitado
-            return (
-              (hasInvalidKeyMethod && missingKeys) ||
-              missingKeys ||
-              hasKeysWithoutId
-            );
+            /*console.log({
+              idStatus: $scope.tkupdate.idStatusTicketKf,
+              keysMethod: $scope.ticket.keysMethod
+                ? $scope.ticket.keysMethod.name
+                : 'undefined',
+              rsNewKeychainList: $scope.rsNewKeychainList
+                ? $scope.rsNewKeychainList.length
+                : 'undefined',
+              tkKeys: $scope.tkupdate.keys
+                ? $scope.tkupdate.keys.length
+                : 'undefined',
+              hasInvalidKeyMethod,
+              missingKeys,
+              hasKeysWithoutId,
+            });*/
+
+            // 6️⃣ Deshabilitar solo si:
+            //  - el método es inválido, o
+            //  - faltan llaves, o
+            //  - el estado es 1 (ya controlado arriba)
+            // Las llaves sin ID NO deshabilitan el botón
+            return hasInvalidKeyMethod || missingKeys;
           };
     /**************************************************
     *                                                 *
