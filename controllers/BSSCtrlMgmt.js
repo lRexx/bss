@@ -3126,16 +3126,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.monitor.filter.isHasStockInBuilding    = $scope.filters.isHasStockInBuilding?1:0;
                   $scope.monitor.filter.idMgmtMethodKf          = $scope.filters.mgmtKeyMethod?$scope.filters.mgmtKeyMethod:"";
                   $scope.monitor.filter.whereKeysAreEnable      = $scope.filters.activationKeyMethod?$scope.filters.activationKeyMethod:"";
+                  $scope.monitor.filter.isKeysEnable            = $scope.filters.isKeysEnable?$scope.filters.isKeysEnable:"";
                   $scope.monitor.filter.idTypeRequestFor        = $scope.filters.filterCategoryKey?$scope.filters.filterCategoryKey:"";
+                  $scope.monitor.filter.isBillingUploaded       = $scope.filters.isBillingUploaded?1:0;
 
                   //console.log($scope.filters.paymentsType);
-                  if ((($scope.filters.paymentsType!='' && $scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id!=undefined) || ($scope.filters.paymentsType==undefined || $scope.filters.paymentsType==null || $scope.filters.paymentsType=='')) && ($scope.filters.ticketStatus!=undefined && $scope.filters.ticketStatus.idStatus!="3" && $scope.filters.ticketStatus.idStatus!="6") && $scope.filters.isPaymentSucceeded && ($scope.filters.isBillingUploaded)){
-                      $scope.monitor.filter.isBillingUploaded      = 1;
-                      $scope.filters.isBillingUploaded             = true
-                  }else{
-                      $scope.monitor.filter.isBillingUploaded      = 0;
-                      $scope.filters.isBillingUploaded             = false
-                  }
                   if ( // || ($scope.filters.paymentsType==undefined || $scope.filters.paymentsType==null || $scope.filters.paymentsType=='')
                       ((($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id!='1' && $scope.filters.paymentsType.id!='2')) && (!$scope.filters.isPaymentSucceeded || $scope.filters.isPaymentSucceeded)) ||
                       ($scope.filters.paymentsType!=undefined && $scope.filters.paymentsType!=null && $scope.filters.paymentsType.id=="2" && $scope.filters.isPaymentSucceeded && $scope.filters.isBillingInitiated) ||
@@ -4015,7 +4010,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "3":
                     case "5":
                     case "6":
-                      $scope.functions.isKeysEnable = "2";
+                      $scope.functions.isKeysEnable = "0";
                       switch(obj.idTypeDeliveryKf){
                         case "1": //RETIRO EN OFICINA
                           if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
@@ -4033,6 +4028,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       }
                     break;
                     case "2":
+                       $scope.functions.isKeysEnable = "0";
                       $scope.tkupdate.idDeliveryCompanyKf="2";
                       if (obj.building.isStockInOffice == "1" || obj.building.isStockInBuilding == "1"){
                        $scope.tkupdate.mess2show="El Pedido quedara \"En Preparación\" pendiente de Habilitación/Activación de Llaveros, por favor, Confirmar?";
@@ -4061,6 +4057,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.tkupdate.idMgmtMethodKf          = $scope.ticket.idMgmtMethodKf;
                 $scope.tkupdate.newKeychainList         = $scope.rsNewKeychainList;
                 $scope.tkupdate.whereKeysAreEnable      = $scope.functions.whereKeysAreEnable;
+                $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
                 $scope.tkupdate.refund                  = [];
                 $scope.tkupdate.history                 = [];
                 var idDepartmenKf                       = null;
@@ -4070,8 +4067,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
-
-                      $scope.tkupdate.isKeysEnable            = $scope.functions.isKeysEnable;
                       if ($scope.ticket.selected.idTypeRequestFor=="4"){
                         $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
                         $scope.tkupdate.idStatusTicketKf        = "1"
@@ -4084,6 +4079,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   case "2":
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"28"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
+                    $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"45"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"39"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
                     var idKeychainStatusKf                  = 0;

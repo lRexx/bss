@@ -2719,6 +2719,16 @@ class Ticket_model extends CI_Model
 							$where = "(idMgmtMethodKf = '" . @$data['idMgmtMethodKf'] . "')";
 							$this->db->where($where);
 						}
+						//ACTIVATION METHOD
+						if (@$data['whereKeysAreEnable'] != '' && @$data['whereKeysAreEnable'] != null) {
+							$where = "(whereKeysAreEnable = '" . @$data['whereKeysAreEnable'] . "')";
+							$this->db->where($where);
+						}
+						//KEYS ENABLE
+						if (@$data['isKeysEnable'] != '' && @$data['isKeysEnable'] != null) {
+							$where = "(isKeysEnable = '" . @$data['isKeysEnable'] . "')";
+							$this->db->where($where);
+						}
 						//BILLING UPLOADED
 						if (@$data['isBillingUploaded'] == '1') {
 							$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '" . @$data['isBillingUploaded'] . "')";
@@ -3086,6 +3096,11 @@ class Ticket_model extends CI_Model
 			//ACTIVATION METHOD
 			if (@$data['whereKeysAreEnable'] != '' && @$data['whereKeysAreEnable'] != null) {
 				$where = "(whereKeysAreEnable = '" . @$data['whereKeysAreEnable'] . "')";
+				$this->db->where($where);
+			}
+			//KEYS ENABLE
+			if (@$data['isKeysEnable'] != '' && @$data['isKeysEnable'] != null) {
+				$where = "(isKeysEnable = '" . @$data['isKeysEnable'] . "')";
 				$this->db->where($where);
 			}
 			//BILLING UPLOADED

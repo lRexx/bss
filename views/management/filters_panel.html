@@ -144,12 +144,22 @@
                             </div>
                         </div>
                     </div>
-                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-4 col-xs-12">
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-6 n-padding-l n-padding-r">
                         <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
                         <div class="col-md-12 col-xs-12" ><label class="clf-size">Entrega inicial <span class="badge badge-warning">activa</span></label></div>
-                        <div class="col-md-4 col-xs-4">
+                        <div class="col-md-6 col-xs-12">
                             <label class="switch switch-2x" for="isInitialDeliveryActive-search">
                                 <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isInitialDeliveryActive" id="isInitialDeliveryActive-search">
+                                <span class="slider slider-2x flat"></span>
+                            </label>
+                        </div>
+                    </div>
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-6 n-padding-l n-padding-r">
+                        <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Pedidos con Stock <span class="badge badge-warning">En Edificio</span></label></div>
+                        <div class="col-md-6 col-xs-12">
+                            <label class="switch switch-2x" for="isHasStockInBuilding-search">
+                                <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasStockInBuilding" id="isHasStockInBuilding-search">
                                 <span class="slider slider-2x flat"></span>
                             </label>
                         </div>
@@ -243,13 +253,25 @@
                         </div>
                         </div>
                     </div>
-                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-4 col-xs-12">
+                    <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-6 col-xs-12">
                         <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
-                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Pedidos con Stock <span class="badge badge-warning">En Edificio</span></label></div>
-                        <div class="col-md-4 col-xs-4">
-                            <label class="switch switch-2x" for="isHasStockInBuilding-search">
-                                <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isHasStockInBuilding" id="isHasStockInBuilding-search">
-                                <span class="slider slider-2x flat"></span>
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Llaveros Habilitados</label></div>
+                        <div class=" n-padding-l col-md-4 col-xs-4" style="margin-top: -0.6% !important;">
+                            <input id="isKeysEnableAll" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="All" value="" ng-checked="true" ng-model="filters.isKeysEnable">
+                            <label for="isKeysEnableAll" class="radio-2x-label">
+                            <span class="badge badge-default">Todos</span>
+                            </label>
+                        </div>
+                        <div class=" n-padding-l col-md-4 col-xs-4" style="margin-top: -0.6% !important;">
+                            <input id="isKeysEnable" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="isKeysEnable" value="1" ng-model="filters.isKeysEnable">
+                            <label for="isKeysEnable" class="radio-2x-label">
+                            <span class="badge badge-success">Si</span>
+                            </label>
+                        </div>
+                        <div class=" n-padding-l col-md-4 col-xs-4" style="margin-top: -0.6% !important;">
+                            <input id="isKeysDisable" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="isKeysEnable" value="2" ng-model="filters.isKeysEnable">
+                            <label for="isKeysDisable" class="radio-2x-label">
+                            <span class="badge badge-warning">No</span>
                             </label>
                         </div>
                     </div>
@@ -522,6 +544,30 @@
                             </div>
                             <div class="col-md-12 card-title">
                                 <h4 class="text-uppercase right">Facturación</h4>
+                            </div>
+                            </div>
+                        </div>
+                        <!-- EXPORT ON ROUTE EXCEL LIST -->
+                        <div ng-if="(filters.ticketStatus.idStatus=='8' && filters.mgmtKeyMethod=='2' && filters.activationKeyMethod=='2') || (filters.ticketStatus.idStatus=='8' && filters.deliveryCompanyKf.idDeliveryCompany=='2' && filters.mgmtKeyMethod=='2' && filters.activationKeyMethod=='2')" ng-click="modalConfirmation('exportOnInternalRouteExcelList', 0, listTickt)" class="col-md-3" data-toggle="tooltip" data-placement="bottom"  title="Listado envío externo" style="margin-bottom: 1em;">
+                            <div class="card-customer">
+                            <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+                                <i class="fas fa-file-download"></i>
+                            </div>
+                            <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                            'sticky-success':
+                                            listTickt.length>0,
+                                            'sticky-warning':
+                                            listTickt.length==0,
+                                            }">
+                                <span ng-if="listTickt.length>0">
+                                <i class="fas fa-truck-moving"></i>
+                                </span>
+                                <span ng-if="listTickt.length==0" data-toggle="tooltip" data-placement="top" title="No hay pedidos">
+                                <i class="fas fa-exclamation-triangle"></i>
+                                </span>
+                            </div>
+                            <div class="col-md-12 card-title">
+                                <h4 class="text-uppercase right">Ruta Interna</h4>
                             </div>
                             </div>
                         </div>
