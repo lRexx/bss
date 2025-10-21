@@ -3983,6 +3983,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "3":
                     case "5":
                     case "6":
+                      $scope.functions.isKeysEnable = "1";
                       switch(obj.idTypeDeliveryKf){
                         case "1"://RETIRO EN OFICINA
                           $scope.tkupdate.mess2show="El Pedido pasara a \"Listo para Retirar\", por favor,     Confirmar?";
@@ -3992,10 +3993,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         case "2"://RENTREGA EN DOMICILIO
                           $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
                           if (obj.building.isStockInOffice == "1" || obj.building.isStockInBuilding == "1"){
-                            $scope.tkupdate.idDeliveryCompanyKf="1";
-                            $scope.functions.isKeysEnable = "1";
                             $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
                           }
+                          $scope.tkupdate.idDeliveryCompanyKf="1";
                           console.log(obj)
                         break;
                       }
@@ -4015,6 +4015,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     case "3":
                     case "5":
                     case "6":
+                      $scope.functions.isKeysEnable = "2";
                       switch(obj.idTypeDeliveryKf){
                         case "1": //RETIRO EN OFICINA
                           if(obj.building.isHasInternetOnline === null || obj.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
