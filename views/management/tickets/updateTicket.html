@@ -166,6 +166,45 @@
                                 <span ng-if="tkupdate.delivered_at==null" class="badge badge-warning">No asignado</span>
                               </div>
                             </div>
+                            <div  class="col-md-12 col-xs-12">
+                              <legend style="text-align: left;">Costos</legend>
+                              <div class="col-md-3 col-xs-3 text-center">
+                                <div class="col">
+                                  <div class="counter-ticket">
+                                    <!-- <i class="fas fa-handshake fa-lg fa-ticket-2x"></i>-->
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.costService  | number:0}}</h2>
+                                    <p class="count-ticket-text ">Gestion</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-3 col-xs-6 text-center">
+                                <div class="col">
+                                  <div class="counter-ticket">
+                                    <!-- <i class="fas fa-key fa-lg fa-ticket-2x"></i>-->
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.costKeys  | number:0}}</h2>
+                                    <p class="count-ticket-text ">Llaveros</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-3 col-xs-6 text-center">
+                                <div class="col">
+                                  <div class="counter-ticket">
+                                    <!-- <i class="fas fa-truck fa-lg fa-ticket-2x"></i>-->
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.costDelivery  | number:0}}</h2>
+                                    <p class="count-ticket-text ">Envío</p>
+                                  </div>
+                                </div>
+                              </div>
+                              <div class="col-md-3 col-xs-6 text-center">
+                                <div class="col">
+                                  <div class="counter-ticket">
+                                    <!-- <i class="fas fa-file-invoice-dollar fa-lg fa-ticket-2x"></i>-->
+                                    <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.total  | number:0}}</h2>
+                                    <p class="count-ticket-text ">Total</p>
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
                             <div ng-if="tkupdate.billingReceiptDetails.length>0" class="col-md-12 col-xs-12" style="margin-top: 20px;">
                               <legend style="text-align: left;">Factura</legend>
                                 <ul class="file-list file-list-5">
@@ -185,9 +224,9 @@
                                       <button type="button" data-toggle="tooltip" data-placement="bottom" title="Bajar archivo" class="btn btn-success btn-xs" ng-click="downloadFile(file)">
                                           <i class="fas fa-cloud-download-alt"></i>
                                       </button>
-                                      <button ng-if="file.typeFile.substr(0,5)=='image'" type="button" data-toggle="tooltip" data-placement="bottom" title="Ver archivo" class="btn btn-warning btn-xs" ng-click="openLightboxModal(customer.files.files_uploaded, $index)">
+                                      <!--<button ng-if="file.typeFile.substr(0,5)=='image'" type="button" data-toggle="tooltip" data-placement="bottom" title="Ver archivo" class="btn btn-warning btn-xs" ng-click="openLightboxModal(customer.files.files_uploaded, $index)">
                                           <i class="far fa-eye"></i>
-                                      </button>
+                                      </button>-->
                                       <button ng-if="file.typeFile=='application/pdf'" type="button" data-toggle="tooltip" data-placement="bottom" title="Ver archivo" class="btn btn-warning btn-xs" ng-click="openPDFViewerModal(file.urlFile)">
                                           <i class="far fa-eye"></i>
                                       </button>
