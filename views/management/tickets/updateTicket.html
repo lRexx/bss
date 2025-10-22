@@ -199,6 +199,15 @@
                                 </ul>
                             </div>
                         </div>
+                        <div ng-show="tkupdate.idMgmtMethodKf!=null && tkupdate.idMgmtMethodKf!=undefined && (tkupdate.isKeysEnable=='1' || tkupdate.isKeysEnable=='0') (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf==undefined)" class="col-md-12 col-sm-12 col-xs-12">
+                          <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
+                            <h5 class="col-md-offset-4"><i class="fas fa-exclamation-triangle"> </i> <span style="font-size: 18px; font-weight: 600; color: rgba(255, 188, 87, 1);">Empresa de envío no ha sido asignada.</span></h5>
+                          </div>
+                        </div>
+                        <!--<div class="col-md-12 col-xs-12 well-checkbox n-margin-l customer-frame">
+                          <div class="col-md-4 col-sm-4 col-xs-6"></div>
+                          <div class="col-md-4 col-sm-4 col-xs-6"></div>
+                        </div>-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <!-- KEYS -->
                               <div ng-click="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))?'':mainSwitchFn('mgmtPrecheck', tkupdate.keys, null)" style="margin-bottom: 1em;"
@@ -206,7 +215,7 @@
                                   <div class="card-customer">
                                     <div ng-if="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))" class="ribbon-h ribbon-h-danger"><span>No disponible</span></div>
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
-                                        <i class="fas fa-key"></i>
+                                        <i ng-class="{'i-success':rsNewKeychainList.length==tkupdate.keys.length,'i-warning':rsNewKeychainList.length<tkupdate.keys.length}" class="fas fa-key"></i>
                                     </div>
                                     <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
                                                     'sticky-success':
@@ -218,6 +227,7 @@
                                         <i class="fas fa-check-circle"></i>
                                       </span>
                                       <span ng-if="rsNewKeychainList.length<tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Llaveros pendiente por gestion.">
+                                      <span ng-if="rsNewKeychainList.length==tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Llaveros asignados."></span>
                                         <i class="fas fa-exclamation-triangle"></i>
                                       </span>
                                     </div>
@@ -257,18 +267,20 @@
                                   <div class="card-customer">
                                     <div ng-if="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))" class="ribbon-h ribbon-h-danger"><span>No disponible</span></div>
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
-                                        <i class="fas fa-truck"></i>
+                                        <i ng-class="{'i-success':tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.idDeliveryCompanyKf!=undefined,
+                                        'i-warning':tkupdate.idTypeRequestFor!='2' && (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf==undefined)}" class="fas fa-truck"></i>
+
                                     </div>
                                     <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
                                                     'sticky-success':
-                                                    tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null,
+                                                    tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.idDeliveryCompanyKf!=undefined && (tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null),
                                                     'sticky-warning':
-                                                    tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null,
+                                                    ((tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf==undefined) || (tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null)),
                                                   }">
-                                      <span ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null">
+                                      <span ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.idDeliveryCompanyKf!=undefined && (tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null)">
                                         <i class="fas fa-check-circle"></i>
                                       </span>
-                                      <span ng-if="tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null" data-toggle="tooltip" data-placement="top" title="Faltan datos de envío.">
+                                      <span ng-if="((tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf==undefined) || (tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null))" data-toggle="tooltip" data-placement="top" title="Faltan datos de envío.">
                                         <i class="fas fa-exclamation-triangle"></i>
                                       </span>
                                     </div>
@@ -282,7 +294,9 @@
                               ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
                                   <div class="card-customer">
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
-                                        <i class="fas fa-receipt"></i>
+                                        <i ng-class="{'i-success':((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!='' && tkupdate.paymentDetails.mp_payment_id!=undefined && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.idStatusTicketKf!='2' && tkupdate.idStatusTicketKf!='3') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2')),
+                                        'i-warning':tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && (tkupdate.paymentDetails.mp_payment_id=='' || tkupdate.paymentDetails.mp_payment_id==undefined || tkupdate.paymentDetails.mp_payment_id==null) && tkupdate.idStatusTicketKf=='3',
+                                        'i-warning':tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2'}" class="fas fa-receipt"></i>
                                     </div>
                                     <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
                                                     'sticky-success':
@@ -307,29 +321,29 @@
                                   </div>
                               </div>
                             <!-- REFUNDS -->
-                            <div ng-click="(tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1))?mainSwitchFn('ticket_refunds', tkupdate, null):''" class="col-md-2 col-xs-6" style="margin-bottom: 1em;" ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1)">
-                              <div class="card-customer">
-                                <div class="col-md-6 col-xs-6 n-padding-l card-icon">
-                                    <i class="fas fa-hand-holding-usd"></i>
-                                </div>
-                                <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
-                                                'sticky-success':
-                                                (tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1)),
-                                                'sticky-warning':
-                                                tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2',
-                                              }">
-                                  <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
-                                    <i class="fas fa-check-circle"></i>
-                                  </span>
-                                  <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && !tkupdate.isHasRefundsOpen" data-toggle="tooltip" data-placement="top" title="">
-                                    <i class="fas fa-exclamation-triangle"></i>
-                                  </span>
-                                </div>
-                                <div class="col-md-12 card-title">
-                                  <h4 class="text-uppercase right">Reintegro</h4>
+                              <div ng-click="(tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen && tkupdate.refundsDetails.length>=1))?mainSwitchFn('ticket_refunds', tkupdate, null):''" class="col-md-2 col-xs-6" style="margin-bottom: 1em;" ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1)">
+                                <div class="card-customer">
+                                  <div class="col-md-6 col-xs-6 n-padding-l card-icon">
+                                      <i class="fas fa-hand-holding-usd"></i>
+                                  </div>
+                                  <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
+                                                  'sticky-success':
+                                                  (tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2' && (tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1)),
+                                                  'sticky-warning':
+                                                  tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && tkupdate.idStatusTicketKf=='2',
+                                                }">
+                                    <span ng-if="((tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails!=null && tkupdate.idStatusTicketKf!='2') || (tkupdate.idTypePaymentKf=='1' && tkupdate.idStatusTicketKf!='2'))">
+                                      <i class="fas fa-check-circle"></i>
+                                    </span>
+                                    <span ng-if="tkupdate.idTypePaymentKf=='2' && tkupdate.paymentDetails==null && !tkupdate.isHasRefundsOpen" data-toggle="tooltip" data-placement="top" title="">
+                                      <i class="fas fa-exclamation-triangle"></i>
+                                    </span>
+                                  </div>
+                                  <div class="col-md-12 card-title">
+                                    <h4 class="text-uppercase right">Reintegro</h4>
+                                  </div>
                                 </div>
                               </div>
-                          </div>
                         </div>
                         <!-- REQUESTED KEYS -->
                         <div class="col-md-12">
