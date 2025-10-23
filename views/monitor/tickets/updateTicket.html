@@ -231,7 +231,7 @@
                                                 'sticky-warning':
                                                 tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null,
                                               }">
-                                  <span ng-if="tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null">
+                                  <span ng-if="((tkupdate.idTypeDeliveryKf=='2' && tkupdate.userDelivery!=null && (tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null)) || (tkupdate.idTypeDeliveryKf=='1' && tkupdate.userDelivery!=null && tkupdate.deliveryAddress!=null))">
                                     <i class="fas fa-check-circle"></i>
                                   </span>
                                   <span ng-if="tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null" data-toggle="tooltip" data-placement="top" title="Faltan datos de envío.">
