@@ -306,15 +306,15 @@
                                   <div class="card-customer">
                                     <div ng-if="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))" class="ribbon-h ribbon-h-danger"><span>No disponible</span></div>
                                     <div class="col-md-6 col-xs-6 n-padding-l card-icon">
-                                        <i ng-class="{'i-success':tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.idDeliveryCompanyKf!=undefined,
-                                        'i-warning':tkupdate.idTypeRequestFor!='2' && (tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf==undefined)}" class="fas fa-truck"></i>
+                                        <i ng-class="{'i-success':((tkupdate.idTypeDeliveryKf=='2' && tkupdate.userDelivery!=null && (tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null)) || (tkupdate.idTypeDeliveryKf=='1' && tkupdate.userDelivery!=null && tkupdate.deliveryAddress!=null)),
+                                        'i-warning':((tkupdate.idTypeDeliveryKf=='2' && tkupdate.idDeliveryCompanyKf==null) || ( tkupdate.idTypeDeliveryKf=='1' && tkupdate.userDelivery==null))}" class="fas fa-truck"></i>
 
                                     </div>
                                     <div class="col-md-6 col-xs-6 n-padding-r card-sticky" ng-class="{
                                                     'sticky-success':
-                                                    tkupdate.idTypeRequestFor!='2' && tkupdate.idDeliveryCompanyKf!=null && tkupdate.idDeliveryCompanyKf!=undefined && (tkupdate.userDelivery!=null || tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null),
+                                                    ((tkupdate.idTypeDeliveryKf=='2' && tkupdate.userDelivery!=null && (tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null)) || (tkupdate.idTypeDeliveryKf=='1' && tkupdate.userDelivery!=null && tkupdate.deliveryAddress!=null)),
                                                     'sticky-warning':
-                                                    ((tkupdate.idDeliveryCompanyKf==null || tkupdate.idDeliveryCompanyKf==undefined) || (tkupdate.idTypeRequestFor!='2' && tkupdate.userDelivery==null && tkupdate.deliveryAddress==null && tkupdate.otherDeliveryAddress==null && tkupdate.thirdPersonDelivery==null)),
+                                                    ((tkupdate.idTypeDeliveryKf=='2' && tkupdate.idDeliveryCompanyKf==null) || ( tkupdate.idTypeDeliveryKf=='1' && tkupdate.userDelivery==null)),
                                                   }">
                                       <span ng-if="((tkupdate.idTypeDeliveryKf=='2' && tkupdate.userDelivery!=null && (tkupdate.deliveryAddress!=null || tkupdate.otherDeliveryAddress!=null || tkupdate.thirdPersonDelivery!=null)) || (tkupdate.idTypeDeliveryKf=='1' && tkupdate.userDelivery!=null && tkupdate.deliveryAddress!=null))">
                                         <i class="fas fa-check-circle"></i>
