@@ -5416,6 +5416,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.ticket.delivery_schedule_at  = $scope.ticket.delivery_schedule_at;
                   $scope.ticket.newTicketStatus       = $scope.listStatusTicketChange.find(s => s.idStatus == "1");
                 }
+              }else{
+                $scope.ticket.deliveryDate = new Date();
+                if ($scope.ticket.idWhoPickUp=='1'){
+                  $scope.ticket.dni = $scope.ticket.userDelivery.dni;
+                  $scope.ticket.fullname = $scope.ticket.userDelivery.fullNameUser;
+                }else if ($scope.ticket.idWhoPickUp=='3'){
+                  $scope.ticket.dni = $scope.ticket.thirdPersonDelivery.dni;
+                  $scope.ticket.fullname = $scope.ticket.thirdPersonDelivery.fullName;
+                }
               }
               $scope.changeStatusTicketSingle=true;
               $scope.changeStatusTicketMulti=false;
