@@ -11,7 +11,21 @@
     </thead>
     <tbody class="fixed-body" style="height: 325px !important;">
       <!-- Show if there are Keys registered -->
-      <tr ng-if="rsExistingKeyList.length>0"  class="animate-repeat" ng-class="{'table-tr-hover-selected':(((item.idKeychain!=null && item.idKeychain!=undefined) && item.tb_ticket_keychain.idTicketKeychain!=undefined && item.tb_ticket_keychain.idTicketKf==tkupdate.idTicket) || (item.idKeychain==null || item.idKeychain==undefined))}" style="align-content: center; cursor: pointer;" ng-repeat="item in rsExistingKeyList | orderBy:'codigo'">
+      <tr ng-if="rsExistingKeyList.length>0"
+          class="animate-repeat"
+          style="align-content: center; cursor: pointer;"
+          ng-class="{
+            'table-tr-hover-selected': (
+              (
+                (item.idKeychain != null && item.idKeychain != undefined) &&
+                (item.tb_ticket_keychain != null && item.tb_ticket_keychain != undefined) &&
+                (item.tb_ticket_keychain.idTicketKeychain != undefined) &&
+                (item.tb_ticket_keychain.idTicketKf == tkupdate.idTicket)
+              ) ||
+              (item.idKeychain == null || item.idKeychain == undefined)
+            )
+          }"
+          ng-repeat="item in rsExistingKeyList | orderBy:'codigo'">
         <td class="td-depto" style="vertical-align: middle !important;text-align: center !important;width: 7.2% !important;" ng-click="switchCustomersFn('details_customer', item, 'show');">
         	<span ng-if="item.idKeychain!=null && item.idKeychain!=undefined">{{item.idKeychain}}</span>
           <span ng-if="item.idKeychain==null || item.idKeychain==undefined" class="badge badge-warning"> Nuevo</span>
