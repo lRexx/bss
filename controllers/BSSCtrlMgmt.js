@@ -3831,6 +3831,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf
                         )
                       );
+                      console.log("$scope.ticket.idMgmtMethodKf: "+$scope.ticket.idMgmtMethodKf);
+                      console.log("$scope.ticket.selected.idTypeRequestFor: "+$scope.ticket.selected.idTypeRequestFor);
+                      console.log("$scope.rsAllKeychainListDataFiltered.length: "+$scope.rsAllKeychainListDataFiltered.length);
+                      console.log("existingStockKeys.length: "+$scope.existingStockKeys.length);
+                      console.log("tkupdate.keys.length: "+$scope.tkupdate.keys.length);
+                      console.log("tkupdate.idMgmtMethodKf: "+$scope.tkupdate.idMgmtMethodKf);
                       console.log($scope.rsAllKeychainListDataFiltered);
                       for (var tkey in $scope.tkupdate.keys){
                         for (var stock in $scope.rsAllKeychainListDataFiltered){

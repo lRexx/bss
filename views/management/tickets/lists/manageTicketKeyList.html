@@ -51,7 +51,7 @@
                         </div>
                     </div>
                     <div ng-if="(ticket.idMgmtMethodKf==undefined || ticket.idMgmtMethodKf=='1') && (ticket.selected.idTypeRequestFor=='1' || ticket.selected.idTypeRequestFor=='6') &&
-                                ((existingStockKeys.length==0) || (existingStockKeys.length<tkupdate.keys.length && rsAllKeychainListDataFiltered.length<tkupdate.keys.length)||(rsAllKeychainListDataFiltered.length>=0 && rsAllKeychainListDataFiltered.length<tkupdate.keys.length))" class="col-md-12" style="padding-top: 1% !important;">
+                    tkupdate.idMgmtMethodKf==null && ((existingStockKeys.length==0) || (existingStockKeys.length<tkupdate.keys.length && rsAllKeychainListDataFiltered.length<tkupdate.keys.length)||(rsAllKeychainListDataFiltered.length>=0 && rsAllKeychainListDataFiltered.length<tkupdate.keys.length))" class="col-md-12" style="padding-top: 1% !important;">
                         <div class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning">
                         <h5><i class="fas fa-exclamation-triangle"> </i>
                             <span ng-if="existingStockKeys.length==0" style="font-size: 18px; font-weight: 600;">No Hay llaveros en stock para gestionar el pedido, realizar la carga manual.</span>
