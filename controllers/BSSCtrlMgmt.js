@@ -3996,14 +3996,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           if (obj.building.isStockInOffice == "1" || obj.building.isStockInBuilding == "1"){
                             $scope.tkupdate.mess2show="El Pedido pasara a \"Pendiente de entrega\", por favor,     Confirmar?";
                           }
-                          $scope.tkupdate.idDeliveryCompanyKf="1";
+                          if (obj.building.isStockInBuilding == "1"){$scope.tkupdate.idDeliveryCompanyKf="3";}
+                          if (obj.building.isStockInOffice == "1"){$scope.tkupdate.idDeliveryCompanyKf="1";}
                           console.log(obj)
                         break;
                       }
                     break;
                     case "4":
                       $scope.functions.whereKeysAreEnable = obj.building.isHasInternetOnline === null ? "2":"1";
-                      $scope.tkupdate.idDeliveryCompanyKf="1";
+                      if (obj.building.isStockInBuilding == "1"){$scope.tkupdate.idDeliveryCompanyKf="3";}
+                      if (obj.building.isStockInOffice == "1"){$scope.tkupdate.idDeliveryCompanyKf="1";}
                       $scope.functions.isKeysEnable = "1";
                       $scope.tkupdate.mess2show="El Pedido sera \"Completado\", una vez asginado el llavero, por favor,     Confirmar?";
                     break;
