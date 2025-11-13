@@ -368,12 +368,12 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.keyObj);
                   console.log($scope.functions);
                   $scope.mainSwitchFn('apply_isKeysEnable',$scope.keyObj)
-                $('#confirmRequestModalCustom').modal('hide');
+                  $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
                   if ($scope.tkupdate.isKeysEnable!=null){
                     $scope.functions.isKeysEnable=$scope.tkupdate.isKeysEnable
                   }else if ($scope.tkupdate.isKeysEnable==null && ($scope.keyObj.isKeysEnable==0 || $scope.keyObj.isKeysEnable==null)){
-                      $scope.functions.isKeysEnable=undefined
+                      $scope.functions.isKeysEnable="0"
                   }
                 }
               break;
@@ -593,6 +593,34 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.mainSwitchFn('ticket_request_cancel', $scope.argObj, null)
                 }
               break;
+              case "confirmTicketCancel":
+                  if (confirm==0){
+                      $scope.tmpTicket=obj;
+                      if ($scope.tmpTicket.building.isStockInOffice=="1"){
+                        $scope.tmpTicket.stockLocation = "de la Oficina";
+                      }else if ($scope.tmpTicket.building.isStockInBuilding=="1"){
+                        $scope.tmpTicket.stockLocation = "del Edificio"
+                      }
+                      $timeout(function() {
+                          $scope.mess2show="Han sido guardados los llaveros en el stock "+$scope.tmpTicket.stockLocation+",     Confirmar?";
+
+                          $('#showModalTicketCancelNotification').modal({backdrop: 'static', keyboard: false});
+                          $('#showModalTicketCancelNotification').on('shown.bs.modal', function () {});
+                      }, 500);
+                  }else if (confirm==1){
+                      $('#showModalTicketCancelNotification').modal('hide');
+                      inform.add('Se procede a completar la solicitud de cancelación del pedido.',{
+                          ttl:15000, type: 'info'
+                      });
+                      $timeout(function() {
+                          console.log($scope.tmpTicket);
+                          $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.tmpTicket, null);
+                      }, 1000);
+
+                  }else if (confirm==null){
+                      $('#showModalTicketCancelNotification').modal('hide');
+                  }
+              break;
               case "reject_cancel_user":
                 if (confirm==0){
                   $scope.mess2show="Rechaza la solicitud de cancelacion del Pedido ["+obj.codTicket+"],     Confirmar?";
@@ -616,7 +644,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                   $('#confirmRequestModal').modal('hide');
-                  $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null)
+                  if (($scope.argObj.building.isStockInOffice=="1" || $scope.argObj.building.isStockInBuilding=="1") && ($scope.argObj.idMgmtMethodKf=="1" || ($scope.argObj.idMgmtMethodKf=="2" && $scope.argObj.isKeysEnable=="1"))){
+                    $scope.modalConfirmation('confirmTicketCancel',0,$scope.argObj);
+                  }else{
+                    $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
+                  }
                 }
               break;
               case "apply_ticket_delivery_change":
@@ -1116,170 +1148,183 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.rsData = {};
       $scope.isEditTicket=false;
       $scope.openTicketFn = function(idTicket){
-        //$scope.tkupdate  = obj;
-        //$scope.tktmporal = obj;
-        //ticketServices.ticketByToken(obj.urlToken);
-        //console.log(obj);
-        $scope.editComment=false;
-        $scope.tkupdate = {};
-        ticketServices.ticketById(idTicket).then(function(response){
-            if(response.status==200){
-              //console.log(response.data[0]);
-              $scope.rsData.ticket = (response.data.tickets[0]);
-              $scope.tkupdate = response.data.tickets[0];
-              //$scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
-              $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
-              $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
-              if ($scope.tkupdate.idMgmtMethodKf!=null && $scope.tkupdate.idMgmtMethodKf!=undefined){
-                switch($scope.tkupdate.idTypeRequestFor){
-                  case "1":
-                    $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
-                    $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
-                        if(response.status==200){
+        try {
+          //$scope.tkupdate  = obj;
+          //$scope.tktmporal = obj;
+          //ticketServices.ticketByToken(obj.urlToken);
+          //console.log(obj);
+          $scope.editComment=false;
+          $scope.tkupdate = {};
+          ticketServices.ticketById(idTicket).then(function(response){
+              if(response.status==200){
+                console.log(response.data[0]);
+                $scope.rsData.ticket = (response.data.tickets[0]);
+                console.log(JSON.stringify(response.data.tickets[0], null, 2));
+                if (response.data && Array.isArray(response.data.tickets) && response.data.tickets.length > 0) {
+                    $scope.tkupdate = (response.data.tickets[0]);
+                } else if (response.data && response.data.tickets) {
+                    $scope.tkupdate = response.data.tickets; // si no es array
+                } else {
+                    $scope.tkupdate = {};
+                }
+                $scope.getContractsByCustomerIdFn($scope.tkupdate.building.idClient);
+                $scope.getKeysAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+                $scope.getControlAccessDoorsAssociatedToACustomerFn($scope.tkupdate.building.idClient);
+                if ($scope.tkupdate.idMgmtMethodKf!=null && $scope.tkupdate.idMgmtMethodKf!=undefined){
+                  switch($scope.tkupdate.idTypeRequestFor){
+                    case "1":
+                      //$scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
+                      console.log("⚡ idMgmtMethodKf =", $scope.tkupdate.idMgmtMethodKf);
+                      console.log("⚡ tkupdate.keys has keychain?",
+                        $scope.tkupdate.keys.some(k => k.keychain != null)
+                      );
+                      $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",$scope.tkupdate.department.idClientDepartament,null,null,null,null,false,true,1,1).then(function(response) {
                           console.log(response);
-                          console.log($scope.rsExistingKeyList);
-                          console.log(response.data.tb_keychain);
-                            $scope.rsExistingKeyList = response.data.tb_keychain;
-                            console.log($scope.rsExistingKeyList);
-                            $scope.rsAllKeychainListDataFiltered = angular.copy(
-                              (response.data.tb_keychain || []).filter(
-                                s => s.tb_ticket_keychain && s.tb_ticket_keychain.idTicketKf == $scope.tkupdate.idTicket
-                              )
-                            );
-                            $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
-                            console.info($scope.rsExistingKeyList);
-                            for (var key in $scope.rsAllKeychainListDataFiltered){
-                              $scope.rsAllKeychainListDataFiltered[key].selected = true;
-                              $scope.rsAllKeychainListDataFiltered[key].disabled = true;
-                            }
-                        }else if(response.status==404){
-                          console.log("404 Error");
-                          console.log(response.statusText);
+                          if(response.status==200){
+                              $scope.rsExistingKeyList = response.data.tb_keychain;
+                                $scope.rsAllKeychainListDataFiltered = angular.copy(
+                                  (response.data.tb_keychain || []).filter(
+                                    s => s.tb_ticket_keychain && s.tb_ticket_keychain.idTicketKf == $scope.tkupdate.idTicket
+                                  )
+                                );
+                                $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
+                                console.info($scope.rsExistingKeyList);
+                                for (var key in $scope.rsAllKeychainListDataFiltered){
+                                  $scope.rsAllKeychainListDataFiltered[key].selected = true;
+                                  $scope.rsAllKeychainListDataFiltered[key].disabled = true;
+                                }
+                          }else if(response.status==404){
+                            console.log("404 Error");
+                            console.log(response.statusText);
+                            $scope.rsExistingKeyList = [];
+                          }else if(response.status==500){
+                              inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                              });
+                            console.log("500 Error");
+                            console.log(response.statusText);
+                          }
+                        }, function(err) {
                           $scope.rsExistingKeyList = [];
-                        }else if(response.status==500){
-                            inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                            ttl:5000, type: 'danger'
-                            });
-                          console.log("500 Error");
-                          console.log(response.statusText);
-                        }
-                      }, function(err) {
-                        $scope.rsExistingKeyList = [];
-                        console.log("Error: " + err);
-                        //$scope.pagination.totalCount  = 0;
-                    });
-                  break;
-                  case "2":
-                  case "3":
-                  case "4":
-                  case "5":
-                  case "6":
-                    $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",null,null,null,null,null,false,true,1,1).then(function(response) {
-                        console.log(response);
-                        if(response.status==200){
-                            $scope.rsExistingKeyList = response.data.tb_keychain;
-                            $scope.rsAllKeychainListDataFiltered = angular.copy(
-                              (response.data.tb_keychain || []).filter(
-                                s => s.tb_ticket_keychain && s.tb_ticket_keychain.idTicketKf == $scope.tkupdate.idTicket
-                              )
-                            );
-                            $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
-                            console.info($scope.rsExistingKeyList);
-                            for (var key in $scope.rsAllKeychainListDataFiltered){
-                              $scope.rsAllKeychainListDataFiltered[key].selected = true;
-                              $scope.rsAllKeychainListDataFiltered[key].disabled = true;
-                            }
-                        }else if(response.status==404){
-                          console.log("404 Error");
-                          console.log(response.statusText);
+                          console.log("Error: " + err);
+                          //$scope.pagination.totalCount  = 0;
+                      });
+                    break;
+                    case "2":
+                    case "3":
+                    case "4":
+                    case "5":
+                    case "6":
+                      $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,$scope.tkupdate.idTypeRequestFor,"-1",null,null,null,null,null,false,true,1,1).then(function(response) {
+                          console.log(response);
+                          if(response.status==200){
+                              $scope.rsExistingKeyList = response.data.tb_keychain;
+                              $scope.rsAllKeychainListDataFiltered = angular.copy(
+                                (response.data.tb_keychain || []).filter(
+                                  s => s.tb_ticket_keychain && s.tb_ticket_keychain.idTicketKf == $scope.tkupdate.idTicket
+                                )
+                              );
+                              $scope.rsNewKeychainList = $scope.rsAllKeychainListDataFiltered;
+                              console.info($scope.rsExistingKeyList);
+                              for (var key in $scope.rsAllKeychainListDataFiltered){
+                                $scope.rsAllKeychainListDataFiltered[key].selected = true;
+                                $scope.rsAllKeychainListDataFiltered[key].disabled = true;
+                              }
+                          }else if(response.status==404){
+                            console.log("404 Error");
+                            console.log(response.statusText);
+                            $scope.rsExistingKeyList = [];
+                          }else if(response.status==500){
+                              inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                              });
+                            console.log("500 Error");
+                            console.log(response.statusText);
+                          }
+                        }, function(err) {
                           $scope.rsExistingKeyList = [];
-                        }else if(response.status==500){
-                            inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                            ttl:5000, type: 'danger'
-                            });
-                          console.log("500 Error");
-                          console.log(response.statusText);
-                        }
-                      }, function(err) {
-                        $scope.rsExistingKeyList = [];
-                        console.log("Error: " + err);
-                        //$scope.pagination.totalCount  = 0;
-                    });
-                  break;
-                }
-              }else{
-                switch($scope.tkupdate.idTypeRequestFor){
-                  case "1":
-                      $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
-                  break;
-                }
-              }
-              if (($scope.tkupdate.building.isStockInBuilding!='0' && $scope.tkupdate.building.isStockInBuilding!=null && $scope.tkupdate.building.isStockInBuilding!=undefined) || ($scope.tkupdate.building.isStockInOffice!='0' && $scope.tkupdate.building.isStockInOffice!=null && $scope.tkupdate.building.isStockInOffice!=undefined)){
-                console.log("Get Stock Key List");
-                $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,null,null,false,true,1,1).then(function(response) {
-                    console.log(response);
-                    if(response.status==200){
-                        $scope.existingStockKeys = response.data.tb_keychain;
-                        console.info($scope.existingStockKeys);
-                    }else if(response.status==404){
-                      console.log("404 Error");
-                      console.log(response.statusText);
-                      $scope.existingStockKeys = [];
-                    }else if(response.status==500){
-                        inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
-                        ttl:5000, type: 'danger'
-                        });
-                      console.log("500 Error");
-                      console.log(response.statusText);
-                    }
-                  }, function(err) {
-                    $scope.existingStockKeys = [];
-                    console.log("Error: " + err);
-                    //$scope.pagination.totalCount  = 0;
-                });
-              }
-              $scope.ticket.selected              = response.data.tickets[0];
-              $scope.ticket.building              = $scope.tkupdate.building;
-              $scope.ticket.administration        = $scope.tkupdate.clientAdmin;
-              $scope.ticket.idClientDepartament   = $scope.tkupdate.department
-              $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':null};
-              $scope.ticket.keysMethodSelected    = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
-              $scope.customerFound                = $scope.tkupdate.building;
-              $scope.ticket.isKeysEnable          = $scope.ticket.selected.isKeysEnable;
-              $scope.functions.isKeysEnable       = $scope.ticket.selected.isKeysEnable;
-              if ($scope.tkupdate.idDeliveryCompanyKf!=null){
-                  $timeout(function() {
-                    console.log(Array.isArray($scope.listDeliveryCompanies));
-                    console.log($scope.listDeliveryCompanies);
-                    $scope.tkupdate.deliveryCompany = $scope.listDeliveryCompanies.find(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf);
-                  }, 1500);
-              }
-              if ($scope.tkupdate.whereKeysAreEnable === null){
-                if ($scope.tkupdate.building.isHasInternetOnline === null){
-                  $scope.functions.whereKeysAreEnable = "2";
-                  $scope.ticket.whereKeysAreEnable    = "2";
+                          console.log("Error: " + err);
+                          //$scope.pagination.totalCount  = 0;
+                      });
+                    break;
+                  }
                 }else{
-                  $scope.functions.whereKeysAreEnable = "1";
-                  $scope.ticket.whereKeysAreEnable    = "1";
+                  switch($scope.tkupdate.idTypeRequestFor){
+                    case "1":
+                        $scope.getDeptoListByAddress($scope.tkupdate.building.idClient);
+                    break;
+                  }
                 }
-              }else{
-                $scope.functions.whereKeysAreEnable = $scope.tkupdate.whereKeysAreEnable;
-                $scope.ticket.whereKeysAreEnable    = $scope.tkupdate.whereKeysAreEnable;
+                if (($scope.tkupdate.building.isStockInBuilding!='0' && $scope.tkupdate.building.isStockInBuilding!=null && $scope.tkupdate.building.isStockInBuilding!=undefined) || ($scope.tkupdate.building.isStockInOffice!='0' && $scope.tkupdate.building.isStockInOffice!=null && $scope.tkupdate.building.isStockInOffice!=undefined)){
+                  console.log("Get Stock Key List");
+                  $scope.getKeychainListFnNew($scope.tkupdate.building.idClient,null,"2","-1",null,null,null,null,null,false,true,1,1).then(function(response) {
+                      console.log(response);
+                      if(response.status==200){
+                          $scope.existingStockKeys = response.data.tb_keychain;
+                          console.info($scope.existingStockKeys);
+                      }else if(response.status==404){
+                        console.log("404 Error");
+                        console.log(response.statusText);
+                        $scope.existingStockKeys = [];
+                      }else if(response.status==500){
+                          inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                          ttl:5000, type: 'danger'
+                          });
+                        console.log("500 Error");
+                        console.log(response.statusText);
+                      }
+                    }, function(err) {
+                      $scope.existingStockKeys = [];
+                      console.log("Error: " + err);
+                      //$scope.pagination.totalCount  = 0;
+                  });
+                }
+                $scope.ticket.selected              = response.data.tickets[0];
+                $scope.ticket.building              = $scope.tkupdate.building;
+                $scope.ticket.administration        = $scope.tkupdate.clientAdmin;
+                $scope.ticket.idClientDepartament   = $scope.tkupdate.department
+                $scope.ticket.keysMethod            = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:{'name':null};
+                $scope.ticket.keysMethodSelected    = $scope.tkupdate.keysMethod!=null?$scope.tkupdate.keysMethod:null;
+                $scope.customerFound                = $scope.tkupdate.building;
+                $scope.ticket.isKeysEnable          = $scope.ticket.selected.isKeysEnable;
+                $scope.functions.isKeysEnable       = $scope.ticket.selected.isKeysEnable;
+                if ($scope.tkupdate.idDeliveryCompanyKf!=null){
+                    $timeout(function() {
+                      //console.log(Array.isArray($scope.listDeliveryCompanies));
+                      console.log($scope.listDeliveryCompanies);
+                      $scope.tkupdate.deliveryCompany = $scope.listDeliveryCompanies.find(s => s.idDeliveryCompany == $scope.tkupdate.idDeliveryCompanyKf);
+                    }, 1500);
+                }
+                if ($scope.tkupdate.whereKeysAreEnable === null){
+                  if ($scope.tkupdate.building.isHasInternetOnline === null){
+                    $scope.functions.whereKeysAreEnable = "2";
+                    $scope.ticket.whereKeysAreEnable    = "2";
+                  }else{
+                    $scope.functions.whereKeysAreEnable = "1";
+                    $scope.ticket.whereKeysAreEnable    = "1";
+                  }
+                }else{
+                  $scope.functions.whereKeysAreEnable = $scope.tkupdate.whereKeysAreEnable;
+                  $scope.ticket.whereKeysAreEnable    = $scope.tkupdate.whereKeysAreEnable;
+                }
+                console.log($scope.isNewKeyFn);
+                console.log($scope.tkupdate);
+                $scope.isEditTicket=true;
+              }else if (response.status==404){
+                  $scope.rsData = {};
+                  $scope.tkupdate = {};
+              }else if (response.status==500){
+                  $scope.rsData = {};
+                  $scope.tkupdate = {};
               }
-              console.log($scope.tkupdate);
-
-              $scope.isEditTicket=true;
-            }else if (response.status==404){
-                $scope.rsData = {};
-                $scope.tkupdate = {};
-            }else if (response.status==500){
-                $scope.rsData = {};
-                $scope.tkupdate = {};
-            }
-        });
-        console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
-        console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
-        console.log("$scope.list_new_keys lenght:     "+$scope.list_new_keys.length);
+          });
+          console.log("$scope.rsNewKeychainList lenght: "+$scope.rsNewKeychainList.length);
+          console.log("$scope.rsExistingKeyList lenght: "+$scope.rsExistingKeyList.length);
+          console.log("$scope.list_new_keys lenght:     "+$scope.list_new_keys.length);
+        } catch (e) {
+          console.error("Error dentro de openTicketFn:", e);
+          throw e; // re-lanzar para que Angular muestre el stack
+        }
       }
       $scope.setOptionType = function(obj) {
         var elem = angular.element(obj.target);// or angular.element(obj.target);
@@ -2008,7 +2053,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.getServiceCostByCustomerFn = function(data){
         serviceServices.getServiceCostByCustomer(data).then(function(response) {
             if(response.status==200){
-                $scope.ticket.cost.service = Number(response.data[0].cost);
+                if (response.data && Array.isArray(response.data) && response.data.length > 0) {
+                    $scope.ticket.cost.service = Number(response.data[0].cost);
+                } else {
+                    $scope.ticket.cost.service = null;
+                }
                 $scope.customerCosts=true;
             }else if (response.status==404){
                 inform.add('El consorcio no presenta costos de servicios asociados, contacte al area de soporte de BSS.',{
@@ -2988,7 +3037,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 : 'undefined',
               tkKeys: $scope.tkupdate.keys
                 ? $scope.tkupdate.keys.length
-                : 'undefined',
+                : 'undefined',ahh
               hasInvalidKeyMethod,
               missingKeys,
               hasKeysWithoutId,
@@ -3001,6 +3050,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
             // Las llaves sin ID NO deshabilitan el botón
             return hasInvalidKeyMethod || missingKeys;
           };
+          $scope.isNewKeyFn = function(item) {
+              if (!item || !item.tb_ticket_keychain) return false;
+              if (!$scope.tkupdate || !$scope.tkupdate.idTicket) return false;
+              if (!item.tb_ticket_keychain.idTicketKf) return false;
+
+              return item.tb_ticket_keychain.idTicketKf === $scope.tkupdate.idTicket;
+          };
     /**************************************************
     *                                                 *
     *            TICKETS MONITOR FUNCTION             *
@@ -3012,6 +3068,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
       $scope.filters={'paymentsType':'', 'typDelivery':'', 'ticketStatus':'', 'typeTicket':'', 'deliveryCompanyKf':'','isPaymentSucceeded': false,'isBillingInitiated':false, 'isHasRefundsOpen':false, 'isInitialDeliveryActive': false, 'isHasStockInBuilding': false, 'mgmtKeyMethod':'', 'activationKeyMethod':'', 'isKeysEnable':''};
       $scope.monitor.filter={'idUserRequestBy':'', 'idUserMadeBy':'', 'idBuildingKf':'', 'idClientAdminFk':'', 'idClientCompaniFk':'', 'idClientBranchFk':'', 'topfilter':'', 'idTypeTicketKf':'', 'idStatusTicketKf':'', 'codTicket':'', 'idTypePaymentKf':'', 'idTypeDeliveryKf':'', 'dateCreatedFrom':'', 'dateCreatedTo':'', 'dateDeliveredFrom':'', 'dateDeliveredTo':'', 'isBillingUploaded':null, 'isBillingInitiated':null, 'isHasRefundsOpen':null, 'idDeliveryCompanyKf':'', 'isPaymentSucceeded':'', 'isInitialDeliveryActive':null};
       $scope.mainSwitchFn = function(opt, obj, obj2){
+        console.log("mainSwitchFn called with:", opt);
+        console.log("typeof opt:", typeof opt);
         switch (opt){
             case "dashboard":
               $scope.getDeliveryTypesFn_filter();
@@ -3285,21 +3343,50 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               }
             break;
             case "openTicket":
-              $scope.thereIsKeyWithoutIdKeychain   = false;
-              $scope.rsAllKeychainListData         = [];
-              $scope.rsExistingKeyList             = [];
-              $scope.rsNewKeychainList             = [];
-              $scope.existingStockKeys             = [];
-              $scope.rsAllKeychainListDataFiltered = [];
-              $scope.ticket = {'administration':undefined, 'keysMethod':{'name':undefined}, 'building':undefined, 'idClientDepartament':undefined, 'radioButtonDepartment':undefined, 'radioButtonBuilding':undefined, 'optionTypeSelected': {}, 'keysMethod':{}, 'userRequestBy':{}, 'userNotify':null, 'keys':[], 'delivery':{'idTypeDeliveryKf':null, 'whoPickUp':null, 'zone':{}, 'thirdPerson':null, 'deliveryTo':{}, 'otherAddress':undefined}, 'cost':{'keys':0, 'delivery':0, 'service':0, 'total':0}};
-              $scope.functions={'isKeysEnable': false, 'whereKeysAreEnable': null};
-              $scope.rsNewKeychainList = [];
-              $scope.list_new_keys = [];
-              $scope.keys={"new":{}};
-              $scope.isEditTicket=false;
-              $scope.openTicketFn(obj.idTicket);
-              $('#UpdateModalTicket').modal({backdrop: 'static', keyboard: false});
-            break;
+              try {
+                $scope.thereIsKeyWithoutIdKeychain   = false;
+                $scope.rsAllKeychainListData         = [];
+                $scope.rsExistingKeyList             = [];
+                $scope.rsNewKeychainList             = [];
+                $scope.existingStockKeys             = [];
+                $scope.rsAllKeychainListDataFiltered = [];
+                $scope.ticket = {
+                  administration: undefined,
+                  keysMethod: { name: undefined },
+                  building: undefined,
+                  idClientDepartament: undefined,
+                  radioButtonDepartment: undefined,
+                  radioButtonBuilding: undefined,
+                  optionTypeSelected: {},
+                  keysMethod: {},
+                  userRequestBy: {},
+                  userNotify: null,
+                  keys: [],
+                  delivery: {
+                    idTypeDeliveryKf: null,
+                    whoPickUp: null,
+                    zone: {},
+                    thirdPerson: null,
+                    deliveryTo: {},
+                    otherAddress: undefined
+                  },
+                  cost: { keys: 0, delivery: 0, service: 0, total: 0 }
+                };
+                $scope.functions = { isKeysEnable: false, whereKeysAreEnable: null };
+                $scope.rsNewKeychainList = [];
+                $scope.list_new_keys = [];
+                $scope.keys = { new: {} };
+                $scope.isEditTicket = false;
+
+                console.log("Calling openTicketFn", obj.idTicket);
+                // 🚨 Aquí el posible punto de fallo
+                $scope.openTicketFn(obj.idTicket);
+                $('#UpdateModalTicket').modal({ backdrop: 'static', keyboard: false });
+              } catch (err) {
+                console.error('Error in openTicket flow:', err);
+                alert('Error opening ticket: ' + (err.message || err));
+              }
+              break;
             case "getTicket":
               console.log(obj);
               $scope.openTicketFn(obj);
@@ -3831,12 +3918,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf
                         )
                       );
-                      console.log("$scope.ticket.idMgmtMethodKf: "+$scope.ticket.idMgmtMethodKf);
-                      console.log("$scope.ticket.selected.idTypeRequestFor: "+$scope.ticket.selected.idTypeRequestFor);
-                      console.log("$scope.rsAllKeychainListDataFiltered.length: "+$scope.rsAllKeychainListDataFiltered.length);
-                      console.log("existingStockKeys.length: "+$scope.existingStockKeys.length);
-                      console.log("tkupdate.keys.length: "+$scope.tkupdate.keys.length);
-                      console.log("tkupdate.idMgmtMethodKf: "+$scope.tkupdate.idMgmtMethodKf);
                       console.log($scope.rsAllKeychainListDataFiltered);
                       for (var tkey in $scope.tkupdate.keys){
                         for (var stock in $scope.rsAllKeychainListDataFiltered){
@@ -4410,10 +4491,27 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               console.log($scope.ticket);
             break;
             case "apply_ticket_delivery_change":
-              if (obj.selected.idTypeDeliveryKf==obj.delivery.idTypeDeliveryKf && obj.selected.idDeliveryTo==obj.delivery.idDeliveryTo && obj.delivery.whoPickUp.idUser==obj.selected.idUserDelivery && obj.cost.delivery==obj.selected.costDelivery){
+              //console.log('idTypeDeliveryKf:', obj.selected.idTypeDeliveryKf, '=>', typeof obj.selected.idTypeDeliveryKf);
+              //console.log('idDeliveryTo:', obj.selected.idDeliveryTo, '=>', typeof obj.selected.idDeliveryTo);
+              //console.log('idTypeDeliveryKf (delivery):', obj.delivery.idTypeDeliveryKf, '=>', typeof obj.delivery.idTypeDeliveryKf);
+              //console.log('idDeliveryTo (delivery):', obj.delivery.idDeliveryTo, '=>', typeof obj.delivery.idDeliveryTo);
+              //console.log('whoPickUp.idUser:', obj.delivery.whoPickUp.idUser, '=>', typeof obj.delivery.whoPickUp.idUser);
+              //console.log('idUserDelivery:', obj.selected.idUserDelivery, '=>', typeof obj.selected.idUserDelivery);
+              //console.log('cost.delivery:', obj.cost.delivery, '=>', typeof obj.cost.delivery);
+              //console.log('selected.costDelivery:', obj.selected.costDelivery, '=>', typeof obj.selected.costDelivery);
+              const num = v => Number(v);
+
+              if (
+                num(obj.selected.idTypeDeliveryKf) === num(obj.delivery.idTypeDeliveryKf) &&
+                num(obj.selected.idDeliveryTo) === num(obj.delivery.idDeliveryTo) &&
+                num(obj.delivery.whoPickUp.idUser) === num(obj.selected.idUserDelivery) &&
+                num(obj.cost.delivery) === num(obj.selected.costDelivery)
+              ) {
                 inform.add('No hay cambio en su metodo de envío, intente nuevamente.',{
                   ttl:5000, type: 'info'
                 });
+                  $('#UpdateModalDelivery').modal('hide');
+                  $('#UpdateModalTicket').modal('hide');
               }else{
                   console.log(obj);
                   $scope.update.ticket.createNewMPLink                  = false;
@@ -4485,6 +4583,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         if((obj.selected.paymentDetails!=undefined && obj.selected.paymentDetails!=null) && obj.selected.paymentDetails.mp_collection_status=='approved' && obj.selected.paymentDetails.mp_status_detail=='accredited'){
                           $scope.update.ticket.refund = [];
                           $scope.update.ticket.refund.push({'idTicketKf': obj.selected.idTicket, 'idRefundTypeKf':'1',  'description':'',  'refundAmount':obj.selected.costDelivery});
+                          $scope.update.ticket.isHasRefundsOpen = 1;
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                           $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"15"});
                           inform.add('Se realizara un reintegro de ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
@@ -4606,7 +4705,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             ttl:6000, type: 'warning'
                           });
                           $scope.update.ticket.createNewMPLink = true;
-                          console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                          console.log("SE MODIFICA STATUS POR VALOR ACTUAL");
                           console.log($scope.update.ticket.idStatusTicketKf);
                           $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }
@@ -4615,7 +4714,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         inform.add('No se registran costos adicionales, por concepto de envío, al costo total de su pedido, BSS Seguridad.',{
                           ttl:6000, type: 'info'
                         });
-                        console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                        console.log("SE MODIFICA STATUS POR VALOR ACTUAL");
                         console.log($scope.update.ticket.idStatusTicketKf);
                         $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                       }else{
@@ -4623,7 +4722,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         inform.add('El pedido no tendra una recarga extra por envío al nuevo domicilio seleccionado, BSS Seguridad.',{
                           ttl:6000, type: 'success'
                         });
-                        console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+                        console.log("SE MODIFICA STATUS POR VALOR ACTUAL");
                         console.log($scope.update.ticket.idStatusTicketKf);
                         $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                       }
@@ -4705,8 +4804,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.update.ticket.costKeys               = obj.selected.costKeys;
                   var subTotalKeys                            = NaN2Zero(Number(obj.selected.costKeys));
                   var subTotalService                         = NaN2Zero(Number(obj.selected.costService));
-                  console.log("SE MODIFICA STATUS POR VALOR ACTUA");
+
+                  switch (obj.selected.idStatusTicketKf){
+                    case "4":
+                      if ($scope.update.ticket.idTypeDeliveryKf=="1"){
+                        console.log("SE MODIFICA Status");
+                        $scope.update.ticket.idStatusTicketKf="7"
+                        $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"46"});
+                      }
+                    break;
+                    case "7":
+                      if ($scope.update.ticket.idTypeDeliveryKf=="2"){
+                        console.log("SE MODIFICA Status");
+                        $scope.update.ticket.idStatusTicketKf="4"
+                        $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
+                      }
+                    break;
+                  }
                   console.log($scope.update.ticket.idStatusTicketKf);
+
                   //$scope.update.ticket.idStatusTicketKf     = obj.selected.idStatusTicketKf;
                   $scope.update.ticket.costDelivery           = $scope.subTotalDelivery;
                   subTotalCosts = NaN2Zero(Number(subTotalService))+NaN2Zero(Number(subTotalKeys))+NaN2Zero(Number($scope.subTotalDelivery));
@@ -4917,7 +5033,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                             codigo              : codigo,
                             idDepartmenKf       : null,
                             idClientKf          : key.idClientKf,
-                            idUserKf            : null,
+                            idUserKf            : key.idUserKf,
                             idCategoryKf        : idCategoryKf,
                             isKeyTenantOnly     : null,
                             idClientAdminKf     : null,
@@ -5107,7 +5223,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               //console.log($scope.ticket);
               var assignedtickets = [];
               angular.forEach(obj,function(ticket){
-
                   var deferredtickets = $q.defer();
                   assignedtickets.push(deferredtickets.promise);
                   $timeout(function() {
@@ -5125,6 +5240,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"31"});
                     $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"43"});
                     console.log(ticket);
+                    console.log($scope.update.ticket);
                     ticketServices.changueStatus($scope.update).then(function(response){
                       //console.log(response);
                       if(response.status==200){
@@ -5433,6 +5549,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.ticket.dni = $scope.ticket.thirdPersonDelivery.dni;
                   $scope.ticket.fullname = $scope.ticket.thirdPersonDelivery.fullName;
                 }
+
               }
               $scope.changeStatusTicketSingle=true;
               $scope.changeStatusTicketMulti=false;
@@ -5642,17 +5759,30 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 console.log(obj);
                 $scope.mp.link={'new':{'data':{}},'url':null}; //codTicket
                 $scope.mp.link.new.data={'idPago': null,'monto':  null,'linkDeNotificacion':  null,'back_url':  null,'metadata': {}};
-                $scope.mp.link.new.data.idTicket              = obj.idTicket;
-                $scope.mp.link.new.data.ticket_number         = obj.codTicket;
-                $scope.mp.link.new.data.monto                 = obj.createNewMPLinkForDelivery?Number(parseInt(obj.costDelivery)):Number(parseInt(obj.total));
+                $scope.mp.link.new.data.idTicket                = obj.idTicket;
+                $scope.mp.link.new.data.ticket_number           = obj.codTicket;
+                $scope.mp.link.new.data.monto                   = obj.createNewMPLinkForDelivery?Number(parseInt(obj.costDelivery)):Number(parseInt(obj.total));
                 //$scope.mp.link.new.data.linkDeNotificacion    = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
                 //$scope.mp.link.new.data.back_url              = serverHost+"/monitor";
-                $scope.mp.link.new.data.linkDeNotificacion    = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
-                $scope.mp.link.new.data.back_url              = "";
-                $scope.mp.link.new.data.description           = obj.typeticket.TypeTicketName;
-                $scope.mp.link.new.data.quantity              = obj.keys.length;
-                $scope.mp.link.new.data.idPayment             = obj.idPaymentKf!=null || obj.idPaymentKf!=undefined?obj.idPaymentKf:null;
-                $scope.mp.link.new.data.metadata.paymentFor   = obj.createNewMPLinkForDelivery?3:1;
+                $scope.mp.link.new.data.linkDeNotificacion      = serverHost+"/Back/index.php/MercadoLibre/getNotificationOfMP";
+                $scope.mp.link.new.data.back_url                = "";
+                $scope.mp.link.new.data.description             = obj.typeticket.TypeTicketName;
+                $scope.mp.link.new.data.quantity                = obj.keys.length;
+                console.log(obj.paymentDetails);
+                if (obj.createNewMPLinkForDelivery){
+                  $scope.mp.link.new.data.idPayment             = obj.idPaymentDeliveryKf;
+                  $scope.mp.link.new.data.mp_preference_id      = obj.paymentDetails.mp_preference_id;
+                  $scope.mp.link.new.data.metadata.createdBy    = $scope.sysLoggedUser.idUser;
+                }else if(!obj.createNewMPLinkForDelivery && (obj.idPaymentKf!=null && obj.idPaymentKf!=undefined)){
+                  $scope.mp.link.new.data.idPayment             = obj.idPaymentKf
+                  $scope.mp.link.new.data.mp_preference_id      = obj.paymentDetails.mp_preference_id;
+                  $scope.mp.link.new.data.metadata.createdBy    = $scope.sysLoggedUser.idUser;
+                }else{
+                  $scope.mp.link.new.data.idPayment             = null;
+                }
+                $scope.mp.link.new.data.metadata.idTicket       = obj.idTicket;
+                $scope.mp.link.new.data.metadata.ticket_number  = obj.codTicket;
+                $scope.mp.link.new.data.metadata.paymentFor     = obj.createNewMPLinkForDelivery?3:1;
                 console.log($scope.mp.link);
                 $scope.mpCreateLinkFn($scope.mp.link.new);
             break;
@@ -5707,7 +5837,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           *         UPDATE SINGLE KEY        *
           ************************************/
               $scope.updateKeyFn = function(llavero){
-                  KeysServices.updateKey(llavero).then(function(response){
+                  var obj = llavero;
+                  obj.llavero.idUserKf=null;
+                  KeysServices.updateKey(obj).then(function(response){
                       if(response.status==200){
                         ticketServices.updateTicketKeychain(llavero).then(function(response_ticke_keychain){
                           console.log(response_ticke_keychain);
@@ -5847,10 +5979,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                           $scope.mainSwitchFn("linkMP",response.data.response,null);
                       }, 2700);
                     }else{
-                    $scope.mainSwitchFn("openTicket",pedido.ticket);
                     $scope.mainSwitchFn('search', null);
                       $timeout(function() {
-                          $scope.openTicketFn(pedido.ticket.idTicket);
+                          $scope.mainSwitchFn("openTicket",pedido.ticket);
                       }, 2000);
                     }
 
@@ -5878,8 +6009,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         inform.add('Link de pago generado satisfactoriamente. ',{
                               ttl:5000, type: 'success'
                         });
-                        $scope.mp.link.url      = response.data[0].data.response.sandbox_init_point;
-                        $scope.mp.data          = response.data[0].data.response;
+                        $scope.mp.link.url                        = response.data[0].data.response.sandbox_init_point;
+                        $scope.mp.data                            = response.data[0].data.response;
                         console.log($scope.mp.data);
                         $scope.addPaymentFn(response.data[0].data.response);
                       }else{
@@ -5913,23 +6044,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 "sandbox_init_point": null,
                 "operation_type":null
             }}
-            $scope.addPaymentFn = function(payment){
+             $scope.addPaymentFn = function(payment){
                 console.log($scope.mp);
                 console.log(payment);
-                $scope.mp.payment.data.idTicketKf         = $scope.mp.link.new.data.idTicket;
-                $scope.mp.payment.data.client_id          = payment.client_id;
-                $scope.mp.payment.data.id                 = payment.id;
-                $scope.mp.payment.data.collector_id       = payment.collector_id;
-                $scope.mp.payment.data.date_created       = payment.date_created;
-                $scope.mp.payment.data.expires            = payment.expires;
-                $scope.mp.payment.data.external_reference = payment.external_reference;
-                $scope.mp.payment.data.init_point         = payment.init_point;
-                $scope.mp.payment.data.sandbox_init_point = payment.sandbox_init_point;
-                $scope.mp.payment.data.operation_type     = payment.operation_type;
-                $scope.mp.payment.data.isManualPayment    = false;
+                $scope.mp.payment.data.idTicketKf           = $scope.mp.link.new.data.idTicket;
+                $scope.mp.payment.data.idPayment            = $scope.mp.link.new.data.idPayment;
+                $scope.mp.payment.data.client_id            = payment.client_id;
+                $scope.mp.payment.data.id                   = payment.id;
+                $scope.mp.payment.data.collector_id         = payment.collector_id;
+                $scope.mp.payment.data.date_created         = payment.date_created;
+                $scope.mp.payment.data.expires              = payment.expires;
+                $scope.mp.payment.data.external_reference   = payment.external_reference;
+                $scope.mp.payment.data.init_point           = payment.init_point;
+                $scope.mp.payment.data.sandbox_init_point   = payment.sandbox_init_point;
+                $scope.mp.payment.data.operation_type       = payment.operation_type;
+                $scope.mp.payment.data.isManualPayment      = false;
+                $scope.mp.payment.data.mp_preference_id     = $scope.mp.link.new.data.mp_preference_id!=null?$scope.mp.link.new.data.mp_preference_id:null;
                 console.log($scope.mp.payment.data);
-                $scope.mp.payment.data.paymentForDelivery = $scope.update.ticket.createNewMPLinkForDelivery?$scope.update.ticket.createNewMPLinkForDelivery:false;
-                $scope.addPaymentDetailsFn = null;
+                $scope.mp.payment.data.paymentForDelivery   = $scope.update.ticket.createNewMPLinkForDelivery?$scope.update.ticket.createNewMPLinkForDelivery:false;
+                $scope.addPaymentDetailsFn                  = null;
                 console.log($scope.mp.payment.data);
                 ticketServices.addPayment($scope.mp.payment).then(function(response){
                     //console.log(response);
@@ -5938,7 +6071,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         inform.add('La solicitud de pago ha sido registrada Satisfactoriamente. ',{
                                 ttl:5000, type: 'success'
                         });
-                        $scope.addPaymentDetailsFn = response.data.response[0];
+                        $scope.addPaymentDetailsFn = response.data.response;
+                        $timeout(function() {
+                          $scope.openTicketFn($scope.mp.payment.data.idTicketKf);
+                        }, 500);
                     }else if(response.status==500){
                         $scope.addPaymentDetailsFn = null;
                         console.log("Payment request has failed, contact administrator");
@@ -6001,7 +6137,6 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       //$('.checkmark').toggle();
                       $scope.ticketRegistered = response.data[0];
                       $scope.mainSwitchFn("openTicket",pedido.ticket);
-                      $scope.mainSwitchFn('search', null);
                       //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                       $scope.mainSwitchFn('search', null);
                     }, 2500);
@@ -7540,7 +7675,42 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               a.remove();
             };
 
+            $scope.isDeliveryDisabled = function(tk) {
+              return ((tk.isInitialDeliveryActive==undefined || tk.isInitialDeliveryActive==null || tk.isInitialDeliveryActive=='0')
+                && (tk.idTypeTicketKf<2 && tk.isDeliveryHasChanged!=1
+                && ((tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1)
+                || (tk.idStatusTicketKf==10 && tk.isCancelRequested==1))));
+            };
 
+            $scope.isMPLinkDisabled = function(tk) {
+              return (
+                (tk.total!='0' && tk.idTypeTicketKf=='1' && tk.isManualPayment!='1' &&
+                ($scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4) &&
+                (tk.idTypeRequestFor==1 || tk.idTypeRequestFor==5) && tk.idTypePaymentKf==2 &&
+                tk.idStatusTicketKf!=1 && tk.idStatusTicketKf!=2 && tk.idStatusTicketKf!=6 &&
+                tk.isCancelRequested!='1' && tk.paymentDetails==null)
+              ||
+                (tk.total!='0' && tk.idTypeTicketKf=='1' && tk.isManualPayment!='1' &&
+                ($scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4) &&
+                (tk.idTypeRequestFor==1 || tk.idTypeRequestFor==5) &&
+                tk.idStatusTicketKf!=2 && tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 &&
+                tk.isCancelRequested!='1' &&
+                (tk.paymentDetails.mp_payment_id==null || tk.paymentDetails.mp_payment_id==0 || tk.paymentDetails.mp_payment_id==''))
+              );
+            };
+
+            $scope.isManualPaymentDisabled = function(tk) {
+              return (
+                $scope.sysLoggedUser.idProfileKf==1 &&
+                tk.idTypeTicketKf<=2 &&
+                tk.idTypePaymentKf=='2' &&
+                (tk.paymentDetails==null || tk.paymentDetails!=null) &&
+                tk.idStatusTicketKf=='3' &&
+                tk.idStatusTicketKf!=2 &&
+                tk.idStatusTicketKf!=6 &&
+                tk.idStatusTicketKf!=1
+              );
+            };
         /*******************************************************
         *                                                      *
         *     ROUTE PARAMETERS FOR APPROVAL TICKET & DEPTO     *

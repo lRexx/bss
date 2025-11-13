@@ -25,7 +25,68 @@
               <span class="slider slider-2x flat"></span>
             </label>
           </td>
-          <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;" class="media-middle text-center">{{item.idTicket}}</td>
+          <td ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;" class="media-middle text-center">{{item.idTicket}}
+              <div class="btn-group">
+                <button type="button" class="btn btn-info  btn-sm btn-xs dropdown-toggle" data-toggle="dropdown"><i class="fas fa-bars"></i>
+                <span class="caret"></span>
+                </button>
+                <ul class="dropdown-menu" role="menu">
+                  <li>
+                    <a href="" ng-click="mainSwitchFn('openTicket', item, null)"><i title="ver" class="fas fa-eye"></i>  Abrir</a>
+                  </li>
+                  <!-- CAMBIO DE ENVÍO -->
+                  <li class="dropdown-item"
+                      ng-if="item.idTypeRequestFor!=2 && (item.isInitialDeliveryActive==undefined || item.isInitialDeliveryActive==null || item.isInitialDeliveryActive=='0')
+                            && (item.idTypeTicketKf<2 && item.isDeliveryHasChanged!=1
+                            && ((item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1)
+                            || (item.idStatusTicketKf==10 && item.isCancelRequested==1)))">
+                    <div class="divider"></div>
+                    <a href=""
+                      ng-click="mainSwitchFn('ticket_delivery_change',item,null)">
+                      <i class="fas fa-truck"></i> Cambio de envío
+                    </a>
+                  </li>
+                  <!-- GENERAR LINK DE MP -->
+                  <li class="dropdown-item"
+                      ng-if="((item.total!='0' && item.idTypeTicketKf=='1' && item.isManualPayment!='1'
+                              && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4)
+                              && (item.idTypeRequestFor==1 || item.idTypeRequestFor==5)
+                              && item.idTypePaymentKf==2
+                              && item.idStatusTicketKf!=1 && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6
+                              && item.isCancelRequested!='1' && item.paymentDetails==null)
+                          ||
+                            (item.total!='0' && item.idTypeTicketKf=='1' && item.isManualPayment!='1'
+                              && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4)
+                              && (item.idTypeRequestFor==1 || item.idTypeRequestFor==5)
+                              && item.idStatusTicketKf!=2 && item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1
+                              && item.isCancelRequested!='1'
+                              && (item.paymentDetails.mp_payment_id==null || item.paymentDetails.mp_payment_id==0 || item.paymentDetails.mp_payment_id=='')))">
+                    <div class="divider"></div>
+                    <a href=""
+                      ng-click="modalConfirmation('createMPLink',0, item)">
+                      <i title="Link de pago" class="fas fa-receipt"></i> Generar Link de MP
+                    </a>
+                  </li>
+
+                  <!-- REGISTRAR PAGO MANUAL -->
+                  <li class="dropdown-item"
+                      ng-if="sysLoggedUser.idProfileKf==1
+                            && item.idTypeTicketKf<=2
+                            && item.idTypePaymentKf=='2'
+                            && (item.paymentDetails==null || item.paymentDetails!=null)
+                            && item.idStatusTicketKf=='3'
+                            && item.idStatusTicketKf!=2
+                            && item.idStatusTicketKf!=6
+                            && item.idStatusTicketKf!=1">
+                    <div class="divider"></div>
+                    <a href=""
+                      ng-click="mainSwitchFn('ticket_manual_payment', item, null)">
+                      <i title="Registrar pago" class="fas fa-file-signature"></i> Registrar pago
+                    </a>
+                  </li>
+                </ul>
+            </div>
+          </td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.codTicket}}</td>
           <!-- BUSINESS NAME -->
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.typeticket.TypeTicketName}}</td>

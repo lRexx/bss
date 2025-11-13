@@ -18,7 +18,7 @@
         <td class="td-depto" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;" ng-trim="true">
           <div class="text-badge">
             <label class="switch switch-2x" for="removeKey-{{item.idKeychain}}">
-              <input type="checkbox" class="success" ng-disabled="item.disabled" ng-change="mainSwitchFn('addNewKeyMulti', item, null);" ng-model="item.selected" id="removeKey-{{item.idKeychain}}">
+              <input type="checkbox" class="success" ng-disabled="item.disabled || item.idKeychainStatus == '0'" ng-change="mainSwitchFn('addNewKeyMulti', item, null);" ng-model="item.selected" id="removeKey-{{item.idKeychain}}">
               <span class="slider slider-2x flat"></span>
             </label>
           </div>
