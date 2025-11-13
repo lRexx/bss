@@ -4156,12 +4156,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"30"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"40"});
                     $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"31"});
-                      if ($scope.ticket.selected.idTypeRequestFor=="4"){
-                        $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
-                        $scope.tkupdate.idStatusTicketKf        = "1"
-                      }else{
-                        $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"41"});
-                        $scope.tkupdate.idStatusTicketKf        = "4"
+                    switch($scope.tkupdate.idTypeDeliveryKf){
+                        case "1"://RETIRO EN OFICINA
+                          if ($scope.ticket.selected.idTypeRequestFor=="4"){
+                            $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
+                            $scope.tkupdate.idStatusTicketKf        = "1"
+                          }else{
+                            $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"46"});
+                            $scope.tkupdate.idStatusTicketKf        = "7"
+                          }
+                        break;
+                        case "2"://RENTREGA EN DOMICILIO
+                          if ($scope.ticket.selected.idTypeRequestFor=="4"){
+                            $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"44"});
+                            $scope.tkupdate.idStatusTicketKf        = "1"
+                          }else{
+                            $scope.tkupdate.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"41"});
+                            $scope.tkupdate.idStatusTicketKf        = "4"
+                          }
+                        break;
                       }
                       var idKeychainStatusKf                  = 1;
                   break;
