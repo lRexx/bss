@@ -216,7 +216,7 @@
 															<span>Stock</span>
 														</label>
 													</div>
-													<div ng-class="{'col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='4','col-md-2 col-xs-2': sysLoggedUser.idProfileKf=='1'}">
+													<div ng-if="sysLoggedUser.idProfileKf=='1'" ng-class="{'col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='4','col-md-2 col-xs-2': sysLoggedUser.idProfileKf=='1'}">
 														<input id="typeOption3" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', ticket.building, null)" type="radio" name="typeOption" value="3" ng-model="ticket.radioButtonBuilding" required autofocus>
 														<label for="typeOption3" class="radio-custom-label">
 															<span>Reserva</span>
