@@ -449,6 +449,21 @@
 </div>
 </div>
 <!-- KE LIST-->
+<!-- PDF VIEWER Modal -->
+<div class="modal fade" id="pdfViewerModal" tabindex="-1" role="dialog" aria-labelledby="ModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg" role="document">
+      <div class="modal-content">
+        <button style="padding: 10px;" type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
+          <div class="clearfix"> </div>
+          <div class="modal-body">
+            <div id="pdfobject" class="form-group col-md-12" style="height: 800px;">
+            </div>
+          </div>
+          <div class="clearfix"> </div>
+        </div>
+    </div>
+  </div>
+  <!-- //PDF VIEWER Modal -->
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/lists/ticketKeyList.html'"></div>
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/lists/refundsList.html'"></div>
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/delivery_details.html'"></div>
@@ -459,5 +474,3 @@
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
 <div ng-include="'views/utilities/showModalRequestStatus.html'"></div>
 <div ng-include="'views/utilities/pdfUploadModal.html'"></div>
-<div ng-include="'views/utilities/pdfViewerModal.html'"></div>
-
