@@ -7158,7 +7158,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
           $scope.openPDFViewerModal = function (obj) {
             $('#pdfViewerWindow').modal('show');
             $('#pdfViewerWindow').on('shown.bs.modal', function () {
-              PDFObject.embed(obj, "#pdfobject");
+              PDFObject.embed(obj, "#pdfObjectViewer");
             });
 
           }
