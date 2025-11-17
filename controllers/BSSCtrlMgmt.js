@@ -1278,13 +1278,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       console.log("Error: " + err);
                       //$scope.pagination.totalCount  = 0;
                   });
-                  $scope.rsAllKeychainListDataFiltered = angular.copy(
-                    $scope.existingStockKeys.filter(
-                      s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf
-                    )
-                  );
-                  console.log("$scope.rsAllKeychainListDataFiltered");
-                  console.log($scope.rsAllKeychainListDataFiltered);
+                  $timeout(function() {
+                    $scope.rsAllKeychainListDataFiltered = angular.copy(
+                      $scope.existingStockKeys.filter(
+                        s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf
+                      )
+                    );
+                    console.log("$scope.rsAllKeychainListDataFiltered");
+                    console.log($scope.rsAllKeychainListDataFiltered);
+                  }, 1500);
                 }
                 $scope.ticket.selected              = response.data.tickets[0];
                 $scope.ticket.building              = $scope.tkupdate.building;
