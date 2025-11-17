@@ -1283,6 +1283,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       s => s.idProductKf == $scope.tkupdate.keys[0].idProductKf
                     )
                   );
+                  console.log("$scope.rsAllKeychainListDataFiltered");
+                  console.log($scope.rsAllKeychainListDataFiltered);
                 }
                 $scope.ticket.selected              = response.data.tickets[0];
                 $scope.ticket.building              = $scope.tkupdate.building;
