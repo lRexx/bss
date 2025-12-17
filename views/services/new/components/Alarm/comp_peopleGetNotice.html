@@ -5,38 +5,38 @@
 	</div>
 	<div class="form-group col-md-9 text-danger">
     	<label class="switch switch-1x">
-    		<input type="checkbox" 
-    		class="success" 
-    		ng-change="service.aditional_alarm.sysPeopleNoticeUser.selected=undefined" 
-    		ng-model="service.aditional_alarm.isSysPeopleNoticeUser" 
-    		id="servicePeopleNoticeUser" 
+    		<input type="checkbox"
+    		class="success"
+			ng-change="service.isSysUser?switchCustomersFn('services', service, 'getUsersForNoticeByClient', ''):''"
+    		ng-model="service.aditional_alarm.isSysPeopleNoticeUser"
+    		id="servicePeopleNoticeUser"
     		style="margin: 0px !important; display: inherit !important;">
 			<span class="slider slider-1x flat"></span>
 		</label>
 		<label for="servicePeopleNoticeUser" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Usuario del sistema web</label>
 	</div>
 	<div class="form-group col-md-3">
-		<button ng-click="loadServicePeopleWindowFn(service.aditional_alarm.sysPeopleNoticeUser.selected, 'getnotice')" class="btn btn-sm btn-success" ng-disabled="(service.aditional_alarm.isSysPeopleNoticeUser && service.aditional_alarm.sysPeopleNoticeUser.selected==undefined)"><i class="fas fa-plus"></i> Agregar</button> 
-	</div>							
+		<button ng-click="loadServicePeopleWindowFn(service.aditional_alarm.sysPeopleNoticeUser.selected, 'getnotice')" class="btn btn-sm btn-success" ng-disabled="(service.aditional_alarm.isSysPeopleNoticeUser && service.aditional_alarm.sysPeopleNoticeUser.selected==undefined)"><i class="fas fa-plus"></i> Agregar</button>
+	</div>
 		<div class="form-group col-md-12" >
 			<div ng-if="service.aditional_alarm.isSysPeopleNoticeUser" class="selectContainer">
 		    <div class="col-md-12 input-group">
 		      <span class="input-group-addon"><i class="fas fa-lock-open"></i></span>
-		        <ui-select 
+		        <ui-select
 		        	theme="bootstrap"
 		        	ng-change="loadServicePeopleWindowFn(service.aditional_alarm.sysPeopleNoticeUser.selected, 'getnotice')"
 		         	ng-model="service.aditional_alarm.sysPeopleNoticeUser.selected"
 		         	ng-required="list_people_notice.length==0">
 		            <ui-select-match placeholder="Selecciona un usuario" >{{$select.selected.fullNameUser}}</ui-select-match>
-		            <ui-select-choices repeat="item in rsList.clientUser | filter: $select.search">
+		            <ui-select-choices repeat="item in rsList.sysUsers | filter: $select.search">
 		                <div ng-bind-html="item.fullNameUser | highlight: $select.search"></div>
 		                <small ng-bind-html="item.emailUser | highlight: $select.search"></small>
 		                <small class="label label-default" ng-bind-html="item.nameProfile | highlight: $select.search"></small>
-		                    
+
 		            </ui-select-choices>
-		            <ui-select-no-choice>
-					    No hay resultados, contacte area de soporte.
-				  	</ui-select-no-choice>
+					<ui-select-no-choice>
+						<span ng-if="rsList.sysUsers.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No se encontraron usuarios registrados</span>
+					</ui-select-no-choice>
 		        </ui-select>
 		    </div>
 		</div>
@@ -46,7 +46,7 @@
 		      		<td style="width: 1%; padding-left: 10px;"><label style="font-size: 70%" class="label label-default">{{$index+1}}</label></td>
 		      		<td style="width: 54%">
 		      			<span class="text-muted text-box">
-		      				<span style="font-size: 90%">{{user.nombre_apellido | uppercase | limitTo: 20 }}{{user.nombre_apellido.length > 20 ? '...' : ''}}</span>		      				
+		      				<span style="font-size: 90%">{{user.nombre_apellido | uppercase | limitTo: 20 }}{{user.nombre_apellido.length > 20 ? '...' : ''}}</span>
 		      			</span>
 		      		</td>
 		      		<td style="width: 5%; padding-right: 5px;">
@@ -55,7 +55,7 @@
 		      		<td style="width: 30%"><label style="font-size: 80%" class="label label-default">Vinculo:</label><span style="font-size: 90%; padding-right: 5px;" class="text-muted text-box">{{user.vinculo}}</span></td>
 		          	<td style="width: 5%; padding-right: 5px;">
 		            	<button style="font-size: 70%;" data-toggle="tooltip" data-placement="top" title="ver/editar" ng-click="loadServicePeopleUserDetailsFn(user, 'getnotice');" class="btn btn-xs btn-warning pull-right"><i class="fas fa-external-link-alt"></i></button>
-		          	</td>		      		
+		          	</td>
 		          	<td style="width: 5%; padding-right: 5px;">
 		            	<button style="font-size: 70%;" data-toggle="tooltip" data-placement="top" title="Remover" ng-click="removeServicePeopleUserDetailsFn(user);" class="btn btn-xs btn-danger pull-right"><i class="far fa-times-circle"></i></button>
 		          	</td>
@@ -64,4 +64,4 @@
 		  	<div ng-if="list_people_notice.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning"><h5><i class="fas fa-exclamation-triangle"> </i> No se encontraron personas en la lista</h5></div>
 		</div>
 	</div>
-</div>	
+</div>

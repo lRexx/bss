@@ -9,58 +9,59 @@
     		<div class="modal-body"  style="overflow-y: scroll;">
     			<form class="form-horizontal" name="fServiceAlarmDetails">
     				<!-- Client Type -->
-		            <div class="form-group col-md-12 col-xs-12 n-padding-r" ng-class="
-								  			{	'has-success': 
-								  				(service.aditional_alarm.fk_idTipoCliente=='4' && fServiceAlarmDetails.serviceTypeOfClient_others.$valid),
-								  			 	'has-error':  
-								  				(service.aditional_alarm.fk_idTipoCliente=='4' && (service.aditional_alarm.typeOfClient_others=='' || service.aditional_alarm.typeOfClient_others==undefined) && fServiceAlarmDetails.serviceTypeOfClient_others.$touched),
+		            <div class="form-group col-md-12 col-xs-12 n-padding-r n-padding-l" ng-class="
+								  			{	'has-success':
+								  				(service.aditional_alarm.fk_idTipoCliente=='5' && fServiceAlarmDetails.serviceTypeOfClient_others.$valid),
+								  			 	'has-error':
+								  				(service.aditional_alarm.fk_idTipoCliente=='5' && (service.aditional_alarm.typeOfClient_others=='' || service.aditional_alarm.typeOfClient_others==undefined) && fServiceAlarmDetails.serviceTypeOfClient_others.$touched),
 								  			}">
 		            	<div class="col-md-12 col-xs-12"><label class="clf-size clf-p-left">Tipo de Cliente</label></div>
-		            	<div ng-repeat="type in rsTypeAlarmClientListData" class="col-md-3 col-xs-3" 
+		            	<div ng-repeat="type in rsTypeAlarmClientListData" class="col-xs-3"
 		            		 ng-class="{
-		            					'n-padding-l n-padding-r': type.idTypeClientAlarm=='2' || type.idTypeClientAlarm=='3'
+		            					'col-md-3 n-padding-l n-padding-r': type.idTypeClientAlarm!='1' && type.idTypeClientAlarm!='5',
+										'col-md-2 n-padding-l n-padding-r': type.idTypeClientAlarm=='1' || type.idTypeClientAlarm=='5' ,
 		            					}">
-		                	<input id="typeOfClient{{$index}}" class="radio-2x" type="radio" ng-click="service.aditional_alarm.fk_idTipoCliente!='4'?service.aditional_alarm.typeOfClient_others='':service.aditional_alarm.typeOfClient_others" name="typeOfClient" value="{{type.idTypeClientAlarm}}" ng-model="service.aditional_alarm.fk_idTipoCliente" required autofocus>
+		                	<input id="typeOfClient{{$index}}" class="radio-2x" type="radio" ng-click="service.aditional_alarm.fk_idTipoCliente!='5'?service.aditional_alarm.typeOfClient_others='':service.aditional_alarm.typeOfClient_others" name="typeOfClient" value="{{type.idTypeClientAlarm}}" ng-model="service.aditional_alarm.fk_idTipoCliente" required autofocus>
 		                    <label for="typeOfClient{{$index}}" class="radio-2x-label">
 		                      	<span>{{type.typeClientAlarm}}</span>
 		                    </label>
 		                </div>
-					    <div ng-show="service.aditional_alarm.fk_idTipoCliente=='4'" class="col-xs-12" style="padding-right: 30px;">
+					    <div ng-show="service.aditional_alarm.fk_idTipoCliente=='5'" class="col-xs-12" style="padding-right: 30px;">
 						    <div class="input-group">
 						    	<span class="input-group-addon"><i class="fas fa-user-tag"></i></span>
-				    			<input name="serviceTypeOfClient_others" type="text" ng-disabled="service.aditional_alarm.fk_idTipoCliente!='4'" ng-required="service.aditional_alarm.fk_idTipoCliente=='4'" class="form-control" ng-model="service.aditional_alarm.typeOfClient_others" />
+				    			<input name="serviceTypeOfClient_others" type="text" ng-disabled="service.aditional_alarm.fk_idTipoCliente!='5'" ng-required="service.aditional_alarm.fk_idTipoCliente=='5'" class="form-control" ng-model="service.aditional_alarm.typeOfClient_others" />
 				    		</div>
-				    	</div>		                
+				    	</div>
 		            </div>
-    				<!-- System user -->    				
+    				<!-- System user ng-change="service.aditional_alarm.sysUser.selected=undefined; service.aditional_alarm.nombresEncargadoManual='';service.aditional_alarm.telefono=''" -->
 					<div class="well-checkbox form-group col-md-12 n-padding-l n-padding-r" ng-class="
-								  			{	'has-success': 
-								  				(service.aditional_alarm.sysUser.selected!=undefined && fServiceAlarmDetails.service_sysUser.$valid) || 
+								  			{	'has-success':
+								  				(service.aditional_alarm.sysUser.selected!=undefined && fServiceAlarmDetails.service_sysUser.$valid) ||
 								  				(service.aditional_alarm.nombresEncargadoManual!=undefined && fServiceAlarmDetails.serviceAlarmAttendant.$valid),
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(service.aditional_alarm.sysUser.selected==undefined && fServiceAlarmDetails.service_sysUser.$touched) ||
 								  				(service.aditional_alarm.nombresEncargadoManual==undefined && fServiceAlarmDetails.serviceAlarmAttendant.$touched),
 								  			}">
-						<div class="form-group col-md-12">							  			
+						<div class="form-group col-md-12">
 							<div class="form-group col-md-5">
 								<label class="clf-p-left">Encargado Responsable</label>
 							</div>
 							<div class="form-group col-md-7 text-danger">
 						    	<label class="switch switch-1x">
-						    		<input type="checkbox" 
-						    		class="success" 
-						    		ng-change="service.aditional_alarm.sysUser.selected=undefined; service.aditional_alarm.nombresEncargadoManual='';service.aditional_alarm.telefono=''" 
-						    		ng-model="service.isSysUser" 
-						    		id="isSysUser" 
+						    		<input type="checkbox"
+						    		class="success"
+									ng-change="service.isSysUser?switchCustomersFn('services', service, 'getUsersForAttByClient', ''):''"
+						    		ng-model="service.isSysUser"
+						    		id="isSysUser"
 						    		style="margin: 0px !important; display: inherit !important;">
 									<span class="slider slider-1x flat"></span>
 								</label>
 								<label for="serviceSysUser" style="cursor: pointer; font-weight: 600; padding-left: 15px;">Usuario del sistema web</label>
-							</div>  						
+							</div>
 							<div ng-if="service.isSysUser" class="col-xs-12 selectContainer">
 							    <div class="input-group">
 							      <span class="input-group-addon"><i class="fas fa-portrait"></i></span>
-							        <ui-select 
+							        <ui-select
 							        	name="service_sysUser"
 							        	theme="bootstrap"
 							        	ng-change="service.aditional_alarm.nombresEncargadoManual=''; loadUserPhoneNumberFn(service.aditional_alarm.sysUser.selected)"
@@ -68,16 +69,16 @@
 							         	ng-disabled="!service.isSysUser"
 							         	ng-required="service.isSysUser">
 							            <ui-select-match allow-clear="true" placeholder="Selecciona un usuario" >{{$select.selected.fullNameUser}}</ui-select-match>
-							            <ui-select-choices class="ui-select-choices" repeat="user in rsList.clientUser | filter: $select.search">
+							            <ui-select-choices class="ui-select-choices" repeat="user in rsList.sysUsers | filter: $select.search">
 							                <div ng-bind-html="user.fullNameUser | highlight: $select.search"></div>
 							                <small ng-bind-html="user.emailUser | highlight: $select.search"></small>
 							                <small class="label label-default" ng-bind-html="user.nameProfile | highlight: $select.search"></small>
-							                    
+
 							            </ui-select-choices>
-							            <ui-select-no-choice>
-										    No hay resultados, contacte area de soporte.
-									  	</ui-select-no-choice>
-							        </ui-select>					        						        
+										<ui-select-no-choice>
+											<span ng-if="rsList.sysUsers.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No se encontraron usuarios registrados</span>
+										</ui-select-no-choice>
+							        </ui-select>
 							    </div>
 							</div>
 						    <div ng-if="!service.isSysUser" class="col-xs-12">
@@ -87,11 +88,11 @@
 					    		</div>
 					    	</div>
 					    </div>
-						<!-- phone -->					  
+						<!-- phone -->
 						<div class="form-group col-md-12" ng-class="
-									{	'has-success': 
+									{	'has-success':
 										service.aditional_alarm.telefono!='' && fServiceAlarmDetails.serviceAlarmPhone.$valid,
-									 	'has-error':  
+									 	'has-error':
 										(service.aditional_alarm.telefono=='' || service.aditional_alarm.telefono==undefined) && fServiceAlarmDetails.serviceAlarmPhone.$touched,
 									}">
 						  	<label style="padding-left: 15px;">Telefono</label>
@@ -101,13 +102,13 @@
 					    			<input name="serviceAlarmPhone" id="serviceAlarmPhone" type="text" class="form-control input--phone" ng-keydown="fnLoadPhoneMask()" ng-required="true" ng-model="service.aditional_alarm.telefono" />
 					    		</div>
 					    	</div>
-						</div>				    	
+						</div>
 					</div>
 					<!-- Related Street -->
 					<div class="form-group col-md-12" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									service.aditional_alarm.calles_laterales!='' && fServiceAlarmDetails.serviceAlarm_calles_laterales.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.aditional_alarm.calles_laterales=='' || service.aditional_alarm.calles_laterales==undefined) && fServiceAlarmDetails.serviceAlarm_calles_laterales.$touched,
 								}">
 					  	<label style="padding-left: 15px;">Calles laterales</label>
@@ -120,9 +121,9 @@
 					</div>
 					<!-- Secret word -->
 					<div class="form-group col-md-12" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									service.aditional_alarm.calle_trasera!='' && fServiceAlarmDetails.serviceLicenceSecretWord.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.aditional_alarm.calle_trasera=='' || service.aditional_alarm.calle_trasera==undefined) && fServiceAlarmDetails.serviceLicenceSecretWord.$touched,
 								}">
 					  	<label style="padding-left: 15px;">Calle trasera</label>
@@ -132,8 +133,8 @@
 				    			<input id="serviceLicenceSecretWord" type="text" class="form-control" ng-required="true" ng-model="service.aditional_alarm.calle_trasera" />
 				    		</div>
 				    	</div>
-					</div>													
-					<!-- Aditional Services -->					  
+					</div>
+					<!-- Aditional Services -->
 		            <div class="form-group col-md-12 col-xs-12">
 		            	<div class="col-md-12 col-xs-12"><label class="clf-size clf-p-left">Servicios adicionales</label></div>
 		                <!-- service.aditional_alarm.fk_idServiciosAdicionales-->
@@ -142,18 +143,18 @@
 								<label class="switch switch-2x" for="alarmServiceAditional-{{aditional.idAlarmServicesAditionals}}">
 				                    <input type="checkbox" class="success" ng-click="compAlarmServiceAditionalFn(aditional.selected, aditional.idAlarmServicesAditionals);" ng-model="aditional.selected" id="alarmServiceAditional-{{aditional.idAlarmServicesAditionals}}" name="alarmServiceAditional">
 				                    <span class="slider slider-2x flat"></span>
-				                </label>						                
+				                </label>
 			                </div>
 			                <div for="alarmServiceAditional-{{aditional.idAlarmServicesAditionals}}" class="col-md-9 col-xs-9 n-padding-l n-padding-r">
 			                	<span style="font-size: 82%;">{{aditional.alarmServicesAditionals}}</span>
 			                </div>
-						</div>		                
+						</div>
 		            </div>
-					<!-- Mail -->						  
+					<!-- Mail -->
 					<div class="form-group col-md-12" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									service.aditional_alarm.mail_reporte!='' && fServiceAlarmDetails.serviceUserLicenceMail.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.aditional_alarm.mail_reporte=='' || service.aditional_alarm.mail_reporte==undefined) && fServiceAlarmDetails.serviceUserLicenceMail.$touched,
 								}">
 					  	<label style="padding-left: 15px;">Mail para reporte</label>
@@ -165,8 +166,8 @@
 				    	</div>
 					</div>
 					<!-- Schedule Atention -->
-	              	<div class="col-md-9" style="padding-bottom: 10px; margin-left: 15px;" ng-include="'views/customer/new/components/comp_scheduleTime.html'"></div>
-					<!-- Transmission Format -->					  
+	              	<div class="col-md-10 col-md-offset-1" style="padding-bottom: 10px;" ng-include="'views/customer/new/components/comp_scheduleTime.html'"></div>
+					<!-- Transmission Format -->
 		            <div class="form-group col-md-12 col-xs-12">
 		            	<div class="col-md-12 col-xs-12"><label class="clf-size clf-p-left">Formato de transmisión</label></div>
 		            	<div ng-repeat="format in rsTransmissionFormatListData" class="col-md-6 col-xs-12">
@@ -189,14 +190,14 @@
 		                	<input id="autoArmed2" class="radio-2x" type="radio" name="autoArmed" ng-required="true" value="0" ng-click="service.aditional_alarm.horario_automarcado=''" ng-model="service.aditional_alarm.fk_idAutomarcado" autofocus>
 		                    <label for="autoArmed2" class="radio-2x-label">
 		                      <span>No</span>
-		                    </label> 
+		                    </label>
 		                </div>
 		            </div>
-					<!-- Self Armed Schedule -->					  
+					<!-- Self Armed Schedule -->
 					<div ng-if="service.aditional_alarm.fk_idAutomarcado=='1'" class="form-group col-md-6" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									service.aditional_alarm.horario_automarcado!='' && service.aditional_alarm.horario_automarcado!=undefined,
-								 	'has-error':  
+								 	'has-error':
 									(service.aditional_alarm.horario_automarcado=='' || service.aditional_alarm.horario_automarcado==undefined) && fServiceAlarmDetails.horario_automarcado.$touched,
 								}">
 					  	<label style="padding-left: 15px;">Horario Auto Armado</label>
@@ -206,14 +207,14 @@
 				    		</div>
 				    	</div>
 					</div>
-					<!-- assault user -->					  
+					<!-- assault user -->
 					<!--<div class="form-group col-md-12" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									service.aditional_alarm.n_usuario_asalto!='' && fServiceAlarmDetails.n_usuario_asalto.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.aditional_alarm.n_usuario_asalto=='' || service.aditional_alarm.profileUser==undefined) && fServiceAlarmDetails.n_usuario_asalto.$touched,
 								}"> -->
-					<div class="form-group col-md-12"> 
+					<div class="form-group col-md-12">
 					  	<label style="padding-left: 15px;">Numero de usuario asalto</label>
 					    <div class="col-xs-12">
 						    <div class="input-group">
@@ -222,14 +223,14 @@
 				    		</div>
 				    	</div>
 					</div>
-					<!-- assault password -->					  
+					<!-- assault password -->
 					<!-- <div class="form-group col-md-12" ng-class="
-								{	'has-success': 
+								{	'has-success':
 									service.aditional_alarm.contrasena_asalto!='' && fServiceAlarmDetails.contrasena_asalto.$valid,
-								 	'has-error':  
+								 	'has-error':
 									(service.aditional_alarm.contrasena_asalto=='' || service.aditional_alarm.contrasena_asalto==undefined) && fServiceAlarmDetails.contrasena_asalto.$touched,
 								}"> -->
-					<div class="form-group col-md-12"> 
+					<div class="form-group col-md-12">
 					  	<label style="padding-left: 15px;">Contraseña de asalto</label>
 					    <div class="col-xs-12">
 						    <div class="input-group">
@@ -240,7 +241,7 @@
 					</div>
 					<!-- Contact fields -->
 					<div class="form-group col-md-12"> <h3 class="col-md-offset-3">DATOS DE CONTACTO</h3></div>
-					<div class="form-group col-md-12"> 
+					<div class="form-group col-md-12">
 					  	<label style="padding-left: 15px;">Comisaria</label>
 					    <div class="col-xs-12">
 						    <div class="input-group">
@@ -249,7 +250,7 @@
 				    		</div>
 				    	</div>
 					</div>
-					<div class="form-group col-md-12"> 
+					<div class="form-group col-md-12">
 					  	<label style="padding-left: 15px;">Telefono de comisaria</label>
 					    <div class="col-xs-12">
 						    <div class="input-group">
@@ -258,7 +259,7 @@
 				    		</div>
 				    	</div>
 					</div>
-					<div class="form-group col-md-12"> 
+					<div class="form-group col-md-12">
 					  	<label style="padding-left: 15px;">Servicio de emergencia medica</label>
 					    <div class="col-xs-12">
 						    <div class="input-group">
@@ -267,7 +268,7 @@
 				    		</div>
 				    	</div>
 					</div>
-					<div class="form-group col-md-12"> 
+					<div class="form-group col-md-12">
 					  	<label style="padding-left: 15px;">Numero de socio</label>
 					    <div class="col-xs-12">
 						    <div class="input-group">
@@ -276,7 +277,7 @@
 				    		</div>
 				    	</div>
 					</div>
-					<div class="form-group col-md-12"> 
+					<div class="form-group col-md-12">
 					  	<label style="padding-left: 15px;">Plan</label>
 					    <div class="col-xs-12">
 						    <div class="input-group">
@@ -284,14 +285,14 @@
 				    			<input name="plan" type="text" class="form-control" ng-model="service.aditional_alarm.plan" />
 				    		</div>
 				    	</div>
-					</div>						
+					</div>
 					<div class="col-md-12" style="padding-bottom: 10px;" ng-include="'views/services/new/components/Alarm/comp_peopleGetNotice.html'"></div>
-					<div class="col-md-12" style="padding-bottom: 10px;" ng-include="'views/services/new/components/Alarm/comp_peopleVerifyPlace.html'"></div>
+					<!-- <div class="col-md-12" style="padding-bottom: 10px;" ng-include="'views/services/new/components/Alarm/comp_peopleVerifyPlace.html'"></div>-->
 					<!-- Observaciones Generales -->
 					<div class="form-group col-md-12">
-					  <label class="col-xs-12" >Observaciones Generales</label> 
-							<textarea style="resize: none;" name="observacion_general" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="service.aditional_alarm.observacion_general" ></textarea>							
-					</div>					
+					  <label class="col-xs-12" >Observaciones Generales</label>
+							<textarea style="resize: none;" name="observacion_general" rows="3" placeholder="indique las Observaciones." class="form-control" ng-model="service.aditional_alarm.observacion_general" ></textarea>
+					</div>
 				</form>
 			</div>
 			<!-- Actions Button -->
@@ -309,4 +310,4 @@
             </div>
 		</div>
 	</div>
-</div>				
+</div>

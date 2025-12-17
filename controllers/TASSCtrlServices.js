@@ -521,6 +521,46 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.setTokenCompletedFn($scope.token_param.token.tokenCode);
                         }, 2000);
                     break;
+                    case "getUsersByLicense":
+                        $scope.service.sysUser.selected = undefined;
+                        $scope.service.users.idUser = "";
+                        $scope.service.users.fullName = "";
+                        $scope.service.users.email = "";
+                        $scope.service.users.phone = "";
+                        $scope.service.users.nameProfile = "";
+                        $scope.rsList={'sysUsers':[]};
+                        console.log($scope.rsList);
+                        console.log(cObj);
+                        var idDetinationOfLicenseFk = cObj.users.idDetinationOfLicenseFk
+                        var idDepartmentSelected    = cObj.users.idDetinationOfLicenseFk=="1"?cObj.license_departments.selected.idDepto:"";
+                        var idClientKf              = $scope.customerFound.idClient;
+                        var userByLicense = {
+                            "idDetinationOfLicenseFk":idDetinationOfLicenseFk,
+                            "idDepartmentSelected": idDepartmentSelected,
+                            "idClientKf": idClientKf,
+                            "idUserSelected": ""
+                        }
+                        console.log(userByLicense);
+                        $scope.getUsersByLicenseFn(userByLicense);
+                    break;
+                    case "getUsersForAttByClient":
+                        $scope.service.aditional_alarm.sysUser={'selected': undefined};
+                        $scope.service.aditional_alarm.telefono         = "";
+                        $scope.rsList={'sysUsers':[]};
+                        console.log($scope.rsList);
+                        console.log(cObj);
+                        console.log("$scope.customerFound.idClient: "+$scope.customerFound.idClient);
+                        $scope.getUsersByClientFn($scope.customerFound.idClient);
+                    break;
+                    case "getUsersForNoticeByClient":
+                        $scope.service.aditional_alarm.sysPeopleNoticeUser={'selected': undefined};
+                        $scope.service.aditional_alarm.telefono         = "";
+                        $scope.rsList={'sysUsers':[]};
+                        console.log($scope.rsList);
+                        console.log(cObj);
+                        console.log("$scope.customerFound.idClient: "+$scope.customerFound.idClient);
+                        $scope.getUsersByClientFn($scope.customerFound.idClient);
+                    break;
                 }
             break;
             case "general":
@@ -1062,15 +1102,15 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             switch ($scope.swMenu){
                             case "removeu":
                                 if (confirm==0){
-                                    if ($scope.sessionidProfile==1 && obj.idUser!=0){
-                                    if (obj.idProfileKf){$scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Eliminado.     Confirmar?";}
-                                        $scope.idUserKf   =  obj.idUser;
-                                        $scope.argObj = obj;
-                                        console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
-                                        console.log("============================================================================")
-                                        console.log($scope.argObj);
-                                    }
-                                $('#confirmRequestModal').modal('toggle');
+                                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idProfiles!=0){
+                                        if (obj.idProfileKf){$scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Eliminado.     Confirmar?";}
+                                            $scope.idUserKf   =  obj.idUser;
+                                            $scope.argObj = obj;
+                                            console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
+                                            console.log("============================================================================")
+                                            console.log($scope.argObj);
+                                        }
+                                    $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.deleteUser($scope.argObj);
                                 $('#confirmRequestModal').modal('hide');
@@ -1078,7 +1118,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "removeSysProf":
                                 if (confirm==0){
-                                    if ($scope.sessionidProfile==1 && obj.idProfiles!=0){
+                                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idProfiles!=0){
                                     $scope.idSysProf = obj.idProfiles;
                                     $scope.mess2show="El Perfil "+obj.name+" sera Eliminado.     Confirmar?";
                                         console.log('Usuario a eliminar ID: '+obj.idProfiles+' BAJO EL NOMBRE: '+obj.name);
@@ -1093,7 +1133,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "removeProduct":
                                 if (confirm==0){
-                                    if ($scope.sessionidProfile==1 && obj.idProduct!=0){
+                                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idProfiles!=0){
                                     $scope.idProducto = obj.idProduct;
                                     $scope.mess2show="El Producto "+obj.descriptionProduct+" sera Eliminado.     Confirmar?";
                                         console.log('Producto a eliminar ID: '+obj.idProduct+' DESCRIPCION: '+obj.descriptionProduct);
@@ -1303,15 +1343,15 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             break;
                             case "updateSysUser":
                                 if (confirm==0){
-                                    if ($scope.sessionidProfile==1 && obj.idUser!=0){
-                                    if (obj.idProfileKf){$scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Actualizado.     Confirmar?";}
-                                        $scope.idUserKf   =  obj.idUser;
-                                        $scope.argObj = obj;
-                                        console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
-                                        console.log("============================================================================")
-                                        console.log($scope.argObj);
-                                    }
-                                $('#confirmRequestModal').modal('toggle');
+                                    if ($scope.sysLoggedUser.idProfileKf==1 && obj.idUser!=0){
+                                        if (obj.idProfileKf){$scope.mess2show="El usuario ("+obj.fullNameUser+") bajo el perfil de "+obj.nameProfile+" sera Actualizado.     Confirmar?";}
+                                            $scope.idUserKf   =  obj.idUser;
+                                            $scope.argObj = obj;
+                                            console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
+                                            console.log("============================================================================")
+                                            console.log($scope.argObj);
+                                        }
+                                    $('#confirmRequestModal').modal('toggle');
                                 }else if (confirm==1){
                                     $scope.sysUpdateUserFn($scope.argObj);
                                 $('#confirmRequestModal').modal('hide');
@@ -2909,6 +2949,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             $scope.service.new.contractNumb     = $scope.rsContractServiceData.numeroContrato;
                                             $scope.service.new.idTipeServiceFk  = $scope.rsContractServiceData.services[0].idServiceType;
                                             $scope.service.new.idServiceType    = $scope.service.new.idTipeServiceFk;
+                                            $scope.service.idApplicationFk      = "2"
                                             $scope.service.new.numbOfLicence    = 0;
                                             // Convertir la cadena a un objeto Date usando Moment-Timezone
                                             var current_date = new Date()
@@ -3472,6 +3513,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     $scope.getAlarmServiceAditionalsListFn();
                                     $scope.getTypeConnectionListFn();
                                     $scope.getTransmissionFormatListFn();
+                                    $scope.switchCustomersFn('services', service, 'getUsersForAttByClient', '');
                                     $timeout(function() {
                                         $scope.service.update.idContratoFk          = service.idContracAssociated_SE;
                                         $scope.service.update.numeroContrato        = service.idContracAssociated_SE_array[0].numeroContrato;
@@ -3562,12 +3604,12 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             //ATTENDANT SELETECTED
                                             if (service.tb_datos_adicionales_alarmas_array[0].fk_idEncargado!=null && service.tb_datos_adicionales_alarmas_array[0].fk_idEncargado!=''){
                                                 $scope.service.isSysUser=true;
-                                                for (var key in $scope.rsList.clientUser){
-                                                if (service.tb_datos_adicionales_alarmas_array[0].fk_idEncargado==$scope.rsList.clientUser[key].idUser){
-                                                    $scope.service.aditional_alarm.sysUser.selected=$scope.rsList.clientUser[key];
-                                                    //console.log($scope.service.aditional_alarm.sysUser.selected);
-                                                    break;
-                                                }
+                                                for (var key in $scope.rsList.sysUsers){
+                                                    if (service.tb_datos_adicionales_alarmas_array[0].fk_idEncargado==$scope.rsList.sysUsers[key].idUser){
+                                                        $scope.service.aditional_alarm.sysUser.selected=$scope.rsList.sysUsers[key];
+                                                        //console.log($scope.service.aditional_alarm.sysUser.selected);
+                                                        break;
+                                                    }
                                                 }
                                             }
                                             //ADITIONAL SERVICES ASOCIATED
@@ -3952,6 +3994,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             }
                         break;
                         case "userLicense":
+                            $scope.isCollapsed                        = true;
                             $scope.service.list=service;
                             $timeout(function() {
                                     $scope.service.idClientTypeFk             = $scope.customerFound.idClientTypeFk;
@@ -6194,6 +6237,31 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
 
                     }
                 /***********************************
+                *         GET USER BY LICENCE      *
+                ************************************/
+                    $scope.getUsersByLicenseFn = function(obj){
+                        serviceServices.getUsersByLicense(obj).then(function(data){
+                            if(data.status==200){
+                                $scope.rsList.sysUsers = data.data;
+                            }else{
+                                $scope.rsList.sysUsers = [];
+                            }
+                        });
+                    };
+                /***********************************
+                *         GET USER BY Client      *
+                ************************************/
+                    $scope.getUsersByClientFn = function(obj){
+                        serviceServices.getUsersByClient(obj).then(function(response){
+                            console.log(response);
+                            if(response.status==200){
+                                $scope.rsList.sysUsers = response.data.data;
+                            }else{
+                                $scope.rsList.sysUsers = [];
+                            }
+                        });
+                    };
+                /***********************************
                 *    SOURCE LICENCE DESTINATION    *
                 ************************************/
                     $scope.rsDestinationLicenceListData = {};
@@ -6268,7 +6336,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.list_company_user_licence = [];
                     $scope.list_particular_user_licence = [];
                     $scope.processUserLicenceFn = function(obj, opt){
-                        //console.log(obj);
+                        console.log(obj);
                         if (!$scope.service.isUserLicenceEdit && (obj.idUser!=undefined || obj.idUser!=null) && ($scope.rsJsonUser.phoneNumberUser!=obj.phone)){
                             $scope.rsJsonUser.phoneNumberUser=$scope.service.users.phone;
                             $scope.modalConfirmation('updateSysUser', 0, $scope.rsJsonUser);
@@ -6276,9 +6344,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.rsJsonUser.phoneNumberUser=$scope.service.users.phone;
                             $scope.modalConfirmation('updateSysUser', 0, $scope.rsJsonUser);
                         }else if ($scope.service.isUserLicenceEdit && (obj.idUser==undefined || obj.idUser==null) && $scope.userLicenceSelected.phone!=obj.phone){
-                            for (var usr in $scope.rsList.clientUser){
-                                if ($scope.rsList.clientUser[usr].idUser == obj.idUserFk){
-                                $scope.modalConfirmation('updateSysUser', 0, $scope.rsList.clientUser[usr]);
+                            for (var usr in $scope.rsList.sysUsers){
+                                if ($scope.rsList.sysUsers[usr].idUser == obj.idUserFk){
+                                $scope.modalConfirmation('updateSysUser', 0, $scope.rsList.sysUsers[usr]);
                                 break;
                                 }
                             }
@@ -6787,26 +6855,37 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 /***********************************
                 *     REMOVE PEOPLE DATA DETAILS   *
                 ************************************/
-                    $scope.removeServicePeopleUserDetailsFn=function(obj){
-                        switch (obj.opt){
-                        case "getnotice":
-                            var objItem             = $scope.list_people_notice;
-                            var arrItem             = objItem.map(function(i){return i.id;});
-                            var indexItem           = arrItem.indexOf(obj.fk_idUserSystema);
-                            $scope.list_people_notice.splice(indexItem, 1);
-                        break;
-                        case "verifyplace":
-                            var objItem             = $scope.list_people_verify;
-                            var arrItem             = objItem.map(function(i){return i.id;});
-                            var indexItem           = arrItem.indexOf(obj.fk_idUserSystema);
-                            $scope.list_people_verify.splice(indexItem, 1);
-                        break;
+                    $scope.removeServicePeopleUserDetailsFn = function (obj) {
+
+                        let list;
+
+                        switch (obj.opt) {
+                            case "getnotice":
+                                list = $scope.list_people_notice;
+                                break;
+
+                            case "verifyplace":
+                                list = $scope.list_people_verify;
+                                break;
+
+                            default:
+                                return;
                         }
 
-                        inform.add("Persona de contacto: "+obj.nombre_apellido+" ha sido removido correctamente.",{
-                            ttl:5000, type: 'success'
-                        });
-                    }
+                        const index = list.findIndex(item => item.id === obj.id);
+
+                        if (index === -1) {
+                            console.warn('No se encontró el elemento a eliminar', obj);
+                            return;
+                        }
+
+                        list.splice(index, 1);
+
+                        inform.add(
+                            "Persona de contacto: " + obj.nombre_apellido + " ha sido removido correctamente.",
+                            { ttl: 5000, type: 'success' }
+                        );
+                    };
                 /***********************************
                 *     LOAD USER PHONE NUMBER       *
                 ************************************/

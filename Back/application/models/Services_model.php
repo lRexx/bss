@@ -1821,6 +1821,8 @@ class Services_model extends CI_Model
                 "companyMonitor" => $item['companyMonitor'],
                 "numberPay" => $item['numberPay'],
                 "installationPassword" => $item['installationPassword'],
+                "masterUserPassword" => @$item['masterUserPassword'],
+                "userPassword1ForDisabling" => @$item['userPassword1ForDisabling'],
                 "panelAlarm" => $item['panelAlarm'],  //producto
                 "keyboardAlarm" => $item['keyboardAlarm'], //producto
                 "countZoneIntaled" => $item['countZoneIntaled'],
@@ -1885,6 +1887,8 @@ class Services_model extends CI_Model
                 "companyMonitor" => $item['companyMonitor'],
                 "numberPay" => $item['numberPay'],
                 "installationPassword" => $item['installationPassword'],
+                "masterUserPassword" => @$item['masterUserPassword'],
+                "userPassword1ForDisabling" => @$item['userPassword1ForDisabling'],
                 "panelAlarm" => $item['panelAlarm'],     //producto
                 "keyboardAlarm" => $item['keyboardAlarm'],  //producto
                 "countZoneIntaled" => $item['countZoneIntaled'],
@@ -2370,6 +2374,194 @@ class Services_model extends CI_Model
         }
         return null;
 
+    }
+    public function processDestination($idDetinationOfLicenseFk, $idDepartmentSelected, $idClientKf, $idUserSelected)
+    {
+
+        switch ($idDetinationOfLicenseFk) {
+
+            // ---------------------------------------------------------
+            // 1️⃣ OPCIÓN 1 → PROPIETARIO / HABITANTE
+            // ---------------------------------------------------------
+            case 1:
+                return $this->getUsersForOwner($idDepartmentSelected);
+
+
+            // ---------------------------------------------------------
+            // 2️⃣ OPCIÓN 2 → PERSONAL DEL EDIFICIO (perfil 6)
+            // ---------------------------------------------------------
+            case 2:
+                return $this->getUsersForBuildingStaff($idClientKf);
+
+
+            // ---------------------------------------------------------
+            // 3️⃣ OPCIÓN 3 → ADMINISTRACIÓN (perfil 4)
+            // ---------------------------------------------------------
+            case 3:
+                return $this->getUsersForAdmin($idClientKf);
+
+            default:
+                return array("error" => "Invalid idDetinationOfLicenseFk");
+        }
+    }
+
+
+    // ============================================================
+    // JOIN BASE USADO EN TODOS LOS QUERIES
+    // ============================================================
+    private function buildUserJoinQuery()
+    {
+        $this->db->from("tb_user as t1");
+        $this->db->join('tb_profile', 'tb_profile.idProfile = t1.idProfileKf', 'left');
+        $this->db->join('tb_profiles', 'tb_profiles.idProfiles = t1.idSysProfileFk', 'left');
+        $this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = t1.idDepartmentKf', 'left');
+        $this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
+        $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = t1.idTypeTenantKf', 'left');
+        $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = t1.idTyepeAttendantKf', 'left');
+        $this->db->join('tb_status', 'tb_status.idStatusTenant = t1.idStatusKf', 'left');
+    }
+
+    // ============================================================
+    // 🔹 OPCIÓN 1
+    // ============================================================
+    private function getUsersForOwner($idDepartmentSelected)
+    {
+        $this->db->select("t1.*,
+                        tb_profile.nameProfile as nameProfile,
+                        tb_profiles.name as sysProfileName,
+                        tb_category_departament.categoryDepartament,
+                        tb_client_departament.*,
+                        tb_typetenant.typeTenantName,
+                        tb_type_attendant.nameTypeAttendant,
+                        tb_status.statusTenantName");
+
+        $this->buildUserJoinQuery();
+
+        // Filtro: solo usuarios activos
+        $this->db->where("t1.idStatusKf !=", -1);
+
+        // Asociación directa o indirecta al departamento
+        $this->db->group_start();
+        $this->db->where('t1.idDepartmentKf', $idDepartmentSelected);
+        $this->db->or_where('t1.idUser IN (SELECT idUserKf
+                                        FROM tb_client_departament
+                                        WHERE idClientDepartament = ' . $this->db->escape($idDepartmentSelected) . ')');
+        $this->db->group_end();
+
+        return $this->db->get()->result_array();
+    }
+
+    // ============================================================
+    // 🔹 OPCIÓN 2
+    // ============================================================
+    private function getUsersForBuildingStaff($idClientKf)
+    {
+        $this->db->select("t1.*,
+                        tb_profile.nameProfile as nameProfile,
+                        tb_profiles.name as sysProfileName,
+                        tb_category_departament.categoryDepartament,
+                        tb_client_departament.*,
+                        tb_typetenant.typeTenantName,
+                        tb_type_attendant.nameTypeAttendant,
+                        tb_status.statusTenantName");
+
+        $this->buildUserJoinQuery();
+
+        $this->db->where("t1.idStatusKf !=", -1);   // usuario activo
+        $this->db->where('t1.idProfileKf', 6);  // personal del edificio
+        $this->db->where('t1.idAddresKf', $idClientKf);
+
+        return $this->db->get()->result_array();
+    }
+
+    // ============================================================
+    // 🔹 OPCIÓN 3
+    // ============================================================
+    private function getUsersForAdmin($idClientKf)
+    {
+        $this->db->select("t1.*,
+                        tb_profile.nameProfile as nameProfile,
+                        tb_profiles.name as sysProfileName,
+                        tb_typetenant.typeTenantName,
+                        tb_type_attendant.nameTypeAttendant,
+                        tb_status.statusTenantName");
+
+        $this->buildUserJoinQuery();
+
+        $this->db->where("t1.idStatusKf !=", -1);   // usuario activo
+        $this->db->where('t1.idProfileKf', 4);  // administración
+        $this->db->where('t1.idCompanyKf', $idClientKf);
+
+        return $this->db->get()->result_array();
+    }
+
+    public function getUsersByClient(int $idClient)
+    {
+        $this->db->select("
+            t1.*,
+            tb_profile.nameProfile,
+            tb_profiles.name AS sysProfileName,
+            tb_status.statusTenantName,
+            tb_typetenant.typeTenantName,
+            tb_type_attendant.nameTypeAttendant,
+            tb_category_departament.categoryDepartament,
+            tb_client_departament.idClientDepartament
+        ");
+
+        $this->buildUserJoinQuery();
+
+        // Solo usuarios activos
+        $this->db->where('t1.idStatusKf !=', -1);
+
+        /*
+        |--------------------------------------------------------------------------
+        | RELACIONES POR CLIENTE
+        |--------------------------------------------------------------------------
+        | 1️⃣ Administración (perfil 4) → idCompanyKf
+        | 2️⃣ Personal edificio (perfil 6) → idAddresKf
+        | 3️⃣ Owner / Habitante (perfil 3 y 5) → departamentos del cliente
+        |--------------------------------------------------------------------------
+        */
+
+        $this->db->group_start();
+
+        // 1️⃣ Administración
+        $this->db->group_start();
+        $this->db->where('t1.idProfileKf', 4);
+        $this->db->where('t1.idCompanyKf', $idClient);
+        $this->db->group_end();
+
+        // 2️⃣ Personal del edificio
+        $this->db->or_group_start();
+        $this->db->where('t1.idProfileKf', 6);
+        $this->db->where('t1.idAddresKf', $idClient);
+        $this->db->group_end();
+
+        // 3️⃣ Owner / Habitante (perfil 3 y 5)
+        $this->db->or_group_start();
+        $this->db->where('t1.idProfileKf', 3, 5);
+
+        // Asociación directa o indirecta al departamento del cliente
+        $this->db->group_start();
+        $this->db->where('tb_client_departament.idClientFk', $idClient);
+        $this->db->or_where('t1.idUser IN (
+                        SELECT cd.idUserKf
+                        FROM tb_client_departament cd
+                        WHERE cd.idClientFk = ' . (int) $idClient . '
+                    )');
+        $this->db->group_end();
+
+        $this->db->group_end();
+
+        $this->db->group_end();
+
+        $this->db->order_by('t1.fullNameUser', 'ASC');
+
+        $query = $this->db->get();
+
+        log_message('info', 'SQL getUsersByClient ejecutada: ' . $this->db->last_query());
+
+        return $query->result_array();
     }
 }
 

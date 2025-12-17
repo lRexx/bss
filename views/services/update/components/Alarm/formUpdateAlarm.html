@@ -219,8 +219,38 @@
 								<label style="padding-left: 15px;">Clave de Instalador</label>
 								<div class="col-xs-12">
 									<div class="input-group">
-										<span class="input-group-addon"><i class="fas fa-user-tie"></i></span>
+										<span class="input-group-addon"><i class="fas fa-key"></i></span>
 										<input name="service_installationPassword" type="text" class="form-control install-password-alarm" ng-keydown="fnLoadPhoneMask()" ng-model="service.update.installationPassword" ng-required="true" />
+									</div>
+								</div>
+							</div>
+							<!-- Master User Password -->
+							<div class="form-group col-md-6 n-padding-l" ng-class="
+									{	'has-success':
+										(service.update.masterUserPassword!='' && service.update.masterUserPassword!=null && service.update.masterUserPassword!=undefined) && fCustomerUpdateService.service_masterUserPassword.$valid,
+										'has-error':
+										(service.update.masterUserPassword=='' || service.update.masterUserPassword==null || service.update.masterUserPassword==undefined) && fCustomerUpdateService.service_masterUserPassword.$touched,
+									}">
+								<label style="padding-left: 15px;">Clave Usuario Maestro</label>
+								<div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-key"></i></span>
+										<input name="service_masterUserPassword" type="text" class="form-control install-password-alarm" ng-keydown="fnLoadPhoneMask()" ng-model="service.update.masterUserPassword" ng-required="true" />
+									</div>
+								</div>
+							</div>
+							<!-- User Password 1 for Disabling -->
+							<div class="form-group col-md-6 n-padding-l" ng-class="
+									{	'has-success':
+										(service.update.userPassword1ForDisabling!='' && service.update.userPassword1ForDisabling!=null && service.update.userPassword1ForDisabling!=undefined) && fCustomerUpdateService.service_userPassword1ForDisabling.$valid,
+										'has-error':
+										(service.update.userPassword1ForDisabling=='' || service.update.userPassword1ForDisabling==null || service.update.userPassword1ForDisabling==undefined) && fCustomerUpdateService.service_userPassword1ForDisabling.$touched,
+									}">
+								<label style="padding-left: 15px;">Clave Usuario 1 para Desactivaciones</label>
+								<div class="col-xs-12">
+									<div class="input-group">
+										<span class="input-group-addon"><i class="fas fa-key"></i></span>
+										<input name="service_userPassword1ForDisabling" type="text" class="form-control install-password-alarm" ng-keydown="fnLoadPhoneMask()" ng-model="service.update.userPassword1ForDisabling" ng-required="true" />
 									</div>
 								</div>
 							</div>
@@ -346,18 +376,18 @@
 						<div class="well-checkbox form-group col-md-6 n-padding-l n-padding-r" style="height: 262px;">
 		    				<!-- Connection Type -->
 				            <div class="form-group col-md-12 col-xs-12">
-				            	<div class="col-md-12 col-xs-12"><label class="clf-size clf-p-left">Tipo de Conexion remoto</label></div>
+				            	<div class="col-md-12 col-xs-12"><label class="clf-size clf-p-left">Modulo de Comunicación</label></div>
 				            	<div ng-repeat="type in rsTypeConnectionListData" class="col-md-12 col-xs-12" style="padding-top: 5%;">
-					            	<div class="col-md-2 col-xs-2 n-padding-r">
+					            	<div ng-if="type.idTipoConexionRemoto!='2'" class="col-md-2 col-xs-2 n-padding-r">
 										<label class="switch switch-2x" for="remoteConnectionType-{{type.idTipoConexionRemoto}}">
 						                    <input type="checkbox" class="success" ng-click="compServiceModuleConnectionDetailsFn(type.selected, type.idTipoConexionRemoto);" ng-model="type.selected" id="remoteConnectionType-{{type.idTipoConexionRemoto}}">
 						                    <span class="slider slider-2x flat"></span>
 						                </label>
 					                </div>
-					                <div class="col-md-7 col-xs-7 n-padding-l">
+					                <div ng-if="type.idTipoConexionRemoto!='2'" class="col-md-7 col-xs-7 n-padding-l">
 					                	<span>{{type.descripcion}}</span>
 					                </div>
-									<div ng-repeat="item in tipo_conexion_remoto" class="pull-right col-md-3">
+									<div ng-if="type.idTipoConexionRemoto!='2'" ng-repeat="item in tipo_conexion_remoto" class="pull-right col-md-3">
 										<button ng-if="item.idTipoConexionRemoto==type.idTipoConexionRemoto && type.selected" data-toggle="tooltip" data-placement="top" title="Ver" ng-disabled="type.idTipoConexionRemoto==''" ng-click="addServiceModuleConnectionDetailsFn(item, 'details', '')" class="btn btn-xs btn-warning"><i class="fas fa-external-link-alt"></i> Detalles</button>
 									</div>
 								</div>

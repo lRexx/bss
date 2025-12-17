@@ -1,5 +1,5 @@
 <!-- Licencias de Usuario -->
-<div id="serviceUserLicenseList" style="top: 130px;" class="modal fade modal-dialog-centered in" style="top: 130px;" role="dialog">
+<div id="serviceUserLicenseList" style="top: 130px;" class="modal fade modal-dialog-centered in" role="dialog">
     <div class="modal-dialog modal-lg" >
       <div class="modal-content">
             <div class="modal-header">
@@ -25,7 +25,7 @@
                 'label-warning':  service.numbOfLicenceRemains==1,
                 'label-danger':   service.numbOfLicenceRemains==0 }">{{service.numbOfLicenceRemains}}</label>
               </span>
-            </div>              
+            </div>
             <div class="col-md-3">
               <span ng-if="service.numbOfLicenceSet>0 && isCollapsed">
                 <label class="label label-default">Asignadas:&nbsp;</label>&nbsp;
@@ -54,17 +54,17 @@
             <!-- Licence Assigned to Departments -->
             <div ng-if="list_depto_user_licence.length>0" class="form-group col-md-12 n-padding-l n-padding-r" ng-class="{'margin-top-4em':list_company_user_licence.length>0}">
               <div class="col-md-12">
-                  <div class="panel panel-default padding-panel">
+                  <div class="panel panel-default">
                     <div class="panel-heading">
                         <h3 class="panel-title">
                           <div class="col-md-8" style="margin-top: 0.4em;">Licencias en departamentos</div>
                       <!-- Deparments for customer building -->
                         <div class="input-group col-md-4">
                           <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                          <select name="deparment_registered_list" 
+                          <select name="deparment_registered_list"
                               class="form-control input-sm"
-                              ng-change="search(service.idDepartmentList, '', true);"
-                              ng-options="item.idDepto as item.Depto for item in rsBuildingDepartmentsData" 
+                              ng-change="search(service.idDepartmentList, '', '', '', '', '', true);"
+                              ng-options="item.idDepto as item.Depto for item in rsBuildingDepartmentsData"
                               ng-required="false"
                               ng-model="service.idDepartmentList" autofocus >
                             <option value="">Filtrar por departamento</option>
@@ -76,7 +76,7 @@
                     <div ng-include="'views/services/list/userLicencesListByDepto.html'"></div>
                                 <!-- PAGINATION -->
                     <div ng-if="list_depto_user_licence.length>=7" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
-                                <!-- //PAGINATION -->                     
+                                <!-- //PAGINATION -->
                   </div>
                 </div>
               </div>
@@ -86,7 +86,7 @@
               </div>
             </div>
           </div>
-          <div class="clearfix"> </div> 
+          <div class="clearfix"> </div>
         </div>
         <div class="modal-footer">
             <div class="row">

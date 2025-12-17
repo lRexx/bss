@@ -1,6 +1,6 @@
 var moduleServiceServices = angular.module("services.Service", ["tokenSystem", "services.User"]);
 
-moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders', 
+moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders',
   function($http, tokenSystem, $timeout, serverHost, serverBackend, serverHeaders){
       var serviceResult=0;
       var rsJsonServices = {};
@@ -19,10 +19,10 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     rsJson=response.data;
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
           /*GET LIST OF ACCESS CONTROL DOORS */
           accessCtrlDoors: function() {
@@ -34,10 +34,10 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     rsJson=response.data;
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
           /*ADD A SERVICE */
           addService: function(data) {
@@ -61,7 +61,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
               break;
               case "6": //APP MONITOR
                 typeOfService="addsmartpanic";
-              break;              
+              break;
               default:
             }
               console.log("[Service Services]: new customer service ");
@@ -70,8 +70,8 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                 .then(function mySucess(response, status) {
                   rsJson=response;
                   return rsJson;
-                },function myError(response) { 
-                  console.log("Error: "+response); 
+                },function myError(response) {
+                  console.log("Error: "+response);
                   return response;
                 });
           },
@@ -97,7 +97,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
               break;
               case "6": //APP MONITOR
                 typeOfService="editSmartpanic";
-              break;              
+              break;
               default:
             }
               console.log("[Service Services]: update customer service ");
@@ -106,7 +106,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                 .then(function mySucess(response) {
                   return response;
                 }).catch(function onError(response) {
-                  console.log("Error: "+response); 
+                  console.log("Error: "+response);
                   return response;
                 });
           },
@@ -119,9 +119,9 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
           getServiceListByIdCustomer: function(idCustomer) {
             rsJson={};
@@ -132,9 +132,9 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
           getTechServiceList: function() {
             rsJson={};
@@ -145,7 +145,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
             });
           },
@@ -157,7 +157,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
             });
           },
@@ -169,7 +169,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
             });
           },
@@ -181,7 +181,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
             });
           },
@@ -191,7 +191,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
               .then(function mySucess(response) {
                  return response;
             }).catch(function onError(response) {
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                  return response;
             });
           },
@@ -202,7 +202,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
               .then(function mySucess(response) {
                  return response;
             }).catch(function onError(response) {
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                  return response;
             });
           },
@@ -212,7 +212,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
               .then(function mySucess(response) {
                  return response;
             }).catch(function onError(response) {
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                  return response;
             });
           },
@@ -223,7 +223,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
               .then(function mySucess(response) {
                  return response;
             }).catch(function onError(response) {
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                  return response;
             });
           },
@@ -235,7 +235,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
             });
           },
@@ -245,7 +245,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
               .then(function mySucess(response) {
                  return response;
             }).catch(function onError(response) {
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                  return response;
             });
           },
@@ -258,10 +258,10 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
             });
-          }, 
+          },
 
           checkServicesAssociatedByService: function(id) {
             console.log("[Service][checkTicketsActiveByService]: Get Ticket Active related By Service ID");
@@ -271,7 +271,7 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
             });
           },
@@ -283,9 +283,31 @@ moduleServiceServices.service("serviceServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
             });
-          }, 
+          },
+          getUsersByLicense: function(data) {
+            console.log("[Service][getUsersByLicense] ");
+            return $http.post(serverHost+serverBackend+"services/getUsersByLicense",data, serverHeaders)
+              .then(function mySucess(response) {
+                 return response;
+            }).catch(function onError(response) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                 return response;
+            });
+          },
+          getUsersByClient: function(id) {
+            console.log("[Service][usersByClient] ");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"services/usersByClient/"+id
+                  }).then(function mySuccess(response) {
+                    return response;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+            });
+          },
       }
 }]);
