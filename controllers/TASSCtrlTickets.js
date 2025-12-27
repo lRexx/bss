@@ -4928,20 +4928,20 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }
                             }else if (obj.delivery.idTypeDeliveryKf=="2"){
                                 $scope.new.ticket.idDeliveryTo              = obj.delivery.idDeliveryTo;
-                                if (obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==1){
+                                if (obj.delivery.whoPickUp!=null && obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==1){
                                     $scope.new.ticket.idWhoPickUp           = "1";
                                     $scope.new.ticket.otherDeliveryAddress  = {'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
                                     $scope.new.ticket.thirdPersonDelivery   = {'fullName':null, 'movilPhone':null, 'address':null,'number':null,'floor':null, 'idProvinceFk':null, 'idLocationFk':null};
                                     $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
                                     $scope.new.ticket.idDeliveryAddress     = obj.building.idClient;
-                                }else if(obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==2){
+                                }else if(obj.delivery.whoPickUp!=null && obj.delivery.whoPickUp.id==undefined && obj.delivery.idDeliveryTo==2){
                                     $scope.new.ticket.idWhoPickUp           = 1;
                                     $scope.new.ticket.otherDeliveryAddress  = {'address':obj.delivery.otherAddress.streetName,'number':obj.delivery.otherAddress.streetNumber,'floor':obj.delivery.otherAddress.floor+"-"+obj.delivery.otherAddress.department, 'idProvinceFk':obj.delivery.otherAddress.province.selected.idProvince, 'idLocationFk':obj.delivery.otherAddress.location.selected.idLocation};
                                     $scope.new.ticket.idUserDelivery        = obj.delivery.whoPickUp.idUser;
-                                }else if(obj.delivery.whoPickUp.id==2 && obj.delivery.idDeliveryTo==null){
+                                }else if(obj.delivery.whoPickUp!=null && obj.delivery.whoPickUp.id==2 && obj.delivery.idDeliveryTo==null){
                                     $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
                                     $scope.new.ticket.idUserDelivery        = obj.delivery.deliveryTo.idUser;
-                                }else if(obj.delivery.whoPickUp.id==3 && obj.delivery.idDeliveryTo==null){
+                                }else if(obj.delivery.whoPickUp!=null && obj.delivery.whoPickUp.id==3 && obj.delivery.idDeliveryTo==null){
                                     $scope.new.ticket.idWhoPickUp           = obj.delivery.whoPickUp.id;
                                     $scope.new.ticket.thirdPersonDelivery   = {'fullName':obj.delivery.thirdPerson.fullNameUser, 'movilPhone':obj.delivery.thirdPerson.movilPhone, 'dni':obj.delivery.thirdPerson.dni, 'address':obj.delivery.thirdPerson.streetName,'number':obj.delivery.thirdPerson.streetNumber,'floor':obj.delivery.thirdPerson.floor+"-"+obj.delivery.thirdPerson.department, 'idProvinceFk':obj.delivery.thirdPerson.province.selected.idProvince, 'idLocationFk':obj.delivery.thirdPerson.location.selected.idLocation};
                                 }
