@@ -5128,7 +5128,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $timeout(function() {
                             $scope.addDownRequestFn($scope.new);
                         }, 2000);
-
                     break;
                     case "linkMP": // Payment Link Mercado Pago
                         console.log("---------------------------------------");
