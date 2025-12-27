@@ -4669,6 +4669,26 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }else if (obj.radioButtonBuilding!=undefined && (obj.radioButtonBuilding!='1' && obj.radioButtonBuilding!='2')){
                                 $scope.new.ticket.mail +='<td align="left" valign="middle">Personal del Edificio</td>';
                             }
+                            if (obj.optionTypeSelected.name=='department'){
+                                $scope.new.ticket.mail +='</tr><tr><td align="center" valign="middle" style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Razón / Motivo</td>';
+                                if (obj.reason=='1'){
+                                    $scope.new.ticket.mail +='<td colspan="3" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'<span style="font-size: 0.7vw; background-color:#f2dede;border-color: #ebccd1 !important;color: #a94442 !important; border-radius: 10px; padding: 3px 7px;"><strong>IMPORTANTE: </strong>Si sufrio un robo, por motivos de seguridad comuniquese a nuestro telefono de urgencias <a href="tel:0800">0800-BSS</a></span></td>';
+                                }else if (obj.reason=='3'){
+                                    $scope.new.ticket.mail +='<td colspan="3" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'<span style="font-size: 0.7vw; background-color:#b8c3d2;border-color: #b8c3d2 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><strong>Información: </strong>BSS se pondra en contacto para informarle si el llavero se encuentra en garantía.</span></td>';
+                                }else{
+                                    $scope.new.ticket.mail +='<td colspan="4" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'</td>';
+                                }
+                            }
+                            if (obj.optionTypeSelected.name=='building'){
+                                $scope.new.ticket.mail +='<td align="center" valign="middle" style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Razón / Motivo</td>';
+                                if (obj.reason=='1'){
+                                    $scope.new.ticket.mail +='<td colspan="3" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'<span style="font-size: 0.7vw; background-color:#f2dede;border-color: #ebccd1 !important;color: #a94442 !important; border-radius: 10px; padding: 3px 7px;"><strong>IMPORTANTE: </strong>Si sufrio un robo, por motivos de seguridad comuniquese a nuestro telefono de urgencias <a href="tel:0800">0800-BSS</a></span></td>';
+                                }else if (obj.reason=='3'){
+                                    $scope.new.ticket.mail +='<td colspan="4" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'<span style="font-size: 0.7vw; background-color:#b8c3d2;border-color: #b8c3d2 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><strong>Información: </strong>BSS se pondra en contacto para informarle si el llavero se encuentra en garantía.</span></td>';
+                                }else{
+                                    $scope.new.ticket.mail +='<td colspan="4" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'</td>';
+                                }
+                            }
                             $scope.new.ticket.mail +='</tr></tbody>';
                             $scope.new.ticket.mail += '<tbody><tr><td align="center" valign="middle" colspan="4" style="background:#427a9d;color:white; padding:0.4%">Detalles - Dirección</td></tr>';
                             $scope.new.ticket.mail += '<tr><td align="center" valign="middle" style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Administracíon</td>';
@@ -4726,9 +4746,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.mail += '<tbody><tr><td align="center" valign="middle" colspan="4" style="background:#427a9d;color:white; padding:0.4%">Detalles del Envío</td></tr>';
                                     $scope.new.ticket.mail +='<tr><td align="center" valign="middle" style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff; padding-left: 0.4%">Método</td>';
                                     if (obj.delivery.idTypeDeliveryKf=='1'){
-                                        $scope.new.ticket.mail += '<td align="left" style="width: 40%;" valign="middle">Retiro en Oficina</td>';
+                                        $scope.new.ticket.mail += '<td align="left" style="width: 40%;" valign="middle">Proceso interno</td>';
                                     }else if (obj.delivery.idTypeDeliveryKf=='2'){
-                                        $scope.new.ticket.mail +='<td align="left" style="width: 40%;" valign="middle">Entrega en Domicilio ';
+                                        $scope.new.ticket.mail +='<td align="left" style="width: 40%;" valign="middle">Proceso interno ';
                                         if (obj.delivery.whoPickUp!=undefined && obj.delivery.whoPickUp!=null && ((obj.delivery.idTypeDeliveryKf==2 && obj.delivery.idDeliveryTo==1) || (obj.delivery.idTypeDeliveryKf==2 && obj.delivery.whoPickUp.id==2))){
                                             $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>Asociado</b></span>';
                                         }else if((obj.optionTypeSelected.name=='building' || obj.optionTypeSelected.name=='department') && obj.radioButtonBuilding==1 && obj.delivery.idTypeDeliveryKf==2 && (obj.delivery.idDeliveryTo==1 || obj.delivery.whoPickUp.id==2)){
@@ -4744,9 +4764,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;text-transform: uppercase;"><b>'+obj.delivery.thirdPerson.streetName+' '+obj.delivery.thirdPerson.streetNumber+'</b></span>';
                                         }
                                         $scope.new.ticket.mail +='</td>';
-                                    }
-                                    if (obj.delivery.idTypeDeliveryKf!=null && obj.delivery.deliveryTo==null){
-                                        $scope.new.ticket.mail += '<td align="left" style="width: 40%;" valign="middle">Proceso interno</td>';
                                     }
                                     if (obj.delivery.idTypeDeliveryKf!=null && obj.delivery.deliveryTo!=null){
                                         if (obj.delivery.idTypeDeliveryKf=='1'){
