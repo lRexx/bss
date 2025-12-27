@@ -4672,11 +4672,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             if (obj.optionTypeSelected.name=='department'){
                                 $scope.new.ticket.mail +='</tr><tr><td align="center" valign="middle" style="width: 15%; background-color: #b8c3d2;font-size: 1vw;color: #fff;padding-left: 0.4%">Razón / Motivo</td>';
                                 if (obj.reason=='1'){
-                                    $scope.new.ticket.mail +='<td colspan="3" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'<span style="font-size: 0.7vw; background-color:#f2dede;border-color: #ebccd1 !important;color: #a94442 !important; border-radius: 10px; padding: 3px 7px;"><strong>IMPORTANTE: </strong>Si sufrio un robo, por motivos de seguridad comuniquese a nuestro telefono de urgencias <a href="tel:0800">0800-BSS</a></span></td>';
+                                    $scope.new.ticket.mail +='<td colspan="3" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+ '&nbsp<span style="font-size: 0.7vw; background-color:#f2dede;border-color: #ebccd1 !important;color: #a94442 !important; border-radius: 10px; padding: 3px 7px;"><strong>IMPORTANTE: </strong>Si sufrio un robo, por motivos de seguridad comuniquese a nuestro telefono de urgencias <a href="tel:0800">0800-BSS</a></span></td>';
                                 }else if (obj.reason=='3'){
-                                    $scope.new.ticket.mail +='<td colspan="3" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'<span style="font-size: 0.7vw; background-color:#b8c3d2;border-color: #b8c3d2 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><strong>Información: </strong>BSS se pondra en contacto para informarle si el llavero se encuentra en garantía.</span></td>';
+                                    $scope.new.ticket.mail +='<td colspan="3" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+ '&nbsp<span style="font-size: 0.7vw; background-color:#b8c3d2;border-color: #b8c3d2 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><strong>Información: </strong>BSS se pondra en contacto para informarle si el llavero se encuentra en garantía.</span></td>';
                                 }else{
-                                    $scope.new.ticket.mail +='<td colspan="4" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+'</td>';
+                                    $scope.new.ticket.mail +='<td colspan="4" align="left" valign="middle">'+obj.reason_details.reasonDisabledItem+ '&nbsp</td>';
                                 }
                             }
                             if (obj.optionTypeSelected.name=='building'){

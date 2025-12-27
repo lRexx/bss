@@ -651,7 +651,7 @@
 									</tr>
 								</tbody>
 								<!-- PAYMENT METHOD -->
-								<tbody ng-if="ticket.cost.service!=null && ticket.cost.service!=undefined && ticket.cost.service>0">
+								<tbody ng-if="ticket.cost.service!=null && ticket.cost.service!=undefined && ticket.cost.service!='0'">
 									<tr>
 										<td colspan="10" style="background-color: #f2f2f2;font-size: 18px;">Metodo de Pago</td>
 									</tr>
