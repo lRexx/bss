@@ -1,4 +1,4 @@
-<!-- USER REQUEST KEY DOWN FORM  rukeydown=Register Key Down--> 
+<!-- USER REQUEST KEY DOWN FORM  rukeydown=Register Key Down-->
 <div class="panel panel-default">
 	<div class="panel-heading">
 		<h3 class="panel-title"><i class="product-success fas fa-file-download">&nbsp</i>BAJA DE LLAVE - {{mySwitch}}</h3>
@@ -56,7 +56,7 @@
 									<label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
 								  </div>
 								</div>
-								<div class="row n-margin-l n-margin-r">  
+								<div class="row n-margin-l n-margin-r">
 								  <div ng-class="col-md-12">
 									<div class="col-md-2 col-xs-5">
 										<input id="typeClientAll" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-checked="true" name="typeClient" value="" ng-model="customerSearch.typeClient" required autofocus>
@@ -74,25 +74,25 @@
 										<input id="typeClient2" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="2" ng-model="customerSearch.typeClient" required autofocus>
 										<label for="typeClient2" class="radio-2x-label">
 											<span>Edificio</span>
-										</label> 
+										</label>
 									</div>
 									<!--<div class="col-md-2 col-xs-5">
 										<input id="typeClient3" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="3" ng-model="customerSearch.typeClient" required autofocus>
 										<label for="typeClient3" class="radio-2x-label">
 											<span>Empresa</span>
-										</label> 
+										</label>
 									</div>
 									<div class="col-md-2 col-xs-5">
 										<input id="typeClient4" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="4" ng-model="customerSearch.typeClient" required autofocus>
 										<label for="typeClient4" class="radio-2x-label">
 											<span>Sucursal</span>
-										</label> 
+										</label>
 									</div>
 									<div class="col-md-2 col-xs-5">
 										<input id="typeClient5" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="5" ng-model="customerSearch.typeClient" required autofocus>
 										<label for="typeClient5" class="radio-2x-label">
 											<span>Particular</span>
-										</label> 
+										</label>
 									</div>-->
 								  </div>
 								</div>
@@ -102,11 +102,11 @@
 								<label style="padding-left: 15px" ng-show="buildingList.length>=0">{{customerFound.ClientType}}</label>
 								<div class="input-group s-ui-width s-ui-m-left">
 									<span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
-									<input type="text" name="customerSearch" 
-										id="customerSearch" 
+									<input type="text" name="customerSearch"
+										id="customerSearch"
 										ng-model="customerSearch.name"
 										ng-keydown="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict);"
-										class="form-control text-uppercase" 
+										class="form-control text-uppercase"
 										move-to-list input-selector="'.input-search'"
 										list-items-selector="'.list-group li'"
 										placeholder="Presione Enter para buscar..."
@@ -121,16 +121,16 @@
 							ng-if="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && listOffices.length>0 && (customerSearch.name!='' || customerSearch.name!=undefined || customerSearch.name!=null) "
 							-->
 							<div ng-if="(sysLoggedUser.idProfileKf!=1 && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6 && !isHomeSelected && buildingList.length>0) || (sysLoggedUser.idProfileKf==1 && buildingList.length>0)" class="form-group n-padding-l" ng-class="
-								{	'col-md-6': 
+								{	'col-md-6':
 									sysLoggedUser.idProfileKf=='1',
-									'col-md-12':  
+									'col-md-12':
 									sysLoggedUser.idProfileKf!='1',
 								}">
 								<label style="padding-left: 15px;">Consorcio</label>
 								<div class="col-xs-12 selectContainer">
 									<div class="input-group">
 									<span class="input-group-addon"><i class="icon-suitcase"></i></span>
-										<ui-select 
+										<ui-select
 											name="buildings"
 											ng-change="mainSwitchFn('loadBuildingData', select.buildings.selected, null); ticket.idClientDepartament=undefined; enabledNextBtn();"
 											ng-disabled="buildingList.length==0"
@@ -175,7 +175,7 @@
 									<div class="panel-body n-padding-l n-padding-r">
 										<!--*********DEPARTAMENTOS ***********-->
 										<!-- Select Department -->
-										<div ng-show="!dptoNotFound" class="form-group"> 
+										<div ng-show="!dptoNotFound" class="form-group">
 											<label class="col-md-4 control-label font-size-18px">Departamento</label>
 											<div class="col-md-4 selectContainer">
 												<div class="input-group">
@@ -203,7 +203,7 @@
 														<input id="typeOption1" type="radio" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" name="typeOption" value="1" ng-model="ticket.radioButtonBuilding" required autofocus>
 														<label for="typeOption1" class="radio-custom-label">
 															<span >Personal del Edificio</span>
-														</label> 
+														</label>
 													</div>
 													<div ng-class="{'col-md-4 col-xs-4': sysLoggedUser.idProfileKf=='4','col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='1'}">
 														<input id="typeOption2" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="2" ng-model="ticket.radioButtonBuilding" required autofocus>
@@ -274,7 +274,7 @@
 													<input id="radioButtonDepartment1" class="radio-custom" type="radio" ng-click="(sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5' || (((sysLoggedUser.idProfileKf=='4' && isHomeSelected) || sysLoggedUser.idProfileKf=='6') && (sysLoggedUser.idTypeTenantKf=='1' || sysLoggedUser.idTypeTenantKf=='2')))?mainSwitchFn('selectedRequestKeyOwnerUser', sysLoggedUser, null):mainSwitchFn('list_tenants', null, null); enabledNextBtn();" name="radioButtonDepartment" value="1" ng-model="ticket.radioButtonDepartment" required autofocus>
 													<label for="radioButtonDepartment1" ng-if="sysLoggedUser.idProfileKf!=0" class="radio-custom-label">
 														<span ng-show="sysLoggedUser.idProfileKf==3 || sysLoggedUser.idProfileKf==5 || (isHomeSelected && sysLoggedUser.idProfileKf==4 && sysLoggedUser.idTypeTenantKf>=1) || (sysLoggedUser.idProfileKf==6 && sysLoggedUser.idTypeTenantKf==1)">{{sysLoggedUser.fullNameUser}}</span>
-														<span ng-show="!isHomeSelected && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6">Propietario 
+														<span ng-show="!isHomeSelected && sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6">Propietario
 															<span ng-if="(sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6) && ticket.radioButtonDepartment==1 && selectedRequestKeyOwnerUser!=undefined" class="label font-size-16px label-custom-1">{{selectedRequestKeyOwnerUser.fullNameUser}} <button ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
 															<span ng-if="(sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 && sysLoggedUser.idProfileKf!=6) && ticket.radioButtonDepartment==1 && selectedRequestKeyOwnerUser==undefined" class="label font-size-16px label-custom-2">No asignado <button ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
 														</span>
@@ -287,7 +287,7 @@
 															<span ng-if="ticket.radioButtonDepartment==2 && selectedRequestKeyOwnerUser!=undefined" class="label font-size-16px label-custom-1">{{selectedRequestKeyOwnerUser.fullNameUser}} <button ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
 															<span ng-if="ticket.radioButtonDepartment==2 && selectedRequestKeyOwnerUser==undefined" class="label font-size-16px label-custom-2">No asignado <button ng-click="mainSwitchFn('list_tenants', null, null);" type="button" class="close" style="margin-top: 2%;"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button></span>
 														</span>
-													</label> 
+													</label>
 												</div>
 											</div>
 										</div>
@@ -362,7 +362,7 @@
 														<span class="font-size-14px label label-default">{{key.Depto}}</span>
 													</span>-->
 												</td>
-												<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" ng-trim="true" style="vertical-align: middle;text-align: left;"> 
+												<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" ng-trim="true" style="vertical-align: middle;text-align: left;">
 													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null" data-toggle="tooltip" data-placement="right" title="Asignado" class="font-size-18px" style="color: #5cb85c">
 														<i class="text-success fas fa-check-circle"></i>
 													</span>
@@ -370,7 +370,7 @@
 													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf!='6'" class="badge badge-warning">{{key.nameProfile}}</span>
 													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf=='6'" class="badge badge-warning">{{key.nameSysProfile}}</span>
 													<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf=='6'" class="badge badge-warning">{{key.typeTenantName}}</span>
-													
+
 													<span ng-if="key.idUserKf==undefined || key.idUserKf==null" data-toggle="tooltip" data-placement="top" title="No asociado" class="text-danger media-middle text-center font-size-18px">
 														<i class="fas fa-times-circle"></i>
 													</span>
@@ -402,7 +402,7 @@
 										<div class="form-check form-check-inline">
 											<div class="col-md-12 col-md-offset-2">
 												<div ng-if="ticket.building.chargeForExpenses!=0 && ticket.building.chargeForExpenses!=null && ticket.building.chargeForExpenses!=undefined" class="well col-md-3 col-xs-3" ng-class="{
-														'well-success': 
+														'well-success':
 														ticket.cost.idTypePaymentKf=='1',
 														}">
 													<input id="idTypePaymentKf-1" class="radio-custom" type="radio" ng-disabled="ticket.building.chargeForExpenses!=1" ng-click="mainSwitchFn('setPaymentType', null, null); enabledNextBtn();" name="idTypePaymentKf" value="1" ng-value="1" ng-model="ticket.cost.idTypePaymentKf" required autofocus>
@@ -418,7 +418,7 @@
 													</label>
 												</div>
 												<div class="well col-md-3 col-xs-3" style="padding-right: 0px !important;" ng-class="{
-														'well-success': 
+														'well-success':
 														ticket.cost.idTypePaymentKf=='2',
 														'col-md-offset-2':
 														ticket.building.chargeForExpenses!=1,
@@ -452,7 +452,7 @@
 												<input id="sendnotify2" class="radio-custom" ng-model="ticket.userNotify" ng-click="getNotify(0);enabledNextBtn();" type="radio" value="0" required autofocus>
 												<label for="sendnotify2" class="radio-custom-label">
 													<span>NO</span>
-												</label> 
+												</label>
 											</div>
 										</div>
 									</div>
@@ -462,7 +462,7 @@
 						<div class="row">
 							<!-- Form Special Request sru= Special Request Up -->
 							<div style="margin-left: 15px; padding-right: 40px;" class="form-group col-md-12">
-								<label class="col-xs-12" >Observaciones Adicionales</label> 
+								<label class="col-xs-12" >Observaciones Adicionales</label>
 								<div class="col-md-12 col-xs-12 input-group">
 									<textarea style="resize: vertical;" name="sruTenant" rows="4" placeholder="Describa aqui si desea realizar una solicitud especial." class="form-control" ng-model="ticket.description" ></textarea>
 								</div>
@@ -470,7 +470,7 @@
 						</div>
 						<!-- Linea de costos de servicios y total del pedido -->
 						<div class="row" style="padding-bottom: 20px;">
-							<div class="col-md-12 "> 
+							<div class="col-md-12 ">
 								<legend style="text-align: center;">Costos de Servicios</legend>
 									<div class="col-md-3 col-xs-3">
 										<div class="input-group pull-right">
@@ -490,7 +490,7 @@
 											<input ng-disabled="sysLoggedUser.idProfileKf!='1'" id="inputDelivery" title="Envio sin Costo" style="text-align: right;" name="costs.delivery" ng-blur="mainSwitchFn('recalculateCosts', costs.delivery.cost, 'delivery');" placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()" ng-model="costs.delivery.cost" value="{{costs.delivery.cost  | currency }}"type="text" required autofocus/>
 										</div>
 									</div>
-									<div class="col-md-3 col-xs-3"> 
+									<div class="col-md-3 col-xs-3">
 										<div class="input-group pull-right">
 											<span class="input-group-addon">Total</span>
 											<input disabled style="text-align: right"; name="costs.total"placeholder="$0,00" class="form-control input--decimal" ng-keydown="fnLoadPhoneMask()"  ng-model="costs.total" value="{{costs.total  | number:2 }}"  type="text" required autofocus/>
@@ -608,6 +608,7 @@
 																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf!='6'" class="badge badge-warning">{{tckt.key.nameProfile}}</span>
 																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf=='6'" class="badge badge-warning">{{tckt.key.nameSysProfile}}</span>
 																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf=='6'" class="badge badge-warning">{{tckt.key.typeTenantName}}</span>
+																<span ng-if="(tckt.key.idUserKf==undefined || tckt.key.idUserKf==null) && tckt.key.idProfileKf==undefined" class="badge badge-warning">No asignado</span>
 
 															</span>
 															<span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding!='1' && ticket.radioButtonBuilding!='2' && tckt.key.idCategoryKf!=5 && tckt.key.idCategoryKf!=6">
@@ -630,14 +631,14 @@
 																<span class="font-size-14px label label-default">{{key.Depto}}</span>
 															</span>-->
 														</td>
-														<!--<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" ng-trim="true" style="vertical-align: middle;text-align: left;"> 
+														<!--<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" ng-trim="true" style="vertical-align: middle;text-align: left;">
 															<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null" data-toggle="tooltip" data-placement="right" title="Asignado" class="font-size-18px" style="color: #5cb85c">
 																<i class="text-success fas fa-check-circle"></i>
 															</span>
 															<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null" class="font-size-16px">{{key.fullNameUser}}</span>
 															<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null" class="badge badge-default">{{key.nameProfile}}</span>
 															<span ng-if="key.idUserKf!=undefined && key.idUserKf!=null && key.idProfileKf=='6'" class="badge badge-warning">{{key.typeTenantName}}</span>
-															
+
 															<span ng-if="key.idUserKf==undefined || key.idUserKf==null" data-toggle="tooltip" data-placement="top" title="No asociado" class="text-danger media-middle text-center font-size-18px">
 																<i class="fas fa-times-circle"></i>
 															</span>
