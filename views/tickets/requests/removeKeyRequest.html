@@ -604,7 +604,7 @@
 																<span class="font-size-18px" style="color: #5cb85c">
 																	<i class="text-success fas fa-house-user"></i>
 																</span>
-																<span class="label label-default">{{tckt.key.fullNameUser}} </span>
+																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.fullNameUser"class="label label-default">{{tckt.key.fullNameUser}} </span>
 																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf!='6'" class="badge badge-warning">{{tckt.key.nameProfile}}</span>
 																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf=='6'" class="badge badge-warning">{{tckt.key.nameSysProfile}}</span>
 																<span ng-if="tckt.key.idUserKf!=undefined && tckt.key.idUserKf!=null && tckt.key.idProfileKf=='6'" class="badge badge-warning">{{tckt.key.typeTenantName}}</span>

@@ -4729,7 +4729,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.new.ticket.mail += '<td align="left" style="width: 40%;" valign="middle">Retiro en Oficina</td>';
                                     }else if (obj.delivery.idTypeDeliveryKf=='2'){
                                         $scope.new.ticket.mail +='<td align="left" style="width: 40%;" valign="middle">Entrega en Domicilio ';
-                                        if ((obj.delivery.idTypeDeliveryKf==2 && obj.delivery.idDeliveryTo==1) || (obj.delivery.idTypeDeliveryKf==2 && obj.delivery.whoPickUp.id==2)){
+                                        if (obj.delivery.whoPickUp!=undefined && obj.delivery.whoPickUp!=null && ((obj.delivery.idTypeDeliveryKf==2 && obj.delivery.idDeliveryTo==1) || (obj.delivery.idTypeDeliveryKf==2 && obj.delivery.whoPickUp.id==2))){
                                             $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>Asociado</b></span>';
                                         }else if((obj.optionTypeSelected.name=='building' || obj.optionTypeSelected.name=='department') && obj.radioButtonBuilding==1 && obj.delivery.idTypeDeliveryKf==2 && (obj.delivery.idDeliveryTo==1 || obj.delivery.whoPickUp.id==2)){
                                             $scope.new.ticket.mail += '<span style="font-size: 0.7vw; background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;"><b>'+obj.building.name+'</b></span>';
