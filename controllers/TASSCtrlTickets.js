@@ -4804,7 +4804,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.mail += '<td align="left" valign="middle" style="width: 90%;" colspan="7" >Pago en Abono</td>';
                                 }
                                 if (obj.cost.idTypePaymentKf=='2'){
-                                    $scope.new.ticket.mail += '<td align="left" valign="middle" style="width: 90%;" colspan="7"><img data-type="image" itemprop="image" src="'+serverHost+'"/images/mp_logo.png" style="width: 10%;max-width: 110% !important;"></td>';
+                                    $scope.new.ticket.mail += '<td align="left" valign="middle" style="width: 90%;" colspan="7"><img data-type="image" itemprop="image" src="'+serverHost+'/images/mp_logo.png" style="width: 10%;max-width: 110% !important;"></td>';
                                 }
                                 $scope.new.ticket.mail +='</tr></tbody>';
                             }
