@@ -4745,10 +4745,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         }
                                         $scope.new.ticket.mail +='</td>';
                                     }
-                                    if (obj.delivery.idTypeDeliveryKf==null){
+                                    if (obj.delivery.idTypeDeliveryKf!=null && obj.delivery.deliveryTo==null){
                                         $scope.new.ticket.mail += '<td align="left" style="width: 40%;" valign="middle">Proceso interno</td>';
                                     }
-                                    if (obj.delivery.idTypeDeliveryKf!=null){
+                                    if (obj.delivery.idTypeDeliveryKf!=null && obj.delivery.deliveryTo!=null){
                                         if (obj.delivery.idTypeDeliveryKf=='1'){
                                             $scope.new.ticket.mail += '<td align="center" valign="middle" style="width: 10%; background-color: #b8c3d2;font-size: 1vw;color: #fff; padding-left: 0.4%">Quien retira</td>';
                                         }else if (obj.delivery.idTypeDeliveryKf=='2'){
