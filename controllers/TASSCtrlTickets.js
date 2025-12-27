@@ -3775,7 +3775,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                             if(((($scope.ticket.building.isStockInBuilding==null || $scope.ticket.building.isStockInBuilding=='0') && ($scope.ticket.building.isStockInOffice==null || $scope.ticket.building.isStockInOffice=='0')) || ($scope.ticket.building.isStockInOffice!=null && $scope.ticket.building.isStockInOffice!='0'))){
                                                 var subTotalDelivery = 0;
                                                 if ($scope.ticket.delivery.idTypeDeliveryKf!=undefined && $scope.ticket.delivery.idTypeDeliveryKf!=null && $scope.ticket.delivery.idTypeDeliveryKf!=1){
-                                                    if (($scope.ticket.delivery.whoPickUp!=undefined && $scope.ticket.delivery.whoPickUp!=null && $scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo<=1) ||
+                                                    if ($scope.ticket.delivery.whoPickUp!=undefined && $scope.ticket.delivery.whoPickUp!=null && ($scope.ticket.delivery.whoPickUp.id==undefined && $scope.ticket.delivery.idDeliveryTo!=null && $scope.ticket.delivery.idDeliveryTo<=1) ||
                                                         ($scope.ticket.delivery.idDeliveryTo==null && $scope.ticket.delivery.whoPickUp.id==2)){
                                                         if ($scope.ticket.cost.service > 0){
                                                             subTotalDelivery            = Number(0);
