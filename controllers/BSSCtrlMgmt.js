@@ -4823,6 +4823,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.update.ticket.isNew                  = obj.selected.isNew;
                   $scope.update.ticket.costService            = obj.selected.costService;
                   $scope.update.ticket.costKeys               = obj.selected.costKeys;
+                  $scope.update.ticket.isKeysEnable           = obj.selected.isKeysEnable;
+                  $scope.update.ticket.idMgmtMethodKf         = obj.selected.idMgmtMethodKf;
+                  $scope.update.ticket.whereKeysAreEnable     = obj.selected.whereKeysAreEnable;
                   var subTotalKeys                            = NaN2Zero(Number(obj.selected.costKeys));
                   var subTotalService                         = NaN2Zero(Number(obj.selected.costService));
 
