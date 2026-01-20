@@ -154,12 +154,12 @@ class Llavero_model extends CI_Model
 		$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
 		$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 		$this->db->where('tb_keychain.idDepartmenKf', $idDepartmenKf);
-		$this->db->group_by('tb_keychain.idKeychain');
+		//$this->db->group_by('tb_keychain.idKeychain');
 		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
 
 		if ($quuery->num_rows() > 0) {
 			foreach ($quuery->result_array() as $key => $item) {
-				if ($item['idReasonKf'] != "4" && $item['idReasonKf'] != "5") {
+				if ($item['idReasonKf'] != "4" || $item['idReasonKf'] != "5") {
 					$rs[$key] = $item;
 				}
 			}
@@ -880,7 +880,7 @@ class Llavero_model extends CI_Model
 			return 3; // No existía el registro
 		}
 	}
-	public function get_new($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit = null, $start = null, $strict = null, $totalCount, $getTicketKeychainKf)
+	public function get_new_old($idClientKf, $create_at, $idCategoryKf, $idKeychainStatusKf, $idDepartmenKf, $idReasonKf, $sysLoggedUserProfile, $codeSearch, $limit = null, $start = null, $strict = null, $totalCount, $getTicketKeychainKf)
 	{
 
 		$this->db->select("tb_keychain.*,tb_keychain_process_events.idKeychainKf,idKeychainKf,tb_keychain_process_events.idReasonKf,tb_reason_disabled_item.idReasonDisabledItem,tb_reason_disabled_item.reasonDisabledItem,
@@ -1067,6 +1067,190 @@ class Llavero_model extends CI_Model
 			return $rs;
 		}
 		return null;
+	}
+	public function get_new(
+		$idClientKf,
+		$create_at,
+		$idCategoryKf,
+		$idKeychainStatusKf,
+		$idDepartmenKf,
+		$idReasonKf,
+		$sysLoggedUserProfile,
+		$codeSearch,
+		$limit = null,
+		$start = null,
+		$strict = null,
+		$totalCount = null,
+		$getTicketKeychainKf = null
+	) {
+
+		/*
+		|--------------------------------------------------------------------------
+		| QUERY BASE — SOLO KEYCHAINS (SIN 1-N)
+		|--------------------------------------------------------------------------
+		*/
+		$this->db->select("
+			tb_keychain.*,
+			tb_products.descriptionProduct,
+			tb_products.model,
+			tb_products.brand,
+			tb_category_keychain.idCategory,
+			tb_category_keychain.name AS categoryKeychain,
+			tb_keychain_status.idKeychainStatus,
+			tb_keychain_status.keychainStatusName AS statusKey,
+			UPPER(CONCAT(tb_client_departament.floor,'-',tb_client_departament.departament)) AS Depto,
+			tb_clients.idClient,
+			tb_clients.name,
+			tb_clients.address,
+			a.fullNameUser AS keychainUserFullName,
+			pa.nameProfile AS keychainUserProfile,
+			sa.name AS keychainUserRoleName,
+			sta.idStatusTenant AS keychainUserStatusID,
+			sta.statusTenantName AS keychainUserStatusName
+		");
+
+		$this->db->from('tb_keychain');
+
+		// 1-1 JOINS SOLAMENTE
+		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
+		$this->db->join('tb_keychain_status', 'tb_keychain_status.idKeychainStatus = tb_keychain.idKeychainStatusKf', 'left');
+		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
+		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
+		$this->db->join('tb_clients', 'tb_clients.idClient = tb_keychain.idClientKf', 'left');
+
+		// Usuario asignado al keychain
+		$this->db->join('tb_user a', 'a.idUser = tb_keychain.idUserKf', 'left');
+		$this->db->join('tb_profile pa', 'pa.idProfile = a.idProfileKf', 'left');
+		$this->db->join('tb_profiles sa', 'sa.idProfiles = a.idSysProfileFk', 'left');
+		$this->db->join('tb_status sta', 'sta.idStatusTenant = a.idStatusKf', 'left');
+
+		/*
+		|--------------------------------------------------------------------------
+		| FILTROS
+		|--------------------------------------------------------------------------
+		*/
+
+		if (!is_null($idClientKf)) {
+			$this->db->where('tb_keychain.idClientKf', $idClientKf);
+		}
+
+		if (!is_null($idDepartmenKf)) {
+			$this->db->where('tb_keychain.idDepartmenKf', $idDepartmenKf);
+		}
+
+		if (!is_null($idCategoryKf)) {
+			$this->db->where_in(
+				'tb_keychain.idCategoryKf',
+				array_map('trim', explode(',', $idCategoryKf))
+			);
+		}
+
+		if (!is_null($idKeychainStatusKf)) {
+			if ($idKeychainStatusKf == "1") {
+				$this->db->group_start()
+					->where('tb_keychain.idKeychainStatusKf', 1)
+					->or_where('tb_keychain.idKeychainStatusKf IS NULL', null, false)
+					->group_end();
+			} elseif ($idKeychainStatusKf == "-1") {
+				$this->db->where_in('tb_keychain.idKeychainStatusKf', [0, 1]);
+			} else {
+				$this->db->where('tb_keychain.idKeychainStatusKf', $idKeychainStatusKf);
+			}
+		}
+
+		// 🔑 FILTRO POR EVENTOS (SIN JOIN → EXISTS)
+		if (!is_null($idReasonKf)) {
+			$this->db->where("
+				EXISTS (
+					SELECT 1
+					FROM tb_keychain_process_events e
+					WHERE e.idKeychainKf = tb_keychain.idKeychain
+					AND e.idReasonKf = " . $this->db->escape($idReasonKf) . "
+				)
+			", null, false);
+		}
+
+		if (!is_null($codeSearch)) {
+			$this->db->group_start()
+				->like('tb_keychain.codigo', $codeSearch)
+				->or_like('tb_keychain.codExt', $codeSearch)
+				->group_end();
+		}
+
+		/*
+		|--------------------------------------------------------------------------
+		| CONTEO TOTAL (CORRECTO)
+		|--------------------------------------------------------------------------
+		*/
+		$count_query = clone $this->db;
+		$query_total = $count_query->count_all_results();
+
+		if (!is_null($totalCount)) {
+			$rs['totalCount'] = $query_total;
+		}
+
+		/*
+		|--------------------------------------------------------------------------
+		| PAGINACIÓN
+		|--------------------------------------------------------------------------
+		*/
+		if (!is_null($limit) && !is_null($start)) {
+			if ($start >= $query_total && $query_total > 0) {
+				$start = max(0, floor(($query_total - 1) / $limit) * $limit);
+			}
+			$this->db->limit($limit, $start);
+		}
+
+		/*
+		|--------------------------------------------------------------------------
+		| EJECUCIÓN FINAL
+		|--------------------------------------------------------------------------
+		*/
+		$query = $this->db
+			->order_by('tb_keychain.idKeychain', 'ASC')
+			->get();
+
+		if ($query->num_rows() === 0) {
+			return null;
+		}
+
+		$rs['tb_keychain'] = $query->result_array();
+
+		/*
+		|--------------------------------------------------------------------------
+		| CARGA DE RELACIONES (EVENTOS + TICKETS)
+		|--------------------------------------------------------------------------
+		*/
+		foreach ($rs['tb_keychain'] as $k => $keychain) {
+
+			// Último ticket asociado
+			if (!is_null($getTicketKeychainKf)) {
+				$ticket = $this->db
+					->select('tb_ticket_keychain.*, tb_tickets_2.codTicket')
+					->from('tb_ticket_keychain')
+					->join('tb_tickets_2', 'tb_tickets_2.idTicket = tb_ticket_keychain.idTicketKf', 'left')
+					->where('tb_ticket_keychain.idKeychainKf', $keychain['idKeychain'])
+					->order_by('tb_ticket_keychain.idTicketKeychain', 'DESC')
+					->limit(1)
+					->get();
+
+				if ($ticket->num_rows() > 0) {
+					$rs['tb_keychain'][$k]['tb_ticket_keychain'] = $ticket->row_array();
+				}
+			}
+
+			// Eventos del keychain
+			$events = $this->db
+				->select('*')
+				->from('tb_keychain_process_events')
+				->where('idKeychainKf', $keychain['idKeychain'])
+				->order_by('idTypeTicketKf', 'ASC')
+				->get();
+
+			$rs['tb_keychain'][$k]['tb_keychain_process_events'] = $events->result_array();
+		}
+
+		return $rs;
 	}
 	public function get_new_2(
 		$idClientKf,
