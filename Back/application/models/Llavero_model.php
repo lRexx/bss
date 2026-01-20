@@ -1209,7 +1209,8 @@ class Llavero_model extends CI_Model
 		$query = $this->db
 			->order_by('tb_keychain.idKeychain', 'ASC')
 			->get();
-
+		log_message('debug', 'SQL: ' . $this->db->last_query());
+		log_message('debug', 'SQL N° Rows ' . $query->num_rows());
 		if ($query->num_rows() === 0) {
 			return null;
 		}
