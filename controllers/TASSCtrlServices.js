@@ -6083,7 +6083,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     doc.addImage(BSS.imageQR_Default, "png", 138, 183, 50, 50);
                                     doc.setFont('helvetica', 'normal');
                                     doc.setTextColor(0,0,0);
-                                    doc.setFontSize(13);
+                                    doc.setFontSize(12);
                                     //VALUE1
                                     doc.text(7, 190, "PARA VISUALIZAR TUS CÁMARAS escaneá el código QR y");
                                     doc.setFontSize(12);
