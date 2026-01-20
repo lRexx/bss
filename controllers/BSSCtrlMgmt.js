@@ -4831,13 +4831,13 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
 
                   switch (obj.selected.idStatusTicketKf){
                     case "4":
+                    case "5":
+                    case "7":
                       if ($scope.update.ticket.idTypeDeliveryKf=="1"){
                         console.log("SE MODIFICA Status");
                         $scope.update.ticket.idStatusTicketKf="7"
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"46"});
                       }
-                    break;
-                    case "7":
                       if ($scope.update.ticket.idTypeDeliveryKf=="2"){
                         console.log("SE MODIFICA Status");
                         $scope.update.ticket.idStatusTicketKf="4"

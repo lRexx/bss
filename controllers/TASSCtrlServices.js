@@ -6058,7 +6058,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     //doc.text(18, 197, "CODIGO QR:");
                                     // /FIELD6
                                     /********************************************/
-                                    doc.setFont('Roboto-Regular');
+                                    doc.setFont('helvetica', 'normal');
                                     doc.setTextColor(0,0,0);
                                     doc.setFontSize(16);
                                     //VALUE1
@@ -6081,7 +6081,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     //doc.rect(88, 190,54, 54, 'F');
                                     //var imageQR = imageData64;
                                     doc.addImage(BSS.imageQR_Default, "png", 138, 183, 50, 50);
-                                    doc.setFont('Roboto-Regular');
+                                    doc.setFont('helvetica', 'normal');
                                     doc.setTextColor(0,0,0);
                                     doc.setFontSize(13);
                                     //VALUE1

@@ -337,7 +337,6 @@ class Ticket_model extends CI_Model
 	}
 
 	/*Dar de baja*/
-	/*Dar de baja*/
 	public function add3($ticket)
 	{
 		$idOtherDeliveryAddress = null;
