@@ -6857,7 +6857,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   city            = obj[f].thirdPersonDelivery.province;
                   taddress        = obj[f].thirdPersonDelivery.address;
                   address         = address.toUpperCase()+" "+obj[f].thirdPersonDelivery.number;
-                  emailAddr       = obj[f].userRequestBy.emailUser;
+                  emailAddr       = obj[f].userRequestBy!=null && obj[f].userRequestBy!=undefined?obj[f].userRequestBy.emailUser:"No asignado";
                   phoneNumberUser = obj[f].thirdPersonDelivery.movilPhone;
                   dni             = obj[f].thirdPersonDelivery.dni;
                   $scope.getAddressDetailsFn(address, obj[f].thirdPersonDelivery.idProvinceFk);
