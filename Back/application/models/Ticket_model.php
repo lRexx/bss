@@ -2842,6 +2842,8 @@ class Ticket_model extends CI_Model
 							$this->db->where("idStatusTicketKf = ", @$data['idStatusTicketKf']);
 						}
 					}
+					//TICKET REQUESTED FOR
+					$this->db->where_in('idTypeRequestFor', [1, 5, 6]);
 					//TICKET TYPE DELIVERY
 					if (@$data['idTypeDeliveryKf'] != '') {
 						$this->db->where("idTypeDeliveryKf = ", @$data['idTypeDeliveryKf']);
@@ -3046,9 +3048,7 @@ class Ticket_model extends CI_Model
 				}
 			}
 			//TICKET REQUESTED FOR
-			if (@$data['idTypeRequestFor'] != '') {
-				$this->db->where("idTypeRequestFor = ", @$data['idTypeRequestFor']);
-			}
+			$this->db->where_in('idTypeRequestFor', [1]);
 			//TICKET TYPE DELIVERY
 			if (@$data['idTypeDeliveryKf'] != '') {
 				$this->db->where("idTypeDeliveryKf = ", @$data['idTypeDeliveryKf']);
