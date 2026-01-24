@@ -152,7 +152,7 @@
                                 <div class="col-xl-12 selectContainer">
                                 <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-tag"></i></span>
-                                        <select name="idTypeTicketKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter: greaterThan('item.idTypeTicket', 2)" ng-required="sysLoggedUser.idProfileKf==2" ng-model="filters.typeTicket"  >
+                                        <select name="typeTicket" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter: greaterThan('item.idTypeTicket', 2)" ng-required="sysLoggedUser.idProfileKf==2" ng-model="filters.typeTicket"  >
                                         <option value="">Todos</option>
                                         </select>
                                 </div>
@@ -168,7 +168,7 @@
                                 <div class="col-xl-12 selectContainer">
                                 <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-tag"></i></span>
-                                        <select name="idTypeTicketKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter:differentThan" ng-required="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" ng-model="filters.typeTicket"  >
+                                        <select name="typeTicket" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter:differentThan" ng-required="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" ng-model="filters.typeTicket"  >
                                         <option value="">Todos</option>
                                         </select>
                                 </div>
