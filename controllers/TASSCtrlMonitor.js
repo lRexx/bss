@@ -3957,7 +3957,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               }
             }
             $scope.differentThan = function(item){
-              console.info(item);
+              //console.info(item);
               if ($scope.sysToken && $scope.sysLoggedUser.idTypeTenantKf!=undefined){
                 switch ($scope.sysLoggedUser.idTypeTenantKf){
                   case "1":
