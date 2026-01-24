@@ -3961,8 +3961,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               if ($scope.sysToken && $scope.sysLoggedUser.idTypeTenantKf!=undefined){
                 switch ($scope.sysLoggedUser.idTypeTenantKf){
                   case "1":
-                    return (item.idTypeTicket != "3" && item.idTypeTicket != "4");
                   case "2":
+                  case null:
                     return (item.idTypeTicket != "3" && item.idTypeTicket != "4");
                 }
               }
