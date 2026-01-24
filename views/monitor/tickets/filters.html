@@ -121,7 +121,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="clearfix"> </div>
+                            <!-- <div class="clearfix"> </div>-->
                             <!-- Address for Onwers/AdminConsorcios/Attendants-->
                             <div class="form-group col-md-6 col-xs-12 col-sm-12 col-xs-padding" ng-disable="sysLoggedUser.idProfileKf!=3 && sysLoggedUser.idProfileKf!=5 || (sysLoggedUser.idProfileKf==6 && sysLoggedUser.idTypeTenantKf==2)" ng-if="sysLoggedUser.idProfileKf==3 || (((sysLoggedUser.idProfileKf==4 && isHomeSelected) || sysLoggedUser.idProfileKf==6) && sysLoggedUser.idTypeTenantKf==1)" style=" margin-left: -1em;">
                                 <label style="padding-left: 15px;">Consorcio</label>
@@ -148,7 +148,7 @@
                             {	'has-success':
                                 filters.typeTicket.idTypeTicket!='' && filtersTicket.typeTicket.$valid,
                             }">
-                                <label>Tipo de Ticket</label>
+                                <label>Tipo de pedido</label>
                                 <div class="col-xl-12 selectContainer">
                                 <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-tag"></i></span>
@@ -162,8 +162,9 @@
                             <div ng-if="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" class="form-group col-md-6 col-xs-12" ng-class="
                             {	'has-success':
                                 filters.typeTicket.idTypeTicket!='' && filtersTicket.typeTicket.$valid,
+
                             }">
-                                <label>Tipo de Ticket</label>
+                                <label>Tipo de pedido</label>
                                 <div class="col-xl-12 selectContainer">
                                 <div class="input-group">
                                         <span class="input-group-addon"><i class="fas fa-tag"></i></span>
