@@ -3052,7 +3052,9 @@ class Ticket_model extends CI_Model
 				}
 			}
 			//TICKET REQUESTED FOR
-			$this->db->where_in('idTypeRequestFor', [1]);
+			if (@$data['idTypeRequestFor'] != '') {
+				$this->db->where("idTypeRequestFor = ", @$data['idTypeRequestFor']);
+			}
 			//TICKET TYPE DELIVERY
 			if (@$data['idTypeDeliveryKf'] != '') {
 				$this->db->where("idTypeDeliveryKf = ", @$data['idTypeDeliveryKf']);
