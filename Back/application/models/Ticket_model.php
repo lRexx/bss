@@ -257,9 +257,9 @@ class Ticket_model extends CI_Model
 							//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
 							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
 							if ($rsMail == "Enviado") {
-								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [SENT]');
+								log_message('info', 'Administration mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [SENT]');
 							} else {
-								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
+								log_message('info', 'Administration mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
 							}
 						}
 					} else {
@@ -543,7 +543,7 @@ class Ticket_model extends CI_Model
 						log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
 					}
 				}
-			} else {
+			} else if ($ticket['idTypeRequestFor'] == 5 || $ticket['idTypeRequestFor'] == 6) {
 				if ($ticket['sendNotify'] == 1 || $ticket['sendNotify'] == null) {
 					$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
 					$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
