@@ -266,7 +266,7 @@ class Ticket_model extends CI_Model
 						log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketAddQuery['idTicket'] . ' ::: [FAILED]');
 					}
 				}
-			} else {
+			} else if ($ticket['idTypeRequestFor'] == 5 || $ticket['idTypeRequestFor'] == 6) {
 				if ($ticket['sendNotify'] == 1 || $ticket['sendNotify'] == null) {
 					$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
 					$this->db->join('tb_tipo_mails', 'tb_tipo_mails.idTipoMail = tb_client_mails.idTipoDeMailFk', 'left');
@@ -1423,7 +1423,7 @@ class Ticket_model extends CI_Model
 						}
 					}
 				}
-			} else {
+			} else if ($ticket['idTypeRequestFor'] == 5 || $ticket['idTypeRequestFor'] == 6) {
 				if ($lastTicketUpdatedQuery['sendNotify'] == 1 || $lastTicketUpdatedQuery['sendNotify'] == null) {
 					//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
 					$this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
