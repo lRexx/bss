@@ -303,7 +303,11 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               break;
               case "cancel_user":
                 if (confirm==0){
-                  $scope.mess2show="Solicitar la cancelación del Pedido ["+obj.codTicket+"], Esta seguro que desea realizar la solicitud,     Confirmar?";
+                  if ((obj.isKeysEnable=="1" || obj.isKeysEnable=="0" || obj.isKeysEnable==null) && obj.idMgmtMethodKf!=null && (obj.building.iStockInOffice==null || obj.building.iStockInOffice=="1" || obj.building.isStockInBuilding==null || obj.building.isStockInBuilding=="1")){
+                    $scope.mess2show="Solicitar la cancelación del Pedido ["+obj.codTicket+"], Esta seguro que desea realizar esta acción,     Confirmar?";
+                  }else{
+                    $scope.mess2show="El Pedido ["+obj.codTicket+"] sera cancelado, Esta seguro que desea realizar esta acción,     Confirmar?";
+                  }
                   $scope.argObj = obj;
                   console.log('Solicitud de cancelacion del Pedido '+obj.codTicket+' ID: '+obj.idTicket+' solicitado por el usuario: '+$scope.sysLoggedUser.fullNameUser);
                   console.log("============================================================================")
@@ -311,8 +315,42 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                   $('#confirmRequestModal').modal('hide');
-                  $scope.mainSwitchFn('ticket_request_cancel', $scope.argObj, null)
+                  console.log($scope.argObj);
+                  if (($scope.argObj.isKeysEnable=="1" || $scope.argObj.isKeysEnable=="0" || $scope.argObj.isKeysEnable==null) && $scope.argObj.idMgmtMethodKf!=null && ($scope.argObj.building.iStockInOffice==null || $scope.argObj.building.iStockInOffice=="1" || $scope.argObj.building.isStockInBuilding==null || $scope.argObj.building.isStockInBuilding=="1")){
+                    $scope.mainSwitchFn('ticket_request_cancel', $scope.argObj, null);
+                  }else{
+                    $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
+                  }
+
                 }
+              break;
+              case "confirmTicketCancel":
+                  if (confirm==0){
+                      $scope.tmpTicket=obj;
+                      if ($scope.tmpTicket.building.isStockInOffice=="1"){
+                        $scope.tmpTicket.stockLocation = "de la Oficina";
+                      }else if ($scope.tmpTicket.building.isStockInBuilding=="1"){
+                        $scope.tmpTicket.stockLocation = "del Edificio"
+                      }
+                      $timeout(function() {
+                          $scope.mess2show="Han sido guardados los llaveros en el stock "+$scope.tmpTicket.stockLocation+",     Confirmar?";
+
+                          $('#showModalTicketCancelNotification').modal({backdrop: 'static', keyboard: false});
+                          $('#showModalTicketCancelNotification').on('shown.bs.modal', function () {});
+                      }, 500);
+                  }else if (confirm==1){
+                      $('#showModalTicketCancelNotification').modal('hide');
+                      inform.add('Se procede a completar la solicitud de cancelación del pedido.',{
+                          ttl:15000, type: 'info'
+                      });
+                      $timeout(function() {
+                          console.log($scope.tmpTicket);
+                          $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.tmpTicket, null);
+                      }, 1000);
+
+                  }else if (confirm==null){
+                      $('#showModalTicketCancelNotification').modal('hide');
+                  }
               break;
               case "reject_cancel_user":
                 if (confirm==0){
@@ -329,15 +367,31 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               break;
               case "cancel_sys":
                 if (confirm==0){
-                  $scope.mess2show="El Pedido ["+obj.codTicket+"] sera cancelado, Esta seguro que desea realizar esta acción,     Confirmar?";
+                  obj.isKeysEnableRequested = false;
+                  if ((obj.isKeysEnable=="0" || obj.isKeysEnable==null) && obj.idMgmtMethodKf!=null){
+                    obj.isKeysEnableRequested = true;
+                    $scope.mess2show="Los llaveros asignados al pedido ["+obj.codTicket+"], han sido habilitados,     Confirmar?";
+                  }else{
+                    $scope.mess2show="El Pedido ["+obj.codTicket+"] sera cancelado, Esta seguro que desea realizar esta acción,     Confirmar?";
+                  }
                   $scope.argObj = obj;
                   console.log('El Ticket '+obj.codTicket+' ID: '+obj.idTicket+' Sera Cancelado por el usuario: '+$scope.sysLoggedUser.fullNameUser);
                   console.log("============================================================================")
                   console.log($scope.argObj);
-                  $('#confirmRequestModal').modal('toggle');
+                  $('#confirmRequestModalCustom').modal('toggle');
                 }else if (confirm==1){
-                  $('#confirmRequestModal').modal('hide');
-                  $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null)
+                  $('#confirmRequestModalCustom').modal('hide');
+                  if (($scope.argObj.building.isStockInOffice=="1" || $scope.argObj.building.isStockInBuilding=="1") && (($scope.argObj.idMgmtMethodKf=="1" || $scope.argObj.idMgmtMethodKf=="2") && ($scope.argObj.isKeysEnable==null || $scope.argObj.isKeysEnable=="0" || $scope.argObj.isKeysEnable=="1"))){
+                    $scope.argObj.isKeysEnable = $scope.argObj.isKeysEnableRequested && ($scope.argObj.isKeysEnable=="0" || $scope.argObj.isKeysEnable==null) && $scope.argObj.idMgmtMethodKf!=null?"1":$scope.argObj.isKeysEnable;
+                    $scope.modalConfirmation('confirmTicketCancel',0,$scope.argObj);
+                  }else{
+                    $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
+                  }
+                }else if (confirm==null){
+                      $('#confirmRequestModalCustom').modal('hide');
+                      if ($scope.argObj.isKeysEnableRequested){
+                        $scope.mainSwitchFn('approve_ticket_request_cancel', $scope.argObj, null);
+                      }
                 }
               break;
               case "apply_ticket_delivery_change":
@@ -1450,7 +1504,6 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               ($scope.ticket.building!=undefined && $scope.ticket.building.allowOfficePickup!='1')){
               //console.log(item);
               //$scope.ticket.delivery = {};
-              //console.log($scope.ticket);
               $scope.ticket.delivery.idTypeDeliveryKf="2";
               return item.idTypeDelivery != "1";
           }else{
@@ -2874,16 +2927,20 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
               console.log(obj);
               $scope.update.ticket.idTicket   = obj.idTicket;
               $scope.update.ticket.codTicket  = obj.codTicket;
-              $scope.update.ticket.history   = [];
-              $scope.update.ticket.refund = [];
+              $scope.update.ticket.history    = [];
+              $scope.update.ticket.refund     = [];
               if (obj.isCancelRequested=="1"){
                 $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"23"});
                 $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"7"});
               }else{
                 $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"7"});
               }
+              if (obj.isPaymentMade==null){
+                $scope.update.ticket.isHasRefundsOpen = 0;
+                $scope.update.ticket.removePaymentDelivery = false;
+              }
               switch (obj.idTypePaymentKf){
-                case "1":
+                case "1":// Expensas
                   if (obj.idTypeDeliveryKf!=null){
                     $scope.subTotalTotal = 0;
                     $scope.subTotalTotal = Number(obj.total)
@@ -2899,7 +2956,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     //$('#customerNotificationModal').modal({backdrop: 'static', keyboard: true});
                   }
                 break;
-                case "2":
+                case "2": //MercadoPago
                   if (obj.idTypeDeliveryKf!=null){
                     if((obj.paymentDetails!=undefined && obj.paymentDetails!=null) && obj.paymentDetails.mp_collection_status=='approved' && obj.paymentDetails.mp_status_detail=='accredited'){
                       $scope.update.ticket.refund = [];
@@ -2939,16 +2996,119 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   }
                 break;
               }
+              $scope.update.ticket.idTypeTicketKf          = obj.idTypeTicketKf;
+              $scope.update.ticket.idTypeDeliveryKf        = obj.idTypeDeliveryKf;
+              $scope.update.ticket.idTypePaymentKf         = obj.idTypePaymentKf;
+              $scope.update.ticket.idStatusTicketKf        = obj.idStatusTicketKf;
+              $scope.update.ticket.idStatusTicketKfOld     = obj.idStatusTicketKf;
+              $scope.update.ticket.idPaymentDeliveryKf     = obj.idPaymentDeliveryKf;
+                switch(obj.idMgmtMethodKf){
+                  case "1":
+                    $scope.isNewKeySingle                   = true;
+                    $scope.isEditKey                        = false;
+                    $scope.isNewKeyMulti                    = false;
+                    //console.log(obj);
+                    var i = 0;
+                    var assignedKeys = [];
+                    angular.forEach(obj.keys,function(key,i){
+                      var deferredKeys = $q.defer();
+                      assignedKeys.push(deferredKeys.promise);
+                      $timeout(function() {
+                          deferredKeys.resolve();
+                          var keys = {
+                            idProductKf         : key.idProductKf,
+                            codExt              : key.keychain.codExt,
+                            codigo              : key.keychain.codigo,
+                            idDepartmenKf       : null,
+                            idClientKf          : key.idClientKf,
+                            idUserKf            : null,
+                            idCategoryKf        : "2",
+                            isKeyTenantOnly     : null,
+                            idClientAdminKf     : null,
+                            createdBy           : $scope.sysLoggedUser.idUser,
+                            idTicketKf          : $scope.tkupdate.idTicket,
+                            idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
+                            idKeychain          : key.keychain.idKeychain,
+                            idKeychainKf        : null,
+                            idKeychainStatusKf  : key.keychain.idKeychainStatusKf,
+                            idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
+                          };
+                          console.log("Llavero a actualizar: "+keys.codigo);
+                          console.log(keys);
+                          $scope.updateKeyFn({llavero: keys});
+                          $scope.deleteProcessEventFn({llavero: keys});
+                          deferredKeys.resolve();
+                      }, 1000);
+                    });
+                    $q.all(assignedKeys).then(function () {
+                      console.log("Ticket Update: "+$scope.update.ticket.codTicket);
+                      console.log($scope.update.ticket);
+                      console.log($scope.update);
+                      $scope.sysCancelTicketFn($scope.update);
+                    });
+                  break;
+                  case "2":
+                    $scope.isNewKeySingle                   = true;
+                    $scope.isEditKey                        = false;
+                    $scope.isNewKeyMulti                    = false;
+                    //console.log(obj);
+                    var i = 0;
+                    var assignedKeys = [];
+                    angular.forEach(obj.keys,function(key,i){
+                      var deferredKeys = $q.defer();
+                      assignedKeys.push(deferredKeys.promise);
+                      $timeout(function() {
+                          deferredKeys.resolve();
+                          var idCategoryKf        = "2"
+                          var codExt              = key.keychain.codExt;
+                          var codigo              = key.keychain.codigo;
+                          var idKeychain          = key.keychain.idKeychain;
+                          var idKeychainStatusKf  = key.keychain.idKeychainStatusKf;
+                          var keys = {
+                            idProductKf         : key.idProductKf,
+                            codExt              : codExt,
+                            codigo              : codigo,
+                            idDepartmenKf       : null,
+                            idClientKf          : key.idClientKf,
+                            idUserKf            : key.idUserKf,
+                            idCategoryKf        : idCategoryKf,
+                            isKeyTenantOnly     : null,
+                            idClientAdminKf     : null,
+                            createdBy           : $scope.sysLoggedUser.idUser,
+                            idTicketKf          : $scope.tkupdate.idTicket,
+                            idTypeTicketKf      : $scope.tkupdate.idTypeTicketKf,
+                            idKeychain          : idKeychain,
+                            idKeychainKf        : null,
+                            idKeychainStatusKf  : idKeychainStatusKf,
+                            idTicketKeychain    : $scope.tkupdate.keys[i].idTicketKeychain
+                          };
 
-            $scope.update.ticket.idTypeTicketKf          = obj.idTypeTicketKf;
-            $scope.update.ticket.idTypeDeliveryKf        = obj.idTypeDeliveryKf;
-            $scope.update.ticket.idTypePaymentKf         = obj.idTypePaymentKf;
-            $scope.update.ticket.idStatusTicketKf        = obj.idStatusTicketKf;
-            $scope.update.ticket.idPaymentDeliveryKf     = obj.idPaymentDeliveryKf;
-              console.log($scope.update);
-              $timeout(function() {
-                $scope.sysCancelTicketFn($scope.update);
-              }, 2000);
+                          console.log(keys);
+                          if (obj.isKeysEnable=="1" && key.keychain!=null && key.keychain!=undefined && (obj.building.isStockInBuilding || obj.building.isStockInOffice)){
+                            console.log("Llavero a Actualizar: "+keys.codigo);
+                            $scope.updateKeyFn({llavero: keys});
+                          }else{
+                            console.log("Llavero a Eliminar: "+keys.codigo);
+                            $scope.deleteKeyFn({llavero: keys});
+                            $scope.deleteProcessEventFn({llavero: keys});
+                          }
+                          deferredKeys.resolve();
+                      }, 1000);
+                    });
+                    $q.all(assignedKeys).then(function () {
+                      console.log("Ticket Update: "+$scope.update.ticket.codTicket);
+                      console.log($scope.update.ticket);
+                      console.log($scope.update);
+                      $scope.sysCancelTicketFn($scope.update);
+                    });
+                  break;
+                }
+              if (obj.idMgmtMethodKf==null || obj.idMgmtMethodKf==undefined){
+                console.log($scope.update);
+                $timeout(function() {
+                  $scope.sysCancelTicketFn($scope.update);
+                }, 2000);
+              }
             break;
             case "ticket_reject_request_cancel":
               console.log(obj);
@@ -2965,9 +3125,8 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
             case "change_ticket_status":
               console.log(obj);
               $scope.ticket = obj;
-              $scope.ticket.delivery = {};
               if (obj.idTypeDeliveryKf=='2'){
-                if (obj.idStatusTicketKf!='5'){
+                if (obj.idStatusTicketKf!='5' && $scope.ticket.delivery_schedule_at==null){
                   $scope.ticket.deliveryDate = new Date();
                 }else{
                   if ($scope.ticket.delivery_schedule_at!=null){
@@ -3687,142 +3846,263 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                     $scope.mainSwitchFn('search', null);
                 });
             };
+          /***********************************
+          *         UPDATE SINGLE KEY        *
+          ************************************/
+              $scope.updateKeyFn = function(llavero){
+                  var obj = llavero;
+                  obj.llavero.idUserKf=null;
+                  KeysServices.updateKey(obj).then(function(response){
+                      if(response.status==200){
+                        ticketServices.updateTicketKeychain(llavero).then(function(response_ticke_keychain){
+                          console.log(response_ticke_keychain);
+                          if(response_ticke_keychain.status==200){
+                              console.log("Key Successfully updated");
+                              if ($scope.ticket.selected.idTypeRequestFor=="1"){
+                                $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                              }
+                          }else if(response_ticke_keychain.status==500){
+                              console.log("There was an error adding the key, contact administrator");
+                              inform.add('Error: [500] Contacta al area de soporte. ',{
+                                  ttl:5000, type: 'danger'
+                              });
+                          }
+                        });
+                      }else if(response.status==404){
+                          console.log("not found, contact administrator");
+                          inform.add('Error: [404] Contacta al area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                          });
+                      }else if(response.status==500){
+                          console.log("the key has not been updated, contact administrator");
+                          inform.add('Error: [500] Contacta al area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                          });
+                      }
+                  });
+              };
+          /***********************************
+          *         DELETE SINGLE KEY        *
+          ************************************/
+              $scope.deleteKeyFn = function(llavero){
+                console.log(llavero);
+                  KeysServices.deleteKey(llavero).then(function(response){
+                      if(response.status==200){
+                          ticketServices.updateTicketKeychain(llavero).then(function(response_ticke_keychain){
+                              if(response_ticke_keychain.status==200){
+                                  console.log("Key Successfully deleted");
+                                  inform.add('Los datos del llavero ('+llavero.llavero.codigo+') han sido Eliminado con exito. ',{
+                                      ttl:4000, type: 'success'
+                                  });
+                                  if ($scope.ticket.selected.idTypeRequestFor=="1"){
+                                    $scope.getKeysByDepartmentId($scope.tkupdate.department.idClientDepartament);
+                                  }
+                              }else if(response_ticke_keychain.status==500){
+                                  console.log("the key has not been updated, contact administrator");
+                                  inform.add('Error: [500] Contacta al area de soporte. ',{
+                                      ttl:5000, type: 'danger'
+                                  });
+                              }
+                          });
+                      }else if(response.status==404){
+                          console.log("not found, contact administrator");
+                          inform.add('Error: [404] Contacta al area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                          });
+                      }else if(response.status==500){
+                          console.log("There was an error removing the key, contact administrator");
+                          inform.add('Error: [500] Contacta al area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                          });
+                      }
+                  });
+              };
+          /***********************************
+          *       ADD KEY PROCESS EVENT      *
+          ************************************/
+              $scope.addProcessEventFn = function(llavero){
+                  KeysServices.addProcessEvent(llavero).then(function(response){
+                      if(response.status==200){
+                          console.log("Alta de llavero completada satisfactoriamente.")
+                      }else if(response.status==203){
+                          console.log(response.data);
+                          inform.add('Info: [203] El Codigo ('+llavero.llavero.codigo+'), del llavero, ya se encuentra registrado. ',{
+                              ttl:5000, type: 'warning'
+                          });
+                      }else if(response.status==404){
+                          console.log("not found, contact administrator");
+                          inform.add('Error: [404] Contacta al area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                          });
+                      }else if(response.status==500){
+                          console.log("There was an error adding the key, contact administrator");
+                          inform.add('Error: [500] Contacta al area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                          });
+                      }
+                  });
+              };
+          /***********************************
+          *       DEL KEY PROCESS EVENT      *
+          ************************************/
+              $scope.deleteProcessEventFn = function(llavero){
+                  KeysServices.deleteProcessEvent(llavero).then(function(response){
+                      if(response.status==200){
+                          console.log("Cancelación de llavero completada satisfactoriamente.")
+                      }else if(response.status==203){
+                          console.log(response.data);
+                          inform.add('Info: [203] El Codigo ('+llavero.llavero.codigo+'), del llavero, ya se encuentra registrado. ',{
+                              ttl:5000, type: 'warning'
+                          });
+                      }else if(response.status==404){
+                          console.log("not found, contact administrator");
+                          inform.add('Error: [404] Contacta al area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                          });
+                      }else if(response.status==500){
+                          console.log("There was an error adding the key, contact administrator");
+                          inform.add('Error: [500] Contacta al area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                          });
+                      }
+                  });
+              };
           /******************************
           *     COMPLET TICKET REFUND   *
           ******************************/
-            $scope.ticketUpdated = null;
-            $scope.completeTicketRefundFn = function(ticket){
-              console.log(ticket);
-              $scope.ticketRegistered = null;
-              ticketServices.completeTicketRefund(ticket).then(function(response){
-                  //console.log(response);
-                  if(response.status==200){
-                    $timeout(function() {
-                      console.log("Request Successfully processed");
-                      inform.add('Reintegro completado Satisfactori amente. ',{
-                            ttl:5000, type: 'success'
-                      });
-                      $('.circle-loader').toggleClass('load-complete');
-                      $('.checkmark').toggle();
-                      $scope.ticketRegistered = response.data;
-                      $scope.openTicketFn($scope.ticketRegistered.idTicket);
-                      //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
-                      $scope.mainSwitchFn('search', null);
-                    }, 2500);
-                  }else if(response.status==500){
-                      $scope.ticketRegistered = null;
-                    console.log("Status no updated, contact administrator");
-                    inform.add('Error: [500] Contacta al area de soporte. ',{
-                          ttl:5000, type: 'danger'
-                    });
-                  }
-                  $scope.mainSwitchFn('search', null);
-                  //$('#showModalRequestStatus').modal('hide');
-              });
-            };
-          /******************************
-          *     CHANGE TICKET STATUS    *
-          ******************************/
-            $scope.ticketUpdated = null;
-            $scope.changeTicketStatusRequestFn = function(pedido){
-              console.log(pedido);
-              $scope.ticketRegistered = null;
-              ticketServices.changueStatus(pedido).then(function(response){
-                  //console.log(response);
-                  if(response.status==200){
-                    $timeout(function() {
-                      console.log("Request Successfully processed");
-                      inform.add('Estado del pedido Actualizado Satisfactoriamente. ',{
-                            ttl:5000, type: 'success'
-                      });
-                      $('.circle-loader').toggleClass('load-complete');
-                      $('.checkmark').toggle();
-                      $scope.ticketRegistered = response.data;
-                      $scope.openTicketFn(pedido.ticket.idTicket);
-                      //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
-                      $scope.mainSwitchFn('search', null);
-                    }, 2500);
-                  }else if(response.status==500){
-                      $scope.ticketRegistered = null;
-                    console.log("Status no updated, contact administrator");
-                    inform.add('Error: [500] Contacta al area de soporte. ',{
-                          ttl:5000, type: 'danger'
-                    });
-                  }
-                  $scope.mainSwitchFn('search', null);
-                  //$('#showModalRequestStatus').modal('hide');
-              });
-            };
-          /******************************
-          *  MULTI CHANGE TICKET STATUS *
-          ******************************/
-            $scope.changeTicketStatusRequestMultiFn = function(pedido){
-              ticketServices.changueStatus(pedido).then(function(response){
-                  //console.log(response);
-                  if(response.status==200){
-                    console.log("Request Successfully processed");
-                  }else if(response.status==500){
-                    inform.add('Error: [500] Contacta al area de soporte. ',{
-                          ttl:5000, type: 'danger'
-                    });
-                  }
-              });
-            };
-          /******************************
-          *       APROBAR  TICKET       *
-          ******************************/
-            $scope.data={'ticket':{'idTicket': null,'history': []}};
-            $scope.sysApproveTicketFn = function(ticket){
-              console.clear();
-              $scope.data={'ticket':{'idTicket': null, 'idTypePaymentKf':null, 'history': []}};
-              $scope.data.ticket.idTicket         = ticket.idTicket;
-              $scope.data.ticket.idTypePaymentKf  = ticket.idTypePaymentKf;
-              $scope.data.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'idTicketKf': ticket.idTicket, 'descripcion': null, 'idCambiosTicketKf':"2"});
-              if (ticket.idTypePaymentKf=="1"){
-                $scope.data.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'idTicketKf': ticket.idTicket, 'descripcion': null, 'idCambiosTicketKf':"13"});
-              }
-              console.log($scope.data);
-                ticketServices.approvedTicket($scope.data).then(function(response){
-                  console.log(response);
-                  if(response.status==200){
-                    console.log("TICKET APPROVED SUCCESSFULLY");
-                    inform.add('Ticket ha sido aprobado satisfactoriamente.',{
-                      ttl:3000, type: 'success'
-                    });
-                    if(response.data.idTypePaymentKf=="2" && (response.data.paymentDetails==undefined || response.data.paymentDetails==null) && (response.data.idStatusTicketKf!="9" && response.data.idStatusTicketKf!="11") && NaN2Zero(normalizeDecimal(response.data.total))>0){
+              $scope.ticketUpdated = null;
+              $scope.completeTicketRefundFn = function(ticket){
+                console.log(ticket);
+                $scope.ticketRegistered = null;
+                ticketServices.completeTicketRefund(ticket).then(function(response){
+                    //console.log(response);
+                    if(response.status==200){
                       $timeout(function() {
-                          $scope.mainSwitchFn("linkMP",response.data,null);
-                          $scope.mainSwitchFn('search', null);
-                      }, 2500);
-                    }
-                    $timeout(function() {
-
+                        console.log("Request Successfully processed");
+                        inform.add('Reintegro completado Satisfactori amente. ',{
+                              ttl:5000, type: 'success'
+                        });
                         $('.circle-loader').toggleClass('load-complete');
                         $('.checkmark').toggle();
                         $scope.ticketRegistered = response.data;
                         $scope.openTicketFn($scope.ticketRegistered.idTicket);
-                        //$scope.filters.ticketStatus.idStatus = $scope.ticketRegistered.idStatusTicketKf;
+                        //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
                         $scope.mainSwitchFn('search', null);
-                    }, 3000);
-                    if($scope.sysRouteParams!=undefined){
-                      $timeout(function() {
-                          $scope.sysRouteParams = null;
-                          tokenSystem.destroyTokenStorage(7);
-                          $scope.tkupdate = null;
-                          $scope.mainSwitchFn('dashboard', null);
-                          blockUI.stop();
-                      }, 3200);
-                  }
+                      }, 2500);
                     }else if(response.status==500){
                         $scope.ticketRegistered = null;
-                      console.log("Ticket Approval has failed, contact administrator");
+                      console.log("Status no updated, contact administrator");
                       inform.add('Error: [500] Contacta al area de soporte. ',{
                             ttl:5000, type: 'danger'
                       });
                     }
                     $scope.mainSwitchFn('search', null);
+                    //$('#showModalRequestStatus').modal('hide');
                 });
-            }
+              };
+          /******************************
+          *     CHANGE TICKET STATUS    *
+          ******************************/
+              $scope.ticketUpdated = null;
+              $scope.changeTicketStatusRequestFn = function(pedido){
+                console.log(pedido);
+                $scope.ticketRegistered = null;
+                ticketServices.changueStatus(pedido).then(function(response){
+                    //console.log(response);
+                    if(response.status==200){
+                      $timeout(function() {
+                        console.log("Request Successfully processed");
+                        inform.add('Estado del pedido Actualizado Satisfactoriamente. ',{
+                              ttl:5000, type: 'success'
+                        });
+                        $('.circle-loader').toggleClass('load-complete');
+                        $('.checkmark').toggle();
+                        $scope.ticketRegistered = response.data;
+                        $scope.openTicketFn(pedido.ticket.idTicket);
+                        //$scope.filters.ticketStatus.idStatus = pedido.ticket.idNewStatusKf;
+                        $scope.mainSwitchFn('search', null);
+                      }, 2500);
+                    }else if(response.status==500){
+                        $scope.ticketRegistered = null;
+                      console.log("Status no updated, contact administrator");
+                      inform.add('Error: [500] Contacta al area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                      });
+                    }
+                    $scope.mainSwitchFn('search', null);
+                    //$('#showModalRequestStatus').modal('hide');
+                });
+              };
+          /******************************
+          *  MULTI CHANGE TICKET STATUS *
+          ******************************/
+              $scope.changeTicketStatusRequestMultiFn = function(pedido){
+                ticketServices.changueStatus(pedido).then(function(response){
+                    //console.log(response);
+                    if(response.status==200){
+                      console.log("Request Successfully processed");
+                    }else if(response.status==500){
+                      inform.add('Error: [500] Contacta al area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                      });
+                    }
+                });
+              };
+          /******************************
+          *       APROBAR  TICKET       *
+          ******************************/
+              $scope.data={'ticket':{'idTicket': null,'history': []}};
+              $scope.sysApproveTicketFn = function(ticket){
+                console.clear();
+                $scope.data={'ticket':{'idTicket': null, 'idTypePaymentKf':null, 'history': []}};
+                $scope.data.ticket.idTicket         = ticket.idTicket;
+                $scope.data.ticket.idTypePaymentKf  = ticket.idTypePaymentKf;
+                $scope.data.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'idTicketKf': ticket.idTicket, 'descripcion': null, 'idCambiosTicketKf':"2"});
+                if (ticket.idTypePaymentKf=="1"){
+                  $scope.data.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'idTicketKf': ticket.idTicket, 'descripcion': null, 'idCambiosTicketKf':"13"});
+                }
+                console.log($scope.data);
+                  ticketServices.approvedTicket($scope.data).then(function(response){
+                    console.log(response);
+                    if(response.status==200){
+                      console.log("TICKET APPROVED SUCCESSFULLY");
+                      inform.add('Ticket ha sido aprobado satisfactoriamente.',{
+                        ttl:3000, type: 'success'
+                      });
+                      if(response.data.idTypePaymentKf=="2" && (response.data.paymentDetails==undefined || response.data.paymentDetails==null) && (response.data.idStatusTicketKf!="9" && response.data.idStatusTicketKf!="11") && NaN2Zero(normalizeDecimal(response.data.total))>0){
+                        $timeout(function() {
+                            $scope.mainSwitchFn("linkMP",response.data,null);
+                            $scope.mainSwitchFn('search', null);
+                        }, 2500);
+                      }
+                      $timeout(function() {
+
+                          $('.circle-loader').toggleClass('load-complete');
+                          $('.checkmark').toggle();
+                          $scope.ticketRegistered = response.data;
+                          $scope.openTicketFn($scope.ticketRegistered.idTicket);
+                          //$scope.filters.ticketStatus.idStatus = $scope.ticketRegistered.idStatusTicketKf;
+                          $scope.mainSwitchFn('search', null);
+                      }, 3000);
+                      if($scope.sysRouteParams!=undefined){
+                        $timeout(function() {
+                            $scope.sysRouteParams = null;
+                            tokenSystem.destroyTokenStorage(7);
+                            $scope.tkupdate = null;
+                            $scope.mainSwitchFn('dashboard', null);
+                            blockUI.stop();
+                        }, 3200);
+                    }
+                      }else if(response.status==500){
+                          $scope.ticketRegistered = null;
+                        console.log("Ticket Approval has failed, contact administrator");
+                        inform.add('Error: [500] Contacta al area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                        });
+                      }
+                      $scope.mainSwitchFn('search', null);
+                  });
+              }
           /******************************
           *    BILLING INITIATE TICKET  *
           ******************************/
@@ -3987,7 +4267,7 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                 var Departamento = obj[f].idTypeRequestFor==1?floor+" - "+depto.toUpperCase():'';
                 var Envio = obj[f].typeDeliver!=undefined?obj[f].typeDeliver.typeDelivery:'';
                 var Pago = obj[f].typePaymentKf!=undefined?obj[f].typePaymentKf.descripcion:'';
-                var fullNameUser=obj[f].idUserRequestBy!=undefined && obj[f].idUserRequestBy!=null && obj[f].userRequestBy!=undefined && obj[f].userRequestBy.fullNameUser!=undefined?obj[f].userRequestBy.fullNameUser:"no asignado";
+                var fullNameUser=obj[f].idUserRequestBy!=undefined && obj[f].idUserRequestBy!=null && obj[f].userRequestBy.fullNameUser!=undefined?obj[f].userRequestBy.fullNameUser:"no asignado";
                 $scope.list_requests.push({
                     //'idTicket':obj[f].idTicket,
                     'NumeroPedido':obj[f].codTicket,
@@ -4360,13 +4640,13 @@ monitor.controller('MonitorCtrl', function($scope, $rootScope, $http, $location,
                   city            = obj[f].thirdPersonDelivery.province;
                   taddress        = obj[f].thirdPersonDelivery.address;
                   address         = address.toUpperCase()+" "+obj[f].thirdPersonDelivery.number;
-                  emailAddr       = obj[f].userRequestBy.emailUser;
+                  emailAddr       = obj[f].userRequestBy!=null && obj[f].userRequestBy!=undefined?obj[f].userRequestBy.emailUser:"No asignado";
                   phoneNumberUser = obj[f].thirdPersonDelivery.movilPhone;
                   dni             = obj[f].thirdPersonDelivery.dni;
                   $scope.getAddressDetailsFn(address, obj[f].thirdPersonDelivery.idProvinceFk);
                   ubicacion_lat   = $scope.ubicacion_lat;
                   ubicacion_lon   = $scope.ubicacion_lon;
-                  whoReceive      = obj[f].userDelivery.fullName;
+                  whoReceive      = obj[f].thirdPersonDelivery.fullName!=undefined?obj[f].thirdPersonDelivery.fullName:"No asignado";
                 }
 
                 var codTicket     = obj[f].codTicket;

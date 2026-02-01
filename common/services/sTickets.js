@@ -564,5 +564,15 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                 return response;
               });
           },
+          setIsTechnicianAssigned: function(data) {
+            console.log("[Ticket Service][setIsTechnicianAssigned]---> Ticket Set isTechnicianAssigned to TRUE");
+            return $http.post(serverHost+serverBackend+"Ticket/IsTechnicianAssigned",data, serverHeaders)
+              .then(function mySucess(response) {
+                return response;
+              },function myError(response) {
+                console.log("Error: "+response.data.error);
+                return response;
+              })
+          },
       }
 }]);
