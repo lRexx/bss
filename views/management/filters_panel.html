@@ -369,6 +369,15 @@
                         </label>
                         </div>
                     </div>
+                    <div ng-if="filters.ticketStatus.idStatus!='3' && filters.ticketStatus.idStatus!='6' && (filters.paymentsType.id!='2' || filters.paymentsType.id=='2')" class="col-md-4 col-xs-12">
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Pedidos derivados al Área Técnica</label></div>
+                        <div class="col-md-4 col-xs-4">
+                        <label class="switch switch-2x" for="isTechnicianAssigned-search">
+                            <input type="checkbox" class="success" ng-change="mainSwitchFn('search', null)" ng-model="filters.isTechnicianAssigned" id="isTechnicianAssigned-search">
+                            <span class="slider slider-2x flat"></span>
+                        </label>
+                        </div>
+                    </div>
                 </div>
                 <div class="row">
                     <div ng-if="filters.paymentsType.id=='2'" class="col-md-12 col-xs-12">
