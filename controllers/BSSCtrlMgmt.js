@@ -916,7 +916,19 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.mainSwitchFn("approveDepto", $scope.tenantObj);
                   $('#confirmRequestModal').modal('hide');
                 }
-            break;
+              break;
+              case "updateComment":
+                if (confirm==0){
+                    $scope.ticketObj=obj;
+                        console.log(obj)
+                        $scope.mess2show="Desea actualizar las observaciones/comentarios del pedido, Confirmar ?";
+                        //console.log(obj);
+                  $('#confirmRequestModal').modal('toggle');
+                }else if (confirm==1){
+                  $scope.mainSwitchFn("updateComment", $scope.ticketObj);
+                  $('#confirmRequestModal').modal('hide');
+                }
+              break;
               default:
           }
         }
@@ -5728,6 +5740,19 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $timeout(function() {
                 $scope.setIsTechnicianAssignedFn($scope.update);
               }, 2000);
+            break;
+            case "updateComment":
+                  console.log(obj);
+                  $scope.update.ticket                                  = obj;
+                  $scope.update.ticket.createNewMPLink                  = false;
+                  $scope.update.ticket.createNewMPLinkForDelivery       = false;
+                  $scope.update.ticket.history                          = [];
+                  $scope.update.ticket.refund                           = [];
+                  $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                  $scope.update.ticket.editCommentBtn = false;
+                  $timeout(function() {
+                    $scope.updateUpRequestFn($scope.update);
+                  }, 2000);
             break;
             case "deliveryToOtherAddress":
               console.log(obj);
