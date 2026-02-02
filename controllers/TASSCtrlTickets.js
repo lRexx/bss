@@ -4927,6 +4927,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                 }
                             break;
                         }
+
                         if(obj.radioButtonBuilding!="4" && obj.radioButtonBuilding!="5"){
                             if (obj.delivery.idTypeDeliveryKf=="1"){
                                 $scope.new.ticket.idDeliveryTo              = null
@@ -4967,10 +4968,10 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.new.ticket.idTypePaymentKf               = obj.cost.total>0?obj.cost.idTypePaymentKf:null;
                         $scope.new.ticket.sendNotify                    = $scope.sysLoggedUser.idProfileKf=="1"?obj.userNotify:null;
                         $scope.new.ticket.description                   = obj.description;
-                        $scope.new.ticket.costService                   = obj.cost.service;
-                        $scope.new.ticket.costKeys                      = obj.cost.keys;
-                        $scope.new.ticket.costDelivery                  = obj.cost.delivery;
-                        $scope.new.ticket.total                         = obj.cost.total;
+                        $scope.new.ticket.costService                   = NaN2Zero(normalizeDecimal(obj.cost.service));
+                        $scope.new.ticket.costKeys                      = NaN2Zero(normalizeDecimal(obj.cost.keys));
+                        $scope.new.ticket.costDelivery                  = NaN2Zero(normalizeDecimal(obj.cost.delivery));
+                        $scope.new.ticket.total                         = NaN2Zero(normalizeDecimal(obj.cost.total));
                         $scope.new.ticket.urlToken                      = $scope.sysTokenFn(128);
                         $scope.new.ticket.autoApproved                  = obj.building.autoApproveAll == "1" || (($scope.new.ticket.idUserRequestByProfile=="3" || $scope.new.ticket.idUserRequestByProfile=="4" || $scope.new.ticket.idUserRequestByProfile=="6")&&$scope.new.ticket.idUserRequestByTypeTenant=="1" && obj.building.autoApproveOwners=="1")?1:0;
                         $scope.new.ticket.isNew                         = 1;
