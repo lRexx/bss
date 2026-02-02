@@ -86,7 +86,7 @@
                   </li>
                   <!-- CANCEL -->
                   <li ng-click="mainSwitchFn('openTicket', item, null)" class="dropdown-item"
-                      ng-if="((item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1) ||  (item.idStatusTicketKf==10 && item.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1')">
+                      ng-if="((item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1 && item.idStatusTicketKf!=13) ||  (item.idStatusTicketKf==10 && item.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1')">
                     <div class="divider"></div>
                     <a href=""
                       ng-click="modalConfirmation('cancel_sys',0, item)">

@@ -417,17 +417,17 @@
                       <span class="btn-label"><i class="fas fa-check"></i></span>Aprobar</a>
                   </div>
                   <!-- REJECT CANCEL REQUEST -->
-                  <div ng-if="(sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tkupdate.idTypeTicketKf<2 && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested=='1'" class="col-xs-3 col-sm-4 col-md-2">
+                  <div ng-if="(sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tkupdate.idTypeTicketKf<2 && tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1 && tkupdate.idStatusTicketKf!=13 && tkupdate.isCancelRequested=='1'" class="col-xs-3 col-sm-4 col-md-2">
                     <a id="cancelTicket" ng-click="modalConfirmation('reject_cancel_user',0, tkupdate)" type="button" class="btn btn-labeled btn-warning">
                       <span class="btn-label"><i class="fas fa-window-close"></i></span>Rechazar</a>
                   </div>
                   <!-- REQUEST CANCEL -->
-                  <div ng-if="tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1 && tkupdate.isCancelRequested!=1 && (sysLoggedUser.idProfileKf=='3') || ((sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null)" class="col-xs-3 col-sm-4 col-md-2">
+                  <div ng-if="tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1  && tkupdate.idStatusTicketKf!=13 && tkupdate.isCancelRequested!=1 && (sysLoggedUser.idProfileKf=='3') || ((sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null)" class="col-xs-3 col-sm-4 col-md-2">
                     <a id="cancelTicket" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.isCancelRequested?'':modalConfirmation('cancel_user',0, tkupdate)" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6)  || tkupdate.idStatusTicketKf==1 || tkupdate.isCancelRequested" type="button" class="btn btn-labeled btn-danger">
                       <span class="btn-label"><i class="fas fa-ban"></i></span>Cancelar</a>
                   </div>
                   <!-- CANCEL TICKET -->
-                  <div ng-if="((tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1) ||  (tkupdate.idStatusTicketKf==10 && tkupdate.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" class="col-xs-3 col-sm-4 col-md-2">
+                  <div ng-if="((tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1 &&tkupdate.idStatusTicketKf!=13) ||  (tkupdate.idStatusTicketKf==10 && tkupdate.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" class="col-xs-3 col-sm-4 col-md-2">
                     <a id="cancelTicket" ng-click="modalConfirmation('cancel_sys',0, tkupdate)" type="button" class="btn btn-labeled btn-danger">
                       <span class="btn-label"><i class="fas fa-ban"></i></span>Cancelar</a>
                   </div>

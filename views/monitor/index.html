@@ -199,11 +199,11 @@
                             <i class="glyphicon glyphicon-edit"></i>
                         </button>
                         <!-- REQUEST CANCEL FOR OWNERS & TENANTS -->
-                        <button ng-if="tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && tk.isCancelRequested!=1 && ((sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null)" type="button" ng-click="modalConfirmation('cancel_user',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1 || tk.isCancelRequested" data-toggle="tooltip" data-placement="left"  title="Cancelar">
+                        <button ng-if="tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && tk.idStatusTicketKf!=13 && tk.isCancelRequested!=1 && ((sysLoggedUser.idProfileKf=='3' || sysLoggedUser.idProfileKf=='5') && sysLoggedUser.idTypeTenantKf!=null)" type="button" ng-click="modalConfirmation('cancel_user',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1 || tk.isCancelRequested" data-toggle="tooltip" data-placement="left"  title="Cancelar">
                             <i class="fas fa-ban"></i>
                         </button>
                         <!-- CANCEL ADMIN AND SYSTEM USERS -->
-                        <button ng-if="((tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1) ||  (tk.idStatusTicketKf==10 && tk.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" type="button" ng-click="modalConfirmation('cancel_sys',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1" data-toggle="tooltip" data-placement="left"  title="Cancelar">
+                        <button ng-if="((tk.idStatusTicketKf!=6 && tk.idStatusTicketKf!=1 && tk.idStatusTicketKf!=13) ||  (tk.idStatusTicketKf==10 && tk.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" type="button" ng-click="modalConfirmation('cancel_sys',0, tk)" class="btn btn-xs btn-danger" ng-disabled="(tk.idStatusTicketKf>=5 && tk.idStatusTicketKf<=6)  || tk.idStatusTicketKf==1" data-toggle="tooltip" data-placement="left"  title="Cancelar">
                             <i class="fas fa-ban"></i>
                         </button>
                         <!-- DELIVERY CHANGE -->
