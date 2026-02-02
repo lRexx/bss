@@ -52,7 +52,7 @@
                                 'label-default':
                                 tkupdate.idStatusTicketKf=='8',
                                 'label-success':
-                                tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='5',
+                                tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='13'  || tkupdate.idStatusTicketKf=='5',
                                 'label-warning':
                                 tkupdate.idStatusTicketKf=='3' || tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='10' || tkupdate.idStatusTicketKf=='2' || tkupdate.idStatusTicketKf=='7' || tkupdate.idStatusTicketKf=='9' || tkupdate.idStatusTicketKf=='11' || tkupdate.idStatusTicketKf=='12',
                                 'label-danger':
@@ -61,7 +61,7 @@
                               </span>
                               <button ng-if="sysLoggedUser.idProfileKf==1 && (tkupdate.idStatusTicketKf==2 || tkupdate.idStatusTicketKf==9 || tkupdate.idStatusTicketKf==11) && (sysLoggedUser.idProfileKf==1 || sysLoggedUser.idProfileKf==4) && tkupdate.isCancelRequested!=1"  data-toggle="tooltip" data-placement="bottom" title="Aprobar" type="button" style="margin-left: 0.5%" ng-click="mainSwitchFn('approveTicket', tkupdate)" class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
                               <button ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.idTypeTicketKf<=2 && (tkupdate.idStatusTicketKf=='4' || tkupdate.idStatusTicketKf=='5' || tkupdate.idStatusTicketKf=='7' || tkupdate.idStatusTicketKf=='8')" ng-click="mainSwitchFn('change_ticket_status', tkupdate, null)" data-toggle="tooltip" data-placement="bottom" title="Cambiar estatus" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-primary"><i class="fas fa-sync"></i></button>
-                              <button ng-if="((tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1) ||  (tkupdate.idStatusTicketKf==10 && tkupdate.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" ng-click="modalConfirmation('cancel_sys',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Cancelar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-danger"><i class="fas fa-ban"></i></button>
+                              <button ng-if="((tkupdate.idStatusTicketKf!=6 && tkupdate.idStatusTicketKf!=1 && tkupdate.idStatusTicketKf!=13) ||  (tkupdate.idStatusTicketKf==10 && tkupdate.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1' || sysLoggedUser.idProfileKf=='4')" ng-click="modalConfirmation('cancel_sys',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Cancelar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-danger"><i class="fas fa-ban"></i></button>
                               <button ng-if="sysLoggedUser.idProfileKf!=1 && tkupdate.idTypeTicketKf<=2 && (tkupdate.idStatusTicketKf=='10' && tkupdate.isCancelRequested!='1')" ng-click="modalConfirmation('cancel_user',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Cancelar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-danger"><i class="fas fa-ban"></i></button>
                           </div>
                         </div>
@@ -463,7 +463,6 @@
         </div>
     </div>
   </div>
-  <!-- //PDF VIEWER Modal -->
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/lists/ticketKeyList.html'"></div>
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/lists/refundsList.html'"></div>
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/delivery_details.html'"></div>

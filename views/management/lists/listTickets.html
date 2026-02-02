@@ -113,14 +113,14 @@
               'label-default':
               item.idStatusTicketKf=='8',
               'label-success':
-              item.idStatusTicketKf=='1' || item.idStatusTicketKf=='5',
+              item.idStatusTicketKf=='1' || item.idStatusTicketKf=='13' || item.idStatusTicketKf=='5',
               'label-warning':
               item.idStatusTicketKf=='3' || item.idStatusTicketKf=='4' || item.idStatusTicketKf=='10' || item.idStatusTicketKf=='2' || item.idStatusTicketKf=='7' || item.idStatusTicketKf=='9' || item.idStatusTicketKf=='11' || item.idStatusTicketKf=='12',
               'label-danger':
               item.idStatusTicketKf=='6',
             }">{{item.statusTicket.statusName}}</span>&nbsp;
             <span ng-if="item.isTechnicianAssigned=='1'" data-toggle="tooltip" data-placement="top" title="Derivado al Área Técnica" class="badge badge-warning"><i class="fas fa-tools"></i></span>
-            <button ng-if="((item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1) ||  (item.idStatusTicketKf==10 && item.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1')" type="button" ng-click="modalConfirmation('cancel_sys',0, item)" class="btn btn-xs btn-danger" ng-disabled="(item.idStatusTicketKf>=5 && item.idStatusTicketKf<=6)  || item.idStatusTicketKf==1" data-toggle="tooltip" data-placement="right  title="Cancelar"><i class="fas fa-ban"></i></button>
+            <button ng-if="((item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1 && item.idStatusTicketKf=='13') ||  (item.idStatusTicketKf==10 && item.isCancelRequested==1)) && (sysLoggedUser.idProfileKf=='1')" type="button" ng-click="modalConfirmation('cancel_sys',0, item)" class="btn btn-xs btn-danger" ng-disabled="(item.idStatusTicketKf>=5 && item.idStatusTicketKf<=6)  || item.idStatusTicketKf==1 || item.idStatusTicketKf==13" data-toggle="tooltip" data-placement="right  title="Cancelar"><i class="fas fa-ban"></i></button>
           </td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">{{item.created_at | toDate | date:'dd/MM/yyyy'}}</td>
         </tr>

@@ -14,7 +14,7 @@
                     <!--ng-if="differentDays[$index]<=2 && tk.isCancelTicket<=0" -->
                     <div id="iconTypeTicket"  ng-init="compareDaysIn2Dates(tk.dateCratedTicket);" class="col-md-1 col-xs-2 icon_circle">
                         <span>
-                            <i ng-if="tk.idStatusTicketKf=='1'" class="i-success fas fa-check-circle"></i>
+                            <i ng-if="tk.idStatusTicketKf=='1' || tk.idStatusTicketKf=='13'" class="i-success fas fa-check-circle"></i>
                             <i ng-if="(tk.idStatusTicketKf=='2' || tk.idStatusTicketKf=='9' || tk.idStatusTicketKf=='11') && tk.isCancelRequested!='1'" class="i-warning fas fa-gavel"></i>
                             <i ng-if="tk.idStatusTicketKf=='3' && tk.isCancelRequested!='1'" class="i-warning fas fa-key"></i>
                             <!--<i ng-if="tk.idStatusTicketKf>='3' &&  tk.idTypeTicketKf<=2" class="i-cancel fas fa-key"></i>-->
@@ -39,8 +39,8 @@
                             <li><i class="fas fa-flag"></i> {{tk.typeticket.TypeTicketName}}</li>
                             <li><i class="fas fa-file-alt"></i> N°: {{tk.codTicket}}</li>
                             <li><i class="fas fa-tasks"></i> Estado:
-                                <!-- STATUS ENTREGADO -->
-                                <span ng-if="tk.idStatusTicketKf==1" class="label label-success"> {{tk.statusTicket.statusName}}</span>
+                                <!-- STATUS ENTREGADO / COMPLETADO-->
+                                <span ng-if="tk.idStatusTicketKf==1 || tk.idStatusTicketKf=='13'" class="label label-success"> {{tk.statusTicket.statusName}}</span>
                                 <!-- STATUS PENDIENTE DE APROBACION -->
                                 <span ng-if="(tk.idStatusTicketKf=='3' || tk.idStatusTicketKf=='2' || tk.idStatusTicketKf=='9' || tk.idStatusTicketKf=='11') && tk.isCancelRequested!='1'" class="label label-warning"> {{tk.statusTicket.statusName}}</span>
                                 <!--<span ng-if="tk.idStatusTicketKf==2" data-toggle="tooltip" data-placement="right" title="Aprobado por: {{tk.nameUserApprovedTicket}}" class="label label-default"> {{tk.statusTicket.statusName}}</span>-->
