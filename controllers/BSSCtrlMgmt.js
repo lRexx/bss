@@ -5748,7 +5748,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.update.ticket.createNewMPLinkForDelivery       = false;
                   $scope.update.ticket.history                          = [];
                   $scope.update.ticket.refund                           = [];
-                  $('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                  //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                   $scope.update.ticket.editCommentBtn = false;
                   $timeout(function() {
                     $scope.updateUpRequestFn($scope.update);
