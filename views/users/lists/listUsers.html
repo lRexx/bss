@@ -18,13 +18,13 @@
       </tr>
     </thead>
     <tbody>
-      <tr class="animate-repeat" style="align-content: center;" ng-repeat="item in pagedItems[currentPage] | orderBy:sortingOrder:reverse">
+      <tr class="animate-repeat" style="align-content: center;" ng-repeat="item in userList | orderBy:sortingOrder:reverse">
         <td ng-trim="true">
           <button ng-click="selectUserDataFn(item);" data-toggle="tooltip" data-placement="top" title="Editar" type="button" class="btn btn-info btn-xs">{{item.idUser}}</button>
           <span ng-if="
             ((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (!item.idAddresKf && !item.idAdress) && !item.idDepartmentKf && (item.phoneLocalNumberUser || item.phoneNumberUser))" class="badge badge-notify">
             <i data-toggle="tooltip" data-placement="right" title="Direccion y Depto incompletos" class="fas fa-map-marked-alt"> <i class="fas fa-home"></i></i>
-            
+
           </span>
           <span ng-if="
             (((item.idProfileKf==5 || (item.idProfileKf==6 && item.idTypeTenantKf==2)) && (item.idAddresKf || item.idAdress) && !item.idDepartmentKf) || ((item.idProfileKf==3 || item.idProfileKf==4 || item.idProfileKf==6) && item.idTypeTenantKf==1 && item.deptos==undefined))" class="badge badge-notify">
@@ -80,8 +80,8 @@
           <span >{{item.nameProfile}}</span>
           <label class="label label-default">{{item.nameTypeAttendant}}</label>
         </td>
-        <td style="vertical-align: middle;text-align: center;" ng-if="item.name"><label class="label label-default">{{item.name}}</label></td>
-        <td style="vertical-align: middle;text-align: center;" ng-if="item.name==null"><label class="label label-warning" data-toggle="tooltip" data-placement="left" title="Role no asociado">N/A</label></td>
+        <td style="vertical-align: middle;text-align: center;" ng-if="item.systemProfileName"><label class="label label-default">{{item.systemProfileName}}</label></td>
+        <td style="vertical-align: middle;text-align: center;" ng-if="item.systemProfileName==null"><label class="label label-warning" data-toggle="tooltip" data-placement="left" title="Role no asociado">N/A</label></td>
         <td style="vertical-align: middle;text-align: center;"> <!-- TD to Admins -->
             <label ng-if="item.idStatusKf==1" class="label label-success">ACTIVO
             </label>
