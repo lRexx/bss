@@ -1,6 +1,6 @@
 var moduleUserServices = angular.module("services.User", ["tokenSystem"]);
 
-moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders', 
+moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders',
   function($http, $q, tokenSystem, $timeout, serverHost, serverBackend, serverHeaders){
       var checkResult=0;
       var attempsToken = {emailAttempted:'', attempsCount: 0};
@@ -12,7 +12,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
           /* FIND USER BY EMAIL */
           checkUserMail: function(userMail, typeOfCheck) {
             mail2Search.mail.email=userMail;
-            //console.log("Email a verificar: "+userMail);  
+            //console.log("Email a verificar: "+userMail);
               return $http.post(serverHost+serverBackend+"User/findUserByEmail",mail2Search, serverHeaders)
                 .then(function mySucess(response, status, data) {
                       checkResult = 1;
@@ -46,7 +46,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                           }else{
                               attempsToken['attempsCount']=attempsTkn.attempsCount+1;
                               attempsToken['emailAttempted']=attempsTkn.emailAttempted;
-                          }  
+                          }
                       }else if (typeOfCheck=='register'){
                               sessionStorage.removeItem("attempsToken");
                               attempsToken['attempsCount']=0;
@@ -56,12 +56,12 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                       checkResult = 0;
                       return checkResult;
                     }
-            });   
+            });
           },
           /* FIND USER BY EMAIL */
           findUserByEmail: function(userMail) {
             mail2Search.mail.email=userMail;
-            //console.log("Email a verificar: "+userMail);  
+            //console.log("Email a verificar: "+userMail);
               return $http.post(serverHost+serverBackend+"User/findUserByEmail",mail2Search, serverHeaders)
                 .then(function mySucess(response, status, data) {
                     return response;
@@ -90,7 +90,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
               return $http.post(serverHost+serverBackend+"User/updatePass",userPwd2Recover, serverHeaders)
                 .then(function mySucess(response, status, data) {
                   return response;
-              },function myError(response) { 
+              },function myError(response) {
                 console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                 return response;
               });
@@ -103,7 +103,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response); 
+                    console.log("Error: "+response);
                     return response;
               })
           },
@@ -115,8 +115,8 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
               return $http.post(serverHost+serverBackend+"User/update",data2update, serverHeaders)
                 .then(function mySucess(response) {
                   return response;
-              },function myError(response, error) { 
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");  
+              },function myError(response, error) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                 return response;
               });
           },
@@ -127,8 +127,8 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
               return $http.post(serverHost+serverBackend+"User/addGuest", userData2Add, serverHeaders)
                 .then(function mySucess(response, status, data) {
                   return response;
-              },function myError(response, error) { 
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+              },function myError(response, error) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                 return checkResult;
               });
           },
@@ -139,8 +139,8 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
               return $http.post(serverHost+serverBackend+"User/updateGuest", userData2Add, serverHeaders)
                 .then(function mySucess(response, status, data) {
                   return response;
-              },function myError(response, error) { 
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+              },function myError(response, error) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                 return checkResult;
               });
           },
@@ -151,8 +151,8 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
               return $http.post(serverHost+serverBackend+"User/", userData2Add, serverHeaders)
                 .then(function mySucess(response, status, data) {
                   return response;
-              },function myError(response, error) { 
-                console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+              },function myError(response, error) {
+                console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                 return checkResult;
               });
           },
@@ -172,7 +172,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   //}
 
                   switch (response.status){
-                    
+
                     case 200:
                       rsJSON=response.data.response;
                       console.log("Method: "+response.config.method+" - msg code["+response.status+"]");
@@ -182,13 +182,13 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                           console.log('is an Attendant without login premission');
                         tokenSystem.temporalStorage(rsJSON);
                           rsJSON.loginResult = 10;
-                        return rsJSON; 
+                        return rsJSON;
                       }else if(rsJSON.isConfirmatedMail==0){
                         console.log('Confirm Email Required');
                         tokenSystem.temporalStorage(rsJSON);
                           rsJSON.loginResult = 3;
                         return rsJSON;
-                      }else if(rsJSON.isConfirmatedMail==1 && rsJSON.idStatusKf==0){ 
+                      }else if(rsJSON.isConfirmatedMail==1 && rsJSON.idStatusKf==0){
                         console.log('Account Inactive, please contact support');
                         tokenSystem.temporalStorage(rsJSON);
                           rsJSON.loginResult = 4;
@@ -207,7 +207,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                       $timeout(function() {
                           var jsonTokenUser = tokenSystem.getTokenStorage(2);
                           console.log('Login Successfully', jsonTokenUser.emailUser);
-                          
+
                       }, 1500);
                         rsJSON.loginResult = 1;
                       return rsJSON;
@@ -217,7 +217,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                       console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                       //tokenSystem.temporalStorage(rsJSON);
                       var jsonTokenUser = tokenSystem.getTokenStorage(3);
-                      
+
                       console.log("Error: " + response.data.error);
                         var rsTmpUser = tokenSystem.getTokenStorage(3);
                         if (rsTmpUser.idStatusKf=='1' && rsTmpUser.isConfirmatedMail=='1'){
@@ -234,7 +234,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                           }else{
                               attempsToken['attempsCount']=attempsTkn.attempsCount+1;
                               attempsToken['emailAttempted']=attempsTkn.emailAttempted;
-                          }  
+                          }
                           sessionStorage.setItem("attempsToken", JSON.stringify(attempsToken));
                           console.log('<<<Incorrect Password 5 >>>');
                           rsJSON.loginResult = 5;
@@ -243,22 +243,21 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                           rsJSON.loginResult = 6;
                         }
                       return rsJSON;
-                    break;
                     default:
                   }
                 },function myError(response) {
                     if(response.status == 404){
-                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                       /*inform.add(response.data.error,{
                         ttl:5000, type: 'warning'
                       }); */
                     }else{
-                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                       /*inform.add(response.data.error,{
                         ttl:5000, type: 'warning'
                       }); */
                     }
-                })   
+                })
           },
           /*/LOGIN SERVICE*/
           /* UPDATE LOGGED USER DATA SERVICE */
@@ -267,12 +266,12 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   method : "GET",
                   url : serverHost+serverBackend+"User/index/"+idUser
                 }).then(function mySuccess(response) {
-                  
+
                   tokenSystem.destroyTokenStorage(5);
                   tokenSystem.setTokenStorage(true, response.data, response.data.modules);
                   return response;
                 }).catch(function onError(response) {
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
                 });
           },
@@ -290,7 +289,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                       return rsData;
 
                   }).catch(function onError(response) {
-                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                       return response;
                   });
           },
@@ -304,8 +303,8 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                     checkResult = 1;
                     return checkResult;
 
-                },function myError(response, error) { 
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                },function myError(response, error) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
                 });
           },
@@ -320,8 +319,8 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                       console.log("[Service][addressByCode]---> codeSecurity: "+codeSecurity+" (Successfully Confirmed)");
                       return response;
 
-                  },function myError(response, error) { 
-                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  },function myError(response, error) {
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                       return response;
                   });
           },
@@ -333,8 +332,8 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                     url : serverHost+serverBackend+"user/usernoregister/"+idDepto
                   }).then(function mySuccess(response) {
                       return response;
-                  },function myError(response, error) { 
-                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  },function myError(response, error) {
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                       return response;
                   });
           },
@@ -347,7 +346,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                 }).then(function onSuccess(response) {
                   return response;
                 }).catch(function onError(response) {
-                  console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                   return response;
                 });
          },
@@ -363,10 +362,21 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                       //console.log(rsData);
                       return rsData;
 
-                  },function myError(response, error) { 
-                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  },function myError(response, error) {
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                       return response;
                   });
+          },
+          getUsersList: function(data) {
+            console.log("[User Services] => get all User");
+              return $http.post(serverHost+serverBackend+"User/list",data,serverHeaders)
+              .then(function onSuccess(response) {
+                rsJson=response;
+                return rsJson;
+              }).catch(function onError(response) {
+                //console.log("Error: "+response);
+                return response;
+              });
           },
           /*GET ATTENDANT LIST BY ADDRESS*/
           attendantList: function(idAddress) {
@@ -378,7 +388,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                       return response;
                   });
           },
@@ -392,7 +402,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                      console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                       return response;
                   });
           },
@@ -406,7 +416,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                 }).then(function mySuccess(response) {
                   return response;
                 }).catch(function onError(response) {
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
                 });
           },
@@ -431,8 +441,8 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   url : serverHost+serverBackend+"User/active/"+idUser
                 }).then(function mySuccess(response) {
                   return response;
-                },function myError(response, error) { 
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                },function myError(response, error) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
                 });
           },
@@ -444,8 +454,8 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   url : serverHost+serverBackend+"User/inactive/"+idUser
                 }).then(function mySuccess(response) {
                   return response;
-                },function myError(response, error) { 
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                },function myError(response, error) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
                 });
           },
@@ -457,8 +467,8 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                   url : serverHost+serverBackend+"User/delete/"+idUser
                 }).then(function mySuccess(response) {
                   return response;
-                },function myError(response, error) { 
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                },function myError(response, error) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
                 });
           },
@@ -471,7 +481,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                 }).then(function mySuccess(response) {
                   return response;
                 }).catch(function onError(response) {
-                  console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                  console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                   return response;
                 });
           },
@@ -486,7 +496,7 @@ moduleUserServices.service("userServices", ['$http', '$q', 'tokenSystem', '$time
                     return response;
 
                 }).catch(function onError(response) {
-                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]"); 
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
                 });
         },

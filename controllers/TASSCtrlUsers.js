@@ -23,7 +23,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
     }else{
       console.log("No login required!!");
     }
-    
+
     //if (!$scope.sysModules.idUsers){
     //  $location.path("/");
     //}
@@ -64,6 +64,14 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
           "limit":"10",
           "strict": null
         }
+        $scope.pagination = {
+          'maxSize': 5,     // Limit number for pagination display number.
+          'totalCount': 0,  // Total number of items in all pages. initialize as a zero
+          'pageIndex': 1,   // Current page number. First page is 1.-->
+          'pageSizeSelected': 10, // Maximum number of items per page.
+          'totalCount':0
+      }
+
       /**************************************************
       *                                                 *
       *             LIST CUSTOMER SERVICE               *
@@ -159,7 +167,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         }else if(response.status==404){
                           $scope.listCustomerFound = [];
                           //$scope.pagination.totalCount  = 0;
-                        } 
+                        }
                       }, function(err) {
                         $scope.listCustomerFound = [];
                         //$scope.pagination.totalCount  = 0;
@@ -202,7 +210,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         }else if(response.status==404){
                           $scope.listCustomerFound = [];
                           //$scope.pagination.totalCount  = 0;
-                        } 
+                        }
                       }, function(err) {
                         $scope.listCustomerFound = [];
                         //$scope.pagination.totalCount  = 0;
@@ -251,7 +259,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 if ($scope.customerFound.idClientBranchFk!=null && $scope.customerFound.idClientBranchFk!=undefined){
                   var arrCompany=[]
                   arrCompany=$scope.getCustomerBusinessNameByIdFn($scope.customerFound.idClientBranchFk);
-                  
+
                   $timeout(function() {
                     if (arrCompany.length==1){
                         $scope.select.company.selected=arrCompany[0];
@@ -297,7 +305,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 if ($scope.customerFound.idClientBranchFk!=null && $scope.customerFound.idClientBranchFk!=undefined){
                   var arrCompany=[]
                   arrCompany=$scope.getCustomerBusinessNameByIdFn($scope.customerFound.idClientBranchFk);
-                  
+
                   $timeout(function() {
                     if (arrCompany.length==1){
                         $scope.filterCompanyKf.selected=arrCompany[0];
@@ -343,7 +351,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     $("#updateSysProfile").modal('hide');
                     $("#UpdateUser").modal('hide');
                     if ($scope.sysContentList=="users" && ($scope.isNewUser==true || $scope.isUpdateUser==true)){
-                      $scope.refreshList();
+                      $scope.managedUsers('search', $scope.filters);
                     }else if ($scope.isNewProfileRole==true || $scope.isUpdateProfileRole==true){
                       $scope.getSysProfilesFn("");
                     }
@@ -464,7 +472,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       console.log('Usuario a eliminar ID: '+obj.idProfiles+' BAJO EL NOMBRE: '+obj.name);
                       console.log("============================================================================")
                       console.log(obj);
-                  }      
+                  }
                 $('#confirmRequestModal').modal('toggle');
               }else if (confirm==1){
                     $scope.deleteSysProfileFn($scope.idSysProf);
@@ -480,7 +488,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                       console.log("============================================================================")
                       console.log($scope.argObj);
-                  }      
+                  }
                 $('#confirmRequestModal').modal('toggle');
               }else if (confirm==1){
                     $scope.sysUpdateUserFn($scope.argObj);
@@ -496,7 +504,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                       console.log("============================================================================")
                       console.log($scope.argObj);
-                  }      
+                  }
                 $('#confirmRequestModal').modal('toggle');
               }else if (confirm==1){
                     $scope.sysUpdateUserFn($scope.argObj);
@@ -546,11 +554,11 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 }else if (item[key].idProduct!=undefined && typeof item[key].idProduct === 'string'){
                   rowId=Number(item[key].idProduct);
                   item[key].idProduct=rowId;
-                  rowList.push(item[key]);            
+                  rowList.push(item[key]);
                 }else if (item[key].idDepartmentFk!=undefined && typeof item[key].idProduct === 'string'){
                   rowId=Number(item[key].idDepartmentFk);
                   item[key].idDepartmentFk=rowId;
-                  rowList.push(item[key]);            
+                  rowList.push(item[key]);
                 }else{
                   rowList.push(item[key]);
                 }
@@ -606,7 +614,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   } else {
                       //console.log("entro al else");
                       $scope.pagedItems[Math.floor(i / itemsPerPage)].push($scope.filteredItems[i]);
-                  } 
+                  }
                   //console.log($scope.pagedItems[Math.floor(i / itemsPerPage)]);
               }
               //console.log($scope.pagedItems.length);
@@ -625,21 +633,21 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               }
           };
           //Last Page
-          $scope.lastPage = function(){          
+          $scope.lastPage = function(){
               $scope.currentPage=($scope.pagedItems.length-1);
           }
           //First Page
           $scope.firstPage = function () {
               $scope.currentPage=($scope.pagedItems.length-$scope.pagedItems.length);
           };
-    
+
           // change sorting order
           $scope.sort_by = function(newSortingOrder) {
               if ($scope.sortingOrder == newSortingOrder)
                   $scope.reverse = !$scope.reverse;
-    
+
               $scope.sortingOrder = newSortingOrder;
-    
+
               // icon setup
               //$('th i').each(function(){
               //    // icon reset
@@ -727,19 +735,16 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             switch(objOpt){
               case "2":
                 return item.idClientTypeFk == "3";
-              break;
               case "4":
                 if (($scope.isNewUser || $scope.isUpdateUser) && $scope.att.ownerOption==3){
                   return item.idClientTypeFk == "1" || item.idClientTypeFk == "3";
                 }else{
                   return item.idClientTypeFk == "2"
                 }
-              break;
               case "3":
               case "5":
               case "6":
                 return item.idClientTypeFk == "2";
-              break;
             }
           };
           $scope.filterCustomerByType2 = function(item){
@@ -747,15 +752,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             switch(objOpt){
               case "2":
                 return item.idClientTypeFk == "3";
-              break;
               case "4":
                   return item.idClientTypeFk == "1" || item.idClientTypeFk == "3";
-              break;
               case "3":
               case "5":
               case "6":
                 return item.idClientTypeFk == "2";
-              break;
             }
           };
         /**************************************************
@@ -769,14 +771,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             switch(objOpt){
               case "1":
                 return obj.idProfiles;
-              break;
               case "2":
               case "3":
               case "4":
               case "5":
               case "6":
                 return obj.idProfiles != "1";
-              break;
             }
           };
         /**************************************************
@@ -819,7 +819,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
         *                 USER  SERVICES                  *
         *  [userLists]: clientUser, attendants, tenants   *
         *               sysUser, companyUser              *
-        **************************************************/ 
+        **************************************************/
           $scope.rsList = {};
           $scope.getUserLists = function(opt, group){
               $scope.rsList = {};
@@ -916,7 +916,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 $scope.userDepartamentList[depto].isNew = false;
               }
             }
-            
+
             $scope.users.update.idTypeTenantKf        = obj.idTypeTenantKf;
             switch (switchOption) {
               case "1": //SYS USER
@@ -974,7 +974,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             }
             //$scope.getCustomersBuildingListFn($scope.users.update.idProfileKf, $scope.att.ownerOption);
             console.log($scope.users.update);
-           
+
           };
         /**************************************************
         *                                                 *
@@ -1094,8 +1094,8 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
           $scope.checkDepartmentListFn = function (objUser){
             console.log(objUser);
             if (objUser.idProfileKf!=undefined){
-              if (((((objUser.idProfileKf.idProfile == 5) || objUser.idProfileKf == 5) || 
-                  (((objUser.idProfileKf.idProfile == 4 || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==2)) && $scope.userDepartamentList.length>1) || 
+              if (((((objUser.idProfileKf.idProfile == 5) || objUser.idProfileKf == 5) ||
+                  (((objUser.idProfileKf.idProfile == 4 || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==2)) && $scope.userDepartamentList.length>1) ||
                   (((objUser.idProfileKf.idProfile == 4 || objUser.idProfileKf == 4) || (objUser.idProfileKf.idProfile == 6 || objUser.idProfileKf == 6)) && $scope.att.ownerOption==3)){
                 $scope.userDepartamentList = [];
               }
@@ -1137,7 +1137,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     ttl:5000, type: 'danger'
                     });
                 }
-      
+
               });
           }
         /**************************************************
@@ -1280,7 +1280,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       }
                     break;
                     case "5": //TENANT USER
-                      $scope.update.user.idTypeTenantKf          = 2;                      
+                      $scope.update.user.idTypeTenantKf          = 2;
                       if ($scope.userDepartamentList==undefined || $scope.userDepartamentList.length==0){
                         $scope.update.user.idAddresKf            = null;
                         $scope.update.user.idDepartmentKf        = null;
@@ -1327,7 +1327,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               case "enabled":
                 //Enabled User function
                 $scope.enabledUser(obj);
-              break; 
+              break;
               case "disabled":
                 //disabled User function
                 $scope.disabledUser(obj);
@@ -1434,7 +1434,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                       inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
                                         ttl:5000, type: 'success'
                                       });
-                                  });	
+                                  });
                                   var approvePromises = [];
                                   angular.forEach($scope.userDepartamentList,function(depto){
                                       var deferred = $q.defer();
@@ -1517,7 +1517,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                   });
                                   $scope.refreshList();
                                   blockUI.stop();
-                                }, 2500); 
+                                }, 2500);
                               }
                             }
                           }else if (response_userFound.status==404){
@@ -1540,7 +1540,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           });
                           $scope.refreshList();
                           blockUI.stop();
-                        }, 2500); 
+                        }, 2500);
                       }
                   }else if (response_userRegister.status==404){
                     inform.add('[Error]: '+response_userRegister.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
@@ -1612,7 +1612,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
                             ttl:5000, type: 'success'
                           });
-                      });	
+                      });
                       var approvePromises = [];
                       angular.forEach($scope.userDepartamentList,function(depto){
                           var deferred = $q.defer();
@@ -1655,7 +1655,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         inform.add('Departamentos Aprobados Satisfactoriamente.',{
                           ttl:5000, type: 'success'
                         });
-                      });	
+                      });
                       $timeout(function() {
                         $scope.refreshList();
                         blockUI.stop();
@@ -1678,7 +1678,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                             });
                             $scope.refreshList();
                             blockUI.stop();
-                        }, 2500); 
+                        }, 2500);
                       }else{
                         $timeout(function() {
                           //TENANT
@@ -1689,7 +1689,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           });
                           $scope.refreshList();
                           blockUI.stop();
-                        }, 2500); 
+                        }, 2500);
                       }
                     }else{
                       $timeout(function() {
@@ -1704,7 +1704,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         });
                         $scope.refreshList();
                         blockUI.stop();
-                      }, 2500); 
+                      }, 2500);
                     }
                   }else{
                     $timeout(function() {
@@ -1719,7 +1719,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       });
                       $scope.refreshList();
                       blockUI.stop();
-                    }, 2500); 
+                    }, 2500);
                   }
                 }else if (response.status==404){
                   $timeout(function() {
@@ -1915,7 +1915,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                               ttl:3000, type: 'success'
                           });
                           $timeout(function() {
-                              
+
                               $scope.remove = {'info':{'idUser':null, 'idDepartmentKf2':null, 'idTypeTenant': null}}
                               blockUI.stop();
                           }, 2000);
@@ -1927,7 +1927,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   }
                   blockUI.stop();
               });
-            } 
+            }
         /**************************************************
         *                                                 *
         *                DISABLED AN USER                 *
@@ -2015,7 +2015,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   blockUI.message('El usuario ha sido habilitado con exito!');
                   $timeout(function() {
                     $scope.getUserLists(1, 'users');
-                    
+
                   }, 500);
                   $timeout(function() {
                     //console.log(nameProfile+statusTenantName+customerName+buildings+nameTypeAttendant+searchboxfilter);
@@ -2200,7 +2200,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
               console.log(item);
               return function(item){
                 if(($scope.users.new.idProfileKf.idProfile==3 || $scope.users.new.idProfileKf.idProfile==5) && (item.idUserKf!=null || item.idUserKf==null)  && (item.floor=="pb" || item.floor=="ba" || item.floor=="co" || item.floor=="lo")){
-                
+
                   //$scope.ownerFound=true;
                   //console.log("ownerFound1: "+$scope.ownerFound+"item.idUserKf: "+item.idUserKf)
                   return false;
@@ -2270,12 +2270,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   ttl:5000, type: 'warning'
                 });
               }
-              
+
             }else{
                 inform.add('Selecciona un modulo como minimo para crear el perfil',{
                   ttl:5000, type: 'warning'
                 });
-            }   
+            }
           }
       /**************************************************
        *                                                 *
@@ -2338,12 +2338,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   ttl:5000, type: 'warning'
                 });
               }
-              
+
             }else{
                 inform.add('Selecciona un modulo como minimo para crear el perfil',{
                   ttl:5000, type: 'warning'
                 });
-            } 
+            }
           }
           $scope.chkBox2={modulo: {}};
           $scope.sysProfFound=false;
@@ -2404,12 +2404,12 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   ttl:5000, type: 'warning'
                 });
               }
-              
+
             }else{
                 inform.add('Selecciona un modulo como minimo para crear el perfil',{
                   ttl:5000, type: 'warning'
                 });
-            } 
+            }
           }
           $scope.rsUpdProfileData={};
           $scope.updateSysProfileFn = function(dataProfile, opt){
@@ -2427,7 +2427,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     inform.add("Perfil Actualizado satisfactoriamente",{
                       ttl:5000, type: 'success'
                     });
-                    
+
                   }
                 break;
                 case 2:
@@ -2444,14 +2444,85 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   }
                 break;
               }
-              //console.log($scope.rsModulesData); 
+              //console.log($scope.rsModulesData);
             });
+          }
+          $scope.filters={
+              "userProfile":{},
+              "searchboxfilter": null,
+              "userStatus":{},
+              "date_from":null,
+              "date_to":null
+            };
+         $scope.getUSersListFn = function(filters,limit,offset){
+              var idProfileKf            = filters.userProfile!=undefined && filters.userProfile!=null?filters.userProfile.idProfile:null;
+              var search                 = filters.searchboxfilter!=undefined && filters.searchboxfilter!="" && filters.searchboxfilter!=null?filters.searchboxfilter:null;
+              var date_from              = filters.date_from!=undefined && filters.date_from!="" && filters.date_from!=null?filters.date_from:null;
+              var date_to                = filters.date_to!=undefined && filters.date_to!="" && filters.date_to!=null?filters.date_to:null;
+              var idStatusKf             = filters.userStatus!=undefined && filters.userStatus!="" && filters.userStatus!=null?filters.userStatus.idStatusTenant:null;
+              var limit                  = limit;
+              var offset                 = offset;
+              var create_at              = filters.create_at!=undefined && filters.create_at!="" && filters.create_at!=null?filters.create_at:null;
+
+              console.log("=================================================");
+              console.log("                   getUSerList                   ");
+              console.log("=================================================");
+              console.log("idProfileKf      : "+idProfileKf);
+              console.log("search           : "+search);
+              console.log("date_from        : "+date_from);
+              console.log("date_to          : "+date_to);
+              console.log("idStatusKf       : "+idStatusKf);
+              console.log("limit            : "+limit);
+              console.log("offset           : "+offset);
+              console.log("create_at        : "+create_at);
+
+              $scope.usersSearch={
+                  "filters":{
+                    "idProfileKf":idProfileKf,
+                    "search":search,
+                    "date_from":date_from,
+                    "date_to":date_to,
+                    "idStatusKf":idStatusKf,
+                    "create_at":create_at
+                  },
+                  "limit":limit,
+                  "offset":offset
+                };
+              return userServices.getUsersList($scope.usersSearch).then(function(response){
+                return response;
+              });
+          };
+          $scope.pageChanged = function(){
+            //console.info($scope.pagination.pageIndex);
+            var pagIndex = ($scope.pagination.pageIndex-1)*($scope.pagination.pageSizeSelected);
+            $scope.getUSersListFn($scope.filters, $scope.pagination.pageSizeSelected, pagIndex).then(function(response) {
+              console.log(response);
+              if(response.status==200){
+                  $scope.userList = response.data.data;
+                  $scope.pagination.totalCount = response.data.total;
+                  console.info($scope.userList);
+              }else if(response.status==404){
+                console.log("404 Error");
+                console.log(response.statusText);
+                $scope.userList = [];
+              }else if(response.status==500){
+                  inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                  ttl:5000, type: 'danger'
+                  });
+                console.log("500 Error");
+                console.log(response.statusText);
+              }
+            }, function(err) {
+              $scope.userList = [];
+              console.log("Error: " + err);
+              //$scope.pagination.totalCount  = 0;
+          });
           }
           /**************************************************
           *                                                 *
           *             DELETE SYS PROFILE                  *
           *                                                 *
-          **************************************************/          
+          **************************************************/
             $scope.deleteSysProfileFn = function(idProfile){
               ProfileServices.deleteSysProfile(idProfile).then(function(data){
                 $scope.rsDelProfileData=data;
@@ -2463,9 +2534,9 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   inform.add("Perfil Eliminado satisfactoriamente",{
                     ttl:5000, type: 'success'
                   });
-                  
+
                 }
-                //console.log($scope.rsModulesData); 
+                //console.log($scope.rsModulesData);
               });
             }
           /**************************************************
@@ -2546,15 +2617,60 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           break;
                       }
                   break;
+                  case "search":
+                      console.log(val2);
+                      $scope.getUSersListFn(val2, $scope.pagination.pageSizeSelected, ($scope.pagination.pageIndex-1)).then(function(response) {
+                          console.log(response);
+                          if(response.status==200){
+                              $scope.userList = response.data.data;
+                              $scope.pagination.totalCount = response.data.total;
+                              console.info($scope.userList);
+                          }else if(response.status==404){
+                            console.log("404 Error");
+                            console.log(response.statusText);
+                            $scope.userList = [];
+                          }else if(response.status==500){
+                              inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                              ttl:5000, type: 'danger'
+                              });
+                            console.log("500 Error");
+                            console.log(response.statusText);
+                          }
+                        }, function(err) {
+                          $scope.userList = [];
+                          console.log("Error: " + err);
+                          //$scope.pagination.totalCount  = 0;
+                      });
+                  break;
                   case "list":
                     $scope.userList=[];
                     switch (val2){
                         case "users":
-                          $scope.getUserLists(1, 'users');
+                        $scope.pagination.pageIndex               = 1;
+                        $scope.getUSersListFn($scope.filters, $scope.pagination.pageSizeSelected, ($scope.pagination.pageIndex-1)).then(function(response) {
+                            console.log(response);
+                            if(response.status==200){
+                                $scope.userList = response.data.data;
+                                $scope.pagination.totalCount = response.data.total;
+                                console.info($scope.userList);
+                            }else if(response.status==404){
+                              console.log("404 Error");
+                              console.log(response.statusText);
+                              $scope.userList = [];
+                            }else if(response.status==500){
+                                inform.add('[Error]: '+response.status+', Ha ocurrido un error en la comunicacion con el servidor, contacta el area de soporte. ',{
+                                ttl:5000, type: 'danger'
+                                });
+                              console.log("500 Error");
+                              console.log(response.statusText);
+                            }
+                          }, function(err) {
+                            $scope.userList = [];
+                            console.log("Error: " + err);
+                            //$scope.pagination.totalCount  = 0;
+                        });
                           $timeout(function() {
                             $scope.sysContentList = "";
-                            $scope.userList=$scope.rsList.users;
-                            $scope.loadPagination($scope.userList, "idUser", "10");
                             $scope.sysContentList = 'users';
                         }, 1000);
                         break;
@@ -2599,6 +2715,4 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   default:
                 }
             }
-
-
 });

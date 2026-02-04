@@ -5,7 +5,7 @@
 		<h3 class="panel-title">GESTION DE USUARIOS </h3>
 	  </div>
 	  <div class="panel-body">
-		<div class="col-md-2"> 
+		<div class="col-md-2">
 			<!-- NEW USER -->
 			<div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="NUEVO CLIENTE" ng-click="managedUsers('new','user');cleanFilters();">
 				<div class="depto-icon">
@@ -17,7 +17,7 @@
 			</div>
 			<!-- //NEW USER -->
 			<!-- USERS -->
-			<div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="VER USUARIOS" ng-click="managedUsers('list','users');cleanFilters();">
+			<div class="depto-widget well well-md" data-toggle="tooltip" data-placement="right" title="VER USUARIOS" ng-click="managedUsers('list','users');">
 				<div class="depto-icon">
 						<span><i class="product-success fas fa-users"></i></span>
 				</div>
@@ -52,25 +52,25 @@
 								<label style="padding-left: 15px;">Buscar</label>
 								<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-search "></i></span>
-										<input type="text" class="form-control" ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, false)"  ng-model="searchboxfilter" placeholder="Buscar...">
+										<input type="text" class="form-control" ng-change="managedUsers('search', filters);"  ng-model="filters.searchboxfilter" placeholder="Buscar...">
 								</div>
 							</div>
 							<div class="col-md-2 btn-group-mg-top" ><br>
 								<div class="btn-group">
 									<!-- REFRESH BUTTON -->
 									<!-- USERS -->
-									<button ng-if="sysContentList=='users'" type="button" ng-click="refreshList();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
+									<button ng-if="sysContentList=='users'" type="button" ng-click="managedUsers('search', filters);" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
 									<!-- TENANTS -->
 									<button ng-if="sysContentList=='owners_tenants'" type="button" ng-click="getUserLists(1, 'owners_tenants');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
 									<!-- BUILDING STAFF -->
 									<button ng-if="sysContentList=='att'" type="button" ng-click="getUserLists(1, '6');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
 									<!-- COMPANY -->
-									<button ng-if="sysContentList=='company'" type="button" ng-click="getUserLists(1, '2');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>									
+									<button ng-if="sysContentList=='company'" type="button" ng-click="getUserLists(1, '2');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
 									<!-- SYSUERS -->
-									<button ng-if="sysContentList=='sysUsers'" type="button" ng-click="getUserLists(1, '1');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>									
+									<button ng-if="sysContentList=='sysUsers'" type="button" ng-click="getUserLists(1, '1');cleanFilters();" data-toggle="tooltip" data-placement="top" title="Actualizar" class="btn btn-md btn-success"><i class="glyphicon glyphicon-refresh"></i></button>
 									<!-- //Search box -->
 									<!-- New user button -->
-									<button data-toggle="tooltip" data-placement="top" title="Nuevo Usuario" type="button" ng-click="managedUsers('new','user')" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button>									 
+									<button data-toggle="tooltip" data-placement="top" title="Nuevo Usuario" type="button" ng-click="managedUsers('new','user')" class="btn btn-md btn-labeled btn-info"><span class="btn-label"><i class="glyphicon glyphicon-plus"></i> </span>Nuevo</button>
 								</div>
 							</div>
 						</div>
@@ -79,7 +79,7 @@
 					<div class="row">
 						<div ng-class="col-md-12">
 							<div class="col-md-2 col-xs-6">
-							  <input id="typeUserAll" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="search(null, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true);" ng-checked="true" name="typeClient" value="" ng-model="filters.userProfile" checked="checked">
+							  <input id="typeUserAll" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" ng-click="managedUsers('search', filters);" ng-checked="true" name="typeClient" ng-value="" ng-model="filters.userProfile" checked="checked">
 							  <label for="typeUserAll" class="radio-2x-label">
 								<span>Todos</span>
 							  </label>
@@ -89,9 +89,9 @@
 					<div class="row">
 						<div ng-class="col-md-12">
 							<div class="col-md-2 col-xs-6" ng-repeat="item in listProfile">
-							  <input id="typeUser-{{item.idProfile}}" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" 
-							  ng-click="search(filters.userProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true);" 
-							  name="typeClient" value="{{item.nameProfile}}" ng-model="filters.userProfile">
+							  <input id="typeUser-{{item.idProfile}}" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio"
+							  ng-click="managedUsers('search', filters);"
+							  name="typeClient" ng-value="item"ng-model="filters.userProfile">
 							  <label for="typeUser-{{item.idProfile}}" class="radio-2x-label">
 								<span>{{item.nameProfile}}</span>
 							  </label>
@@ -106,19 +106,19 @@
 								<label style="padding-left: 15px;">Perfil</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-										<select  name="userProfile" 
-											 	 ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true); getCustomersListByTypeFn(filters.userProfile.idProfile); filters.companies.selected=undefined" 
+										<select  name="userProfile"
+											 	 ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true); getCustomersListByTypeFn(filters.userProfile.idProfile); filters.companies.selected=undefined"
 												 ng-options="item.nameProfile for item in listProfile | filter:filterProfile" class="form-control" ng-model="filters.userProfile" >
 											<option value="" >Todos</option>
 										</select>
 									</div>
 							</div>-->
 							<!-- Filter Type of User For Admins -->
-							<div ng-if="filters.userProfile=='1'" class="col-md-2">
+							<div ng-if="filters.userProfile.idProfile=='1'" class="col-md-2">
 								<label style="padding-left: 15px;">Role</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-										<select  name="userRoles" ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true)" ng-options="item.name for item in listProfiles" class="form-control" ng-model="filters.userRoles" >
+										<select  name="userRoles" ng-change="managedUsers('search', filters);" ng-options="item.name for item in listProfiles" class="form-control" ng-model="filters.userRoles" >
 											<option value="" >Todos</option>
 										</select>
 									</div>
@@ -128,21 +128,21 @@
 								<label style="padding-left: 15px;">Estatus</label>
 									<div class="input-group">
 										<span class="input-group-addon"><i class="glyphicon glyphicon-tags"></i></span>
-										<select name="userStatus" ng-change="search(filters.userProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true)" ng-options="item.statusTenantName for item in listStatus"  class="form-control" ng-model="filters.userStatus" >
+										<select name="userStatus" ng-change="managedUsers('search', filters);" ng-options="item.statusTenantName for item in listStatus"  class="form-control" ng-model="filters.userStatus" >
 												<option value="" >Todos</option>
 										</select>
 									</div>
 							</div>
 							<!-- Company List -->
-							<div ng-if="filters.userProfile.idProfile=='2' || filters.userProfile.idProfile=='4'" class="col-md-4 col-sm-4">
+							<div ng-if="filters.userProfile.idProfile=='22' || filters.userProfile.idProfile=='44'" class="col-md-4 col-sm-4">
 								<label ng-if="filters.userProfile.idProfile=='4' || filters.userProfile.idProfile=='6'" style="padding-left: 15px;">Administracion</label>
 								<label ng-if="filters.userProfile.idProfile=='2'" style="padding-left: 15px;">Empresas</label>
 								<div class="input-group">
 									<span class="input-group-addon"><i class="fas fa-file-signature"></i></span>
-										<ui-select name="new_admin_id" 
-													ng-disabled="(filters.userProfile.idProfile!='2' && filters.userProfile.idProfile!='4' && filters.userProfile.idProfile!='6')" 
-													class="dropdown-select" 
-													ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true); filters.buildings.selected=undefined" 
+										<ui-select name="new_admin_id"
+													ng-disabled="(filters.userProfile.idProfile!='2' && filters.userProfile.idProfile!='4' && filters.userProfile.idProfile!='6')"
+													class="dropdown-select"
+													ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true); filters.buildings.selected=undefined"
 													ng-model="filters.companies.selected"
 													autofocus>
 											<ui-select-match allow-clear="true" placeholder="Todos">{{$select.selected.name | uppercase}}</ui-select-match>
@@ -153,7 +153,7 @@
 											  <small ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4 && item.idClientTypeFk!=5" ng-bind-html="item.businessName | highlight: $select.search" ng-bind-html="item.billing_information[0].businessNameBilling | highlight: $select.search"></small>
 											</ui-select-choices>
 											 <ui-select-no-choice>
-												<span ng-if="rsCustomerListByTypeData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados de tipo 
+												<span ng-if="rsCustomerListByTypeData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay clientes registrados de tipo
 												  <span ng-if="select.filterTypeOfClient.idClientType==1"> Administracion </span>
 												  <span ng-if="select.filterTypeOfClient.idClientType==2"> Edificio</span>
 												  <span ng-if="select.filterTypeOfClient.idClientType==3"> Empresa </span>
@@ -166,15 +166,15 @@
 							  </div>
 							</div>
 							<!-- Address for Tenant & Attendants -->
-							<div ng-if="filters.userProfile.idProfile=='5' || filters.userProfile.idProfile=='6'" class="col-md-4 col-sm-4">
+							<div ng-if="filters.userProfile.idProfile=='55' || filters.userProfile.idProfile=='66'" class="col-md-4 col-sm-4">
 								<label style="padding-left: 15px;">Consorcios</label>
 								<div class="input-group">
 									<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-									<ui-select 
-										class="dropdown-select" 
-										name="buildings" 
-										ng-disabled="filters.userProfile.idProfile!='5' && filters.userProfile.idProfile!='6'" 
-										ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true)"  
+									<ui-select
+										class="dropdown-select"
+										name="buildings"
+										ng-disabled="filters.userProfile.idProfile!='5' && filters.userProfile.idProfile!='6'"
+										ng-change="search(filters.userProfile.nameProfile, filters.userStatus.statusTenantName, filters.companies.selected.name, filters.buildings.selected.address, filters.attProfile.nameTypeAttendant, searchboxfilter, true)"
 										ng-model="filters.buildings.selected" autofocus>
 										<ui-select-match allow-clear="true" placeholder="Todos">{{$select.selected.address}}</ui-select-match>
 										<ui-select-choices repeat="item in rsCustomerListByTypeData | filter: $select.search">
@@ -212,7 +212,29 @@
 					<!-- TABLE LIST WHERE IS DISPLAYED THE SYS PROFILES -->
 					<div ng-if="sysContentList=='sysUsers'" ng-include="'views/users/lists/listSysUser.html'"></div>
 					<!-- PAGINATION -->
-					<div ng-if="pagedItems.length>1" style="text-align: center;" ng-include="'views/pagination/pager-tpl-v2.html'"></div>
+					<div ng-if="userList.length>0" style="text-align: center;">
+						<!--<dir-pagination-controls
+							max-size="10"
+							direction-links="true"
+							boundary-links="true" >
+						</dir-pagination-controls>-->
+						<div style="text-align: center;" ng-include="'views/pagination/pager-tpl-v3.html'"></div>
+						<!-- Filter Type of Tenant For Admins ng-if="sysContent=='customer'"-->
+						<!--<div class="col-md-3 col-sm-3">
+							<div class="input-group">
+								<label>Registros por pagina</label>
+								<select  name="itemPerPage"
+										ng-disabled="userList.status==404"
+										ng-change="groupToPages(itemPerPage)"
+										class="form-control"
+										ng-model="itemPerPage">
+									<option value="10" >10</option>
+									<option value="25" >25</option>
+									<option value="50" >50</option>
+								</select>
+							</div>
+						</div>-->
+					</div>
 					<!-- //PAGINATION -->
 				</div>
 			</div>
@@ -264,7 +286,7 @@
 					<!-- //PAGINATION -->
 				</div>
 			</div>
-		</div> 
+		</div>
 	  </div>
 	</div>
 </div>

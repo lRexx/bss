@@ -1,36 +1,37 @@
-<?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
+<?php if (!defined('BASEPATH'))
+    exit('No direct script access allowed');
 require APPPATH . '/libraries/REST_Controller.php';
 
-class User extends REST_Controller {
+class User extends REST_Controller
+{
 
-	public  function __construct(){
- 		
+    public function __construct()
+    {
+
         #header('Access-Control-Allow-Origin: *');
         #header("Access-Control-Allow-Methods: GET, POST, OPTIONS, PUT, DELETE");
-        parent::__construct();     
- 		$this->load->model('user_model');
+        parent::__construct();
+        $this->load->model('user_model');
         /*MAIL*/
-		$this->load->model('mail_model');
- 	}
- 	/* SERVICIO QUE AUTENTIFICA  */
-	public function auth_post()
-	{
+        $this->load->model('mail_model');
+    }
+    /* SERVICIO QUE AUTENTIFICA  */
+    public function auth_post()
+    {
 
-        $user = $this->user_model->auth($this->post('user'));   
-             
-        if(!is_null($user))
-        {
-        	$this->response(array('response' => $user),200);
-        }
-        else
-        {
-        	$this->response(array('error' => "Usuario Invalido"),203);
-        }
-               
-	}
+        $user = $this->user_model->auth($this->post('user'));
 
-	public function index_post() {
-       $user = null;
+        if (!is_null($user)) {
+            $this->response(array('response' => $user), 200);
+        } else {
+            $this->response(array('error' => "Usuario Invalido"), 203);
+        }
+
+    }
+
+    public function index_post()
+    {
+        $user = null;
         if (!$this->post('user')) {
             $this->response(NULL, 404);
         }
@@ -38,9 +39,9 @@ class User extends REST_Controller {
         $user = $this->user_model->add($this->post('user'));
 
         if (!is_null($user)) {
-            if($user === -1){
-                $this->response(array('error' => "DNI ya se encuentra registrado"),203);
-            }else{
+            if ($user === -1) {
+                $this->response(array('error' => "DNI ya se encuentra registrado"), 203);
+            } else {
                 $this->response(array('response' => "USUARIO SISTEMA AGREGADO "), 200);
             }
         } else {
@@ -49,7 +50,8 @@ class User extends REST_Controller {
     }
 
     /* SERVICIO GET QUE OBTIENE TODO LOS USUARIOS REGISTRADOS */
-    public function index_get($id) {
+    public function index_get($id)
+    {
 
         $user = $this->user_model->get($id);
         if (!is_null($user)) {
@@ -60,7 +62,8 @@ class User extends REST_Controller {
     }
 
     /* SERVICIO GET QUE OBTIENE TODO LOS USUARIOS QUE NO POSEEN DEPARTAMENTOS ASOCIADOS  */
-    public function usernoregister_get($id) {
+    public function usernoregister_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -72,7 +75,8 @@ class User extends REST_Controller {
         }
     }
 
-    public function attendantWithNobuildingAssigned_get() {
+    public function attendantWithNobuildingAssigned_get()
+    {
         $attendants = $this->user_model->attendantsNotBuildingAssigned();
         if (!is_null($attendants)) {
             $this->response($attendants, 200);
@@ -80,7 +84,8 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
-     public function filterForm_get() {
+    public function filterForm_get()
+    {
         $filters = $this->user_model->getFilterForm();
 
         if (!is_null($filters)) {
@@ -90,7 +95,8 @@ class User extends REST_Controller {
         }
     }
 
-    public function find_get($id) {
+    public function find_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -105,7 +111,8 @@ class User extends REST_Controller {
         }
     }
 
-    public function validate_get($token) {
+    public function validate_get($token)
+    {
         if (!$token) {
             $this->response(NULL, 404);
         }
@@ -121,8 +128,9 @@ class User extends REST_Controller {
     }
 
     /* get param*/
-    public function param_get() {
-      
+    public function param_get()
+    {
+
         $PARAM = null;
         $PARAM = $this->user_model->getParam();
 
@@ -134,19 +142,21 @@ class User extends REST_Controller {
     }
 
     /* get param*/
-    public function deliveryType_get() {
-        
-          $rs = null;
-          $rs = $this->user_model->getdeliveryType();
-  
-          if (!is_null($rs)) {
-              $this->response($rs, 200);
-          } else {
-              $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
-          }
-      }
+    public function deliveryType_get()
+    {
 
-    public function attendantByIdDirecction_get($id) {
+        $rs = null;
+        $rs = $this->user_model->getdeliveryType();
+
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
+
+    public function attendantByIdDirecction_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -161,7 +171,8 @@ class User extends REST_Controller {
         }
     }
 
-    public function listUsersByClient_get($id) {
+    public function listUsersByClient_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -176,7 +187,8 @@ class User extends REST_Controller {
         }
     }
 
-    public function attendantsOnlyByIdDirecction_get($id) {
+    public function attendantsOnlyByIdDirecction_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -191,7 +203,8 @@ class User extends REST_Controller {
         }
     }
 
-    public function chekBuildingTitularAttendant_get($id) {
+    public function chekBuildingTitularAttendant_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -207,7 +220,8 @@ class User extends REST_Controller {
     }
 
     /* SERVICIO GET QUE OBTIENE LOS USUARIOS POR FILTRO */
-    public function search_post() {
+    public function search_post()
+    {
 
         $searchFilter = $this->post('filter');
 
@@ -220,8 +234,53 @@ class User extends REST_Controller {
         }
     }
 
-     /* SERVICIO EDITA UN USUARIOS  */
-    public function update_post() {
+    public function list_post()
+    {
+        log_message('info', 'Iniciando list_post() para /users/list');
+
+        // Obtener filtros desde POST
+        $filters = $this->post('filters');
+        log_message('info', 'Filtros recibidos: ' . json_encode($filters));
+
+        try {
+
+            // Obtener usuarios desde el modelo
+            $result = $this->user_model->getUsers($filters, $this->post('limit'), $this->post('offset'));
+
+            if (!empty($result) && isset($result['data']) && count($result['data']) > 0) {
+
+                log_message('info', 'Usuarios encontrados: ' . count($result['data']));
+
+                return $this->response([
+                    "status" => true,
+                    "total" => $result['total'],   // viene del count_all_results() interno
+                    "data" => $result['data'],
+                    "filters" => $filters
+                ], 200);
+            }
+
+            log_message('info', 'No se encontraron datos para los filtros enviados');
+
+            return $this->response([
+                "status" => false,
+                "message" => "NO HAY RESULTADOS",
+                "filters" => $filters
+            ], 404);
+
+        } catch (Exception $e) {
+
+            log_message('error', 'Error en list_post(): ' . $e->getMessage());
+
+            return $this->response([
+                "status" => false,
+                "message" => "Error interno del servidor"
+            ], 500);
+        }
+    }
+
+    /* SERVICIO EDITA UN USUARIOS  */
+    public function update_post()
+    {
 
         if (!$this->post('user')) {
             $this->response(array('error' => "PARAMETROS NO RECIBIDOS"), 404);
@@ -237,8 +296,9 @@ class User extends REST_Controller {
     }
 
     /*  CAMBIO DE CLAVE */
-    public function updatePass_post() {
-        
+    public function updatePass_post()
+    {
+
         if (!$this->post('user')) {
             $this->response(array('error' => "Post Data is Missing"), 404);
         }
@@ -254,27 +314,29 @@ class User extends REST_Controller {
             $this->response(array('error' => "ERROR INESPERADO"), 500);
         }
     }
-             /*  CAMBIO DE CLAVE */
-    public function updateParam_post() {
-        
-                if (!$this->post('param')) {
-                    $this->response(NULL, 404);
-                }
-        
-                $rs = $this->user_model->updateParam($this->post('param'));
-        
-                if (!is_null($rs)) {
+    /*  CAMBIO DE CLAVE */
+    public function updateParam_post()
+    {
 
-                    //$this->response(array('response' => $rs), 200);
-                    $this->response(array('response' => "Parametro actualizado!"), 200);
-                } else {
-                    $this->response(array('error' => "ERROR INESPERADO"), 500);
-                }
+        if (!$this->post('param')) {
+            $this->response(NULL, 404);
+        }
+
+        $rs = $this->user_model->updateParam($this->post('param'));
+
+        if (!is_null($rs)) {
+
+            //$this->response(array('response' => $rs), 200);
+            $this->response(array('response' => "Parametro actualizado!"), 200);
+        } else {
+            $this->response(array('error' => "ERROR INESPERADO"), 500);
+        }
     }
 
     /* SERVICIO EDITA UN USUARIOS  */
-    public function updateMailSmtp_post() {
-        
+    public function updateMailSmtp_post()
+    {
+
         if (!$this->post('mail')) {
             $this->response(NULL, 404);
         }
@@ -288,7 +350,8 @@ class User extends REST_Controller {
         }
     }
 
-    public function inactive_get($id) {
+    public function inactive_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -304,8 +367,9 @@ class User extends REST_Controller {
     }
 
     /* SERVICIO INACTIVA  UN USUARIOS POR ID */
-    public function mailsmtp_get() {
-      
+    public function mailsmtp_get()
+    {
+
 
         $user = null;
         $user = $this->user_model->mailsmtp();
@@ -317,8 +381,9 @@ class User extends REST_Controller {
         }
     }
 
-     /* SERVICIO ACTIVAR  UN USUARIOS POR ID */
-    public function active_get($id) {
+    /* SERVICIO ACTIVAR  UN USUARIOS POR ID */
+    public function active_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -333,7 +398,8 @@ class User extends REST_Controller {
         }
     }
 
-    public function get_the_current_url_get() {
+    public function get_the_current_url_get()
+    {
 
         $user = null;
         $user = $this->user_model->get_the_current_url();
@@ -346,13 +412,14 @@ class User extends REST_Controller {
     }
 
     /* SERVICIO SENDMAIL TEST */
-    public function sednmail_post() {
+    public function sednmail_post()
+    {
         //print_r($this->post('mail'));
-        $to = array("emailUser"=>null);
-        $to['emailUser']=$this->post('mail')['to'];
-        $title=$this->post('mail')['title'];
-        $subject=$this->post('mail')['subject'];
-        $body=$this->post('mail')['body'];
+        $to = array("emailUser" => null);
+        $to['emailUser'] = $this->post('mail')['to'];
+        $title = $this->post('mail')['title'];
+        $subject = $this->post('mail')['subject'];
+        $body = $this->post('mail')['body'];
         //print_r($to['emailUser']);
         $user = null;
         $user = $this->mail_model->sendMail($title, $to, $body, $subject);
@@ -365,7 +432,8 @@ class User extends REST_Controller {
     }
 
     /* SERVICIO INACTIVA  UN USUARIOS POR ID */
-    public function delete_delete($id) {
+    public function delete_delete($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -380,8 +448,9 @@ class User extends REST_Controller {
         }
     }
 
-     /* SERVICIO INACTIVA  UN ENCARGADO POR ID */
-     public function antendant_delete($id) {
+    /* SERVICIO INACTIVA  UN ENCARGADO POR ID */
+    public function antendant_delete($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -396,8 +465,9 @@ class User extends REST_Controller {
         }
     }
 
-     /* SERVICIO INACTIVA  UN ENCARGADO POR ID */
-     public function antendantActive_get($id) {
+    /* SERVICIO INACTIVA  UN ENCARGADO POR ID */
+    public function antendantActive_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -413,21 +483,19 @@ class User extends REST_Controller {
     }
 
     public function attendant_post()
-	{
+    {
 
-        $user = $this->user_model->addAttendant($this->post('attendant'));   
-             
-        if(!is_null($user))
-        {
-        	$this->response(array('response' => $user),200);
+        $user = $this->user_model->addAttendant($this->post('attendant'));
+
+        if (!is_null($user)) {
+            $this->response(array('response' => $user), 200);
+        } else {
+            $this->response(array('error' => "Usuario Invalido"), 203);
         }
-        else
-        {
-        	$this->response(array('error' => "Usuario Invalido"),203);
-        }
-               
-	}
-    public function updateAtt_post() {
+
+    }
+    public function updateAtt_post()
+    {
 
         if (!$this->post('attendant')) {
             $this->response(NULL, 404);
@@ -441,9 +509,10 @@ class User extends REST_Controller {
             $this->response(array('error' => "ERROR INESPERADO"), 500);
         }
     }
-    public function findUserByEmail_post() {
-	   
-		if (!$this->post('mail')) {
+    public function findUserByEmail_post()
+    {
+
+        if (!$this->post('mail')) {
             $this->response(NULL, 404);
         }
 
@@ -456,11 +525,13 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
-    public function findUserByEmail_options() {
+    public function findUserByEmail_options()
+    {
         return $this->response(NULL, REST_Controller::HTTP_OK);
     }
     /*empresa*/
-    public function updatecompany_post() {
+    public function updatecompany_post()
+    {
 
         if (!$this->post('company')) {
             $this->response(NULL, 404);
@@ -474,7 +545,8 @@ class User extends REST_Controller {
             $this->response(array('error' => "ERROR INESPERADO"), 500);
         }
     }
-    public function getCompany_get() {
+    public function getCompany_get()
+    {
         $filters = $this->user_model->getCompany();
 
         if (!is_null($filters)) {
@@ -485,7 +557,8 @@ class User extends REST_Controller {
     }
 
     /* SERVICIO GET QUE OBTIENE TODO LOS USUARIOS REGISTRADOS */
-    public function getListOfUsers_get() {
+    public function getListOfUsers_get()
+    {
 
         $lists = $this->user_model->getListOfUsers();
         if (!is_null($lists)) {
@@ -494,9 +567,10 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
-    
+
     /* SERVICIO GET QUE OBTIENE TODO LOS USUARIOS ASOCIADOS A UNA ADMINISTRACION/COMPAÑIA*/
-    public function getUsersByCompanyClientId_get($id) {
+    public function getUsersByCompanyClientId_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -508,8 +582,9 @@ class User extends REST_Controller {
         }
     }
 
-    public function listAuthorizedUsers_get() {
-        $lists=null;
+    public function listAuthorizedUsers_get()
+    {
+        $lists = null;
         $lists = $this->user_model->getAuthorizedUsers();
         if (!is_null($lists)) {
             $this->response($lists, 200);
@@ -517,8 +592,9 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
-    public function addAuthorizationToken_post() {
-        
+    public function addAuthorizationToken_post()
+    {
+
         if (!$this->post('user')) {
             $this->response(array('error' => "Post Data is Missing"), 404);
         }
@@ -534,7 +610,8 @@ class User extends REST_Controller {
             $this->response(array('error' => "ERROR INESPERADO"), 500);
         }
     }
-    public function listAuthorizationTokenByUserId_get($id) {
+    public function listAuthorizationTokenByUserId_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -545,7 +622,8 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
-    public function setTokenCompleted_get($token) {
+    public function setTokenCompleted_get($token)
+    {
         if (!$token) {
             $this->response(NULL, 404);
         }
@@ -556,7 +634,8 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
-    public function validateAuthorizationToken_post() {
+    public function validateAuthorizationToken_post()
+    {
 
         if (!$this->post('token')) {
             $this->response(array('error' => "Post Data is Missing"), 404);
@@ -572,26 +651,28 @@ class User extends REST_Controller {
         }
     }
 
-    public function addGuest_post() {
+    public function addGuest_post()
+    {
         $rs = null;
-         if (!$this->post('guest')) {
-             $this->response(NULL, 404);
-         }
- 
-         $rs = $this->user_model->addGuest($this->post('guest'));
- 
-         if (!is_null($rs)) {
-             if($rs === -1){
-                 $this->response(array('error' => "DNI ya se encuentra registrado"),203);
-             }else{
-                 $this->response(array('response' => "INVITADO AGREGADO "), 200);
-             }
-         } else {
-             $this->response(array('error' => "ERROR INESPERADO"), 500);
-         }
-     }
-    public function updateGuest_post() {
-        
+        if (!$this->post('guest')) {
+            $this->response(NULL, 404);
+        }
+
+        $rs = $this->user_model->addGuest($this->post('guest'));
+
+        if (!is_null($rs)) {
+            if ($rs === -1) {
+                $this->response(array('error' => "DNI ya se encuentra registrado"), 203);
+            } else {
+                $this->response(array('response' => "INVITADO AGREGADO "), 200);
+            }
+        } else {
+            $this->response(array('error' => "ERROR INESPERADO"), 500);
+        }
+    }
+    public function updateGuest_post()
+    {
+
         if (!$this->post('guest')) {
             $this->response(array('error' => "Post Data is Missing"), 404);
         }
@@ -599,17 +680,18 @@ class User extends REST_Controller {
         $rs = $this->user_model->updateGuest($this->post('guest'));
 
         if (!is_null($rs)) {
-            if($rs === -1){
-                $this->response(array('error' => "DNI No se encuentra registrado o ha sido eliminado."),203);
-            }else{
+            if ($rs === -1) {
+                $this->response(array('error' => "DNI No se encuentra registrado o ha sido eliminado."), 203);
+            } else {
                 $this->response(array('response' => "INVITADO ACTUALIZADO "), 200);
             }
         } else {
             $this->response(array('error' => "ERROR INESPERADO"), 500);
         }
     }
-    public function findGuest_post() {
-	   
+    public function findGuest_post()
+    {
+
         if (!$this->post('guest')) {
             $this->response(array('error' => "Post Data is Missing"), 404);
         }
@@ -623,7 +705,8 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
-    public function delGuest_delete($id) {
+    public function delGuest_delete($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -637,7 +720,8 @@ class User extends REST_Controller {
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
-    public function getGuestByIdDepartment_get($id) {
+    public function getGuestByIdDepartment_get($id)
+    {
         if (!$id) {
             $this->response(NULL, 404);
         }
@@ -653,3 +737,4 @@ class User extends REST_Controller {
     }
 }
 ?>
+

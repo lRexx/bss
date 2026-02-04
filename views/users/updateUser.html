@@ -16,11 +16,11 @@
                     <fieldset>
                     <!-- Select profile -->
                     <div class="form-group col-md-6" ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             users.update.idProfileKf!='' && fUpdateUser.profile.$valid,
-                            'has-error':  
+                            'has-error':
                             (users.update.idProfileKf=='' || users.update.idProfileKf==undefined) && fUpdateUser.profile.$touched,
-                        }"> 
+                        }">
                         <label style="padding-left: 15px;">Perfil</label>
                         <div class="col-xs-12 selectContainer">
                             <div class="input-group">
@@ -34,11 +34,11 @@
                     </div>
                     <!-- Select SYS profile -->
                     <div class="form-group col-md-6" ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             users.update.idSysProfileFk!='' && fUpdateUser.role.$valid,
-                            'has-error':  
+                            'has-error':
                             (users.update.idSysProfileFk=='' || users.update.idSysProfileFk==undefined) && fUpdateUser.role.$touched,
-                        }"> 
+                        }">
                     <label style="padding-left: 15px;">Role de usuario</label>
                         <div class="col-xs-12 selectContainer">
                             <div class="input-group">
@@ -51,9 +51,9 @@
                     </div>
                     <!-- Company List-->
                     <div class="form-group col-md-12" ng-show="users.update.idProfileKf==22 || users.update.idProfileKf==44" ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             select.companies.selected!=undefined && fUpdateUser.company.$valid,
-                             'has-error':  
+                             'has-error':
                             (select.companies.selected==undefined) && fUpdateUser.company.$touched,
                         }">
                     <label ng-if="users.update.idProfileKf!=2 && users.update.idProfileKf!=4" style="padding-left: 15px;">Empresa / Administracion</label>
@@ -62,10 +62,10 @@
                         <div class="col-xs-12 selectContainer">
                             <div class="input-group">
                             <span class="input-group-addon"><i class="icon-suitcase"></i></span>
-                                <ui-select 
-                                    name="company" 
-                                    ng-required="users.update.idProfileKf==2 || users.update.idProfileKf==4" 
-                                    ng-model="select.companies.selected" 
+                                <ui-select
+                                    name="company"
+                                    ng-required="users.update.idProfileKf==2 || users.update.idProfileKf==4"
+                                    ng-model="select.companies.selected"
                                     on-select="onSelectCallback()">
                                     <ui-select-match allow-clear="true" placeholder="Todos" >{{$select.selected.name | uppercase}}</ui-select-match>
                                     <ui-select-choices repeat="item in rsCustomerListByTypeData | filter:filterCustomerByType2 | filter: $select.search">
@@ -80,9 +80,9 @@
                         </div>
                     </div>
                     <div class="col-md-12 col-sm-12 col-xs-12 " ng-if="users.update.idProfileKf==2 || users.update.idProfileKf==4 || users.update.idProfileKf==6" ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             filterCompanyKf.selected!=undefined && customerSearch.name!=undefined && fUpdateUser.customerSearch.$valid,
-                            'has-error':  
+                            'has-error':
                             (filterCompanyKf.selected==undefined) && customerSearch.name==undefined && fUpdateUser.customerSearch.$touched,
                         }">
                         <div class="form-group col-md-12 col-xs-12 col-sm-12 n-padding-l n-padding-r">
@@ -91,11 +91,11 @@
                             <label ng-if="users.update.idProfileKf==6" style="padding-left: 15px;">Direcci&#243n del consorcio asignado</label>
                         <div class="input-group s-ui-width s-ui-m-left">
                             <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
-                            <input type="text" name="customerSearch" 
+                            <input type="text" name="customerSearch"
                                 id="customerSearch"
                                 ng-model="customerSearch.name"
                                 ng-keydown="findCustomerFn(customerSearch.name, users.update.idProfileKf, 'setClient');"
-                                class="form-control text-uppercase" 
+                                class="form-control text-uppercase"
                                 move-to-list input-selector="'.input-search'"
                                 list-items-selector="'.list-group li'"
                                 placeholder="Presione Enter para buscar..."
@@ -109,9 +109,9 @@
                     </div>
                     <!-- Select Type of Attendant -->
                     <div class="form-group" ng-show="users.update.idProfileKf==6" ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             users.update.idTypeAttKf!='' && fUpdateUser.idTypeAttKf.$valid,
-                            'has-error':  
+                            'has-error':
                             (users.update.idTypeAttKf=='' || users.update.idTypeAttKf==undefined) && fUpdateUser.idTypeAttKf.$touched,
                             'col-md-12':
                             users.update.idTypeAttKf!='1',
@@ -128,12 +128,12 @@
                     </div>
                     <!-- Other Attendant Type Functions -->
                     <div ng-if="users.update.idProfileKf==6 && users.update.idTypeAttKf==1" class="form-group col-md-6" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         users.update.typeOtherAtt!='' && fUpdateUser.typeOtherAtt.$valid,
-                        'has-error':  
+                        'has-error':
                         (users.update.typeOtherAtt=='' || users.update.typeOtherAtt==undefined) && fUpdateUser.typeOtherAtt.$touched,
                     }">
-                    <label style="padding-left: 15px;">Funcion</label>  
+                    <label style="padding-left: 15px;">Funcion</label>
                             <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
@@ -143,7 +143,7 @@
                     </div>
                     <!-- Other Attendant Function -->
                     <div  ng-show="(users.update.idProfileKf=='6' && users.update.idTypeAttKf!='1' && users.update.idTypeAttKf) || (users.update.idProfileKf==4)" class="form-group">
-                    <label class="col-md-3 control-label">Seleccione una opcion:</label>  
+                    <label class="col-md-3 control-label">Seleccione una opcion:</label>
                         <div class="col-md-9">
                             <div class="">
                                 <label style="cursor: pointer;" class="col-md-3">
@@ -157,31 +157,31 @@
                                         <code>Inquilino</code>
                                 </label>
                             </div>
-                            <div class=""> 
+                            <div class="">
                                 <label style="cursor: pointer;" class="col-md-4">
-                                    <input style="cursor: pointer;" type="radio" name="ownerOption" ng-click="users.update.idDepartmentKf=null;checkDepartmentListFn(users.update);" value="3" ng-model="att.ownerOption" ng-required="users.update.idProfileKf==6 && users.update.idTypeAttKf!=1" autofocus>
+                                    <input style="cursor: pointer;" type="radio" name="ownerOption" ng-click="users.update.idDepartmentKf=null;checkDepartmentListFn(users.update);" value="3" ng-model="att.ownerOption" ng-required="(users.update.idProfileKf==4 && users.update.idTypeAttKf==null) || (users.update.idProfileKf==6 && users.update.idTypeAttKf!=1)" autofocus>
                                     <code ng-if="users.update.idProfileKf==6">Solo encargado</code>
                                     <code ng-if="users.update.idProfileKf==4">Solo Admin Consorcio</code>
-                                </label> 
+                                </label>
                             </div>
                         </div>
                     </div>
                     <!-- List Address For Users-->
-                    <div ng-if="((users.update.idProfileKf==66))" class="form-group col-md-12"  ng-class="
-                        {	'has-success': 
+                    <div ng-if="((users.update.idProfileKf==6))" class="form-group col-md-12"  ng-class="
+                        {	'has-success':
                             select.addressAttendant.selected!=undefined && fUpdateUser.user_address.$valid,
-                            'has-error':  
+                            'has-error':
                             (select.addressAttendant.selected==undefined) && fUpdateUser.user_address.$touched
                         }">
                         <label ng-if="users.update.idProfileKf!=6" style="padding-left: 15px;">Direcci&#243n</label>
                         <label ng-if="users.update.idProfileKf==6" style="padding-left: 15px;">Direcci&#243n del consorcio asignado</label>
                         <div class="col-xs-12 selectContainer">
                             <div class="input-group">
-                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
-                            <ui-select name="user_address"  
-                                        ng-required="((users.update.idProfileKf==6 && users.update.idTypeAttKf!=1) || ((users.update.idProfileKf==3 || users.update.idProfileKf==5) && !users.update.idTypeAttKf))" 
+                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                            <ui-select name="user_address"
+                                        ng-required="((users.update.idProfileKf==6 && users.update.idTypeAttKf!=null && users.update.idTypeAttKf!=1) || ((users.update.idProfileKf==3 || users.update.idProfileKf==5) && !users.update.idTypeAttKf))"
                                         ng-change="users.update.idProfileKf==5 || (users.update.idProfileKf==6 && att.ownerOption==2)?getDeptoListByAddress(select.addressAttendant.selected.idClient):''; users.update.idDepartmentKf=null;"
-                                        ng-model="select.addressAttendant.selected" 
+                                        ng-model="select.addressAttendant.selected"
                                         ng-disabled="select.addressAttendant.selected!=undefined && (users.update.idProfileKf==3 || users.update.idProfileKf==5)" autofocus>
                                         <!--select.addressAttendant.selected!=undefined && (users.update.idProfileKf==6 && (!att.ownerOption || att.ownerOption!=3) && users.update.idTypeAttKf!=1-->
                                         <ui-select-match  placeholder="Todos">{{$select.selected.address}}</ui-select-match>
@@ -199,12 +199,12 @@
                     </div>
                     <!-- Form First Name -->
                     <div class="form-group col-md-6" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         users.update.fname!='' && fUpdateUser.fname.$valid,
-                         'has-error':  
+                         'has-error':
                         (users.update.fname=='' || users.update.fname==undefined) && fUpdateUser.fname.$touched,
                     }">
-                    <label style="padding-left: 15px;">Nombre</label>  
+                    <label style="padding-left: 15px;">Nombre</label>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -215,12 +215,12 @@
                     <!-- Form Last Name -->
 
                     <div class="form-group col-md-6" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         users.update.lname!='' && fUpdateUser.lname.$valid,
-                         'has-error':  
+                         'has-error':
                         (users.update.lname=='' || users.update.lname==undefined) && fUpdateUser.lname.$touched,
                     }">
-                    <label style="padding-left: 15px;" >Apellido</label> 
+                    <label style="padding-left: 15px;" >Apellido</label>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -230,12 +230,12 @@
                     </div>
                     <!-- Text DNI-->
                     <div class="form-group col-md-6" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         users.update.dni!='' && fUpdateUser.dniUser.$valid,
-                         'has-error':  
+                         'has-error':
                         (users.update.dni=='' || users.update.dni==undefined) && fUpdateUser.dniUser.$touched,
                     }">
-                    <label style="padding-left: 15px;">DNI</label>  
+                    <label style="padding-left: 15px;">DNI</label>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
@@ -245,12 +245,12 @@
                     </div>
                     <!-- Text Mail-->
                     <div class="form-group col-md-6" ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             users.update.email!='' && fUpdateUser.emailUser.$valid,
-                            'has-error':  
+                            'has-error':
                             (users.update.email=='' || users.update.email==undefined) && fUpdateUser.emailUser.$touched,
                         }">
-                        <label style="padding-left: 15px;">E-Mail</label>  
+                        <label style="padding-left: 15px;">E-Mail</label>
                             <div class="col-xs-12">
                                 <div class="input-group">
                                     <span class="input-group-addon"><i class="glyphicon glyphicon-envelope"></i></span>
@@ -288,14 +288,14 @@
                     </div>
                     <!-- Text Phone-->
                     <div class="form-group col-md-6" ng-class="{
-                        'has-success': 
+                        'has-success':
                             users.update.phonelocalNumberUser!='' && users.update.phonelocalNumberUser!=null  && fUpdateUser.phoneLocal.$valid,
                         'has-warning':
                             !users.update.phonelocalNumberUser && users.update.phoneMovilNumberUser,
                         'has-error':
                             !users.update.phoneMovilNumberUser && !users.update.phonelocalNumberUser && fUpdateUser.phoneLocal.$touched,
                         }">
-                    <label style="padding-left: 15px;">Telefono Fijo</label>  
+                    <label style="padding-left: 15px;">Telefono Fijo</label>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
@@ -305,14 +305,14 @@
                     </div>
                     <!-- Text Phone-->
                     <div class="form-group col-md-6" ng-class="{
-                        'has-success': 
+                        'has-success':
                             users.update.phoneMovilNumberUser!='' && users.update.phoneMovilNumberUser!=null  && fUpdateUser.phoneMovil.$valid,
                         'has-warning':
                             !users.update.phoneMovilNumberUser && users.update.phonelocalNumberUser,
                         'has-error':
                             !users.update.phonelocalNumberUser && !users.update.phoneMovilNumberUser && fUpdateUser.phoneMovil.$touched,
                         }">
-                        <label style="padding-left: 15px;">Telefono Movil</label>  
+                        <label style="padding-left: 15px;">Telefono Movil</label>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
@@ -338,7 +338,7 @@
                     </div>
                     </fieldset>
                 </form>
-                <div class="clearfix"> </div> 
+                <div class="clearfix"> </div>
             </div>
             <!-- Actions Button -->
             <div class="modal-footer">
