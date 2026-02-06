@@ -19,7 +19,7 @@
               <label ng-if="!customerSearch.strict" style="cursor: pointer;" class="badge badge-warning">Busquéda exacta</label>
             </div>
           </div>
-          <div class="row n-margin-l n-margin-r">  
+          <div class="row n-margin-l n-margin-r">
             <div ng-class="col-md-12">
               <div class="col-md-2 col-xs-5">
                   <input id="typeClientAll" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" ng-checked="true" name="typeClient" value="" ng-model="customerSearch.typeClient" required autofocus>
@@ -37,32 +37,32 @@
                   <input id="typeClient2" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="2" ng-model="customerSearch.typeClient" required autofocus>
                   <label for="typeClient2" class="radio-2x-label">
                     <span>Edificio</span>
-                  </label> 
+                  </label>
                 </div>
                 <div class="col-md-2 col-xs-5">
                   <input id="typeClient3" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="3" ng-model="customerSearch.typeClient" required autofocus>
                   <label for="typeClient3" class="radio-2x-label">
                     <span>Empresa</span>
-                  </label> 
+                  </label>
                 </div>
                 <div class="col-md-2 col-xs-5">
                   <input id="typeClient4" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="4" ng-model="customerSearch.typeClient" required autofocus>
                   <label for="typeClient4" class="radio-2x-label">
                     <span>Sucursal</span>
-                  </label> 
+                  </label>
                 </div>
                 <div class="col-md-2 col-xs-5">
                   <input id="typeClient5" class="radio-2x" type="radio" ng-click="findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)" name="typeClient" value="5" ng-model="customerSearch.typeClient" required autofocus>
                   <label for="typeClient5" class="radio-2x-label">
                     <span>Particular</span>
-                  </label> 
+                  </label>
                 </div>
             </div>
           </div>
           <div class="clearfix"> </div>
           <div class="input-group s-ui-width s-ui-m-left">
-            <input type="text" name="customerSearch" 
-                id="customerSearch" 
+            <input type="text" name="customerSearch"
+                id="customerSearch"
                 ng-model="customerSearch.name"
                 ng-keydown="$event.keyCode === 13 && findCustomerFn(customerSearch.name, customerSearch.typeClient, customerSearch.strict)"
                 class="form-control input-lg input-font-size text-uppercase input-search"
@@ -120,10 +120,17 @@
                         </div>
                         <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12 col-xs-12">
                           <div class="col-md-12 col-xs-12 n-padding-l" >
-                            <span>Link de Fotos:</span>
+                            <span>Link de Fotos&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>
                             <button ng-if="customerFound.clientPhotosURL!=null && customerFound.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customerFound.clientPhotosURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
                             <a ng-if="customerFound.clientPhotosURL!=null && customerFound.clientPhotosURL!=undefined" data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerFound.clientPhotosURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
                             <span ng-if="customerFound.clientPhotosURL==null || customerFound.clientPhotosURL==undefined"><label  style="cursor: pointer;" data-toggle="tooltip" data-placement="right" title="no asignado" class="label label-warning">Link no definido</label></span>
+                          </div>
+                        </div>
+                        <div  ng-if="sysLoggedUser.idProfileKf==1" class="col-md-12 col-xs-12">
+                          <div class="col-md-12 col-xs-12 n-padding-l" >
+                            <span>Info Cliente&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</span>
+                            <button data-toggle="tooltip" data-placement="bottom" title="Copiar" type="button" style="margin-left: 20px; margin-top: -0.5em;" ngclipboard data-clipboard-text="{{customerFound.infoURL}}" class="btn btn-xs btn-success"><i class="fas fa-copy"></i> Copiar</button>
+                            <a data-toggle="tooltip" data-placement="right" title="Abrir" type="button" style="margin-top: -0.5em;" target="_blank" href="{{customerFound.infoURL}}" class="btn btn-xs btn-success"><i class="fas fa-link"></i> Abrir</a>
                           </div>
                         </div>
                       </div>
@@ -157,9 +164,9 @@
                       <div class="col-md-6 col-sm-6 col-xs-12">
                         <div class="col-xs-12 depto-widget well well-md" data-toggle="tooltip" data-placement="bottom" title="ENTREGA INICIAL" ng-click="switchCustomersFn('customers', customerFound, 'new_enableInitialKeys', '');">
                           <div class="depto-icon">
-                            <div ng-if="customerFound.initial_delivery.length>0" class="ribbon ribbon-top-right" 
+                            <div ng-if="customerFound.initial_delivery.length>0" class="ribbon ribbon-top-right"
                               ng-class="{
-                                  'ribbon-success':customerFound.initial_delivery.length==1 && !customerFound.initial_delivery[0].expiration_state, 
+                                  'ribbon-success':customerFound.initial_delivery.length==1 && !customerFound.initial_delivery[0].expiration_state,
                                   'ribbon-warning':customerFound.initial_delivery.length==1 && customerFound.initial_delivery[0].expiration_state}">
                               <span ng-if="customerFound.initial_delivery.length==1 && !customerFound.initial_delivery[0].expiration_state">Activo</span>
                               <span ng-if="customerFound.initial_delivery.length==1 && customerFound.initial_delivery[0].expiration_state">Expirado</span>
@@ -201,7 +208,7 @@
                       </div>
                   </div>
                 </div>
-              
+
             </div>
         </div>
     </div>
