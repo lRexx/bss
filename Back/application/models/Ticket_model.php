@@ -3408,6 +3408,17 @@ class Ticket_model extends CI_Model
 					$final_name = $name_status . "_entrega_inicial";
 					$dashboard['dashboard'][$final_name] = @$count;
 				}
+				if ($status['idStatus'] == "6") {
+					$this->db->select("*")->from("tb_tickets_2");
+					$this->db->where("idStatusTicketKf", (int) $status['idStatus']);
+					$this->db->where("isHasRefundsOpen", 1);
+					$query_init_total = $this->db->get();
+					log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_init_total->num_rows());
+					$count = $query_init_total->num_rows() == 0 ? 0 : $query_init_total->num_rows();
+					$name_status = str_replace(' ', '_', $status['statusName']);
+					$final_name = $name_status . "_reintegro_pendiente";
+					$dashboard['dashboard'][$final_name] = @$count;
+				}
 				if (is_null($dashboard['dashboard']['total'])) {
 					$this->db->select("*")->from("tb_tickets_2");
 					$query_total = $this->db->get();
