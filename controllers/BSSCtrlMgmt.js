@@ -6737,6 +6737,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         $scope.dashboard.tickets.canceled                             = response.data.response.dashboard.Cancelado;
                         $scope.dashboard.tickets.down_request_pending                 = response.data.response.dashboard.Baja_pendiente;
                         $scope.dashboard.tickets.cancel_pending                       = response.data.response.dashboard.Cancelacion_pendiente;
+                        $scope.dashboard.tickets.cancel_refund_pending                = response.data.response.dashboard.Cancelado_reintegro_pendiente;
                         $scope.totalTickets = $scope.listTickt.length;
 
                   }else if (response.status==404){
