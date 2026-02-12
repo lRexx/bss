@@ -89,15 +89,21 @@
                 <span
                   title="Archivo no encontrado."
                   ng-if="file.typeFile==''"
+                  class="label label-danger"
+                  >Archivo fisico no encontrado </span
+                ><br />
+                <span
+                  title="Archivo no encontrado."
+                  ng-if="file.typeFile==''"
                   class="label label-warning"
-                  >Archivo fisico no encontrado, se recomienda eliminar y volver
-                  a subir el archivo. </span
+                  >Se recomienda eliminar y volver a subir el archivo. </span
                 ><br />
                 <span ng-if="file.typeFile!=''" class="label label-default"
                   >{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...'
                   : ''}}</span
                 ><br /><br />
                 <button
+                  ng-if="file.typeFile!=''"
                   type="button"
                   data-toggle="tooltip"
                   data-placement="bottom"
