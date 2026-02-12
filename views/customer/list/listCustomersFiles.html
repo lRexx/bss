@@ -61,7 +61,7 @@
                 data-toggle="tooltip"
                 data-placement="top"
                 title="{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}"
-                ng-if="file.typeFile.substr(0,5)!='image' && file.typeFile!='application/pdf'"
+                ng-if="file.typeFile!='' && file.typeFile.substr(0,5)!='image' && file.typeFile!='application/pdf'"
                 class="thumbnail"
               >
                 <img
@@ -76,7 +76,7 @@
               <span
                 data-toggle="tooltip"
                 data-placement="top"
-                title="{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...' : ''}}"
+                title="Archivo no encontrado."
                 ng-if="file.typeFile==''"
                 class="thumbnail"
               >
@@ -86,7 +86,14 @@
                 />
               </span>
               <div class="caption">
-                <span class="label label-default"
+                <span
+                  title="Archivo no encontrado."
+                  ng-if="file.typeFile==''"
+                  class="label label-warning"
+                  >Archivo fisico no encontrado, se recomienda eliminar y volver
+                  a subir el archivo. </span
+                ><br />
+                <span ng-if="file.typeFile!=''" class="label label-default"
                   >{{file.title | limitTo: 20 }}{{file.title.length > 20 ? '...'
                   : ''}}</span
                 ><br /><br />
@@ -101,7 +108,7 @@
                   <i class="fas fa-cloud-download-alt"></i>
                 </button>
                 <button
-                  ng-if="file.typeFile.substr(0,5)=='image'"
+                  ng-if="file.typeFile!='' && file.typeFile.substr(0,5)=='image'"
                   type="button"
                   data-toggle="tooltip"
                   data-placement="bottom"
@@ -112,7 +119,7 @@
                   <i class="far fa-eye"></i>
                 </button>
                 <button
-                  ng-if="file.typeFile=='application/pdf'"
+                  ng-if="file.typeFile!='' && file.typeFile=='application/pdf'"
                   type="button"
                   data-toggle="tooltip"
                   data-placement="bottom"
