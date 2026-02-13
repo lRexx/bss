@@ -3402,7 +3402,7 @@ class Ticket_model extends CI_Model
 					$this->db->where("idStatusTicketKf", (int) $status['idStatus']);
 					$this->db->where("isInitialDeliveryActive", 1);
 					$query_init_total = $this->db->get();
-					log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_init_total->num_rows());
+					#log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_init_total->num_rows());
 					$count = $query_init_total->num_rows() == 0 ? 0 : $query_init_total->num_rows();
 					$name_status = str_replace(' ', '_', $status['statusName']);
 					$final_name = $name_status . "_entrega_inicial";
@@ -3413,7 +3413,7 @@ class Ticket_model extends CI_Model
 					$this->db->where("idStatusTicketKf", (int) $status['idStatus']);
 					$this->db->where("isHasRefundsOpen", 1);
 					$query_init_total = $this->db->get();
-					log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_init_total->num_rows());
+					#log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_init_total->num_rows());
 					$count = $query_init_total->num_rows() == 0 ? 0 : $query_init_total->num_rows();
 					$name_status = str_replace(' ', '_', $status['statusName']);
 					$final_name = $name_status . "_reintegro_pendiente";
@@ -3428,7 +3428,7 @@ class Ticket_model extends CI_Model
 				$this->db->select("*")->from("tb_tickets_2");
 				$this->db->where("idStatusTicketKf", (int) $status['idStatus']);
 				$query_dash = $this->db->get();
-				log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_dash->num_rows());
+				#log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_dash->num_rows());
 				$count = $query_dash->num_rows() == 0 ? 0 : $query_dash->num_rows();
 				// Replace spaces with underscores / strval($status['idStatus'])
 				$name_status = str_replace(' ', '_', $status['statusName']);
@@ -3528,7 +3528,7 @@ class Ticket_model extends CI_Model
 			$quuery = $this->db->where("idTicketKf = ", @$ticket['idTicket'])->get();
 			$rs_tickets['tickets'][$key]['keys'] = @$quuery->result_array();
 			$i = 0;
-			log_message('info', print_r($quuery->result_array(), true));
+			#log_message('info', print_r($quuery->result_array(), true));
 			foreach ($rs_tickets['tickets'][$key]['keys'] as $ticketKeychain) {
 				$this->db->select("*")->from("tb_keychain");
 				$quuery = $this->db->where("tb_keychain.idKeychain = ", @$ticketKeychain['idKeychainKf'])->get();
@@ -3555,7 +3555,7 @@ class Ticket_model extends CI_Model
 				} else {
 					$idTicketKeychain = $ticketKeychain['idTicketKeychain'];
 				}
-				log_message('info', print_r("idTicketKeychain: " . $idTicketKeychain, true));
+				#log_message('info', print_r("idTicketKeychain: " . $idTicketKeychain, true));
 				$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_type_contrato.description, tb_type_maintenance.typeMaintenance, tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model,  tb_products.idStatusFk, tb_access_control_door.*, tb_ticket_keychain.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
 				$this->db->join('tb_ticket_keychain', 'tb_ticket_keychain.idTicketKeychain = tb_ticket_keychain_doors.idTicketKeychainKf', 'left');
 				$this->db->join('tb_contratos', 'tb_contratos.idContrato = tb_ticket_keychain_doors.idContractKf', 'left');
@@ -3571,7 +3571,7 @@ class Ticket_model extends CI_Model
 				$where_string = "tb_ticket_keychain_doors.idTicketKeychainKf = $idTicketKeychain AND tb_contratos.idStatusFk = 1 AND tb_ticket_keychain_doors.doorSelected = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1
 					GROUP BY tb_access_control_door.idAccessControlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
 				$quuery = $this->db->where($where_string)->get();
-				log_message('info', print_r($quuery->result_array(), true));
+				#log_message('info', print_r($quuery->result_array(), true));
 				$rs_tickets['tickets'][$key]['keys'][$i]['doors'] = @$quuery->result_array();
 
 				$this->db->select("*")->from("tb_user");
