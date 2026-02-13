@@ -2503,8 +2503,20 @@ class Client_model extends CI_Model
     }
 public function postUploadFiles($customerId, $fileName, $file)
 {
+
     log_message('debug', '[UPLOAD] Function start - customerId: ' . $customerId . ', fileName param: ' . $fileName);
-    $image_path = realpath(APPPATH . '../../files');
+
+    /* ---- PHP upload size diagnostics ---- */
+    $uploadMax = ini_get('upload_max_filesize');
+    $postMax   = ini_get('post_max_size');
+    $memoryMax = ini_get('memory_limit');
+
+    log_message('debug', '[UPLOAD] PHP limits - upload_max_filesize: ' . $uploadMax .
+        ', post_max_size: ' . $postMax .
+        ', memory_limit: ' . $memoryMax);
+
+    $image_path = r
+    ealpath(APPPATH . '../../files');
     log_message('debug', '[UPLOAD] Resolved image path: ' . $image_path);
 
     if (!$image_path) {
@@ -2519,16 +2531,43 @@ public function postUploadFiles($customerId, $fileName, $file)
 
     log_message('debug', '[UPLOAD] Raw file array: ' . json_encode($file['file']));
 
-    $originalName = $file["file"]["name"];
-    $nameParts = explode(".", $originalName);
+    $fileSize  = isset($file['file']['size']) ? $file['file']['size'] : 0;
+    $uploadErr = isset($file['file']['error']) ? $file['file']['error'] : -1;
 
-    if (count($nameParts) < 2) {
+    log_message('debug', '[UPLOAD] Incoming file size (bytes): ' . $fileSize);
+    log_message('debug', '[UPLOAD] PHP upload error code: ' . $uploadErr);
+
+    $uploadErrors = array(
+        UPLOAD_ERR_OK         => 'UPLOAD_ERR_OK',
+        UPLOAD_ERR_INI_SIZE   => 'UPLOAD_ERR_INI_SIZE (exceeds upload_max_filesize)',
+        UPLOAD_ERR_FORM_SIZE  => 'UPLOAD_ERR_FORM_SIZE',
+        UPLOAD_ERR_PARTIAL    => 'UPLOAD_ERR_PARTIAL',
+        UPLOAD_ERR_NO_FILE    => 'UPLOAD_ERR_NO_FILE',
+        UPLOAD_ERR_NO_TMP_DIR => 'UPLOAD_ERR_NO_TMP_DIR',
+        UPLOAD_ERR_CANT_WRITE => 'UPLOAD_ERR_CANT_WRITE',
+        UPLOAD_ERR_EXTENSION  => 'UPLOAD_ERR_EXTENSION'
+    );
+
+    if (isset($uploadErrors[$uploadErr])) {
+        log_message('debug', '[UPLOAD] Error description: ' . $uploadErrors[$uploadErr]);
+    }
+
+    if ($uploadErr !== UPLOAD_ERR_OK) {
+        log_message('error', '[UPLOAD] Upload failed due to PHP error.');
+        return false;
+    }
+
+    /* ---- Safer filename parsing ---- */
+    $originalName = $file['file']['name'];
+    $pathInfo = pathinfo($originalName);
+
+    if (empty($pathInfo['extension']) || empty($pathInfo['filename'])) {
         log_message('error', '[UPLOAD] Invalid filename format: ' . $originalName);
         return false;
     }
 
-    $file_name_ext = end($nameParts);
-    $file_name_tmp = $nameParts[0];
+    $file_name_ext = $pathInfo['extension'];
+    $file_name_tmp = $pathInfo['filename'];
 
     log_message('debug', '[UPLOAD] Parsed filename - base: ' . $file_name_tmp . ', ext: ' . $file_name_ext);
 
@@ -2588,6 +2627,22 @@ public function postUploadFiles($customerId, $fileName, $file)
         } else {
             return null;
         }
+    }
+
+    private function parseSizeToBytes($val)
+    {
+        $val = trim($val);
+        $unit = strtolower(substr($val, -1));
+        $num = (int)$val;
+
+        switch ($unit) {
+            case 'g': $num *= 1024;
+            case 'm': $num *= 1024;
+            case 'k': $num *= 1024;
+        }
+
+        return $num;
+
     }
     public function postDeleteFiles($fileName)
     {
