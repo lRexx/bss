@@ -43,7 +43,7 @@ class System extends CI_Controller {
 
     public function index()
     {
-        $allowed_ips = array('127.0.0.1', '::1'); // add your admin IPs
+        $allowed_ips = array('127.0.0.1', '10.84.5.2', '::1'); // add your admin IPs
 
         $client_ip = $this->input->ip_address();
 
