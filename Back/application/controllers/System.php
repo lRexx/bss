@@ -48,7 +48,7 @@ class System extends CI_Controller {
         $client_ip = $this->input->ip_address();
 
         if (!in_array($client_ip, $allowed_ips)) {
-            show_error('Unauthorized', 403);
+            show_error('Unauthorized IP: '.$client_ip, 403);
             return;
         }
         $data = array(
