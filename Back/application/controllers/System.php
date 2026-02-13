@@ -54,6 +54,7 @@ class System extends CI_Controller {
         }
         $data = array(
         'timestamp' => date('c'),
+        'apache' => $this->getApacheInfo(),
         'app' => $this->getAppInfo(),
         'php' => $this->getPhpInfo(),
         'mysql' => $this->getMysqlInfo(),
@@ -213,6 +214,50 @@ class System extends CI_Controller {
             'user' => get_current_user()
         );
     }
+
+    private function getApacheInfo()
+    {
+        $isApache = strpos(strtolower(php_sapi_name()), 'apache') !== false;
+
+        $info = array(
+            'detected' => $isApache,
+            'sapi' => php_sapi_name(),
+            'server_software' => isset($_SERVER['SERVER_SOFTWARE'])
+                ? $_SERVER['SERVER_SOFTWARE']
+                : null
+        );
+
+        // Apache version (if available)
+        if (function_exists('apache_get_version')) {
+            $info['version'] = @apache_get_version();
+        } else {
+            $info['version'] = null;
+        }
+
+        // Loaded Apache modules
+        if (function_exists('apache_get_modules')) {
+            $modules = @apache_get_modules();
+            sort($modules);
+
+            $info['modules'] = array(
+                'count' => count($modules),
+                'list' => $modules
+            );
+        } else {
+            $info['modules'] = null;
+        }
+
+        // Virtual host / request environment
+        $info['environment'] = array(
+            'document_root' => isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : null,
+            'server_name' => isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : null,
+            'server_port' => isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : null,
+            'request_scheme' => isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : null
+        );
+
+        return $info;
+}
+
 
     private function parseMemInfo()
     {
