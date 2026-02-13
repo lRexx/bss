@@ -217,46 +217,38 @@ class System extends CI_Controller {
 
     private function getApacheInfo()
     {
-        $isApache = strpos(strtolower(php_sapi_name()), 'apache') !== false;
+        $apacheBinary = '/usr/sbin/apache2';
 
         $info = array(
-            'detected' => $isApache,
-            'sapi' => php_sapi_name(),
-            'server_software' => isset($_SERVER['SERVER_SOFTWARE'])
-                ? $_SERVER['SERVER_SOFTWARE']
-                : null
+            'php_sapi' => php_sapi_name(),
+            'binary_exists' => file_exists($apacheBinary),
+            'binary_path' => $apacheBinary
         );
 
-        // Apache version (if available)
-        if (function_exists('apache_get_version')) {
-            $info['version'] = @apache_get_version();
+        if (file_exists($apacheBinary) && function_exists('shell_exec')) {
+
+            // Apache version
+            $info['version'] = trim(@shell_exec($apacheBinary . ' -v'));
+
+            // Build/config info
+            $info['build'] = trim(@shell_exec($apacheBinary . ' -V'));
+
+            // Loaded modules
+            $modules = @shell_exec($apacheBinary . ' -M');
+
+            $info['modules'] = $modules
+                ? explode("\n", trim($modules))
+                : null;
+
         } else {
             $info['version'] = null;
-        }
-
-        // Loaded Apache modules
-        if (function_exists('apache_get_modules')) {
-            $modules = @apache_get_modules();
-            sort($modules);
-
-            $info['modules'] = array(
-                'count' => count($modules),
-                'list' => $modules
-            );
-        } else {
+            $info['build'] = null;
             $info['modules'] = null;
         }
 
-        // Virtual host / request environment
-        $info['environment'] = array(
-            'document_root' => isset($_SERVER['DOCUMENT_ROOT']) ? $_SERVER['DOCUMENT_ROOT'] : null,
-            'server_name' => isset($_SERVER['SERVER_NAME']) ? $_SERVER['SERVER_NAME'] : null,
-            'server_port' => isset($_SERVER['SERVER_PORT']) ? $_SERVER['SERVER_PORT'] : null,
-            'request_scheme' => isset($_SERVER['REQUEST_SCHEME']) ? $_SERVER['REQUEST_SCHEME'] : null
-        );
-
         return $info;
-}
+    }
+
 
 
     private function parseMemInfo()
