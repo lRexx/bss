@@ -2515,8 +2515,7 @@ public function postUploadFiles($customerId, $fileName, $file)
         ', post_max_size: ' . $postMax .
         ', memory_limit: ' . $memoryMax);
 
-    $image_path = r
-    ealpath(APPPATH . '../../files');
+    $image_path = realpath(APPPATH . '../../files');
     log_message('debug', '[UPLOAD] Resolved image path: ' . $image_path);
 
     if (!$image_path) {
