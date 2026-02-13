@@ -6,6 +6,7 @@ class System extends CI_Controller {
     public function __construct() {
         parent::__construct();
         $this->load->database();
+        $this->load->helper('url');
     }
 
     public function clean_old_logs($days = 30)
@@ -65,10 +66,12 @@ class System extends CI_Controller {
 
     private function getAppInfo()
     {
+        $base = function_exists('base_url') ? base_url() : null;
+
         return array(
             'codeigniter_version' => CI_VERSION,
             'environment' => ENVIRONMENT,
-            'base_url' => base_url()
+            'base_url' => $base
         );
     }
 
