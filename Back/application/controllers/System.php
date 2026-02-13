@@ -5,6 +5,7 @@ class System extends CI_Controller {
 
     public function __construct() {
         parent::__construct();
+        $this->load->database();
     }
 
     public function clean_old_logs($days = 30)
@@ -42,13 +43,21 @@ class System extends CI_Controller {
 
     public function index()
     {
-    $data = array(
-    'timestamp' => date('c'),
-    'app' => $this->getAppInfo(),
-    'php' => $this->getPhpInfo(),
-    'mysql' => $this->getMysqlInfo(),
-    'linux' => $this->getLinuxInfo()
-    );
+        $allowed_ips = array('127.0.0.1', '::1'); // add your admin IPs
+
+        $client_ip = $this->input->ip_address();
+
+        if (!in_array($client_ip, $allowed_ips)) {
+            show_error('Unauthorized', 403);
+            return;
+        }
+        $data = array(
+        'timestamp' => date('c'),
+        'app' => $this->getAppInfo(),
+        'php' => $this->getPhpInfo(),
+        'mysql' => $this->getMysqlInfo(),
+        'linux' => $this->getLinuxInfo()
+        );
 
         header('Content-Type: application/json');
         echo json_encode($data, JSON_PRETTY_PRINT);
@@ -100,13 +109,16 @@ class System extends CI_Controller {
 
     private function getLinuxInfo()
     {
+        $uptime = function_exists('shell_exec') ? trim(@shell_exec('uptime -p')) : null;
+        $cores  = function_exists('shell_exec') ? (int) @shell_exec('nproc') : null;
+
         return array(
             'hostname' => gethostname(),
             'kernel' => php_uname(),
-            'load_average' => sys_getloadavg(),
-            'uptime' => trim(shell_exec('uptime -p')),
-            'cpu_cores' => (int) shell_exec('nproc'),
-            'memory' => $this->parseMemInfo(),
+            'load_average' => function_exists('sys_getloadavg') ? sys_getloadavg() : null,
+            'uptime' => $uptime,
+            'cpu_cores' => $cores,
+            'memory' => file_exists('/proc/meminfo') ? $this->parseMemInfo() : null,
             'disk_free' => disk_free_space('/'),
             'disk_total' => disk_total_space('/'),
             'user' => get_current_user()
