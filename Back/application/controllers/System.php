@@ -167,6 +167,22 @@ class System extends CI_Controller {
         $uptime = function_exists('shell_exec') ? trim(@shell_exec('uptime -p')) : null;
         $cores  = function_exists('shell_exec') ? (int) @shell_exec('nproc') : null;
 
+        $diskFreeBytes = disk_free_space('/');
+        $diskTotalBytes = disk_total_space('/');
+
+        $bytesToMB = function ($bytes) {
+            return round($bytes / 1024 / 1024, 2);
+        };
+
+        $bytesToGB = function ($bytes) {
+            return round($bytes / 1024 / 1024 / 1024, 2);
+        };
+
+        $diskUsedBytes = $diskTotalBytes - $diskFreeBytes;
+        $diskUsagePct = $diskTotalBytes > 0
+            ? round(($diskUsedBytes / $diskTotalBytes) * 100, 2)
+            : null;
+
         return array(
             'hostname' => gethostname(),
             'kernel' => php_uname(),
@@ -174,8 +190,26 @@ class System extends CI_Controller {
             'uptime' => $uptime,
             'cpu_cores' => $cores,
             'memory' => file_exists('/proc/meminfo') ? $this->parseMemInfo() : null,
-            'disk_free' => disk_free_space('/'),
-            'disk_total' => disk_total_space('/'),
+
+            'disk' => array(
+                'free_mb' => $bytesToMB($diskFreeBytes),
+                'total_mb' => $bytesToMB($diskTotalBytes),
+                'used_mb' => $bytesToMB($diskUsedBytes),
+
+                'free_gb' => $bytesToGB($diskFreeBytes),
+                'total_gb' => $bytesToGB($diskTotalBytes),
+                'used_gb' => $bytesToGB($diskUsedBytes),
+
+                'usage_percent' => $diskUsagePct,
+
+                // raw values for debugging
+                'raw_bytes' => array(
+                    'free' => $diskFreeBytes,
+                    'total' => $diskTotalBytes,
+                    'used' => $diskUsedBytes
+                )
+            ),
+
             'user' => get_current_user()
         );
     }
