@@ -217,38 +217,40 @@ class System extends CI_Controller {
 
     private function getApacheInfo()
     {
-        $apacheBinary = '/usr/sbin/apache2';
-
-        $info = array(
-            'php_sapi' => php_sapi_name(),
-            'binary_exists' => file_exists($apacheBinary),
-            'binary_path' => $apacheBinary
-        );
-
-        if (file_exists($apacheBinary) && function_exists('shell_exec')) {
-
-            // Apache version
-            $info['version'] = trim(@shell_exec($apacheBinary . ' -v'));
-
-            // Build/config info
-            $info['build'] = trim(@shell_exec($apacheBinary . ' -V'));
-
-            // Loaded modules
-            $modules = @shell_exec($apacheBinary . ' -M');
-
-            $info['modules'] = $modules
-                ? explode("\n", trim($modules))
-                : null;
-
-        } else {
-            $info['version'] = null;
-            $info['build'] = null;
-            $info['modules'] = null;
+        $apachectl = '/usr/sbin/apache2ctl';
+        if (!file_exists($apachectl)) {
+            $apachectl = trim(shell_exec('which apache2ctl'));
         }
 
-        return $info;
-    }
+        $result = array(
+            'php_sapi' => php_sapi_name(),
+            'binary_exists' => file_exists($apachectl),
+            'binary_path' => $apachectl,
+            'version' => null,
+            'mpm' => null,
+            'modules' => null
+        );
 
+        if (!function_exists('shell_exec') || !$result['binary_exists']) {
+            return $result;
+        }
+
+        // Get version/build info
+        $build = @shell_exec("$apachectl -V 2>/dev/null");
+        if ($build) {
+            $result['version'] = trim(preg_match('/Server version:.*/', $build, $m) ? $m[0] : null);
+            $result['mpm'] = trim(preg_match('/Server MPM:\s*(.*)/', $build, $m) ? $m[1] : null);
+        }
+
+        // Get loaded modules
+        $modules = @shell_exec("$apachectl -M 2>/dev/null");
+        if ($modules) {
+            $lines = array_filter(array_map('trim', explode("\n", $modules)));
+            $result['modules'] = $lines;
+        }
+
+        return $result;
+    }
 
 
     private function parseMemInfo()
