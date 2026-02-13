@@ -76,7 +76,7 @@ class Llavero_model extends CI_Model
 		//->or_where('tb_keychain.idKeychainStatusKf', null)  // Matches NULL
 		//->group_end();
 		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
-
+		log_message('info', $this->db->last_query());
 		if ($quuery->num_rows() > 0) {
 			foreach ($quuery->result_array() as $key => $item) {
 				if ($item['idReasonKf'] != "4" && $item['idReasonKf'] != "5") {
