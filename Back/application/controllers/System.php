@@ -182,20 +182,39 @@ class System extends CI_Controller {
 
     private function parseMemInfo()
     {
+        if (!is_readable('/proc/meminfo')) {
+            return array('error' => '/proc/meminfo not readable');
+        }
+
         $meminfo = file('/proc/meminfo');
         $result = array();
 
         foreach ($meminfo as $line) {
             list($key, $val) = explode(':', $line);
-            $result[$key] = trim($val);
+
+            // extract numeric value in kB
+            $kb = (int) filter_var($val, FILTER_SANITIZE_NUMBER_INT);
+
+            $result[$key] = array(
+                'kb' => $kb,
+                'mb' => round($kb / 1024, 2)
+            );
         }
 
         return array(
-            'total' => $result['MemTotal'],
-            'free' => $result['MemFree'],
-            'available' => $result['MemAvailable']
+            'total_mb'     => $result['MemTotal']['mb'],
+            'free_mb'      => $result['MemFree']['mb'],
+            'available_mb' => $result['MemAvailable']['mb'],
+
+            // optional: keep raw values for diagnostics
+            'raw_kb' => array(
+                'total'     => $result['MemTotal']['kb'],
+                'free'      => $result['MemFree']['kb'],
+                'available' => $result['MemAvailable']['kb']
+            )
         );
     }
+
 
     private function findValue($array, $name)
     {
