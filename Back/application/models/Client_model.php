@@ -2533,6 +2533,13 @@ public function postUploadFiles($customerId, $fileName, $file)
     $fileSize  = isset($file['file']['size']) ? $file['file']['size'] : 0;
     $uploadErr = isset($file['file']['error']) ? $file['file']['error'] : -1;
 
+    if ($uploadErr === UPLOAD_ERR_INI_SIZE) {
+        log_message('error',
+        '[UPLOAD] File rejected by PHP size limit. ' .
+        'upload_max_filesize=' . $uploadMax .
+        ', attempted filename=' . $file['file']['name']
+        );
+    }
     log_message('debug', '[UPLOAD] Incoming file size (bytes): ' . $fileSize);
     log_message('debug', '[UPLOAD] PHP upload error code: ' . $uploadErr);
 
