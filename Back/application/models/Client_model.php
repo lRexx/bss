@@ -2501,27 +2501,77 @@ class Client_model extends CI_Model
 
         return null;
     }
-    public function postUploadFiles($customerId, $fileName, $file)
-    {
-        $image_path = realpath(APPPATH . '../../files');
-        $file_name_ext = explode(".", $file["file"]["name"])[1];
-        $file_name_tmp = explode(".", $file["file"]["name"])[0];
-        if ($fileName != '') {
-            $file_name = $customerId . '_' . $fileName . '_' . date("Ymd") . '.' . $file_name_ext;
-        } else {
-            $file_name = $customerId . '_' . $file_name_tmp . '_' . date("Ymd") . '.' . $file_name_ext;
-        }
+public function postUploadFiles($customerId, $fileName, $file)
+{
+    log_message('debug', '[UPLOAD] Function start - customerId: ' . $customerId . ', fileName param: ' . $fileName);
+    $image_path = realpath(APPPATH . '../../files');
+    log_message('debug', '[UPLOAD] Resolved image path: ' . $image_path);
 
-        //$file_size  = $file['file']['size'];
-        $file_type = $file['file']['type'];
-        //$error      = $file['file']['error'];
-        $tempPath = $file['file']['tmp_name'];
-        $uploadPath = $image_path . DIRECTORY_SEPARATOR . $file_name;
-        move_uploaded_file($tempPath, $uploadPath);
-        $answer = array('dir' => '/files/', 'filename' => $file_name, 'type' => $file_type);
-
-        return $answer;
+    if (!$image_path) {
+        log_message('error', '[UPLOAD] Invalid image path. Directory not found.');
+        return false;
     }
+
+    if (!isset($file['file'])) {
+        log_message('error', '[UPLOAD] File array missing expected key.');
+        return false;
+    }
+
+    log_message('debug', '[UPLOAD] Raw file array: ' . json_encode($file['file']));
+
+    $originalName = $file["file"]["name"];
+    $nameParts = explode(".", $originalName);
+
+    if (count($nameParts) < 2) {
+        log_message('error', '[UPLOAD] Invalid filename format: ' . $originalName);
+        return false;
+    }
+
+    $file_name_ext = end($nameParts);
+    $file_name_tmp = $nameParts[0];
+
+    log_message('debug', '[UPLOAD] Parsed filename - base: ' . $file_name_tmp . ', ext: ' . $file_name_ext);
+
+    if ($fileName != '') {
+        $file_name = $customerId . '_' . $fileName . '_' . date("Ymd") . '.' . $file_name_ext;
+    } else {
+        $file_name = $customerId . '_' . $file_name_tmp . '_' . date("Ymd") . '.' . $file_name_ext;
+    }
+
+    $file_type = $file['file']['type'];
+    $tempPath = $file['file']['tmp_name'];
+    $uploadPath = $image_path . DIRECTORY_SEPARATOR . $file_name;
+
+    log_message('debug', '[UPLOAD] Temp path: ' . $tempPath);
+    log_message('debug', '[UPLOAD] Destination path: ' . $uploadPath);
+    log_message('debug', '[UPLOAD] File type: ' . $file_type);
+
+    if (!file_exists($tempPath)) {
+        log_message('error', '[UPLOAD] Temporary file does not exist: ' . $tempPath);
+        return false;
+    }
+
+    $moveResult = move_uploaded_file($tempPath, $uploadPath);
+
+    if (!$moveResult) {
+        log_message('error', '[UPLOAD] Failed to move uploaded file to: ' . $uploadPath);
+        return false;
+    }
+
+    log_message('debug', '[UPLOAD] File successfully uploaded: ' . $file_name);
+
+    $answer = array(
+        'dir' => '/files/',
+        'filename' => $file_name,
+        'type' => $file_type
+    );
+
+    log_message('debug', '[UPLOAD] Function end - response: ' . json_encode($answer));
+
+    return $answer;
+
+}
+
     public function addCustomerUploadedFile($client)
     {
         $this->db->insert(
