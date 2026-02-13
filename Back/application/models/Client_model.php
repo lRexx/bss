@@ -2591,10 +2591,45 @@ public function postUploadFiles($customerId, $fileName, $file)
     }
     public function postDeleteFiles($fileName)
     {
+        log_message('debug', '[DELETE] Function start - requested filename: ' . $fileName);
+
         $image_path = realpath(APPPATH . '../../files');
+        log_message('debug', '[DELETE] Resolved image path: ' . $image_path);
+
+        if (!$image_path) {
+            log_message('error', '[DELETE] Base directory not found. Continuing anyway to allow DB cleanup.');
+            return true; // allow DB reference deletion
+        }
+
+        if (empty($fileName)) {
+            log_message('error', '[DELETE] Empty filename provided. Nothing to delete.');
+            return true; // allow DB reference deletion
+        }
+
         $filePath = $image_path . DIRECTORY_SEPARATOR . $fileName;
-        unlink($filePath);
-        return true;
+        log_message('debug', '[DELETE] Full file path: ' . $filePath);
+
+        if (!file_exists($filePath)) {
+            log_message('debug', '[DELETE] File not found on disk. Skipping unlink and returning success.');
+            return true; // key requirement: allow DB reference deletion
+        }
+
+        if (!is_writable($filePath)) {
+            log_message('error', '[DELETE] File exists but is not writable: ' . $filePath . '. Returning success for DB cleanup.');
+            return true; // still allow DB cleanup
+        }
+
+        $unlinkResult = @unlink($filePath);
+
+        if ($unlinkResult) {
+            log_message('debug', '[DELETE] File successfully deleted: ' . $filePath);
+        } else {
+            log_message('error', '[DELETE] unlink() failed for file: ' . $filePath . '. Returning success for DB cleanup.');
+        }
+
+        log_message('debug', '[DELETE] Function end - returning true');
+
+        return true; // always return true to allow DB reference deletion
     }
     public function deleteCustomerUploadedFile($idClientFile)
     {
