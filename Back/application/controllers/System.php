@@ -60,8 +60,12 @@ class System extends CI_Controller {
         'linux' => $this->getLinuxInfo()
         );
 
-        header('Content-Type: application/json');
-        echo json_encode($data, JSON_PRETTY_PRINT);
+        if (is_cli()) {
+            echo json_encode($data, JSON_PRETTY_PRINT) . PHP_EOL;
+        } else {
+            header('Content-Type: application/json');
+            echo json_encode($data, JSON_PRETTY_PRINT);
+        }
     }
 
     private function getAppInfo()
@@ -77,22 +81,70 @@ class System extends CI_Controller {
 
     private function getPhpInfo()
     {
+        // helper to convert shorthand sizes (e.g. 20M) to bytes
+        $toBytes = function ($val) {
+            $val = trim($val);
+            $last = strtolower($val[strlen($val)-1]);
+            $num = (int)$val;
+
+            switch ($last) {
+                case 'g': $num *= 1024;
+                case 'm': $num *= 1024;
+                case 'k': $num *= 1024;
+            }
+
+            return $num;
+        };
+
+        $extensions = get_loaded_extensions();
+        sort($extensions);
+
+        $uploadMax = ini_get('upload_max_filesize');
+        $postMax   = ini_get('post_max_size');
+        $memoryMax = ini_get('memory_limit');
+
         return array(
             'version' => phpversion(),
             'sapi' => php_sapi_name(),
-            'ini_file' => php_ini_loaded_file(),
-            'timezone' => date_default_timezone_get(),
-            'memory_usage' => memory_get_usage(true),
-            'memory_peak' => memory_get_peak_usage(true),
-            'extensions' => get_loaded_extensions(),
+            'execution_context' => (php_sapi_name() === 'cli') ? 'CLI' : 'WEB',
+
+            'config' => array(
+                'ini_loaded_file' => php_ini_loaded_file(),
+                'ini_scanned_files' => php_ini_scanned_files()
+            ),
+
+            'environment' => array(
+                'timezone' => date_default_timezone_get(),
+                'current_user' => get_current_user(),
+                'temp_dir' => sys_get_temp_dir()
+            ),
+
+            'memory' => array(
+                'usage_bytes' => memory_get_usage(true),
+                'peak_bytes' => memory_get_peak_usage(true),
+                'limit_raw' => $memoryMax,
+                'limit_bytes' => $toBytes($memoryMax)
+            ),
+
             'limits' => array(
-                'memory_limit' => ini_get('memory_limit'),
                 'max_execution_time' => ini_get('max_execution_time'),
-                'upload_max_filesize' => ini_get('upload_max_filesize'),
-                'post_max_size' => ini_get('post_max_size')
+                'upload_max_filesize_raw' => $uploadMax,
+                'upload_max_filesize_bytes' => $toBytes($uploadMax),
+                'post_max_size_raw' => $postMax,
+                'post_max_size_bytes' => $toBytes($postMax)
+            ),
+
+            'opcache' => function_exists('opcache_get_status')
+                ? @opcache_get_status(false)
+                : 'not_available',
+
+            'extensions' => array(
+                'count' => count($extensions),
+                'list' => $extensions
             )
         );
     }
+
 
     private function getMysqlInfo()
     {
