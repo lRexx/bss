@@ -96,37 +96,21 @@ class Llavero_model extends CI_Model
 			return null;
 		}
 
-		$rs = [];
-
-		// --- Subquery: filter keychains first (critical optimization)
-		$subquery = "
-			SELECT k.idKeychain
-			FROM tb_keychain k
-			WHERE k.idClientKf = " . $this->db->escape($idClientKf) . "
-
-			UNION
-
-			SELECT k.idKeychain
-			FROM tb_keychain k
-			JOIN tb_client_departament d
-				ON d.idClientDepartament = k.idDepartmenKf
-			WHERE d.idClientFk = " . $this->db->escape($idClientKf);
-
 		$fields_selected = "
 			tb_keychain_process_events.*,
 			tb_reason_disabled_item.*,
-			tb_keychain.idKeychain,
-			tb_keychain.idProductKf,
-			tb_keychain.codExt,
-			tb_keychain.codigo,
-			tb_keychain.idDepartmenKf,
-			tb_keychain.idClientKf,
-			tb_keychain.idUserKf,
-			tb_keychain.isKeyTenantOnly,
-			tb_keychain.idKeychainStatusKf,
+			k.idKeychain,
+			k.idProductKf,
+			k.codExt,
+			k.codigo,
+			k.idDepartmenKf,
+			k.idClientKf,
+			k.idUserKf,
+			k.isKeyTenantOnly,
+			k.idKeychainStatusKf,
 			tb_keychain_status.idKeychainStatus,
 			tb_keychain_status.keychainStatusName AS statusKey,
-			UPPER(CONCAT(tb_client_departament.floor, '-', tb_client_departament.departament)) AS Depto,
+			UPPER(CONCAT(d.floor, '-', d.departament)) AS Depto,
 			tb_category_keychain.idCategory AS idCategoryKf,
 			tb_category_keychain.name AS categoryKeychain,
 			a.idClient AS idClientKfDepto,
@@ -142,29 +126,74 @@ class Llavero_model extends CI_Model
 
 		$query = $this->db
 			->select($fields_selected)
-			->from("($subquery) AS fk")
-			->join('tb_keychain', 'tb_keychain.idKeychain = fk.idKeychain', 'inner')
-			->join('tb_keychain_process_events', 'tb_keychain_process_events.idKeychainKf = tb_keychain.idKeychain', 'left')
-			->join('tb_reason_disabled_item', 'tb_reason_disabled_item.idReasonDisabledItem = tb_keychain_process_events.idReasonKf', 'left')
-			->join('tb_keychain_status', 'tb_keychain_status.idKeychainStatus = tb_keychain.idKeychainStatusKf', 'left')
-			->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left')
-			->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left')
-			->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left')
-			->join('tb_clients as a', 'a.idClient = tb_client_departament.idClientFk', 'left')
-			->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left')
-			->join('tb_user', 'tb_user.idUser = tb_keychain.idUserKf', 'left')
-			->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left')
-			->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left')
-			->where_not_in('tb_keychain_process_events.idReasonKf', [4, 5])
-			->order_by("tb_keychain.idKeychain", "ASC")
+			->from('tb_keychain k')
+
+			// joins principales primero
+			->join(
+				'tb_client_departament d',
+				'd.idClientDepartament = k.idDepartmenKf',
+				'left'
+			)
+
+			// filtro de eventos en el JOIN (clave)
+			->join(
+				'tb_keychain_process_events',
+				'tb_keychain_process_events.idKeychainKf = k.idKeychain
+				AND (tb_keychain_process_events.idReasonKf NOT IN (4,5)
+					OR tb_keychain_process_events.idReasonKf IS NULL)',
+				'left'
+			)
+
+			->join('tb_reason_disabled_item',
+				'tb_reason_disabled_item.idReasonDisabledItem = tb_keychain_process_events.idReasonKf',
+				'left')
+
+			->join('tb_keychain_status',
+				'tb_keychain_status.idKeychainStatus = k.idKeychainStatusKf',
+				'left')
+
+			->join('tb_products',
+				'tb_products.idProduct = k.idProductKf',
+				'left')
+
+			->join('tb_category_keychain',
+				'tb_category_keychain.idCategory = k.idCategoryKf',
+				'left')
+
+			->join('tb_clients as a',
+				'a.idClient = d.idClientFk',
+				'left')
+
+			->join('tb_clients as b',
+				'b.idClient = k.idClientKf',
+				'left')
+
+			->join('tb_user',
+				'tb_user.idUser = k.idUserKf',
+				'left')
+
+			->join('tb_profile',
+				'tb_profile.idProfile = tb_user.idProfileKf',
+				'left')
+
+			->join('tb_profiles',
+				'tb_profiles.idProfiles = tb_user.idSysProfileFk',
+				'left')
+
+			// filtro principal optimizado
+			->group_start()
+				->where('k.idClientKf', $idClientKf)
+				->or_where('d.idClientFk', $idClientKf)
+			->group_end()
+
+			->order_by('k.idKeychain', 'ASC')
 			->get();
 
-		if ($query->num_rows() > 0) {
-			return $query->result_array();
-		}
-
-		return null;
+		return ($query->num_rows() > 0)
+			? $query->result_array()
+			: null;
 	}
+
 
 	public function find_by_code($code, $idClientKf)
 	{
