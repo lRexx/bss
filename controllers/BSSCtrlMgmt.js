@@ -4555,10 +4555,10 @@ mgmt.controller(
           break;
       }
       $scope.filters.topDH =
-        $scope.filters.topDH != null || $scope.filters.topDH != undefined
+        $scope.filters.topDH != null && $scope.filters.topDH != undefined
           ? $scope.filters.topDH
           : 10;
-      console.log($scope.filters.ticketStatus);
+      console.log($scope.filters);
       $scope.mainSwitchFn("search", null);
     };
     $scope.isAssignButtonDisabled = function () {
