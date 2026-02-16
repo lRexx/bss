@@ -4555,6 +4555,7 @@ mgmt.controller(
           break;
       }
       console.log($scope.filters.topDH);
+      console.info($scope.slider.value);
       $scope.filters.topDH =
         $scope.filters.topDH != null && $scope.filters.topDH != undefined
           ? $scope.filters.topDH
