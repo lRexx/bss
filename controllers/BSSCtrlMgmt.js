@@ -4554,11 +4554,10 @@ mgmt.controller(
             : 0;
           break;
       }
-      console.log($scope.filters.topDH);
       console.info($scope.slider.value);
       $scope.filters.topDH =
-        $scope.filters.topDH != null && $scope.filters.topDH != undefined
-          ? $scope.filters.topDH
+        $scope.slider.value != null && $scope.slider.value != undefined
+          ? $scope.slider.value
           : 10;
       console.log($scope.filters);
       $scope.mainSwitchFn("search", null);
