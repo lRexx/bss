@@ -95,7 +95,7 @@ class Llavero_model extends CI_Model
 		if (!$idClientKf) {
 			return null;
 		}
-
+		$start = microtime(true);
 		$fields_selected = "
 			tb_keychain_process_events.*,
 			tb_reason_disabled_item.*,
@@ -188,7 +188,8 @@ class Llavero_model extends CI_Model
 
 			->order_by('k.idKeychain', 'ASC')
 			->get();
-
+		$time = microtime(true) - $start;
+		log_message('info', 'Query time: ' . $time);
 		return ($query->num_rows() > 0)
 			? $query->result_array()
 			: null;
