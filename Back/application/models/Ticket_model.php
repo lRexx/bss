@@ -2709,7 +2709,7 @@ class Ticket_model extends CI_Model
 			) {
 				$rsA = [];
 
-				$this->db->select("idClient")->from("tb_clients");
+				$this->db->select("*")->from("tb_clients");
 				if (@$data['idClientAdminFk'] != '' && @$data['idBuildingKf'] != '' && @$data['idClientCompaniFk'] == '' && @$data['idClientBranchFk'] == '') {
 					$this->db->where("idClient = ", @$data['idBuildingKf']);
 					$buildingList = $this->db->where("idClientAdminFk = ", @$data['idClientAdminFk'])->get();
@@ -2883,7 +2883,7 @@ class Ticket_model extends CI_Model
 			}
 		} else if (@$data['idProfileKf'] == '4' && !@$data['isHomeSelected']) {
 			$rsA = [];
-			$this->db->select("idClient")->from("tb_clients");
+			$this->db->select("*")->from("tb_clients");
 			if (@$data['idClientAdminFk'] != '' && @$data['idBuildingKf'] != '' && @$data['idClientCompaniFk'] == '' && @$data['idClientBranchFk'] == '') {
 				$this->db->where("idClient = ", @$data['idBuildingKf']);
 				$buildingList = $this->db->where("idClientAdminFk = ", @$data['idClientAdminFk'])->get();
@@ -2965,7 +2965,7 @@ class Ticket_model extends CI_Model
 					}
 					if (@$data['codTicket'] != '') {
 						//$this->db->where("codTicket = " , @$data['codTicket']);
-						$where = "codTicket LIKE '" . @$data['codTicket'] . "%'";
+						$where = "codTicket LIKE '%" . @$data['codTicket'] . "%'";
 						$this->db->where($where);
 					}
 					if (@$data['topfilter'] != '') {
@@ -2997,7 +2997,7 @@ class Ticket_model extends CI_Model
 		} else if ((@$data['idProfileKf'] == '3' || @$data['idProfileKf'] == '5') || (@$data['idProfileKf'] == '4' && @$data['isHomeSelected'] && (@$data['idTypeTenantKf'] == '1' || @$data['idTypeTenantKf'] == '2'))) {
 			$rsA = [];
 			if (@$data['idProfileKf'] == '3' || (@$data['idProfileKf'] == '4' && @$data['idTypeTenantKf'] == '1' && @$data['isHomeSelected'])) {
-				$this->db->select("idClient")->from("tb_client_departament");
+				$this->db->select("*")->from("tb_client_departament");
 				if (@$data['idUserRequestBy'] != '' && @$data['idUserMadeBy'] != '') {
 					$whereD = "(idUserKf = " . $data['idUserRequestBy'] . " OR idUserKf = " . $data['idUserMadeBy'] . ")";
 				} else if (@$data['idUserRequestBy'] != '') {
@@ -3083,7 +3083,7 @@ class Ticket_model extends CI_Model
 						$this->db->where("idTypePaymentKf = ", @$data['idTypePaymentKf']);
 					}
 					if (@$data['codTicket'] != '') {
-						$where = "codTicket LIKE '" . @$data['codTicket'] . "%'";
+						$where = "codTicket LIKE '%" . @$data['codTicket'] . "%'";
 						$this->db->where($where);
 					}
 
@@ -3114,7 +3114,7 @@ class Ticket_model extends CI_Model
 				return null;
 			}
 		} else {
-			$this->db->select("idClient");
+			$this->db->select("*");
 			$this->db->from("tb_tickets_2");
 			if (@$data['isHasStockInBuilding'] == '1') {
 				$this->db->join('tb_clients', 'tb_clients.idClient = tb_tickets_2.idBuildingKf', 'left');
@@ -3237,7 +3237,7 @@ class Ticket_model extends CI_Model
 			}
 			if (@$data['codTicket'] != '') {
 				//$this->db->where("codTicket = " , @$data['codTicket']);
-				$where = "codTicket LIKE '" . @$data['codTicket'] . "%'";
+				$where = "codTicket LIKE '%" . @$data['codTicket'] . "%'";
 				$this->db->where($where);
 			}
 			if (@$data['topfilter'] != '') {
