@@ -2709,7 +2709,7 @@ class Ticket_model extends CI_Model
 			) {
 				$rsA = [];
 
-				$this->db->select("*")->from("tb_clients");
+				$this->db->select("idClient")->from("tb_clients");
 				if (@$data['idClientAdminFk'] != '' && @$data['idBuildingKf'] != '' && @$data['idClientCompaniFk'] == '' && @$data['idClientBranchFk'] == '') {
 					$this->db->where("idClient = ", @$data['idBuildingKf']);
 					$buildingList = $this->db->where("idClientAdminFk = ", @$data['idClientAdminFk'])->get();
@@ -2850,7 +2850,7 @@ class Ticket_model extends CI_Model
 						}
 						if (@$data['codTicket'] != '') {
 							//$this->db->where("codTicket = " , @$data['codTicket']);
-							$where = "codTicket LIKE '%" . @$data['codTicket'] . "%'";
+							$where = "codTicket LIKE '" . @$data['codTicket'] . "%'";
 							$this->db->where($where);
 						}
 						if (@$data['topfilter'] != '') {
