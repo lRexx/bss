@@ -3091,6 +3091,7 @@ class Ticket_model extends CI_Model
 						$this->db->limit($data['topfilter']);
 					}
 					$quuery = $this->db->order_by("idTicket", "DESC")->get();
+					log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $quuery->num_rows());
 					//print_r($quuery->result_array());
 					if (count($quuery->result_array()) >= 1) {
 						//print_r("entro ". $i);
@@ -3199,7 +3200,7 @@ class Ticket_model extends CI_Model
 			$this->db->limit($limit);
 
 			$query = $this->db->order_by('idTicket', 'DESC')->get();
-			log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $quuery->num_rows());
+			log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query->num_rows());
 			if ($quuery->num_rows() >= 0) {
 				//print_r($quuery->result_array());
 				return $this->buscar_relaciones_ticket($quuery->result_array());
