@@ -3237,8 +3237,9 @@ class Ticket_model extends CI_Model
 				$this->db->where("idDeliveryCompanyKf = ", @$data['idDeliveryCompanyKf']);
 			}
 			// codTicket con LIKE de prefijo (puede usar índice)
-			if (@$data['codTicket'] != '') {
-				$this->db->like('codTicket', $data['codTicket'], 'after'); // genera LIKE 'valor%'
+			if (!empty($data['codTicket'])) {
+				$codTicket = $this->db->escape_like_str($data['codTicket']);
+				$this->db->where("codTicket LIKE '{$codTicket}%'");
 			}
 
 			// SIEMPRE poner un LIMIT — sin esto ordenas toda la tabla
