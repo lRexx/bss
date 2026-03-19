@@ -5208,69 +5208,70 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.service.adicional.idProductoFk=$scope.productSelected.idProduct;
                         $scope.productDetailsAssigned=false;
                         if (($scope.service.new!=undefined && $scope.service.new.idTipeServiceFk!='3' && $scope.service.new.idTipeServiceFk!='4' && $scope.service.new.idTipeServiceFk!='5') || ($scope.service.update!=undefined && $scope.service.update.idTipeServiceFk!='3' && $scope.service.update.idTipeServiceFk!='4' && $scope.service.update.idTipeServiceFk!='5')){
-                        $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
-                        $('#serviceProductDetails').on('shown.bs.modal', function () {
-                            $('#serviceProductInternalSerial').focus();
-                        });
+                            $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
+                            $('#serviceProductDetails').on('shown.bs.modal', function () {
+                                $('#serviceProductInternalSerial').focus();
+                            });
                         }else if ((($scope.service.new!=undefined && ($scope.service.new.idTipeServiceFk=='3' || $scope.service.new.idTipeServiceFk=='4')) || ($scope.service.update!=undefined && ($scope.service.update.idTipeServiceFk=='3' || $scope.service.update.idTipeServiceFk=='4'))) && obj.idProductClassificationFk!='11'){
-                        $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
-                        $('#serviceProductDetails').on('shown.bs.modal', function () {
-                            $('#serviceProductInternalSerial').focus();
-                        });
+                            $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
+                            $('#serviceProductDetails').on('shown.bs.modal', function () {
+                                $('#serviceProductInternalSerial').focus();
+                            });
                         }else if ((($scope.service.new!=undefined && ($scope.service.new.idTipeServiceFk=='3' || $scope.service.new.idTipeServiceFk=='4')) || ($scope.service.update!=undefined && ($scope.service.update.idTipeServiceFk=='3' || $scope.service.update.idTipeServiceFk=='4'))) && obj.idProductClassificationFk=='11'){
-                        if ($scope.service.dvr.selected==undefined || ($scope.service.maxCamera==undefined || $scope.service.maxCamera<=0)){
-                            inform.add("Debe seleccionar un DVR/NVR y/o completar el campo 'Maximo de Camaras' antes de cargar una camara.",{
-                            ttl:5000, type: 'warning'
-                            });
-                            $scope.service.cameras.selected=undefined;
-                        }else if ($scope.service.dvr.selected!=undefined && ($scope.service.maxCamera!=undefined && $scope.service.maxCamera>=1)){
-                            if($scope.list_cameras.length==$scope.service.maxCamera && ($scope.list_cameras.length<=$scope.service.cameras_available || $scope.list_cameras.length<=$scope.service.cameras_contracted)){
-                            inform.add("La cantidad de camaras cargadas ("+$scope.list_cameras.length+") es igual al maximo de canales del DVR/NVR Seleccionado ("+$scope.service.maxCamera+")",{
-                            ttl:5000, type: 'warning'
-                            });
-                            }else if (($scope.list_cameras.length>=$scope.service.cameras_available && $scope.list_cameras.length==$scope.service.cameras_contracted) && $scope.list_cameras.length<=$scope.service.maxCamera){
-                            var cameras_available=$scope.service.cameras_available==0 || $scope.service.cameras_available<$scope.service.cameras_contracted?$scope.service.cameras_contracted:$scope.service.cameras_available;
-                            var total_cameras_availables=$scope.list_cameras.length<cameras_available?(Number(cameras_available)-Number($scope.list_cameras.length)):(Number($scope.list_cameras.length)-Number(cameras_available));
-                            inform.add("Cantidad de Camaras disponibles ("+total_cameras_availables+"), aumente la cantidad de camaras del contrato.",{
-                            ttl:5000, type: 'warning'
-                            });
-                            }else if($scope.list_cameras.length<$scope.service.maxCamera && ($scope.list_cameras.length<$scope.service.cameras_available || $scope.list_cameras.length<$scope.service.cameras_contracted)){
-                                $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
-                                $('#serviceProductDetails').on('shown.bs.modal', function () {
-                                $('#serviceCameraPort').focus();
+                            if ($scope.service.dvr.selected==undefined || ($scope.service.maxCamera==undefined || $scope.service.maxCamera<=0)){
+                                inform.add("Debe seleccionar un DVR/NVR y/o completar el campo 'Maximo de Camaras' antes de cargar una camara.",{
+                                ttl:5000, type: 'warning'
                                 });
-                                $scope.createPortList("filter");
+                                $scope.service.cameras.selected=undefined;
+                            }else if ($scope.service.dvr.selected!=undefined && ($scope.service.maxCamera!=undefined && $scope.service.maxCamera>=1)){
+                                if($scope.list_cameras.length==$scope.service.maxCamera && ($scope.list_cameras.length<=$scope.service.cameras_available || $scope.list_cameras.length<=$scope.service.cameras_contracted)){
+                                inform.add("La cantidad de camaras cargadas ("+$scope.list_cameras.length+") es igual al maximo de canales del DVR/NVR Seleccionado ("+$scope.service.maxCamera+")",{
+                                ttl:5000, type: 'warning'
+                                });
+                                }else if (($scope.list_cameras.length>=$scope.service.cameras_available && $scope.list_cameras.length==$scope.service.cameras_contracted) && $scope.list_cameras.length<=$scope.service.maxCamera){
+                                var cameras_available=$scope.service.cameras_available==0 || $scope.service.cameras_available<$scope.service.cameras_contracted?$scope.service.cameras_contracted:$scope.service.cameras_available;
+                                var total_cameras_availables=$scope.list_cameras.length<cameras_available?(Number(cameras_available)-Number($scope.list_cameras.length)):(Number($scope.list_cameras.length)-Number(cameras_available));
+                                inform.add("Cantidad de Camaras disponibles ("+total_cameras_availables+"), aumente la cantidad de camaras del contrato.",{
+                                ttl:5000, type: 'warning'
+                                });
+                                }else if($scope.list_cameras.length<$scope.service.maxCamera && ($scope.list_cameras.length<$scope.service.cameras_available || $scope.list_cameras.length<$scope.service.cameras_contracted)){
+                                    $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
+                                    $('#serviceProductDetails').on('shown.bs.modal', function () {
+                                    $('#serviceCameraPort').focus();
+                                    });
+                                    $scope.createPortList("filter");
+                                }
                             }
-                        }
                         }else if ((($scope.service.new!=undefined && $scope.service.new.idTipeServiceFk=='5') || ($scope.service.update!=undefined && $scope.service.update.idTipeServiceFk=='5'))  && obj.idProductClassificationFk=='14'){
-                        if ($scope.service.zonesQttyInstalled==undefined || $scope.service.zonesQttyInstalled<=0){
-                            inform.add("Debe completar el campo 'Cantidad De Zonas Instaladas' o colocar un valor mayor a 0 para crear una zona.",{
-                            ttl:5000, type: 'warning'
-                            });
-                            $('#serviceZonasCantInstaladas').focus();
-                            $scope.service.sensor.selected=undefined;
-                        }else if($scope.service.sensor.selected!=undefined && ($scope.service.zonesQttyInstalled!=undefined && $scope.service.zonesQttyInstalled>=1)){
-                            $scope.service.sensor.zones={'zoneNumber':'','areaCovered':'','zoneLocation':'','zoneCameras':'','isWirelessAvailable':true,'isWireless':false, 'internalSerialNumber':'','fabricSerialNumber':''};
-                            $scope.service.dvr.selected=undefined;
-                            $scope.createPortList("filter");
-                            if ($scope.list_sensors_zones.length==0){
-                            inform.add("La cantidad de Zonas ("+$scope.service.zonesQttyInstalled+") a instalar ya han sido asignadas a los sensores creados, aumente la cantidad de zonas para asignar a nuevos sensores.",{
-                            ttl:5000, type: 'warning'
-                            });
-                            $('#serviceZonasCantInstaladas').focus();
-                            $scope.service.sensor.selected=undefined
-                            }else{
-                            $("#serviceModuleZonesDetails").modal({backdrop: 'static', keyboard: false});
-                            $('#serviceModuleZonesDetails').on('shown.bs.modal', function () {
-                                $('#serviceZoneNumbSensor').focus();
-                            });
+                            if ($scope.service.zonesQttyInstalled==undefined || $scope.service.zonesQttyInstalled<=0){
+                                inform.add("Debe completar el campo 'Cantidad De Zonas Instaladas' o colocar un valor mayor a 0 para crear una zona.",{
+                                ttl:5000, type: 'warning'
+                                });
+                                $('#serviceZonasCantInstaladas').focus();
+                                $scope.service.sensor.selected=undefined;
+                            }else if($scope.service.sensor.selected!=undefined && ($scope.service.zonesQttyInstalled!=undefined && $scope.service.zonesQttyInstalled>=1)){
+                                $scope.service.sensor.zones={'zoneNumber':'','areaCovered':'','zoneLocation':'','zoneCameras':'','isWirelessAvailable':true,'isWireless':false, 'internalSerialNumber':'','fabricSerialNumber':''};
+                                $scope.service.dvr.selected=undefined;
+                                $scope.createPortList("filter");
+                                if ($scope.list_sensors_zones.length==0){
+                                inform.add("La cantidad de Zonas ("+$scope.service.zonesQttyInstalled+") a instalar ya han sido asignadas a los sensores creados, aumente la cantidad de zonas para asignar a nuevos sensores.",{
+                                ttl:5000, type: 'warning'
+                                });
+                                $('#serviceZonasCantInstaladas').focus();
+                                $scope.service.sensor.selected=undefined
+                                }else{
+                                $("#serviceModuleZonesDetails").modal({backdrop: 'static', keyboard: false});
+                                $('#serviceModuleZonesDetails').on('shown.bs.modal', function () {
+                                    $('#serviceZoneNumbSensor').focus();
+                                });
+                                }
                             }
-                        }
                         }if ((($scope.service.new!=undefined && $scope.service.new.idTipeServiceFk=='5') || ($scope.service.update!=undefined && $scope.service.update.idTipeServiceFk=='5')) && obj.idProductClassificationFk!='14'){
-                        $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
-                        $('#serviceProductDetails').on('shown.bs.modal', function () {
-                            $('#serviceProductInternalSerial').focus();
-                        });
+                            $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
+                            $('#serviceProductDetails').on('shown.bs.modal', function () {
+                                $('#serviceProductInternalSerial').focus();
+                            });
+                            console.log("ENTRO ACA");
                         }
                         //console.log($scope.productSelected);
                         //console.log($scope.service.new);
