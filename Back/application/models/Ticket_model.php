@@ -3117,79 +3117,125 @@ class Ticket_model extends CI_Model
 		} else {
 			$this->db->select("*");
 			$this->db->from("tb_tickets_2");
-
-			// JOIN condicional — solo cuando se necesita
 			if (@$data['isHasStockInBuilding'] == '1') {
 				$this->db->join('tb_clients', 'tb_clients.idClient = tb_tickets_2.idBuildingKf', 'left');
-				$this->db->where('tb_clients.isStockInBuilding IS NOT NULL');
+				$this->db->where('tb_clients.isStockInBuilding  IS NOT NULL');
 			}
-
-			if (@$data['isPaymentSucceeded'] == '1') {
-				$this->db->join('tb_mp_payments', 'tb_mp_payments.idPayment = tb_tickets_2.idPaymentKf', 'left');
-				$this->db->where("ISNULL(isManualPayment)");
-				$this->db->where("idStatusTicketKf NOT IN (3, 5)");
-				$this->db->where("idTypePaymentKf", 2);
-				$this->db->where("idPaymentKf !=", '');
-				$this->db->where("tb_mp_payments.mp_payment_id !=", '');
-				$this->db->where("tb_mp_payments.mp_status_detail", 'accredited');
+			//TICKET TYPE
+			if (@$data['idTypeTicketKf'] != '') {
+				$this->db->where("idTypeTicketKf = ", @$data['idTypeTicketKf']);
 			}
-
-			// Filtros simples — solo agregar WHERE cuando hay valor
-			if (@$data['idTypeTicketKf'] != '')       $this->db->where('idTypeTicketKf', $data['idTypeTicketKf']);
-			if (@$data['idTypeRequestFor'] != '')     $this->db->where('idTypeRequestFor', $data['idTypeRequestFor']);
-			if (@$data['idTypeDeliveryKf'] != '')     $this->db->where('idTypeDeliveryKf', $data['idTypeDeliveryKf']);
-			if (@$data['idTypePaymentKf'] != '')      $this->db->where('idTypePaymentKf', $data['idTypePaymentKf']);
-			if (@$data['idDeliveryCompanyKf'] != '')  $this->db->where('idDeliveryCompanyKf', $data['idDeliveryCompanyKf']);
-			if (@$data['idMgmtMethodKf'] != '')       $this->db->where('idMgmtMethodKf', $data['idMgmtMethodKf']);
-			if (@$data['whereKeysAreEnable'] != '')   $this->db->where('whereKeysAreEnable', $data['whereKeysAreEnable']);
-			if (@$data['isKeysEnable'] != '')         $this->db->where('isKeysEnable', $data['isKeysEnable']);
-
-			// Filtros de fecha — solo agregar el rango necesario
-			if (@$data['dateCreatedFrom'] != '' && @$data['dateCreatedTo'] != '') {
-				$this->db->where("DATE(created_at) BETWEEN '{$data['dateCreatedFrom']}' AND '{$data['dateCreatedTo']}'");
-			} elseif (@$data['dateCreatedFrom'] != '') {
-				$this->db->where("created_at >", $data['dateCreatedFrom']);
-			} elseif (@$data['dateCreatedTo'] != '') {
-				$this->db->where("created_at <", $data['dateCreatedTo']);
+			//DATE FROM THE TICKET REQUEST WAS DONE
+			if (@$data['dateCreatedFrom'] != '' && @$data['dateCreatedTo'] == '') {
+				$where = "created_at > '" . @$data['dateCreatedFrom'] . "'";
+				$this->db->where($where);
+			} else if (@$data['dateCreatedTo'] != '' && @$data['dateCreatedFrom'] == '') {
+				$where = "created_at < '" . @$data['dateCreatedTo'] . "'";
+				$this->db->where($where);
+			} else if (@$data['dateCreatedFrom'] != '' && @$data['dateCreatedTo'] != '') {
+				$where = "DATE(created_at) BETWEEN '" . @$data['dateCreatedFrom'] . "' AND '" . @$data['dateCreatedTo'] . "'";
+				$this->db->where($where);
 			}
-
-			if (@$data['dateDeliveredFrom'] != '' && @$data['dateDeliveredTo'] != '') {
-				$this->db->where("DATE(delivered_at) BETWEEN '{$data['dateDeliveredFrom']}' AND '{$data['dateDeliveredTo']}'");
-			} elseif (@$data['dateDeliveredFrom'] != '') {
-				$this->db->where("delivered_at >", $data['dateDeliveredFrom']);
-			} elseif (@$data['dateDeliveredTo'] != '') {
-				$this->db->where("delivered_at <", $data['dateDeliveredTo']);
+			//DATE FROM THE TICKET REQUEST WAS DELIVERED
+			if (@$data['dateDeliveredFrom'] != '' && @$data['dateDeliveredTo'] == '') {
+				$where = "delivered_at > '" . @$data['dateDeliveredFrom'] . "'";
+				$this->db->where($where);
+			} else if (@$data['dateDeliveredTo'] != '' && @$data['dateDeliveredFrom'] == '') {
+				$where = "delivered_at < '" . @$data['dateDeliveredTo'] . "'";
+				$this->db->where($where);
+			} else if (@$data['dateDeliveredFrom'] != '' && @$data['dateDeliveredTo'] != '') {
+				$where = "DATE(delivered_at) BETWEEN '" . @$data['dateDeliveredFrom'] . "' AND '" . @$data['dateDeliveredTo'] . "'";
+				$this->db->where($where);
 			}
-
-			// Status de ticket
+			//TICKET STATUS
 			if (@$data['idStatusTicketKf'] != '') {
-				if ($data['idStatusTicketKf'] == '10') {
-					$this->db->where('isCancelRequested', 1);
-					$this->db->where('idStatusTicketKf', 10);
-				} elseif ($data['idStatusTicketKf'] == '8' &&
-						empty($data['idMgmtMethodKf']) &&
-						empty($data['whereKeysAreEnable']) &&
-						empty($data['isKeysEnable'])) {
-					$this->db->where('ISNULL(idMgmtMethodKf)');
-					$this->db->where('ISNULL(whereKeysAreEnable)');
-					$this->db->where('ISNULL(isKeysEnable)');
-					$this->db->where('idStatusTicketKf', 8);
+				if (@$data['idStatusTicketKf'] == '10') {
+					$where = "isCancelRequested = 1 AND idStatusTicketKf = " . @$data['idStatusTicketKf'];
+					$this->db->where($where);
+				} else if (@$data['idStatusTicketKf'] == '8' && @$data['idMgmtMethodKf'] == null && @$data['whereKeysAreEnable'] == null && @$data['isKeysEnable'] == null) {
+					$where = "ISNULL(idMgmtMethodKf) AND ISNULL(whereKeysAreEnable) AND ISNULL(isKeysEnable) AND idStatusTicketKf = " . @$data['idStatusTicketKf'];
+					$this->db->where($where);
 				} else {
-					$this->db->where('idStatusTicketKf', $data['idStatusTicketKf']);
+					$this->db->where("idStatusTicketKf = ", @$data['idStatusTicketKf']);
 				}
 			}
-
-			// Filtros booleanos — SOLO cuando vale '1', no agregar else
-			if (@$data['isTechnicianAssigned'] == '1')   $this->db->where('isTechnicianAssigned', 1);
-			if (@$data['isHasRefundsOpen'] == '1')       $this->db->where('isHasRefundsOpen', 1);
-			if (@$data['isInitialDeliveryActive'] == '1') $this->db->where('isInitialDeliveryActive', 1);
-			if (@$data['isBillingUploaded'] == '1')      $this->db->where('isBillingUploaded !=', 1);
-
-			// isBillingInitiated tiene lógica especial
-			if (@$data['isBillingInitiated'] === '1' || @$data['isBillingInitiated'] === '0') {
-				$this->db->where("(ISNULL(isBillingInitiated) OR isBillingInitiated = '{$data['isBillingInitiated']}')");
+			//TECHNNICIAN ASSIGNED
+			if (@$data['isTechnicianAssigned'] == '1') {
+				$where = "(isTechnicianAssigned = '" . @$data['isTechnicianAssigned'] . "')";
+				$this->db->where($where);
+			} else {
+				$where = "(ISNULL(isTechnicianAssigned) OR isTechnicianAssigned = '0' OR isTechnicianAssigned = '1')";
+				$this->db->where($where);
 			}
-
+			//TICKET REQUESTED FOR
+			if (@$data['idTypeRequestFor'] != '') {
+				$this->db->where("idTypeRequestFor = ", @$data['idTypeRequestFor']);
+			}
+			//TICKET TYPE DELIVERY
+			if (@$data['idTypeDeliveryKf'] != '') {
+				$this->db->where("idTypeDeliveryKf = ", @$data['idTypeDeliveryKf']);
+			}
+			//TICKET TYPE OF PAYMENT
+			if (@$data['idTypePaymentKf'] != '') {
+				$this->db->where("idTypePaymentKf = ", @$data['idTypePaymentKf']);
+			}
+			//REFUND INITIATED
+			if (@$data['isHasRefundsOpen'] == '1') {
+				$where = "(isHasRefundsOpen = '" . @$data['isHasRefundsOpen'] . "')";
+				$this->db->where($where);
+			} else {
+				$where = "(ISNULL(isHasRefundsOpen) OR isHasRefundsOpen = '" . @$data['isHasRefundsOpen'] . "' OR isHasRefundsOpen <> '" . @$data['isHasRefundsOpen'] . "')";
+				$this->db->where($where);
+			}
+			//INITIAL DELIVERY INITIATED
+			if (@$data['isInitialDeliveryActive'] == '1') {
+				$where = "(isInitialDeliveryActive = '" . @$data['isInitialDeliveryActive'] . "')";
+				$this->db->where($where);
+			} else {
+				$where = "(ISNULL(isInitialDeliveryActive) OR isInitialDeliveryActive = '0')";
+				$this->db->where($where);
+			}
+			//MP PAYMENT Succeeded
+			if (@$data['isPaymentSucceeded'] == '1') {
+				$where = "(ISNULL(isManualPayment) AND idStatusTicketKf!='3' AND idStatusTicketKf!='5' AND idTypePaymentKf = 2 AND idPaymentKf != '' AND tb_mp_payments.mp_payment_id != '' AND tb_mp_payments.mp_status_detail='accredited')";
+				$this->db->join('tb_mp_payments', 'tb_mp_payments.idPayment = tb_tickets_2.idPaymentKf', 'left');
+				$this->db->where($where);
+			}
+			//BILLING INITIATED
+			if (@$data['isBillingInitiated'] == '1') {
+				$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '" . @$data['isBillingInitiated'] . "')";
+				$this->db->where($where);
+			} else if (@$data['isBillingInitiated'] == '0') {
+				$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '" . @$data['isBillingInitiated'] . "')";
+				$this->db->where($where);
+			} else {
+				$where = "(ISNULL(isBillingInitiated) OR isBillingInitiated = '0' OR isBillingInitiated = '1')";
+				$this->db->where($where);
+			}
+			//MGMT METHOD
+			if (@$data['idMgmtMethodKf'] != '' && @$data['idMgmtMethodKf'] != null) {
+				$where = "(idMgmtMethodKf = '" . @$data['idMgmtMethodKf'] . "')";
+				$this->db->where($where);
+			}
+			//ACTIVATION METHOD
+			if (@$data['whereKeysAreEnable'] != '' && @$data['whereKeysAreEnable'] != null) {
+				$where = "(whereKeysAreEnable = '" . @$data['whereKeysAreEnable'] . "')";
+				$this->db->where($where);
+			}
+			//KEYS ENABLE
+			if (@$data['isKeysEnable'] != '' && @$data['isKeysEnable'] != null) {
+				$where = "(isKeysEnable = '" . @$data['isKeysEnable'] . "')";
+				$this->db->where($where);
+			}
+			//BILLING UPLOADED
+			if (@$data['isBillingUploaded'] == '1') {
+				$where = "(ISNULL(isBillingUploaded) OR isBillingUploaded != '" . @$data['isBillingUploaded'] . "')";
+				$this->db->where($where);
+			}
+			//DELIVERY COMPANY SELECTED
+			if (@$data['idDeliveryCompanyKf'] != '') {
+				$this->db->where("idDeliveryCompanyKf = ", @$data['idDeliveryCompanyKf']);
+			}
 			// codTicket con LIKE de prefijo (puede usar índice)
 			if (@$data['codTicket'] != '') {
 				$this->db->like('codTicket', $data['codTicket'], 'after'); // genera LIKE 'valor%'
