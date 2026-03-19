@@ -5212,11 +5212,13 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $('#serviceProductDetails').on('shown.bs.modal', function () {
                                 $('#serviceProductInternalSerial').focus();
                             });
+                            console.log("ENTRO ACA 1");
                         }else if ((($scope.service.new!=undefined && ($scope.service.new.idTipeServiceFk=='3' || $scope.service.new.idTipeServiceFk=='4')) || ($scope.service.update!=undefined && ($scope.service.update.idTipeServiceFk=='3' || $scope.service.update.idTipeServiceFk=='4'))) && obj.idProductClassificationFk!='11'){
                             $("#serviceProductDetails").modal({backdrop: 'static', keyboard: false});
                             $('#serviceProductDetails').on('shown.bs.modal', function () {
                                 $('#serviceProductInternalSerial').focus();
                             });
+                            console.log("ENTRO ACA 2");
                         }else if ((($scope.service.new!=undefined && ($scope.service.new.idTipeServiceFk=='3' || $scope.service.new.idTipeServiceFk=='4')) || ($scope.service.update!=undefined && ($scope.service.update.idTipeServiceFk=='3' || $scope.service.update.idTipeServiceFk=='4'))) && obj.idProductClassificationFk=='11'){
                             if ($scope.service.dvr.selected==undefined || ($scope.service.maxCamera==undefined || $scope.service.maxCamera<=0)){
                                 inform.add("Debe seleccionar un DVR/NVR y/o completar el campo 'Maximo de Camaras' antes de cargar una camara.",{
