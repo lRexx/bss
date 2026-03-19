@@ -5205,6 +5205,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         $scope.productSelected=obj;
                         console.log(obj);
                         console.log($scope.service.new);
+                        console.log($scope.service.update);
                         $scope.service.adicional.idProductoFk=$scope.productSelected.idProduct;
                         $scope.productDetailsAssigned=false;
                         if (($scope.service.new!=undefined && $scope.service.new.idTipeServiceFk!='3' && $scope.service.new.idTipeServiceFk!='4' && $scope.service.new.idTipeServiceFk!='5') || ($scope.service.update!=undefined && $scope.service.update.idTipeServiceFk!='3' && $scope.service.update.idTipeServiceFk!='4' && $scope.service.update.idTipeServiceFk!='5')){
