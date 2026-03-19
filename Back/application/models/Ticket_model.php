@@ -3201,9 +3201,9 @@ class Ticket_model extends CI_Model
 
 			$query = $this->db->order_by('idTicket', 'DESC')->get();
 			log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query->num_rows());
-			if ($quuery->num_rows() >= 0) {
+			if ($query->num_rows() >= 0) {
 				//print_r($quuery->result_array());
-				return $this->buscar_relaciones_ticket($quuery->result_array());
+				return $this->buscar_relaciones_ticket($query->result_array());
 			}
 		}
 	}
@@ -3218,7 +3218,7 @@ class Ticket_model extends CI_Model
 		$this->db->where("idTicket = ", $id);
 		$this->db->or_where("urlToken", $id);
 		$quuery = $this->db->get();
-
+		log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $quuery->num_rows());
 		if ($quuery->num_rows() > 0) {
 			$todo = $quuery->result_array();
 			return $this->buscar_relaciones_ticket($todo);
