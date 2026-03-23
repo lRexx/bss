@@ -4705,22 +4705,25 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         if((obj.selected.paymentDetails!=undefined && obj.selected.paymentDetails!=null) && obj.selected.paymentDetails.mp_collection_status=='approved' && obj.selected.paymentDetails.mp_status_detail=='accredited'){
                           $scope.update.ticket.refund = [];
                           $scope.update.ticket.refund.push({'idTicketKf': obj.selected.idTicket, 'idRefundTypeKf':'1',  'description':'',  'refundAmount':obj.selected.costDelivery});
-                          $scope.update.ticket.isHasRefundsOpen = 1;
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
-                          $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"15"});
-                          inform.add('Se realizara un reintegro de ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
-                            ttl:6000, type: 'info'
-                          });
+                          if ((num($scope.costDelivery)!=null || num($scope.costDelivery)>0) && num(obj.cost.delivery)>0){
+                            $scope.update.ticket.isHasRefundsOpen = 1;
+                            $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"15"});
+                            inform.add('Se realizara un reintegro de ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
+                              ttl:6000, type: 'info'
+                            });
+                          }
                           $scope.update.ticket.idStatusTicketKf       = obj.selected.idStatusTicketKf;
                         }else{
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
-                          $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"16"});
-                          inform.add('Se descontaran ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
-                            ttl:6000, type: 'success'
-                          });
-                          if (($scope.costDelivery==null || $scope.costDelivery==0) && obj.cost.delivery==0){
+
+                          if ((num($scope.costDelivery)==null || num($scope.costDelivery)==0) && num(obj.cost.delivery)==0){
                             $scope.update.ticket.createNewMPLink = false;
                           }else{
+                            $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"16"});
+                            inform.add('Se descontaran ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
+                              ttl:6000, type: 'success'
+                            });
                             $scope.update.ticket.createNewMPLink = true;
                             inform.add('Nuevo link de pago sera generado para el pago de su pedido, BSS Seguridad.',{
                               ttl:6000, type: 'warning'
