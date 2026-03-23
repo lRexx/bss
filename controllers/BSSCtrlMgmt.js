@@ -4436,9 +4436,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       };
                       console.log("Llavero a actualizar: "+keys.codigo);
                       console.log(keys);
-                      $scope.updateKeyFn({llavero: keys});
+                      //$scope.updateKeyFn({llavero: keys});
                       if (idKeychainStatusKf=="1"){
-                        $scope.addProcessEventFn({llavero: keys});
+                        //$scope.addProcessEventFn({llavero: keys});
                       }
                       deferredKeys.resolve();
                   }, 1000);
@@ -4448,7 +4448,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.tkupdate);
                   $scope.update.ticket = $scope.tkupdate;
                   console.log($scope.update);
-                  $scope.setKeysEnableDisableFn($scope.update);
+                  //$scope.setKeysEnableDisableFn($scope.update);
                 });
               }else{
                 inform.add('No hay cambios en el Pedido para actualizar. ',{
@@ -4704,9 +4704,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       if (obj.selected.idTypeDeliveryKf!=obj.delivery.idTypeDeliveryKf && obj.delivery.idTypeDeliveryKf=="1"){
                         if((obj.selected.paymentDetails!=undefined && obj.selected.paymentDetails!=null) && obj.selected.paymentDetails.mp_collection_status=='approved' && obj.selected.paymentDetails.mp_status_detail=='accredited'){
                           $scope.update.ticket.refund = [];
-                          $scope.update.ticket.refund.push({'idTicketKf': obj.selected.idTicket, 'idRefundTypeKf':'1',  'description':'',  'refundAmount':obj.selected.costDelivery});
                           $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"12"});
                           if ((num($scope.costDelivery)!=null || num($scope.costDelivery)>0) && num(obj.cost.delivery)>0){
+                            $scope.update.ticket.refund.push({'idTicketKf': obj.selected.idTicket, 'idRefundTypeKf':'1',  'description':'',  'refundAmount':obj.selected.costDelivery});
                             $scope.update.ticket.isHasRefundsOpen = 1;
                             $scope.update.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"15"});
                             inform.add('Se realizara un reintegro de ($ '+obj.selected.costDelivery+'), del costo inicial de su pedido, BSS Seguridad.',{
