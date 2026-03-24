@@ -6464,7 +6464,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                   $scope.modalConfirmation('setDeliveryPending',0, pedido);
                                 }else if (pedido.ticket.idTypeDeliveryKf!=null && pedido.ticket.idTypeDeliveryKf=="1"){
                                   console.log("setDeliveryInOfficePending");
-                                  $scope.keyObj = {};
+                                  $scope.keyObj = pedido;
                                   $scope.keyObj.ticket.newTicketStatus={'idStatus':null};
                                   $scope.keyObj.ticket.newTicketStatus.idStatus = "7";
                                   inform.add('El Pedido pasara automaticamente a Listo para Retirar ',{
