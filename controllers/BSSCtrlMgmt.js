@@ -440,7 +440,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     $scope.keyObj.ticket.newTicketStatus={'idStatus':null};
                     $scope.keyObj.ticket.newTicketStatus.idStatus = "7";
                     console.log($scope.keyObj.ticket);
-                    //$scope.mainSwitchFn('apply_change_ticket_status_single', $scope.keyObj.ticket, null);
+                    $scope.mainSwitchFn('apply_change_ticket_status_single', $scope.keyObj.ticket, null);
                 $('#confirmRequestModalCustom').modal('hide');
                 }else if (confirm==null){
                   $('#confirmRequestModalCustom').modal('toggle');
