@@ -4511,7 +4511,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.new.ticket.status = 9;
                                 }
                             }else if (($scope.new.ticket.sendNotify!=null && $scope.new.ticket.sendNotify!=0) && (obj.building.autoApproveOwners=="1" || obj.building.autoApproveAll=="1")){
-                                if (obj.building.mpPaymentMethod!="1"){
+                                if (obj.building.mpPaymentMethod!="1" || obj.building.mpPaymentMethod=="1"){
                                     //SET APPROVAL IS REQUIRED HISTORY
                                     $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
                                     if (obj.building.autoApproveOwners=="1" ){
@@ -4527,11 +4527,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"13"});
                                         $scope.new.ticket.status = 8;
                                     }
-                                }else if (obj.building.mpPaymentMethod=="1"){
-                                    //SET STATUS FOR REQUEST with MercadoPago Payment Method config parameter enable
-                                    $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
-                                    //$scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"5"});
-                                    $scope.new.ticket.status = 9;
                                 }
                             }
                             if (($scope.new.ticket.status == 3 && obj.building.autoApproveAll=="1" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1") || ($scope.new.ticket.status == 3 && obj.building.autoApproveOwners=="1" && obj.building.chargeForExpenses=="1" && $scope.new.ticket.idTypePaymentKf=="1")){
