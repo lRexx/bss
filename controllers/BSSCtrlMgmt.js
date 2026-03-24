@@ -6464,8 +6464,14 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                   $scope.modalConfirmation('setDeliveryPending',0, pedido);
                                 }else if (pedido.ticket.idTypeDeliveryKf!=null && pedido.ticket.idTypeDeliveryKf=="1"){
                                   console.log("setDeliveryInOfficePending");
-                                  pedido.ticket.idNewStatusKf="7";
-                                  $scope.modalConfirmation('setDeliveryInOfficePending',0, pedido);
+                                  $scope.keyObj = {};
+                                  $scope.keyObj.ticket.newTicketStatus={'idStatus':null};
+                                  $scope.keyObj.ticket.newTicketStatus.idStatus = "7";
+                                  inform.add('El Pedido pasara automaticamente a Listo para Retirar ',{
+                                        ttl:8000, type: 'info'
+                                  });
+                                  console.log($scope.keyObj.ticket);
+                                  $scope.mainSwitchFn('apply_change_ticket_status_single', $scope.keyObj.ticket, null);
                                 }
                               }
                             break;
