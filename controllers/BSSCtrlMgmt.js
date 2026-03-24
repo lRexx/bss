@@ -437,6 +437,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }, 1500);
                 }else if (confirm==1){
                   console.log($scope.keyObj);
+                    $scope.keyObj.ticket = {'newTicketStatus':{'idStatus':null}};
                     $scope.keyObj.ticket.newTicketStatus.idStatus = "7";
                     console.log($scope.keyObj.ticket);
                     //$scope.mainSwitchFn('apply_change_ticket_status_single', $scope.keyObj.ticket, null);
