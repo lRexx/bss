@@ -6484,7 +6484,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                   $scope.modalConfirmation('setDeliveryPending',0, pedido);
                                 }
                                 if(pedido.ticket.building.isStockInOffice=="1"){
-                                  $scope.modalConfirmation('ticketDeliveredOffice',0, pedido.ticket);
+                                  $scope.modalConfirmation('ticketDeliveredOffice',0, pedido);
                                 }
                               }
                             break;
