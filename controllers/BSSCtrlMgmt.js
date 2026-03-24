@@ -399,7 +399,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 if (confirm==0){
                   $scope.keyObj=obj;
                   console.log($scope.keyObj);
-                  if ($scope.keyObj.ticket.idNewStatusKf == "4"){
+                  if ($scope.keyObj.ticket.idNewStatusKf== "4"){
                     $scope.mess2show="El Pedido pasara automaticamente a \"Pendiente de Entrega\",     Confirmar?";
                   }else{
                     $scope.mess2show="El Pedido permanece \"En Preparación\", pendiente habilitación de llaveros,     Confirmar?";
@@ -420,6 +420,30 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }else if ($scope.tkupdate.deliveryCompany==null){
                     $scope.tkupdate.deliveryCompany   = undefined
                   }
+                }
+              break;
+              case "setDeliveryInOfficePending":
+                if (confirm==0){
+                  $scope.keyObj=obj;
+                  console.log($scope.keyObj);
+                  if ($scope.keyObj.ticket.idNewStatusKf== "7"){
+                    $scope.mess2show="El Pedido pasara automaticamente a \"Listo para Retirar\",     Confirmar?";
+                  }else{
+                    $scope.mess2show="El Pedido permanece \"En Preparación\", pendiente habilitación de llaveros,     Confirmar?";
+                  }
+                  console.log($scope.mess2show);
+                  $timeout(function() {
+                    $('#confirmRequestModalCustom').modal({backdrop: 'static', keyboard: false});
+                  }, 1500);
+                }else if (confirm==1){
+                  console.log($scope.keyObj);
+                    $scope.keyObj.ticket.newTicketStatus.idStatus = "7";
+                    console.log($scope.keyObj.ticket);
+                    //$scope.mainSwitchFn('apply_change_ticket_status_single', $scope.keyObj.ticket, null);
+                $('#confirmRequestModalCustom').modal('hide');
+                }else if (confirm==null){
+                  $('#confirmRequestModalCustom').modal('toggle');
+                  $scope.tkupdate.idStatusTicketKf    = $scope.tkupdate.idStatusTicketKf
                 }
               break;
               case "ticketDelivered":
@@ -4436,9 +4460,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       };
                       console.log("Llavero a actualizar: "+keys.codigo);
                       console.log(keys);
-                      //$scope.updateKeyFn({llavero: keys});
+                      $scope.updateKeyFn({llavero: keys});
                       if (idKeychainStatusKf=="1"){
-                        //$scope.addProcessEventFn({llavero: keys});
+                        $scope.addProcessEventFn({llavero: keys});
                       }
                       deferredKeys.resolve();
                   }, 1000);
@@ -4448,7 +4472,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   console.log($scope.tkupdate);
                   $scope.update.ticket = $scope.tkupdate;
                   console.log($scope.update);
-                  //$scope.setKeysEnableDisableFn($scope.update);
+                  $scope.setKeysEnableDisableFn($scope.update);
                 });
               }else{
                 inform.add('No hay cambios en el Pedido para actualizar. ',{
@@ -5273,6 +5297,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       break;
                       case '5':
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"43"});
+                      break;
+                      case '7':
+                        $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"46"});
                       break;
                     }
               console.log($scope.update);
@@ -6408,9 +6435,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 console.log("ticketDelivered");
                                 $scope.modalConfirmation('ticketDelivered',0, pedido.ticket);
                               }else{
-                                console.log("setDeliveryPending");
-                                pedido.ticket.idNewStatusKf="4";
-                                $scope.modalConfirmation('setDeliveryPending',0, pedido);
+                                  console.log("setDeliveryPending");
+                                  pedido.ticket.idNewStatusKf="4";
+                                  $scope.modalConfirmation('setDeliveryPending',0, pedido);
                               }
                             break;
                           }
@@ -6430,9 +6457,15 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                 console.log($scope.update.ticket);
                                 $scope.modalConfirmation('ticketDelivered',0, $scope.update.ticket);
                               }else{
-                                console.log("setDeliveryPending");
-                                pedido.ticket.idNewStatusKf="4";
-                                $scope.modalConfirmation('setDeliveryPending',0, pedido);
+                                if (pedido.ticket.idTypeDeliveryKf!=null && pedido.ticket.idTypeDeliveryKf=="2"){
+                                  console.log("setDeliveryPending");
+                                  pedido.ticket.idNewStatusKf="4";
+                                  $scope.modalConfirmation('setDeliveryPending',0, pedido);
+                                }else if (pedido.ticket.idTypeDeliveryKf!=null && pedido.ticket.idTypeDeliveryKf=="1"){
+                                  console.log("setDeliveryInOfficePending");
+                                  pedido.ticket.idNewStatusKf="7";
+                                  $scope.modalConfirmation('setDeliveryInOfficePending',0, pedido);
+                                }
                               }
                             break;
                             case "2":
