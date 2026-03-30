@@ -3,7 +3,7 @@
     <thead class="fixed-head" style="background-color: rgba(35, 100, 132, 0.66); color: white;">
       <tr style="text-align: center;">
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="fas fa-tasks"> </i> Elegir</th>
-          <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 7% !important;">ID</th>
+          <!--<th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 7% !important;">ID</th>-->
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 38% !important;"><i class="fas fa-file-alt"> </i> Descripción </th>
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 11% !important;"><i class="fas fa-house-user"> </i> Unidad</th>
           <th class="th-head" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="fas fa-qrcode"> </i> Codigo</th>
@@ -23,9 +23,9 @@
             </label>
           </div>
         </td>
-        <td class="td-depto" style="vertical-align: middle !important;text-align: center !important;width: 7.2% !important;" ng-click="switchCustomersFn('details_customer', item, 'show');">
+        <!--<td class="td-depto" style="vertical-align: middle !important;text-align: center !important;width: 7.2% !important;" ng-click="switchCustomersFn('details_customer', item, 'show');">
         	{{item.idKeychain}}
-        </td>
+        </td>-->
         <!--DESCRIPCION -->
         <td class="td-depto" ng-click="mainSwitchFn('keyDetails', item, null);" ng-trim="true" style="vertical-align: middle !important;text-align: center !important;width: 38.3% !important;font-size: 95%;" ng-if="item.idClientTypeFk!=2 && item.idClientTypeFk!=4">{{item.descriptionProduct | limitTo: 50 }}{{item.descriptionProduct.length > 50 ? '...' : ''}}</td>
         <!-- BUSINESS NAME -->
