@@ -1425,7 +1425,7 @@ class Ticket_model extends CI_Model
 									}
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
 										$userRetiredByFullName = $lastTicketUpdatedQuery['retiredByFullName'] == null ? $lastTicketUpdatedQuery['userDelivery']['fullNameUser'] : $lastTicketUpdatedQuery['retiredByFullName'];
-										setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+										setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 										date_default_timezone_set('America/Argentina/Buenos_Aires');
 										$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>' . $userRetiredByFullName . '</b>, el dia ' . $deliveredDate . '</td>';
@@ -1438,7 +1438,7 @@ class Ticket_model extends CI_Model
 										$body .= '</tr>';
 									}
 								} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2) {
-									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 5) {
 										$deliveryDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
@@ -1449,7 +1449,7 @@ class Ticket_model extends CI_Model
 										$body .= '</tr>';
 									}
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
-										setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+										setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 										date_default_timezone_set('America/Argentina/Buenos_Aires');
 										$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
 										$deliveredTo = null;
@@ -1494,7 +1494,7 @@ class Ticket_model extends CI_Model
 								}
 							} else if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 2) {
 								if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) {
-									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido de Baja ha sido completado satisfactoriamente.</td>';
 									$body .= '</tr>';
@@ -1567,7 +1567,7 @@ class Ticket_model extends CI_Model
 									}
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
 										$userRetiredByFullName = $lastTicketUpdatedQuery['retiredByFullName'] == null ? $lastTicketUpdatedQuery['userDelivery']['fullNameUser'] : $lastTicketUpdatedQuery['retiredByFullName'];
-										setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+										setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 										date_default_timezone_set('America/Argentina/Buenos_Aires');
 										$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>' . $userRetiredByFullName . '</b>, el dia ' . $deliveredDate . '</td>';
@@ -1580,7 +1580,7 @@ class Ticket_model extends CI_Model
 										$body .= '</tr>';
 									}
 								} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2) {
-									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 5) {
 										$deliveryDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
@@ -1591,7 +1591,7 @@ class Ticket_model extends CI_Model
 										$body .= '</tr>';
 									}
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
-										setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+										setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 										date_default_timezone_set('America/Argentina/Buenos_Aires');
 										$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
 										$deliveredTo = null;
@@ -1636,7 +1636,7 @@ class Ticket_model extends CI_Model
 								}
 							} else if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 2) {
 								if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) {
-									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido de Baja ha sido completado satisfactoriamente.</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
@@ -1774,7 +1774,7 @@ class Ticket_model extends CI_Model
 									$body .= '</tr>';
 								}
 								if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
-									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido retirado por <b>' . $lastTicketUpdatedQuery['retiredByFullName'] . '</b>, el dia ' . $deliveredDate . '</td>';
@@ -1787,7 +1787,7 @@ class Ticket_model extends CI_Model
 									$body .= '</tr>';
 								}
 							} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2) {
-								setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+								setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 								date_default_timezone_set('America/Argentina/Buenos_Aires');
 								if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 5) {
 									$deliveryDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
@@ -1798,7 +1798,7 @@ class Ticket_model extends CI_Model
 									$body .= '</tr>';
 								}
 								if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 1) {
-									setlocale(LC_ALL, "es_ES@euro", "es_ES", "esp");
+									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
 									$deliveredTo = null;

@@ -1386,6 +1386,15 @@ input.fileUpload{
 .font-size-18px{
   font-size: 18px !important;
 }
+
+.font-size-20px{
+  font-size: 20px !important;
+}
+
+.font-size-22px{
+  font-size: 22px !important;
+}
+
 .label-custom-1{
   background-color: #77777740;
   color: #777777;
