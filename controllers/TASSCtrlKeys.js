@@ -1602,7 +1602,7 @@ keys.controller('KeysCtrl', function($scope, $compile, $location, $routeParams, 
                             $scope.keys.llavero.idProductKf     = obj.products.selected.idProduct;
                             $scope.keys.llavero.codExt          = obj.codigoExt;
                             $scope.keys.llavero.codigo          = obj.codigo;
-                            $scope.keys.llavero.idDepartmenKf   = obj.idCategoryKf=="1"?obj.idDepartmenKf:null;
+                            $scope.keys.llavero.idDepartmenKf   = obj.idCategoryKf=="1"?obj.department:null;
                             $scope.keys.llavero.idClientKf      = obj.idClientKf;
                             $scope.keys.llavero.idUserKf        = obj.idUserKf;
                             $scope.keys.llavero.idCategoryKf    = obj.categoryKey;
