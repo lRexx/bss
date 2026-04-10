@@ -763,7 +763,12 @@ class User_model extends CI_Model
 				$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 				$body .= '</tr>';
 				//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
-				$this->mail_model->sendMail($title, $to, $body, $subject);
+				$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+				if ($rsMail == "Enviado") {
+					log_message('info', 'Notificationi for Password has been updated successfully ::: [SENT]');
+				} else {
+					log_message('info', 'Notification for Password update failed ::: [FAILED]');
+				}
 			}
 			return $recoverRamdonPwd;
 		} else {
@@ -1864,9 +1869,12 @@ class User_model extends CI_Model
 		$body .= '<tr width="100%" bgcolor="#ffffff">';
 		$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding:4%;"> Importante: indicar el codigo recibido al operador que esta realizando la actividad para que esta pueda ser finalizada con exito.</td>';
 		$body .= '</tr>';
-		$rs = $this->mail_model->sendMail($title, $to, $body, $subject);
-		if ($rs == "Enviado") {
+		$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+		if ($rsMail == "Enviado") {
+			log_message('info', 'Token generated: ' . $tokenMail . ' ::: [SENT]');
 			return $tokenMail;
+		} else {
+			log_message('info', 'Token generated: ' . $tokenMail . ' ::: [FAILED]');
 		}
 	}
 
