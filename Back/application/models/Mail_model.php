@@ -231,9 +231,11 @@ class Mail_model extends CI_Model
         $this->email->message($message);
 
         if ($this->email->send()) {
-            echo 'Your Email has successfully been sent.';
+            log_message('info', 'Email has been sent successfully ::: [OK]');
         } else {
-            show_error($this->email->print_debugger());
+            $err_details=$this->email->print_debugger();
+            log_message('info', 'Email has been failed to send ::: [FAILED]');
+            log_message('info', 'Email error details: ' . $err_details);
         }
 
         $filename = '/img/photo1.jpg';
