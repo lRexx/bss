@@ -131,7 +131,10 @@ class Mail_model extends CI_Model
         //$this->email->send();
         if (!$this->email->send()) {
             $r = $this->email->print_debugger(); // Generate error
+            log_message('info', 'Email has been failed to send ::: [FAILED]');
+            log_message('info', 'Email error details: ' . $r);
         } else {
+            log_message('info', 'Email has been sent successfully ::: [OK]');
             $r = "Enviado";
         }
 
