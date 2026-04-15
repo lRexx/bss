@@ -4972,6 +4972,42 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         console.log("SE MODIFICA Status");
                         $scope.update.ticket.idStatusTicketKf="4"
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"42"});
+                        switch(obj.selected.idMgmtMethodKf){
+                          case "1": //STOCK
+                            switch(obj.selected.idTypeRequestFor){
+                              case "1":
+                              case "3":
+                              case "5":
+                              case "6":
+                                    if (obj.selected.building.isStockInBuilding == "1"){$scope.update.ticket.idDeliveryCompanyKf="3";}
+                                    if (obj.selected.building.isStockInOffice == "1"){$scope.update.ticket.idDeliveryCompanyKf="1";}
+                              break;
+                              case "4":
+                                if (obj.selected.building.isStockInBuilding == "1"){$scope.update.ticket.idDeliveryCompanyKf="3";}
+                                if (obj.selected.building.isStockInOffice == "1"){$scope.update.ticket.idDeliveryCompanyKf="1";}
+                              break;
+                            }
+                          break;
+                          case "2": //MANUAL
+                            switch(obj.selected.idTypeRequestFor){
+                              case "1":
+                              case "3":
+                              case "5":
+                              case "6":
+                                    if(obj.selected.building.isHasInternetOnline === null || obj.selected.building.isHasInternetOnline != null){ //NO INTERNET OR WITH INTERNET
+                                      if (obj.selected.isKeysEnable=="1"){
+                                        $scope.update.ticket.idDeliveryCompanyKf="1";
+                                      }else{
+                                        $scope.update.ticket.idDeliveryCompanyKf="2";
+                                      }
+                                    }
+                              break;
+                              case "2":
+                                $scope.update.ticket.idDeliveryCompanyKf="2";
+                              break;
+                            }
+                          break;
+                        }
                       }
                     break;
                   }
