@@ -4981,10 +4981,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               case "6":
                                     if (obj.selected.building.isStockInBuilding == "1"){$scope.update.ticket.idDeliveryCompanyKf="3";}
                                     if (obj.selected.building.isStockInOffice == "1"){$scope.update.ticket.idDeliveryCompanyKf="1";}
+                                    if(obj.selected.building.isHasInternetOnline === null){ //NO INTERNET
+                                      $scope.update.ticket.whereKeysAreEnable="2"
+                                    }else{
+                                      $scope.update.ticket.whereKeysAreEnable="1"
+                                    }
                               break;
                               case "4":
                                 if (obj.selected.building.isStockInBuilding == "1"){$scope.update.ticket.idDeliveryCompanyKf="3";}
                                 if (obj.selected.building.isStockInOffice == "1"){$scope.update.ticket.idDeliveryCompanyKf="1";}
+                                    if(obj.selected.building.isHasInternetOnline === null){ //NO INTERNET
+                                      $scope.update.ticket.whereKeysAreEnable="2"
+                                    }else{
+                                      $scope.update.ticket.whereKeysAreEnable="1"
+                                    }
                               break;
                             }
                           break;
@@ -5000,10 +5010,20 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                                       }else{
                                         $scope.update.ticket.idDeliveryCompanyKf="2";
                                       }
+                                      if(obj.selected.building.isHasInternetOnline === null){ //NO INTERNET
+                                        $scope.update.ticket.whereKeysAreEnable="2"
+                                      }else{
+                                        $scope.update.ticket.whereKeysAreEnable="1"
+                                      }
                                     }
                               break;
                               case "2":
                                 $scope.update.ticket.idDeliveryCompanyKf="2";
+                                if(obj.selected.building.isHasInternetOnline === null){ //NO INTERNET
+                                  $scope.update.ticket.whereKeysAreEnable="2"
+                                }else{
+                                  $scope.update.ticket.whereKeysAreEnable="1"
+                                }
                               break;
                             }
                           break;
