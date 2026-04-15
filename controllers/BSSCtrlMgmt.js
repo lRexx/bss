@@ -4967,6 +4967,11 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                         console.log("SE MODIFICA Status");
                         $scope.update.ticket.idStatusTicketKf="7"
                         $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"46"});
+                        if(obj.selected.building.isHasInternetOnline === null){ //NO INTERNET
+                          $scope.update.ticket.whereKeysAreEnable=obj.selected.whereKeysAreEnable==null?"2":obj.selected.whereKeysAreEnable;
+                        }else{
+                          $scope.update.ticket.whereKeysAreEnable=obj.selected.whereKeysAreEnable==null?"1":obj.selected.whereKeysAreEnable;
+                        }
                       }
                       if ($scope.update.ticket.idTypeDeliveryKf=="2"){
                         console.log("SE MODIFICA Status");
