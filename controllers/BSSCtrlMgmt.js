@@ -5849,7 +5849,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#showModalRequestStatus').modal('hide');
               console.log($scope.update);
               $timeout(function() {
-                //$scope.changeTicketStatusRequestFn($scope.update);
+                $scope.changeTicketStatusRequestFn($scope.update);
               }, 2000);
             break;
             case "isTechnicianAssigned":
