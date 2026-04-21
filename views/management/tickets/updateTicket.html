@@ -423,8 +423,8 @@
                                       </thead>
                                       <tbody style="overflow: auto;height: auto !important;" class="">
                                           <tr ng-repeat-start="key in tkupdate.keys track by $index">
-                                            <td rowspan="{{key.doors.length}}" class="media-middle text-center" style="vertical-align:middle !important;">{{$index+1}}</td>
-                                            <td rowspan="{{key.doors.length}}" class="media-middle text-center" style="vertical-align:middle !important;">
+                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" class="media-middle text-center" style="vertical-align:middle !important;">{{$index+1}}</td>
+                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" class="media-middle text-center" style="vertical-align:middle !important;">
                                               {{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span>
                                             </td>
                                             <td ng-show="tkupdate.idTypeTicketKf=='1'" class="media-middle text-center">{{key.doors[0].typeMaintenance}}</td>
