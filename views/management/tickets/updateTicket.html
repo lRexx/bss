@@ -417,7 +417,7 @@
                                               <th ng-show="tkupdate.idTypeTicketKf=='1'" style="vertical-align: middle !important;text-align: center !important;width: 20% !important;"> Sistema Instalado</th>
                                               <th ng-show="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-barcode"> </i> Codigo</th>
                                               <th ng-show="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-barcode"> </i> Codigo Ext</th>
-                                              <th ng-show="((tkupdate.idTypeTicketKf=='2' && tkupdate.keys[0].idUserKf!=null) || (tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && tkupdate.keys[0].idUserKf!=null))" style="vertical-align: middle !important;text-align: center !important;"><i class="glyphicon glyphicon-user"> </i> Asignado</th>
+                                              <th ng-show="((tkupdate.idTypeTicketKf=='2') || (tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && tkupdate.keys[0].idUserKf!=null))" style="vertical-align: middle !important;text-align: center !important;"><i class="glyphicon glyphicon-user"> </i> Asignado</th>
                                               <th ng-show="tkupdate.idTypeTicketKf=='1'" style="vertical-align: middle !important;text-align: center !important;width: 10% !important;"><i class="fas fa-door-open"></i>Puerta</th>
                                           </tr>
                                       </thead>
@@ -436,7 +436,7 @@
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" ng-show="tkupdate.idTypeTicketKf=='2'">{{key.keychain.codExt}}</td>
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" ng-show="((tkupdate.idTypeTicketKf=='2' && tkupdate.keys[0].idUserKf!=null) || (tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && tkupdate.keys[0].idUserKf!=null))">{{key.user.fullNameUser}}</td>
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" ng-show="((tkupdate.idTypeTicketKf=='2' && tkupdate.keys[0].idUserKf==null) || (tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && tkupdate.keys[0].idUserKf==null))"><span class="badge badge-warning">No asignado</span></td>
-                                            <td ng-show="tkupdate.idTypeTicketKf=='2'" class="media-middle text-center">{{key.doors[0].titulo}}</td>
+                                            <td ng-show="tkupdate.idTypeTicketKf=='2' && key.doors.length >= 1" class="media-middle text-center">{{key.doors[0].titulo}}</td>
                                           </tr>
                                           <tr ng-show="tkupdate.idTypeTicketKf=='1'" ng-repeat="door in key.doors track by $index" ng-if="$index > 0" ng-repeat-end>
                                             <td class="media-middle text-center">{{door.typeMaintenance}}</td>
