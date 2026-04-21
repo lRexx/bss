@@ -528,7 +528,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.update.ticket = {};
                   $scope.update.ticket = $scope.keyObj;
                   $scope.update.ticket.newTicketStatus = {'idStatus':null}
-                  $scope.update.ticket.newTicketStatus.idStatus = "1";
+                  $scope.update.ticket.newTicketStatus.idStatus = "13";
                   $scope.mainSwitchFn('ticketDisabledKeys', $scope.update.ticket, null);
                   $('#confirmRequestModalCustom').modal('hide');
                 }
@@ -5849,7 +5849,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $('#showModalRequestStatus').modal('hide');
               console.log($scope.update);
               $timeout(function() {
-                $scope.changeTicketStatusRequestFn($scope.update);
+                //$scope.changeTicketStatusRequestFn($scope.update);
               }, 2000);
             break;
             case "isTechnicianAssigned":
