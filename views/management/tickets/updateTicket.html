@@ -438,7 +438,7 @@
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" ng-show="((tkupdate.idTypeTicketKf=='2' || tkupdate.idTypeTicketKf=='1') && tkupdate.idTypeRequestFor=='6' && tkupdate.keys[0].idUserKf==null)"><span class="badge badge-warning">No asignado</span></td>
                                             <td ng-show="tkupdate.idTypeTicketKf=='2'" class="media-middle text-center">{{key.doors[0].titulo}}</td>
                                           </tr>
-                                          <tr ng-repeat="door in key.doors track by $index" ng-if="$index > 0" ng-repeat-end>
+                                          <tr ng-if="tkupdate.idTypeTicketKf=='1'" ng-repeat="door in key.doors track by $index" ng-if="$index > 0" ng-repeat-end>
                                             <td class="media-middle text-center">{{door.typeMaintenance}}</td>
                                             <td class="media-middle text-center">{{door.descriptionProduct}} <span class="badge badge-warning">{{door.brand}}</span></td>
                                             <td class="media-middle text-center">{{door.titulo}}</td>
