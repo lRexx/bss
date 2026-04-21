@@ -413,8 +413,8 @@
                                           <tr>
                                               <th style="vertical-align: middle !important;text-align: center !important;width: 5% !important;"> N°</th>
                                               <th style="vertical-align: middle !important;text-align: center !important;width: 25% !important;"><i class="fas fa-key"> </i> Llavero</th>
-                                              <th style="vertical-align: middle !important;text-align: center !important;width: 22% !important;"> T. Mantenimiento</th>
-                                              <th style="vertical-align: middle !important;text-align: center !important;width: 20% !important;"> Sistema Instalado</th>
+                                              <th ng-if="tkupdate.idTypeTicketKf=='1'" style="vertical-align: middle !important;text-align: center !important;width: 22% !important;"> T. Mantenimiento</th>
+                                              <th ng-if="tkupdate.idTypeTicketKf=='1'" style="vertical-align: middle !important;text-align: center !important;width: 20% !important;"> Sistema Instalado</th>
                                               <th ng-show="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-barcode"> </i> Codigo</th>
                                               <th ng-show="tkupdate.idTypeTicketKf=='2'" style="vertical-align: middle !important;text-align: center !important;"><i class="fas fa-barcode"> </i> Codigo Ext</th>
                                               <th ng-show="((tkupdate.idTypeTicketKf=='2' || tkupdate.idTypeTicketKf=='1') && tkupdate.idTypeRequestFor=='6' && tkupdate.keys[0].idUserKf!=null)" style="vertical-align: middle !important;text-align: center !important;"><i class="glyphicon glyphicon-user"> </i> Asignado</th>
@@ -427,8 +427,8 @@
                                             <td rowspan="{{key.doors.length}}" class="media-middle text-center" style="vertical-align:middle !important;">
                                               {{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span>
                                             </td>
-                                            <td class="media-middle text-center">{{key.doors[0].typeMaintenance}}</td>
-                                            <td class="media-middle text-center">
+                                            <td ng-if="tkupdate.idTypeTicketKf=='1'" class="media-middle text-center">{{key.doors[0].typeMaintenance}}</td>
+                                            <td ng-if="tkupdate.idTypeTicketKf=='1'" class="media-middle text-center">
                                               {{key.doors[0].descriptionProduct}} <span class="badge badge-warning">{{key.doors[0].brand}}</span>
                                             </td>
                                             <td ng-show="(tkupdate.idTypeTicketKf=='1') && tkupdate.idTypeRequestFor!='6'" class="media-middle text-center">{{key.doors[0].titulo}}</td>
