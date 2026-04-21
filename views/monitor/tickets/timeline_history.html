@@ -41,6 +41,7 @@
                         <div ng-if="history.idCambiosTicketKf=='41'" class="timeline-badge warning"><i class="fas fa-truck"></i></div>
                         <div ng-if="history.idCambiosTicketKf=='43'" class="timeline-badge success"><i class="fas fa-truck-moving"></i></div>
                         <div ng-if="history.idCambiosTicketKf=='45' || history.idCambiosTicketKf=='47'" class="timeline-badge danger"><i class="fas fa-minus"></i></div>
+                        <div ng-if="history.idCambiosTicketKf=='49'" class="timeline-badge warning"><i class="fas fa-screwdriver-wrench"></i></div>
 
                         <div class="timeline-panel">
                             <div class="timeline-heading">
@@ -131,7 +132,7 @@
                                 <span ng-if="history.idCambiosTicketKf=='28' || history.idCambiosTicketKf=='29' || history.idCambiosTicketKf=='40' || history.idCambiosTicketKf=='44' || history.idCambiosTicketKf=='48'"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;
                                 <span ng-if="sysLoggedUser.idProfileKf=='1'" data-toggle="tooltip" data-placement="top" title="{{history.fullNameUser}}" class="label label-default text-uppercase">{{history.name | limitTo: 13 }}{{history.name > 13 ? '...' : ''}}</span><span ng-if="sysLoggedUser.idProfileKf=='1'">&nbsp;</span>
                                 <span class="label label-success">{{history.descripcion}}</span></span>
-                                <span ng-if="(history.idCambiosTicketKf=='30' || history.idCambiosTicketKf=='31' || history.idCambiosTicketKf=='39' || history.idCambiosTicketKf=='41' || history.idCambiosTicketKf=='42' || history.idCambiosTicketKf=='43' || history.idCambiosTicketKf=='46')"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;
+                                <span ng-if="(history.idCambiosTicketKf=='30' || history.idCambiosTicketKf=='31' || history.idCambiosTicketKf=='39' || history.idCambiosTicketKf=='41' || history.idCambiosTicketKf=='42' || history.idCambiosTicketKf=='43' || history.idCambiosTicketKf=='46' || history.idCambiosTicketKf=='49')"><span class="label label-info">{{history.nameProfile}}</span>&nbsp;
                                 <span ng-if="sysLoggedUser.idProfileKf=='1'" data-toggle="tooltip" data-placement="top" title="{{history.fullNameUser}}" class="label label-warning text-uppercase">{{history.name | limitTo: 13 }}{{history.name > 13 ? '...' : ''}}</span><span ng-if="sysLoggedUser.idProfileKf=='1'">&nbsp;</span>
                                 <span class="label label-warning">{{history.descripcion}}</span></span>
                             </div>
