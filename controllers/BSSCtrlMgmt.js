@@ -7149,7 +7149,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }
                   location        = obj[f].deliveryAddress.location;
                   city            = obj[f].deliveryAddress.province;
-                  address         = obj[f].deliveryAddress.address+" "+departmentUnit;;
+                  address         = obj[f].deliveryAddress.address+", "+departmentUnit;;
                   emailAddr       = obj[f].userDelivery.emailUser;
                   phoneNumberUser = phoneNumber;
                   dni             = obj[f].userDelivery.dni;
@@ -7165,7 +7165,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   location        = obj[f].otherDeliveryAddress.location;
                   city            = obj[f].otherDeliveryAddress.province;
                   taddress        = obj[f].otherDeliveryAddress.address;
-                  address         = taddress.toUpperCase()+" "+obj[f].otherDeliveryAddress.number+" "+obj[f].otherDeliveryAddress.floor;
+                  address         = taddress.toUpperCase()+" "+obj[f].otherDeliveryAddress.number+", "+obj[f].otherDeliveryAddress.floor;
                   emailAddr       = obj[f].userDelivery.emailUser;
                   phoneNumberUser = phoneNumber
                   dni             = obj[f].userDelivery.dni;
@@ -7176,7 +7176,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }else if (obj[f].idDeliveryTo==null && obj[f].idWhoPickUp=="2"){ //DELIVERY ENCARGADO PERSON TO CURRENT ADDRESS
                   location        = obj[f].building.location;
                   city            = obj[f].building.province;
-                  address         = obj[f].building.address+" "+departmentUnit;;
+                  address         = obj[f].building.address+", "+departmentUnit;;
                   emailAddr       = obj[f].userDelivery.emailUser;
                   phoneNumberUser = obj[f].userDelivery.phoneNumberUser;
                   dni             = obj[f].userDelivery.dni;
@@ -7187,7 +7187,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   location        = obj[f].thirdPersonDelivery.location;
                   city            = obj[f].thirdPersonDelivery.province;
                   taddress        = obj[f].thirdPersonDelivery.address;
-                  address         = taddress.toUpperCase()+" "+obj[f].thirdPersonDelivery.number+" "+obj[f].thirdPersonDelivery.floor;
+                  address         = taddress.toUpperCase()+" "+obj[f].thirdPersonDelivery.number+", "+obj[f].thirdPersonDelivery.floor;
                   emailAddr       = obj[f].userRequestBy!=null && obj[f].userRequestBy!=undefined?obj[f].userRequestBy.emailUser:"No asignado";
                   phoneNumberUser = obj[f].thirdPersonDelivery.movilPhone;
                   dni             = obj[f].thirdPersonDelivery.dni;
@@ -7224,7 +7224,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2
                     });
-                  if (city.toUpperCase=="CIUDAD AUTONOMA DE BUENOS AIRES"){
+
+                  if (city.toUpperCase()=="CIUDAD AUTONOMA DE BUENOS AIRES"){
                     var newLocation = "CABA";
                   }else{
                     var newLocation = location;
