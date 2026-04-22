@@ -7225,9 +7225,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       maximumFractionDigits: 2
                     });
                   if (city.toUpperCase=="CIUDAD AUTONOMA DE BUENOS AIRES"){
-                    var location = "CABA";
+                    var newLocation = "CABA";
                   }else{
-                    var location = obj[f].deliveryAddress.location;
+                    var newLocation = location;
                   }
                   var fecha = new Date(obj[f].created_at);
                   var fechaFormateada = fecha.toLocaleDateString('es-ES', {
@@ -7243,7 +7243,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     'Destinatario':whoReceive,
                     'Teléfono de contacto':phoneNumberUser,
                     'Dirección':address,
-                    'Localidad':location,
+                    'Localidad':newLocation,
                     'Codigo Postal':'',
                     'Observaciones':obj[f].description,
                     'Email':emailAddr,
