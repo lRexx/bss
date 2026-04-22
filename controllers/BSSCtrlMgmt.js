@@ -7289,9 +7289,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   emailAddr       = obj[f].userDelivery.emailUser;
                   phoneNumberUser = obj[f].userDelivery.phoneNumberUser;
                   dni             = obj[f].userDelivery.dni;
-                  $scope.getAddressDetailsFn(address, obj[f].otherDeliveryAddress.idProvinceFk);
-                  ubicacion_lat   = $scope.ubicacion_lat;
-                  ubicacion_lon   = $scope.ubicacion_lon;
+                  //$scope.getAddressDetailsFn(address, obj[f].otherDeliveryAddress.idProvinceFk);
+                  //ubicacion_lat   = $scope.ubicacion_lat;
+                  //ubicacion_lon   = $scope.ubicacion_lon;
                   whoReceive      = obj[f].userDelivery.fullNameUser;
                 }else if (obj[f].idDeliveryTo==null && obj[f].idWhoPickUp=="2"){ //DELIVERY ENCARGADO PERSON TO CURRENT ADDRESS
                   location        = obj[f].building.location;
@@ -7311,9 +7311,9 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   emailAddr       = obj[f].userRequestBy.emailUser;
                   phoneNumberUser = obj[f].thirdPersonDelivery.movilPhone;
                   dni             = obj[f].thirdPersonDelivery.dni;
-                  $scope.getAddressDetailsFn(address, obj[f].thirdPersonDelivery.idProvinceFk);
-                  ubicacion_lat   = $scope.ubicacion_lat;
-                  ubicacion_lon   = $scope.ubicacion_lon;
+                  //$scope.getAddressDetailsFn(address, obj[f].thirdPersonDelivery.idProvinceFk);
+                  //ubicacion_lat   = $scope.ubicacion_lat;
+                  //ubicacion_lon   = $scope.ubicacion_lon;
                   whoReceive      = obj[f].userDelivery.fullName;
                 }
 
