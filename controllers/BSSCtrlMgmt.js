@@ -7138,25 +7138,36 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 var ubicacion_lat     = "";
                 var ubicacion_lon     = "";
                 var whoReceive        = "";
+                var departmentUnit    = obj[f].idTypeRequestFor=="1"?obj[f].department.floor+"-"+obj[f].department.departament:"No asignado";
                 var addressLat        = obj[f].deliveryAddress!=null && obj[f].deliveryAddress!=undefined && obj[f].deliveryAddress.addressLat!=undefined?obj[f].deliveryAddress.addressLat:"No asignado";
                 var addressLon        = obj[f].deliveryAddress!=null && obj[f].deliveryAddress!=undefined && obj[f].deliveryAddress.addressLon!=undefined?obj[f].deliveryAddress.addressLon:"No asignado";
                 if (obj[f].idDeliveryTo=="1" && obj[f].idWhoPickUp=="1"){ //DELIVERY OWNER PERSON TO CURRENT ADDRESS
+                  if (obj[f].userDelivery.phoneNumberUser!=null && obj[f].userDelivery.phoneNumberUser!=undefined){
+                    var phoneNumber       = obj[f].userDelivery.phoneNumberUser;
+                  }else{
+                    var phoneNumber       = obj[f].userDelivery.phoneLocalNumberUser;
+                  }
                   location        = obj[f].deliveryAddress.location;
                   city            = obj[f].deliveryAddress.province;
-                  address         = obj[f].deliveryAddress.address;
+                  address         = obj[f].deliveryAddress.address+" "+departmentUnit;;
                   emailAddr       = obj[f].userDelivery.emailUser;
-                  phoneNumberUser = obj[f].userDelivery.phoneNumberUser;
+                  phoneNumberUser = phoneNumber;
                   dni             = obj[f].userDelivery.dni;
                   ubicacion_lat   = addressLat;
                   ubicacion_lon   = addressLon;
                   whoReceive      = obj[f].userDelivery.fullNameUser;
                 }else if (obj[f].idDeliveryTo=="2" && obj[f].idWhoPickUp=="1"){ //DELIVERY OWNER PERSON TO DIFFERENT ADDRESS
+                  if (obj[f].userDelivery.phoneNumberUser!=null && obj[f].userDelivery.phoneNumberUser!=undefined){
+                    var phoneNumber       = obj[f].userDelivery.phoneNumberUser;
+                  }else{
+                    var phoneNumber       = obj[f].userDelivery.phoneLocalNumberUser;
+                  }
                   location        = obj[f].otherDeliveryAddress.location;
                   city            = obj[f].otherDeliveryAddress.province;
                   taddress        = obj[f].otherDeliveryAddress.address;
-                  address         = address.toUpperCase()+" "+obj[f].otherDeliveryAddress.number;
+                  address         = taddress.toUpperCase()+" "+obj[f].otherDeliveryAddress.number+" "+obj[f].otherDeliveryAddress.floor;
                   emailAddr       = obj[f].userDelivery.emailUser;
-                  phoneNumberUser = obj[f].userDelivery.phoneNumberUser;
+                  phoneNumberUser = phoneNumber
                   dni             = obj[f].userDelivery.dni;
                   $scope.getAddressDetailsFn(address, obj[f].otherDeliveryAddress.idProvinceFk);
                   ubicacion_lat   = $scope.ubicacion_lat;
@@ -7165,7 +7176,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 }else if (obj[f].idDeliveryTo==null && obj[f].idWhoPickUp=="2"){ //DELIVERY ENCARGADO PERSON TO CURRENT ADDRESS
                   location        = obj[f].building.location;
                   city            = obj[f].building.province;
-                  address         = obj[f].building.address;
+                  address         = obj[f].building.address+" "+departmentUnit;;
                   emailAddr       = obj[f].userDelivery.emailUser;
                   phoneNumberUser = obj[f].userDelivery.phoneNumberUser;
                   dni             = obj[f].userDelivery.dni;
@@ -7176,7 +7187,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   location        = obj[f].thirdPersonDelivery.location;
                   city            = obj[f].thirdPersonDelivery.province;
                   taddress        = obj[f].thirdPersonDelivery.address;
-                  address         = address.toUpperCase()+" "+obj[f].thirdPersonDelivery.number;
+                  address         = taddress.toUpperCase()+" "+obj[f].thirdPersonDelivery.number+" "+obj[f].thirdPersonDelivery.floor;
                   emailAddr       = obj[f].userRequestBy!=null && obj[f].userRequestBy!=undefined?obj[f].userRequestBy.emailUser:"No asignado";
                   phoneNumberUser = obj[f].thirdPersonDelivery.movilPhone;
                   dni             = obj[f].thirdPersonDelivery.dni;
@@ -7186,29 +7197,53 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   whoReceive      = obj[f].thirdPersonDelivery.fullName!=undefined?obj[f].thirdPersonDelivery.fullName:"No asignado";
                 }
 
-                var codTicket     = obj[f].codTicket;
-                $scope.list_requests.push({
-                  //'idTicket':obj[f].idTicket,
-                  'Alto (cm)':'',
-                  'Ancho (cm)':'',
-                  'Largo (cm)':'',
-                  'Peso (kg)':'',
-                  'Referencia externa':codTicket,
-                  'OxLog': '',
-                  'Nombre quien recibe':whoReceive,
-                  '* Direccion de destino':address,
-                  'Barrio/Comuna':location,
-                  'Codigo Postal':'',
-                  'Ciudad':city,
-                  'Aclaraciones en destino':'',
-                  'Email':emailAddr,
-                  'Telefono':phoneNumberUser,
-                  'Latitud':ubicacion_lat,
-                  'Longuitud':ubicacion_lon,
-                  'Retiro (si/no)': 'NO',
-                  'Cambio (si/no)':'NO',
-                  'DNI quien recibe':dni
-              });
+                  var codTicket     = parseInt(obj[f].codTicket.replace(/\D/g,''),10);
+                  /*$scope.list_requests.push({
+                    //'idTicket':obj[f].idTicket,
+                    'Alto (cm)':'',
+                    'Ancho (cm)':'',
+                    'Largo (cm)':'',
+                    'Valor declarado':'',
+                    'Referencia externa':codTicket,
+                    'OxLog': '',
+                    'Nombre quien recibe':whoReceive,
+                    '* Direccion de destino':address,
+                    'Barrio/Comuna':location,
+                    'Codigo Postal':'',
+                    'Ciudad':city,
+                    'Aclaraciones en destino':'',
+                    'Email':emailAddr,
+                    'Telefono':phoneNumberUser,
+                    'Latitud':ubicacion_lat,
+                    'Longuitud':ubicacion_lon,
+                    'Retiro (si/no)': 'NO',
+                    'Cambio (si/no)':'NO',
+                    'DNI quien recibe':dni
+                });*/
+                    var formatted = obj[f].total.toLocaleString('de-DE', {
+                      minimumFractionDigits: 2,
+                      maximumFractionDigits: 2
+                    });
+                  if (city=="CIUDAD AUTONOMA DE BUENOS AIRES"){
+                    var location = "CABA";
+                  }else{
+                    var location = obj[f].deliveryAddress.location;
+                  }
+                  $scope.list_requests.push({
+                    'Numero de tracking':codTicket,
+                    'Fecha de venta':obj[f].created_at,
+                    'Valor declarado':"$"+formatted,
+                    'Peso declarado':'',
+                    'Destinatario':whoReceive,
+                    'Teléfono de contacto':phoneNumberUser,
+                    'Dirección':address,
+                    'Localidad':location,
+                    'Codigo Postal':'',
+                    'Observaciones':obj[f].description,
+                    'Email':emailAddr,
+                    '4 Total a cobrar': '',
+                    '1 Logistica Inversa':''
+                });
               }
               console.log($scope.list_requests);
               $scope.buildXLS($scope.list_requests);
