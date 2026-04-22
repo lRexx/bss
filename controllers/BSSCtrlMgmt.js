@@ -7224,7 +7224,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2
                     });
-                  if (city=="CIUDAD AUTONOMA DE BUENOS AIRES"){
+                  if (city.toUpperCase=="CIUDAD AUTONOMA DE BUENOS AIRES"){
                     var location = "CABA";
                   }else{
                     var location = obj[f].deliveryAddress.location;
