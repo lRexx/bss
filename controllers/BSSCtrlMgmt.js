@@ -7220,7 +7220,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     'Cambio (si/no)':'NO',
                     'DNI quien recibe':dni
                 });*/
-                    var formatted = obj[f].total.toLocaleString('de-DE', {
+                    var formattedTotal = obj[f].total.toLocaleString('de-DE', {
                       minimumFractionDigits: 2,
                       maximumFractionDigits: 2
                     });
@@ -7229,10 +7229,16 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   }else{
                     var location = obj[f].deliveryAddress.location;
                   }
+                  var fecha = new Date(obj[f].created_at);
+                  var fechaFormateada = fecha.toLocaleDateString('es-ES', {
+                    day: '2-digit',
+                    month: '2-digit',
+                    year: 'numeric'
+                  }).split('/').join('-');
                   $scope.list_requests.push({
                     'Numero de tracking':codTicket,
-                    'Fecha de venta':obj[f].created_at,
-                    'Valor declarado':"$"+formatted,
+                    'Fecha de venta':fechaFormateada.split(' ')[0],
+                    'Valor declarado':"$"+formattedTotal,
                     'Peso declarado':'',
                     'Destinatario':whoReceive,
                     'Teléfono de contacto':phoneNumberUser,
