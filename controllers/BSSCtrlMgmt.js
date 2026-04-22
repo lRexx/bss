@@ -954,6 +954,18 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $('#confirmRequestModal').modal('hide');
                 }
               break;
+              case "updateInternalComment":
+                if (confirm==0){
+                    $scope.ticketObj=obj;
+                        console.log(obj)
+                        $scope.mess2show="Desea actualizar las observaciones internas del pedido, Confirmar ?";
+                        //console.log(obj);
+                  $('#confirmRequestModal').modal('toggle');
+                }else if (confirm==1){
+                  $scope.mainSwitchFn("updateComment", $scope.ticketObj);
+                  $('#confirmRequestModal').modal('hide');
+                }
+              break;
               default:
           }
         }
@@ -3506,6 +3518,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                 $scope.keys = { new: {} };
                 $scope.isEditTicket = false;
                 $scope.update.ticket.editCommentBtn = false;
+                $scope.update.ticket.editInternalCommentBtn = false;
                 console.log("Calling openTicketFn", obj.idTicket);
                 // 🚨 Aquí el posible punto de fallo
                 $scope.openTicketFn(obj.idTicket);
@@ -5876,6 +5889,19 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   $scope.update.ticket.refund                           = [];
                   //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
                   $scope.update.ticket.editCommentBtn = false;
+                  $timeout(function() {
+                    $scope.updateUpRequestFn($scope.update);
+                  }, 2000);
+            break;
+            case "updateInternalComment":
+                  console.log(obj);
+                  $scope.update.ticket                                  = obj;
+                  $scope.update.ticket.createNewMPLink                  = false;
+                  $scope.update.ticket.createNewMPLinkForDelivery       = false;
+                  $scope.update.ticket.history                          = [];
+                  $scope.update.ticket.refund                           = [];
+                  //$('#showModalRequestStatus').modal({backdrop: 'static', keyboard: false});
+                  $scope.update.ticket.editInternalCommentBtn = false;
                   $timeout(function() {
                     $scope.updateUpRequestFn($scope.update);
                   }, 2000);
