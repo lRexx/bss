@@ -17,7 +17,7 @@
                 </div>
                 <div ng-if="tkupdate.typePaymentKf!=null && tkupdate.typePaymentKf!=undefined && tkupdate.idTypePaymentKf=='1'" class="col-md-12">
                     <span>Estado: </span>
-                    <span style="font-size: 85%;" class="label label-success">Aprobado</span>                    
+                    <span style="font-size: 85%;" class="label label-success">Aprobado</span>
                 </div>
                 <div ng-if="tkupdate.typePaymentKf!=null && tkupdate.typePaymentKf!=undefined && tkupdate.idTypePaymentKf=='2'" class="col-md-6 n-padding-l n-padding-r">
                     <div class="col-md-12 col-xs-12">
@@ -38,10 +38,11 @@
                         <span style="font-size: 85%;" ng-if="(tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null) && tkupdate.paymentDetails.mp_collection_status=='approved' && tkupdate.paymentDetails.mp_status_detail=='accredited'" class="label label-success">Aprobado</span>
                         <span style="font-size: 85%;" ng-if="(tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null) && tkupdate.paymentDetails.mp_collection_status==null && tkupdate.paymentDetails.mp_status_detail==null" class="label label-warning">Pendiente por pago</span>
                     </div>
-                    <div ng-if="(tkupdate.isManualPayment!='1' || tkupdate.isManualPayment=='1') && tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.paymentDetails.mp_payment_id!=0" class="col-md-12">
+                    <div ng-if="(tkupdate.isManualPayment!='1' || tkupdate.isManualPayment=='1') && tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null" class="col-md-12">
                         <span ng-if="tkupdate.isManualPayment!='1'">Id de Pago: </span>
                         <span ng-if="tkupdate.isManualPayment=='1'">Número de operación: </span>
-                        <span class="badge badge-warning">{{tkupdate.paymentDetails.mp_payment_id}}</span>
+                        <span ng-if="tkupdate.isManualPayment!='1'"class="badge badge-warning">{{tkupdate.paymentDetails.mp_payment_id}}</span>
+                        <span ng-if="tkupdate.isManualPayment=='1'" class="badge badge-warning">{{tkupdate.paymentDetails.manualPaymentNumber}}</span>
                     </div>
                 </div>
                 <!-- RIGHT COLUMN -->
@@ -95,7 +96,7 @@
                     </div>
                     <div ng-if="(tkupdate.isManualPayment!='1' || tkupdate.isManualPayment=='1') && tkupdate.paymentDeliveryDetails!=undefined && tkupdate.paymentDeliveryDetails!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=null && tkupdate.paymentDeliveryDetails.mp_payment_id!=0" class="col-md-12">
                         <span ng-if="tkupdate.isManualPayment!='1'">Id de Pago: </span>
-                        
+
                         <span ng-if="tkupdate.isManualPayment=='1'">Número de operación: </span>
                         <span class="badge badge-warning">{{tkupdate.paymentDeliveryDetails.mp_payment_id}}</span>
                     </div>
@@ -127,16 +128,16 @@
             <div ng-if="tkupdate.isManualPayment=='1'" class="col-md-12 well-checkbox n-margin-l customer-frame">
                 <legend style="text-align: left;">Observación del registro de pago manual</legend>
                 <span class="text-capitalize"> {{ tkupdate.paymentDetails.manualPaymentDescription | uppercase}}</span>
-                
+
             </div>
-            <div class="clearfix"> </div> 
-        </div>   
+            <div class="clearfix"> </div>
+        </div>
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
                     <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
-                </div>           
+                </div>
             </div>
         </div>
     </div>
