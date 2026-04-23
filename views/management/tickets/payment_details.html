@@ -39,10 +39,10 @@
                         <span style="font-size: 85%;" ng-if="(tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null) && tkupdate.paymentDetails.mp_collection_status==null && tkupdate.paymentDetails.mp_status_detail==null" class="label label-warning">Pendiente por pago</span>
                     </div>
                     <div ng-if="(((tkupdate.isManualPayment=='1') && tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null) || (tkupdate.paymentDetails!=undefined && tkupdate.paymentDetails!=null && tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.paymentDetails.mp_payment_id!=0))" class="col-md-12">
-                        <span ng-if="tkupdate.isManualPayment!='1'">Id de Pago: </span>
+                        <span ng-if="tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.paymentDetails.mp_payment_id!=0 && tkupdate.isManualPayment!='1'">Id de Pago: </span>
                         <span ng-if="tkupdate.isManualPayment=='1'">Número de operación: </span>
-                        <span ng-if="tkupdate.isManualPayment!='1'"class="badge badge-warning">{{tkupdate.paymentDetails.mp_payment_id}}</span>
-                        <span ng-if="tkupdate.isManualPayment=='1'" class="badge badge-warning">{{tkupdate.paymentDetails.manualPaymentNumber}}</span>
+                        <span ng-if="tkupdate.paymentDetails.mp_payment_id!=null && tkupdate.paymentDetails.mp_payment_id!=0 && tkupdate.isManualPayment!='1'"class="badge badge-warning">{{tkupdate.paymentDetails.mp_payment_id}}</span>
+                        <span ng-if="tkupdate.paymentDetails.manualPaymentNumber!=null && tkupdate.paymentDetails.manualPaymentNumber!=0 && tkupdate.isManualPayment=='1'" class="badge badge-warning">{{tkupdate.paymentDetails.manualPaymentNumber}}</span>
                     </div>
                 </div>
                 <!-- RIGHT COLUMN -->
