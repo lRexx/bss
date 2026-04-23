@@ -95,6 +95,7 @@ class Ticket_model extends CI_Model
 			'total' => @$ticket['total'],
 			'urlToken' => @$ticket['urlToken'],
 			'autoApproved' => @$ticket['autoApproved'],
+			'idDisabledReasonKf' => @$ticket['idDisabledReasonKf'],
 			'isNew' => @$ticket['isNew'],
 			'isInitialDeliveryActive' => @$ticket['isInitialDeliveryActive'],
 			'idStatusTicketKf' => @$ticket['status']
@@ -392,6 +393,7 @@ class Ticket_model extends CI_Model
 			'total' => @$ticket['total'],
 			'urlToken' => @$ticket['urlToken'],
 			'autoApproved' => @$ticket['autoApproved'],
+			'idDisabledReasonKf' => $ticket['idDisabledReasonKf'],
 			'isNew' => @$ticket['isNew'],
 			'idStatusTicketKf' => @$ticket['status'],
 		));
@@ -1162,6 +1164,7 @@ class Ticket_model extends CI_Model
 				'total' => @$ticket['total'],
 				'urlToken' => @$ticket['urlToken'],
 				'autoApproved' => @$ticket['autoApproved'],
+				'idDisabledReasonKf' => @$ticket['idDisabledReasonKf'],
 				'isNew' => @$ticket['isNew'],
 				'idStatusTicketKf' => @$ticket['idStatusTicketKf'],
 				'idOtherDeliveryAddressKf' => $idOtherDeliveryAddress,
@@ -3759,6 +3762,7 @@ class Ticket_model extends CI_Model
 		$deliveryCompanyIds      = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryCompanyKf'))));
 		$mgmtMethodIds           = array_values(array_filter(array_unique(array_column($todo, 'idMgmtMethodKf'))));
 		$departmentIds           = array_values(array_filter(array_unique(array_column($todo, 'idDepartmentKf'))));
+		$disabledReasonIds       = array_values(array_filter(array_unique(array_column($todo, 'idDisabledReasonKf'))));
 		$allUserIds              = array_values(array_filter(array_unique(array_merge($userMadeByIds, $userRequestByIds, $userDeliveryIds))));
 
 		// ─────────────────────────────────────────────
@@ -4148,6 +4152,17 @@ class Ticket_model extends CI_Model
 			}
 		}
 
+		// Disabled reason
+		$disabledReasonMap = [];
+		if (!empty($disabledReasonIds)) {
+			$rows = $this->db->select('*')->from('tb_reason_disabled_item')
+				->where_in('idReasonDisabledItem', $disabledReasonIds)
+				->get()->result_array();
+			foreach ($rows as $row) {
+				$disabledReasonMap= array_column($rows, null, 'idReasonDisabledItem');
+			}
+		}
+
 		// Initial delivery de todos los buildings (1 query)
 		$initialDeliveryGrouped = [];
 		if (!empty($buildingIds)) {
@@ -4186,6 +4201,7 @@ class Ticket_model extends CI_Model
 			$rs_tickets['tickets'][$key]['userDelivery']           = $users[$ticket['idUserDelivery']] ?? null;
 			$rs_tickets['tickets'][$key]['changes_history']        = $historyGrouped[$tid] ?? [];
 			$rs_tickets['tickets'][$key]['refundsDetails']         = $refundsGrouped[$tid] ?? null;
+			$rs_tickets['tickets'][$key]['disabledReasonDetails']   = $disabledReasonMap[$ticket['idDisabledReasonKf']] ?? null;
 			$rs_tickets['tickets'][$key]['billingReceiptDetails']  = (!empty($ticket['isBillingUploaded']) && $ticket['isBillingUploaded'] == 1)
 				? ($billingFilesGrouped[$tid] ?? [])
 				: null;

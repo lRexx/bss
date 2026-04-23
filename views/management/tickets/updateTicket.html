@@ -72,6 +72,16 @@
                                   <button ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.idTypeRequestFor=='2'&& tkupdate.isKeysEnable && tkupdate.building.isStockInOffice=='1' && tkupdate.idStatusTicketKf==8 && tkupdate.isCancelRequested!='1'" ng-click="modalConfirmation('ticketDeliveredOffice',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Completar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
                                   <button ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.idStatusTicketKf==12 && tkupdate.isCancelRequested!='1'" ng-click="modalConfirmation('ticketDisabledKeys',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Completar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
                               </div>
+                              <div class="col-md-12">
+                                <span>Razón:
+                                <span ng-show="tkupdate.idDisabledReasonKf!=null && tkupdate.idDisabledReasonKf!=undefined && tkupdate.idDisabledReasonKf=='1'" data-toggle="tooltip" data-placement="top"  title="Razón" style="font-size: 85%;" class="label label-danger">{{tkupdate.disabledReasonDetails.reasonDisabledItem}}</span>
+                                <span ng-show="tkupdate.idDisabledReasonKf!=null && tkupdate.idDisabledReasonKf!=undefined && tkupdate.idDisabledReasonKf=='2'" data-toggle="tooltip" data-placement="top"  title="Razón" style="font-size: 85%;" class="label label-warning">{{tkupdate.disabledReasonDetails.reasonDisabledItem}}</span>
+                                <span ng-show="tkupdate.idDisabledReasonKf!=null && tkupdate.idDisabledReasonKf!=undefined && tkupdate.idDisabledReasonKf=='3'" data-toggle="tooltip" data-placement="top"  title="Razón" style="font-size: 85%;" class="label label-warning">{{tkupdate.disabledReasonDetails.reasonDisabledItem}}</span>
+                                <span ng-show="tkupdate.idDisabledReasonKf!=null && tkupdate.idDisabledReasonKf!=undefined && tkupdate.idDisabledReasonKf=='4'" data-toggle="tooltip" data-placement="top"  title="Razón" style="font-size: 85%;" class="label label-danger">{{tkupdate.disabledReasonDetails.reasonDisabledItem}}</span>
+                                <span ng-show="tkupdate.idDisabledReasonKf!=null && tkupdate.idDisabledReasonKf!=undefined && tkupdate.idDisabledReasonKf=='5'" data-toggle="tooltip" data-placement="top"  title="Razón" style="font-size: 85%;" class="label label-warning">{{tkupdate.disabledReasonDetails.reasonDisabledItem}}</span>
+                                <span ng-show="tkupdate.idDisabledReasonKf==null || tkupdate.idDisabledReasonKf==undefined" data-toggle="tooltip" data-placement="top"  title="Razón" style="font-size: 85%;" class="label label-warning">No definido</span>
+                                </span>
+                              </div>
                               <div ng-if="tkupdate.idMgmtMethodKf" class="col-md-12" style="padding-top: 0.5% !important">
                                 <div class="col-md-5 n-padding-l n-padding-r" style="width: 36% !important">
                                   <span>Gestion de Llaveros:</span>
