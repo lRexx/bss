@@ -3733,38 +3733,35 @@ class Ticket_model extends CI_Model
 
 	public function buscar_relaciones_ticket($todo)
 	{
-		if (empty($todo)) {
-			return ['tickets' => [], 'dashboard' => []];
-		}
-
-		$rs_tickets['tickets'] = $todo;
+		$rs_tickets['tickets'] = !empty($todo) ? $todo : [];
 
 		// ─────────────────────────────────────────────
 		// 1. RECOLECTAR TODOS LOS IDs NECESARIOS
 		// ─────────────────────────────────────────────
-		$ticketIds               = array_values(array_filter(array_unique(array_column($todo, 'idTicket'))));
-		$buildingIds             = array_values(array_filter(array_unique(array_column($todo, 'idBuildingKf'))));
-		$userMadeByIds           = array_values(array_filter(array_unique(array_column($todo, 'idUserMadeBy'))));
-		$userRequestByIds        = array_values(array_filter(array_unique(array_column($todo, 'idUserRequestBy'))));
-		$userDeliveryIds         = array_values(array_filter(array_unique(array_column($todo, 'idUserDelivery'))));
-		$paymentIds              = array_values(array_filter(array_unique(array_column($todo, 'idPaymentKf'))));
-		$paymentDeliveryIds      = array_values(array_filter(array_unique(array_column($todo, 'idPaymentDeliveryKf'))));
-		$typeRequestForIds       = array_values(array_filter(array_unique(array_column($todo, 'idTypeRequestFor'))));
-		$typeTicketIds           = array_values(array_filter(array_unique(array_column($todo, 'idTypeTicketKf'))));
-		$typeDeliveryIds         = array_values(array_filter(array_unique(array_column($todo, 'idTypeDeliveryKf'))));
-		$typePaymentIds          = array_values(array_filter(array_unique(array_column($todo, 'idTypePaymentKf'))));
-		$statusTicketIds         = array_values(array_filter(array_unique(array_column($todo, 'idStatusTicketKf'))));
-		$deliveryAddressIds      = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryAddress'))));
-		$deliveryToIds           = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryTo'))));
-		$whoPickUpIds            = array_values(array_filter(array_unique(array_column($todo, 'idWhoPickUp'))));
-		$otherDeliveryIds        = array_values(array_filter(array_unique(array_column($todo, 'idOtherDeliveryAddressKf'))));
-		$thirdPersonDeliveryIds  = array_values(array_filter(array_unique(array_column($todo, 'idThirdPersonDeliveryKf'))));
-		$deliveryCompanyIds      = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryCompanyKf'))));
-		$mgmtMethodIds           = array_values(array_filter(array_unique(array_column($todo, 'idMgmtMethodKf'))));
-		$departmentIds           = array_values(array_filter(array_unique(array_column($todo, 'idDepartmentKf'))));
-		$disabledReasonIds       = array_values(array_filter(array_unique(array_column($todo, 'idDisabledReasonKf'))));
-		$allUserIds              = array_values(array_filter(array_unique(array_merge($userMadeByIds, $userRequestByIds, $userDeliveryIds))));
-
+		if (!empty($todo)) {
+			$ticketIds               = array_values(array_filter(array_unique(array_column($todo, 'idTicket'))));
+			$buildingIds             = array_values(array_filter(array_unique(array_column($todo, 'idBuildingKf'))));
+			$userMadeByIds           = array_values(array_filter(array_unique(array_column($todo, 'idUserMadeBy'))));
+			$userRequestByIds        = array_values(array_filter(array_unique(array_column($todo, 'idUserRequestBy'))));
+			$userDeliveryIds         = array_values(array_filter(array_unique(array_column($todo, 'idUserDelivery'))));
+			$paymentIds              = array_values(array_filter(array_unique(array_column($todo, 'idPaymentKf'))));
+			$paymentDeliveryIds      = array_values(array_filter(array_unique(array_column($todo, 'idPaymentDeliveryKf'))));
+			$typeRequestForIds       = array_values(array_filter(array_unique(array_column($todo, 'idTypeRequestFor'))));
+			$typeTicketIds           = array_values(array_filter(array_unique(array_column($todo, 'idTypeTicketKf'))));
+			$typeDeliveryIds         = array_values(array_filter(array_unique(array_column($todo, 'idTypeDeliveryKf'))));
+			$typePaymentIds          = array_values(array_filter(array_unique(array_column($todo, 'idTypePaymentKf'))));
+			$statusTicketIds         = array_values(array_filter(array_unique(array_column($todo, 'idStatusTicketKf'))));
+			$deliveryAddressIds      = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryAddress'))));
+			$deliveryToIds           = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryTo'))));
+			$whoPickUpIds            = array_values(array_filter(array_unique(array_column($todo, 'idWhoPickUp'))));
+			$otherDeliveryIds        = array_values(array_filter(array_unique(array_column($todo, 'idOtherDeliveryAddressKf'))));
+			$thirdPersonDeliveryIds  = array_values(array_filter(array_unique(array_column($todo, 'idThirdPersonDeliveryKf'))));
+			$deliveryCompanyIds      = array_values(array_filter(array_unique(array_column($todo, 'idDeliveryCompanyKf'))));
+			$mgmtMethodIds           = array_values(array_filter(array_unique(array_column($todo, 'idMgmtMethodKf'))));
+			$departmentIds           = array_values(array_filter(array_unique(array_column($todo, 'idDepartmentKf'))));
+			$disabledReasonIds       = array_values(array_filter(array_unique(array_column($todo, 'idDisabledReasonKf'))));
+			$allUserIds              = array_values(array_filter(array_unique(array_merge($userMadeByIds, $userRequestByIds, $userDeliveryIds))));
+		}
 		// ─────────────────────────────────────────────
 		// 2. DASHBOARD — 1 sola query de conteo
 		// ─────────────────────────────────────────────
@@ -4151,7 +4148,6 @@ class Ticket_model extends CI_Model
 				$refundsGrouped[$row['idTicketKf']][] = $row;
 			}
 		}
-
 		// Disabled reason
 		$disabledReasonMap = [];
 		if (!empty($disabledReasonIds)) {
@@ -4185,24 +4181,24 @@ class Ticket_model extends CI_Model
 			$bid = $ticket['idBuildingKf'];
 
 			// Datos básicos
-			$rs_tickets['tickets'][$key]['typeRequestFor'] = $typeRequestForMap[$ticket['idTypeRequestFor']] ?? null;
-			$rs_tickets['tickets'][$key]['typeticket']     = $typeTicketMap[$ticket['idTypeTicketKf']]       ?? null;
-			$rs_tickets['tickets'][$key]['typeDeliver']    = $typeDeliveryMap[$ticket['idTypeDeliveryKf']]   ?? null;
-			$rs_tickets['tickets'][$key]['typePaymentKf']  = $typePaymentMap[$ticket['idTypePaymentKf']]     ?? null;
-			$rs_tickets['tickets'][$key]['statusTicket']   = $statusTicketMap[$ticket['idStatusTicketKf']]   ?? null;
-			$rs_tickets['tickets'][$key]['keysMethod']     = $mgmtMethodMap[$ticket['idMgmtMethodKf']]       ?? null;
-			$rs_tickets['tickets'][$key]['whoPickUp']      = $whoPickUpMap[$ticket['idWhoPickUp']]            ?? null;
-			$rs_tickets['tickets'][$key]['deliveryTo']     = $deliveryToMap[$ticket['idDeliveryTo']]          ?? null;
-			$rs_tickets['tickets'][$key]['deliveryCompanyDetails'] = $deliveryCompanyMap[$ticket['idDeliveryCompanyKf']] ?? null;
-			$rs_tickets['tickets'][$key]['paymentDetails']         = $paymentsMap[$ticket['idPaymentKf']]           ?? null;
-			$rs_tickets['tickets'][$key]['paymentDeliveryDetails'] = $paymentsDeliveryMap[$ticket['idPaymentDeliveryKf']] ?? null;
-			$rs_tickets['tickets'][$key]['otherDeliveryAddress']   = $otherDeliveryMap[$ticket['idOtherDeliveryAddressKf']] ?? null;
-			$rs_tickets['tickets'][$key]['thirdPersonDelivery']    = $thirdPersonMap[$ticket['idThirdPersonDeliveryKf']]    ?? null;
-			$rs_tickets['tickets'][$key]['userDelivery']           = $users[$ticket['idUserDelivery']] ?? null;
-			$rs_tickets['tickets'][$key]['changes_history']        = $historyGrouped[$tid] ?? [];
-			$rs_tickets['tickets'][$key]['refundsDetails']         = $refundsGrouped[$tid] ?? null;
+			$rs_tickets['tickets'][$key]['typeRequestFor'] 			= $typeRequestForMap[$ticket['idTypeRequestFor']] ?? null;
+			$rs_tickets['tickets'][$key]['typeticket']     			= $typeTicketMap[$ticket['idTypeTicketKf']]       ?? null;
+			$rs_tickets['tickets'][$key]['typeDeliver']    			= $typeDeliveryMap[$ticket['idTypeDeliveryKf']]   ?? null;
+			$rs_tickets['tickets'][$key]['typePaymentKf']  			= $typePaymentMap[$ticket['idTypePaymentKf']]     ?? null;
+			$rs_tickets['tickets'][$key]['statusTicket']   			= $statusTicketMap[$ticket['idStatusTicketKf']]   ?? null;
+			$rs_tickets['tickets'][$key]['keysMethod']     			= $mgmtMethodMap[$ticket['idMgmtMethodKf']]       ?? null;
+			$rs_tickets['tickets'][$key]['whoPickUp']      			= $whoPickUpMap[$ticket['idWhoPickUp']]            ?? null;
+			$rs_tickets['tickets'][$key]['deliveryTo']     			= $deliveryToMap[$ticket['idDeliveryTo']]          ?? null;
+			$rs_tickets['tickets'][$key]['deliveryCompanyDetails']  = $deliveryCompanyMap[$ticket['idDeliveryCompanyKf']] ?? null;
+			$rs_tickets['tickets'][$key]['paymentDetails']          = $paymentsMap[$ticket['idPaymentKf']]           ?? null;
+			$rs_tickets['tickets'][$key]['paymentDeliveryDetails']  = $paymentsDeliveryMap[$ticket['idPaymentDeliveryKf']] ?? null;
+			$rs_tickets['tickets'][$key]['otherDeliveryAddress']    = $otherDeliveryMap[$ticket['idOtherDeliveryAddressKf']] ?? null;
+			$rs_tickets['tickets'][$key]['thirdPersonDelivery']     = $thirdPersonMap[$ticket['idThirdPersonDeliveryKf']]    ?? null;
+			$rs_tickets['tickets'][$key]['userDelivery']            = $users[$ticket['idUserDelivery']] ?? null;
+			$rs_tickets['tickets'][$key]['changes_history']         = $historyGrouped[$tid] ?? [];
+			$rs_tickets['tickets'][$key]['refundsDetails']          = $refundsGrouped[$tid] ?? null;
 			$rs_tickets['tickets'][$key]['disabledReasonDetails']   = $disabledReasonMap[$ticket['idDisabledReasonKf']] ?? null;
-			$rs_tickets['tickets'][$key]['billingReceiptDetails']  = (!empty($ticket['isBillingUploaded']) && $ticket['isBillingUploaded'] == 1)
+			$rs_tickets['tickets'][$key]['billingReceiptDetails']   = (!empty($ticket['isBillingUploaded']) && $ticket['isBillingUploaded'] == 1)
 				? ($billingFilesGrouped[$tid] ?? [])
 				: null;
 
@@ -4228,31 +4224,31 @@ class Ticket_model extends CI_Model
 			// Initial delivery
 			$initialDelivery = $initialDeliveryGrouped[$bid] ?? [];
 			if (!empty($initialDelivery)) {
-				$dateToCompare        = new DateTime($initialDelivery[0]['expirationDate']);
-				$expiration_state     = $currentDateFormatted > $dateToCompare->format('Y-m-d');
+				$dateToCompare        					= new DateTime($initialDelivery[0]['expirationDate']);
+				$expiration_state     					= $currentDateFormatted > $dateToCompare->format('Y-m-d');
 				$initialDelivery[0]['expiration_state'] = $expiration_state;
-				$building['isInitialDeliveryActive'] = $initialDelivery;
-				$building['initial_delivery']        = $initialDelivery;
+				$building['isInitialDeliveryActive'] 	= $initialDelivery;
+				$building['initial_delivery']        	= $initialDelivery;
 			} else {
-				$building['isInitialDeliveryActive'] = [];
-				$building['initial_delivery']        = [];
+				$building['isInitialDeliveryActive'] 	= [];
+				$building['initial_delivery']        	= [];
 			}
-			$rs_tickets['tickets'][$key]['building'] = $building;
+			$rs_tickets['tickets'][$key]['building'] 	= $building;
 
 			// Datos según tipo de solicitud
 			$typeReqFor = $ticket['idTypeRequestFor'];
 			if ($typeReqFor == 1) {
-				$rs_tickets['tickets'][$key]['department']    = $departmentMap[$ticket['idDepartmentKf']]         ?? null;
-				$rs_tickets['tickets'][$key]['userMadeBy']    = $users[$ticket['idUserMadeBy']]                   ?? null;
-				$rs_tickets['tickets'][$key]['userRequestBy'] = $users[$ticket['idUserRequestBy']]                ?? null;
-				$rs_tickets['tickets'][$key]['clientAdmin']   = $clientAdmins[$building['idClientAdminFk'] ?? ''] ?? null;
+				$rs_tickets['tickets'][$key]['department']    	= $departmentMap[$ticket['idDepartmentKf']]         ?? null;
+				$rs_tickets['tickets'][$key]['userMadeBy']    	= $users[$ticket['idUserMadeBy']]                   ?? null;
+				$rs_tickets['tickets'][$key]['userRequestBy'] 	= $users[$ticket['idUserRequestBy']]                ?? null;
+				$rs_tickets['tickets'][$key]['clientAdmin']   	= $clientAdmins[$building['idClientAdminFk'] ?? ''] ?? null;
 			} elseif (in_array($typeReqFor, [2, 3, 4, 5, 6])) {
-				$rs_tickets['tickets'][$key]['userMadeBy']  = $users[$ticket['idUserMadeBy']]                   ?? null;
-				$rs_tickets['tickets'][$key]['clientAdmin'] = $clientAdmins[$building['idClientAdminFk'] ?? ''] ?? null;
+				$rs_tickets['tickets'][$key]['userMadeBy']  	= $users[$ticket['idUserMadeBy']]                   ?? null;
+				$rs_tickets['tickets'][$key]['clientAdmin'] 	= $clientAdmins[$building['idClientAdminFk'] ?? ''] ?? null;
 			} else {
-				$rs_tickets['tickets'][$key]['userMadeBy']     = $users[$ticket['idUserMadeBy']]    ?? null;
-				$rs_tickets['tickets'][$key]['clientCompani']  = $clientAdmins[$ticket['idUserRequestBy']] ?? null;
-				$rs_tickets['tickets'][$key]['clientAdmin']    = $clientAdmins[$ticket['idUserRequestBy']] ?? null;
+				$rs_tickets['tickets'][$key]['userMadeBy']     	= $users[$ticket['idUserMadeBy']]    ?? null;
+				$rs_tickets['tickets'][$key]['clientCompani']  	= $clientAdmins[$ticket['idUserRequestBy']] ?? null;
+				$rs_tickets['tickets'][$key]['clientAdmin']    	= $clientAdmins[$ticket['idUserRequestBy']] ?? null;
 			}
 
 			// Keys con doors y users (sin queries adicionales)
