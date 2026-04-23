@@ -5227,9 +5227,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                        $('.checkmark').toggle();
                        $scope.ticketRegistered = response.data.response;
                    }, 2500);
-                   if((response.data.idStatusTicketKf=="3" || response.data.idStatusTicketKf=="9") && response.data.idTypePaymentKf=="2" && response.data.total>0){
+                   if((response.data.response.idStatusTicketKf=="3" || response.data.response.idStatusTicketKf=="9") && response.data.response.idTypePaymentKf=="2" && response.data.response.total>0){
                        $timeout(function() {
-                           $scope.mainSwitchFn("linkMP",response.data,null);
+                           $scope.mainSwitchFn("linkMP",response.data.response,null);
                        }, 2700);
                    }
                    }else if(response.status==500){
