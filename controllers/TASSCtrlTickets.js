@@ -2168,10 +2168,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.enabledNextBtn();
                                 }else{
                                     $scope.ticket.reasonTmp=obj.idReasonDisabledItem;
-                                    $timeout(function() {
-                                        $scope.ticket.reason = null;
-                                        $scope.enabledNextBtn();
-                                    }, 5000);
+                                    $scope.ticket.reason = null;
+                                    $scope.enabledNextBtn();
                                     $scope.ticket.reason_details = null;
 
                                 }
