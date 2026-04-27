@@ -2164,11 +2164,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             case "1":
                                 if ($scope.sysLoggedUser.idProfileKf==1){
                                     $scope.ticket.reason_details = obj;
-                                    $scope.ticket.reasonTmp=obj.idReasonDisabledItem;
+                                    $scope.ticket.reasonTmp      =obj.idReasonDisabledItem;
                                     $scope.enabledNextBtn();
                                 }else{
-                                    $scope.ticket.reasonTmp=obj.idReasonDisabledItem;
-                                    $scope.ticket.reason = null;
+                                    $scope.ticket.reasonTmp      = obj.idReasonDisabledItem;
+                                    $scope.ticket.reason         = null;
                                     $scope.enabledNextBtn();
                                     $scope.ticket.reason_details = null;
 
@@ -2176,12 +2176,14 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             break;
                             case "2":
                                 $scope.ticket.reason_details = obj;
-                                $scope.ticket.reasonTmp=obj.idReasonDisabledItem;
+                                $scope.ticket.reason         = obj.idReasonDisabledItem;
+                                $scope.ticket.reasonTmp      = obj.idReasonDisabledItem;
                                 $scope.enabledNextBtn();
                             break;
                             case "3":
                                 $scope.ticket.reason_details = obj;
-                                $scope.ticket.reasonTmp=obj.idReasonDisabledItem;
+                                $scope.ticket.reason         = obj.idReasonDisabledItem;
+                                $scope.ticket.reasonTmp      = obj.idReasonDisabledItem;
                                 $scope.enabledNextBtn();
                             break;
                         }
