@@ -10,7 +10,7 @@
 					<fieldset class="animate-switch" ng-switch-when="PASO 1: RAZÓN">
 						<div class="row">
 							<div class="col-md-12 form-group">
-								<div ng-class="{'col-md-4': sysLoggedUser.idProfileKf=='1', 'col-md-6': sysLoggedUser.idProfileKf!='1'}" ng-repeat="reason in reasonDisabledKey | filter: excludeIdReasons">
+								<div class="col-md-4" ng-repeat="reason in reasonDisabledKey | filter: excludeIdReasons">
 									<div class="col-md-12 col-xs-12 depto-widget well well-md n-padding-l n-padding-r" data-toggle="tooltip" data-placement="bottom" title="{{reason.reasonDisabledItem}}">
 										<div class="depto-icon">
 											<span>
@@ -21,7 +21,7 @@
 										</div>
 										<div class="text">
 											<div class="col-md-12 col-xs-12 n-padding-r n-padding-l">
-												<input id="idReason-{{reason.idReasonDisabledItem}}" class="radio-custom" type="radio" ng-click="ticket.reason=='1'?modalConfirmation('checkReason', 0, reason):mainSwitchFn('setReason', reason, null);" name="idReason" value="{{reason.idReasonDisabledItem}}" ng-model="ticket.reason" required autofocus>
+												<input id="idReason-{{reason.idReasonDisabledItem}}" ng-disabled="sysLoggedUser.idProfileKf!='1' && reason.idReasonDisabledItem=='1'" class="radio-custom" type="radio" ng-click="ticket.reason=='1'?modalConfirmation('checkReason', 0, reason):mainSwitchFn('setReason', reason, null);" name="idReason" value="{{reason.idReasonDisabledItem}}" ng-model="ticket.reason" required autofocus>
 												<label for="idReason-{{reason.idReasonDisabledItem}}" class="radio-custom-label" style="margin-top: 4%; height: 47px;">
 													<span class="badge badge-default">{{reason.reasonDisabledItem}}</span>
 												</label>
