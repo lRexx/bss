@@ -388,7 +388,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             console.log($scope.sysLoggedUser.idProfileKf);
                             if ($scope.sysLoggedUser.idProfileKf==1 || ($scope.sysLoggedUser.idProfileKf==4  && $scope.isCompanyAdministrator)){
                                 //PASO 1: RAZON
-                                if ($scope.ticket.reason!=undefined && $scope.ticket.reason!=undefined){
+                                if ($scope.ticket.reason!=undefined && $scope.ticket.reason!=null){
                                     $scope.formValidated=true;
                                 }else{
                                     $scope.formValidated=false;
@@ -396,7 +396,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
 
                             }else{
                                 console.log($scope.sysLoggedUser.idProfileKf);
-                                if ($scope.ticket.reason!=undefined && $scope.ticket.reason!=undefined){
+                                if ($scope.ticket.reason!=undefined && $scope.ticket.reason!=null){
                                     $scope.formValidated=true;
                                 }else{
                                     $scope.formValidated=false;
@@ -2166,7 +2166,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     $scope.ticket.reason_details = obj;
                                     $scope.enabledNextBtn();
                                 }else{
+                                    $scope.ticket.reason = null;
                                     $scope.ticket.reason_details = null;
+                                    $scope.enabledNextBtn();
                                 }
                             break;
                             case "2":
