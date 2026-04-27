@@ -1993,7 +1993,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
 
             }
             $scope.excludeIdReasons = function(reason) {
-                return reason.idReasonDisabledItem !== "4" && reason.idReasonDisabledItem !== "5";
+                if ($scope.sysLoggedUser.idProfileKf=='1' && reason.idReasonDisabledItem=='1'){
+                    return reason.idReasonDisabledItem !== "4" && reason.idReasonDisabledItem !== "5";
+                }else{
+                    return reason.idReasonDisabledItem !=='1' && reason.idReasonDisabledItem !== "4" && reason.idReasonDisabledItem !== "5";
+                }
             };
             $scope.selectedCategoryKeychain = function(item){
                 switch($scope.ticket.optionTypeSelected.name){
