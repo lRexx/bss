@@ -2163,7 +2163,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                         $scope.enabledNextBtn();
                         switch (obj.idReasonDisabledItem){
                             case "1":
-                                $scope.ticket.reason_details = obj;
+                                if ($scope.sysLoggedUser.idProfileKf==1){
+                                    $scope.ticket.reason_details = obj;
+                                }
                             break;
                             case "2":
                                 $scope.ticket.reason_details = obj;
