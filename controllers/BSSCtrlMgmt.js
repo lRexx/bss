@@ -6685,7 +6685,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               if (ticket.idTypeTicketKf=="1" && ticket.idTypePaymentKf=="1"){
                 $scope.data.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'idTicketKf': ticket.idTicket, 'descripcion': null, 'idCambiosTicketKf':"13"});
               }else if (ticket.idTypeTicketKf=="2" && ticket.idTypePaymentKf=="1"){
-                $scope.data.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'idTicketKf': ticket.idTicket, 'descripcion': null, 'idCambiosTicketKf':"12"});
+                $scope.data.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'idTicketKf': ticket.idTicket, 'descripcion': null, 'idCambiosTicketKf':"27"});
               }
               console.log($scope.data);
                 ticketServices.approvedTicket($scope.data).then(function(response){
