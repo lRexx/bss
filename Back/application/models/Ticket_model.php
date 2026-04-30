@@ -695,7 +695,7 @@ class Ticket_model extends CI_Model
 					$idStatusTicketKf = 3;
 				}
 
-			} else if ($ticket['idTypePaymentKf'] == 2 && $ticketQuery['idStatusTicketKf'] == 11) {
+			} else if ($ticket['idTypePaymentKf'] == 1) {
 				$idStatusTicketKf = 8;
 				$ticketObj['history']['idUserKf'] = "1";
 				$ticketObj['history']['idTicketKf'] = $idTicketKf;
@@ -717,12 +717,12 @@ class Ticket_model extends CI_Model
 					$idStatusTicketKf = 3;
 				}
 
-			} else if ($ticket['idTypePaymentKf'] == 2 && $ticketQuery['idStatusTicketKf'] == 11) {
-				$idStatusTicketKf = 2;
+			} else if ($ticket['idTypePaymentKf'] == 1) {
+				$idStatusTicketKf = 12;
 				$ticketObj['history']['idUserKf'] = "1";
 				$ticketObj['history']['idTicketKf'] = $idTicketKf;
 				$ticketObj['history']['descripcion'] = "";
-				$ticketObj['history']['idCambiosTicketKf'] = "3";
+				$ticketObj['history']['idCambiosTicketKf'] = "27";
 			}
 		}
 		$this->db->set(
