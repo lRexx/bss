@@ -9,7 +9,7 @@ class System extends CI_Controller {
         $this->load->helper('url');
     }
 
-    public function clean_old_logs($days = 30)
+    public function clean_old_logs($days = 60)
     {
         log_message('info', ':::::::::::::::::LogsRotation');
         $log_path = APPPATH . 'logs/';
