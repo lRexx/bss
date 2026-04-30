@@ -680,26 +680,50 @@ class Ticket_model extends CI_Model
 		$lastTicketUpdatedQuery = null;
 		$lastTicketUpdatedQueryTmp = $this->ticketById($idTicketKf);
 		$ticketQuery = $lastTicketUpdatedQueryTmp['tickets'][0];
-		if (
-			($ticketQuery['idStatusTicketKf'] != 9 && $ticket['idTypePaymentKf'] == 2) ||
-			($ticketQuery['idStatusTicketKf'] == 9 && $ticket['idTypePaymentKf'] == 2)
-		) {
-			if (($ticketQuery['total'] == 0) || (!is_null($ticketQuery['paymentDetails']) && $ticketQuery['total'] > 0 && (!is_null($ticketQuery['paymentDetails']['mp_payment_id']) && $ticketQuery['paymentDetails']['mp_payment_id'] != "" && $ticketQuery['paymentDetails']['mp_payment_id'] != 0))) {
+		if ($ticketQuery['idTypeTicketKf'] == 1) {
+			if (
+				($ticketQuery['idStatusTicketKf'] != 9 && $ticket['idTypePaymentKf'] == 2) ||
+				($ticketQuery['idStatusTicketKf'] == 9 && $ticket['idTypePaymentKf'] == 2)
+			) {
+				if (($ticketQuery['total'] == 0) || (!is_null($ticketQuery['paymentDetails']) && $ticketQuery['total'] > 0 && (!is_null($ticketQuery['paymentDetails']['mp_payment_id']) && $ticketQuery['paymentDetails']['mp_payment_id'] != "" && $ticketQuery['paymentDetails']['mp_payment_id'] != 0))) {
+					$idStatusTicketKf = 8;
+					$ticketObj['history']['idUserKf'] = "1";
+					$ticketObj['history']['idTicketKf'] = $idTicketKf;
+					$ticketObj['history']['descripcion'] = "";
+					$ticketObj['history']['idCambiosTicketKf'] = "13";
+				} else {
+					$idStatusTicketKf = 3;
+				}
+
+			} else if ($ticket['idTypePaymentKf'] == 2 && $ticketQuery['idStatusTicketKf'] == 11) {
 				$idStatusTicketKf = 8;
 				$ticketObj['history']['idUserKf'] = "1";
 				$ticketObj['history']['idTicketKf'] = $idTicketKf;
 				$ticketObj['history']['descripcion'] = "";
 				$ticketObj['history']['idCambiosTicketKf'] = "13";
-			} else {
-				$idStatusTicketKf = 3;
 			}
+		}else if ($ticketQuery['idTypeTicketKf'] == 2) {
+			if (
+				($ticketQuery['idStatusTicketKf'] != 9 && $ticket['idTypePaymentKf'] == 2) ||
+				($ticketQuery['idStatusTicketKf'] == 9 && $ticket['idTypePaymentKf'] == 2)
+			) {
+				if (($ticketQuery['total'] == 0) || (!is_null($ticketQuery['paymentDetails']) && $ticketQuery['total'] > 0 && (!is_null($ticketQuery['paymentDetails']['mp_payment_id']) && $ticketQuery['paymentDetails']['mp_payment_id'] != "" && $ticketQuery['paymentDetails']['mp_payment_id'] != 0))) {
+					$idStatusTicketKf = 12;
+					$ticketObj['history']['idUserKf'] = "1";
+					$ticketObj['history']['idTicketKf'] = $idTicketKf;
+					$ticketObj['history']['descripcion'] = "";
+					$ticketObj['history']['idCambiosTicketKf'] = "27";
+				} else {
+					$idStatusTicketKf = 3;
+				}
 
-		} else if ($ticket['idTypePaymentKf'] == 2 && $ticketQuery['idStatusTicketKf'] == 11) {
-			$idStatusTicketKf = 8;
-			$ticketObj['history']['idUserKf'] = "1";
-			$ticketObj['history']['idTicketKf'] = $idTicketKf;
-			$ticketObj['history']['descripcion'] = "";
-			$ticketObj['history']['idCambiosTicketKf'] = "13";
+			} else if ($ticket['idTypePaymentKf'] == 2 && $ticketQuery['idStatusTicketKf'] == 11) {
+				$idStatusTicketKf = 2;
+				$ticketObj['history']['idUserKf'] = "1";
+				$ticketObj['history']['idTicketKf'] = $idTicketKf;
+				$ticketObj['history']['descripcion'] = "";
+				$ticketObj['history']['idCambiosTicketKf'] = "3";
+			}
 		}
 		$this->db->set(
 			array(
@@ -5028,7 +5052,6 @@ class Ticket_model extends CI_Model
 		}
 
 	}
-
 
 	public function isTechnicianAssigned($ticket)
 	{

@@ -6682,8 +6682,10 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
               $scope.data.ticket.idTicket         = ticket.idTicket;
               $scope.data.ticket.idTypePaymentKf  = ticket.idTypePaymentKf;
               $scope.data.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'idTicketKf': ticket.idTicket, 'descripcion': null, 'idCambiosTicketKf':"2"});
-              if (ticket.idTypePaymentKf=="1"){
+              if (ticket.idTypeTicketKf=="1" && ticket.idTypePaymentKf=="1"){
                 $scope.data.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'idTicketKf': ticket.idTicket, 'descripcion': null, 'idCambiosTicketKf':"13"});
+              }else if (ticket.idTypeTicketKf=="2" && ticket.idTypePaymentKf=="1"){
+                $scope.data.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'idTicketKf': ticket.idTicket, 'descripcion': null, 'idCambiosTicketKf':"12"});
               }
               console.log($scope.data);
                 ticketServices.approvedTicket($scope.data).then(function(response){
@@ -6694,7 +6696,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                       ttl:3000, type: 'success'
                     });
                     $timeout(function() {
-                      if (ticket.idTypePaymentKf=="2" && ticket.idStatusTicketKf!=9 && ticket.idStatusTicketKf!=11){
+                      if (Number(parseInt(ticket.total))>0 && ticket.idTypePaymentKf=="2" && ticket.idStatusTicketKf!=9 && ticket.idStatusTicketKf!=11){
                         $scope.mainSwitchFn("linkMP",response.data[0],null);
                       }
                       $scope.mainSwitchFn('search', null);
@@ -7252,7 +7254,8 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     });
 
                   if (city.toUpperCase()=="CIUDAD AUTONOMA DE BUENOS AIRES"){
-                    var newLocation = "CABA";
+                    //var newLocation = "CABA";
+                    var newLocation = location;
                   }else{
                     var newLocation = location;
                   }
