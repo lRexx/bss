@@ -602,6 +602,7 @@ class Contrato_model extends CI_Model {
                     foreach ($rsContractHeader->result_array() as $service => $header_item) {
                         //print "Service: ".$service."\n";
                         $rsContractBody = $this->db->select("*")
+                            ->distinct()
                             ->from("tb_servicios_del_contrato_cuerpo")
                             ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
                             ->get();
