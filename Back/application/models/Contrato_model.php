@@ -640,7 +640,7 @@ class Contrato_model extends CI_Model {
                                                 FROM tb_client_services CS
                                                 WHERE CS.idClientServices = ACS.idClientServicesFk
                                             )", null, false);
-                                        log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsAccessDoors->num_rows());
+                                        log_message('debug', 'SQL: ' . $this->db->last_query());
                                         if ($rsAccessDoors->num_rows() >= 1){
                                             //print "contrato: ".$contract_item['idContrato']."\n";
                                             //print "Door Type: ".$service_items['idAccCrtlDoor']."\n";
