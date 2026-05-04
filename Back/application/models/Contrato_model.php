@@ -672,23 +672,23 @@ class Contrato_model extends CI_Model {
                                                 //VALIDATIONS
                                                 //print_r($door_items);
                                                 if($door_items['USED_QTTY']>0){
-                                                    if ($door_items['USED_QTTY']<$service_items['qtty']){
+                                                    if ($door_items['USED_QTTY']<$service_items['total_qtty']){
                                                         //print_r("hola mundo 1");
                                                         $qtty_door_used=$door_items['USED_QTTY'];
                                                         $item_used=$qtty_door_used;
-                                                        $item_available=$service_items['qtty'] - $door_items['USED_QTTY'];
+                                                        $item_available=$service_items['total_qtty'] - $door_items['USED_QTTY'];
                                                         $isNotUsed++;
-                                                    }else if ($door_items['USED_QTTY']==$service_items['qtty']){
+                                                    }else if ($door_items['USED_QTTY']==$service_items['total_qtty']){
                                                         //print_r("hola mundo 2");
-                                                        $qtty_door_used=$service_items['qtty'];
-                                                        $item_used=$service_items['qtty'];
+                                                        $qtty_door_used=$service_items['total_qtty'];
+                                                        $item_used=$service_items['total_qtty'];
                                                         $item_available=0;
                                                         $isUsed++;
                                                     }
                                                 }else{
                                                     //print_r("hola mundo 3");
                                                     $item_used="0";
-                                                    $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
+                                                    $item_available=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
                                                     $qtty_door_used=0;
                                                     $isNotUsed++;
                                                 }
@@ -696,7 +696,7 @@ class Contrato_model extends CI_Model {
                                         }else{
                                             //print_r("hola mundo 3");
                                             $item_used="0";
-                                            $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
+                                            $item_available=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
                                             $qtty_door_used=0;
                                             $isNotUsed++;
                                         }
