@@ -632,7 +632,7 @@ class Contrato_model extends CI_Model {
                                         $contract[$c]['services'][$s]['items_contracted']=$doors_controlaccess_contract;
 
                                         $rsAccessDoors = $this->db
-                                            ->select('COUNT(*) AS USED_QTTY')
+                                            ->select('ACS.idDoorFk, COUNT(*) AS USED_QTTY')
                                             ->from('tb_client_services_access_control AS ACS')
                                             ->join(
                                                 'tb_client_services AS CS',
@@ -640,8 +640,9 @@ class Contrato_model extends CI_Model {
                                                 'inner'
                                             )
                                             ->where('ACS.idContracAssociated_SE', $contract_item['idContrato'])
-                                            ->where('ACS.idDoorFk', $service_items['idAccCrtlDoor'])
-                                            ->get();
+                                            ->group_by('ACS.idDoorFk')
+                                            ->get()
+                                            ->result_array();
                                         log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsAccessDoors->num_rows());
                                         if ($rsAccessDoors->num_rows() >= 1){
                                             //print "contrato: ".$contract_item['idContrato']."\n";
