@@ -602,7 +602,7 @@ class Contrato_model extends CI_Model {
                     foreach ($rsContractHeader->result_array() as $service => $header_item) {
                         //print "Service: ".$service."\n";
                         $rsContractBody = $this->db
-                            ->select('idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
+                            ->select('*,idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
                             ->from('tb_servicios_del_contrato_cuerpo')
                             ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
                             ->group_by('idAccCrtlDoor')
