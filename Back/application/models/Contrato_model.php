@@ -601,8 +601,9 @@ class Contrato_model extends CI_Model {
                     //print_r($contract[$c]['services']);
                     foreach ($rsContractHeader->result_array() as $service => $header_item) {
                         //print "Service: ".$service."\n";
-                        $rsContractBody = $this->db->distinct()
-                            ->from("tb_servicios_del_contrato_cuerpo")
+                        $rsContractBody = $this->db
+                            ->select('idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
+                            ->from('tb_servicios_del_contrato_cuerpo')
                             ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
                             ->group_by('idAccCrtlDoor')
                             ->get();
@@ -629,7 +630,7 @@ class Contrato_model extends CI_Model {
                             foreach ($rsContractBody->result_array() as $srv_item => $service_items) {
                                 switch ($header_item['idServiceType']){
                                     case "1":
-                                        $doors_controlaccess_contract += $service_items['qtty']!=null&&$service_items['qtty']!=''?$service_items['qtty']:1;
+                                        $doors_controlaccess_contract += $service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?$service_items['total_qtty']:1;
                                         $contract[$c]['services'][$s]['items_contracted']=$doors_controlaccess_contract;
 
                                         $rsAccessDoors = $this->db
