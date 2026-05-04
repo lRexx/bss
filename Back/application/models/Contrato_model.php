@@ -631,16 +631,15 @@ class Contrato_model extends CI_Model {
                                         $doors_controlaccess_contract += $service_items['qtty']!=null&&$service_items['qtty']!=''?$service_items['qtty']:1;
                                         $contract[$c]['services'][$s]['items_contracted']=$doors_controlaccess_contract;
 
-                                        $sqlServiceSelect =   array(
-                                                        'COUNT(*) AS USED_QTTY'
-                                                    );
-                                        $rsAccessDoors = $this->db->select($sqlServiceSelect)
-                                        ->from('tb_client_services_access_control AS ACS')
-                                        ->join('tb_client_services', 'tb_client_services.idClientServices = ACS.idClientServicesFk', 'left')
-                                        ->where('ACS.idContracAssociated_SE', $contract_item['idContrato'])
-                                        ->where('ACS.idDoorFk', $service_items['idAccCrtlDoor'])
-                                        ->group_by('ACS.idDoorFk')
-                                        ->get();
+                                        $rsAccessDoors = $this->db->select('COUNT(*) AS USED_QTTY', false)
+                                            ->from('tb_client_services_access_control AS ACS')
+                                            ->where('ACS.idContracAssociated_SE', $contract_item['idContrato'])
+                                            ->where('ACS.idDoorFk', $service_items['idAccCrtlDoor'])
+                                            ->where("EXISTS (
+                                                SELECT 1
+                                                FROM tb_client_services CS
+                                                WHERE CS.idClientServices = ACS.idClientServicesFk
+                                            )", null, false);
                                         log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsAccessDoors->num_rows());
                                         if ($rsAccessDoors->num_rows() >= 1){
                                             //print "contrato: ".$contract_item['idContrato']."\n";
