@@ -636,6 +636,7 @@ class Contrato_model extends CI_Model {
                                                     );
                                         $rsAccessDoors = $this->db->select($sqlServiceSelect)
                                         ->from('tb_client_services_access_control AS ACS')
+                                        ->join('tb_client_services', 'tb_client_services.idClientServices = ACS.idClientServicesFk', 'left')
                                         ->where('ACS.idContracAssociated_SE', $contract_item['idContrato'])
                                         ->where('ACS.idDoorFk', $service_items['idAccCrtlDoor'])
                                         ->group_by('ACS.idDoorFk')
