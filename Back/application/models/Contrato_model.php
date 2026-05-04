@@ -604,6 +604,7 @@ class Contrato_model extends CI_Model {
                         $rsContractBody = $this->db->distinct()
                             ->from("tb_servicios_del_contrato_cuerpo")
                             ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
+                            ->group_by('idAccCrtlDoor')
                             ->get();
                             log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBody->num_rows());
                         if ($rsContractBody->num_rows() > 0){
