@@ -635,6 +635,7 @@ class Contrato_model extends CI_Model {
                                             ->group_by('idAccCrtlDoor')
                                             ->get();
                                         log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBodyTmp->num_rows());
+                                        log_message('debug', 'SQL_RESULT: ' . $rsContractBodyTmp->result_array());
                                         $doors_controlaccess_contract += $service_items['qtty']!=null&&$service_items['qtty']!=''?$service_items['qtty']:1;
                                         $contract[$c]['services'][$s]['items_contracted']=$doors_controlaccess_contract;
 
