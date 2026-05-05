@@ -629,8 +629,6 @@ class Contrato_model extends CI_Model {
                                 ->select('idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
                                 ->from('tb_servicios_del_contrato_cuerpo')
                                 ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
-                                ->where('idServiceTypeFk', "1")
-                                ->where('idAccCrtlDoor', "7")
                                 ->group_by('idAccCrtlDoor')
                                 ->get();
                             log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBodyTmp->num_rows());
