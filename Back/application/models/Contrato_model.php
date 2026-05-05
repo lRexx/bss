@@ -643,7 +643,7 @@ class Contrato_model extends CI_Model {
                                         $contract[$c]['services'][$s]['items_contracted']=$doors_controlaccess_contract;
 
                                         $sqlServiceSelect =   array(
-                                                        'COUNT(*) AS USED_QTTY'
+                                                        '*,COUNT(*) AS USED_QTTY'
                                                     );
                                         $rsAccessDoors = $this->db->select($sqlServiceSelect)
                                         ->from('tb_client_services_access_control AS ACS')
