@@ -681,6 +681,8 @@ class Contrato_model extends CI_Model {
                                                 //VALIDATIONS
                                                 //print_r($door_items);
                                                 if($door_items['USED_QTTY']>0){
+                                                    log_message('debug', 'USED_QTTY : ' . $door_items['USED_QTTY']);
+                                                    log_message('debug', 'total_qtty: ' . $door_items['total_qtty']);
                                                     if ($door_items['USED_QTTY']<$service_items['total_qtty']){
                                                         //print_r("hola mundo 1");
                                                         $qtty_door_used=$door_items['USED_QTTY'];
