@@ -626,13 +626,13 @@ class Contrato_model extends CI_Model {
                             $total_cameras_used = 0;
                             $itemc = 0;
                             $rsContractBodyTmp = $this->db
-                                ->select('*,idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
+                                ->select('idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
                                 ->from('tb_servicios_del_contrato_cuerpo')
                                 ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
                                 ->group_by('idAccCrtlDoor')
                                 ->get();
                             log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBodyTmp->num_rows());
-                            log_message('debug',  $rsContractBodyTmp->result_array()[0]);
+                            log_message('debug', json_encode($rsContractBodyTmp->result_array()[0]));
                             foreach ($rsContractBody->result_array() as $srv_item => $service_items) {
                                 switch ($header_item['idServiceType']){
                                     case "1":
