@@ -641,7 +641,6 @@ class Contrato_model extends CI_Model {
                                         ->group_by('ACS.idDoorFk')
                                         ->get();
                                         log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsAccessDoors->num_rows());
-                                        log_message('debug', 'SQL_RESULT: ' . $this->db->result_array());
                                         if ($rsAccessDoors->num_rows() >= 1){
                                             //print "contrato: ".$contract_item['idContrato']."\n";
                                             //print "Door Type: ".$service_items['idAccCrtlDoor']."\n";
