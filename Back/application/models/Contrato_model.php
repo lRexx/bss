@@ -635,6 +635,7 @@ class Contrato_model extends CI_Model {
                             log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBodyTmp->num_rows());
                             log_message('debug', json_encode($rsContractBodyTmp->result_array()[0]));
                             $rsOtherDoors = $rsContractBodyTmp->result_array()[0]['idAccCrtlDoor']!=null?$rsContractBodyTmp->result_array()[0]['total_qtty']:0;
+                            log_message('debug', 'rsOtherDoors: ' . $rsOtherDoors);
                             foreach ($rsContractBody->result_array() as &$service_items) {
                                 switch ($header_item['idServiceType']){
                                     case "1":
@@ -643,7 +644,7 @@ class Contrato_model extends CI_Model {
                                         $contract[$c]['services'][$s]['items_contracted']=$doors_controlaccess_contract;
 
                                         $sqlServiceSelect =   array(
-                                                        '*,COUNT(*) AS USED_QTTY'
+                                                        'idDoorFk,COUNT(*) AS USED_QTTY'
                                                     );
                                         $rsAccessDoors = $this->db->select($sqlServiceSelect)
                                         ->from('tb_client_services_access_control AS ACS')
