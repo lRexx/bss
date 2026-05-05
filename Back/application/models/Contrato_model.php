@@ -250,7 +250,7 @@ class Contrato_model extends CI_Model {
                                             }
                                         }else{
                                             $item_used="0";
-                                            $item_available=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
+                                            $item_available+=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
                                             $qtty_door_used=0;
                                             $isNotUsed++;
                                         }
@@ -697,7 +697,7 @@ class Contrato_model extends CI_Model {
                                                 }else{
                                                     //print_r("hola mundo 3");
                                                     $item_used="0";
-                                                    $item_available=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
+                                                    $item_available+=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
                                                     $qtty_door_used=0;
                                                     $isNotUsed++;
                                                 }
@@ -705,7 +705,7 @@ class Contrato_model extends CI_Model {
                                         }else{
                                             //print_r("hola mundo 3");
                                             $item_used="0";
-                                            $item_available=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
+                                            $item_available+=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
                                             $qtty_door_used=0;
                                             $isNotUsed++;
                                         }
