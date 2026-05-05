@@ -625,26 +625,14 @@ class Contrato_model extends CI_Model {
                             $total_cameras_availables=0;
                             $total_cameras_used = 0;
                             $itemc = 0;
-                            $rsContractBodyTmp = $this->db
-                                ->select('idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
-                                ->from('tb_servicios_del_contrato_cuerpo')
-                                ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
-                                ->where('idAccCrtlDoor', '7')
-                                ->group_by('idAccCrtlDoor')
-                                ->get();
-                            log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBodyTmp->num_rows());
-                            log_message('debug', json_encode($rsContractBodyTmp->result_array()[0]));
-                            $rsOtherDoors = $rsContractBodyTmp->result_array()[0]['idAccCrtlDoor']!=null?$rsContractBodyTmp->result_array()[0]['total_qtty']:0;
-                            log_message('debug', 'rsOtherDoors: ' . $rsOtherDoors);
-                            foreach ($rsContractBody->result_array() as &$service_items) {
+                            foreach ($rsContractBody->result_array() as $srv_item => $service_items) {
                                 switch ($header_item['idServiceType']){
                                     case "1":
-
                                         $doors_controlaccess_contract += $service_items['qtty']!=null&&$service_items['qtty']!=''?$service_items['qtty']:1;
                                         $contract[$c]['services'][$s]['items_contracted']=$doors_controlaccess_contract;
 
                                         $sqlServiceSelect =   array(
-                                                        'idDoorFk,COUNT(*) AS USED_QTTY'
+                                                        'COUNT(*) AS USED_QTTY'
                                                     );
                                         $rsAccessDoors = $this->db->select($sqlServiceSelect)
                                         ->from('tb_client_services_access_control AS ACS')
@@ -653,7 +641,7 @@ class Contrato_model extends CI_Model {
                                         ->group_by('ACS.idDoorFk')
                                         ->get();
                                         log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsAccessDoors->num_rows());
-                                        log_message('debug', json_encode($rsAccessDoors->result_array()));
+                                        log_message('debug', 'SQL_RESULT: ' . $this->db->result_array());
                                         if ($rsAccessDoors->num_rows() >= 1){
                                             //print "contrato: ".$contract_item['idContrato']."\n";
                                             //print "Door Type: ".$service_items['idAccCrtlDoor']."\n";
@@ -678,48 +666,28 @@ class Contrato_model extends CI_Model {
                                                 }
                                             }*/
                                             foreach ($rsAccessDoors->result_array() as &$door_items) {
-                                                if ($door_items['idDoorFk'] != "7"){
-                                                    //VALIDATIONS
-                                                    //print_r($door_items);
-                                                    if($door_items['USED_QTTY']>0){
-                                                        if ($door_items['USED_QTTY']<$service_items['qtty']){
-                                                            //print_r("hola mundo 1");
-                                                            $qtty_door_used=$door_items['USED_QTTY'];
-                                                            $item_used=$qtty_door_used;
-                                                            $item_available=$service_items['qtty'] - $door_items['USED_QTTY'];
-                                                            $isNotUsed++;
-                                                        }else if ($door_items['USED_QTTY']==$service_items['qtty']){
-                                                            //print_r("hola mundo 2");
-                                                            $qtty_door_used=$service_items['qtty'];
-                                                            $item_used=$service_items['qtty'];
-                                                            $item_available=0;
-                                                            $isUsed++;
-                                                        }
-                                                    }else{
-                                                        //print_r("hola mundo 3");
-                                                        $item_used="0";
-                                                        $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
-                                                        $qtty_door_used=0;
+                                                //VALIDATIONS
+                                                //print_r($door_items);
+                                                if($door_items['USED_QTTY']>0){
+                                                    if ($door_items['USED_QTTY']<$service_items['qtty']){
+                                                        //print_r("hola mundo 1");
+                                                        $qtty_door_used=$door_items['USED_QTTY'];
+                                                        $item_used=$qtty_door_used;
+                                                        $item_available=$service_items['qtty'] - $door_items['USED_QTTY'];
                                                         $isNotUsed++;
+                                                    }else if ($door_items['USED_QTTY']==$service_items['qtty']){
+                                                        //print_r("hola mundo 2");
+                                                        $qtty_door_used=$service_items['qtty'];
+                                                        $item_used=$service_items['qtty'];
+                                                        $item_available=0;
+                                                        $isUsed++;
                                                     }
                                                 }else{
-                                                    //VALIDATIONS
-                                                    //print_r($door_items);
-                                                    if($door_items['USED_QTTY']>0){
-                                                        if ($door_items['USED_QTTY']<$rsOtherDoors){
-                                                            log_message('debug', "hola mundo 1");
-                                                            $qtty_door_used=$door_items['USED_QTTY'];
-                                                            $item_used=$qtty_door_used;
-                                                            $item_available=$rsOtherDoors - $door_items['USED_QTTY'];
-                                                            $isNotUsed++;
-                                                        }else if ($door_items['USED_QTTY']==$rsOtherDoors){
-                                                            //print_r("hola mundo 2");
-                                                            $qtty_door_used=$rsOtherDoors;
-                                                            $item_used=$rsOtherDoors;
-                                                            $item_available=0;
-                                                            $isUsed++;
-                                                        }
-                                                    }
+                                                    //print_r("hola mundo 3");
+                                                    $item_used="0";
+                                                    $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
+                                                    $qtty_door_used=0;
+                                                    $isNotUsed++;
                                                 }
                                             }
                                         }else{
