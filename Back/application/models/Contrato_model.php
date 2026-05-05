@@ -652,6 +652,7 @@ class Contrato_model extends CI_Model {
                                         ->group_by('ACS.idDoorFk')
                                         ->get();
                                         log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsAccessDoors->num_rows());
+                                        log_message('debug', json_encode($rsAccessDoors->result_array()));
                                         if ($rsAccessDoors->num_rows() >= 1){
                                             //print "contrato: ".$contract_item['idContrato']."\n";
                                             //print "Door Type: ".$service_items['idAccCrtlDoor']."\n";
@@ -676,7 +677,7 @@ class Contrato_model extends CI_Model {
                                                 }
                                             }*/
                                             foreach ($rsAccessDoors->result_array() as &$door_items) {
-                                                if ($door_items['idAccCrtlDoor'] != 7){
+                                                if ($door_items['idAccCrtlDoor'] != "7"){
                                                     //VALIDATIONS
                                                     //print_r($door_items);
                                                     if($door_items['USED_QTTY']>0){
