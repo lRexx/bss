@@ -634,8 +634,8 @@ class Contrato_model extends CI_Model {
                                 ->get();
                             log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBodyTmp->num_rows());
                             log_message('debug', json_encode($rsContractBodyTmp->result_array()[0]));
-                            $rsContractBodyTmpRs = $rsContractBodyTmp->result_array()[0]['idAccCrtlDoor']!=null?$rsContractBodyTmp->result_array()[0]['total_qtty']:0;
-                            foreach ($rsContractBody->result_array() as $srv_item => $service_items) {
+                            $rsOtherDoors = $rsContractBodyTmp->result_array()[0]['idAccCrtlDoor']!=null?$rsContractBodyTmp->result_array()[0]['total_qtty']:0;
+                            foreach ($rsContractBody->result_array() as &$service_items) {
                                 switch ($header_item['idServiceType']){
                                     case "1":
 
@@ -676,28 +676,48 @@ class Contrato_model extends CI_Model {
                                                 }
                                             }*/
                                             foreach ($rsAccessDoors->result_array() as &$door_items) {
-                                                //VALIDATIONS
-                                                //print_r($door_items);
-                                                if($door_items['USED_QTTY']>0){
-                                                    if ($door_items['USED_QTTY']<$service_items['qtty']){
-                                                        //print_r("hola mundo 1");
-                                                        $qtty_door_used=$door_items['USED_QTTY'];
-                                                        $item_used=$qtty_door_used;
-                                                        $item_available=$service_items['qtty'] - $door_items['USED_QTTY'];
+                                                if ($door_items['idAccCrtlDoor'] != 7){
+                                                    //VALIDATIONS
+                                                    //print_r($door_items);
+                                                    if($door_items['USED_QTTY']>0){
+                                                        if ($door_items['USED_QTTY']<$service_items['qtty']){
+                                                            //print_r("hola mundo 1");
+                                                            $qtty_door_used=$door_items['USED_QTTY'];
+                                                            $item_used=$qtty_door_used;
+                                                            $item_available=$service_items['qtty'] - $door_items['USED_QTTY'];
+                                                            $isNotUsed++;
+                                                        }else if ($door_items['USED_QTTY']==$service_items['qtty']){
+                                                            //print_r("hola mundo 2");
+                                                            $qtty_door_used=$service_items['qtty'];
+                                                            $item_used=$service_items['qtty'];
+                                                            $item_available=0;
+                                                            $isUsed++;
+                                                        }
+                                                    }else{
+                                                        //print_r("hola mundo 3");
+                                                        $item_used="0";
+                                                        $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
+                                                        $qtty_door_used=0;
                                                         $isNotUsed++;
-                                                    }else if ($door_items['USED_QTTY']==$service_items['qtty']){
-                                                        //print_r("hola mundo 2");
-                                                        $qtty_door_used=$service_items['qtty'];
-                                                        $item_used=$service_items['qtty'];
-                                                        $item_available=0;
-                                                        $isUsed++;
                                                     }
                                                 }else{
-                                                    //print_r("hola mundo 3");
-                                                    $item_used="0";
-                                                    $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
-                                                    $qtty_door_used=0;
-                                                    $isNotUsed++;
+                                                    //VALIDATIONS
+                                                    //print_r($door_items);
+                                                    if($door_items['USED_QTTY']>0){
+                                                        if ($door_items['USED_QTTY']<$rsOtherDoors){
+                                                            //print_r("hola mundo 1");
+                                                            $qtty_door_used=$door_items['USED_QTTY'];
+                                                            $item_used=$qtty_door_used;
+                                                            $item_available=$rsOtherDoors - $door_items['USED_QTTY'];
+                                                            $isNotUsed++;
+                                                        }else if ($door_items['USED_QTTY']==$rsOtherDoors){
+                                                            //print_r("hola mundo 2");
+                                                            $qtty_door_used=$rsOtherDoors;
+                                                            $item_used=$rsOtherDoors;
+                                                            $item_available=0;
+                                                            $isUsed++;
+                                                        }
+                                                    }
                                                 }
                                             }
                                         }else{
