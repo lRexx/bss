@@ -677,7 +677,7 @@ class Contrato_model extends CI_Model {
                                                 }
                                             }*/
                                             foreach ($rsAccessDoors->result_array() as &$door_items) {
-                                                if ($door_items['idAccCrtlDoor'] != "7"){
+                                                if ($door_items['idDoorFk'] != "7"){
                                                     //VALIDATIONS
                                                     //print_r($door_items);
                                                     if($door_items['USED_QTTY']>0){
