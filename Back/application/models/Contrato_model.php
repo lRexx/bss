@@ -260,7 +260,7 @@ class Contrato_model extends CI_Model {
                                         $contract[$c]['services'][$s]["items_available"]=$total_doors_availables-$total_doors_used;
                                         $contract[$c]['services'][$s]['item_contracted']=count($rsContractBody->result_array());
                                         $contract[$c]['services'][$s]['item_used']=$isUsed;
-                                        $contract[$c]['services'][$s]['item_available']=$isNotUsed;
+                                        $contract[$c]['services'][$s]['item_available']=$item_available;
                                         $contract[$c]['services'][$s]["service_items"][$si]['used']=$item_used;
                                         $contract[$c]['services'][$s]["service_items"][$si]['available']=$item_available;
                                     break;
