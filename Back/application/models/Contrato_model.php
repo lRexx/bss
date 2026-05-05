@@ -157,13 +157,10 @@ class Contrato_model extends CI_Model {
                     //print_r($contract[$c]['services']);
                     foreach ($rsContractHeader->result_array() as $service => $header_item) {
                         //print "Service: ".$service."\n";
-                        $rsContractBody = $this->db
-                            ->select('*,idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
-                            ->from('tb_servicios_del_contrato_cuerpo')
+                        $rsContractBody = $this->db->select("*")
+                            ->from("tb_servicios_del_contrato_cuerpo")
                             ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
-                            ->group_by('idAccCrtlDoor')
                             ->get();
-                            log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBody->num_rows());
                         if ($rsContractBody->num_rows() > 0){
                             $si=0;
                             $qtty_door_used = 0;
@@ -186,24 +183,18 @@ class Contrato_model extends CI_Model {
                             foreach ($rsContractBody->result_array() as $srv_item => $service_items) {
                                 switch ($header_item['idServiceType']){
                                     case "1":
-                                        $doors_controlaccess_contract += $service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?$service_items['total_qtty']:1;
+                                        $doors_controlaccess_contract += $service_items['qtty']!=null&&$service_items['qtty']!=''?$service_items['qtty']:1;
                                         $contract[$c]['services'][$s]['items_contracted']=$doors_controlaccess_contract;
 
                                         $sqlServiceSelect =   array(
                                                         'COUNT(*) AS USED_QTTY'
                                                     );
-                                        $rsAccessDoors = $this->db
-                                            ->select('COUNT(*) AS USED_QTTY')
-                                            ->from('tb_client_services_access_control AS ACS')
-                                            ->join(
-                                                'tb_client_services AS CS',
-                                                'CS.idClientServices = ACS.idClientServicesFk',
-                                                'inner'
-                                            )
-                                            ->where('ACS.idContracAssociated_SE', $contract_item['idContrato'])
-                                            ->where('ACS.idDoorFk', $service_items['idAccCrtlDoor'])
-                                            ->get();
-                                        log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsAccessDoors->num_rows());
+                                        $rsAccessDoors = $this->db->select($sqlServiceSelect)
+                                        ->from('tb_client_services_access_control AS ACS')
+                                        ->where('ACS.idContracAssociated_SE', $contract_item['idContrato'])
+                                        ->where('ACS.idDoorFk', $service_items['idAccCrtlDoor'])
+                                        ->group_by('ACS.idDoorFk')
+                                        ->get();
                                         if ($rsAccessDoors->num_rows() == 1){
                                             //print "contrato: ".$contract_item['idContrato']."\n";
                                             //print "Door Type: ".$service_items['idAccCrtlDoor']."\n";
@@ -230,27 +221,27 @@ class Contrato_model extends CI_Model {
                                             foreach ($rsAccessDoors->result_array() as $door_item => $door_items) {
                                                 //VALIDATIONS
                                                 if($door_items['USED_QTTY']>0){
-                                                    if ($door_items['USED_QTTY']<$service_items['total_qtty']){
+                                                    if ($door_items['USED_QTTY']<$service_items['qtty']){
                                                         $qtty_door_used=$door_items['USED_QTTY'];
                                                         $item_used=$qtty_door_used;
-                                                        $item_available=$service_items['total_qtty'] - $door_items['USED_QTTY'];
-                                                        $isUsed+=$door_items['USED_QTTY'];
-                                                    }else if ($door_items['USED_QTTY']==$service_items['total_qtty']){
-                                                        $qtty_door_used=$service_items['total_qtty'];
-                                                        $item_used=$service_items['total_qtty'];
+                                                        $item_available=$service_items['qtty'] - $door_items['USED_QTTY'];
+                                                        $isNotUsed++;
+                                                    }else if ($door_items['USED_QTTY']==$service_items['qtty']){
+                                                        $qtty_door_used=$service_items['qtty'];
+                                                        $item_used=$service_items['qtty'];
                                                         $item_available=0;
-                                                        $isUsed+=$door_items['USED_QTTY'];
+                                                        $isUsed++;
                                                     }
                                                 }else{
                                                     $item_used="0";
-                                                    $item_available=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
+                                                    $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
                                                     $qtty_door_used=0;
                                                     $isNotUsed++;
                                                 }
                                             }
                                         }else{
                                             $item_used="0";
-                                            $item_available+=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
+                                            $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
                                             $qtty_door_used=0;
                                             $isNotUsed++;
                                         }
@@ -260,7 +251,7 @@ class Contrato_model extends CI_Model {
                                         $contract[$c]['services'][$s]["items_available"]=$total_doors_availables-$total_doors_used;
                                         $contract[$c]['services'][$s]['item_contracted']=count($rsContractBody->result_array());
                                         $contract[$c]['services'][$s]['item_used']=$isUsed;
-                                        $contract[$c]['services'][$s]['item_available']=$item_available;
+                                        $contract[$c]['services'][$s]['item_available']=$isNotUsed;
                                         $contract[$c]['services'][$s]["service_items"][$si]['used']=$item_used;
                                         $contract[$c]['services'][$s]["service_items"][$si]['available']=$item_available;
                                     break;
@@ -610,11 +601,9 @@ class Contrato_model extends CI_Model {
                     //print_r($contract[$c]['services']);
                     foreach ($rsContractHeader->result_array() as $service => $header_item) {
                         //print "Service: ".$service."\n";
-                        $rsContractBody = $this->db
-                            ->select('*,idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
-                            ->from('tb_servicios_del_contrato_cuerpo')
+                        $rsContractBody = $this->db->select("*")
+                            ->from("tb_servicios_del_contrato_cuerpo")
                             ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
-                            ->group_by('idAccCrtlDoor')
                             ->get();
                             log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBody->num_rows());
                         if ($rsContractBody->num_rows() > 0){
@@ -639,21 +628,20 @@ class Contrato_model extends CI_Model {
                             foreach ($rsContractBody->result_array() as $srv_item => $service_items) {
                                 switch ($header_item['idServiceType']){
                                     case "1":
-                                        $doors_controlaccess_contract += $service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?$service_items['total_qtty']:1;
+                                        $doors_controlaccess_contract += $service_items['qtty']!=null&&$service_items['qtty']!=''?$service_items['qtty']:1;
                                         $contract[$c]['services'][$s]['items_contracted']=$doors_controlaccess_contract;
 
-                                        $rsAccessDoors = $this->db
-                                            ->select('COUNT(*) AS USED_QTTY')
-                                            ->from('tb_client_services_access_control AS ACS')
-                                            ->join(
-                                                'tb_client_services AS CS',
-                                                'CS.idClientServices = ACS.idClientServicesFk',
-                                                'inner'
-                                            )
-                                            ->where('ACS.idContracAssociated_SE', $contract_item['idContrato'])
-                                            ->where('ACS.idDoorFk', $service_items['idAccCrtlDoor'])
-                                            ->get();
+                                        $sqlServiceSelect =   array(
+                                                        'COUNT(*) AS USED_QTTY'
+                                                    );
+                                        $rsAccessDoors = $this->db->select($sqlServiceSelect)
+                                        ->from('tb_client_services_access_control AS ACS')
+                                        ->where('ACS.idContracAssociated_SE', $contract_item['idContrato'])
+                                        ->where('ACS.idDoorFk', $service_items['idAccCrtlDoor'])
+                                        ->group_by('ACS.idDoorFk')
+                                        ->get();
                                         log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsAccessDoors->num_rows());
+                                        log_message('debug', 'SQL_RESULT: ' . $this->db->result_array());
                                         if ($rsAccessDoors->num_rows() >= 1){
                                             //print "contrato: ".$contract_item['idContrato']."\n";
                                             //print "Door Type: ".$service_items['idAccCrtlDoor']."\n";
@@ -681,25 +669,23 @@ class Contrato_model extends CI_Model {
                                                 //VALIDATIONS
                                                 //print_r($door_items);
                                                 if($door_items['USED_QTTY']>0){
-                                                    log_message('debug', 'USED_QTTY : ' . $door_items['USED_QTTY']);
-                                                    log_message('debug', 'total_qtty: ' . $service_items['total_qtty']);
-                                                    if ($door_items['USED_QTTY']<$service_items['total_qtty']){
+                                                    if ($door_items['USED_QTTY']<$service_items['qtty']){
                                                         //print_r("hola mundo 1");
                                                         $qtty_door_used=$door_items['USED_QTTY'];
                                                         $item_used=$qtty_door_used;
-                                                        $item_available=$service_items['total_qtty'] - $door_items['USED_QTTY'];
-                                                        $isUsed+=$door_items['USED_QTTY'];
-                                                    }else if ($door_items['USED_QTTY']==$service_items['total_qtty']){
+                                                        $item_available=$service_items['qtty'] - $door_items['USED_QTTY'];
+                                                        $isNotUsed++;
+                                                    }else if ($door_items['USED_QTTY']==$service_items['qtty']){
                                                         //print_r("hola mundo 2");
-                                                        $qtty_door_used=$service_items['total_qtty'];
-                                                        $item_used=$service_items['total_qtty'];
+                                                        $qtty_door_used=$service_items['qtty'];
+                                                        $item_used=$service_items['qtty'];
                                                         $item_available=0;
-                                                        $isUsed+=$door_items['USED_QTTY'];
+                                                        $isUsed++;
                                                     }
                                                 }else{
                                                     //print_r("hola mundo 3");
                                                     $item_used="0";
-                                                    $item_available+=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
+                                                    $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
                                                     $qtty_door_used=0;
                                                     $isNotUsed++;
                                                 }
@@ -707,7 +693,7 @@ class Contrato_model extends CI_Model {
                                         }else{
                                             //print_r("hola mundo 3");
                                             $item_used="0";
-                                            $item_available+=$service_items['total_qtty']!=null&&$service_items['total_qtty']!=''?(int)$service_items['total_qtty']:1;
+                                            $item_available=$service_items['qtty']!=null&&$service_items['qtty']!=''?(int)$service_items['qtty']:1;
                                             $qtty_door_used=0;
                                             $isNotUsed++;
                                         }
@@ -717,7 +703,7 @@ class Contrato_model extends CI_Model {
                                         $contract[$c]['services'][$s]["items_available"]=$total_doors_availables-$total_doors_used;
                                         $contract[$c]['services'][$s]['item_contracted']=count($rsContractBody->result_array());
                                         $contract[$c]['services'][$s]['item_used']=$isUsed;
-                                        $contract[$c]['services'][$s]['item_available']=$item_available;
+                                        $contract[$c]['services'][$s]['item_available']=$isNotUsed;
                                         $contract[$c]['services'][$s]["service_items"][$si]['used']=$item_used;
                                         $contract[$c]['services'][$s]["service_items"][$si]['available']=$item_available;
                                     break;
