@@ -234,7 +234,7 @@ class Contrato_model extends CI_Model {
                                                         $qtty_door_used=$door_items['USED_QTTY'];
                                                         $item_used=$qtty_door_used;
                                                         $item_available=$service_items['total_qtty'] - $door_items['USED_QTTY'];
-                                                        $isNotUsed++;
+                                                        $isUsed+=$door_items['USED_QTTY'];
                                                     }else if ($door_items['USED_QTTY']==$service_items['total_qtty']){
                                                         $qtty_door_used=$service_items['total_qtty'];
                                                         $item_used=$service_items['total_qtty'];
@@ -688,7 +688,7 @@ class Contrato_model extends CI_Model {
                                                         $qtty_door_used=$door_items['USED_QTTY'];
                                                         $item_used=$qtty_door_used;
                                                         $item_available=$service_items['total_qtty'] - $door_items['USED_QTTY'];
-                                                        $isNotUsed++;
+                                                        $isUsed+=$door_items['USED_QTTY'];
                                                     }else if ($door_items['USED_QTTY']==$service_items['total_qtty']){
                                                         //print_r("hola mundo 2");
                                                         $qtty_door_used=$service_items['total_qtty'];
