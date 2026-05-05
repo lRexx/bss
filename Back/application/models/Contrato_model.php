@@ -632,7 +632,7 @@ class Contrato_model extends CI_Model {
                                 ->group_by('idAccCrtlDoor')
                                 ->get();
                             log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBodyTmp->num_rows());
-                            log_message('debug', json_encode($rsContractBodyTmp->result_array()[0]));
+                            log_message('debug', json_encode($rsContractBodyTmp->result_array()[1]));
                             foreach ($rsContractBody->result_array() as $srv_item => $service_items) {
                                 switch ($header_item['idServiceType']){
                                     case "1":
