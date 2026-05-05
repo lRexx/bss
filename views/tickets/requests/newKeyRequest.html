@@ -404,8 +404,8 @@
 										</div>
 										<div class="text-badge">
 											<span class="new-customer badge badge-light"> {{door.titulo}} </span><br><span class="badge badge-warning">{{door.itemAclaracion}}</span><br>
-											<label class="switch switch-2x" for="allowDoor-{{door.idAccessControlDoor}}">
-												<input type="checkbox" class="success" ng-change="addDoorOpenList(door)" ng-model="door.selected" id="allowDoor-{{door.idAccessControlDoor}}">
+											<label class="switch switch-2x" for="allowDoor-{{door.idAccessControlDoor}}-{{$index}}">
+												<input type="checkbox" class="success" ng-change="addDoorOpenList(door)" ng-model="door.selected" id="allowDoor-{{door.idAccessControlDoor}}-{{$index}}">
 												<span class="slider slider-2x flat"></span>
 											</label>
 										</div>
