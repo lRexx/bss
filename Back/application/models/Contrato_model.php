@@ -625,19 +625,20 @@ class Contrato_model extends CI_Model {
                             $total_cameras_availables=0;
                             $total_cameras_used = 0;
                             $itemc = 0;
+                            $rsContractBodyTmp = $this->db
+                                ->select('idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
+                                ->from('tb_servicios_del_contrato_cuerpo')
+                                ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
+                                ->where('idServiceTypeFk', "1")
+                                ->where('idAccCrtlDoor', "7")
+                                ->group_by('idAccCrtlDoor')
+                                ->get();
+                            log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBodyTmp->num_rows());
+                            log_message('debug', 'SQL_RESULT: ' . $rsContractBodyTmp->result_array());
                             foreach ($rsContractBody->result_array() as $srv_item => $service_items) {
                                 switch ($header_item['idServiceType']){
                                     case "1":
-                                        $rsContractBodyTmp = $this->db
-                                            ->select('idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
-                                            ->from('tb_servicios_del_contrato_cuerpo')
-                                            ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
-                                            ->where('idServiceTypeFk', 1)
-                                            ->where('idAccCrtlDoor', 7)
-                                            ->group_by('idAccCrtlDoor')
-                                            ->get();
-                                        log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBodyTmp->num_rows());
-                                        log_message('debug', 'SQL_RESULT: ' . $rsContractBodyTmp->result_array());
+
                                         $doors_controlaccess_contract += $service_items['qtty']!=null&&$service_items['qtty']!=''?$service_items['qtty']:1;
                                         $contract[$c]['services'][$s]['items_contracted']=$doors_controlaccess_contract;
 
