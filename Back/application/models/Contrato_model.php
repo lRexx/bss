@@ -707,7 +707,7 @@ class Contrato_model extends CI_Model {
                                                     //print_r($door_items);
                                                     if($door_items['USED_QTTY']>0){
                                                         if ($door_items['USED_QTTY']<$rsOtherDoors){
-                                                            //print_r("hola mundo 1");
+                                                            log_message('debug', "hola mundo 1");
                                                             $qtty_door_used=$door_items['USED_QTTY'];
                                                             $item_used=$qtty_door_used;
                                                             $item_available=$rsOtherDoors - $door_items['USED_QTTY'];
