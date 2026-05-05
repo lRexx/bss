@@ -629,10 +629,12 @@ class Contrato_model extends CI_Model {
                                 ->select('idAccCrtlDoor, SUM(COALESCE(qtty,1)) as total_qtty')
                                 ->from('tb_servicios_del_contrato_cuerpo')
                                 ->where('idServiciosDelContratoFk', $header_item['idServiciosDelContrato'])
+                                ->where('idAccCrtlDoor', '7')
                                 ->group_by('idAccCrtlDoor')
                                 ->get();
                             log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $rsContractBodyTmp->num_rows());
-                            log_message('debug', json_encode($rsContractBodyTmp->result_array()[1]));
+                            log_message('debug', json_encode($rsContractBodyTmp->result_array()[0]));
+                            $rsContractBodyTmpRs = $rsContractBodyTmp->result_array()[0]['idAccCrtlDoor']!=null?$rsContractBodyTmp->result_array()[0]['total_qtty']:0;
                             foreach ($rsContractBody->result_array() as $srv_item => $service_items) {
                                 switch ($header_item['idServiceType']){
                                     case "1":
