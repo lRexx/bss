@@ -1474,7 +1474,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                       ttl:5000, type: 'success'
                                     });
                                     $timeout(function() {
-                                      $scope.refreshList();
+                                      $scope.managedUsers('search', $scope.filters);
                                       blockUI.stop();
                                     }, 1500);
                                   });
@@ -1484,7 +1484,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                   inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
                                     ttl:5000, type: 'success'
                                   });
-                                  $scope.refreshList();
+                                  $scope.managedUsers('search', $scope.filters);
                                   blockUI.stop();
                                 }, 3000);
                               }
@@ -1504,7 +1504,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                   inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
                                     ttl:5000, type: 'success'
                                   });
-                                  $scope.refreshList();
+                                  $scope.managedUsers('search', $scope.filters);
                                   blockUI.stop();
                                 }, 2500);
                               }else{
@@ -1515,7 +1515,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                   inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
                                     ttl:5000, type: 'success'
                                   });
-                                  $scope.refreshList();
+                                  $scope.managedUsers('search', $scope.filters);
                                   blockUI.stop();
                                 }, 2500);
                               }
@@ -1538,7 +1538,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
                             ttl:5000, type: 'success'
                           });
-                          $scope.refreshList();
+                          $scope.managedUsers('search', $scope.filters);
                           blockUI.stop();
                         }, 2500);
                       }
@@ -1657,7 +1657,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         });
                       });
                       $timeout(function() {
-                        $scope.refreshList();
+                        $scope.managedUsers('search', $scope.filters);
                         blockUI.stop();
                       }, 3000);
                       $('#UpdateUser').modal('hide');
@@ -1676,7 +1676,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                             inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
                                   ttl:3000, type: 'success'
                             });
-                            $scope.refreshList();
+                            $scope.managedUsers('search', $scope.filters);
                             blockUI.stop();
                         }, 2500);
                       }else{
@@ -1687,7 +1687,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                           inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
                                 ttl:3000, type: 'success'
                           });
-                          $scope.refreshList();
+                          $scope.managedUsers('search', $scope.filters);
                           blockUI.stop();
                         }, 2500);
                       }
@@ -1702,7 +1702,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         inform.add('Usuario '+$scope.update.user.fullNameUser+' actualizado satisfactoriamente.',{
                           ttl:5000, type: 'success'
                         });
-                        $scope.refreshList();
+                        $scope.managedUsers('search', $scope.filters);
                         blockUI.stop();
                       }, 2500);
                     }
@@ -1717,7 +1717,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       inform.add('Usuario '+$scope.update.user.fullNameUser+' actualizado satisfactoriamente.',{
                         ttl:5000, type: 'success'
                       });
-                      $scope.refreshList();
+                      $scope.managedUsers('search', $scope.filters);
                       blockUI.stop();
                     }, 2500);
                   }
@@ -1949,7 +1949,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   });
                   blockUI.message('El usuario ha sido deshabilitado con exito!');
                   $timeout(function() {
-                    $scope.getUserLists(1, 'users');
+                    $scope.managedUsers('search', $scope.filters);
                   }, 500);
                   $timeout(function() {
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
@@ -1961,7 +1961,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     ttl:5000, type: 'warning'
                   });
                   $timeout(function() {
-                    $scope.getUserLists(1, 'users');
+                    $scope.managedUsers('search', $scope.filters);
                   }, 500);
                   $timeout(function() {
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
@@ -1972,7 +1972,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     ttl:5000, type: 'warning'
                     });
                   $timeout(function() {
-                    $scope.getUserLists(1, 'users');
+                    $scope.managedUsers('search', $scope.filters);
                   }, 500);
                   $timeout(function() {
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
@@ -1983,7 +1983,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     ttl:5000, type: 'danger'
                     });
                   $timeout(function() {
-                    $scope.getUserLists(1, 'users');
+                    $scope.managedUsers('search', $scope.filters);
                   }, 500);
                   $timeout(function() {
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
@@ -2014,7 +2014,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   });
                   blockUI.message('El usuario ha sido habilitado con exito!');
                   $timeout(function() {
-                    $scope.getUserLists(1, 'users');
+                    $scope.managedUsers('search', $scope.filters);
 
                   }, 500);
                   $timeout(function() {
@@ -2028,7 +2028,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     ttl:5000, type: 'warning'
                   });
                   $timeout(function() {
-                    $scope.getUserLists(1, 'users');
+                    $scope.managedUsers('search', $scope.filters);
                   }, 500);
                   $timeout(function() {
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
@@ -2039,7 +2039,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     ttl:5000, type: 'warning'
                     });
                     $timeout(function() {
-                      $scope.getUserLists(1, 'users');
+                      $scope.managedUsers('search', $scope.filters);
                     }, 500);
                     $timeout(function() {
                       $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
@@ -2050,7 +2050,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     ttl:5000, type: 'danger'
                     });
                     $timeout(function() {
-                      $scope.getUserLists(1, 'users');
+                      $scope.managedUsers('search', $scope.filters);
                     }, 500);
                     $timeout(function() {
                       $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
@@ -2081,7 +2081,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                   });
                   blockUI.message('El usuario ha sido eliminado con exito!');
                   $timeout(function() {
-                    $scope.getUserLists(1, 'users');
+                    $scope.managedUsers('search', $scope.filters);
                   }, 500);
                   $timeout(function() {
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
@@ -2093,7 +2093,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     ttl:5000, type: 'warning'
                   });
                   $timeout(function() {
-                    $scope.getUserLists(1, 'users');
+                    $scope.managedUsers('search', $scope.filters);
                   }, 500);
                   $timeout(function() {
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
@@ -2104,7 +2104,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     ttl:5000, type: 'warning'
                     });
                   $timeout(function() {
-                    $scope.getUserLists(1, 'users');
+                    $scope.managedUsers('search', $scope.filters);
                   }, 500);
                   $timeout(function() {
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
@@ -2115,7 +2115,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                     ttl:5000, type: 'danger'
                     });
                   $timeout(function() {
-                    $scope.getUserLists(1, 'users');
+                    $scope.managedUsers('search', $scope.filters);
                   }, 500);
                   $timeout(function() {
                     $scope.search(nameProfile, statusTenantName, customerName, buildings, nameTypeAttendant, searchboxfilter, true)
