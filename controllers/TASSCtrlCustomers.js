@@ -1370,13 +1370,12 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 if ((($scope.customer.new.typeInmueble=='1' || $scope.customer.update.idTipoInmuebleFk=='1') || $scope.customer.particular.typeInmueble=='1') || ($scope.customer.new.idClientTypeFk=='2' || $scope.customer.update.idClientTypeFk=='2')){
                   var nameAddress=item.calle.nombre+" "+item.altura.valor;
                   searchAddress.address=nameAddress;
-                  if ($scope.customer.select.main.province.selected!=undefined){
+                  if ($scope.customer.select.main.province.selected==undefined){
                     inform.add('Seleccionar provincia para que la busqueda sea efectiva y precisa. ',{
                         ttl:8000, type: 'warning'
                     });
                   }else{
                     searchAddress.idProvinceFk=$scope.customer.select.main.province.selected.idProvince;
-
                     blockUI.start('Verificando direccion: '+nameAddress);
                     $timeout(function() {
                       addressServices.checkIfBuildingExistByAddressName(searchAddress).then(function(response){
@@ -1407,7 +1406,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
               }else{
                   var nameAddress=item;
                   searchAddress.address=nameAddress;
-                  if ($scope.customer.select.main.province.selected!=undefined){
+                  if ($scope.customer.select.main.province.selected==undefined){
                     inform.add('Seleccionar provincia para que la busqueda sea efectiva y precisa. ',{
                         ttl:8000, type: 'warning'
                     });
