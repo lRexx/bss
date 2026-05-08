@@ -1988,12 +1988,12 @@ class Client_model extends CI_Model
 
     public function searchAddress($address, $idProvince, $idLocation)
     {
-        $user = null;
+        $query = null;
         $this->db->select("*")->from("tb_clients");
         if ($idProvince != null && $idLocation != null) {
             $where = "address=\"$address\" AND idProvinceFk=\"$idProvince\" AND idLocationFk=\"$idLocation\"";
-        } else {
-            $where = "address=\"$address\"";
+        } else if ($idProvince != null && $idLocation == null) {
+            $where = "address=\"$address\" AND idProvinceFk=\"$idProvince\"";
         }
         $this->db->where($where);
         $query = $this->db->where("tb_clients.idClientTypeFk =", 2)->get();
