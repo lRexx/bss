@@ -1376,29 +1376,30 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     });
                   }else{
                     searchAddress.idProvinceFk=$scope.customer.select.main.province.selected.idProvince;
+
+                    blockUI.start('Verificando direccion: '+nameAddress);
+                    $timeout(function() {
+                      addressServices.checkIfBuildingExistByAddressName(searchAddress).then(function(response){
+                        rsJsonData=response;
+                          if(rsJsonData.status==200){
+                            console.log(rsJsonData.data)
+                            $scope.customerNotClient=response.data;
+                            blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' encontrada.');
+                            $timeout(function() {
+                              $scope.fillData(opt1, opt2, rsJsonData);
+                            }, 1500);
+                            $scope.sysApiAddressNotFound=false;
+                          }else{
+                            $scope.sysApiAddressNotFound=true;
+                            blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' no encontrada en el sistema.');
+                            $timeout(function() {
+                              item.status=404;
+                              $scope.fillData(opt1, opt2, item);
+                            }, 1500);
+                          }
+                      });
+                    }, 1500);
                   }
-                  blockUI.start('Verificando direccion: '+nameAddress);
-                  $timeout(function() {
-                    addressServices.checkIfBuildingExistByAddressName(searchAddress).then(function(response){
-                      rsJsonData=response;
-                        if(rsJsonData.status==200){
-                          console.log(rsJsonData.data)
-                          $scope.customerNotClient=response.data;
-                          blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' encontrada.');
-                          $timeout(function() {
-                            $scope.fillData(opt1, opt2, rsJsonData);
-                          }, 1500);
-                          $scope.sysApiAddressNotFound=false;
-                        }else{
-                          $scope.sysApiAddressNotFound=true;
-                          blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' no encontrada en el sistema.');
-                          $timeout(function() {
-                            item.status=404;
-                            $scope.fillData(opt1, opt2, item);
-                          }, 1500);
-                        }
-                    });
-                  }, 1500);
                 }else{
                   item.status=404;
                   $scope.fillData(opt1, opt2, item);
@@ -1412,58 +1413,58 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     });
                   }else{
                     searchAddress.idProvinceFk=$scope.customer.select.main.province.selected.idProvince;
+                    blockUI.start('Verificando direccion: '+nameAddress);
+                    $timeout(function() {
+                      addressServices.checkIfBuildingExistByAddressName(searchAddress).then(function(data){
+                        rsJsonData=data;
+                        console.log(rsJsonData)
+                          if(rsJsonData.status==200){
+                            blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' encontrada.');
+                            $timeout(function() {
+                              $scope.fillData(opt1, opt2, rsJsonData);
+                            }, 1500);
+                            $scope.sysApiAddressNotFound=false;
+                          }else{
+                            $scope.sysApiAddressNotFound=true;
+                            blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' no encontrada en el sistema.');
+                            $timeout(function() {
+                              blockUI.stop();
+                                switch(opt2){
+                                  case "main":
+                                    $scope.customer.new.address=nameAddress.toUpperCase();
+                                    $scope.customer.new.nameAddress=nameAddress.toUpperCase();
+                                    $scope.customer.new.addressLat=null;
+                                    $scope.customer.new.addressLon=null;
+                                    $scope.geoLocation.option="main";
+                                    $scope.geoLocation.address=nameAddress.toUpperCase();
+                                    $scope.addrrSelected=true;
+                                    $("#AddressLatLon").modal({backdrop: 'static', keyboard: false});
+                                    $("#AddressLatLon").on('shown.bs.modal', function () {
+                                      $("#addr_Lat").focus();
+                                    });
+                                  break;
+                                  case "payment":
+                                      $scope.customer.new.billing_information_details.nameAddress=nameAddress.toUpperCase();
+                                  break;
+                                  case "particular":
+                                    $scope.customer.particular.address=nameAddress.toUpperCase();
+                                    $scope.customer.particular.nameAddress=nameAddress.toUpperCase();
+                                    $scope.customer.particular.addressLat=null;
+                                    $scope.customer.particular.addressLon=null;
+                                    $scope.geoLocation.option="particular";
+                                    $scope.geoLocation.address=nameAddress.toUpperCase();
+                                    $scope.addrrSelected=true;
+                                    $("#AddressLatLon").modal({backdrop: 'static', keyboard: false});
+                                    $("#AddressLatLon").on('shown.bs.modal', function () {
+                                      $("#addr_Lat").focus();
+                                    });
+                                  break;
+                                }
+                            }, 1500);
+                          }
+                      });
+                    }, 1500);
                   }
-                  blockUI.start('Verificando direccion: '+nameAddress);
-                  $timeout(function() {
-                    addressServices.checkIfBuildingExistByAddressName(searchAddress).then(function(data){
-                      rsJsonData=data;
-                      console.log(rsJsonData)
-                        if(rsJsonData.status==200){
-                          blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' encontrada.');
-                          $timeout(function() {
-                            $scope.fillData(opt1, opt2, rsJsonData);
-                          }, 1500);
-                          $scope.sysApiAddressNotFound=false;
-                        }else{
-                          $scope.sysApiAddressNotFound=true;
-                          blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' no encontrada en el sistema.');
-                          $timeout(function() {
-                            blockUI.stop();
-                              switch(opt2){
-                                case "main":
-                                  $scope.customer.new.address=nameAddress.toUpperCase();
-                                  $scope.customer.new.nameAddress=nameAddress.toUpperCase();
-                                  $scope.customer.new.addressLat=null;
-                                  $scope.customer.new.addressLon=null;
-                                  $scope.geoLocation.option="main";
-                                  $scope.geoLocation.address=nameAddress.toUpperCase();
-                                  $scope.addrrSelected=true;
-                                  $("#AddressLatLon").modal({backdrop: 'static', keyboard: false});
-                                  $("#AddressLatLon").on('shown.bs.modal', function () {
-                                    $("#addr_Lat").focus();
-                                  });
-                                break;
-                                case "payment":
-                                    $scope.customer.new.billing_information_details.nameAddress=nameAddress.toUpperCase();
-                                break;
-                                case "particular":
-                                  $scope.customer.particular.address=nameAddress.toUpperCase();
-                                  $scope.customer.particular.nameAddress=nameAddress.toUpperCase();
-                                  $scope.customer.particular.addressLat=null;
-                                  $scope.customer.particular.addressLon=null;
-                                  $scope.geoLocation.option="particular";
-                                  $scope.geoLocation.address=nameAddress.toUpperCase();
-                                  $scope.addrrSelected=true;
-                                  $("#AddressLatLon").modal({backdrop: 'static', keyboard: false});
-                                  $("#AddressLatLon").on('shown.bs.modal', function () {
-                                    $("#addr_Lat").focus();
-                                  });
-                                break;
-                              }
-                          }, 1500);
-                        }
-                    });
-                  }, 1500);
               }
             }
 
