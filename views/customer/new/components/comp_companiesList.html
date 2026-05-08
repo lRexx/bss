@@ -1,23 +1,23 @@
 <!-- Administration list-->
 <!--
 <div class="form-group col-md-12" ng-if="(customer.new.idClientTypeFk==2 || customer.new.idClientTypeFk==4)" ng-class="
-								  			{	'has-success': 
+								  			{	'has-success':
 								  				customer.select.company.selected!=undefined && fNewCustomer.new_admin_id.$valid,
-								  			 	'has-error':  
+								  			 	'has-error':
 								  				(customer.select.company.selected==undefined) && fNewCustomer.new_admin_id.$touched,
-								  			}"> 
+								  			}">
 	<label class="clf-p-left">
 	<span ng-if="customer.new.idClientTypeFk==2">Administracion del Edificio </span>
-	<span style="padding-right: 9em;" ng-if="customer.new.idClientTypeFk==4">Empresa</span><button style="margin-left: 80px;" 
+	<span style="padding-right: 9em;" ng-if="customer.new.idClientTypeFk==4">Empresa</span><button style="margin-left: 80px;"
 	ng-disabled="customer.select.company.selected==undefined && customer.select.company.selected.idClient==''"  ng-click="getCustomersByIdFn('details_company', customer.select.company.selected.idClient, 'show')" class="btn btn-xs btn-success"><i class="fas fa-info-circle"></i> Detalles</button> </label>
 	<div class="input-group">
 	    <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
-	        <ui-select name="new_admin_id" 
+	        <ui-select name="new_admin_id"
 	        		theme="bootstrap"
-	        		ng-change="getCompanyDataFn(customer.select.company.selected); enabledNextBtn();" 
-	        		ng-disabled="rsCustomerListData.status==404" 
-	        		ng-model="customer.select.company.selected" 
-	        		ng-required="(customer.new.idClientTypeFk==2 || customer.new.idClientTypeFk==4) && !customer.new.isNotCliente" 
+	        		ng-change="getCompanyDataFn(customer.select.company.selected); enabledNextBtn();"
+	        		ng-disabled="rsCustomerListData.status==404"
+	        		ng-model="customer.select.company.selected"
+	        		ng-required="(customer.new.idClientTypeFk==2 || customer.new.idClientTypeFk==4) && !customer.new.isNotCliente"
 	        		autofocus>
 	            <ui-select-match placeholder="Seleccione una opci&#243n">{{$select.selected.businessName | uppercase}}</ui-select-match>
 	            <ui-select-choices group-by="'ClientType'" repeat="item in rsCustomerSelectData | filter:filterCustomerByType | filter: $select.search">
@@ -33,22 +33,22 @@
 	</div>
 </div>-->
 <div class="form-group col-md-12 col-xs-12 col-sm-12" ng-if="(customer.new.idClientTypeFk==2 || customer.new.idClientTypeFk==4)" ng-class="
-{	'has-success': 
+{	'has-success':
 	customer.select.company.selected!=undefined && fNewCustomer.new_admin_id.$valid,
-	 'has-error':  
+	 'has-error':
 	(customer.select.company.selected==undefined) && fNewCustomer.new_admin_id.$touched,
-}"> 
+}">
 	<label class="clf-p-left">
 	<span ng-if="customer.new.idClientTypeFk==2">Administracion del Edificio </span>
-	<span style="padding-right: 9em;" ng-if="customer.new.idClientTypeFk==4">Empresa</span><button style="margin-left: 80px;" 
+	<span style="padding-right: 9em;" ng-if="customer.new.idClientTypeFk==4">Empresa</span><button type="button" style="margin-left: 80px;"
 		ng-disabled="customer.select.company.selected==undefined && customer.select.company.selected.idClient==''"  ng-click="getCustomersByIdFn('details_company', customer.select.company.selected.idClient, 'show')" class="btn btn-xs btn-success"><i class="fas fa-info-circle"></i> Detalles</button> </label>
 	<div class="input-group">
 		<span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
-		<input type="text" name="new_admin_id" 
+		<input type="text" name="new_admin_id"
 			id="customerSearchAddress"
 			ng-model="customerSearch.address"
 			ng-keydown="findCustomerFn(customerSearch.address, null, false);"
-			class="form-control text-uppercase" 
+			class="form-control text-uppercase"
 			move-to-list input-selector="'.input-search'"
 			list-items-selector="'.list-group li'"
 			placeholder="Presione Enter para buscar..."
