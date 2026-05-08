@@ -1376,6 +1376,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     });
                   }else{
                     searchAddress.idProvinceFk=$scope.customer.select.main.province.selected.idProvince;
+                    searchAddress.idLocationFk=$scope.customer.select.main.location.selected.idLocation;
                     blockUI.start('Verificando direccion: '+nameAddress);
                     $timeout(function() {
                       addressServices.checkIfBuildingExistByAddressName(searchAddress).then(function(response){
@@ -1383,14 +1384,14 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                           if(rsJsonData.status==200){
                             console.log(rsJsonData.data)
                             $scope.customerNotClient=response.data;
-                            blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' encontrada.');
+                            blockUI.message('Direccion: '+nameAddress+', '+item.nomenclatura+' encontrada.');
                             $timeout(function() {
                               $scope.fillData(opt1, opt2, rsJsonData);
                             }, 1500);
                             $scope.sysApiAddressNotFound=false;
                           }else{
                             $scope.sysApiAddressNotFound=true;
-                            blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' no encontrada en el sistema.');
+                            blockUI.message('Direccion: '+nameAddress+', '+item.nomenclatura+' no encontrada en el sistema.');
                             $timeout(function() {
                               item.status=404;
                               $scope.fillData(opt1, opt2, item);
@@ -1412,20 +1413,21 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     });
                   }else{
                     searchAddress.idProvinceFk=$scope.customer.select.main.province.selected.idProvince;
+                    searchAddress.idLocationFk=$scope.customer.select.main.location.selected.idLocation;
                     blockUI.start('Verificando direccion: '+nameAddress);
                     $timeout(function() {
                       addressServices.checkIfBuildingExistByAddressName(searchAddress).then(function(data){
                         rsJsonData=data;
                         console.log(rsJsonData)
                           if(rsJsonData.status==200){
-                            blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' encontrada.');
+                            blockUI.message('Direccion: '+nameAddress+', '+item.nomenclatura+' encontrada.');
                             $timeout(function() {
                               $scope.fillData(opt1, opt2, rsJsonData);
                             }, 1500);
                             $scope.sysApiAddressNotFound=false;
                           }else{
                             $scope.sysApiAddressNotFound=true;
-                            blockUI.message('Direccion: '+nameAddress+', '+item.provincia.nombre+' no encontrada en el sistema.');
+                            blockUI.message('Direccion: '+nameAddress+', '+item.nomenclatura+' no encontrada en el sistema.');
                             $timeout(function() {
                               blockUI.stop();
                                 switch(opt2){
