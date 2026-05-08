@@ -1,6 +1,6 @@
 var moduleAddressServices = angular.module("services.Address", ["tokenSystem", "services.User"]);
 
-moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders', 
+moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders',
   function($http, tokenSystem, $timeout, serverHost, serverBackend, serverHeaders){
       var addressResult=0;
       var rsJsonAddress = {};
@@ -16,12 +16,12 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                       addressResult = response.data;
                       return addressResult;
-                  },function myError(response) { 
+                  },function myError(response) {
                         if(!idAddress){
                             checkResult = null;
                         }
                     return checkResult;
-            });   
+            });
           },
           /* GET BUILDING LIST BY ADMIN ID */
           buildingListByAdminId: function(idAdmin) {
@@ -31,8 +31,8 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                     url : serverHost+serverBackend+"Direccion/addressListByCompanyid/"+idAdmin
                   }).then(function mySuccess(response) {
                       return response;
-                  },function myError(response) { 
-                      console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                      console.log("Error: "+response.data.error);
                       return response;
                   })
           },
@@ -46,10 +46,10 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     rsJson=response.data;
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
           /* GET ALL BUILDINGS DEPARTMENTS BY ID*/
           getBuildingsDeptos: function(id) {
@@ -61,10 +61,10 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     rsJson=response.data;
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
           /* GET ALL BUILDINGS DEPARTMENTS BY ID*/
           getBuildingsDeptosFromDeptoId: function(id) {
@@ -76,10 +76,10 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     rsJson=response.data;
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
           getLocations: function(idProvince) {
             rsJson={};
@@ -90,8 +90,8 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     rsJson=response.data;
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
             });
           },
@@ -104,8 +104,8 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     rsJson=response.data;
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
             });
           },
@@ -119,10 +119,10 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                     rsJson=response.data;
                     //console.log(rsJson);
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
           /*API GOB AR */
           getProvinceIdByName: function(provinceName) {
@@ -135,10 +135,10 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                     rsJson=response.data.provincias[0].id;
                     console.log("Provincia: "+provinceName+" ID: "+rsJson);
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
           /*API GOB AR */
           getLocationsByName: function(locationName) {
@@ -150,10 +150,10 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     rsJson=response.data.localidades;
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
           /*API GOB AR */
           getAddressByName: function(addressName, idProvince) {
@@ -167,30 +167,30 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     rsJson=response.data.direcciones.length>0?response.data.direcciones:null;
                     return rsJson;
-                  },function myError(response) { 
+                  },function myError(response) {
                     console.log("Error: "+response.data.errores.codigo_interno);
-                    console.log("Error: "+response.data.errores.mensaje); 
+                    console.log("Error: "+response.data.errores.mensaje);
                     return response;
-            });   
+            });
           },
           /*API LOCAL */
           checkIfBuildingExistByAddressName: function(jsonAddr) {
             rsJson={};
-            console.log("[Address Services]: chek if a Building Exist by Address name");
+            console.log("[Address Services]: check if a Building Exist by Address name");
             console.log(jsonAddr);
               return $http.post(serverHost+serverBackend+"Clientes/searchAddress",jsonAddr)
                 .then(function mySucess(response, status, data) {
                   rsJson.status=response.status;
                   rsJson.data=response.data[0];
                   return rsJson;
-              },function myError(response, error) { 
+              },function myError(response, error) {
                 console.log("Error: "+response.status+" ["+response.statusText+"]");
                 rsJson.status=response.status;
-                rsJson.data=response.error;   
+                rsJson.data=response.error;
                 return rsJson;
-              }); 
-          },  
-          /*API GOB AR */   
+              });
+          },
+          /*API GOB AR */
           getStates_API: function() {
             //console.log("[Address Services]: Get States ");
               return $http({
@@ -200,12 +200,12 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                     rsJson=response.data.provincias;
                     //console.log(rsJson);
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
-          /*API LOCAL */   
+          /*API LOCAL */
           getStates: function() {
             //console.log("[Address Services]: Get States ");
               return $http({
@@ -215,10 +215,10 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                     rsJson=response.data;
                     //console.log(rsJson);
                     return rsJson;
-                  },function myError(response) { 
-                    console.log("Error: "+response.data.error); 
+                  },function myError(response) {
+                    console.log("Error: "+response.data.error);
                     return response;
-            });   
+            });
           },
           getAddressByidTenant: function(idUser, idTypeTenant, idStatus) {
             //console.log("[Customer Services] => get customer by id: "+sMsg);
@@ -228,7 +228,7 @@ moduleAddressServices.service("addressServices", ['$http', 'tokenSystem', '$time
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
               })
           },
