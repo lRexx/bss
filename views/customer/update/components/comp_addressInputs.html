@@ -47,8 +47,8 @@
 			<span data-toggle="tooltip" data-placement="top" title="Buscar" style="cursor: pointer;" ng-click="getAddressByNameFn(customer.update.nameAddress, customer.select.main.province.selected.idProvinceAPIGobFk, 'main');" class="input-group-addon"><i class="fas fa-search-location"></i></span>
       	</div>
 		<ul class="list-group" ng-if="rsAddress_API_Data_Main.length>0">
-			<!--<li class="list-group-item" ng-repeat="item in rsAddress_API_Data_Main" ng-click="searchAddressByNameFn(item, 'address', 'main')">{{item.calle.nombre}} {{item.altura.valor}}, {{item.provincia.nombre}}</li>-->
-			<li class="list-group-item" ng-repeat="item in rsAddress_API_Data_Main" ng-click="searchAddressByNameFn(item, 'address', 'main')">{{item.nomenclatura}}</li>
+			<li class="list-group-item" ng-repeat="item in rsAddress_API_Data_Main" ng-click="searchAddressByNameFn(item, 'address', 'main')">{{item.calle.nombre}} {{item.altura.valor}}, {{item.provincia.nombre}}</li>
+			<!--<li class="list-group-item" ng-repeat="item in rsAddress_API_Data_Main" ng-click="searchAddressByNameFn(item, 'address', 'main')">{{item.nomenclatura}}</li>-->
 		</ul>
 	</div>
 	<div class="form-group col-md-12" ng-if="customer.new.idClientTypeFk!=undefined && !customer.new.isNotClient">
