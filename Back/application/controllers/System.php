@@ -479,7 +479,7 @@ class System extends CI_Controller {
             $title = 'Pedidos Pendientes por Facturar';
 
             $to = [
-                'davideduardo.luengo@hotmail.com'
+                'leandro@bss.com.ar'
             ];
 
             $subject = 'Pedidos Pendientes por Facturar';
@@ -529,7 +529,7 @@ class System extends CI_Controller {
 
                 log_message(
                     'info',
-                    'Correo enviado correctamente.'
+                    'Correo enviado correctamente a ' . implode(', ', $to)
                 );
 
             } else {
@@ -552,7 +552,7 @@ class System extends CI_Controller {
 
                 log_message(
                     'info',
-                    'Archivo temporal eliminado.'
+                    'Archivo ' . $filepath . ' temporal eliminado.'
                 );
             }
 
