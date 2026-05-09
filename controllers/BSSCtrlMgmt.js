@@ -4570,6 +4570,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                   current_date.getFullYear() +                           // yyyy
                   String(current_date.getHours()).padStart(2, '0') +     // hh
                   String(current_date.getMinutes()).padStart(2, '0');    // mm
+              $scope.mp.payment.data.idPayment                = obj.selected.paymentDetails.idPayment;
               $scope.mp.payment.data.date_created             = newDate;
               $scope.mp.payment.data.id                       = "90000"+dateTimeString;
               $scope.mp.payment.data.expires                  = null;
