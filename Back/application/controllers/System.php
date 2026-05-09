@@ -481,6 +481,9 @@ class System extends CI_Controller {
             $to = [
                 'leandro@bss.com.ar'
             ];
+            $cc = [
+                'contacto@bss.com.ar'
+            ];
 
             $subject = 'Pedidos Pendientes por Facturar';
 
@@ -520,6 +523,7 @@ class System extends CI_Controller {
             $mailSent = $this->mail_model->sendMailAttachment(
                 $title,
                 $to,
+                $cc,
                 $body,
                 $subject,
                 [$filepath]

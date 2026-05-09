@@ -144,7 +144,7 @@ class Mail_model extends CI_Model
         return $r;
     }
 
-    public function sendMailAttachment($title, $to, $body, $subject, $attachments = [])
+    public function sendMailAttachment($title, $to, $cc, $body, $subject, $attachments = [])
     {
         $param = $this->getMailSmtp();
         //print_r($param['0']['value']);
@@ -180,7 +180,7 @@ class Mail_model extends CI_Model
         $this->email->set_newline("\r\n");
         $this->email->from($param['0']['value'], 'BSS Seguridad');
         $this->email->subject($subject);
-
+        $this->email->cc($cc);
 
         $body = '
             <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//ES" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
