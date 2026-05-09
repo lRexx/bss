@@ -15,34 +15,204 @@ class System extends CI_Controller {
     public function clean_old_logs($days = 60)
     {
         log_message('info', ':::::::::::::::::LogsRotation');
-        $log_path = APPPATH . 'logs/';
-        $files = scandir($log_path);
-        $now = time();
-        $deleted_any = false;
 
-        log_message('info', 'Limpieza de logs mayores a ' . $days . ' días');
+        $executionStart = microtime(true);
 
-        foreach ($files as $file) {
-            $full_path = $log_path . $file;
+        $executionId = uniqid('LOGROT_', true);
 
-            if (is_file($full_path) && strpos($file, 'log-') === 0) {
-                $file_time = filemtime($full_path);
-                if ($now - $file_time > ($days * 86400)) {
-                    if (unlink($full_path)) {
-                        log_message('info', "Archivo eliminado: $file");
-                        $deleted_any = true;
-                    } else {
-                        log_message('error', "ERROR al eliminar: $file");
+        $auditId = null;
+
+        try {
+
+            /*
+            |--------------------------------------------------------------------------
+            | AUDIT START
+            |--------------------------------------------------------------------------
+            */
+            $this->db->insert(
+                'tb_audit_logs_rotation',
+                [
+                    'executionId' => $executionId,
+                    'status'      => 'RUNNING',
+                    'daysThreshold'=> $days,
+                    'startedAt'   => date('Y-m-d H:i:s')
+                ]
+            );
+
+            $auditId = $this->db->insert_id();
+
+            /*
+            |--------------------------------------------------------------------------
+            | INITIALIZE
+            |--------------------------------------------------------------------------
+            */
+            $log_path = APPPATH . 'logs/';
+
+            $files = scandir($log_path);
+
+            $now = time();
+
+            $deleted_any = false;
+
+            $totalFilesScanned = 0;
+            $totalFilesDeleted = 0;
+            $totalDeleteErrors = 0;
+
+            $deletedFiles = [];
+            $errorFiles = [];
+
+            log_message(
+                'info',
+                'Limpieza de logs mayores a ' .
+                $days .
+                ' días'
+            );
+
+            /*
+            |--------------------------------------------------------------------------
+            | PROCESS FILES
+            |--------------------------------------------------------------------------
+            */
+            foreach ($files as $file) {
+
+                $full_path = $log_path . $file;
+
+                if (
+                    is_file($full_path) &&
+                    strpos($file, 'log-') === 0
+                ) {
+
+                    $totalFilesScanned++;
+
+                    $file_time = filemtime($full_path);
+
+                    if (
+                        $now - $file_time >
+                        ($days * 86400)
+                    ) {
+
+                        if (unlink($full_path)) {
+
+                            log_message(
+                                'info',
+                                'Archivo eliminado: ' . $file
+                            );
+
+                            $deleted_any = true;
+
+                            $totalFilesDeleted++;
+
+                            $deletedFiles[] = $file;
+
+                        } else {
+
+                            log_message(
+                                'error',
+                                'ERROR al eliminar: ' . $file
+                            );
+
+                            $totalDeleteErrors++;
+
+                            $errorFiles[] = $file;
+                        }
                     }
                 }
             }
-        }
 
-        if (!$deleted_any) {
-            log_message('info', 'No hay archivos logs que requieran rotación.');
-        }
+            /*
+            |--------------------------------------------------------------------------
+            | NO FILES
+            |--------------------------------------------------------------------------
+            */
+            if (!$deleted_any) {
 
-        log_message('info', ':::::::::::::::::LogsRotation ::: SUCCEEDED');
+                log_message(
+                    'info',
+                    'No hay archivos logs que requieran rotación.'
+                );
+            }
+
+            /*
+            |--------------------------------------------------------------------------
+            | AUDIT SUCCESS
+            |--------------------------------------------------------------------------
+            */
+            $this->db->where(
+                'idAuditLogsRotation',
+                $auditId
+            );
+
+            $this->db->update(
+                'tb_audit_logs_rotation',
+                [
+                    'status' => $deleted_any
+                        ? 'SUCCESS'
+                        : 'NO_FILES',
+
+                    'totalFilesScanned' => $totalFilesScanned,
+
+                    'totalFilesDeleted' => $totalFilesDeleted,
+
+                    'totalDeleteErrors' => $totalDeleteErrors,
+
+                    'deletedFiles' => !empty($deletedFiles)
+                        ? json_encode($deletedFiles)
+                        : null,
+
+                    'errorFiles' => !empty($errorFiles)
+                        ? json_encode($errorFiles)
+                        : null,
+
+                    'finishedAt' => date('Y-m-d H:i:s'),
+
+                    'executionTimeSeconds' => round(
+                        microtime(true) - $executionStart,
+                        2
+                    )
+                ]
+            );
+
+            log_message(
+                'info',
+                ':::::::::::::::::LogsRotation ::: SUCCEEDED'
+            );
+
+        } catch (Exception $e) {
+
+            log_message(
+                'error',
+                'LogsRotation ERROR: ' .
+                $e->getMessage()
+            );
+
+            if (!empty($auditId)) {
+
+                $this->db->where(
+                    'idAuditLogsRotation',
+                    $auditId
+                );
+
+                $this->db->update(
+                    'tb_audit_logs_rotation',
+                    [
+                        'status' => 'ERROR',
+
+                        'finishedAt' => date('Y-m-d H:i:s'),
+
+                        'errorMessage' => substr(
+                            $e->getMessage(),
+                            0,
+                            65000
+                        ),
+
+                        'executionTimeSeconds' => round(
+                            microtime(true) - $executionStart,
+                            2
+                        )
+                    ]
+                );
+            }
+        }
     }
 
     public function index()
