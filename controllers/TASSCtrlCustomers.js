@@ -6124,7 +6124,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                     var i=0;
                     if (string!=undefined && string!="" && ($scope.customer.new.idClientTypeFk=='2'||$scope.customer.new.idClientTypeFk=='4' || ($scope.customer.update.idClientTypeFk=='2'||$scope.customer.update.idClientTypeFk=='4'))){
                         $scope.customerFound={};
-                        $scope.getCustomerLisServiceFn2(string, "0", null, null, 0, 10, strict).then(function(response) {
+                        $scope.getCustomerLisServiceFn2(string, null, null, null, 0, 10, strict).then(function(response) {
                             if(response.status==undefined){
                               $scope.listCustomerFound = response.customers;
                               //$scope.pagination.totalCount = response.customers.length;
@@ -6143,7 +6143,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         });
                     }else if (string!=undefined && string!="" && ($scope.customer.new.idClientTypeFk!='2' && $scope.customer.new.isNotClient || $scope.customer.update.idClientTypeFk!='2' && $scope.customer.update.isNotClient)){
                       $scope.customerFound={};
-                      $scope.getCustomerLisServiceFn2(string, "0", "2", null, 0, 10, strict).then(function(response) {
+                      $scope.getCustomerLisServiceFn2(string, null, "2", null, 0, 10, strict).then(function(response) {
                           if(response.status==undefined){
                             $scope.listCustomerFound = response.customers;
                             //$scope.pagination.totalCount = response.customers.length;
