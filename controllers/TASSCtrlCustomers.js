@@ -1280,7 +1280,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             $scope.getBuildingsDeptosByDeptoIdFn = function(id){
               addressServices.getBuildingsDeptosFromDeptoId(id).then(function(data){
                   $scope.rsBuildingDepartmentsData = data;
-                  //console.log($scope.rsBuildingDepartmentsData);
+                  console.log($scope.rsBuildingDepartmentsData);
               });
             };
 
@@ -4296,10 +4296,10 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                             $scope.customer.update.isNotClient=true;
                             $scope.getBuildingsDeptosByDeptoIdFn($scope.customer.update.idClientDepartamentFk);
                             $scope.customer.select.main.department=$scope.customer.update.idClientDepartamentFk;
-                           /*$timeout(function() {
-                              $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?{'idClient':$scope.customer.update.department.idBuilding,'name':$scope.customer.update.department.Building, 'ClientType':'Edificio'}:undefined;
-                              $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{'idClient':$scope.customer.update.department.idBuilding,'name':$scope.customer.update.department.Building, 'ClientType':'Edificio'}:undefined;
-                            }, 500);*/
+                            $timeout(function() {
+                              $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?{'idClient':$scope.rsBuildingDepartmentsData[0].idBuilding,'name':$scope.rsBuildingDepartmentsData[0].Building, 'ClientType':'Edificio'}:undefined;
+                              $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{'idClient':$scope.rsBuildingDepartmentsData[0].idBuilding,'name':$scope.rsBuildingDepartmentsData[0].Building, 'ClientType':'Edificio'}:undefined;
+                            }, 500);
                           }else{
                             $scope.customer.update.isNotClient=false;
                             $scope.addrrSelected=true;
