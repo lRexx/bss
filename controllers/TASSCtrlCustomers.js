@@ -4292,16 +4292,16 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                               ttl:12000, type: 'info'
                               });
                           }
-                          $scope.customer.update.nameAddress=$scope.customer.update.idClientDepartamentFk==null||$scope.customer.update.idClientDepartamentFk==''?$scope.customer.update.address:'';
-                          $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?{address:$scope.customer.update.address}:undefined;
-                          $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{address:$scope.customer.update.address}:undefined;
                           if($scope.customer.update.idClientDepartamentFk){
                             $scope.customer.update.isNotClient=true;
                             $scope.getBuildingsDeptosByDeptoIdFn($scope.customer.update.idClientDepartamentFk);
                             $scope.customer.select.main.department=$scope.customer.update.idClientDepartamentFk;
+                            $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?{idClient:$scope.customer.update.department.idBuilding,name:$scope.customer.update.department.Building}:undefined;
+                            $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{idClient:$scope.customer.update.department.idBuilding,name:$scope.customer.update.department.Building}:undefined;
                           }else{
                             $scope.customer.update.isNotClient=false;
                             $scope.addrrSelected=true;
+                            $scope.customer.update.nameAddress=$scope.customer.update.idClientDepartamentFk==null||$scope.customer.update.idClientDepartamentFk==''?$scope.customer.update.address:'';
                           }
                           //blockUI.message('Cargando telefonos del cliente '+obj.list_phone_contact.length);
                           //PHONES
