@@ -6071,7 +6071,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                 console.log(idClientTypeFk);
                 console.log(isNotCliente);
                 var searchFilter    = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
-                var isNotCliente    = isNotCliente!=undefined && (isNotCliente!=null || isNotCliente==null)?isNotCliente:"0";
+                var isNotCliente    = isNotCliente!==undefined?isNotCliente:"0";
                 var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
                 var isInDebt        = isInDebt!=false && isInDebt!=undefined && isInDebt!=null?1:null;
                 var start           = start!=undefined && start!=null && (!isInDebt && !strict)?start:"";
