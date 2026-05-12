@@ -6069,6 +6069,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
             $scope.getCustomerLisServiceFn2 = function(searchFilter, isNotCliente, idClientTypeFk, isInDebt, start, limit, strict){
                 console.log($scope.customerSearch);
                 console.log(idClientTypeFk);
+                console.log(isNotCliente);
                 var searchFilter    = searchFilter!=undefined && searchFilter!="" && searchFilter!=null?searchFilter:null;
                 var isNotCliente    = isNotCliente!=undefined && isNotCliente!=null?isNotCliente:"0";
                 var idClientTypeFk  = idClientTypeFk!=undefined && idClientTypeFk!="" && idClientTypeFk!=null?idClientTypeFk:null;
