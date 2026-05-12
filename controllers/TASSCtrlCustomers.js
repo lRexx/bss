@@ -4287,9 +4287,9 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                               });
                           }
 
-                          if ($scope.customer.select.main.location.selected==undefined){
-                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
-                              ttl:12000, type: 'info'
+                          if (obj.address==undefined){
+                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una dirección, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'danger'
                               });
                           }
                           if($scope.customer.update.idClientDepartamentFk){
