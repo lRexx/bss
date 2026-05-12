@@ -164,7 +164,7 @@
 			(customer.select.main.address.selected==undefined) && fUpdateCustomer.customer_address_registered.$touched,
 		}">
 		<label style="padding-left: 25px;">Direcci&#243n</label>
-		<button ng-disabled="customer.select.company.selected==undefined && customer.select.company.selected.idClient==''"  ng-click="switchCustomersFn('newManualAddress', customer.new, 'main');" class="btn btn-xs btn-success new-addr-btn"><i class="fas fa-search-plus"></i> Agregar</button>
+		<button ng-disabled="customer.select.main.address.selected==undefined && customer.select.main.address.selected.idClient==''"  ng-click="switchCustomersFn('newManualAddress', customer.update, 'main');" class="btn btn-xs btn-success new-addr-btn"><i class="fas fa-search-plus"></i> Agregar</button>
 		<div class="input-group">
 			<span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
 			<input type="text" name="customer_address_registered"

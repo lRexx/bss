@@ -4286,8 +4286,14 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                               ttl:12000, type: 'info'
                               });
                           }
+
+                          if ($scope.customer.select.main.location.selected==undefined){
+                              inform.add('El cliente '+$scope.customer.update.name+' No tiene asignada una localidad, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'info'
+                              });
+                          }
                           $scope.customer.update.nameAddress=$scope.customer.update.idClientDepartamentFk==null||$scope.customer.update.idClientDepartamentFk==''?$scope.customer.update.address:'';
-                          $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?$scope.customer.update.name:undefined;
+                          $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?{address:$scope.customer.update.address}:undefined;
                           $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{address:$scope.customer.update.address}:undefined;
                           if($scope.customer.update.idClientDepartamentFk){
                             $scope.customer.update.isNotClient=true;
@@ -5214,7 +5220,11 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                               ttl:12000, type: 'info'
                               });
                           }
-
+                          if ($scope.customer.details.address==null){
+                              inform.add('El cliente '+$scope.customer.details.name+' No tiene asignada una dirección, contacte con soporte, BSS Seguridad.',{
+                              ttl:12000, type: 'danger'
+                              });
+                          }
                           if($scope.customer.details.idClientDepartamentFk){
                             $scope.customer.update.isNotClient=true;
                             $scope.getBuildingsDeptosByDeptoIdFn($scope.customer.details.idClientDepartamentFk);
