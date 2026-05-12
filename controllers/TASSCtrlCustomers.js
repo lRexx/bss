@@ -4296,8 +4296,10 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                             $scope.customer.update.isNotClient=true;
                             $scope.getBuildingsDeptosByDeptoIdFn($scope.customer.update.idClientDepartamentFk);
                             $scope.customer.select.main.department=$scope.customer.update.idClientDepartamentFk;
-                            $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?{'idClient':$scope.customer.update.department.idBuilding,'name':$scope.customer.update.department.Building, 'ClientType':'Edificio'}:undefined;
-                            $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{'idClient':$scope.customer.update.department.idBuilding,'name':$scope.customer.update.department.Building, 'ClientType':'Edificio'}:undefined;
+                            $timeout(function() {
+                              $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?{'idClient':$scope.customer.update.department.idBuilding,'name':$scope.customer.update.department.Building, 'ClientType':'Edificio'}:undefined;
+                              $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?{'idClient':$scope.customer.update.department.idBuilding,'name':$scope.customer.update.department.Building, 'ClientType':'Edificio'}:undefined;
+                            }, 500);
                           }else{
                             $scope.customer.update.isNotClient=false;
                             $scope.addrrSelected=true;
