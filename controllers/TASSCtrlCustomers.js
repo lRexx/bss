@@ -6144,7 +6144,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         });
                     }else if (string!=undefined && string!="" && ($scope.customer.new.idClientTypeFk!='2' && $scope.customer.new.isNotClient || $scope.customer.update.idClientTypeFk!='2' && ($scope.customer.update.isNotClient || !$scope.customer.update.isNotClient))){
                       $scope.customerFound={};
-                      $scope.getCustomerLisServiceFn2(string, null, "2", null, 0, 10, strict).then(function(response) {
+                      $scope.getCustomerLisServiceFn2(string, "-1", "2", null, 0, 10, strict).then(function(response) {
                           if(response.status==undefined){
                             $scope.listCustomerFound = response.customers;
                             //$scope.pagination.totalCount = response.customers.length;
