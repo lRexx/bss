@@ -4827,7 +4827,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         console.log($scope.customer.select.main.department);
                         if ($scope.customer.update.idTipoInmuebleFk==1 && $scope.customer.update.isNotClient){
                           $scope.customer.update.idClientDepartamentFk                   = $scope.customer.select.main.department;
-                          $scope.customer.update.address                                 = $scope.customer.nameAddress!=undefined && $scope.customer.nameAddress!="" && $scope.customer.select.main.address.selected.address!=$scope.customer.nameAddress?$scope.customer.nameAddress:$scope.customer.select.main.address.selected;
+                          $scope.customer.update.address                                 = $scope.customer.nameAddress!=undefined && $scope.customer.nameAddress!="" && $scope.customer.select.main.address.selected.address!=$scope.customer.nameAddress?$scope.customer.nameAddress:$scope.customer.select.main.address.selected.address;
                           $scope.customer.update.idProvinceFk                            = $scope.customer.select.main.address.selected.idProvinceFk==undefined?obj.idProvinceFk:$scope.customer.select.main.address.selected.idProvinceFk;
                           $scope.customer.update.idLocationFk                            = $scope.customer.select.main.address.selected.idLocationFk==undefined?obj.idLocationFk:$scope.customer.select.main.address.selected.idLocationFk;
                           $scope.customer.update.addressLat                              = obj.addressLat;
