@@ -4300,7 +4300,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                             $timeout(function() {
                               console.log($scope.rsBuildingDepartmentsData[0]);
                               $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?$scope.rsBuildingDepartmentsData[0].Building:undefined;
-                              $scope.customer.select.main.address.selected=$scope.customer.update.idClientDepartamentFk!=null?$scope.rsBuildingDepartmentsData[0].Building:undefined;
+                              $scope.customer.select.main.address.selected.address=$scope.customer.update.idClientDepartamentFk!=null?$scope.rsBuildingDepartmentsData[0].Building:undefined;
                               $scope.customer.update.nameAddress='';
                             }, 500);
                           }else{
