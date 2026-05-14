@@ -4300,12 +4300,14 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                             $timeout(function() {
                               console.log($scope.rsBuildingDepartmentsData[0]);
                               $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?$scope.rsBuildingDepartmentsData[0].Building:undefined;
-                              $scope.customer.select.main.address.selected.address=$scope.customer.update.idClientDepartamentFk!=null?$scope.rsBuildingDepartmentsData[0].Building:undefined;
+                              $scope.customer.select.main.address.selected = {};
+                              $scope.customer.select.main.address.selected.address=$scope.rsBuildingDepartmentsData[0].Building;
                               $scope.customer.update.nameAddress='';
                             }, 500);
                           }else{
                             $scope.customer.update.isNotClient=false;
                             $scope.addrrSelected=true;
+                            $scope.customer.select.main.address.selected=undefined;
                             $scope.customer.update.nameAddress=$scope.customer.update.address;
                           }
                           //blockUI.message('Cargando telefonos del cliente '+obj.list_phone_contact.length);
