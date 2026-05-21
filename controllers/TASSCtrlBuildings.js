@@ -298,7 +298,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                 case "assignKeyToUser":
                     console.log(obj);
                     console.log($scope.departmentSelected);
-                    if (confirm==0 && obj.myKeys){
+                    if (confirm==0 && (obj.myKeys || $scope.departmentSelected.keys.length>0)){
                         $scope.tenantObj=obj;
                         console.log(obj);
                         $scope.keyDetailTmp=null;
