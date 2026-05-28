@@ -1,6 +1,6 @@
 var moduleUtilitiesServices = angular.module("services.Utilities", ["tokenSystem"]);
 
-moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders', 
+moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$timeout', 'serverHost', 'serverBackend', 'serverHeaders',
   function($http, tokenSystem, $timeout, serverHost, serverBackend, serverHeaders){
       var rsJson = {};
       var sndJson= {};
@@ -18,7 +18,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           /* GET COST CENTERS */
           getCostCenter: function() {
@@ -32,7 +32,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
            /* GET ALL ZONES FOR CUSTOMERS */
           getZones: function() {
@@ -46,8 +46,8 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
-          },      
+            });
+          },
           addNewZone: function(zona) {
             //console.log("[Utilities Services] => Add New Zone ");
               return $http.post(serverHost+serverBackend+"Zonas/add",zona,serverHeaders)
@@ -57,7 +57,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                 }).catch(function onError(response) {
                   console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                   return response;
-                })  
+                })
           },
           updateZone: function(zona) {
             //console.log("[Utilities Services] => Update Zone ");
@@ -68,7 +68,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                 }).catch(function onError(response) {
                   console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                   return response;
-                })  
+                })
           },
           deleteZone: function(id) {
             //console.log("[Utilities Services] => Delete Zone: "+id);
@@ -81,8 +81,8 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
-          },          
+            });
+          },
           getTypeOfIVA: function() {
             //console.log("[Utilities Services]: Get Type of iva ");
               return $http({
@@ -94,7 +94,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           checkZonaByLocationAndCustomerId: function(idClient, idLocation) {
             //console.log("[Customer Services] => get customer by id: "+sMsg);
@@ -104,7 +104,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).then(function mySuccess(response) {
                     return response;
                   }).catch(function onError(response) {
-                    console.log("Error: "+response.data.error); 
+                    console.log("Error: "+response.data.error);
                     return response;
               })
           },
@@ -132,7 +132,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
             });
-          },          
+          },
           typeOfMails: function() {
             //console.log("[Utilities Services]: Get Type of Mails");
               return $http({
@@ -144,7 +144,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           typeOfProperty: function() {
             //console.log("[Utilities Services]: Get Type of Property");
@@ -157,7 +157,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           typeOfInternetServices: function() {
             //console.log("[Utilities Services]: Get Type of Internet Services");
@@ -170,7 +170,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           typeOfMaintenance: function() {
             //console.log("[Utilities Services]: Get Type of Maintenance Services");
@@ -183,7 +183,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           typeOfContracts: function() {
             //console.log("[Utilities Services]: Get Type of Contracts Services");
@@ -196,7 +196,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           internetCompanyList: function() {
             //console.log("[Utilities Services]: Get Internet Company List");
@@ -209,7 +209,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           monitorCompanyList: function() {
             //console.log("[Utilities Services]: Get Monitor Company List");
@@ -222,7 +222,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           appMonitorApplicationList: function() {
             //console.log("[Utilities Services]: Get Monitor Company List");
@@ -235,8 +235,8 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
-          },          
+            });
+          },
           totemModelList: function() {
             //console.log("[Utilities Services]: Get Totem Model List");
               return $http({
@@ -248,8 +248,8 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
-          },          
+            });
+          },
           internetPlanList: function() {
             //console.log("[Utilities Services]: Get Internet Plan List");
               return $http({
@@ -261,7 +261,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           detinationLicense: function() {
             //console.log("[Utilities Services]: Get Detination License List");
@@ -274,7 +274,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           typeOperatingSystem: function() {
             //console.log("[Utilities Services]: Get type of operating system List");
@@ -287,7 +287,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           /* GET TYPE OF ALARM CLIENT */
             typeAlarmClientList: function() {
@@ -301,7 +301,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           /* GET REMOTE CONNECTION TYPE */
             typeConnectionList: function() {
@@ -315,8 +315,8 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
-          },          
+            });
+          },
           /* ALARM SERVICE ADITIONALS */
             alarmServicesAditionalsList: function() {
             //console.log("[Utilities Services]: Get Agents ");
@@ -329,7 +329,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           /* ALARM SERVICE ADITIONALS */
             transmissionFormatList: function() {
@@ -343,8 +343,8 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
-          },     
+            });
+          },
           /* DISABLED REASON KEY */
           getDisabledReasonKey: function() {
             //console.log("[Utilities Services]: Get Disabled Reasons ");
@@ -356,7 +356,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           typeTechnicianServices: function() {
             //console.log("[Utilities Services]: Get type of operating system List");
@@ -369,7 +369,7 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
+            });
           },
           typeReasonDownServices: function() {
             //console.log("[Utilities Services]: Get type of operating system List");
@@ -382,7 +382,20 @@ moduleUtilitiesServices.service("UtilitiesServices", ['$http', 'tokenSystem', '$
                   }).catch(function onError(response) {
                     console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
                     return response;
-            });   
-          },  
+            });
+          },
+          getCountryPhoneCodes: function() {
+            console.log("[Country Services]: Get Country Phone Codes List");
+
+            return $http({
+                method: "GET",
+                url: serverHost + serverBackend + "Util/phoneCodes"
+            }).then(function(response) {
+                return response;
+            }).catch(function(response) {
+                console.log("Method: " + response.config.method +" - Error code[" + response.status + "]");
+                return response;
+            });
+          }
       }
 }]);

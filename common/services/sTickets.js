@@ -574,5 +574,18 @@ moduleTicketrServices.service("ticketServices", ['$http', 'tokenSystem', '$timeo
                 return response;
               })
           },
+          getTicketDevicesTypeServices: function() {
+            console.log("[Ticket Services]: Get Devices Type List");
+              return $http({
+                    method : "GET",
+                    url : serverHost+serverBackend+"Ticket/devicesType"
+                  }).then(function mySuccess(response) {
+                    rsJson=response;
+                    return rsJson;
+                  }).catch(function onError(response) {
+                    console.log("Method: "+response.config.method+" - Error code["+response.status+"]");
+                    return response;
+            });
+          }
       }
 }]);
