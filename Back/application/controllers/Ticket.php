@@ -760,6 +760,17 @@ class Ticket extends REST_Controller
             log_message('info', ':::::::::::::::::IsTechnicianAssigned Process ::: [FAILED]');
         }
     }
+    /* GET TYPE OF DEVICES */
+    public function devicesType_get()
+    {
+        $rs = null;
+        $rs = $this->ticket_model->getDevicesType();
+        if (!is_null($rs)) {
+            $this->response($rs, 200);
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+        }
+    }
 }
 ?>
 
