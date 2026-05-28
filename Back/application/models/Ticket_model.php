@@ -4792,6 +4792,17 @@ class Ticket_model extends CI_Model
 			return 0;
 		}
 	}
+	/* LISTADO DE TIPOS DE DISPOSITIVOS DE PEDIDO  */
+	public function getDevicesType()
+	{
+		$rs = null;
+		$query = $this->db->select(" * ")->from("tb_ticket_devicetype")->order_by("tb_ticket_devicetype.idDeviceType", "DESC")->get();
+		if ($query->num_rows() > 0) {
+			$rs = $query->result_array();
+		}
+
+		return $rs;
+	}
 }
 ?>
 
