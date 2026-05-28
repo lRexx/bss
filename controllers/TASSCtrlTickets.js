@@ -763,7 +763,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     if(response.status==200){
                         $scope.rsKeyProductsData = response.data;
                         for (var key in $scope.rsKeyProductsData){
-                            if ($scope.rsKeyProductsData[key].isLicenseDevice=="1" && $scope.rsKeyProductsData.length>=1){
+                            if ($scope.rsKeyProductsData[key].isLicenseDevice=="1" && $scope.rsKeyProductsData.length>=2){
                                 $scope.ticket.deviceSelected=false;
                                 $scope.ticket.isHasMutiplesDevicesTypes = true;
                             }
