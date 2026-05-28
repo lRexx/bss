@@ -154,7 +154,7 @@ class Util_model extends CI_Model {
 
         $query = null;
         $rs    = null;
-        $select="tb_client_departament.idClientDepartament AS idDepto, 
+        $select="tb_client_departament.idClientDepartament AS idDepto,
                     UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto,
                     tb_clients.idClient AS idBuilding,
                     tb_clients.name AS Building,
@@ -176,15 +176,15 @@ class Util_model extends CI_Model {
         $query = $this->db->select("*")->from("tb_client_departament")
             ->where("tb_client_departament.idClientDepartament =", $id)
             ->get();
- 
+
         $rs = $query->result_array();
         if ($query->num_rows() > 0) {
             $rs = $query->row();
             $rs= $this->getDepartmentByCustomerId($rs->idClientFk);
             return $rs;
-        }          
+        }
 
-    }    
+    }
     public function getTipoInmueble() {
 
         $query = null;
@@ -352,6 +352,21 @@ class Util_model extends CI_Model {
 
         return $rs;
     }
+
+    /**
+     * Get all country phone codes
+     */
+    public function getCountryCode() {
+        $query = $this->db
+            ->select("*")
+            ->from("tb_country_phone_codes")
+            ->order_by('countryName', 'ASC')
+            ->get();
+
+        return $query->result();
+    }
+
+
 }
 
 ?>

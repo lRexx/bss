@@ -7,7 +7,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
     console.log(APP_SYS.app_name+" Modulo productos");
     if (!$scope.sysToken || !$scope.sysLoggedUser ){
         $location.path("/login");
-    }    
+    }
     $scope.list_id_divice=[];
     $scope.list_divices=[];
     $scope.isDeviceExist=null;
@@ -50,11 +50,11 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                 }else if (item[key].idProduct!=undefined && typeof item[key].idProduct === 'string'){
                 rowId=Number(item[key].idProduct);
                 item[key].idProduct=rowId;
-                rowList.push(item[key]);            
+                rowList.push(item[key]);
                 }else if (item[key].idDepartmentFk!=undefined && typeof item[key].idProduct === 'string'){
                 rowId=Number(item[key].idDepartmentFk);
                 item[key].idDepartmentFk=rowId;
-                rowList.push(item[key]);            
+                rowList.push(item[key]);
                 }else{
                 rowList.push(item[key]);
                 }
@@ -103,7 +103,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                 } else {
                     //console.log("entro al else");
                     $scope.pagedItems[Math.floor(i / itemsPerPage)].push($scope.filteredItems[i]);
-                } 
+                }
                 //console.log($scope.pagedItems[Math.floor(i / itemsPerPage)]);
             }
             //console.log($scope.pagedItems);
@@ -186,15 +186,16 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             });
         };
     /**
-    * NEW PRODUCT 
-    **/        
+    * NEW PRODUCT
+    **/
         $scope.addNewProductFn = function(){
             $scope.new.product.list_id_divice       = $scope.new.product.idProductClassificationFk==3?$scope.list_id_divice:null;
             $scope.new.product.isNumberSerieFabric  = $scope.new.product.isNumberSerieFabric==undefined?false:$scope.new.product.isNumberSerieFabric;
             $scope.new.product.isNumberSerieInternal= $scope.new.product.isNumberSerieInternal==undefined?false:$scope.new.product.isNumberSerieInternal
             $scope.new.product.isDateExpiration     = $scope.new.product.isDateExpiration==undefined?false:$scope.new.product.isDateExpiration;
             $scope.new.product.isControlSchedule    = $scope.new.product.idProductClassificationFk==1?$scope.new.product.isControlSchedule:null;
-            $scope.new.product.isRequestNumber      = $scope.new.product.idProductClassificationFk==19 && $scope.new.product.isRequestNumber!=undefined?$scope.new.product.isRequestNumber:null;
+            $scope.new.product.isRequestNumber      = $scope.new.product.idProductClassificationFk==19 && $scope.new.product.isRequestNumber!=undefined?1:0;
+            $scope.new.product.isLicenseDevice      = $scope.new.product.idProductClassificationFk==19 && $scope.new.product.isLicenseDevice!=undefined?1:0;
             console.log($scope.new);
             ProductsServices.new($scope.new).then(function(data){
                 $scope.rsNewProductData = data;
@@ -209,7 +210,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
         }
 
     /**
-    * SELECT PRODUCT TO EDIT 
+    * SELECT PRODUCT TO EDIT
     **/
         $scope.selectProductDataFn=function(obj){
             $scope.update={product:{}};
@@ -226,9 +227,10 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             $scope.update.product.isDateExpiration          = obj.isDateExpiration==1?true:false;
             $scope.update.product.isControlSchedule         = obj.isControlSchedule==1?true:false;
             $scope.update.product.idProductClassificationFk = obj.idProductClassificationFk;
-            $scope.update.product.isRequestNumber           = obj.isRequestNumber!=undefined?true:false;
+            $scope.update.product.isRequestNumber           = obj.isRequestNumber==1?true:false;
+            $scope.update.product.isLicenseDevice           = obj.isLicenseDevice==1?true:false;
             $scope.update_ProductTemp_diviceOpening         = obj.diviceOpening;
-            
+
             //console.log(obj.diviceOpening);
             if (obj.diviceOpening.length>0){
                 for (var key in  obj.diviceOpening){
@@ -243,15 +245,16 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             //console.log(obj);
         }
     /**
-    * UPDATE PRODUCT 
-    **/        
+    * UPDATE PRODUCT
+    **/
         $scope.updateProductFn = function(){
             $scope.update.product.list_id_divice       = $scope.update.product.idProductClassificationFk==3?$scope.list_id_divice:null;
             $scope.update.product.isNumberSerieFabric  = $scope.update.product.isNumberSerieFabric==undefined?false:$scope.update.product.isNumberSerieFabric;
             $scope.update.product.isNumberSerieInternal= $scope.update.product.isNumberSerieInternal==undefined?false:$scope.update.product.isNumberSerieInternal
             $scope.update.product.isDateExpiration     = $scope.update.product.isDateExpiration==undefined?false:$scope.update.product.isDateExpiration;
-            $scope.update.product.isControlSchedule    = $scope.update.product.idProductClassificationFk==1 && $scope.update.product.isControlSchedule!=undefined?$scope.update.product.isControlSchedule:false;
-            $scope.update.product.isRequestNumber      = $scope.update.product.idProductClassificationFk==19 && $scope.update.product.isRequestNumber!=undefined?$scope.update.product.isRequestNumber:false;
+            $scope.update.product.isControlSchedule    = $scope.update.product.idProductClassificationFk==1 && $scope.update.product.isControlSchedule==undefined?false:$scope.update.product.isControlSchedule;
+            $scope.update.product.isRequestNumber      = $scope.update.product.idProductClassificationFk==19 && $scope.update.product.isRequestNumber==undefined?false:$scope.update.product.isRequestNumber;
+            $scope.update.product.isLicenseDevice      = $scope.update.product.idProductClassificationFk==19 && $scope.update.product.isLicenseDevice==undefined?false:$scope.update.product.isLicenseDevice;
             console.log($scope.update);
             ProductsServices.update($scope.update).then(function(data){
                 $scope.rsupdateProductData = data;
@@ -266,7 +269,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
         }
 
     /**
-    * DELETE PRODUCT 
+    * DELETE PRODUCT
     **/
         $scope.deleteProductFn = function(idProduct){
             ProductsServices.delete(idProduct).then(function(data){
@@ -280,12 +283,12 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                         ttl:5000, type: 'success'
                     });
                 }
-                //console.log($scope.rsModulesData); 
+                //console.log($scope.rsModulesData);
             });
         }
 
     /**
-    * Modal Confirmation function 
+    * Modal Confirmation function
     **/
         $scope.modalConfirmation = function(opt, confirm, obj, obj2){
             $scope.swMenu = opt;
@@ -356,7 +359,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                     $scope.mess2show="No registra tickets actualmente, Desea verificar si tiene un departmanto asociado?";
                 }
                 $('#confirmRequestModal').modal('toggle');
-                }else if(confirm==0 && $scope.addrNoFound==0 && $scope.sysLoggedUser.idProfileKf!=0){ 
+                }else if(confirm==0 && $scope.addrNoFound==0 && $scope.sysLoggedUser.idProfileKf!=0){
                     if(tmpOpt=="rukeyup"){
                     if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
                         $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
@@ -364,7 +367,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                         $scope.idAddressAtt=$scope.sessionNameAdress;
                         $scope.namesTenant=$scope.sessionNames;
                         if($scope.sessionidAddress){
-                        $scope.getKeyChains($scope.sessionidAddress); 
+                        $scope.getKeyChains($scope.sessionidAddress);
                         $scope.getServicesValues($scope.sessionidAddress);
                         }else{
                         $scope.idAddressAtt="Consorcio no asignado";
@@ -377,7 +380,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                     }else{
                         $scope.rukeyup = true;
                     }
-                    }else 
+                    }else
                     if(tmpOpt=="rukeydown"){
                     if ($scope.sysLoggedUser.idProfileKf==5 ||($scope.sysLoggedUser.idProfileKf==6 && $scope.sessionidTypeTenant==2)){
                         $scope.sysCheckAddrIsInDebt($scope.ListTenantAddress);
@@ -385,7 +388,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                         $scope.idAddressAtt=$scope.sessionNameAdress;
                         $scope.namesTenant=$scope.sessionNames;
                         if($scope.sessionidAddress){
-                        $scope.getKeyChains($scope.sessionidAddress); 
+                        $scope.getKeyChains($scope.sessionidAddress);
                         $scope.getServicesValues($scope.sessionidAddress);
                         }else{
                         $scope.idAddressAtt="Consorcio no asignado";
@@ -398,10 +401,10 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                     }else{
                         $scope.rukeydown = true;
                     }
-                    }else 
+                    }else
                     if(tmpOpt=="home"){
                     $scope.home = true;
-                    }else 
+                    }else
                     if(tmpOpt=="rucost"){
                     $scope.rucost=true;
                     }else
@@ -425,7 +428,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                         console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                         console.log("============================================================================")
                         console.log($scope.argObj);
-                    }      
+                    }
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.deleteUser($scope.argObj);
@@ -440,7 +443,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                         console.log('Usuario a eliminar ID: '+obj.idProfiles+' BAJO EL NOMBRE: '+obj.name);
                         console.log("============================================================================")
                         console.log(obj);
-                    }      
+                    }
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.deleteSysProfileFn($scope.idSysProf);
@@ -456,7 +459,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                         console.log('Producto a eliminar ID: '+obj.idProduct+' DESCRIPCION: '+obj.descriptionProduct);
                         console.log("============================================================================")
                         console.log(obj);
-                    }      
+                    }
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.deleteProductFn($scope.idProducto);
@@ -469,7 +472,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                     $scope.mess2show="Se perderan todos los datos cargados para el registro del cliente, esta seguro que desea cancelar?";
                     }else{
                     $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
-                    }    
+                    }
                     $('#confirmRequestModal').modal('show');
                 }else if (confirm==1){
                     $('#confirmRequestModal').modal('hide');
@@ -494,7 +497,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                     $scope.serviceUpdate=obj;
                     $scope.mess2show="Se perderan todos las modificaciones realizadas en el registro actual, esta seguro que desea cancelar la modificacion?";
                     $scope.getListContractServicesFn($scope.serviceUpdate.idContratoFk, null);
-                    }    
+                    }
                     $('#confirmRequestModal').modal('show');
                 }else if (confirm==1){
                     $('#confirmRequestModal').modal('hide');
@@ -509,10 +512,10 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                     $('#updateTotemService').modal('hide');
                     $('#updateCamerasService').modal('hide');
                     $('#updateAlarmService').modal('hide');
-                    $('#updateAppMonitorService').modal('hide');   
-                    
+                    $('#updateAppMonitorService').modal('hide');
+
                     //$scope.loadPagination($scope.rsCustomerListData, "idClient", "10");
-                }              
+                }
             break;
             case "removeParticularAddress":
                 if (confirm==0){
@@ -524,10 +527,10 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                     }else{
                         $scope.mess2show="El local en la direccion: "+obj.address+" sera Eliminado.     Confirmar?";
                     }
-                    
+
                         console.log('Direccion a eliminar ID: '+obj.idAddressParticular+' Direccion: '+obj.address);
                         console.log("============================================================================")
-                        //console.log(obj);     
+                        //console.log(obj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.removeParticularAddressFn($scope.removeParticularAddress);
@@ -537,11 +540,11 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             case "removePhoneNum":
                 if (confirm==0){
                     $scope.removePhoneNum=obj;
-                        $scope.mess2show="El telefono "+obj.phoneContact+" de contacto ["+obj.phoneTag+"] sera Eliminado.     Confirmar?";                                        
-                    
+                        $scope.mess2show="El telefono "+obj.phoneContact+" de contacto ["+obj.phoneTag+"] sera Eliminado.     Confirmar?";
+
                         console.log('Telefono a eliminar ID: '+obj.idClientPhoneFk+' Telefono: '+obj.phoneContact);
                         console.log("============================================================================")
-                        //console.log(obj);     
+                        //console.log(obj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.removePhoneNumFn($scope.removePhoneNum);
@@ -551,11 +554,11 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             case "removeMail":
                 if (confirm==0){
                     $scope.removeMail=obj;
-                        $scope.mess2show="El correo "+obj.mailContact+" de tipo ["+obj.typeName+"] sera Eliminado.     Confirmar?";                                        
-                    
+                        $scope.mess2show="El correo "+obj.mailContact+" de tipo ["+obj.typeName+"] sera Eliminado.     Confirmar?";
+
                         console.log('Correo a eliminar ID: '+obj.idClientMail+' Telefono: '+obj.mailContact);
                         console.log("============================================================================")
-                        //console.log(obj);     
+                        //console.log(obj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.removeMailFn($scope.removeMail);
@@ -565,11 +568,11 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             case "removeAuthUser":
                 if (confirm==0){
                     $scope.removeAuthUser=obj;
-                        $scope.mess2show="El usuario "+obj.fullNameUser+" sera removido de los usuarios autorizados.     Confirmar?";                                        
-                    
+                        $scope.mess2show="El usuario "+obj.fullNameUser+" sera removido de los usuarios autorizados.     Confirmar?";
+
                         console.log('Usuario a remover ID: '+obj.idUserFk);
                         console.log("============================================================================");
-                        //console.log(obj);     
+                        //console.log(obj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.removeAuthUserFn($scope.removeAuthUser);
@@ -579,11 +582,11 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             case "removeZone":
                 if (confirm==0){
                     $scope.removeZone=obj;
-                        $scope.mess2show="La zona ("+obj.n_zona+") "+obj.descripcion+" sera eliminada.     Confirmar?";                                        
-                    
+                        $scope.mess2show="La zona ("+obj.n_zona+") "+obj.descripcion+" sera eliminada.     Confirmar?";
+
                         console.log('Zona a remover ID: '+obj.idZona);
                         console.log("============================================================================");
-                        //console.log(obj);     
+                        //console.log(obj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.deleteZoneFn($scope.removeZone);
@@ -613,11 +616,11 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                         break;
                         case "6":
                         $scope.mess2show="El departamento   : "+deptoUpper.toString().toUpperCase()+"    Piso: "+floorUpper.toString().toUpperCase()+" sera eliminado.     Confirmar?";
-                        break;                    
+                        break;
                     }
                         console.log('Depto a remover ID: '+obj.idDepto);
                         console.log("============================================================================");
-                        //console.log(obj);     
+                        //console.log(obj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.deleteSelectedDeptoMultiFn($scope.removeDepto);
@@ -627,12 +630,12 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
             case "newService":
                 if (confirm==0){
                     $scope.addService=obj;
-                        $scope.mess2show="El servicio "+obj.serviceName+" en el contrato "+obj.contractNumb+" sera creado.     Confirmar?";                                        
-                    
+                        $scope.mess2show="El servicio "+obj.serviceName+" en el contrato "+obj.contractNumb+" sera creado.     Confirmar?";
+
                         console.log("servicio a crear  : "+obj.serviceName);
                         console.log("Numero de contrato: "+obj.contractNumb);
                         console.log("============================================================================");
-                        //console.log(obj);     
+                        //console.log(obj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.switchCustomersFn('services', $scope.addService, 'add_new_service');
@@ -643,17 +646,17 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                 if (confirm==0){
                     $scope.updateService=obj;
                         $scope.mess2show="El servicio "+obj.clientTypeServices+" en el contrato "+obj.numeroContrato+" sera actualizado.     Confirmar?";
-                    
+
                         console.log("servicio a actualizar  : "+obj.clientTypeServices);
                         console.log("Numero de contrato: "+obj.numeroContrato);
                         console.log("============================================================================");
-                        //console.log(obj);     
+                        //console.log(obj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.switchCustomersFn('services', $scope.updateService, 'update');
                 $('#confirmRequestModal').modal('hide');
                 }
-            break;            
+            break;
             case "updateSysUser":
                 if (confirm==0){
                     if ($scope.sysLoggedUser.idProfileKf==1 && obj.idUser!=0){
@@ -663,7 +666,7 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                         console.log('Usuario a eliminar ID: '+$scope.idUserKf+' BAJO EL NOMBRE: '+obj.fullNameUser);
                         console.log("============================================================================")
                         console.log($scope.argObj);
-                    }      
+                    }
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.sysUpdateUserFn($scope.argObj);
@@ -683,8 +686,8 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                 }else if (confirm==1){
                     $scope.switchCustomersFn('contract', $scope.argObj, 'activateDate');
                     $('#confirmRequestModal').modal('hide');
-                }            
-            break;             
+                }
+            break;
             case "contract_enable":
                 if (confirm==0){
                 $scope.mess2show="El contrato "+obj.numeroContrato+" sera activado.     Confirmar?";
@@ -692,13 +695,13 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                 $scope.argObj = obj;
                 console.log('Contrato a habilitar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
                 console.log("============================================================================")
-                console.log($scope.argObj);   
+                console.log($scope.argObj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.switchCustomersFn('contract', $scope.argObj, 'enable');
                     $('#confirmRequestModal').modal('hide');
-                }            
-            break;            
+                }
+            break;
             case "contract_disable":
                 if (confirm==0){
                 $scope.mess2show="El contrato "+obj.numeroContrato+" sera desactivado.     Confirmar?";
@@ -706,12 +709,12 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                 $scope.argObj = obj;
                 console.log('Contrato a desahibilitar ID: '+obj.idContrato+' Contrato: '+obj.numeroContrato);
                 console.log("============================================================================")
-                console.log($scope.argObj);   
+                console.log($scope.argObj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.switchCustomersFn('contract', $scope.argObj, 'disable');
                     $('#confirmRequestModal').modal('hide');
-                }            
+                }
             break;
             case "contract_remove_service_item":
                 if (confirm==0){
@@ -722,25 +725,25 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                 $scope.argObj2 = obj2;
                 console.log('item del Servicio a Remover: '+obj.itemName+' Servicio: '+obj.serviceName);
                 console.log("============================================================================")
-                console.log($scope.argObj);   
+                console.log($scope.argObj);
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.removeServiceItemFn($scope.argObj, $scope.argObj2);
                     $('#confirmRequestModal').modal('hide');
-                }            
-            break;            
+                }
+            break;
             case "deleteSingleFile":
                 if (confirm==0){
                 $scope.delFile=obj;
                 $scope.mess2show="El archivo "+obj.title+" sera eliminado.     Confirmar?";
 
                 console.log('Archivo a eliminar ID: '+obj.idClientFiles+' File: '+obj.title);
-                console.log("============================================================================")   
+                console.log("============================================================================")
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.switchCustomersFn('deleteSingleFile', $scope.delFile);
                     $('#confirmRequestModal').modal('hide');
-                }              
+                }
             break;
             case "changeBuildingAdmin":
                 if (confirm==0){
@@ -748,13 +751,13 @@ product.controller('ProductsCtrl', function($scope, $location, $filter, $routePa
                 $scope.mess2show="El Edificio "+obj.name+" sera asociado a la Administracion "+$scope.customer.newAdmin.name+",     Confirmar?";
 
                 console.log('Cambio de administracion al Edificio: '+obj.name+' Administracion: '+$scope.customer.newAdmin.name);
-                console.log("============================================================================")   
+                console.log("============================================================================")
                 $('#confirmRequestModal').modal('toggle');
                 }else if (confirm==1){
                     $scope.switchCustomersFn('changeBuildingAdmin', $scope.selectedBuilding);
                     $('#confirmRequestModal').modal('hide');
-                }              
-            break;            
+                }
+            break;
             default:
             }
         }

@@ -25,6 +25,7 @@ class Product_model extends CI_Model {
                     'isDateExpiration'          => $product['isDateExpiration'],
                     'isControlSchedule'         => $product['isControlSchedule'],
                     'isRequestNumber'           => $product['isRequestNumber'],
+                    'isLicenseDevice'           => $product['isLicenseDevice'],
                     'priceFabric'               => $product['priceFabric'],
                 ]
             );
@@ -69,6 +70,7 @@ class Product_model extends CI_Model {
                 'isDateExpiration'          => $product['isDateExpiration'],
                 'isControlSchedule'         => $product['isControlSchedule'],
                 'isRequestNumber'           => $product['isRequestNumber'],
+                'isLicenseDevice'           => $product['isLicenseDevice'],
                 'priceFabric'               => $product['priceFabric'],
             ]
         )->where("idProduct", $product['idProduct'])->update("tb_products");
@@ -193,7 +195,7 @@ class Product_model extends CI_Model {
                 $queryProducts = $this->db->where($where_and)->get();
                 $rs2                     = $queryProducts->result_array();
                 $rs[$i]['products'] = $rs2;
-                $i++;    
+                $i++;
             }
             return $rs;
         }
@@ -202,4 +204,3 @@ class Product_model extends CI_Model {
 }
 
 
-	 

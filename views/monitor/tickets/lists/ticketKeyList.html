@@ -4,7 +4,7 @@
       <div class="modal-content">
           <div class="modal-header">
               <button type="button" class="close" data-dismiss="modal"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
-              <h3 class="modal-title"><i class="fas fa-key"></i> LISTADO DE LLAVEROS </h3>
+              <h3 class="modal-title"><i class="fas fa-key"></i> LISTADO DE DISPOSITIVOS </h3>
           </div>
         <div class="modal-body">
             <div class="col-md-12">
@@ -12,7 +12,7 @@
                     <thead class="dpto-t-head">
                         <tr>
                             <th width="5px" class="dpto-th-head" style="vertical-align: middle !important;text-align: center !important;background-color: #b8c3d2;border-right: 1px solid #ddd !important; "> N°</th>
-                            <th class="dpto-th-head" style="vertical-align: middle !important;text-align: center !important;background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Llavero</th>
+                            <th class="dpto-th-head" style="vertical-align: middle !important;text-align: center !important;background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-key"> </i> Dispositivo</th>
                             <th ng-if="tkupdate.idTypeTicketKf=='1'" class="dpto-th-head" style="vertical-align: middle !important;text-align: center !important;background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-dollar-sign"> </i> Precio</th>
                             <th ng-if="ticket.optionTypeSelected.name=='building'" class="dpto-th-head" style="background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-tag"> </i> Categoria</th>
                             <th ng-if="tkupdate.idTypeTicketKf=='2'" class="dpto-th-head" style="vertical-align: middle !important;text-align: center !important;background-color: #b8c3d2;border-right: 1px solid #ddd !important; "><i class="fas fa-barcode"> </i> Codigo</th>
@@ -53,7 +53,7 @@
                                     <span class="label label-default">{{ticket.idClientDepartament.Depto}}</span>
                                 </span>
                             </td>-->
-                            <!--<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;"> 
+                            <!--<td ng-if="(ticket.optionTypeSelected.name=='department' && (ticket.radioButtonDepartment==null || ticket.radioButtonDepartment=='1' || ticket.radioButtonDepartment=='2'))" style="vertical-align: middle;text-align: center;">
                                 <span ng-if="user!=undefined && user!=null" data-toggle="tooltip" data-placement="right" title="Asignado" class="font-size-18px" style="color: #5cb85c">
                                     <i class="text-success fas fa-check-circle"></i>
                                 </span>
@@ -96,14 +96,14 @@
                     </div>
                 </div>
             </div>
-            <div class="clearfix"> </div> 
-        </div>   
+            <div class="clearfix"> </div>
+        </div>
         <div class="modal-footer">
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-6 pull-right">
                     <a id="cancelModalWindow" data-dismiss="modal" type="button" class="btn btn-labeled btn-danger">
                         <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span>Cerrar</a>
-                </div>           
+                </div>
             </div>
         </div>
     </div>

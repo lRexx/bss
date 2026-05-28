@@ -98,6 +98,9 @@ class Ticket_model extends CI_Model
 			'idDisabledReasonKf' => @$ticket['idDisabledReasonKf'],
 			'isNew' => @$ticket['isNew'],
 			'isInitialDeliveryActive' => @$ticket['isInitialDeliveryActive'],
+			'idDeviceTypeKf' => @$ticket['idDeviceTypeKf'],
+			'whereKeysAreEnable' => @$ticket['whereKeysAreEnable'],
+			'isKeysEnable' => @$ticket['isKeysEnable'],
 			'idStatusTicketKf' => @$ticket['status']
 
 		));
@@ -161,7 +164,8 @@ class Ticket_model extends CI_Model
 			$body = null;
 			$to = null;
 			$rs = null;
-			$title = "Pedido Alta Llavero";
+			$resource = $lastTicketAddQuery['idDeviceTypeKf']!=2 || $lastTicketAddQuery['idDeviceTypeKf']==null ? "Llavero" : "Licencia Face ID";
+			$title = "Pedido Alta " . $resource;
 			if ($ticket['idTypeRequestFor'] == 1) {
 				//DEPARTMENT, BUILDING & ADMINISTRATION DETAILS
 				$this->db->select("*,b.idClient as idBuilding, b.name, tb_client_type.ClientType, UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto")->from("tb_client_departament");
@@ -172,7 +176,8 @@ class Ticket_model extends CI_Model
 				if ($queryBuilding->num_rows() > 0) {
 					$building = $queryBuilding->row_array();
 				}
-				$subject = "Pedido Alta Llavero :: " . $building['Depto'];
+
+				$subject = "Pedido Alta ".$resource." :: " . $building['Depto'];
 				//GET USER
 				$this->db->select("*")->from("tb_user");
 				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
@@ -230,13 +235,14 @@ class Ticket_model extends CI_Model
 								$userMadeByEmail = "";
 							}
 							log_message('info', 'Client Key Email Addresses: ' . $to);
-							$title = "Pedido Alta Llavero";
-							$subject = "Pedido Alta Llavero :: " . $building['Depto'];
+							$resource = $lastTicketAddQuery['idDeviceTypeKf']!=2 || $lastTicketAddQuery['idDeviceTypeKf']==null ? "Llavero" : "Licencia Face ID";
+							$title = "Pedido Alta " . $resource;
+							$subject = "Pedido Alta ".$resource." :: " . $building['Depto'];
 							$body = '<tr width="100%" bgcolor="#ffffff">';
 							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario <b>' . $user['fullNameUser'] . '</b>,</td>';
 							$body .= '</tr>';
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
-							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta de Llavero  N°: <b>' . $lastTicketAddQuery['codTicket'] . '</b> para el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' . $building['Depto'] . '</span> del ' . $building['ClientType'] . '<b> ' . $building['name'] . '</b></td>';
+							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta de ' . $resource . '  N°: <b>' . $lastTicketAddQuery['codTicket'] . '</b> para el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' . $building['Depto'] . '</span> del ' . $building['ClientType'] . '<b> ' . $building['name'] . '</b></td>';
 							$body .= '</tr>';
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
 							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: ';
@@ -246,18 +252,26 @@ class Ticket_model extends CI_Model
 								$body .= '<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">';
 							}
 							$body .= $lastTicketAddQuery['statusTicket']['statusName'] . '</span>';
+							$body .= '</td></tr>';
 							if ($lastTicketAddQuery['idStatusTicketKf'] == 2 || $lastTicketAddQuery['idStatusTicketKf'] == '9') {
 								$secureToken = base64_encode($lastTicketAddQuery['idTicket'] . ":" . $lastTicketAddQuery['urlToken']);
+								$body .= '<tr width="100%" bgcolor="#ffffff">';
+								$body .= '<td width="100%" align="left" valign="middle"><span style="font-size:1.5vw; text-decoration: underline !important; font-family: sans-serif; padding-left:4%;padding-right:4%;color: #f80000 !important">Para aprobar el pedido haga click en el siguiente enlace/boton: </span>';
 								$approval_url = "https://" . BSS_HOST . "/login/approve/ticket/up/token/" . $secureToken;
-								$body .= '&nbsp;&nbsp;<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="' . $approval_url . '" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar pedido haciendo click aqui</a></span></td>';
-							} else {
-								$body .= '</td>';
+								$body .= '&nbsp;&nbsp;<span style="font-size:1.5vw; font-family: sans-serif; background-color:#5cb85c;border-color: #4cae4c !important; text-decoration: none !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="' . $approval_url . '" target="_blank" title="Aprobar" style="text-decoration: none !important; color: #ffffff;">APROBAR</a></span></td>';
+								$body .= '</tr>';
 							}
-							$body .= '</tr>';
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
 							$body .= '<td width="100%" align="center" valign="middle" style="background-color:#ffffff;padding-bottom:3%;">' . $ticket['mail'] . '</td>';
 							$body .= '</tr>';
-
+							if ($lastTicketAddQuery['idDeviceTypeKf']==1 && ($lastTicketAddQuery['idStatusTicketKf'] == 2 || $lastTicketAddQuery['idStatusTicketKf'] == '9')) {
+								$secureToken = base64_encode($lastTicketAddQuery['idTicket'] . ":" . $lastTicketAddQuery['urlToken']);
+								$body .= '<tr width="100%" bgcolor="#ffffff">';
+								$body .= '<td width="100%" align="left" valign="middle" style="padding-bottom: 50px;"><span style="font-size:1.5vw; text-decoration: underline !important; font-family: sans-serif; padding-left:4%;padding-right:4%;color: #f80000 !important">Para aprobar el pedido haga click en el siguiente enlace/boton: </span>';
+								$approval_url = "https://" . BSS_HOST . "/login/approve/ticket/up/token/" . $secureToken;
+								$body .= '&nbsp;&nbsp;<span style="font-size:1.5vw; font-family: sans-serif; background-color:#5cb85c;border-color: #4cae4c !important; text-decoration: none !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="' . $approval_url . '" target="_blank" title="Aprobar" style="text-decoration: none !important; color: #ffffff;">APROBAR</a></span></td>';
+								$body .= '</tr>';
+							}
 							//<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
 							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
 							if ($rsMail == "Enviado") {
@@ -295,8 +309,9 @@ class Ticket_model extends CI_Model
 							$userMadeByEmail = "";
 						}
 						log_message('info', 'Client Key Email Addresses: ' . $to);
-						$title = "Pedido Alta Llavero";
-						$subject = "Pedido Alta Llavero :: " . $lastTicketAddQuery['typeRequestFor']['name'];
+						$resource = $lastTicketAddQuery['idDeviceTypeKf']!=2 || $lastTicketAddQuery['idDeviceTypeKf']==null ? "Llavero" : "Licencia Face ID";
+						$title = "Pedido Alta " . $resource;
+						$subject = "Pedido Alta ".$resource." :: " . $lastTicketAddQuery['typeRequestFor']['name'];
 						$body = '<tr width="100%" bgcolor="#ffffff">';
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Hola <b>' . $lastTicketAddQuery['clientAdmin']['name'] . '</b>,</td>';
 						$body .= '</tr>';
@@ -984,7 +999,7 @@ class Ticket_model extends CI_Model
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Puede ver mas detalles ingresando a nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 						$body .= '</tr>';
 						$body .= '<tr width="100%" bgcolor="#ffffff">';
-						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Si presenta algún inconveniente correspondiente a la cancelación o reintegro, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Si presenta algún inconveniente correspondiente a la cancelación o reintegro, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 						$body .= '</tr>';
 						$body .= '<tr width="100%" bgcolor="#ffffff">';
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%">- Seleccionando la opción de Llaveros -> Pedido pendiente. </td>';
@@ -1187,6 +1202,7 @@ class Ticket_model extends CI_Model
 				'idThirdPersonDeliveryKf' => $idThirdPersonDelivery,
 				'isDeliveryHasChanged' => @$ticket['isDeliveryHasChanged'],
 				'idMgmtMethodKf' => @$ticket['idMgmtMethodKf'],
+				'idDeviceTypeKf' => @$ticket['idDeviceTypeKf'],
 				'whereKeysAreEnable' => @$ticket['whereKeysAreEnable'],
 				'isKeysEnable' => @$ticket['isKeysEnable'],
 				'idDeliveryCompanyKf' => @$ticket['idDeliveryCompanyKf'],
@@ -1273,10 +1289,17 @@ class Ticket_model extends CI_Model
 		log_message('info', ':::::::::::::::::changueStatus => delivered_at:' . @$ticket['delivered_at']);
 		log_message('info', ':::::::::::::::::changueStatus => delivery_schedule_at:' . @$ticket['delivery_schedule_at']);
 		if ($ticket['idTypeTicketKf'] == "1") {
-			if (is_null($ticket['delivered_at']) && is_null($ticket['delivery_schedule_at']) && $ticket['idNewStatusKf'] != 5 && $ticket['idNewStatusKf'] != 1) {
+			if (is_null($ticket['delivered_at']) && (is_null($ticket['delivery_schedule_at']) || empty($ticket['delivery_schedule_at'])) && $ticket['idNewStatusKf'] != 5 && $ticket['idNewStatusKf'] != 1) {
 				$this->db->set(
 					array(
 						'idStatusTicketKf' => @$ticket['idNewStatusKf']
+					)
+				)->where("idTicket", $ticket['idTicket'])->update("tb_tickets_2");
+			} else if ($ticket['idDeviceTypeKf'] == "2" && !is_null($ticket['delivered_at']) && (is_null($ticket['delivery_schedule_at']) || empty($ticket['delivery_schedule_at'])) && $ticket['idNewStatusKf'] != 5 && $ticket['idNewStatusKf'] != 1) {
+				$this->db->set(
+					array(
+						'idStatusTicketKf' => @$ticket['idNewStatusKf'],
+						'delivered_at' => @$ticket['delivered_at']
 					)
 				)->where("idTicket", $ticket['idTicket'])->update("tb_tickets_2");
 			} else if (($ticket['idTypeRequestFor'] == "1" || $ticket['idTypeRequestFor'] == "2" || $ticket['idTypeRequestFor'] == "3" || $ticket['idTypeRequestFor'] == "5" || $ticket['idTypeRequestFor'] == "6") && !is_null($ticket['idTypeDeliveryKf']) && $ticket['idTypeDeliveryKf'] == "2" && !is_null($ticket['delivery_schedule_at']) && is_null($ticket['delivered_at'])) {
@@ -1412,7 +1435,12 @@ class Ticket_model extends CI_Model
 					$building = $queryBuilding->row_array();
 				}
 				$title = $lastTicketUpdatedQuery['statusTicket']['statusName'];
-				$subject = "Pedido de Llavero :: " . $building['Depto'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
+				if ($lastTicketUpdatedQuery['idDeviceTypeKf'] != "2" || is_null($lastTicketUpdatedQuery['idDeviceTypeKf'])){
+					$subject = "Pedido de Llavero :: " . $building['Depto'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
+				}else{
+					$subject = "Pedido de Dispositivo :: " . $building['Depto'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
+				}
+
 				//GET USER
 				$this->db->select("*")->from("tb_user");
 				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
@@ -1422,7 +1450,7 @@ class Ticket_model extends CI_Model
 				if ($queryUser->num_rows() > 0) {
 					$user = $queryUser->row_array();
 					if ($lastTicketUpdatedQuery['sendNotify'] == 1 || $lastTicketUpdatedQuery['sendNotify'] == null) {
-						if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 7 || $lastTicketUpdatedQuery['idStatusTicketKf'] == 1 || $lastTicketUpdatedQuery['idStatusTicketKf'] == 5) {
+						if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 7 || $lastTicketUpdatedQuery['idStatusTicketKf'] == 1 || $lastTicketUpdatedQuery['idStatusTicketKf'] == 5 || $lastTicketUpdatedQuery['idStatusTicketKf'] == 13) {
 							#MAIL TO USER
 							$rs = null;
 							$to = $user['emailUser'];
@@ -1456,13 +1484,14 @@ class Ticket_model extends CI_Model
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 										$body .= '</tr>';
 										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 										$body .= '</tr>';
 									}
 								} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2) {
 									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 5) {
+										setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 										$deliveryDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivery_schedule_at']));
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La entrega de su pedido esta programado para el dia  ' . $deliveryDate . ' en la franja horaria de 16h a 22h.</td>';
 										$body .= '</tr>';
@@ -1509,11 +1538,23 @@ class Ticket_model extends CI_Model
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 										$body .= '</tr>';
 										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 										$body .= '</tr>';
 									}
 
-								}
+								} else if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf']) && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13 && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2") {
+										setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
+										date_default_timezone_set('America/Argentina/Buenos_Aires');
+										$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido completado, el dia ' . $deliveredDate . '</td>';
+										$body .= '</tr>';
+										$body .= '<tr width="100%" bgcolor="#ffffff">';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+										$body .= '</tr>';
+										$body .= '<tr width="100%" bgcolor="#ffffff">';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+										$body .= '</tr>';
+									}
 							} else if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 2) {
 								if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) {
 									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
@@ -1524,15 +1565,15 @@ class Ticket_model extends CI_Model
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 									$body .= '</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 									$body .= '</tr>';
 								}
 							}
 							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
 							if ($rsMail == "Enviado") {
-								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
+								log_message('info', 'Notification mail for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
 							} else {
-								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
+								log_message('info', 'Notification mail for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
 							}
 						}
 					}
@@ -1598,7 +1639,7 @@ class Ticket_model extends CI_Model
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 										$body .= '</tr>';
 										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 										$body .= '</tr>';
 									}
 								} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2) {
@@ -1651,7 +1692,7 @@ class Ticket_model extends CI_Model
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 										$body .= '</tr>';
 										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 										$body .= '</tr>';
 									}
 
@@ -1665,15 +1706,15 @@ class Ticket_model extends CI_Model
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 									$body .= '</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 									$body .= '</tr>';
 								}
 							}
 							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
 							if ($rsMail == "Enviado") {
-								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
+								log_message('info', 'Notification mail for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
 							} else {
-								log_message('info', 'MP Link mail notification for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
+								log_message('info', 'Notification mail for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
 							}
 						}
 					}
@@ -1805,7 +1846,7 @@ class Ticket_model extends CI_Model
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 									$body .= '</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 									$body .= '</tr>';
 								}
 							} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2) {
@@ -1858,7 +1899,7 @@ class Ticket_model extends CI_Model
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 									$body .= '</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 									$body .= '</tr>';
 								}
 
@@ -1953,7 +1994,7 @@ class Ticket_model extends CI_Model
 							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Puede ver los detalles del reintegro en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
 							$body .= '</tr>';
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
-							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente con el reintegro, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://bss.com.ar/wp-content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente con el reintegro, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 							$body .= '</tr>';
 						}
 
@@ -2694,6 +2735,7 @@ class Ticket_model extends CI_Model
 		}
 	}
 
+	// GET DE LISTADO BUSQUEDA DE TICKETS //
 	public function get_new($data)
 	{
 		/* El buscador debe buscar por
@@ -3272,12 +3314,11 @@ class Ticket_model extends CI_Model
 			$query = $this->db->order_by("idTicket", "DESC")->get();
 			$end = microtime(true);
 
-			log_message('debug', 'Query time: ' . round(($end - $start) * 1000, 2) . 'ms');
-			log_message('debug', 'Num rows: ' . $query->num_rows());
-			log_message('debug', 'SQL: ' . $this->db->last_query());
-			log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query->num_rows());
 			if ($query->num_rows() >= 0) {
 				//print_r($quuery->result_array());
+				log_message('debug', 'Query time: ' . round(($end - $start) * 1000, 2) . 'ms');
+				log_message('debug', 'Num rows: ' . $query->num_rows());
+				log_message('debug', 'SQL: ' . $this->db->last_query());
 				return $this->buscar_relaciones_ticket($query->result_array());
 			}
 		}
@@ -3316,6 +3357,7 @@ class Ticket_model extends CI_Model
 		}
 		return null;
 	}
+
 	public function ticketInitialDeliveryActiveByDeptoId($data)
 	{
 		$quuery = null;
@@ -3416,334 +3458,6 @@ class Ticket_model extends CI_Model
 			} else {
 				return "false";
 			}
-		}
-	}
-	public function buscar_relaciones_ticket_old($todo)
-	{
-		//var_dump($todo);
-		$rs_tickets['tickets'] = $todo;
-		//log_message('info', 'SQL: ' . $rs_tickets['tickets']);
-		$quuery = $this->db->select("*")->from("tb_statusticket")->get();
-		$dashboard['dashboard']['total'] = null;
-		if (count($rs_tickets['tickets']) >= 0) {
-			foreach (@$quuery->result_array() as $status) {
-				//print_r(" id: ".strval($status['idStatus'])." status: ".str_replace(' ', '_', $status['statusName'])."\n");
-				if ($status['idStatus'] == "8") {
-					$this->db->select("*")->from("tb_tickets_2");
-					$this->db->where("idStatusTicketKf", (int) $status['idStatus']);
-					$this->db->where("isInitialDeliveryActive", 1);
-					$query_init_total = $this->db->get();
-					#log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_init_total->num_rows());
-					$count = $query_init_total->num_rows() == 0 ? 0 : $query_init_total->num_rows();
-					$name_status = str_replace(' ', '_', $status['statusName']);
-					$final_name = $name_status . "_entrega_inicial";
-					$dashboard['dashboard'][$final_name] = @$count;
-				}
-				if ($status['idStatus'] == "6") {
-					$this->db->select("*")->from("tb_tickets_2");
-					$this->db->where("idStatusTicketKf", (int) $status['idStatus']);
-					$this->db->where("isHasRefundsOpen", 1);
-					$query_init_total = $this->db->get();
-					#log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_init_total->num_rows());
-					$count = $query_init_total->num_rows() == 0 ? 0 : $query_init_total->num_rows();
-					$name_status = str_replace(' ', '_', $status['statusName']);
-					$final_name = $name_status . "_reintegro_pendiente";
-					$dashboard['dashboard'][$final_name] = @$count;
-				}
-				if (is_null($dashboard['dashboard']['total'])) {
-					$this->db->select("*")->from("tb_tickets_2");
-					$query_total = $this->db->get();
-					$count = $query_total->num_rows();
-					$dashboard['dashboard']['total'] = $count;
-				}
-				$this->db->select("*")->from("tb_tickets_2");
-				$this->db->where("idStatusTicketKf", (int) $status['idStatus']);
-				$query_dash = $this->db->get();
-				#log_message('debug', 'SQL: ' . $this->db->last_query() . '# ' . $query_dash->num_rows());
-				$count = $query_dash->num_rows() == 0 ? 0 : $query_dash->num_rows();
-				// Replace spaces with underscores / strval($status['idStatus'])
-				$name_status = str_replace(' ', '_', $status['statusName']);
-				$dashboard['dashboard'][$name_status] = @$count;
-			}
-			$rs_tickets['dashboard'] = $dashboard['dashboard'];
-		}
-		foreach ($rs_tickets['tickets'] as $key => $ticket) {
-			//print_r($ticket['idTypeRequestFor']);
-			//print_r($ticket['idTypeRequestFor']);
-			$this->db->select("*")->from("tb_category_keychain");
-			$quuery = $this->db->where("idCategory = ", @$ticket['idTypeRequestFor'])->get();
-			$rs_tickets['tickets'][$key]['typeRequestFor'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_typeticket");
-			$quuery = $this->db->where("idTypeTicket = ", @$ticket['idTypeTicketKf'])->get();
-			$rs_tickets['tickets'][$key]['typeticket'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_clients");
-			$this->db->join('tb_zonas', 'tb_zonas.idZona = tb_clients.idZonaFk', 'left');
-			$this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
-			$this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
-			$quuery = $this->db->where("idClient = ", @$ticket['idBuildingKf'])->get();
-			$rs_tickets['tickets'][$key]['building'] = @$quuery->result_array()[0];
-			if (!is_null(@$ticket['idBuildingKf'])) {
-				//print($this->checkIsDeviceOnline($ticket['idBuildingKf']));
-				$rs_tickets['tickets'][$key]['building']['isHasInternetOnline'] = $this->checkIsDeviceOnline(@$ticket['idBuildingKf']);
-			} else {
-				//print("No defined");
-				$rs_tickets['tickets'][$key]['building']['isHasInternetOnline'] = "false";
-			}
-
-			if (@$ticket['idTypeRequestFor'] == 1) {
-
-				$this->db->select("*")->from("tb_client_departament");
-				$quuery = $this->db->where("idClientDepartament = ", $ticket['idDepartmentKf'])->get();
-				$rs_tickets['tickets'][$key]['department'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_user");
-				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery = $this->db->where("idUser = ", @$ticket['idUserMadeBy'])->get();
-				$rs_tickets['tickets'][$key]['userMadeBy'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_user");
-				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery = $this->db->where("idUser = ", @$ticket['idUserRequestBy'])->get();
-				$rs_tickets['tickets'][$key]['userRequestBy'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_clients");
-				$quuery = $this->db->where("idClient = ", $rs_tickets['tickets'][$key]['building']['idClientAdminFk'])->get();
-				$rs_tickets['tickets'][$key]['clientAdmin'] = @$quuery->result_array()[0];
-
-			} else if (@$ticket['idTypeRequestFor'] == 2 || @$ticket['idTypeRequestFor'] == 3 || @$ticket['idTypeRequestFor'] == 4 || @$ticket['idTypeRequestFor'] == 5 || @$ticket['idTypeRequestFor'] == 6) {
-
-				$this->db->select("*")->from("tb_user");
-				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery = $this->db->where("idUser = ", $ticket['idUserMadeBy'])->get();
-				$rs_tickets['tickets'][$key]['userMadeBy'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_clients");
-				$quuery = $this->db->where("idClient = ", $rs_tickets['tickets'][$key]['building']['idClientAdminFk'])->get();
-				$rs_tickets['tickets'][$key]['clientAdmin'] = @$quuery->result_array()[0];
-
-
-			} else {
-				$this->db->select("*")->from("tb_user");
-				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery = $this->db->where("idUser = ", @$ticket['idUserMadeBy'])->get();
-				$rs_tickets['tickets'][$key]['userMadeBy'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_clients");
-				$quuery = $this->db->where("idClient = ", @$ticket['idUserRequestBy'])->get();
-				$rs_tickets['tickets'][$key]['clientCompani'] = @$quuery->result_array()[0];
-
-				$this->db->select("*")->from("tb_clients");
-				$quuery = $this->db->where("idClient = ", @$ticket['idUserRequestBy'])->get();
-				$rs_tickets['tickets'][$key]['clientAdmin'] = @$quuery->result_array()[0];
-
-			}
-			$this->db->select("tb_products.idProduct,tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model, tb_ticket_keychain.*, tb_category_keychain.name AS categoryName, tb_products_classification.*")->from("tb_ticket_keychain");
-			#$this->db->join('tb_keychain' , 'tb_keychain.idKeychain = tb_ticket_keychain.idKeychainKf' , 'left');
-			$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_ticket_keychain.idCategoryKf', 'left');
-			$this->db->join('tb_products', 'tb_products.idProduct = tb_ticket_keychain.idProductKf', 'left');
-			$this->db->join('tb_products_classification', 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk', 'left');
-			$quuery = $this->db->where("idTicketKf = ", @$ticket['idTicket'])->get();
-			$rs_tickets['tickets'][$key]['keys'] = @$quuery->result_array();
-			$i = 0;
-			#log_message('info', print_r($quuery->result_array(), true));
-			foreach ($rs_tickets['tickets'][$key]['keys'] as $ticketKeychain) {
-				$this->db->select("*")->from("tb_keychain");
-				$quuery = $this->db->where("tb_keychain.idKeychain = ", @$ticketKeychain['idKeychainKf'])->get();
-				$rs_tickets['tickets'][$key]['keys'][$i]['keychain'] = @$quuery->result_array()[0];
-				if ($ticket['idTypeTicketKf'] == "2") {
-					$query = $this->db
-						->select('tkkeychain.idTicketKeychain')
-						->from('tb_ticket_keychain AS tkkeychain')
-						->join(
-							'tb_tickets_2',
-							'tb_tickets_2.idTicket = tkkeychain.idTicketKf',
-							'left'
-						)
-						->where('tkkeychain.idKeychainKf', $rs_tickets['tickets'][$key]['keys'][$i]['keychain']['idKeychain'])
-						->where('tb_tickets_2.idTypeTicketKf', '1')
-						->order_by('tkkeychain.idTicketKeychain', 'DESC')
-						->limit(1)
-						->get();
-					if ($query->num_rows() > 0) {
-						$idTicketKeychain = $query->row()->idTicketKeychain;
-					} else {
-						$idTicketKeychain = $ticketKeychain['idTicketKeychain'];
-					}
-				} else {
-					$idTicketKeychain = $ticketKeychain['idTicketKeychain'];
-				}
-				#log_message('info', print_r("idTicketKeychain: " . $idTicketKeychain, true));
-				$this->db->select("tb_contratos.idContrato, tb_contratos.idStatusFk, tb_status.statusTenantName AS contractStatus, tb_servicios_del_contrato_cabecera.serviceName, tb_type_contrato.description, tb_type_maintenance.typeMaintenance, tb_products.idProduct, tb_products.descriptionProduct, tb_products.codigoFabric, tb_products.brand, tb_products.model,  tb_products.idStatusFk, tb_access_control_door.*, tb_ticket_keychain.*, tb_ticket_keychain_doors.*")->from("tb_ticket_keychain_doors");
-				$this->db->join('tb_ticket_keychain', 'tb_ticket_keychain.idTicketKeychain = tb_ticket_keychain_doors.idTicketKeychainKf', 'left');
-				$this->db->join('tb_contratos', 'tb_contratos.idContrato = tb_ticket_keychain_doors.idContractKf', 'left');
-				$this->db->join('tb_type_contrato', 'tb_type_contrato.idTypeContrato = tb_contratos.contratoType', 'left');
-				$this->db->join('tb_type_maintenance', 'tb_type_maintenance.idTypeMaintenance = tb_contratos.maintenanceType', 'left');
-				$this->db->join('tb_servicios_del_contrato_cabecera', 'tb_servicios_del_contrato_cabecera.idContratoFk = tb_contratos.idContrato', 'left');
-				$this->db->join('tb_servicios_del_contrato_cuerpo', 'tb_servicios_del_contrato_cuerpo.idServiciosDelContratoFk = tb_servicios_del_contrato_cabecera.idServiciosDelContrato', 'left');
-				$this->db->join('tb_client_services_access_control', 'tb_client_services_access_control.idClientServicesAccessControl = tb_ticket_keychain_doors.idServiceKf', 'left');
-				$this->db->join('tb_products', 'tb_products.idProduct = tb_client_services_access_control.idAccessControlFk', 'left');
-				$this->db->join('tb_products_classification', 'tb_products_classification.idProductClassification = tb_products.idProductClassificationFk', 'left');
-				$this->db->join('tb_access_control_door', 'tb_access_control_door.idAccessControlDoor = tb_ticket_keychain_doors.idAccessControlDoorKf', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_contratos.idStatusFk', 'left');
-				$where_string = "tb_ticket_keychain_doors.idTicketKeychainKf = $idTicketKeychain AND tb_contratos.idStatusFk = 1 AND tb_ticket_keychain_doors.doorSelected = 1 AND tb_servicios_del_contrato_cabecera.idServiceType = 1
-					GROUP BY tb_access_control_door.idAccessControlDoor,tb_servicios_del_contrato_cabecera.serviceName ORDER BY tb_access_control_door.idAccessControlDoor;";
-				$quuery = $this->db->where($where_string)->get();
-				#log_message('info', print_r($quuery->result_array(), true));
-				$rs_tickets['tickets'][$key]['keys'][$i]['doors'] = @$quuery->result_array();
-
-				$this->db->select("*")->from("tb_user");
-				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-				$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-				$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-				$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-				$quuery = $this->db->where("tb_user.idUser = ", @$ticketKeychain["idUserKf"])->get();
-				$rs_tickets['tickets'][$key]['keys'][$i]['user'] = @$quuery->result_array()[0];
-				$i++;
-			}
-			$this->db->select("*")->from("tb_type_delivery");
-			$quuery = $this->db->where("idTypeDelivery = ", @$ticket['idTypeDeliveryKf'])->get();
-			$rs_tickets['tickets'][$key]['typeDeliver'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_pick_receive");
-			$quuery = $this->db->where("idWhoPickUp = ", @$ticket['idWhoPickUp'])->get();
-			$rs_tickets['tickets'][$key]['whoPickUp'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_user");
-			$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-			$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-			$quuery = $this->db->where("idUser = ", @$ticket['idUserDelivery'])->get();
-			$rs_tickets['tickets'][$key]['userDelivery'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_ticket_delivery");
-			$quuery = $this->db->where("id = ", @$ticket['idDeliveryTo'])->get();
-			$rs_tickets['tickets'][$key]['deliveryTo'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_clients");
-			$this->db->join('tb_zonas', 'tb_zonas.idZona = tb_clients.idZonaFk', 'left');
-			$this->db->join('tb_location', 'tb_location.idLocation = tb_clients.idLocationFk', 'left');
-			$this->db->join('tb_province', 'tb_province.idProvince = tb_clients.idProvinceFk', 'left');
-			$quuery = $this->db->where("idClient = ", @$ticket['idDeliveryAddress'])->get();
-			$rs_tickets['tickets'][$key]['deliveryAddress'] = @$quuery->result_array()[0];
-			if (@$ticket['idTypeDeliveryKf'] == '1' && $rs_tickets['tickets'][$key]['deliveryAddress'] == null) {
-				$rs_tickets['tickets'][$key]['deliveryAddress']['address'] = "Carlos Calvo 3430";
-				$rs_tickets['tickets'][$key]['deliveryAddress']['province'] = "Ciudad Autonoma de Buenos Aires";
-				$rs_tickets['tickets'][$key]['deliveryAddress']['location'] = "Boedo";
-			}
-
-			$this->db->select("*")->from("tb_ticket_other_delivery_address");
-			$this->db->join('tb_location', 'tb_location.idLocation = tb_ticket_other_delivery_address.idLocationFk', 'left');
-			$this->db->join('tb_province', 'tb_province.idProvince = tb_ticket_other_delivery_address.idProvinceFk', 'left');
-			$quuery = $this->db->where("id = ", @$ticket['idOtherDeliveryAddressKf'])->get();
-			$rs_tickets['tickets'][$key]['otherDeliveryAddress'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_ticket_third_person_delivery");
-			$this->db->join('tb_location', 'tb_location.idLocation = tb_ticket_third_person_delivery.idLocationFk', 'left');
-			$this->db->join('tb_province', 'tb_province.idProvince = tb_ticket_third_person_delivery.idProvinceFk', 'left');
-			$quuery = $this->db->where("id = ", @$ticket['idThirdPersonDeliveryKf'])->get();
-			$rs_tickets['tickets'][$key]['thirdPersonDelivery'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_ticket_payment_type");
-			$quuery = $this->db->where("id = ", @$ticket['idTypePaymentKf'])->get();
-			$rs_tickets['tickets'][$key]['typePaymentKf'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_statusticket");
-			$quuery = $this->db->where("idStatus = ", @$ticket['idStatusTicketKf'])->get();
-			$rs_tickets['tickets'][$key]['statusTicket'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_mp_payments");
-			$this->db->join('tb_ticket_payment_manual_type', 'tb_ticket_payment_manual_type.id = tb_mp_payments.idManualPaymentTypeKf', 'left');
-			$quuery = $this->db->where("idPayment = ", @$ticket['idPaymentKf'])->get();
-			$rs_tickets['tickets'][$key]['paymentDetails'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_mp_payments");
-			$quuery = $this->db->where("idPayment = ", @$ticket['idPaymentDeliveryKf'])->get();
-			$rs_tickets['tickets'][$key]['paymentDeliveryDetails'] = @$quuery->result_array()[0];
-
-			$this->db->select("idMgmtMethod, mgmtMethod AS name")->from("tb_ticket_mgmt_method");
-			$quuery = $this->db->where("idMgmtMethod = ", @$ticket['idMgmtMethodKf'])->get();
-			$rs_tickets['tickets'][$key]['keysMethod'] = @$quuery->result_array()[0];
-
-			$this->db->select("*,tb_ticket_changes_history.descripcion as description,")->from("tb_ticket_changes_history");
-			$this->db->join('tb_ticket_changes_category', 'tb_ticket_changes_category.id = tb_ticket_changes_history.idCambiosTicketKf', 'left');
-			$this->db->join('tb_user', 'tb_user.idUser = tb_ticket_changes_history.idUserKf', 'left');
-			$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
-			$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
-			$this->db->join('tb_status', 'tb_status.idStatusTenant = tb_user.idStatusKf', 'left');
-			$this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = tb_user.idTyepeAttendantKf', 'left');
-			$quuery = $this->db->where("idTicketKf = ", @$ticket['idTicket'])->get();
-			$rs_tickets['tickets'][$key]['changes_history'] = @$quuery->result_array();
-			if (@$ticket['isBillingUploaded'] == 1) {
-				$this->db->select("*")->from("tb_ticket_files_list");
-				$quuery = $this->db->where("idTicketKf = ", $ticket['idTicket'])->get();
-				$rs_tickets['tickets'][$key]['billingReceiptDetails'] = @$quuery->result_array();
-			} else {
-				$rs_tickets['tickets'][$key]['billingReceiptDetails'] = null;
-			}
-			$this->db->select("*")->from("tb_ticket_delivery_company");
-			$quuery = $this->db->where("idDeliveryCompany = ", @$ticket['idDeliveryCompanyKf'])->get();
-			$rs_tickets['tickets'][$key]['deliveryCompanyDetails'] = @$quuery->result_array()[0];
-
-			$this->db->select("*")->from("tb_tickets_refunds");
-			$this->db->join('tb_tickets_refunds_status', 'tb_tickets_refunds_status.idRefundType = tb_tickets_refunds.idRefundTypeKf', 'left');
-			$quuery = $this->db->where("idTicketKf = ", @$ticket['idTicket'])->get();
-			if ($quuery->num_rows() > 0) {
-				$rs_tickets['tickets'][$key]['refundsDetails'] = @$quuery->result_array();
-			} else {
-				$rs_tickets['tickets'][$key]['refundsDetails'] = null;
-			}
-			//INITIAL DELIVERY DATA
-			$this->db->select("*")->from("tb_client_initial_delivery");
-			$quuery = $this->db->where("tb_client_initial_delivery.idClientKf =", @$ticket['idBuildingKf'])->get();
-
-			$rs9 = $quuery->result_array();
-			$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'] = $rs9;
-			$rs_tickets['tickets'][$key]['building']['initial_delivery'] = $rs9;
-			if ($quuery->num_rows() > 0) {
-				//print_r($rs['customers'][$i]['initial_delivery'][0]['expirationDate']);
-				$dateString = $rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'][0]['expirationDate'];
-				$dateString = $rs_tickets['tickets'][$key]['building']['initial_delivery'][0]['expirationDate'];
-				// Date string to compare
-				// Convert date string to a DateTime object
-				$dateToCompare = new DateTime($dateString);
-
-				// Get the current date as a DateTime object
-				$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
-
-				$dateToCompareFormatted = $dateToCompare->format('Y-m-d');
-				$currentDateFormatted = $now->format('Y-m-d');
-				//print_r("currentDate   : ".$currentDateFormatted);
-				//print("dateString    : ".$dateString);
-				//print("dateToCompare : ".$dateToCompareFormatted);
-				//print("currentDate   : ".$currentDate);
-				if ($currentDateFormatted > $dateToCompareFormatted) {
-					$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'][0]['expiration_state'] = true;
-					$rs_tickets['tickets'][$key]['building']['initial_delivery'][0]['expiration_state'] = true;
-				} else {
-					$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'][0]['expiration_state'] = false;
-					$rs_tickets['tickets'][$key]['building']['initial_delivery'][0]['expiration_state'] = false;
-				}
-			} else {
-				$rs_tickets['tickets'][$key]['building']['isInitialDeliveryActive'] = [];
-			}
-		}
-		if (count($rs_tickets['tickets']) >= 0) {
-			return $rs_tickets;
 		}
 	}
 
@@ -4523,7 +4237,6 @@ class Ticket_model extends CI_Model
 
 		return $typeAtendant;
 	}
-
 
 	/* VERIFICAR SI UN PROPIETARIO O INQUILINO POSEE UN TICKET SIN FINALIZAR  */
 	public function verificateTicketByidUser($id)

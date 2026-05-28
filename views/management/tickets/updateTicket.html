@@ -72,7 +72,7 @@
                                   <button ng-if="sysLoggedUser.idProfileKf==1 && (tkupdate.idTypeRequestFor=='2'||tkupdate.idTypeRequestFor=='4') && tkupdate.isKeysEnable && tkupdate.building.isStockInOffice=='1' && tkupdate.idStatusTicketKf==8 && tkupdate.isCancelRequested!='1'" ng-click="modalConfirmation('ticketDeliveredOffice',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Completar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
                                   <button ng-if="sysLoggedUser.idProfileKf==1 && tkupdate.idStatusTicketKf==12 && tkupdate.isCancelRequested!='1'" ng-click="modalConfirmation('ticketDisabledKeys',0, tkupdate)" data-toggle="tooltip" data-placement="bottom" title="Completar pedido" type="button" style="margin-left: 0.5%" class="btn btn-sm btn-success"><i class="fas fa-check"></i></button>
                               </div>
-                              <div ng-if="tkupdate.idTypeTicketKf==2" class="col-md-12">
+                              <div ng-if="tkupdate.idTypeTicketKf==='2'" class="col-md-12">
                                 <span>Razón:
                                 <span ng-show="tkupdate.idDisabledReasonKf!=null && tkupdate.idDisabledReasonKf!=undefined && tkupdate.idDisabledReasonKf=='1'" data-toggle="tooltip" data-placement="top"  title="Razón" style="font-size: 85%;" class="label label-danger">{{tkupdate.disabledReasonDetails.reasonDisabledItem}}</span>
                                 <span ng-show="tkupdate.idDisabledReasonKf!=null && tkupdate.idDisabledReasonKf!=undefined && tkupdate.idDisabledReasonKf=='2'" data-toggle="tooltip" data-placement="top"  title="Razón" style="font-size: 85%;" class="label label-warning">{{tkupdate.disabledReasonDetails.reasonDisabledItem}}</span>
@@ -82,9 +82,9 @@
                                 <span ng-show="tkupdate.idDisabledReasonKf==null || tkupdate.idDisabledReasonKf==undefined" data-toggle="tooltip" data-placement="top"  title="Razón" style="font-size: 85%;" class="label label-warning">No definido</span>
                                 </span>
                               </div>
-                              <div ng-if="tkupdate.idMgmtMethodKf" class="col-md-12" style="padding-top: 0.5% !important">
-                                <div class="col-md-5 n-padding-l n-padding-r" style="width: 36% !important">
-                                  <span>Gestion de Llaveros:</span>
+                              <div ng-if="tkupdate.idMgmtMethodKf && tkupdate.idDeviceTypeKf!='2'" class="col-md-12" style="padding-top: 0.5% !important">
+                                <div class="col-md-5 n-padding-l n-padding-r" style="width: 42% !important">
+                                  <span>Gestion de Dispositivos:</span>
                                 </div>
                                 <div class="col-md-5 n-padding-l">
                                   <span ng-if="tkupdate.idMgmtMethodKf=='2'" class="badge badge-warning">{{tkupdate.keysMethod.name | capitalize}}</span>
@@ -93,35 +93,35 @@
                                   <span ng-if="tkupdate.idMgmtMethodKf=='1' && tkupdate.building.isStockInBuilding!=undefined && tkupdate.building.isStockInBuilding=='1'" class="badge badge-warning"> En Edificio</span>
                                 </div>
                               </div>
-                              <div ng-if="tkupdate.idMgmtMethodKf" class="col-md-12" style="padding-top: 0.5% !important">
+                              <div ng-if="tkupdate.idMgmtMethodKf || tkupdate.idDeviceTypeKf=='2'" class="col-md-12" style="padding-top: 0.5% !important">
                                 <div class="col-md-5 n-padding-l n-padding-r" style="width: 40% !important">
                                   <span>Forma de Habilitación:</span>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                  <input id="whereKeysAreEnableOnline" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='6' || tkupdate.building.isHasInternetOnline==null || !tkupdate.building.isHasInternetOnline" type="radio" name="whereKeysAreEnable" value="1" ng-model="functions.whereKeysAreEnable">
+                                  <input id="whereKeysAreEnableOnline" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='13' || tkupdate.idStatusTicketKf=='6' || tkupdate.building.isHasInternetOnline==null || !tkupdate.building.isHasInternetOnline || tkupdate.idDeviceTypeKf=='2'" type="radio" name="whereKeysAreEnable" value="1" ng-model="functions.whereKeysAreEnable">
                                   <label for="whereKeysAreEnableOnline" class="radio-2x-label">
                                     <span class="badge badge-success">Online</span>
                                   </label>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                    <input id="whereKeysAreEnableBuilding" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='6'" type="radio" name="whereKeysAreEnable" value="2" ng-model="functions.whereKeysAreEnable">
+                                    <input id="whereKeysAreEnableBuilding" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='13' || tkupdate.idStatusTicketKf=='6' || tkupdate.idDeviceTypeKf=='2'" type="radio" name="whereKeysAreEnable" value="2" ng-model="functions.whereKeysAreEnable">
                                     <label for="whereKeysAreEnableBuilding" class="radio-2x-label">
                                     <span class="badge badge-warning">Edificio</span>
                                     </label>
                                 </div>
                               </div>
-                              <div ng-if="tkupdate.idMgmtMethodKf" class="col-md-12" style="padding-top: 0.5% !important">
-                                <div class="col-md-5 n-padding-l n-padding-r" style="width: 36% !important">
-                                  <span>Llaveros Habilitados:</span>
+                              <div ng-if="tkupdate.idMgmtMethodKf || tkupdate.idDeviceTypeKf=='2'" class="col-md-12" style="padding-top: 0.5% !important">
+                                <div class="col-md-5 n-padding-l n-padding-r" style="width: 42% !important">
+                                  <span>Dispositivos Habilitados:</span>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                  <input id="isKeysEnableYes" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='6'" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="1" ng-model="functions.isKeysEnable">
+                                  <input id="isKeysEnableYes" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='13' || tkupdate.idStatusTicketKf=='6'" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="1" ng-model="functions.isKeysEnable">
                                   <label for="isKeysEnableYes" class="radio-2x-label">
                                     <span class="badge badge-success">Si</span>
                                   </label>
                                 </div>
                                 <div class="col-md-3 col-xs-6 n-padding-l" style="margin-top: -0.6% !important;">
-                                    <input id="isKeysEnableNo" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='6'" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="0" ng-model="functions.isKeysEnable">
+                                    <input id="isKeysEnableNo" ng-click="modalConfirmation('isKeysEnable', 0, functions)" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='13' || tkupdate.idStatusTicketKf=='6'" class="radio-2x ng-dirty ng-touched ng-not-empty ng-valid ng-valid-required" type="radio" name="isKeysEnable" value="0" ng-model="functions.isKeysEnable">
                                     <label for="isKeysEnableNo" class="radio-2x-label">
                                     <span class="badge badge-warning">No</span>
                                     </label>
@@ -168,7 +168,7 @@
                                 </div>
                                 <div class="col-md-1 col-xs-2 n-padding-l n-padding-r">
                                   <label class="switch switch-2x" for="isTechnicianAssigned-set">
-                                      <input type="checkbox" class="success" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='6' || tkupdate.idStatusTicketKf=='13'" ng-click="modalConfirmation('isTechnicianAssigned', 0, tkupdate)" ng-model="functions.isTechnicianAssignedTmp" id="isTechnicianAssigned-set">
+                                      <input type="checkbox" class="success" ng-disabled="tkupdate.idStatusTicketKf=='1' || tkupdate.idStatusTicketKf=='13' || tkupdate.idStatusTicketKf=='6' || tkupdate.idStatusTicketKf=='13'" ng-click="modalConfirmation('isTechnicianAssigned', 0, tkupdate)" ng-model="functions.isTechnicianAssignedTmp" id="isTechnicianAssigned-set">
                                       <span class="slider slider-2x flat"></span>
                                   </label>
                                 </div>
@@ -205,7 +205,7 @@
                                   <div class="counter-ticket">
                                     <!-- <i class="fas fa-key fa-lg fa-ticket-2x"></i>-->
                                     <h2 class="timer count-ticket-title count-number" data-to="100" data-speed="1500">$ {{tkupdate.costKeys  | number:0}}</h2>
-                                    <p class="count-ticket-text ">Llaveros</p>
+                                    <p class="count-ticket-text ">Dispositivos</p>
                                   </div>
                                 </div>
                               </div>
@@ -272,7 +272,7 @@
                         </div>-->
                         <div class="col-md-12 col-sm-12 col-xs-12">
                             <!-- KEYS -->
-                              <div ng-show="tkupdate.idTypeTicketKf=='1'" ng-click="tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))?'':mainSwitchFn('mgmtPrecheck', tkupdate.keys, null)" style="margin-bottom: 1em;"
+                              <div ng-show="tkupdate.idTypeTicketKf=='1' && tkupdate.idDeviceTypeKf!='2'" ng-click="tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))?'':mainSwitchFn('mgmtPrecheck', tkupdate.keys, null)" style="margin-bottom: 1em;"
                               ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
                                   <div class="card-customer">
                                     <div ng-if="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))" class="ribbon-h ribbon-h-danger"><span>No disponible</span></div>
@@ -288,13 +288,13 @@
                                       <span ng-if="rsNewKeychainList.length==tkupdate.keys.length">
                                         <i class="fas fa-check-circle"></i>
                                       </span>
-                                      <span ng-if="rsNewKeychainList.length<tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Llaveros pendiente por gestion.">
-                                      <span ng-if="rsNewKeychainList.length==tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Llaveros asignados."></span>
+                                        <span ng-if="rsNewKeychainList.length<tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Dispositivos pendiente por gestion.">
+                                        <span ng-if="rsNewKeychainList.length==tkupdate.keys.length" data-toggle="tooltip" data-placement="top" title="Dispositivos asignados."></span>
                                         <i class="fas fa-exclamation-triangle"></i>
                                       </span>
                                     </div>
                                     <div class="col-md-12 card-title">
-                                      <h4 class="text-uppercase right">Llaveros</h4>
+                                      <h4 class="text-uppercase right">Dispositivos</h4>
                                     </div>
                                   </div>
                               </div>
@@ -324,7 +324,7 @@
                                   </div>
                               </div>
                             <!-- DELIVERY -->
-                              <div ng-if="tkupdate.idTypeTicketKf=='1'" ng-click="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))?'':mainSwitchFn('ticket_delivery', tkupdate, null)" class="" style="margin-bottom: 1em;"
+                              <div ng-if="tkupdate.idTypeTicketKf=='1' && tkupdate.idDeviceTypeKf!='2'" ng-click="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))?'':mainSwitchFn('ticket_delivery', tkupdate, null)" class="" style="margin-bottom: 1em;"
                               ng-class="{'col-md-3 col-xs-6':!tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1, 'col-md-2 col-xs-6':tkupdate.isHasRefundsOpen || tkupdate.refundsDetails.length>=1}">
                                   <div class="card-customer">
                                     <div ng-if="tkupdate.idTypeRequestFor=='4' && ((tkupdate.building.isStockInBuilding==null || tkupdate.building.isStockInBuilding=='0') && (tkupdate.building.isStockInOffice==null || tkupdate.building.isStockInOffice=='0'))" class="ribbon-h ribbon-h-danger"><span>No disponible</span></div>
@@ -432,26 +432,26 @@
                                           </tr>
                                       </thead>
                                       <tbody style="overflow: auto;height: auto !important;" class="">
-                                          <tr ng-repeat-start="key in tkupdate.keys track by $index">
-                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" class="media-middle text-center" style="vertical-align:middle !important;">{{$index+1}}</td>
-                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" class="media-middle text-center" style="vertical-align:middle !important;">
+                                          <tr ng-repeat-start="key in tkupdate.keys track by $index" style="cursor: pointer;" ng-click="tkupdate.idDeviceTypeKf=='2'?mainSwitchFn('device_user', key.user, null):''">
+                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" class="media-middle text-center" style="vertical-align:middle !important; cursor: pointer !important;">{{$index+1}}</td>
+                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" class="media-middle text-center" style="vertical-align:middle !important; cursor: pointer !important;">
                                               {{key.descriptionProduct}} <span class="badge badge-warning">{{key.brand}}</span>
                                             </td>
-                                            <td ng-show="tkupdate.idTypeTicketKf=='1'" class="media-middle text-center">{{key.doors[0].typeMaintenance}}</td>
-                                            <td ng-show="tkupdate.idTypeTicketKf=='1'" class="media-middle text-center">
+                                            <td ng-show="tkupdate.idTypeTicketKf=='1'" style="vertical-align:middle !important; cursor: pointer !important;" class="media-middle text-center">{{key.doors[0].typeMaintenance}}</td>
+                                            <td ng-show="tkupdate.idTypeTicketKf=='1'" style="vertical-align:middle !important; cursor: pointer !important;" class="media-middle text-center">
                                               {{key.doors[0].descriptionProduct}} <span class="badge badge-warning">{{key.doors[0].brand}}</span>
                                             </td>
                                             <td ng-show="(tkupdate.idTypeTicketKf=='1') && tkupdate.idTypeRequestFor!='6'" class="media-middle text-center">{{key.doors[0].titulo}}</td>
-                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" class="media-middle text-center" ng-show="tkupdate.idTypeTicketKf=='2'">{{key.keychain.codigo}}</td>
-                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" class="media-middle text-center" ng-show="tkupdate.idTypeTicketKf=='2'">{{key.keychain.codExt}}</td>
-                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" class="media-middle text-center" ng-show="((tkupdate.idTypeTicketKf=='2' && tkupdate.keys[0].idUserKf!=null) || (tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && tkupdate.keys[0].idUserKf!=null))">{{key.user.fullNameUser}}</td>
-                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" class="media-middle text-center" ng-show="((tkupdate.idTypeTicketKf=='2' && tkupdate.keys[0].idUserKf==null) || (tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && tkupdate.keys[0].idUserKf==null))"><span class="badge badge-warning">No asignado</span></td>
-                                            <td ng-show="tkupdate.idTypeTicketKf=='2' && key.doors.length > 1" class="media-middle text-center">{{key.doors[0].titulo}}</td>
+                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" style="vertical-align:middle !important; cursor: pointer !important;" class="media-middle text-center" ng-show="tkupdate.idTypeTicketKf=='2'">{{key.keychain.codigo}}</td>
+                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" style="vertical-align:middle !important; cursor: pointer !important;" class="media-middle text-center" ng-show="tkupdate.idTypeTicketKf=='2'">{{key.keychain.codExt}}</td>
+                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" style="vertical-align:middle !important; cursor: pointer !important;" class="media-middle text-center" ng-show="((tkupdate.idTypeTicketKf=='2' && tkupdate.keys[0].idUserKf!=null) || (tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && tkupdate.keys[0].idUserKf!=null))">{{key.user.fullNameUser}}</td>
+                                            <td rowspan="{{ key.doors.length > 1 ? key.doors.length : 1 }}" style="vertical-align:middle !important; cursor: pointer !important;" class="media-middle text-center" ng-show="((tkupdate.idTypeTicketKf=='2' && tkupdate.keys[0].idUserKf==null) || (tkupdate.idTypeTicketKf=='1' && tkupdate.idTypeRequestFor=='6' && tkupdate.keys[0].idUserKf==null))"><span class="badge badge-warning">No asignado</span></td>
+                                            <td ng-show="tkupdate.idTypeTicketKf=='2' && key.doors.length > 1" style="vertical-align:middle !important; cursor: pointer !important;" class="media-middle text-center">{{key.doors[0].titulo}}</td>
                                           </tr>
                                           <tr ng-show="tkupdate.idTypeTicketKf=='1'" ng-repeat="door in key.doors track by $index" ng-if="$index > 0" ng-repeat-end>
-                                            <td class="media-middle text-center">{{door.typeMaintenance}}</td>
-                                            <td class="media-middle text-center">{{door.descriptionProduct}} <span class="badge badge-warning">{{door.brand}}</span></td>
-                                            <td class="media-middle text-center">{{door.titulo}}</td>
+                                            <td class="media-middle text-center" style="vertical-align:middle !important; cursor: pointer !important;">{{door.typeMaintenance}}</td>
+                                            <td class="media-middle text-center" style="vertical-align:middle !important; cursor: pointer !important;">{{door.descriptionProduct}} <span class="badge badge-warning">{{door.brand}}</span></td>
+                                            <td class="media-middle text-center" style="vertical-align:middle !important; cursor: pointer !important;">{{door.titulo}}</td>
                                           </tr>
                                           <!--<td style="vertical-align: middle;text-align: center;">
                                                   <span ng-if="ticket.optionTypeSelected.name=='building' && ticket.radioButtonBuilding=='1'">
@@ -647,10 +647,12 @@
 <div ng-if="sysToken" ng-include="'views/monitor/tickets/lists/refundsList.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/delivery_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/user_details.html'"></div>
+<div ng-if="sysToken" ng-include="'views/management/tickets/user_license_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/payment_details.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/delivery_update.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/register_manual_payment.html'"></div>
 <div ng-if="sysToken" ng-include="'views/management/tickets/internet_conex_details.html'"></div>
 <div ng-include="'views/utilities/modalConfirmation.html'"></div>
+<div ng-include="'views/utilities/modalConfirmationOnly.html'"></div>
 <div ng-include="'views/utilities/showModalRequestStatus.html'"></div>
 <div ng-include="'views/utilities/pdfUploadModal.html'"></div>

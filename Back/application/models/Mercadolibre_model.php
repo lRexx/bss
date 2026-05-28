@@ -167,14 +167,7 @@ class Mercadolibre_model extends CI_Model
 				]);
 
 			} else if ($response != null) {
-
 				if (!is_null($createdBy) && $paymentFor == 1) {
-					$ticketObj = null;
-					$ticketObj['history']['idUserKf'] = $createdBy;
-					$ticketObj['history']['idTicketKf'] = $data->idTicket;
-					$ticketObj['history']['descripcion'] = "Nuevo link generado para pago de pedido.";
-					$ticketObj['history']['idCambiosTicketKf'] = "32";
-					$this->Ticket_model->addTicketTimeline($ticketObj);
 					$ticketObj = null;
 					$ticketObj['history']['idUserKf'] = $createdBy;
 					$ticketObj['history']['idTicketKf'] = $data->idTicket;
@@ -182,6 +175,12 @@ class Mercadolibre_model extends CI_Model
 					$ticketObj['history']['idCambiosTicketKf'] = "35";
 					$this->Ticket_model->addTicketTimeline($ticketObj);
 					/*************************************************************************/
+					$ticketObj = null;
+					$ticketObj['history']['idUserKf'] = $createdBy;
+					$ticketObj['history']['idTicketKf'] = $data->idTicket;
+					$ticketObj['history']['descripcion'] = "Nuevo link generado para pago de pedido.";
+					$ticketObj['history']['idCambiosTicketKf'] = "32";
+					$this->Ticket_model->addTicketTimeline($ticketObj);
 				} else if (!is_null($createdBy) && $paymentFor == 3) {
 					$ticketObj = null;
 					$ticketObj['history']['idUserKf'] = $createdBy;
@@ -625,6 +624,7 @@ class Mercadolibre_model extends CI_Model
 			$subject = null;
 			$body = null;
 			$to = null;
+			$resource = $lastTicketUpdatedQuery['idDeviceTypeKf']!=2 || $lastTicketUpdatedQuery['idDeviceTypeKf']==null ? "Llavero" : "Licencia Face ID";
 			$title = "Link de Pago Generado";
 			if ($lastTicketUpdatedQuery['idTypeRequestFor'] == 1) {
 				if ((!@$data['isManualPayment'] || $lastTicketUpdatedQuery['isManualPayment'] == 0 || is_null($lastTicketUpdatedQuery['isManualPayment'])) && ($lastTicketUpdatedQuery['sendNotify'] == 1 || $lastTicketUpdatedQuery['sendNotify'] == null)) {
@@ -638,10 +638,10 @@ class Mercadolibre_model extends CI_Model
 						$building = $queryBuilding->row_array();
 					}
 					if (!$data['paymentForDelivery']) {
-						$subject = "Pedido Llavero :: " . $building['Depto'] . " :: Link de Pago";
+						$subject = "Pedido " . $resource . " :: " . $building['Depto'] . " :: Link de Pago";
 						$link_mp = $lastTicketUpdatedQuery['paymentDetails']['mp_prod_init_point'];
 					} else {
-						$subject = "Pedido Llavero :: " . $building['Depto'] . " :: Link de Pago de Envío";
+						$subject = "Pedido " . $resource . " :: " . $building['Depto'] . " :: Link de Pago de Envío";
 						$link_mp = $lastTicketUpdatedQuery['paymentDeliveryDetails']['mp_prod_init_point'];
 					}
 					//GET USER
@@ -729,10 +729,10 @@ class Mercadolibre_model extends CI_Model
 			return null;
 		}
 	}
+
 	public function updatePayment($data)
 	{
 		$idPaymentKf = null;
-		$lastPaymentUpdatedQuery = null;
 		if (!is_null(@$data['mp_preference_id'])) {
 			log_message('info', ':::::::::::::::::disablePaidMPLink');
 			log_message('info', 'Paid Preference ID: ' . $data['mp_preference_id']);
@@ -745,6 +745,7 @@ class Mercadolibre_model extends CI_Model
 			$updateMPExpirationRs = null;
 			$updateMPExpirationRs = $this->updateMPExpiration($data['mp_preference_id']);
 		}
+		$lastPaymentUpdatedQuery = null;
 		log_message('info', 'payment_id              :' . $data['payment_id']);
 		$now = new DateTime(null, new DateTimeZone('America/Argentina/Buenos_Aires'));
 		$this->db->set(

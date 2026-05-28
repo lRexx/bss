@@ -12,7 +12,7 @@
           <fieldset>
             <!-- Form Profile Name -->
             <div class="form-group col-md-6">
-              <label class="clf-size clf-p-left">Descripción del Producto</label>  
+              <label class="clf-size clf-p-left">Descripción del Producto</label>
                 <div class="col-xs-12">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-info-circle"></i></span>
@@ -21,7 +21,7 @@
                 </div>
             </div>
             <div class="form-group col-md-6">
-              <label class="clf-size clf-p-left">Código del Fabricante</label>  
+              <label class="clf-size clf-p-left">Código del Fabricante</label>
                 <div class="col-xs-12">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-barcode"></i></span>
@@ -30,7 +30,7 @@
                 </div>
             </div>
             <div class="form-group col-md-6">
-              <label class="clf-size clf-p-left">Marca</label>  
+              <label class="clf-size clf-p-left">Marca</label>
                 <div class="col-xs-12">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-box"></i></span>
@@ -39,7 +39,7 @@
                 </div>
             </div>
             <div class="form-group col-md-6">
-              <label class="clf-size clf-p-left">Modelo</label>  
+              <label class="clf-size clf-p-left">Modelo</label>
                 <div class="col-xs-12">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-tag"></i></span>
@@ -49,14 +49,14 @@
             </div>
             <!-- List Procuts Classification-->
             <div class="form-group col-md-6">
-              <label class="clf-size clf-p-left">Clasificación del Producto</label>  
+              <label class="clf-size clf-p-left">Clasificación del Producto</label>
                 <div class="col-xs-12 selectContainer">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                    <select name="updateProductsClassif" 
-                        class="form-control" 
-                        ng-change="update.product.diviceOpening=null; removeAllDevices(); update.product.isControlSchedule=false;"  
-                        ng-options="item.idProductClassification as item.classification for item in rsClasProductsData" 
+                    <select name="updateProductsClassif"
+                        class="form-control"
+                        ng-change="update.product.diviceOpening=null; removeAllDevices(); update.product.isControlSchedule=false;"
+                        ng-options="item.idProductClassification as item.classification for item in rsClasProductsData"
                         required autofocus
                         ng-model="update.product.idProductClassificationFk" autofocus >
                       <option value=""></option>
@@ -66,7 +66,7 @@
             </div>
             <!-- Product Price input -->
             <div class="form-group col-md-6">
-              <label class="clf-size clf-p-left">Precio</label>  
+              <label class="clf-size clf-p-left">Precio</label>
                 <div class="col-xs-12">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="fas fa-tag"></i></span>
@@ -105,7 +105,7 @@
                           </label>
                         </td>
                     </tr>
-                </table>   
+                </table>
                   </div>
             </div>
             <!-- SCHEDULE CONTROL -->
@@ -139,18 +139,34 @@
                     </tr>
                 </table>
               </div>
-            </div>              
+            </div>
+              <!-- OPEN DEVICES ONLY -->
+              <div ng-if="update.product.idProductClassificationFk==19" class=" col-md-6 col-sm-6">
+                <div class="well-checkbox">
+                  <table>
+                    <tr>
+                      <td style="width: 200%"><span class="text-muted text-uppercase text-box">Tipo Licencia </span></td>
+                          <td>
+                            <label class="switch switch-3x">
+                                <input type="checkbox" class="success"ng-model="update.product.isLicenseDevice" id="isLicenseDevice">
+                                <span class="slider slider-3x flat"></span>
+                            </label>
+                          </td>
+                      </tr>
+                  </table>
+                </div>
+              </div>
             <!-- List of Open Devices Procuts-->
             <!--<div ng-if="update.product.idProductClassificationFk==30000" class="form-group col-md-6">
-              <label class="clf-size clf-p-left">Dispositivos de Apertura <span style="margin-left: 100px;"> <button ng-disabled="diviceOpening==0 || diviceOpening==undefined || list_divices.length==1 " ng-click="addDeviceOpeningFn(diviceOpening)" class="btn btn-sm btn-success">Agregar</button></label>  
+              <label class="clf-size clf-p-left">Dispositivos de Apertura <span style="margin-left: 100px;"> <button ng-disabled="diviceOpening==0 || diviceOpening==undefined || list_divices.length==1 " ng-click="addDeviceOpeningFn(diviceOpening)" class="btn btn-sm btn-success">Agregar</button></label>
                 <div class="col-xs-12 selectContainer">
                   <div class="input-group">
                     <span class="input-group-addon"><i class="glyphicon glyphicon-cog"></i></span>
-                    <select name="updatediviceOpening" 
-                        class="form-control" 
+                    <select name="updatediviceOpening"
+                        class="form-control"
                         ng-change=""
-                        ng-disabled="list_divices.length==1"  
-                        ng-options="item as item.diviceOpening for item in rsOpenDeviceProductsData" 
+                        ng-disabled="list_divices.length==1"
+                        ng-options="item as item.diviceOpening for item in rsOpenDeviceProductsData"
                         ng-required="update.product.idProductClassificationFk==3 && list_id_divice.length==0"
                         autofocus
                         ng-model="diviceOpening" autofocus >
@@ -171,7 +187,7 @@
             </div>-->
           </fieldset>
         </form>
-        <div class="clearfix"> </div> 
+        <div class="clearfix"> </div>
       </div>
       <!-- Actions Button ng-click="newSysProfileFn()"-->
             <div class="modal-footer">

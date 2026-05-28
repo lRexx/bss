@@ -249,7 +249,7 @@ class Util extends REST_Controller {
         } else {
             $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
         }
-    }    
+    }
     public function uploadFile_post() {
 
                 $config['upload_path']          = './uploads/';
@@ -265,7 +265,7 @@ class Util extends REST_Controller {
             return $error;
         } else {
             //$data = array('image_metadata' => $this->upload->data());
-            return true;            
+            return true;
         }
     }
     public function typeTechnicianServices_get() {
@@ -288,6 +288,35 @@ class Util extends REST_Controller {
             $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
         }
     }
+
+    /**
+     * GET: /Country/phoneCodes
+     */
+    public function phoneCodes_get() {
+
+        header('Content-Type: application/json');
+
+        try {
+
+            $result = $this->util_model->getCountryCode();
+
+            if (! is_null($result)) {
+                $this->response($result, 200);
+            } else {
+                $this->response([ 'error' => 'NO HAY RESULTADOS' ], 404);
+            }
+
+        } catch (Exception $e) {
+
+            http_response_code(500);
+
+            echo json_encode([
+                'status'  => 'error',
+                'message' => $e->getMessage()
+            ]);
+        }
+    }
+
 }
 
 ?>
