@@ -391,7 +391,7 @@
 										class="btn btn-labeled btn-sm " ng-class="{'btn-info':selectedUser==undefined, 'btn-warning':selectedUser!=undefined}">
 										<span ng-if="selectedUser==undefined" class="btn-label"><i class="fas fa-user-tag"></i> </span>
 										<span ng-if="selectedUser!=undefined" class="btn-label"><i class="fas fa-check-square"></i> </span>
-										<span ng-if="selectedUser!=undefined">Encargado seleccionado</span>
+										<span ng-if="selectedUser!=undefined">Personal seleccionado</span>
 										<span ng-if="selectedUser==undefined">Seleccionar Personal</span>
 									</button>
 									<button ng-if="(ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && (ticket.optionTypeSelected.name=='department' || (ticket.optionTypeSelected.name=='building' && (ticket.radioButtonBuilding=='1' || ticket.radioButtonBuilding=='2' || ticket.radioButtonBuilding=='3' || ticket.radioButtonBuilding=='5'))))" style="margin-top:2em;" data-toggle="tooltip" data-placement="right" title="Agregar"
