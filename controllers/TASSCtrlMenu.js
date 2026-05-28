@@ -722,6 +722,30 @@
               }
             });
           };
+        /**************************************************
+        *                                                 *
+        *              GET TICKET TYPES LIST              *
+        *                                                 *
+        **************************************************/
+          $scope.countryPhoneCodesList = [];
+          $scope.getCountryPhoneCodesFn = function(){
+              UtilitiesServices.getCountryPhoneCodes().then(function(response){
+                //console.log(response);
+              if(response.status==200){
+                      $scope.countryPhoneCodesList = response.data;
+              }else if (response.status==404){
+                  inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                      ttl:3000, type: 'danger'
+                  });
+                      $scope.countryPhoneCodesList = undefined;
+              }else if (response.status==500){
+                  inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+                  ttl:3000, type: 'danger'
+                  });
+                  $scope.countryPhoneCodesList = undefined;
+              }
+              });
+          };
           $scope.fnLoadPhoneMask = function(){
             /**********************************************
             *               INPUT PHONE MASK              *
@@ -1224,6 +1248,7 @@
           $scope.typeOfPropertyFn();
           $scope.getInternetTypesFn();
           $scope.CallFilterFormU();
+          $scope.getCountryPhoneCodesFn();
           $scope.fnLoadPhoneMask();
           $timeout(function() {
             inform.add('Bienvenido Sr/a '+ $scope.sysLoggedUser.fullNameUser,{
