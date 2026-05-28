@@ -2903,7 +2903,11 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                         if ($scope.isRequest=="up" && !$scope.ticket.deviceSelected && $scope.ticket.isHasMutiplesDevicesTypes){
                             $scope.mainSwitchFn('selectDeviceType', null, null);
                         }else if ($scope.isRequest=="up" && ($scope.ticket.deviceSelected || !$scope.ticket.deviceSelected) && !$scope.ticket.isHasMutiplesDevicesTypes){
-                            $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
+                            if ($scope.select.products.selected.isLicenseDevice=="1"){
+                                $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "2");
+                            }else{
+                                $scope.ticket.deviceTypeSelected = $scope.rsTicketDevicesType.find(s => s.idDeviceType == "1");
+                            }
                             $scope.ticket.idDeviceTypeKf = $scope.ticket.deviceTypeSelected.idDeviceType;
                             $scope.ticket.deviceSelected = true;
                             console.log($scope.ticket);
