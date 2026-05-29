@@ -36,7 +36,7 @@
                   </li>
                   <!-- CAMBIO DE ENVÍO -->
                   <li class="dropdown-item"
-                      ng-if="item.idTypeRequestFor!=2 && (item.isInitialDeliveryActive==undefined || item.isInitialDeliveryActive==null || item.isInitialDeliveryActive=='0')
+                      ng-if="item.idTypeRequestFor!='2' && (item.isInitialDeliveryActive==undefined || item.isInitialDeliveryActive==null || item.isInitialDeliveryActive=='0')
                             && (item.idTypeTicketKf<2
                             && ((item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1)
                             || (item.idStatusTicketKf==10 && item.isCancelRequested==1)))">
@@ -67,7 +67,7 @@
                               && (item.idTypeRequestFor==1 || item.idTypeRequestFor==5)
                               && item.idStatusTicketKf!=6 && item.idStatusTicketKf!=1
                               && item.isCancelRequested!='1')
-                              && (item.paymentDetails.mp_payment_id==null || item.paymentDetails.mp_payment_id==0 || item.paymentDetails.mp_payment_id==''))">
+                              && (item.paymentDetails.manualPaymentNumber==null || item.paymentDetails.manualPaymentNumber==0 || item.paymentDetails.manualPaymentNumber==''))">
                     <div class="divider"></div>
                     <a href=""
                       ng-click="modalConfirmation('createMPLink',0, item)">

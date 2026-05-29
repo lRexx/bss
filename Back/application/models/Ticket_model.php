@@ -3185,6 +3185,13 @@ class Ticket_model extends CI_Model
 				$this->db->join('tb_clients', 'tb_clients.idClient = tb_tickets_2.idBuildingKf', 'left');
 				$this->db->where('tb_clients.isStockInBuilding  IS NOT NULL');
 			}
+			//DEVICE TYPE
+			if (@$data['idDeviceTypeKf'] == '1') {
+				$where = "(idDeviceTypeKf= " . @$data['idDeviceTypeKf']. " OR  ISNULL(idDeviceTypeKf) )";
+				$this->db->where($where);
+			}else if (@$data['idDeviceTypeKf'] == '2') {
+				$this->db->where("idDeviceTypeKf = ", @$data['idDeviceTypeKf']);
+			}
 			//TICKET TYPE
 			if (@$data['idTypeTicketKf'] != '') {
 				$this->db->where("idTypeTicketKf = ", @$data['idTypeTicketKf']);

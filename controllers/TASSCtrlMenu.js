@@ -1,7 +1,7 @@
   /**
    * Menu Controller
    */
-  var menu = angular.module("module.Menu", ["tokenSystem", "angular.filter", "services.Customers", "services.Address", "services.User", "services.Profiles", "services.Utilities"]);
+  var menu = angular.module("module.Menu", ["tokenSystem", "angular.filter", "services.Customers", "services.Address", "services.Ticket", "services.User", "services.Profiles", "services.Utilities"]);
   menu.directive('allowTyping', function () {
     return {
       restrict : 'A',
@@ -53,7 +53,7 @@
       }
     };
   });
-  menu.controller('MenuCtrl', function($scope, $cookies, $http, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, inputService, CustomerServices, userServices, ProfileServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter,serverHost, serverBackend, APP_SYS, APP_REGEX){
+  menu.controller('MenuCtrl', function($scope, $cookies, $http, $location, $routeParams, $document, $interval, blockUI, $timeout, inform, ticketServices, inputService, CustomerServices, userServices, ProfileServices, tokenSystem, addressServices, UtilitiesServices, $window, $filter,serverHost, serverBackend, APP_SYS, APP_REGEX){
       //if ($location.path() == "/login"){console.log($location.path());}
       console.log("Bienvenido al sistema de "+APP_SYS.app_name);
       console.log("Version v"+APP_SYS.version);
@@ -746,6 +746,29 @@
               }
               });
           };
+        /**************************************************
+        *                                                 *
+        *              LIST DEVICES TYPES                 *
+        *                                                 *
+        **************************************************/
+            $scope.rsTicketDevicesType = [];
+            $scope.getTicketDevicesTypeFn = function(){
+                $scope.rsTicketDevicesType = [];
+                //console.log("Getting --> TicketDevicesTypeFn");
+                ticketServices.getTicketDevicesTypeServices().then(function(response){
+                    console.log(response.data);
+                    if(response.status==200){
+                        $scope.rsTicketDevicesType = response.data;
+                    }else if (response.status==404){
+                        $scope.rsTicketDevicesType = [];
+                    }else if (response.status==500){
+                        inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
+                            ttl:5000, type: 'danger'
+                        });
+                    }
+                });
+                //console.log($scope.rsTicketDevicesType);
+            }
           $scope.fnLoadPhoneMask = function(){
             /**********************************************
             *               INPUT PHONE MASK              *
@@ -1249,6 +1272,7 @@
           $scope.getInternetTypesFn();
           $scope.CallFilterFormU();
           $scope.getCountryPhoneCodesFn();
+          $scope.getTicketDevicesTypeFn();
           $scope.fnLoadPhoneMask();
           $timeout(function() {
             inform.add('Bienvenido Sr/a '+ $scope.sysLoggedUser.fullNameUser,{

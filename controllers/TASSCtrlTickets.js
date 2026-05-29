@@ -810,29 +810,6 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 });
                 //console.log($scope.rsCustomerAccessControlDoors);
             }
-        /**************************************************
-        *                                                 *
-        *              LIST DEVICES TYPES                 *
-        *                                                 *
-        **************************************************/
-            $scope.rsTicketDevicesType = [];
-            $scope.getTicketDevicesTypeFn = function(){
-                $scope.rsTicketDevicesType = [];
-                //console.log("Getting --> TicketDevicesTypeFn");
-                ticketServices.getTicketDevicesTypeServices().then(function(response){
-                    console.log(response.data);
-                    if(response.status==200){
-                        $scope.rsTicketDevicesType = response.data;
-                    }else if (response.status==404){
-                        $scope.rsTicketDevicesType = [];
-                    }else if (response.status==500){
-                        inform.add('[Error]: '+response.status+', Ocurrio error intenta de nuevo o contacta el area de soporte. ',{
-                            ttl:5000, type: 'danger'
-                        });
-                    }
-                });
-                //console.log($scope.rsTicketDevicesType);
-            }
             $scope.rsCustomerInterneServices = [];
             $scope.rsControlAccessAssociated = false;
             $scope.checkControlAccessStateFn = function(idClient){

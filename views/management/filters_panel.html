@@ -165,20 +165,23 @@
                         </div>
                     </div>
                     <div class="clearfix"> </div>
-                    <!-- Filter Type of Ticket for Onwer User-->
-                    <div ng-if="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" class="form-group col-md-6 col-xs-12">
-                        <label>Tipo de Ticket</label>
+                    <!-- Filter Type of devices-->
+                    <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-3 col-xs-12" ng-class="
+                    {	'has-success':
+                        filters.deviceType.idDeviceTypeKf!='' && filtersTicket.idDeviceTypeKf.$valid,
+                    }">
+                        <label>Dispositivos</label>
                         <div class="col-xl-12 selectContainer">
                         <div class="input-group">
                                 <span class="input-group-addon"><i class="fas fa-tag"></i></span>
-                                <select name="idTypeTicketKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.TypeTicketName for item in listTypeTicket | filter:differentThan" ng-required="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" ng-model="filters.typeTicket"  >
+                                <select name="idDeviceTypeKf" class="form-control" ng-change="mainSwitchFn('search', null)"  ng-options="item as item.deviceName for item in rsTicketDevicesType | filter: {idDeviceType: '!3'}" ng-required="sysLoggedUser.idProfileKf!=2 && sysLoggedUser.idProfileKf!=1" ng-model="filters.deviceType"  >
                                 <option value="">Todos</option>
                                 </select>
                         </div>
                         </div>
                     </div>
                     <!-- Filter Type of Ticket for Sys User-->
-                    <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-4 col-xs-12" ng-class="
+                    <div ng-if="sysLoggedUser.idProfileKf==1" class="form-group col-md-3 col-xs-12" ng-class="
                     {	'has-success':
                         filters.typeTicket.idTypeTicket!='' && filtersTicket.typeTicket.$valid,
                     }">
@@ -193,7 +196,7 @@
                         </div>
                     </div>
                     <!-- Filter Type of Status-->
-                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
+                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-3 col-xs-12" ng-class="
                         {	'has-success':
                             filters.ticketStatus.idStatus!='' && filtersTicket.ticketStatus.$valid,
                         }">
@@ -208,7 +211,7 @@
                         </div>
                     </div>
                     <!-- Filter Type of Delivery-->
-                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-4 col-xs-12" ng-class="
+                    <div ng-if="sysLoggedUser.idProfileKf!=0" class="form-group col-md-3 col-xs-12" ng-class="
                         {	'has-success':
                             filters.typDelivery.idTypeDelivery!='' && filtersTicket.typDelivery.$valid,
                         }">
@@ -255,7 +258,7 @@
                     </div>
                     <div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-6 col-xs-12">
                         <!--<div ng-if="filters.ticketStatus.idStatus=='6' && filters.paymentsType.id=='2'" class="col-md-6 col-xs-6">-->
-                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Llaveros Habilitados</label></div>
+                        <div class="col-md-12 col-xs-12" ><label class="clf-size">Dispositivos Habilitados</label></div>
                         <div class=" n-padding-l col-md-4 col-xs-4" style="margin-top: -0.6% !important;">
                             <input id="isKeysEnableAll" class="radio-2x" type="radio" ng-change="mainSwitchFn('search', null)" name="All" value="" ng-checked="true" ng-model="filters.isKeysEnable">
                             <label for="isKeysEnableAll" class="radio-2x-label">
