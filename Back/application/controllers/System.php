@@ -623,10 +623,10 @@ class System extends CI_Controller {
             $title = 'Pedidos Pendientes por Facturar';
 
             $to = [
-                'rexx84@gmail.com'
+                'leandro@bss.com.ar'
             ];
             $cc = [
-                'rexx84@gmail.com'
+                'contacto@bss.com.ar,rexx84@gmail.com'
             ];
 
             $subject = 'Pedidos Pendientes por Facturar';
