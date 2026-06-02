@@ -656,7 +656,7 @@ class System extends CI_Controller {
             $body = '<tr width="100%" bgcolor="#ffffff">';
             $body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">';
             $body .= '
-                <h2>Reporte Automatizado</h2>';
+                <h2>Reporte Generado Automaticamente</h2>';
             if ($isEmpty) {
 
                 $body .= '<p><b>No hay pedidos pendientes por facturar.</b></p>';
