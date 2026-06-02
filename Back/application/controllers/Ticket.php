@@ -771,6 +771,29 @@ class Ticket extends REST_Controller
             $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
         }
     }
+    public function cronPostSyncBilling_get()
+    {
+
+        $headers = $this->input->request_headers();
+        log_message('info', ':::::::::::::::::cronPostSyncBilling Process Initiated');
+        log_message('info', 'Host               :' . @$headers['Host']);
+        log_message('info', 'User-Agent         :' . @$headers['User-Agent']);
+        log_message('info', 'Accept             :' . @$headers['Accept']);
+        log_message('info', 'Content-Typ        :' . @$headers['Content-Type']);
+        log_message('info', 'X-Forwarded-For    :' . @$headers['X-Forwarded-For']);
+        log_message('info', 'X-Forwarded-Host   :' . @$headers['X-Forwarded-Host']);
+        log_message('info', 'X-Forwarded-Server :' . @$headers['X-Forwarded-Server']);
+        log_message('info', 'Content-Length     :' . @$headers['Content-Length']);
+        log_message('info', 'Connection         :' . @$headers['Connection']);
+        $rs = $this->ticket_model->syncPostBillingCron();
+        if (!is_null($rs)) {
+            #$this->response(array('response' => $rs) , 200);
+            log_message('info', ':::::::::::::::::cronPostSyncBilling Process ::: [COMPLETED]');
+        } else {
+            $this->response(array('error' => 'NO HAY RESULTADOS'), 404);
+            log_message('info', ':::::::::::::::::cronPostSyncBilling Process ::: [FAILED]');
+        }
+    }
 }
 ?>
 
