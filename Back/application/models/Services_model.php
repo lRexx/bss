@@ -1423,7 +1423,15 @@ class Services_model extends CI_Model
                                                                         $this->db->select(" * ")->from("tb_products");
                                                                         log_message('info', print_r($ite2, true));
                                                                         $this->db->where('tb_products.idProduct', $ite2['idOpenDevice']);
-                                                                        $ite2['product_info'] = $this->db->get();
+                                                                        $productRs = $this->db->get();
+                                                                        if ($productRs->num_rows() > 0) {
+                                                                            foreach ($productRs->result_array() as $ite22) {
+                                                                                $ite2['product_info'] = $ite22;
+                                                                            }
+                                                                        } else {
+                                                                            $ite2['product_info'] = null;
+                                                                        }
+
                                                                     }
                                                                     array_push($aux, $ite2);
                                                                 }
