@@ -228,7 +228,7 @@
                                 <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-search-location"></i> Ubicacion del gabinete: <label class="text-uppercase label label-default">{{srv.locationGabinet}}</label> | </span>
                                 <span ng-if="srv.dateDown==null || srv.dateDown==''"><i class="fas fa-key"></i> Disp. Apertura:
                                   <span class="badge badge-success">{{srv.tb_open_devices_access_control_array.length}}</span>
-                                  <label class="text-uppercase label label-default">{{srv.tb_open_devices_access_control_array[0].product_info.brand}}</label></span>
+                                  <label class="text-uppercase label label-default">{{srv.tb_open_devices_access_control_array[0].product_info.model}}</label></span>
                                 <span ng-if="srv.dateDown!=null && srv.dateDown!=''"><label class="text-uppercase label label-warning">Servicio ha sido dado de baja.</label></span>
                                 <span ng-if="srv.idReasonTypeKf!=null"><label class="text-uppercase label label-danger">{{srv.reasonDown}}</label></span>
                             </span>
