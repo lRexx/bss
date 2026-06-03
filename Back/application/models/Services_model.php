@@ -1471,7 +1471,6 @@ class Services_model extends CI_Model
                                                     } else {
                                                         log_message('info', ':::::::::::::::::START DETAILS');
                                                         log_message('info', 'FROM: ' . $item3[0] . " WHERE " . $item3[1] . " = " . $item[$id]);
-                                                        log_message('info', $item3);
                                                         log_message('info', ':::::::::::::::::END DETAILS');
                                                         $dataG = $this->db->select(" * ")
                                                             ->from($item3[0])
