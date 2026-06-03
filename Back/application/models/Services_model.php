@@ -1402,7 +1402,7 @@ class Services_model extends CI_Model
                                                                 log_message('info', '$item3Fk[2]: ' . $item3Fk[2]);
                                                                 $this->db->join('tb_products', 'tb_products.idProduct = ' . $item3Fk[2], 'left');
                                                             }
-                                                            $this->db->select(" * ")->where($item3Fk[1], $item['idClientServicesAccessControl']);
+                                                            $this->db->where($item3Fk[1], $item['idClientServicesAccessControl']);
                                                             $dataG = $this->db->get();
                                                         $aux = [];
                                                         //return $dataG->num_rows();
