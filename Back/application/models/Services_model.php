@@ -1393,7 +1393,9 @@ class Services_model extends CI_Model
                                                     //return $item3[0];
                                                     foreach ($data[$id] as $idFk => $item3Fk) {
                                                         //return $item['idClientServices'];
-
+                                                        log_message('info', ':::::::::::::::::START DETAILS');
+                                                        log_message('info', 'FROM: ' . $item3Fk[0] . " WHERE " . $item3Fk[1] . " = " . $item['idClientServicesAccessControl']);
+                                                        log_message('info', ':::::::::::::::::END DETAILS');
                                                         $dataG = $this->db->select(" * ")
                                                             ->from($item3Fk[0])
                                                             ->where($item3Fk[1], $item['idClientServicesAccessControl'])
@@ -1469,9 +1471,7 @@ class Services_model extends CI_Model
                                                         }
                                                         $item[$id . '_array'] = $serviceAsociate_arr;
                                                     } else {
-                                                        log_message('info', ':::::::::::::::::START DETAILS');
-                                                        log_message('info', 'FROM: ' . $item3[0] . " WHERE " . $item3[1] . " = " . $item[$id]);
-                                                        log_message('info', ':::::::::::::::::END DETAILS');
+
                                                         $dataG = $this->db->select(" * ")
                                                             ->from($item3[0])
                                                             #->join('tb_products', 'tb_products.idProduct = ' . $item3[0].idOpenDevice . '.idClientServicesFk', 'LEFT')
