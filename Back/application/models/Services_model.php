@@ -1422,7 +1422,7 @@ class Services_model extends CI_Model
                                                                     if ($item3Fk[0] == 'tb_open_devices_access_control') {
                                                                         $this->db->select(" * ")->from("tb_products");
                                                                         log_message('info', print_r($ite2, true));
-                                                                        $this->db->where('tb_products.idProduct = ' . $ite2['idOpenDevice'], 'left');
+                                                                        $this->db->where('tb_products.idProduct', $ite2['idOpenDevice']);
                                                                         $ite2['product_info'] = $this->db->get();
                                                                     }
                                                                     array_push($aux, $ite2);
