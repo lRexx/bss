@@ -1395,11 +1395,12 @@ class Services_model extends CI_Model
                                                         //return $item['idClientServices'];
                                                         log_message('info', ':::::::::::::::::START DETAILS');
                                                         log_message('info', 'FROM: ' . $item3Fk[0] . " WHERE " . $item3Fk[1] . " = " . $item['idClientServicesAccessControl']);
-                                                        log_message('info', '$item3Fk[1]: ' . $item3Fk[1]);
+
                                                         log_message('info', ':::::::::::::::::END DETAILS');
                                                             $this->db->select(" * ")->from($item3Fk[0]);
                                                             if ($item3Fk[0] == 'tb_open_devices_access_control') {
-                                                                $this->db->join('tb_products', 'tb_products.idProduct = ' . $item3Fk[0] . '.idOpenDevice', 'LEFT');
+                                                                log_message('info', '$item3Fk[2]: ' . $item3Fk[2]);
+                                                                $this->db->join('tb_products', 'tb_products.idProduct = ' . $item3Fk[2], 'left');
                                                             }
                                                             $this->db->select(" * ")->where($item3Fk[1], $item['idClientServicesAccessControl']);
                                                             $dataG = $this->db->get();
