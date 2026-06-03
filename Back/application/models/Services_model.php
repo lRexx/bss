@@ -1398,10 +1398,6 @@ class Services_model extends CI_Model
                                                         log_message('info', print_r($item3Fk, true));
                                                         log_message('info', ':::::::::::::::::END DETAILS');
                                                             $this->db->select(" * ")->from($item3Fk[0]);
-                                                            if ($item3Fk[0] == 'tb_open_devices_access_control') {
-                                                                log_message('info', '$item3Fk[1]: ' . $item3Fk[1]);
-                                                                $this->db->join('tb_products', 'tb_products.idProduct = ' . $item3Fk[2], 'left');
-                                                            }
                                                             $this->db->where($item3Fk[1], $item['idClientServicesAccessControl']);
                                                             $dataG = $this->db->get();
                                                         $aux = [];
@@ -1421,6 +1417,14 @@ class Services_model extends CI_Model
                                                             if ($dataG->num_rows() > 0) {
                                                                 $aux = [];
                                                                 foreach ($dataG->result_array() as $ite2) {
+
+
+                                                                    if ($item3Fk[0] == 'tb_open_devices_access_control') {
+                                                                        $this->db->select(" * ")->from("tb_products");
+                                                                        log_message('info', print_r($ite2, true));
+                                                                        $this->db->where('tb_products.idProduct = ' . $ite2['idOpenDevice'], 'left');
+                                                                        $ite2['product_info'] = $this->db->get();
+                                                                    }
                                                                     array_push($aux, $ite2);
                                                                 }
 
