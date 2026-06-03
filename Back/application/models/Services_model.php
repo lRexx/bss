@@ -1395,7 +1395,7 @@ class Services_model extends CI_Model
                                                         //return $item['idClientServices'];
                                                         log_message('info', ':::::::::::::::::START DETAILS');
                                                         log_message('info', 'FROM: ' . $item3Fk[0] . " WHERE " . $item3Fk[1] . " = " . $item['idClientServicesAccessControl']);
-                                                        log_message('info', '$item3Fk[0]: ' . $item3Fk[0]. '.idOpenDevice');
+                                                        log_message('info', '$item3Fk[0]: ' . $item3Fk[0]);
                                                         log_message('info', ':::::::::::::::::END DETAILS');
                                                             $this->db->select(" * ")->from($item3Fk[0]);
                                                             if ($item3Fk[0] == 'tb_open_devices_access_control') {
