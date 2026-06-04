@@ -1375,6 +1375,11 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         blockUI.stop();
                     }, 2500);
                 }
+                $scope.activeKeysCount = function(keys) {
+                    return (keys || []).filter(function(k) {
+                        return k.idKeychainStatusKf === '1' && k.idKeychainStatus === '1';
+                    }).length;
+                };
             /**************************************************
             *                                                 *
             *                GET BUILDING LIST                *
