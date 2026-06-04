@@ -41,10 +41,11 @@
                                 <button ng-if="sysLoggedUser.idTypeTenantKf=='1'" ng-disabled="(sysLoggedUser.idTypeTenantKf=='1' && item.isRequesLowByProp=='1') || (sysLoggedUser.idTypeTenantKf=='1' && item.isAprobatedAdmin!='1' && item.isRequesLowByProp!='1') || (sysLoggedUser.idTypeTenantKf=='2' && ((sysLoggedUser.isDepartmentApproved==null || sysLoggedUser.isDepartmentApproved=='0') || sysLoggedUser.isRequesLowByTenant=='1'))" ng-click="switchBuildingFn('departmentKeys', item)" type="button" class="btn btn-primary btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Ver Llaveros">
                                     <span class="badge" ng-class="
                                         {  'badge badge-warning':
-                                            (item.keys | filter:{isActive:1}).length==0,
+                                            (item.keys | filter:{idKeychainStatus:'1'}).length == 0,
                                         }">{{ (item.keys | filter:{idKeychainStatus:'1'}).length }}</span>
                                 Llaveros</button>
                             </div>
+                            <pre>{{ item.keys | json }}</pre>
                             <div class="col-md-6 col-xs-12" style="padding-top: 1%;">
                                 <button ng-if="sysLoggedUser.idTypeTenantKf!=null" ng-disabled="(sysLoggedUser.idTypeTenantKf=='1' && item.isRequesLowByProp=='1') || (sysLoggedUser.idTypeTenantKf=='1' && item.isAprobatedAdmin!='1' && item.isRequesLowByProp!='1') || (sysLoggedUser.idTypeTenantKf=='2' && ((sysLoggedUser.isDepartmentApproved==null || sysLoggedUser.isDepartmentApproved=='0') || sysLoggedUser.isRequesLowByTenant=='1'))" ng-click="selectTenantMembersTypeFn(item)" type="button" class="btn btn-success btn-sm btn-xs" data-toggle="tooltip" data-placement="top" title="Nuevo">
                                     <i class="fas fa-user-plus"></i>
