@@ -4642,13 +4642,17 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                               ttl:5000, type: 'success'
                       });
                       $scope.update.ticket.idTicket              = obj.selected.idTicket;
-                      $scope.update.ticket.idNewStatusKf         = "8";
+                      if (obj.selected.idStatusTicketKf=="9"){
+                        $scope.update.ticket.idNewStatusKf         = "11";
+                      }else{
+                        $scope.update.ticket.idNewStatusKf         = "8";
+                      }
                       $scope.update.ticket.idTypeTicketKf        = obj.selected.idTypeTicketKf;
                       $scope.update.ticket.delivery_schedule_at  = null;
                       $scope.update.ticket.delivered_at          = null
                       $scope.update.ticket.history               = [];
                       $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': "El pago ha sido registro de forma manual", 'idCambiosTicketKf':"4"});
-                      $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"13"});
+                      $scope.update.ticket.history.push({'idUserKf': $scope.sysLoggedUser.idUser, 'descripcion': null, 'idCambiosTicketKf':"3"});
                       console.log($scope.update);
                       $timeout(function() {
                         $('#registerManualPayment').modal('hide');
