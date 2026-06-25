@@ -3044,8 +3044,10 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                                     console.log(initialQtty);
                                     if (!isNaN(initialQtty)) {
                                         for (let  vQtty = 0; vQtty < initialQtty; vQtty++) {
-                                            console.log(`Looping: vQtty=${vQtty}, initialQtty=${initialQtty}`);
-                                            $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
+                                            $timeout(function() {
+                                                console.log(`Looping: vQtty=${vQtty}, initialQtty=${initialQtty}`);
+                                                $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
+                                            }, 1000);
                                         }
                                     }
                                 }
