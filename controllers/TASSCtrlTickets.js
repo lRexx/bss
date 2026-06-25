@@ -3652,10 +3652,14 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                         $scope.tenant.new.idSysProfileFk            = "10";
                         $scope.tenant.new.idDepartmentKf            = obj.idClientDepartament;
                         $scope.tenant.new.depto                     = obj.Depto;
-                        if ($scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="1"){
+                        if ($scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="1" && $scope.ticket.userRequestBy==null){
                             $scope.tenant.new.idTypeTenantKf        = "1";
                             $scope.tenant.new.idProfileKf           = "3";
-                        }else if($scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="2"){
+                        }else if($scope.ticket.optionTypeSelected.name=="department" && $scope.ticket.radioButtonDepartment=="2" && ($scope.ticket.userRequestBy==null || $scope.ticket.userRequestBy!=null)){
+                            $scope.tenant.new.idAddresKf            = obj.idClientFk;
+                            $scope.tenant.new.idTypeTenantKf        = "2";
+                            $scope.tenant.new.idProfileKf           = "5";
+                        }else{
                             $scope.tenant.new.idAddresKf            = obj.idClientFk;
                             $scope.tenant.new.idTypeTenantKf        = "2";
                             $scope.tenant.new.idProfileKf           = "5";
