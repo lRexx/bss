@@ -3097,7 +3097,11 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                             productSelected = null;
                         }
                         $scope.item_added           = false;
-                        var userKeySelected            = $scope.selectedUser!=undefined?$scope.selectedUser:null;
+                        if ($scope.ticket.building.isInitialDeliveryActive && $scope.ticket.idDeviceTypeKf!=undefined && $scope.ticket.idDeviceTypeKf!=null && $scope.ticket.idDeviceTypeKf=="2"){
+                            var userKeySelected         = $scope.selectedUser!=undefined?$scope.selectedUser:$scope.ticket.userRequestBy;
+                        }else{
+                            var userKeySelected         = $scope.selectedUser!=undefined?$scope.selectedUser:null;
+                        }
                         var radioButtonDepartment   = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
                         var radioButtonBuilding     = $scope.ticket.radioButtonBuilding!=undefined?$scope.ticket.radioButtonBuilding:null;
                         for (var door in obj2){

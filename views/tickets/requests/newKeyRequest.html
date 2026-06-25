@@ -323,8 +323,13 @@
 											<span style="padding: 4px !important;">
 												<strong>INFORMACION IMPORTANTE: </strong><br></span>
 												<ul>
-													<li ng-if="ticket.building.initial_delivery[0].initial_qtty>0"><span>Se cargaran automaticamente ({{ticket.building.initial_delivery[0].initial_qtty}}) llaveros al pedido a consto $0.</li>
-													<li><span>Si desea agregar uno o más llaveros adicionales tendran un costo de $ {{ticket.building.initial_delivery[0].initial_price | number: 2}}</li>
+													<li ng-if="ticket.building.initial_delivery[0].initial_qtty>0">
+														<span>Se cargaran automaticamente ({{ticket.building.initial_delivery[0].initial_qtty}})</span>
+														<span ng-if="ticket.idDeviceTypeKf=='1'">llaveros</span>
+														<span ng-if="ticket.idDeviceTypeKf=='2'">Licencias</span><span>&nbsp;al pedido a consto $0.</span></li>
+													<li><span>Si desea agregar </span>
+														<span ng-if="ticket.idDeviceTypeKf=='1'">uno o más llaveros</span>
+														<span ng-if="ticket.idDeviceTypeKf=='2'">una o más Licencias</span><span>&nbsp;adicionales tendran un costo de $ {{ticket.building.initial_delivery[0].initial_price | number: 2}}</span></li>
 												</ul>
 											</span>
 										</div>
