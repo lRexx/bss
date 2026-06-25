@@ -3102,6 +3102,8 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                         }else{
                             var userKeySelected         = $scope.selectedUser!=undefined?$scope.selectedUser:null;
                         }
+                        console.log("userKeySelected: ");
+                        console.log(userKeySelected);
                         var radioButtonDepartment   = $scope.ticket.radioButtonDepartment!=undefined?$scope.ticket.radioButtonDepartment:null;
                         var radioButtonBuilding     = $scope.ticket.radioButtonBuilding!=undefined?$scope.ticket.radioButtonBuilding:null;
                         for (var door in obj2){
