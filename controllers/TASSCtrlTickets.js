@@ -3097,6 +3097,10 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                             productSelected = null;
                         }
                         $scope.item_added           = false;
+                        console.log("$scope.ticket.building.isInitialDeliveryActive : "+$scope.ticket.building.isInitialDeliveryActive);
+                        console.log("$scope.ticket.idDeviceTypeKf                   : "+$scope.ticket.idDeviceTypeKf);
+                        console.log("$scope.ticket.userRequestBy                    :");
+                        console.log($scope.ticket.userRequestBy);
                         if ($scope.ticket.building.isInitialDeliveryActive && $scope.ticket.idDeviceTypeKf!=undefined && $scope.ticket.idDeviceTypeKf!=null && $scope.ticket.idDeviceTypeKf=="2"){
                             var userKeySelected         = $scope.selectedUser!=undefined?$scope.selectedUser:$scope.ticket.userRequestBy;
                         }else{
