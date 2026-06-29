@@ -1671,6 +1671,9 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         });
                       });*/
                       $timeout(function() {
+                        inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
+                              ttl:3000, type: 'success'
+                        });
                         $scope.managedUsers('search', $scope.filters);
                         blockUI.stop();
                       }, 3000);
