@@ -3964,7 +3964,7 @@ class Ticket_model extends CI_Model
 				$dateToCompare        					= new DateTime($initialDelivery[0]['expirationDate']);
 				$expiration_state     					= $currentDateFormatted > $dateToCompare->format('Y-m-d');
 				$initialDelivery[0]['expiration_state'] = $expiration_state;
-				$building['isInitialDeliveryActive'] 	= $expiration_state;
+				$building['isInitialDeliveryActive'] 	= !$expiration_state ? true : false;
 				$building['initial_delivery']        	= $initialDelivery;
 			} else {
 				$building['isInitialDeliveryActive'] 	= [];
