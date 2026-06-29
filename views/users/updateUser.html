@@ -288,35 +288,127 @@
                     </div>
                     <!-- Text Phone-->
                     <div class="form-group col-md-6" ng-class="{
-                        'has-success':
-                            users.update.phonelocalNumberUser!='' && users.update.phonelocalNumberUser!=null  && fUpdateUser.phoneLocal.$valid,
-                        'has-warning':
-                            !users.update.phonelocalNumberUser && users.update.phoneMovilNumberUser,
-                        'has-error':
-                            !users.update.phoneMovilNumberUser && !users.update.phonelocalNumberUser && fUpdateUser.phoneLocal.$touched,
-                        }">
-                    <label style="padding-left: 15px;">Telefono Fijo</label>
+                    'has-success':
+                        users.update.phonelocalNumberUser!='' && users.update.phonelocalNumberUser!=null  && form.fUpdateUser.phoneLocal.$valid,
+                    'has-warning':
+                        !users.update.phonelocalNumberUser && users.update.phoneMovilNumberUser,
+                    'has-error':
+                        !users.update.phoneMovilNumberUser && !users.update.phonelocalNumberUser && form.fUpdateUser.phoneLocal.$touched,
+                    }">
+                        <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Fijo</label>
+
                         <div class="col-xs-12">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                <input name="phoneLocal" ng-minlength="8" class="form-control input--phone" ng-model="users.update.phonelocalNumberUser" type="text" autofocus ng-blur="fnLoadPhoneMask();" ng-keydown="fnLoadPhoneMask();" ng-required="users.update.phoneMovilNumberUser==''" />
+                                <!-- Country Code -->
+                                <div class="input-group-btn" style="width: 100px;">
+                                    <ui-select
+                                        class="ui-select-bootstrap-phone"
+                                        name="countryCode"
+                                        ng-model="select.phoneCountryWired.selected"
+                                        search-enabled="true">
+                                        <ui-select-match allow-clear="false"><span class="country-flag"><img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{ $select.selected.phoneCode }}</ui-select-match>
+                                        <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
+                                            <div ng-bind-html="item.phoneCode | highlight: $select.search"></div>
+                                            <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
+                                                <img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{item.countryName}}
+                                            </small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <!-- Phone Prefix number -->
+                                <input
+                                    name="phoneLocalPrefix"
+                                    ng-model="users.update.phonelocalPrefixNumber"
+                                    type="text"
+                                    class="form-control input-phone-prefix"
+                                    ng-maxlength="4"
+                                    ng-minlength="2"
+                                    ng-keydown="fnLoadPhoneMask();"
+                                    ng-disabled="sysDNIRegistered"
+                                    placeholder="Pref."
+                                    ng-required="users.update.phoneMovilNumberUser==''"
+                                    style="width: 28.4% !important;"
+                                />
+                                <!-- Phone number -->
+                                <input
+                                    name="phoneLocal"
+                                    ng-model="users.update.phonelocalNumberUser"
+                                    type="text"
+                                    class="form-control input-local"
+                                    ng-minlength="8"
+                                    ng-keydown="fnLoadPhoneMask();"
+                                    ng-disabled="sysDNIRegistered"
+                                    placeholder="Num. de teléfono"
+                                    ng-required="users.update.phoneMovilNumberUser==''"
+                                    style="width: 71.6% !important;"
+                                />
+                            <!-- Icon on the right -->
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-earphone"></i>
+                            </span>
                             </div>
+                        </div>
                     </div>
-                    </div>
-                    <!-- Text Phone-->
+                    <!-- Movil Phone-->
                     <div class="form-group col-md-6" ng-class="{
-                        'has-success':
-                            users.update.phoneMovilNumberUser!='' && users.update.phoneMovilNumberUser!=null  && fUpdateUser.phoneMovil.$valid,
-                        'has-warning':
-                            !users.update.phoneMovilNumberUser && users.update.phonelocalNumberUser,
-                        'has-error':
-                            !users.update.phonelocalNumberUser && !users.update.phoneMovilNumberUser && fUpdateUser.phoneMovil.$touched,
-                        }">
-                        <label style="padding-left: 15px;">Telefono Movil</label>
+                    'has-success':
+                        users.update.phoneMovilNumberUser!='' && users.update.phoneMovilNumberUser!=null  && fUpdateUser.phoneMovil.$valid,
+                    'has-warning':
+                        !users.update.phoneMovilNumberUser && users.update.phonelocalNumberUser,
+                    'has-error':
+                        !users.update.phoneMovilNumberUser && !users.update.phonelocalNumberUser && fUpdateUser.phoneMovil.$touched,
+                    }">
+                        <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Móvil</label>
+
                         <div class="col-xs-12">
                             <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                                <input name="phoneMovil" ng-minlength="8" class="form-control input--phone" ng-model="users.update.phoneMovilNumberUser"  type="text" ng-blur="fnLoadPhoneMask();" ng-keydown="fnLoadPhoneMask();" ng-required="users.update.phonelocalNumberUser==''" autofocus />
+                                <!-- Country Code -->
+                                <div class="input-group-btn" style="width: 100px;">
+                                    <ui-select
+                                        class="ui-select-bootstrap-phone"
+                                        name="countryCode"
+                                        ng-model="select.phoneCountryMovil.selected"
+                                        search-enabled="true">
+                                        <ui-select-match allow-clear="false"><span class="country-flag"><img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{ $select.selected.phoneCode }}</ui-select-match>
+                                        <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
+                                            <div ng-bind-html="item.phoneCode | highlight: $select.search"></div>
+                                            <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
+                                                <img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{item.countryName}}
+                                            </small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <!-- Phone Prefix number -->
+                                <input
+                                    name="phoneMovilPrefix"
+                                    ng-model="users.update.phoneMovilPrefixNumber"
+                                    type="text"
+                                    class="form-control input-phone-prefix"
+                                    ng-minlength="2"
+                                    ng-maxlength="4"
+                                    ng-keydown="fnLoadPhoneMask();"
+                                    ng-disabled="sysDNIRegistered"
+                                    placeholder="Pref."
+                                    ng-required="users.update.phonelocalNumberUser==''"
+                                    style="width: 28.4% !important;"
+                                />
+                                <!-- Phone number -->
+                                <input
+                                    name="phoneMovil"
+                                    ng-model="users.update.phoneMovilNumberUser"
+                                    type="text"
+                                    class="form-control input-movil"
+                                    ng-minlength="8"
+                                    ng-keydown="fnLoadPhoneMask();"
+                                    ng-disabled="sysDNIRegistered"
+                                    placeholder="Num. de teléfono"
+                                    ng-required="users.update.phonelocalNumberUser==''"
+                                    style="width: 71.6% !important;"
+                                />
+                            <!-- Icon on the right -->
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-earphone"></i>
+                            </span>
                             </div>
                         </div>
                     </div>
