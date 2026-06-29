@@ -1507,11 +1507,11 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                 $timeout(function() {
                                     //TENANT
                                     //$scope.approveTenantDeptoFn($scope.department);
-                                    //$('#RegisterUser').modal('hide');
-                                    //console.log("REGISTERED SUCCESSFULLY");
-                                    //inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
-                                    //  ttl:5000, type: 'success'
-                                    //});
+                                    $('#RegisterUser').modal('hide');
+                                    console.log("REGISTERED SUCCESSFULLY");
+                                    inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
+                                      ttl:5000, type: 'success'
+                                    });
                                   $scope.managedUsers('search', $scope.filters);
                                   blockUI.stop();
                                 }, 2500);
@@ -1620,12 +1620,15 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         }
                       });
                       $q.all(assignPromises).then(function () {
-                          inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
-                            ttl:5000, type: 'success'
-                          });
+                        inform.add('Usuario '+$scope.register.user.fullNameUser+' actualizado satisfactoriamente.',{
+                          ttl:5000, type: 'success'
+                        });
+                        inform.add('Departamentos Asignados, deberan ser aprobados por la Administracion.',{
+                          ttl:5000, type: 'success'
+                        });
                       });
                       var approvePromises = [];
-                      angular.forEach($scope.userDepartamentList,function(depto){
+                      /*angular.forEach($scope.userDepartamentList,function(depto){
                           var deferred = $q.defer();
                           approvePromises.push(deferred.promise);
                           if (depto.isNew){
@@ -1655,8 +1658,8 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                 blockUI.stop();
                               }, 3500);
                           }
-                      });
-                      $q.all(approvePromises).then(function () {
+                      });*/
+                      /*$q.all(approvePromises).then(function () {
                         console.log("Usuario: "+$scope.update.user.fullNameUser+" Successfully updated");
                         inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
                               ttl:3000, type: 'success'
@@ -1666,7 +1669,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                         inform.add('Departamentos Aprobados Satisfactoriamente.',{
                           ttl:5000, type: 'success'
                         });
-                      });
+                      });*/
                       $timeout(function() {
                         $scope.managedUsers('search', $scope.filters);
                         blockUI.stop();
@@ -1674,14 +1677,14 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                       $('#UpdateUser').modal('hide');
                     }else if(($scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==5 || $scope.update.user.idProfileKf==6) && $scope.update.user.idTypeTenantKf==2 && ($scope.update.user.idDepartmentKf || $scope.update.user.idDepartmentKf==null)){
                       if($scope.update.user.departmentIsNew && $scope.update.user.idDepartmentKf!=null){
-                        blockUI.message('Aprobando departamento del usuario.');
+                        /*blockUI.message('Aprobando departamento del usuario.');
                         $timeout(function() {
                           $scope.department.user  = $scope.update.user;
                           $scope.department.user.registerBy = $scope.update.user.loggedUser;
-                      }, 1500);
+                        }, 1500);*/
                         $timeout(function() {
                             //TENANT
-                            $scope.approveTenantDeptoFn($scope.department);
+                            //$scope.approveTenantDeptoFn($scope.department);
                             $('#UpdateUser').modal('hide');
                             console.log("Usuario: "+$scope.update.user.fullNameUser+" Successfully updated");
                             inform.add('El Usuario: '+$scope.update.user.fullNameUser+' ha sido actualizado con exito. ',{
