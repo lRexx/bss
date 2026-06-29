@@ -1405,8 +1405,8 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                     $timeout(function() {
                                         deferred.resolve();
                                         $scope.depto.department = {};
-                                        $scope.depto.department.idUserKf      = response_userFound.data[0].idUser;
-                                        $scope.depto.department.idDepartment  = depto.idClientDepartament;
+                                        $scope.depto.department.idUserKf           = response_userFound.data[0].idUser;
+                                        $scope.depto.department.idDepartment       = depto.idClientDepartament;
                                         $scope.depto.department.isApprovalRequired = $scope.sysLoggedUser.idProfileKf==1 || $scope.sysLoggedUser.idProfileKf==4?false:true;
                                         console.log($scope.depto.department);
                                         DepartmentsServices.assignDepto($scope.depto).then(function(response_assign) {
@@ -1431,12 +1431,20 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                       }, 3000);
                                   });
                                   $q.all(assignPromises).then(function () {
-                                      inform.add('Departamentos Asignados y en proceso de aprobacion automatica.',{
-                                        ttl:5000, type: 'success'
-                                      });
+                                    inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
+                                      ttl:5000, type: 'success'
+                                    });
+                                    inform.add('Departamentos Asignados, deberan ser aprobados por la Administracion.',{
+                                      ttl:5000, type: 'success'
+                                    });
+                                    console.log("REGISTERED SUCCESSFULLY");
+                                    $timeout(function() {
+                                      $scope.managedUsers('search', $scope.filters);
+                                      blockUI.stop();
+                                    }, 1500);
                                   });
                                   var approvePromises = [];
-                                  angular.forEach($scope.userDepartamentList,function(depto){
+                                  /*angular.forEach($scope.userDepartamentList,function(depto){
                                       var deferred = $q.defer();
                                       approvePromises.push(deferred.promise);
                                       blockUI.start('Aprobando el departamento '+depto.floor+'-'+depto.departament+' seleccionado.');
@@ -1477,7 +1485,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                       $scope.managedUsers('search', $scope.filters);
                                       blockUI.stop();
                                     }, 1500);
-                                  });
+                                  });*/
                               }else{
                                 $timeout(function() {
                                   console.log("REGISTERED SUCCESSFULLY");
@@ -1491,19 +1499,19 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                               $('#RegisterUser').modal('hide');
                             }else if(($scope.register.user.idProfileKf==4 || $scope.register.user.idProfileKf==5 || $scope.register.user.idProfileKf==6) && $scope.register.user.idTypeTenantKf==2 && ($scope.register.user.idDepartmentKf || $scope.register.user.idDepartmentKf==null)){
                               if ($scope.register.user.idDepartmentKf!=null){
-                                blockUI.start('Aprobando departamento del usuario.');
-                                $timeout(function() {
-                                  $scope.department.user  = response_userFound.data[0];
-                                  $scope.department.user.registerBy = $scope.register.user.loggedUser;
-                              }, 1500);
+                                //blockUI.start('Aprobando departamento del usuario.');
+                                //$timeout(function() {
+                                //  $scope.department.user  = response_userFound.data[0];
+                                //  $scope.department.user.registerBy = $scope.register.user.loggedUser;
+                                //}, 1500);
                                 $timeout(function() {
                                     //TENANT
-                                    $scope.approveTenantDeptoFn($scope.department);
-                                  $('#RegisterUser').modal('hide');
-                                  console.log("REGISTERED SUCCESSFULLY");
-                                  inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
-                                    ttl:5000, type: 'success'
-                                  });
+                                    //$scope.approveTenantDeptoFn($scope.department);
+                                    //$('#RegisterUser').modal('hide');
+                                    //console.log("REGISTERED SUCCESSFULLY");
+                                    //inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
+                                    //  ttl:5000, type: 'success'
+                                    //});
                                   $scope.managedUsers('search', $scope.filters);
                                   blockUI.stop();
                                 }, 2500);
@@ -1513,6 +1521,9 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                                   $('#RegisterUser').modal('hide');
                                   console.log("REGISTERED SUCCESSFULLY");
                                   inform.add('Usuario '+$scope.register.user.fullNameUser+' registrado satisfactoriamente.',{
+                                    ttl:5000, type: 'success'
+                                  });
+                                  inform.add('Departamento Asignado, debera ser aprobado por la Administracion.',{
                                     ttl:5000, type: 'success'
                                   });
                                   $scope.managedUsers('search', $scope.filters);
