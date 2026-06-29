@@ -1499,6 +1499,24 @@ input.fileUpload{
       top:0.3em;
       padding-top: 1em;
     }
+.ui-select-bootstrap-phone > .ui-select-match > .btn{
+  /* Instead of center because of .btn */
+  text-align: left !important;
+  border-bottom-left-radius: 4px !important;
+  border-top-left-radius: 4px !important;
+  border-top-right-radius: 0px !important;
+  border-bottom-right-radius: 0px !important;
+}
+.ui-select-bootstrap-phone .ui-select-match-text {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 14px;
+}
+
+.ui-select-bootstrap-phone .ui-select-choices-row-inner strong {
+    font-size: 14px;
+}
 /*MONITOR TICKETS */
 .filter-bar{
   position: fixed;
