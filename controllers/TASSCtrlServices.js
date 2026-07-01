@@ -5810,6 +5810,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                 *     REMOVE USER DATA DETAILS     *
                 ************************************/
                     $scope.removeServiceUserDetailsFn=function(obj){
+                        console.log(obj);
+                        console.log($scope.list_user);
                         var objItem             = $scope.list_user;
                         var arrItem             = objItem.map(function(i){return i.idClientFk;});
                         var indexItem           = arrItem.indexOf(obj.idClientFk);
