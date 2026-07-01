@@ -5812,13 +5812,16 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     $scope.removeServiceUserDetailsFn=function(obj){
                         console.log(obj);
                         console.log($scope.list_user);
-                        var objItem             = $scope.list_user;
-                        var arrItem             = objItem.map(function(i){return i.idClientFk;});
-                        var indexItem           = arrItem.indexOf(obj.idClientFk);
-                        $scope.list_user.splice(indexItem, 1);
-                            inform.add("Usuario DVR: "+obj.user+" ha sido removido correctamente.",{
-                            ttl:5000, type: 'success'
+                        var indexItem = $scope.list_user.findIndex(function(i){
+                            return i.idItem === obj.idItem;
+                        });
+
+                        if (indexItem > -1) {
+                            $scope.list_user.splice(indexItem, 1);  // <-- this is what actually removes it
+                            inform.add("Usuario DVR: " + obj.user + " ha sido removido correctamente.", {
+                                ttl: 5000, type: 'success'
                             });
+                        }
                     }
                 /***********************************
                 *  LOAD QR CODE USER DATA DETAILS  *
