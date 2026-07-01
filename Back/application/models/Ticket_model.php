@@ -3531,6 +3531,7 @@ class Ticket_model extends CI_Model
 			$name = str_replace(' ', '_', $status['statusName']);
 			$dashboard[$name] = $countByStatus[$status['idStatus']] ?? 0;
 			if ($status['idStatus'] == '8') {
+				$dashboard[$name] = (($countByStatus[$status['idStatus']] ?? 0) - $countStatus8InitDelivery);
 				$dashboard[$name . '_entrega_inicial'] = $countStatus8InitDelivery;
 			}
 			if ($status['idStatus'] == '6') {
