@@ -241,7 +241,7 @@ class Llavero_model extends CI_Model
 			$this->response(null, 404);
 		}
 
-		$fields_selected = "tb_keychain_process_events.*, tb_reason_disabled_item.*,
+		$fields_selected = "
 			tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo,
 			tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf,
 			tb_keychain.isKeyTenantOnly, tb_keychain.idKeychainStatusKf,
@@ -256,8 +256,6 @@ class Llavero_model extends CI_Model
 		// NOTE: tb_ticket_keychain is intentionally NOT joined here — it's 1:many
 		// and would duplicate every row above per ticket.
 		$this->db->select($fields_selected)->from("tb_keychain");
-		$this->db->join('tb_keychain_process_events', 'tb_keychain_process_events.idKeychainKf = tb_keychain.idKeychain', 'left');
-		$this->db->join('tb_reason_disabled_item', 'tb_reason_disabled_item.idReasonDisabledItem = tb_keychain_process_events.idReasonKf', 'left');
 		$this->db->join('tb_keychain_status', 'tb_keychain_status.idKeychainStatus = tb_keychain.idKeychainStatusKf', 'left');
 		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
 		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
@@ -293,6 +291,8 @@ class Llavero_model extends CI_Model
 
 			$this->db->select('*')
 				->from('tb_ticket_keychain')
+				->join('tb_keychain_process_events', 'tb_keychain_process_events.idKeychainKf = tb_ticket_keychain.idKeychainKf', 'left')
+				->join('tb_reason_disabled_item', 'tb_reason_disabled_item.idReasonDisabledItem = tb_keychain_process_events.idReasonKf', 'left')
 				->where_in('idKeychainKf', $keychainIds)
 				->order_by('idTicketKeychain', 'ASC');
 			$historyQuery = $this->db->get();
