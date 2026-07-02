@@ -240,20 +240,28 @@ class Llavero_model extends CI_Model
 		if (is_null($idDepartmenKf)) {
 			$this->response(null, 404);
 		}
-		$quuery = null;
-		$rs = null;
-		$fields_selected = "tb_keychain_process_events.*,tb_reason_disabled_item.*, tb_keychain.idKeychain, tb_ticket_keychain.idTicketKeychain, tb_ticket_keychain.idTicketKf, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo, tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf, tb_keychain.isKeyTenantOnly, tb_keychain.idKeychainStatusKf, tb_keychain_status.idKeychainStatus, tb_keychain_status.keychainStatusName AS statusKey,
-		UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto, tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain, a.idClient as idClientKfDepto, a.address as addressA, b.idClient as idClientKfKeychain, b.address as addressB,
-		tb_products.descriptionProduct, tb_products.model, tb_products.brand, tb_user.*,tb_profile.nameProfile,tb_profiles.name AS nameSysProfile";
+
+		$fields_selected = "tb_keychain_process_events.*, tb_reason_disabled_item.*,
+			tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo,
+			tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf,
+			tb_keychain.isKeyTenantOnly, tb_keychain.idKeychainStatusKf,
+			tb_keychain_status.idKeychainStatus, tb_keychain_status.keychainStatusName AS statusKey,
+			UPPER(CONCAT(tb_client_departament.floor,\"-\",tb_client_departament.departament)) AS Depto,
+			tb_category_keychain.idCategory as idCategoryKf, tb_category_keychain.name as categoryKeychain,
+			a.idClient as idClientKfDepto, a.address as addressA,
+			b.idClient as idClientKfKeychain, b.address as addressB,
+			tb_products.descriptionProduct, tb_products.model, tb_products.brand,
+			tb_user.*, tb_profile.nameProfile, tb_profiles.name AS nameSysProfile";
+
+		// NOTE: tb_ticket_keychain is intentionally NOT joined here — it's 1:many
+		// and would duplicate every row above per ticket.
 		$this->db->select($fields_selected)->from("tb_keychain");
 		$this->db->join('tb_keychain_process_events', 'tb_keychain_process_events.idKeychainKf = tb_keychain.idKeychain', 'left');
-		$this->db->join('tb_ticket_keychain', 'tb_ticket_keychain.idKeychainKf = tb_keychain.idKeychain', 'left');
 		$this->db->join('tb_reason_disabled_item', 'tb_reason_disabled_item.idReasonDisabledItem = tb_keychain_process_events.idReasonKf', 'left');
 		$this->db->join('tb_keychain_status', 'tb_keychain_status.idKeychainStatus = tb_keychain.idKeychainStatusKf', 'left');
 		$this->db->join('tb_products', 'tb_products.idProduct = tb_keychain.idProductKf', 'left');
 		$this->db->join('tb_category_keychain', 'tb_category_keychain.idCategory = tb_keychain.idCategoryKf', 'left');
 		$this->db->join('tb_client_departament', 'tb_client_departament.idClientDepartament = tb_keychain.idDepartmenKf', 'left');
-		//$this->db->join('tb_category_departament', 'tb_category_departament.idCategoryDepartament = tb_client_departament.idCategoryDepartamentFk', 'left');
 		$this->db->join('tb_clients as a', 'a.idClient = tb_client_departament.idClientFk', 'left');
 		$this->db->join('tb_clients as b', 'b.idClient = tb_keychain.idClientKf', 'left');
 		$this->db->join('tb_clients as c', 'c.idClient = tb_keychain.idClientAdminKf', 'left');
@@ -261,20 +269,46 @@ class Llavero_model extends CI_Model
 		$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
 		$this->db->join('tb_profiles', 'tb_profiles.idProfiles = tb_user.idSysProfileFk', 'left');
 		$this->db->where('tb_keychain.idDepartmenKf', $idDepartmenKf);
-		//$this->db->group_by('tb_keychain.idKeychain');
-		$quuery = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
 
-		if ($quuery->num_rows() > 0) {
-			foreach ($quuery->result_array() as $key => $item) {
-				if ($item['idReasonKf'] != "4" || $item['idReasonKf'] != "5") {
-					$rs[$key] = $item;
-				}
-			}
-			//$rs = $quuery->result_array();
+		$query = $this->db->order_by("tb_keychain.idKeychain", "ASC")->get();
 
-			return $rs;
+		if ($query->num_rows() === 0) {
+			return null;
 		}
-		return null;
+
+		$rs = [];
+		$keychainIds = [];
+
+		foreach ($query->result_array() as $item) {
+			if ($item['idReasonKf'] != "4" && $item['idReasonKf'] != "5") {
+				// keyed by idKeychain -> naturally de-dupes if this table
+				// is ever re-joined by accident, and lets us attach history below
+				$rs[$item['idKeychain']] = $item;
+				$keychainIds[] = $item['idKeychain'];
+			}
+		}
+
+		if (!empty($rs)) {
+			$keychainIds = array_unique($keychainIds);
+
+			$this->db->select('*')
+				->from('tb_ticket_keychain')
+				->where_in('idKeychainKf', $keychainIds)
+				->order_by('idTicketKeychain', 'ASC');
+			$historyQuery = $this->db->get();
+
+			$historyByKeychain = [];
+			foreach ($historyQuery->result_array() as $historyRow) {
+				$historyByKeychain[$historyRow['idKeychainKf']][] = $historyRow;
+			}
+
+			foreach ($rs as $idKeychain => &$row) {
+				$row['keychain_history'] = $historyByKeychain[$idKeychain] ?? [];
+			}
+			unset($row);
+		}
+
+		return array_values($rs);
 	}
 
 	public function getLlaveroSinDepartameto()
