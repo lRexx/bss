@@ -776,15 +776,7 @@ class Ticket extends REST_Controller
 
         $headers = $this->input->request_headers();
         log_message('info', ':::::::::::::::::cronPostSyncBilling Process Initiated');
-        log_message('info', 'Host               :' . @$headers['Host']);
-        log_message('info', 'User-Agent         :' . @$headers['User-Agent']);
-        log_message('info', 'Accept             :' . @$headers['Accept']);
-        log_message('info', 'Content-Typ        :' . @$headers['Content-Type']);
-        log_message('info', 'X-Forwarded-For    :' . @$headers['X-Forwarded-For']);
-        log_message('info', 'X-Forwarded-Host   :' . @$headers['X-Forwarded-Host']);
-        log_message('info', 'X-Forwarded-Server :' . @$headers['X-Forwarded-Server']);
-        log_message('info', 'Content-Length     :' . @$headers['Content-Length']);
-        log_message('info', 'Connection         :' . @$headers['Connection']);
+
         $rs = $this->ticket_model->syncPostBillingCron();
         if (!is_null($rs)) {
             #$this->response(array('response' => $rs) , 200);
