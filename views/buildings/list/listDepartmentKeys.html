@@ -51,7 +51,7 @@
                             <td ng-if="(key.keychain_history | filter:{idCategoryKf:'1'}:true)[0]"
                                 style="width: 55%; vertical-align: middle;text-align: center;"
                                 class="td-depto media-middle">
-                                {{ (key.keychain_history | filter:{idCategoryKf:'1'}:true)[0].updated_at | date:'dd/MM/yyyy' }}
+                                {{ (key.keychain_history | filter:{idCategoryKf:'1'}:true)[0].updated_at.replace(' ', 'T') | date:'dd/MM/yyyy' }}
                             </td>
                             <td ng-if="key.created_at==null" style="width: 55%; vertical-align: middle;text-align: center;" class="td-depto media-middle"><span- class="label label-default">-</span-</td>
                             <td class="td-depto media-middle" style="vertical-align: middle;text-align: center;">
