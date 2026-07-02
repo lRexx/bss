@@ -53,7 +53,7 @@
                                 class="td-depto media-middle">
                                 {{ (key.keychain_history | filter:{idCategoryKf:'1'}:true)[0].updated_at.replace(' ', 'T') | date:'dd/MM/yyyy' }}
                             </td>
-                            <td ng-if="key.created_at==null" style="width: 55%; vertical-align: middle;text-align: center;" class="td-depto media-middle"><span- class="label label-default">-</span-</td>
+                            <td ng-if="key.keychain_history.length == 0" style="width: 55%; vertical-align: middle;text-align: center;" class="td-depto media-middle"><span class="label label-default">-</span></td>
                             <td class="td-depto media-middle" style="vertical-align: middle;text-align: center;">
                                 <label class="switch switch-2x" for="assingKeyForTenantOnly-{{key.idKeychain}}">
                                     <input type="checkbox" class="success" ng-click="modalConfirmation('isKeyTenantOnly', 0, key)" ng-disabled="((key.idUserKf && (key.idKeychainStatusKf == '1' && key.idKeychainStatusKf!=null && key.idKeychainStatusKf!=undefined)) || (key.idKeychainStatusKf == '-1' && key.idKeychainStatusKf!=null && key.idKeychainStatusKf!=undefined))" ng-model="key.selected" id="assingKeyForTenantOnly-{{key.idKeychain}}">
