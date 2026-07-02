@@ -9,7 +9,7 @@
               </h4>
           </div>
         <div class="modal-body">
-          <div class="clearfix"> </div> 
+          <div class="clearfix"> </div>
           <!-- keys -->
           <div class=" col-md-12">
                 <table ng-if="departmentSelected.keys.length>0" class="table table-striped table-list table-responsive table-hover">
@@ -47,8 +47,12 @@
                             <td ng-trim="true" style="vertical-align: middle;text-align: center;">
                                 <span ng-if="key.idKeychainStatusKf != '1' && key.idKeychainStatusKf!=null && key.idKeychainStatusKf!=undefined" class="label" ng-class="{'label-success': key.idKeychainStatusKf == '1' || key.idKeychainStatus == '1', 'label-warning': key.idKeychainStatus == '0', 'label-danger': key.idKeychainStatus != null && key.idKeychainStatus != '0' && key.idKeychainStatus != '1', }"> {{key.statusKey}}</span>
                                 <span ng-if="key.idKeychainStatusKf == '1' && key.idKeychainStatusKf!=null && key.idKeychainStatusKf!=undefined" class="label label-success"> Activo</span>
-                              </td>
-                            <td ng-if="key.created_at!=null" style="width: 55%; vertical-align: middle;text-align: center;" class="td-depto media-middle">{{key.created_at | date:'dd/MM/yyyy'}}</td>
+                            </td>
+                            <td ng-if="(key.keychain_history | filter:{idCategoryKf:'1'}:true)[0]"
+                                style="width: 55%; vertical-align: middle;text-align: center;"
+                                class="td-depto media-middle">
+                                {{ (key.keychain_history | filter:{idCategoryKf:'1'}:true)[0].updated_at | date:'dd/MM/yyyy' }}
+                            </td>
                             <td ng-if="key.created_at==null" style="width: 55%; vertical-align: middle;text-align: center;" class="td-depto media-middle"><span- class="label label-default">-</span-</td>
                             <td class="td-depto media-middle" style="vertical-align: middle;text-align: center;">
                                 <label class="switch switch-2x" for="assingKeyForTenantOnly-{{key.idKeychain}}">
@@ -61,7 +65,7 @@
                 </table>
                 <div ng-if="departmentSelected.keys.length==0" class="text-uppercase banner-no-rows banner-no-rows-padding-1 banner-no-rows-warning" style="text-align: center;"><h5><i class="fas fa-exclamation-triangle"> </i> No hay Llaveros asociados al departamento</h5></div>
           </div>
-          <div class="clearfix"> </div> 
+          <div class="clearfix"> </div>
         </div>
         <div class="modal-footer">
             <div class="row">
