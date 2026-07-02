@@ -295,7 +295,7 @@ class Llavero_model extends CI_Model
 				->from('tb_ticket_keychain')
 				->join('tb_keychain_process_events', 'tb_keychain_process_events.idKeychainKf = tb_ticket_keychain.idKeychainKf', 'left')
 				->join('tb_reason_disabled_item', 'tb_reason_disabled_item.idReasonDisabledItem = tb_keychain_process_events.idReasonKf', 'left')
-				->where_in('idKeychainKf', $keychainIds)
+				->where_in('tb_ticket_keychain.idKeychainKf', $keychainIds)
 				->order_by('tb_ticket_keychain.idTicketKeychain', 'ASC');
 			$historyQuery = $this->db->get();
 
