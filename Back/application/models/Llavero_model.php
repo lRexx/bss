@@ -241,7 +241,7 @@ class Llavero_model extends CI_Model
 			$this->response(null, 404);
 		}
 
-		$fields_selected = "tb_keychain_process_events.idReasonKf, tb_reason_disabled_item.idReasonDisabledItem,
+		$fields_selected = "tb_keychain_process_events.idKeychainKf, tb_keychain_process_events.idReasonKf, tb_reason_disabled_item.idReasonDisabledItem,
 			tb_keychain.idKeychain, tb_keychain.idProductKf, tb_keychain.codExt, tb_keychain.codigo,
 			tb_keychain.idDepartmenKf, tb_keychain.idClientKf, tb_keychain.idUserKf,
 			tb_keychain.isKeyTenantOnly, tb_keychain.idKeychainStatusKf,
