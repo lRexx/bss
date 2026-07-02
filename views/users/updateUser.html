@@ -64,7 +64,6 @@
                             <span class="input-group-addon"><i class="icon-suitcase"></i></span>
                                 <ui-select
                                     name="company"
-                                    ng-required="users.update.idProfileKf==2 || users.update.idProfileKf==4"
                                     ng-model="select.companies.selected"
                                     on-select="onSelectCallback()">
                                     <ui-select-match allow-clear="true" placeholder="Todos" >{{$select.selected.name | uppercase}}</ui-select-match>
@@ -431,9 +430,9 @@
                     </fieldset>
                 </form>
                 <div class="clearfix"> </div>
-                <pre>fUpdateUser.$invalid: {{fUpdateUser.$invalid}}</pre>
+               <!--<pre>fUpdateUser.$invalid: {{fUpdateUser.$invalid}}</pre>
                 <pre>ownerFound: {{ownerFound}}</pre>
-                <pre>{{fUpdateUser.$error | json}}</pre>
+                <pre>{{fUpdateUser.$error | json}}</pre>-->
             </div>
             <!-- Actions Button -->
             <div class="modal-footer">
