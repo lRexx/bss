@@ -921,6 +921,7 @@
             $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{},'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}}
             $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
             $scope.profile=tokenSystem.getTokenStorage(2);
+            console.log($scope.profile);
             phoneParsedMovil = $scope.parsePhoneE164($scope.profile.phoneNumberUser, $scope.countryPhoneCodesList);
             phoneParsedLocal = $scope.parsePhoneE164($scope.profile.phoneLocalNumberUser, $scope.countryPhoneCodesList);
             if (phoneParsedMovil || phoneParsedLocal) {
