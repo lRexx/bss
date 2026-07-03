@@ -921,15 +921,15 @@
             $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{},'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}}
             $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
             $scope.profile=tokenSystem.getTokenStorage(2);
-            phoneParsedMovil = $scope.parsePhoneE164(obj.phoneNumberUser, $scope.countryPhoneCodesList);
-            phoneParsedLocal = $scope.parsePhoneE164(obj.phoneLocalNumberUser, $scope.countryPhoneCodesList);
+            phoneParsedMovil = $scope.parsePhoneE164($scope.profile.phoneNumberUser, $scope.countryPhoneCodesList);
+            phoneParsedLocal = $scope.parsePhoneE164($scope.profile.phoneLocalNumberUser, $scope.countryPhoneCodesList);
             if (phoneParsedMovil || phoneParsedLocal) {
                 $scope.select.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
                 $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
                 $scope.profile.phoneMovilPrefixNumber       = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
-                $scope.profile.phoneMovilNumberUser         = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
+                $scope.profile.phoneMovilNumberUser         = phoneParsedMovil?phoneParsedMovil.phoneNumber:$scope.profile.phoneNumberUser;
                 $scope.profile.phonelocalPrefixNumber       = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
-                $scope.profile.phonelocalNumberUser         = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
+                $scope.profile.phonelocalNumberUser         = phoneParsedLocal?phoneParsedLocal.phoneNumber:$scope.profile.phoneLocalNumberUser;
             }
             $('#ProfileModalUser').modal({backdrop: 'static', keyboard: false});
             $('#ProfileModalUser').on('shown.bs.modal', function () {
