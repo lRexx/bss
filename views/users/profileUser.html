@@ -67,11 +67,11 @@
                     <!-- Text Phone-->
                     <div class="form-group col-md-6" ng-class="{
                     'has-success':
-                        users.new.phonelocalNumberUser!='' && users.new.phonelocalNumberUser!=null  && fUserProfile.phoneLocal.$valid,
+                        profile.phonelocalNumberUser!='' && profile.phonelocalNumberUser!=null  && fUserProfile.phoneLocal.$valid,
                     'has-warning':
-                        !users.new.phonelocalNumberUser && users.new.phoneMovilNumberUser,
+                        !profile.phonelocalNumberUser && profile.phoneMovilNumberUser,
                     'has-error':
-                        !users.new.phoneMovilNumberUser && !users.new.phonelocalNumberUser && fUserProfile.phoneLocal.$touched,
+                        !profile.phoneMovilNumberUser && !profile.phonelocalNumberUser && fUserProfile.phoneLocal.$touched,
                     }">
                         <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Fijo</label>
 
@@ -96,7 +96,7 @@
                                 <!-- Phone Prefix number -->
                                 <input
                                     name="phoneLocalPrefix"
-                                    ng-model="users.new.phonelocalPrefixNumber"
+                                    ng-model="profile.phonelocalPrefixNumber"
                                     type="text"
                                     class="form-control input-phone-prefix"
                                     ng-maxlength="4"
@@ -104,20 +104,20 @@
                                     ng-keydown="fnLoadPhoneMask();"
                                     ng-disabled="sysDNIRegistered"
                                     placeholder="Pref."
-                                    ng-required="users.new.phoneMovilNumberUser==''"
+                                    ng-required="profile.phoneMovilNumberUser==''"
                                     style="width: 28.4% !important;"
                                 />
                                 <!-- Phone number -->
                                 <input
                                     name="phoneLocal"
-                                    ng-model="users.new.phonelocalNumberUser"
+                                    ng-model="profile.phonelocalNumberUser"
                                     type="text"
                                     class="form-control input-local"
                                     ng-minlength="8"
                                     ng-keydown="fnLoadPhoneMask();"
                                     ng-disabled="sysDNIRegistered"
                                     placeholder="Num. de teléfono"
-                                    ng-required="users.new.phoneMovilNumberUser==''"
+                                    ng-required="profile.phoneMovilNumberUser==''"
                                     style="width: 71.6% !important;"
                                 />
                             <!-- Icon on the right -->
@@ -130,11 +130,11 @@
                     <!-- Movil Phone-->
                     <div class="form-group col-md-6" ng-class="{
                     'has-success':
-                        users.new.phoneMovilNumberUser!='' && users.new.phoneMovilNumberUser!=null  && fUserProfile.phoneMovil.$valid,
+                        profile.phoneMovilNumberUser!='' && profile.phoneMovilNumberUser!=null  && fUserProfile.phoneMovil.$valid,
                     'has-warning':
-                        !users.new.phoneMovilNumberUser && users.new.phonelocalNumberUser,
+                        !profile.phoneMovilNumberUser && profile.phonelocalNumberUser,
                     'has-error':
-                        !users.new.phoneMovilNumberUser && !users.new.phonelocalNumberUser && fUserProfile.phoneMovil.$touched,
+                        !profile.phoneMovilNumberUser && !profile.phonelocalNumberUser && fUserProfile.phoneMovil.$touched,
                     }">
                         <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Móvil</label>
 
@@ -159,7 +159,7 @@
                                 <!-- Phone Prefix number -->
                                 <input
                                     name="phoneMovilPrefix"
-                                    ng-model="users.new.phoneMovilPrefixNumber"
+                                    ng-model="profile.phoneMovilPrefixNumber"
                                     type="text"
                                     class="form-control input-phone-prefix"
                                     ng-minlength="2"
@@ -167,20 +167,20 @@
                                     ng-keydown="fnLoadPhoneMask();"
                                     ng-disabled="sysDNIRegistered"
                                     placeholder="Pref."
-                                    ng-required="users.new.phonelocalNumberUser==''"
+                                    ng-required="profile.phonelocalNumberUser==''"
                                     style="width: 28.4% !important;"
                                 />
                                 <!-- Phone number -->
                                 <input
                                     name="phoneMovil"
-                                    ng-model="users.new.phoneMovilNumberUser"
+                                    ng-model="profile.phoneMovilNumberUser"
                                     type="text"
                                     class="form-control input-movil"
                                     ng-minlength="8"
                                     ng-keydown="fnLoadPhoneMask();"
                                     ng-disabled="sysDNIRegistered"
                                     placeholder="Num. de teléfono"
-                                    ng-required="users.new.phonelocalNumberUser==''"
+                                    ng-required="profile.phonelocalNumberUser==''"
                                     style="width: 71.6% !important;"
                                 />
                             <!-- Icon on the right -->
