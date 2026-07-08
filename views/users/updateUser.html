@@ -165,37 +165,6 @@
                             </div>
                         </div>
                     </div>
-                    <!-- List Address For Users-->
-                    <div ng-if="((users.update.idProfileKf==6))" class="form-group col-md-12"  ng-class="
-                        {	'has-success':
-                            select.addressAttendant.selected!=undefined && fUpdateUser.user_address.$valid,
-                            'has-error':
-                            (select.addressAttendant.selected==undefined) && fUpdateUser.user_address.$touched
-                        }">
-                        <label ng-if="users.update.idProfileKf!=6" style="padding-left: 15px;">Direcci&#243n</label>
-                        <label ng-if="users.update.idProfileKf==6" style="padding-left: 15px;">Direcci&#243n del consorcio asignado</label>
-                        <div class="col-xs-12 selectContainer">
-                            <div class="input-group">
-                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
-                            <ui-select name="user_address"
-                                        ng-required="((users.update.idProfileKf==6 && users.update.idTypeAttKf!=null && users.update.idTypeAttKf!=1) || ((users.update.idProfileKf==3 || users.update.idProfileKf==5) && !users.update.idTypeAttKf))"
-                                        ng-change="users.update.idProfileKf==5 || (users.update.idProfileKf==6 && att.ownerOption==2)?getDeptoListByAddress(select.addressAttendant.selected.idClient):''; users.update.idDepartmentKf=null;"
-                                        ng-model="select.addressAttendant.selected"
-                                        ng-disabled="select.addressAttendant.selected!=undefined && (users.update.idProfileKf==3 || users.update.idProfileKf==5)" autofocus>
-                                        <!--select.addressAttendant.selected!=undefined && (users.update.idProfileKf==6 && (!att.ownerOption || att.ownerOption!=3) && users.update.idTypeAttKf!=1-->
-                                        <ui-select-match  placeholder="Todos">{{$select.selected.address}}</ui-select-match>
-                                        <ui-select-choices repeat="item in rsCustomerListSelectData | filter:filterCustomerByType2 | filter: $select.search">
-                                            <div ng-bind-html="item.address | highlight: $select.search"></div>
-                                            <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
-                                            <small>Provincia: </small><small class="label label-default"  ng-bind-html="item.province | highlight: $select.search"></small>
-									</ui-select-choices>
-									<ui-select-no-choice>
-										<span ng-if="rsCustomerListSelectData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay edificios registrados</span>
-									</ui-select-no-choice>
-                                </ui-select>
-                            </div>
-                        </div>
-                    </div>
                     <!-- Form First Name -->
                     <div class="form-group col-md-6" ng-class="
                     {	'has-success':
