@@ -2332,7 +2332,7 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
                 console.log("idProfileFk   : "+idProfileFk);
                 console.log("ownerOption   : "+$scope.att.ownerOption);
                 var idStatusFk=null;
-                  if((idProfileFk=='3') || (idProfileFk=='4' && $scope.att.ownerOption!='3') || (idProfileFk=='6' && idTypeAttFk!='1' && $scope.att.ownerOption!='3')){
+                  if((idProfileFk=='3') || (idProfileFk=='4' && $scope.att.ownerOption!='3') || (idProfileFk=='6' && idTypeAttFk!='1' && $scope.att.ownerOption!='2' && $scope.att.ownerOption!='3')){
                     idStatusFk='0';
                   }else{
                     idStatusFk='-1';

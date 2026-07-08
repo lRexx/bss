@@ -13,9 +13,9 @@
                     <fieldset>
                     <!-- List Address For Users-->
                     <div class="col-md-12 col-sm-12 col-xs-12 " ng-if="(users.new.idProfileKf.idProfile==2 || users.new.idProfileKf.idProfile==3 || users.new.idProfileKf.idProfile==4 || users.new.idProfileKf.idProfile==5 ||users.new.idProfileKf.idProfile==6) || (users.update.idProfileKf==2 || users.update.idProfileKf==3 || (users.update.idProfileKf==5 && userDepartamentList.length==0) || users.update.idProfileKf==4 || users.update.idProfileKf==6)" ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             customerSearch.address!=undefined && customerSearch.address!=undefined && fAssignNewDepto.customerSearchAddress.$valid,
-                            'has-error':  
+                            'has-error':
                             (customerSearch.address==undefined) && customerSearch.address==undefined && fAssignNewDepto.customerSearchAddress.$touched,
                             'col-md-6 col-xs-6 col-sm-6': ListDpto.length>0,
                         }">
@@ -23,11 +23,11 @@
                             <label style="padding-left: 15px;">Consorcio</label>
                         <div class="input-group s-ui-width s-ui-m-left">
                             <span class="input-group-addon"><i class="fas fa-suitcase"></i></span>
-                            <input type="text" name="customerSearchAddress" 
+                            <input type="text" name="customerSearchAddress"
                                 id="customerSearchAddress"
                                 ng-model="customerSearch.address"
                                 ng-keydown="findCustomerFn(customerSearch.address, users.new.idProfileKf.idProfile, 'setAddress');"
-                                class="form-control text-uppercase" 
+                                class="form-control text-uppercase"
                                 move-to-list input-selector="'.input-search'"
                                 list-items-selector="'.list-group li'"
                                 placeholder="Presione Enter para buscar..."
@@ -40,29 +40,28 @@
                         </div>
                     </div>
                     <div class="form-group col-md-12" ng-if="hhhhh"  ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             select.address.selected!=undefined && fAssignNewDepto.user_address.$valid,
-                            'has-error':  
+                            'has-error':
                             (select.address.selected==undefined) && fAssignNewDepto.user_address.$touched,
                             'col-md-12':
                             (select.address.selected==undefined) && fAssignNewDepto.user_address.$touched,
                             'col-md-6':
                             select.address.selected!=undefined && fAssignNewDepto.user_address.$valid
                         }">
-                        <label style="padding-left: 15px;">Direcci&#243n</label>  
+                        <label style="padding-left: 15px;">Direcci&#243n</label>
                         <div class="col-xs-12 selectContainer">
                             <div class="input-group">
-                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span> 
-                            <ui-select name="user_address"  
-                                        ng-required="((tmp.data.idProfileKf.idProfile==3) || (tmp.data.idProfileKf.idProfile==4) || (tmp.data.idProfileKf.idProfile==5) || (tmp.data.idProfileKf.idProfile==6))" 
-                                        ng-change="getDeptoListByAddress(select.address.selected.idClient);select.departmentList=null;"
+                            <span class="input-group-addon"><i class="fas fa-map-marked-alt"></i></span>
+                            <ui-select name="user_address"
+                                        ng-required="((tmp.data.idProfileKf.idProfile==3) || (tmp.data.idProfileKf.idProfile==4) || (tmp.data.idProfileKf.idProfile==5) || (tmp.data.idProfileKf.idProfile==6))"
                                         ng-model="select.address.selected" autofocus>
                                 <ui-select-match  placeholder="Todos">{{$select.selected.address}}</ui-select-match>
                                     <ui-select-choices repeat="item in rsCustomerListSelectData | filter:filterCustomerByType | filter: $select.search">
 										<div ng-bind-html="item.address | highlight: $select.search"></div>
                                         <small>Tipo de Cliente: </small><small class="label label-default" ng-bind-html="item.ClientType | highlight: $select.search"></small>
 										<small>Provincia: </small><small class="label label-default"  ng-bind-html="item.province | highlight: $select.search"></small>
-                                        
+
 									</ui-select-choices>
 									<ui-select-no-choice>
 										<span ng-if="rsCustomerListSelectData.length==0"><i class="fas fa-exclamation-triangle"> </i>&nbsp;No hay edificios registrados</span>
@@ -74,23 +73,23 @@
                     <!-- List Department-->
                     <!-- ng-change="tmp.data.idProfileKf.idProfile==6 && att.ownerOption==1 ? deptoHasOwner(null, tmp.data.idTypeAttKf, select.departmentList):deptoHasOwner(tmp.data.idProfileKf.idProfile, null, select.departmentList)"  -->
                     <div ng-if="select.address.selected!=undefined" class="form-group col-md-6" ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             select.departmentList!='' &&
                             select.departmentList!=undefined &&
                              fAssignNewDepto.department.$valid,
-                             'has-error':  
+                             'has-error':
                             (select.departmentList=='' || select.departmentList==undefined) && fAssignNewDepto.department.$touched,
                         }">
-                        <label style="padding-left: 15px;">Departamento</label>  
+                        <label style="padding-left: 15px;">Departamento</label>
                         <div class="col-xs-12 selectContainer">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
-                                <select name="department" 
+                                <select name="department"
                                         class="form-control text-uppercase"
                                         ng-disabled="select.address.selected==undefined"
                                         ng-change="checkDeptoOwner(select.departmentList.idClientDepartament)"
-                                        ng-options="item as item.floor+'-'+item.departament for item in ListDpto" 
-                                        ng-required="select.address.selected!=undefined" 
+                                        ng-options="item as item.floor+'-'+item.departament for item in ListDpto"
+                                        ng-required="select.address.selected!=undefined"
                                         ng-model="select.departmentList" autofocus >
                                     <option value=""></option>
                                 </select>
@@ -107,7 +106,7 @@
                     </div>
                     </fieldset>
                 </form>
-                <div class="clearfix"> </div> 
+                <div class="clearfix"> </div>
             </div>
             <!-- Actions Button -->
             <div class="modal-footer">
