@@ -802,6 +802,35 @@
                     }
                   }
               );
+
+              $('.input-movil-phone').mask('9 11 0000-0000', {
+                placeholder: '9 11 ____-____'
+              });
+              $('.input-phone-prefix').mask('####', {
+                reverse: false,
+                translation:{
+                  '0': null,
+                  '#':{
+                    pattern: /[1-9]/
+                  },
+                },
+                placeholder: '____'
+              });
+
+              $('.input-movil').mask('(15) ####-####',
+              {
+                reverse: false,
+                translation:{
+                  '0': null,
+                  '1': null,
+                  '4': null,
+                  '5': null,
+                  '#':{
+                    pattern: /[0-9]/
+                  }
+                },
+                placeholder: "(15) ____ ____"
+              });
               $('.input--movil').mask('+54 (####) (15) ####-####',
               {
                 reverse: false,
@@ -816,6 +845,21 @@
                   }
                 },
                 placeholder: "+54 (_____) (15) ____ ____"
+              });
+              $('.input-local').mask('####-####',
+              {
+                reverse: false,
+                translation:{
+                  '0': null,
+                  '1': null,
+                  '4': null,
+                  '5': null,
+                  '+': null,
+                  '#':{
+                    pattern: /[0-9]/
+                  }
+                },
+                placeholder: "____ ____"
               });
               $('.input--local').mask('+54 (####) ####-####',
               {
