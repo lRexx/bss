@@ -67,11 +67,11 @@
                     <!-- Text Phone-->
                     <div class="form-group col-md-6" ng-class="{
                     'has-success':
-                        profile.phonelocalNumberUser!='' && profile.phonelocalNumberUser!=null  && fUserProfile.phoneLocal.$valid,
+                        profile.phoneLocalNumberUser!='' && profile.phoneLocalNumberUser!=null  && fUserProfile.phoneLocal.$valid,
                     'has-warning':
-                        !profile.phonelocalNumberUser && profile.phoneMovilNumberUser,
+                        !profile.phoneLocalNumberUser && profile.phoneMovilNumberUser,
                     'has-error':
-                        !profile.phoneMovilNumberUser && !profile.phonelocalNumberUser && fUserProfile.phoneLocal.$touched,
+                        !profile.phoneMovilNumberUser && !profile.phoneLocalNumberUser && fUserProfile.phoneLocal.$touched,
                     }">
                         <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Fijo</label>
 
@@ -96,7 +96,7 @@
                                 <!-- Phone Prefix number -->
                                 <input
                                     name="phoneLocalPrefix"
-                                    ng-model="profile.phonelocalPrefixNumber"
+                                    ng-model="profile.phoneLocalPrefixNumber"
                                     type="text"
                                     class="form-control input-phone-prefix"
                                     ng-maxlength="4"
@@ -110,7 +110,7 @@
                                 <!-- Phone number -->
                                 <input
                                     name="phoneLocal"
-                                    ng-model="profile.phonelocalNumberUser"
+                                    ng-model="profile.phoneLocalNumberUser"
                                     type="text"
                                     class="form-control input-local"
                                     ng-minlength="8"
@@ -132,9 +132,9 @@
                     'has-success':
                         profile.phoneMovilNumberUser!='' && profile.phoneMovilNumberUser!=null  && fUserProfile.phoneMovil.$valid,
                     'has-warning':
-                        !profile.phoneMovilNumberUser && profile.phonelocalNumberUser,
+                        !profile.phoneMovilNumberUser && profile.phoneLocalNumberUser,
                     'has-error':
-                        !profile.phoneMovilNumberUser && !profile.phonelocalNumberUser && fUserProfile.phoneMovil.$touched,
+                        !profile.phoneMovilNumberUser && !profile.phoneLocalNumberUser && fUserProfile.phoneMovil.$touched,
                     }">
                         <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Móvil</label>
 
@@ -167,7 +167,7 @@
                                     ng-keydown="fnLoadPhoneMask();"
                                     ng-disabled="sysDNIRegistered"
                                     placeholder="Pref."
-                                    ng-required="profile.phonelocalNumberUser==''"
+                                    ng-required="profile.phoneLocalNumberUser==''"
                                     style="width: 28.4% !important;"
                                 />
                                 <!-- Phone number -->
@@ -180,7 +180,7 @@
                                     ng-keydown="fnLoadPhoneMask();"
                                     ng-disabled="sysDNIRegistered"
                                     placeholder="Num. de teléfono"
-                                    ng-required="profile.phonelocalNumberUser==''"
+                                    ng-required="profile.phoneLocalNumberUser==''"
                                     style="width: 71.6% !important;"
                                 />
                             <!-- Icon on the right -->
