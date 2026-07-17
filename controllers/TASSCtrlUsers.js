@@ -983,7 +983,16 @@ users.controller('UsersCtrl', function($scope, $location, $q, $routeParams, bloc
             }
             //$scope.getCustomersBuildingListFn($scope.users.update.idProfileKf, $scope.att.ownerOption);
             console.log($scope.users.update);
-
+            $("#UpdateUser").modal({backdrop: 'static', keyboard: false});
+            $('.input-movil').unmask();
+            $('.input-local').unmask();
+            $('.input-movil').off('input keydown keyup blur focus');
+            $('.input-local').off('input keydown keyup blur focus');
+            $('#UpdateUser').on('shown.bs.modal', function () {
+                $timeout(function() {
+                    $scope.fnLoadPhoneMask();
+                }, 150);
+            });
           };
         /**************************************************
         *                                                 *
