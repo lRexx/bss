@@ -960,11 +960,11 @@
         **************************************************/
           $scope.profile={};
           $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{},'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}}
-          $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
+          $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phoneLocalPrefixNumber':'', 'phoneLocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
           $scope.profileUserOpen = function(){
             $scope.profile={};
             $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{},'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}}
-            $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
+            $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phoneLocalPrefixNumber':'', 'phoneLocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
             $scope.profile=tokenSystem.getTokenStorage(2);
             console.log($scope.profile);
             phoneParsedMovil = $scope.parsePhoneE164($scope.profile.phoneNumberUser, $scope.countryPhoneCodesList);
@@ -974,8 +974,8 @@
                 $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
                 $scope.profile.phoneMovilPrefixNumber       = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
                 $scope.profile.phoneMovilNumberUser         = phoneParsedMovil?phoneParsedMovil.phoneNumber:$scope.profile.phoneNumberUser;
-                $scope.profile.phonelocalPrefixNumber       = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
-                $scope.profile.phonelocalNumberUser         = phoneParsedLocal?phoneParsedLocal.phoneNumber:$scope.profile.phoneLocalNumberUser;
+                $scope.profile.phoneLocalPrefixNumber       = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
+                $scope.profile.phoneLocalNumberUser         = phoneParsedLocal?phoneParsedLocal.phoneNumber:$scope.profile.phoneLocalNumberUser;
             }
             $("#ProfileModalUser").modal({backdrop: 'static', keyboard: false});
             $('.input-movil').unmask();
@@ -1127,7 +1127,7 @@
                 $scope.sysLoggedUser.fullNameUser         = $scope.profile.fullNameUser;
                 $scope.sysLoggedUser.emailUser            = $scope.profile.emailUser;
                 $scope.sysLoggedUser.phoneNumberUser      = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,$scope.profile.phoneMovilPrefixNumber,$scope.profile.phoneMovilNumberUser);
-                $scope.sysLoggedUser.phoneLocalNumberUser = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,$scope.profile.phonelocalPrefixNumber,$scope.profile.phonelocalNumberUser);
+                $scope.sysLoggedUser.phoneLocalNumberUser = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,$scope.profile.phoneLocalPrefixNumber,$scope.profile.phoneLocalNumberUser);
                 $scope.sysLoggedUser.isEdit               = 1;
                 $scope.rsUser.user=$scope.sysLoggedUser;
                 $scope.rsUser.user.isEmailChange = isEmailChange;
