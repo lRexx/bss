@@ -1126,8 +1126,8 @@
             console.log("==========================================");
                 $scope.sysLoggedUser.fullNameUser         = $scope.profile.fullNameUser;
                 $scope.sysLoggedUser.emailUser            = $scope.profile.emailUser;
-                $scope.sysLoggedUser.phoneNumberUser      = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,$scope.profile.phoneNumberUser);
-                $scope.sysLoggedUser.phoneLocalNumberUser = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,$scope.profile.phoneLocalNumberUser);
+                $scope.sysLoggedUser.phoneNumberUser      = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,$scope.profile.phoneMovilPrefixNumber,$scope.profile.phoneNumberUser);
+                $scope.sysLoggedUser.phoneLocalNumberUser = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,$scope.profile.phonelocalPrefixNumber,$scope.profile.phoneLocalNumberUser);
                 $scope.sysLoggedUser.isEdit               = 1;
                 $scope.rsUser.user=$scope.sysLoggedUser;
                 $scope.rsUser.user.isEmailChange = isEmailChange;
