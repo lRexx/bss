@@ -360,148 +360,6 @@
 								</div>
 							</div>
 						</div>
-						<!-- Text Phone-->
-						<div class="form-group col-md-6">
-						    <div class="inner-addon right-addon">
-						  		<input
-					  				name="phoneLocal"
-					  				class="form-input input--phone--wired"
-									ng-keydown="fnLoadPhoneMask();"
-						  			ng-class="
-						  				{
-						  					'input-login-error':
-						  					(register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && (register.phonelocalNumberUser.length>0 && register.phonelocalNumberUser.length<8) && (!fNewUser.phoneLocal.$touched || fNewUser.phoneLocal.$touched) ||
-						  					(register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && (register.phonelocalNumberUser.length==0 && register.phonelocalNumberUser.length<1) && fNewUser.phoneLocal.$touched ||
-						  					(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && fNewUser.phoneLocal.$touched,
-
-											'input-login-warning':
-							  				(!register.phoneMovilNumberUser=='' || !register.phoneMovilNumberUser==undefined) && (register.phonelocalNumberUser.length>0 && register.phonelocalNumberUser.length<8) && fNewUser.phoneLocal.$touched,
-
-						  					'input-login-success':
-						  					register.phonelocalNumberUser.length>=8 && fNewUser.phoneLocal.$valid}"
-					  				ng-blur="inputCheckCss('phoneLocal', 'i');"
-					  				ng-model="register.phonelocalNumberUser"
-					  				type="text"
-					  				autofocus
-					  				ng-required="register.phoneMovilNumberUser==''; " >
-						  		<label>Telefono Fijo</label>
-								<i 	style="color: #5cb85c;"
-						  			ng-show="(register.phonelocalNumberUser.length>=8 && fNewUser.phoneLocal.$valid)"
-						  			class="glyphicon glyphicon-ok"></i>
-						  		<i 	style="color: red;"
-						  			ng-show="
-						  				(register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && (register.phonelocalNumberUser.length>0 && register.phonelocalNumberUser.length<8) && (!fNewUser.phoneLocal.$touched || fNewUser.phoneLocal.$touched) ||
-						  				(register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) &&
-					  					(register.phonelocalNumberUser.length==0 && register.phonelocalNumberUser.length<1) && fNewUser.phoneLocal.$touched ||
-					  					(register.phonelocalNumberUser==undefined) && fNewUser.phoneLocal.$touched"
-
-						  			class="glyphicon glyphicon-asterisk">
-						  		</i>
-						  		<!--
-						  				(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && (!fNewUser.phoneMovil.$touched || fNewUser.phoneMovil.$touched) ||
-						  				(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) &&
-					  					(register.phoneMovilNumberUser.length==0 && register.phoneMovilNumberUser.length<1) && fNewUser.phoneMovil.$touched ||
-					  					(register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && fNewUser.phoneMovil.$touched " -->
-						  		<i 	style="color: #f0ad4e;"
-						  			ng-show="
-						  				(!register.phoneMovilNumberUser=='' || !register.phoneMovilNumberUser==undefined) &&
-					  					(register.phonelocalNumberUser.length>0 && register.phonelocalNumberUser.length<8) && fNewUser.phoneLocal.$touched"
-						  			class="glyphicon glyphicon-asterisk">
-						  		</i>
-						  		<i 	ng-show="
-						  				(register.phonelocalNumberUser.length==0 && register.phonelocalNumberUser.length<1) && (!fNewUser.phoneLocal.$touched) ||
-						  				(!register.phoneMovilNumberUser=='') && (register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && fNewUser.phoneLocal.$touched"
-						  			class="glyphicon glyphicon-earphone">
-						  		</i>
-						  		<span class="bar"></span>
-						    </div>
-						    <small id="registerHelpBlock1" class="form-text text-muted">
-								<span style="color: red;" ng-if="
-						  				(register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && (register.phonelocalNumberUser.length>0 && register.phonelocalNumberUser.length<8) && (!fNewUser.phoneLocal.$touched || fNewUser.phoneLocal.$touched) ||
-						  				(register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) &&
-					  					(register.phonelocalNumberUser.length==0 && register.phonelocalNumberUser.length<1) && fNewUser.phoneLocal.$touched ||
-					  					(register.phonelocalNumberUser==undefined) && fNewUser.phoneLocal.$touched" class="text-info">Campo requerido</span>
-								<span style="color: #f0ad4e;" ng-if="
-										(!register.phoneMovilNumberUser=='' || !register.phoneMovilNumberUser==undefined) &&
-					  					(register.phonelocalNumberUser.length>0 && register.phonelocalNumberUser.length<8) && fNewUser.phoneLocal.$touched" class="text-info">Campo opcional</span>
-							</small>
-						</div>
-						<!-- Text Phone-->
-						<div class="form-group col-md-6 ">
-						    <div class="inner-addon right-addon">
-						  		<input
-						  				name="phoneMovil"
-						  				class="form-input input--phone"
-										ng-keydown="fnLoadPhoneMask();"
-							  			ng-class="
-							  				{
-							  					'input-login-error':
-							  					(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && (!fNewUser.phoneMovil.$touched || fNewUser.phoneMovil.$touched) ||
-							  					(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) &&
-							  					(register.phoneMovilNumberUser.length==0 && register.phoneMovilNumberUser.length<1) && fNewUser.phoneMovil.$touched  ||
-						  						(register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) &&
-						  						(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && fNewUser.phoneMovil.$touched,
-
-							  					'input-login-warning':
-							  					(!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) &&
-							  					(register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && fNewUser.phoneMovil.$touched,
-
-							  					'input-login-success':
-							  					register.phoneMovilNumberUser.length>=8 && fNewUser.phoneMovil.$valid}"
-						  				ng-blur="inputCheckCss('phoneMovil', 'i');"
-						  				ng-model="register.phoneMovilNumberUser"
-						  				type="text"
-						  				ng-required="register.phonelocalNumberUser=='';"
-						  				autofocus
-						  				 >
-						  		<label>Telefono Movil</label>
-								<i 	style="color: #5cb85c;"
-						  			ng-show="(register.phoneMovilNumberUser.length>=8 && fNewUser.phoneMovil.$valid)"
-						  			class="glyphicon glyphicon-ok"></i>
-						  		<i 	style="color: red;"
-						  			ng-show="
-						  				(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && (!fNewUser.phoneMovil.$touched || fNewUser.phoneMovil.$touched) ||
-						  				(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) &&
-					  					(register.phoneMovilNumberUser.length==0 && register.phoneMovilNumberUser.length<1) && fNewUser.phoneMovil.$touched ||
-					  					(register.phoneMovilNumberUser==undefined) && fNewUser.phoneMovil.$touched"
-
-						  			class="glyphicon glyphicon-asterisk">
-						  		</i>
-
-						  		<i 	style="color: #f0ad4e;"
-						  			ng-show="(!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) &&
-					  					(register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && fNewUser.phoneMovil.$touched"
-						  			class="glyphicon glyphicon-asterisk">
-						  		</i>
-						  		<i 	ng-show="
-						  				(register.phoneMovilNumberUser.length==0 && register.phoneMovilNumberUser.length<1) && (!fNewUser.phoneMovil.$touched) ||
-						  				(!register.phonelocalNumberUser=='') && (register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && fNewUser.phoneMovil.$touched "
-						  			class="glyphicon glyphicon-phone">
-						  		</i>
-						  		<span class="bar"></span>
-						    </div>
-						    <small id="registerHelpBlock1" class="form-text text-muted">
-								<span style="color: red;" ng-if="
-						  				(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && (!fNewUser.phoneMovil.$touched || fNewUser.phoneMovil.$touched) ||
-						  				(register.phonelocalNumberUser=='' || register.phonelocalNumberUser==undefined) &&
-					  					(register.phoneMovilNumberUser.length==0 && register.phoneMovilNumberUser.length<1) && fNewUser.phoneMovil.$touched ||
-					  					(register.phoneMovilNumberUser==undefined) && fNewUser.phoneMovil.$touched" class="text-info">Campo requerido
-					  			</span>
-								<span style="color: #f0ad4e;" ng-if="
-						  				(!register.phonelocalNumberUser=='' || !register.phonelocalNumberUser==undefined) &&
-					  					(register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && fNewUser.phoneMovil.$touched" class="text-info">Campo opcional
-					  			</span>
-							</small>
-						</div>
-						<div class="col-md-12 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;" class="form-group row n-margin-t n-margin-b">
-							<div class="alert alert-info" role="alert">
-								<h4><strong>IMPORTANTE!! </strong>PARA QUE UTILIZA BSS LOS DATOS ?</h4><br>
-								<span><strong>DNI:</strong>  se utiliza para verificar la identidad al momento de la entrega del pedido, en caso de no coincidir NO SE REALIZARÁ LA ENTREGA DEL PEDIDO por razonos de seguridad. Por favor, antes de aceptar, verificá que este cargado correctamente.</span><br>
-								<span><strong>MAIL:</strong>  se utiliza para generar un usuario relacionado con lon cargados en esta pantalla. A este mail llegaran las notificaciones de estado del pedido y la contraseña inicial para poder loguearse. Es importante que se cargue un mail real, dado que no puede duplicarse ni editarse.</span><br><br>
-								<span class="text-danger"><strong>En caso de que se detecten datos no verificables el usuario será eliminado y el pedido será cancelado.</strong></span><br><br>
-								<h5>Los datos estan protegidos en los terminos de la <a class="text-warning" href="https://www.argentina.gob.ar/normativa/nacional/ley-25326-64790" target="_blank">LEY DE PROTECCION DE DATOS PERSONALES N° 25.326.</a></h5>
-							</div>
-						</div>
 						<!-- Text Password--><!--
 						<div ng-if="(register.idProfileKf!=6 && !register.idTypeAttKf) || (register.idProfileKf==6 && register.idTypeAttKf==2) " class="form-group col-md-6 " ng-class="{'has-error': fNewUser.password1.$dirty && fNewUser.password1.$invalid, 'has-success':fNewUser.password2.$dirty && fNewUser.password2.$valid}">
 						    <div class="inner-addon right-addon">
@@ -537,11 +395,178 @@
 								<span class="bg-danger" ng-show="fNewUser.password2.$error.match && !fNewUser.password2.$error.minlength && register.password2">Las claves no coinciden, por favor verificar.</span>
 							</small>
 						</div>-->
+						<!-- Text Phone-->
+						<div class="col-md-6 phone-field-wrap" style="display: flex; align-items: flex-start; gap: 6px;">
+
+							<!-- Country Code -->
+							<div style="flex: 0 0 120px; min-width: 0;"
+								ng-class="{
+									'input-login-error': (register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && (select.phoneCountryWired.selected==undefined || !select.phoneCountryWired.selected.phoneCode) && fNewUser.phoneCountryWired.$touched,
+									'input-login-warning': (!register.phoneMovilNumberUser=='' || !register.phoneMovilNumberUser==undefined) && (select.phoneCountryWired.selected==undefined || !select.phoneCountryWired.selected.phoneCode) && fNewUser.phoneCountryWired.$touched,
+									'input-login-success': select.phoneCountryWired.selected!=undefined && select.phoneCountryWired.selected.phoneCode && fNewUser.phoneCountryWired.$valid}">
+								<label class="phone-sublabel">Cod. País</label>
+								<ui-select
+									class="ui-select-bootstrap-phone"
+									name="phoneCountryWired"
+									ng-model="select.phoneCountryWired.selected"
+									search-enabled="true">
+									<ui-select-match allow-clear="false">
+										<img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png"
+											width="18"
+											style="margin-right: 5px; vertical-align: middle;">
+										{{ $select.selected.phoneCode }}
+									</ui-select-match>
+									<ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
+										<img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png"
+											width="18" style="margin-right: 5px; vertical-align: middle;">
+										<span ng-bind-html="item.phoneCode | highlight: $select.search"></span>
+										— <small ng-bind-html="item.countryName | highlight: $select.search"></small>
+									</ui-select-choices>
+								</ui-select>
+							</div>
+
+							<!-- Prefix -->
+							<div style="flex: 0 0 75px; min-width: 0;">
+								<label class="phone-sublabel">Prefijo</label>
+								<input
+									id="phoneWiredPrefix"
+									name="phoneWiredPrefix"
+									class="form-input input-phone-prefix"
+									ng-keydown="fnLoadPhoneMask();"
+									ng-class="{
+										'input-login-error': (register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && (register.phoneWiredPrefix.length>0 && register.phoneWiredPrefix.length<2) && (!fNewUser.phoneWiredPrefix.$touched || fNewUser.phoneWiredPrefix.$touched),
+										'input-login-warning': (!register.phoneMovilNumberUser=='' || !register.phoneMovilNumberUser==undefined) && (register.phoneWiredPrefix.length>0 && register.phoneWiredPrefix.length<2) && fNewUser.phoneWiredPrefix.$touched,
+										'input-login-success': register.phoneWiredPrefix.length>=2 && register.phoneWiredPrefix.length<=4 && fNewUser.phoneWiredPrefix.$valid}"
+									ng-blur="inputCheckCss('phoneMovil', 'i');"
+									ng-model="register.phoneWiredPrefix"
+									type="text">
+							</div>
+
+							<!-- Mobile Number -->
+							<div style="flex: 1 1 0; min-width: 0;">
+								<label class="phone-sublabel">Teléfono Fijo</label>
+								<input
+									id="phoneLocal"
+									name="phoneLocal"
+									class="form-input input-local"
+									ng-keydown="fnLoadPhoneMask();"
+									ng-class="{
+										'input-login-error': (register.phoneMovilNumberUser=='' || register.phoneMovilNumberUser==undefined) && (register.phoneLocalNumberUser.length>0 && register.phoneLocalNumberUser.length<8) && (!fNewUser.phoneLocal.$touched || fNewUser.phoneLocal.$touched),
+										'input-login-warning': (!register.phoneMovilNumberUser=='' || !register.phoneMovilNumberUser==undefined) && (register.phoneLocalNumberUser.length>0 && register.phoneLocalNumberUser.length<8) && fNewUser.phoneLocal.$touched,
+										'input-login-success': register.phoneLocalNumberUser.length>=8 && fNewUser.phoneLocal.$valid}"
+									ng-blur="inputCheckCss('phoneLocal', 'i');"
+									ng-model="register.phoneLocalNumberUser"
+									type="text">
+							</div>
+
+							<!-- Status Icons -->
+							<div style="flex: 0 0 20px; min-width: 0; display: flex; align-items: flex-end; padding-bottom: 4px; margin-top: 2em;">
+								<i style="color: #5cb85c;"
+								ng-show="register.phoneLocalNumberUser.length>=8 && fNewUser.phoneLocal.$valid"
+								class="glyphicon glyphicon-ok"></i>
+								<i style="color: red;"
+								ng-show="(register.phoneLocalNumberUser=='' || register.phoneLocalNumberUser==undefined) && (register.phoneLocalNumberUser.length>0 && register.phoneLocalNumberUser.length<8) && (!fNewUser.phoneLocal.$touched || fNewUser.phoneLocal.$touched)"
+								class="glyphicon glyphicon-asterisk"></i>
+								<i style="color: #f0ad4e;"
+								ng-show="(!register.phoneMovilNumberUser=='' || !register.phoneMovilNumberUser==undefined) && (register.phoneLocalNumberUser.length>0 && register.phoneLocalNumberUser.length<8) && fNewUser.phoneLocal.$touched"
+								class="glyphicon glyphicon-asterisk"></i>
+								<i ng-show="(register.phoneLocalNumberUser.length==0 && register.phoneLocalNumberUser.length<1) && (!fNewUser.phoneLocal.$touched)"
+								class="glyphicon glyphicon-phone"></i>
+							</div>
+						</div>
+						<!-- Text Movil Phone-->
+						<div class="col-md-6 phone-field-wrap" style="display: flex; align-items: flex-start; gap: 6px;">
+
+							<!-- Country Code -->
+							<div style="flex: 0 0 120px; min-width: 0;"
+								ng-class="{
+									'input-login-error': (register.phoneLocalNumberUser=='' || register.phoneLocalNumberUser==undefined) && (select.phoneCountryMovil.selected==undefined || !select.phoneCountryMovil.selected.phoneCode) && fNewUser.countryCode.$touched,
+									'input-login-warning': (!register.phoneLocalNumberUser=='' || !register.phoneLocalNumberUser==undefined) && (select.phoneCountryMovil.selected==undefined || !select.phoneCountryMovil.selected.phoneCode) && fNewUser.countryCode.$touched,
+									'input-login-success': select.phoneCountryMovil.selected!=undefined && select.phoneCountryMovil.selected.phoneCode && fNewUser.countryCode.$valid}">
+								<label class="phone-sublabel">Cod. País</label>
+								<ui-select
+									class="ui-select-bootstrap-phone"
+									name="countryCode"
+									ng-model="select.phoneCountryMovil.selected"
+									search-enabled="true">
+									<ui-select-match allow-clear="false">
+										<img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png"
+											width="18"
+											style="margin-right: 5px; vertical-align: middle;">
+										{{ $select.selected.phoneCode }}
+									</ui-select-match>
+									<ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
+										<img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png"
+											width="18" style="margin-right: 5px; vertical-align: middle;">
+										<span ng-bind-html="item.phoneCode | highlight: $select.search"></span>
+										— <small ng-bind-html="item.countryName | highlight: $select.search"></small>
+									</ui-select-choices>
+								</ui-select>
+							</div>
+
+							<!-- Prefix -->
+							<div style="flex: 0 0 75px; min-width: 0;">
+								<label class="phone-sublabel">Prefijo</label>
+								<input
+									id="phoneMovilPrefix"
+									name="phoneMovilPrefix"
+									class="form-input input-phone-prefix"
+									ng-keydown="fnLoadPhoneMask();"
+									ng-class="{
+										'input-login-error': (register.phoneLocalNumberUser=='' || register.phoneLocalNumberUser==undefined) && (register.phoneMovilPrefix.length>0 && register.phoneMovilPrefix.length<2) && (!fNewUser.phoneMovilPrefix.$touched || fNewUser.phoneMovilPrefix.$touched),
+										'input-login-warning': (!register.phoneLocalNumberUser=='' || !register.phoneLocalNumberUser==undefined) && (register.phoneMovilPrefix.length>0 && register.phoneMovilPrefix.length<2) && fNewUser.phoneMovilPrefix.$touched,
+										'input-login-success': register.phoneMovilPrefix.length>=2 && register.phoneMovilPrefix.length<=4 && fNewUser.phoneMovilPrefix.$valid}"
+									ng-blur="inputCheckCss('phoneMovil', 'i');"
+									ng-model="register.phoneMovilPrefix"
+									type="text">
+							</div>
+
+							<!-- Mobile Number -->
+							<div style="flex: 1 1 0; min-width: 0;">
+								<label class="phone-sublabel">Teléfono Móvil</label>
+								<input
+									id="phoneMovil"
+									name="phoneMovil"
+									class="form-input input-movil"
+									ng-keydown="fnLoadPhoneMask();"
+									ng-class="{
+										'input-login-error': (register.phoneLocalNumberUser=='' || register.phoneLocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && (!fNewUser.phoneMovil.$touched || fNewUser.phoneMovil.$touched),
+										'input-login-warning': (!register.phoneLocalNumberUser=='' || !register.phoneLocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && fNewUser.phoneMovil.$touched,
+										'input-login-success': register.phoneMovilNumberUser.length>=8 && fNewUser.phoneMovil.$valid}"
+									ng-blur="inputCheckCss('phoneMovil', 'i');"
+									ng-model="register.phoneMovilNumberUser"
+									type="text">
+							</div>
+
+							<!-- Status Icons -->
+							<div style="flex: 0 0 20px; min-width: 0; display: flex; align-items: flex-end; padding-bottom: 4px; margin-top: 2em;">
+								<i style="color: #5cb85c;"
+								ng-show="register.phoneMovilNumberUser.length>=8 && fNewUser.phoneMovil.$valid"
+								class="glyphicon glyphicon-ok"></i>
+								<i style="color: red;"
+								ng-show="(register.phoneLocalNumberUser=='' || register.phoneLocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && (!fNewUser.phoneMovil.$touched || fNewUser.phoneMovil.$touched)"
+								class="glyphicon glyphicon-asterisk"></i>
+								<i style="color: #f0ad4e;"
+								ng-show="(!register.phoneLocalNumberUser=='' || !register.phoneLocalNumberUser==undefined) && (register.phoneMovilNumberUser.length>0 && register.phoneMovilNumberUser.length<8) && fNewUser.phoneMovil.$touched"
+								class="glyphicon glyphicon-asterisk"></i>
+								<i ng-show="(register.phoneMovilNumberUser.length==0 && register.phoneMovilNumberUser.length<1) && (!fNewUser.phoneMovil.$touched)"
+								class="glyphicon glyphicon-phone"></i>
+							</div>
+						</div>
+						<div class="col-md-12 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;" class="form-group row n-margin-t n-margin-b">
+							<div class="alert alert-info" role="alert">
+								<h4><strong>IMPORTANTE!! </strong>PARA QUE UTILIZA BSS LOS DATOS ?</h4><br>
+								<span><strong>DNI:</strong>  se utiliza para verificar la identidad al momento de la entrega del pedido, en caso de no coincidir NO SE REALIZARÁ LA ENTREGA DEL PEDIDO por razonos de seguridad. Por favor, antes de aceptar, verificá que este cargado correctamente.</span><br>
+								<span><strong>MAIL:</strong>  se utiliza para generar un usuario relacionado con lon cargados en esta pantalla. A este mail llegaran las notificaciones de estado del pedido y la contraseña inicial para poder loguearse. Es importante que se cargue un mail real, dado que no puede duplicarse ni editarse.</span><br><br>
+								<span class="text-danger"><strong>En caso de que se detecten datos no verificables el usuario será eliminado y el pedido será cancelado.</strong></span><br><br>
+								<h5>Los datos estan protegidos en los terminos de la <a class="text-warning" href="https://www.argentina.gob.ar/normativa/nacional/ley-25326-64790" target="_blank">LEY DE PROTECCION DE DATOS PERSONALES N° 25.326.</a></h5>
+							</div>
+						</div>
 			</div>
             <div class="panel-footer">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-12">
-                        <button type="submit" ng-click="sysRegisterFn()" ng-disabled="fNewUser.$invalid" class="btn btn-labeled btn-success">
+                        <button type="submit" ng-click="sysRegisterFn(register)" ng-disabled="fNewUser.$invalid" class="btn btn-labeled btn-success">
                             <span class="btn-label"><i class="glyphicon glyphicon-send"></i></span> Enviar</button>
                         <a href="/login" type="button" class="btn btn-labeled btn-danger">
                             <span class="btn-label"><i class="glyphicon glyphicon-remove"></i></span> Cancelar</a>
@@ -617,5 +642,3 @@
 	</div>
 	<!-- //Modal Confirmation -->
 </div>
-
-

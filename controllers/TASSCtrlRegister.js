@@ -1,4 +1,4 @@
-var registerUser = angular.module("module.RegisterUser", ["tokenSystem", "services.User" , "ngSanitize", "services.Departments", "ui.select"]);
+var registerUser = angular.module("module.RegisterUser", ["tokenSystem", "services.User" , "ngSanitize", "services.Departments", "services.Utilities"]);
 
 /**************************************************************************
 *                                                                         *
@@ -20,7 +20,7 @@ registerUser.service("inputService",function(){
   }
 });
 
-registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope, $location, $http, blockUI, inputService, userServices, DepartmentsServices, $timeout, tokenSystem, serverHost, serverBackend, $window, APP_SYS, APP_REGEX){
+registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope, $location, $http, blockUI, inputService, userServices, UtilitiesServices, DepartmentsServices, $timeout, tokenSystem, serverHost, serverBackend, $window, APP_SYS, APP_REGEX){
   console.log(APP_SYS.app_name+" Modulo Register User");
   $scope.launchLoader = function(){
     $scope.wLoader  = true;
@@ -41,7 +41,8 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
   $scope.rsInputLength = 0;
   $scope.sysEmailRegistered=false;
   $scope.sysDNIRegistered=false;
-  $scope.register = {'idProfileKf':'', 'fname':'', 'lname':'', 'dni':'', 'email':'', 'phonelocalNumberUser':'', 'phoneMovilNumberUser': '', 'idProfileKf':'', 'idCompanyKf':'', 'idAddresKf':'', 'idTyepeAttendantKf':'', 'idTypeTenantKf':'', 'descOther':'', 'idDepartmentKf':'', 'isDepartmentApproved':'', 'requireAuthentication':''};
+  $scope.select={'admins':{'selected':undefined}, 'buildings':{'selected':undefined},'depto':undefined,'floor':undefined, 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}};
+  $scope.register = {'idProfileKf':'', 'fname':'', 'lname':'', 'dni':'', 'email':'', 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}, 'phoneLocalNumberUser':'', 'phoneMovilNumberUser': '', 'idProfileKf':'', 'idCompanyKf':'', 'idAddresKf':'', 'idTyepeAttendantKf':'', 'idTypeTenantKf':'', 'descOther':'', 'idDepartmentKf':'', 'isDepartmentApproved':'', 'requireAuthentication':''};
   $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
 
   if (!$scope.sysToken && !$scope.sysLoggedUser){
@@ -68,6 +69,38 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
         }, 100);
 
     }
+/**************************************************
+*                                                 *
+*               GET PHONE CODES LIST              *
+*                                                 *
+**************************************************/
+  $scope.countryPhoneCodesList = [];
+  $scope.getCountryPhoneCodesFn = function(){
+      UtilitiesServices.getCountryPhoneCodes().then(function(response){
+        //console.log(response);
+      if(response.status==200){
+              $scope.countryPhoneCodesList = response.data;
+      }else if (response.status==404){
+          inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+              ttl:3000, type: 'danger'
+          });
+              $scope.countryPhoneCodesList = undefined;
+      }else if (response.status==500){
+          inform.add('Ocurrio un error, contacte al area de soporte de BSS.',{
+          ttl:3000, type: 'danger'
+          });
+          $scope.countryPhoneCodesList = undefined;
+      }
+      });
+  };
+  $scope.getCountryPhoneCodesFn();
+    setTimeout(function() {
+      $scope.select.phoneCountryWired.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+      $scope.select.phoneCountryMovil.selected=$scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+      $scope.register.phoneWiredPrefix = "11"
+      $scope.register.phoneMovilPrefix = "11"
+      console.log($scope.select);
+    }, 1000);
   }else{
     tokenSystem.destroyTokenStorage(2);
     tokenSystem.destroyTokenStorage(3);
@@ -123,13 +156,111 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
         });
       }
     }
+    $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber) {
 
+        if (!countryCodeTmp ||
+            !prefixNumber ||
+            !phoneNumber) {
+            return null;
+        }
+
+        let countryCode = countryCodeTmp.phoneCode;
+        let localNumber = phoneNumber;
+
+        // 1️⃣ Quitar todo lo que no sea número (elimina paréntesis, espacios y guiones de la máscara)
+        localNumber = localNumber.replace(/\D/g, '');
+
+        // 2️⃣ Eliminar ceros iniciales
+        localNumber = localNumber.replace(/^0+/, '');
+
+        // 2.5️⃣ ELIMINAR EL "15" INICIAL (Solo para almacenamiento en Base de Datos)
+        // Si el número limpio empieza con 15, lo removemos para guardar solo el número de abonado real
+        if (localNumber.startsWith('15')) {
+            localNumber = localNumber.substring(2);
+        }
+
+        // 3️⃣ Quitar + del countryCode
+        countryCode = countryCode.replace('+', '');
+
+        // Se unifica: Código País + Prefijo de Área (ej: 11) + Número local sin el 15 (ej: 22356388)
+        let fullNumber = '+' + countryCode + prefixNumber + localNumber;
+
+        // 4️⃣ Validar longitud máxima E.164
+        if (fullNumber.length > 16) { // + incluido
+            return null;
+        }
+
+        return fullNumber;
+    };
+    $scope.parsePhoneE164 = function (fullNumber, countryPhoneCodesList) {
+        if (!fullNumber || !countryPhoneCodesList || countryPhoneCodesList.length === 0) {
+            return null;
+        }
+
+        // 1️⃣ Limpiar el número dejando solo el '+' inicial y los dígitos
+        let cleanNumber = fullNumber.replace(/[^\d+]/g, '');
+
+        // 2️⃣ Encontrar el país correspondiente que coincida al inicio del string
+        // Ordenamos por longitud descrita para que coincidan primero códigos largos (ej: +1246 antes que +1)
+        let sortedCountries = [...countryPhoneCodesList].sort((a, b) => b.phoneCode.length - a.phoneCode.length);
+        let matchedCountry = sortedCountries.find(c => cleanNumber.startsWith(c.phoneCode));
+
+        if (!matchedCountry) {
+            return null; // No se encontró un país válido en la lista
+        }
+
+        // 3️⃣ Remover el código de país para procesar el resto del número
+        let remaining = cleanNumber.substring(matchedCountry.phoneCode.length);
+
+        let prefixNumber = "";
+        let phoneNumber = "";
+
+        // 4️⃣ Lógica específica para Argentina (+54)
+        if (matchedCountry.isoCode === "AR" || matchedCountry.phoneCode === "+54") {
+            // En Argentina, los prefijos más comunes son de 2 dígitos (11) o 3 dígitos (341, 261, etc)
+            // Probamos primero con el prefijo AMBA / Buenos Aires que es "11"
+            if (remaining.startsWith("11")) {
+                prefixNumber = "11";
+                let afterPrefix = remaining.substring(2);
+
+                // Verificamos si incluye el "15" de celular
+                if (afterPrefix.startsWith("15")) {
+                    phoneNumber = "15" + afterPrefix.substring(2);
+                } else {
+                    phoneNumber = afterPrefix;
+                }
+            } else {
+                // Para otros prefijos de provincias de 3 dígitos (ej: 341, 261)
+                // Tomamos 3 dígitos como prefijo estándar fuera de BsAs
+                prefixNumber = remaining.substring(0, 3);
+                let afterPrefix = remaining.substring(3);
+
+                if (afterPrefix.startsWith("15")) {
+                    phoneNumber = "15" + afterPrefix.substring(2);
+                } else {
+                    phoneNumber = afterPrefix;
+                }
+            }
+        } else {
+            // 5️⃣ Lógica genérica para otros países (Mitad prefijo, mitad número como fallback)
+            let mid = Math.floor(remaining.length / 2);
+            prefixNumber = remaining.substring(0, mid);
+            phoneNumber = remaining.substring(mid);
+        }
+
+        // Retorna el objeto desarmado listo para asignar a tus variables de $scope
+        return {
+            countryCodeTmp: matchedCountry,
+            prefixNumber: prefixNumber,
+            phoneNumber: phoneNumber
+        };
+    };
   /**************************************************
   *                                                 *
   *               REGISTRO DE USUARIO               *
   *                                                 *
   **************************************************/
-    $scope.sysRegisterFn = function(){
+    $scope.sysRegisterFn = function(obj){
       console.log($scope.userData2Add());
         userServices.addUser($scope.userData2Add()).then(function(response_userRegister){
           if(response_userRegister.status==200){
@@ -195,8 +326,8 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                           fullNameUser            : $scope.register.fname+' '+$scope.register.lname,
                           emailUser               : $scope.register.email,
                           dni                     : $scope.register.dni,
-                          phoneNumberUser         : $scope.register.phoneMovilNumberUser,
-                          phoneLocalNumberUser    : $scope.register.phonelocalNumberUser,
+                          phoneNumberUser         : $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,$scope.register.phoneMovilPrefix,$scope.register.phoneMovilNumberUser),
+                          phoneLocalNumberUser    : $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,$scope.register.phoneWiredPrefix,$scope.register.phoneLocalNumberUser),
                           idProfileKf             : $scope.register.idProfileKf,
                           idCompanyKf             : $scope.register.idCompanyKf,
                           /*-----------------------------------------*/
@@ -207,6 +338,7 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
                           idDepartmentKf          : $scope.register.idDepartment_tmp,
                           isEdit                  : 1,
                           idSysProfileFk          : 10,
+                          isTyCAccepted           : 0,
                           isDepartmentApproved    : $scope.register.isDepartmentApproved,
                           requireAuthentication   : $scope.register.isRequireAuthentication
                     }
@@ -296,65 +428,81 @@ registerUser.controller('RegisterUserCtrl', function($scope, inform, $rootScope,
 
 
     $scope.fnLoadPhoneMask = function(){
+      console.log($scope.register)
       /**********************************************
       *               INPUT PHONE MASK              *
       **********************************************/
-      // CELULAR ARGENTINA
-      // Ejemplo:
-      // +54 9 11 1234-5678
-      // +54 9 351 123-4567
-      $('.input--phone').mask('+54 0 0000-00000000', {
+
+        $('.input-phone-prefix').mask('####', {
           reverse: false,
-          placeholder: '+54 9 11 1234-5678',
-          translation: {
-              '0': {
-                  pattern: /[0-9]/
-              }
+          translation:{
+            '0': null,
+            '#':{
+              pattern: /[1-9]/
+            },
           },
-          onKeyPress: function(value, e, field, options) {
+          placeholder: '____'
+        });
 
-              // Remover caracteres no numéricos
-              let numbers = value.replace(/\D/g, '');
-
-              /*
-                  numbers esperado:
-                  5491112345678
-                  5493511234567
-              */
-
-              // Detectar longitud variable
-              if (numbers.length > 13) {
-                  field.mask('+54 0 0000-00000000', options);
-              } else {
-                  field.mask('+54 0 000-0000000', options);
-              }
-          }
-      });
-      // TELEFONO FIJO ARGENTINA
-      // Ejemplo:
-      // +54 11 4321-5678
-      // +54 351 426-0000
-
-      $('.input--phone--wired').mask('+54 00 0000-0000', {
+        $('.input-movil').mask('(15) ####-####',
+        {
           reverse: false,
-          placeholder: '+54 11 4321-5678',
-          translation: {
-              '0': {
-                  pattern: /[0-9]/
-              }
+          translation:{
+            '0': null,
+            '1': null,
+            '4': null,
+            '5': null,
+            '#':{
+              pattern: /[0-9]/
+            }
           },
-          onKeyPress: function(value, e, field, options) {
-
-              let numbers = value.replace(/\D/g, '');
-
-              // Ajustar según código de área
-              if (numbers.length > 12) {
-                  field.mask('+54 000 000-0000', options);
-              } else {
-                  field.mask('+54 00 0000-0000', options);
-              }
-          }
-      });
+          placeholder: "(15) ____ ____"
+        });
+        $('.input-local').mask('####-####',
+        {
+          reverse: false,
+          translation:{
+            '0': null,
+            '1': null,
+            '4': null,
+            '5': null,
+            '+': null,
+            '#':{
+              pattern: /[0-9]/
+            }
+          },
+          placeholder: "____ ____"
+        });
+        $('.input--phone').mask('+54 (####) (15) ####-####',
+        {
+          reverse: false,
+          translation:{
+            '0': null,
+            '1': null,
+            '4': null,
+            '5': null,
+            '+': null,
+            '#':{
+              pattern: /[0-9]/
+            }
+          },
+          placeholder: "+54 (_____) (15) ____ ____"
+        });
+        $('.input--phone--wired').mask('+54 (####) ####-####',
+        {
+          reverse: false,
+          translation:{
+            '0': null,
+            '1': null,
+            '4': null,
+            '5': null,
+            '+': null,
+            '#':{
+              pattern: /[0-9]/
+            }
+          },
+          placeholder: "+54 (_____) ____ ____"
+        });
       /**********************************************
       *               INPUT DNI MASK                *
       **********************************************/
