@@ -976,9 +976,16 @@
                 $scope.profile.phonelocalPrefixNumber       = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
                 $scope.profile.phonelocalNumberUser         = phoneParsedLocal?phoneParsedLocal.phoneNumber:$scope.profile.phoneLocalNumberUser;
             }
-            $('#ProfileModalUser').modal({backdrop: 'static', keyboard: false});
+            $("#ProfileModalUser").modal({backdrop: 'static', keyboard: false});
+            $('.input-movil').unmask();
+            $('.input-local').unmask();
+            $('.input-movil').off('input keydown keyup blur focus');
+            $('.input-local').off('input keydown keyup blur focus');
             $('#ProfileModalUser').on('shown.bs.modal', function () {
-                $('#profileNames').focus();
+              $('#profileNames').focus();
+                $timeout(function() {
+                    $scope.fnLoadPhoneMask();
+                }, 150);
             });
             //console.log($scope.profile);
           }
