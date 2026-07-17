@@ -993,6 +993,7 @@
           $scope.updateProfileLoggedUser=function(){
             $scope.rsUser = {'user':{}}
             var isEmailChange = $scope.sysLoggedUser.emailUser != $scope.profile.emailUser?true:false;
+            console.log($scope.profile);
             console.log("==========================================");
                 $scope.sysLoggedUser.fullNameUser         = $scope.profile.fullNameUser;
                 $scope.sysLoggedUser.emailUser            = $scope.profile.emailUser;
