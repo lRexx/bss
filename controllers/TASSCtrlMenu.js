@@ -958,21 +958,17 @@
         *           UPDATE PROFILE LOGGED USER            *
         *     (status, profile, typeTenant, company)      *
         **************************************************/
-          $scope.profile={};
-          $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{},'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}}
-          $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phoneLocalPrefixNumber':'', 'phoneLocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
+                      $scope.profile={}
           $scope.profileUserOpen = function(){
-            $scope.profile={};
-            $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{},'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined}}
-            $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phoneLocalPrefixNumber':'', 'phoneLocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
+            $scope.select={'companies':{'selected':undefined}, 'address':{'selected':undefined},'company':{'selected':undefined},'addressAttendant':{'selected':undefined}, 'deptos':{}, 'departmentList':{}}
+            $scope.profile = {'idUser':null,'idProfileKf':{}, 'idSysProfileFk':null, 'fname':'','lname':'', 'dni':'','email':'', 'phoneCountryMovil':{'selected':undefined}, 'phoneCountryWired':{'selected':undefined},'phoneLocalPrefixNumber':'', 'phoneLocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'idDepartmentKf':null, 'idTypeAttKf':null, 'typeOtherAtt':'', 'idTypeTenantKf':''}
             $scope.profile=tokenSystem.getTokenStorage(2);
-            console.log($scope.profile);
+            $scope.profile.phoneCountryWired={'selected':undefined};
+            $scope.profile.phoneCountryMovil={'selected':undefined};
             phoneParsedMovil = $scope.parsePhoneE164($scope.profile.phoneNumberUser, $scope.countryPhoneCodesList);
             phoneParsedLocal = $scope.parsePhoneE164($scope.profile.phoneLocalNumberUser, $scope.countryPhoneCodesList);
-            console.log("phoneParsedMovil: "+phoneParsedMovil);
-            console.log("phoneParsedLocal: "+phoneParsedLocal);
-            $scope.select.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
-            $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+            $scope.profile.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):$scope.countryPhoneCodesList.find(c => c.isoCode === phoneParsedMovil.countryCodeTmp.isoCode);
+            $scope.profile.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):$scope.countryPhoneCodesList.find(c => c.isoCode === phoneParsedLocal.countryCodeTmp.isoCode);
             $scope.profile.phoneMovilPrefixNumber       = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
             $scope.profile.phoneMovilNumberUser         = phoneParsedMovil?phoneParsedMovil.phoneNumber:$scope.profile.phoneNumberUser;
             $scope.profile.phoneLocalPrefixNumber       = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
@@ -986,7 +982,7 @@
               $('#profileNames').focus();
                 $timeout(function() {
                     $scope.fnLoadPhoneMask();
-                }, 150);
+                }, 550);
             });
             //console.log($scope.profile);
           }
@@ -997,8 +993,8 @@
             console.log("==========================================");
                 $scope.sysLoggedUser.fullNameUser         = $scope.profile.fullNameUser;
                 $scope.sysLoggedUser.emailUser            = $scope.profile.emailUser;
-                $scope.sysLoggedUser.phoneNumberUser      = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,$scope.profile.phoneMovilPrefixNumber,$scope.profile.phoneMovilNumberUser);
-                $scope.sysLoggedUser.phoneLocalNumberUser = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,$scope.profile.phoneLocalPrefixNumber,$scope.profile.phoneLocalNumberUser);
+                $scope.sysLoggedUser.phoneNumberUser      = $scope.normalizePhoneE164($scope.profile.phoneCountryMovil.selected,$scope.profile.phoneMovilPrefixNumber,$scope.profile.phoneMovilNumberUser);
+                $scope.sysLoggedUser.phoneLocalNumberUser = $scope.normalizePhoneE164($scope.profile.phoneCountryWired.selected,$scope.profile.phoneLocalPrefixNumber,$scope.profile.phoneLocalNumberUser);
                 $scope.sysLoggedUser.isEdit               = 1;
                 $scope.rsUser.user=$scope.sysLoggedUser;
                 $scope.rsUser.user.isEmailChange = isEmailChange;
