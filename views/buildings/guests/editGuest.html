@@ -13,12 +13,12 @@
                     <fieldset>
                     <!-- Form First & Last Name -->
                     <div class="form-group col-md-12" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         guest.update.fullname!='' && fUpdateGuest.fullname.$valid,
-                        'has-error':  
+                        'has-error':
                         (guest.update.fullname=='' || guest.update.fullname==undefined) && fUpdateGuest.fullname.$touched,
                     }">
-                    <label style="padding-left: 15px;" >Nombres y Apellidos</label> 
+                    <label style="padding-left: 15px;" >Nombres y Apellidos</label>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -28,12 +28,12 @@
                     </div>
                     <!-- Text DNI ng-blur="sysCheck4Duplicates(guest.update.dni, 'dni');" -->
                     <div class="form-group col-md-6" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         guest.update.dni!='' && fUpdateGuest.dniUser.$valid,
-                        'has-error':  
+                        'has-error':
                         (guest.update.dni=='' || guest.update.dni==undefined) && fUpdateGuest.dniUser.$touched,
                     }">
-                    <label style="padding-left: 15px;">DNI</label>  
+                    <label style="padding-left: 15px;">DNI</label>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
@@ -51,6 +51,68 @@
                                 </div>
                             </div>
                     </div>
+                    <!-- Movil Phone-->
+                    <div class="form-group col-md-6" ng-class="{
+                            'has-success':
+                                guest.update.phoneMovilNumberGuest!='' && guest.update.phoneMovilNumberGuest!=null  && fUpdateGuest.phoneMovilNumberGuest.$valid,
+                            'has-warning':
+                                !guest.update.phoneMovilNumberGuest && tenant.update.phonelocalNumberUser,
+                            'has-error':
+                                !guest.update.phoneMovilNumberGuest && !tenant.update.phonelocalNumberUser && fUpdateGuest.phoneMovilNumberGuest.$touched,
+                            }">
+                        <label style="padding-left: 15px;">Teléfono Móvil (Opcional)</label>
+
+                        <div class="col-xs-12">
+                            <div class="input-group">
+                                <!-- Country Code -->
+                                <div class="input-group-btn" style="width: 100px;">
+                                    <ui-select
+                                        class="ui-select-bootstrap-phone"
+                                        name="countryCode"
+                                        ng-model="select.phoneCountryMovil.selected"
+                                        search-enabled="true">
+                                        <ui-select-match allow-clear="false"><span class="country-flag"><img
+                                            ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png"
+                                            width="18"
+                                            style="margin-right:5px;"> {{ $select.selected.phoneCode }}</ui-select-match>
+                                        <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
+                                            <div ng-bind-html="item.phoneCode | highlight: $select.search"></div>
+                                            <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
+                                                <img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{item.countryName}}
+                                            </small>
+                                        </ui-select-choices>
+                                    </ui-select>
+                                </div>
+                                <!-- Phone Prefix number -->
+                                <input
+                                    name="phoneMovilPrefix"
+                                    ng-model="guest.update.phoneMovilPrefixNumber"
+                                    type="text"
+                                    class="form-control input-phone-prefix"
+                                    ng-minlength="2"
+                                    ng-maxlength="4"
+                                    ng-keydown="fnLoadPhoneMask();"
+                                    placeholder="Pref."
+                                    style="width: 28.4% !important;"
+                                />
+                                <!-- Phone number -->
+                                <input
+                                    name="phoneMovilNumberGuest"
+                                    ng-model="guest.update.phoneMovilNumberGuest"
+                                    type="text"
+                                    class="form-control input-movil"
+                                    ng-minlength="8"
+                                    ng-keydown="fnLoadPhoneMask();"
+                                    placeholder="Num. de teléfono"
+                                    style="width: 71.6% !important;"
+                                />
+                            <!-- Icon on the right -->
+                            <span class="input-group-addon">
+                                <i class="glyphicon glyphicon-earphone"></i>
+                            </span>
+                            </div>
+                        </div>
+                    </div>
                     <div ng-if="sysDNIRegistered || sysEmailRegistered" class="form-group row n-margin-t n-margin-b">
                         <div ng-if="sysDNIRegistered" class="form-group n-margin-t n-margin-b" ng-class="{
                             'col-md-6':
@@ -66,20 +128,9 @@
                             </div>
                         </div>
                     </div>
-
-                    <!-- Text Phone-->
-                    <div class="form-group col-md-6">
-                    <label style="padding-left: 15px;">Telefono Movil (opcional)</label>  
-                        <div class="col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                <input name="phoneNumber" ng-minlength="8" class="form-control input--phone" ng-model="guest.update.phoneNumber" type="text" autofocus />
-                            </div>
-                        </div>
-                    </div>
                     </fieldset>
                 </form>
-                <div class="clearfix"> </div> 
+                <div class="clearfix"> </div>
             </div>
             <!-- Actions Button -->
             <div class="modal-footer">
