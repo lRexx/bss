@@ -3675,8 +3675,8 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $('#dniUser').focus();
                             $scope.select.phoneCountryWired.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
                             $scope.select.phoneCountryMovil.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
-                            $scope.users.new.phonelocalPrefixNumber     = "11"
-                            $scope.users.new.phoneMovilPrefixNumber     = "11"
+                            $scope.tenant.new.phonelocalPrefixNumber    = "11"
+                            $scope.tenant.new.phoneMovilPrefixNumber    = "11"
                         });
                         console.log($scope.ticket);
                         console.log($scope.tenant.new);
