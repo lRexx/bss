@@ -3753,6 +3753,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $('#UpdateGuest').modal({backdrop: 'static', keyboard: false});
                             $('#UpdateGuest').on('shown.bs.modal', function () {
                                 $('#fullname').focus();
+                                $timeout(function() {
+                                    $scope.fnLoadPhoneMask();
+                                }, 150);
                             });
                         break;
                         case "updateGuest":
@@ -3813,6 +3816,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                 $('#UpdateTenant').modal({backdrop: 'static', keyboard: false});
                                 $('#UpdateTenant').on('shown.bs.modal', function () {
                                     $('#idTypeTenantKf').focus();
+                                    $timeout(function() {
+                                        $scope.fnLoadPhoneMask();
+                                    }, 150);
                                 });
                                 console.log($scope.tenant.update);
                             }else if(obj.idProfileKf=="4" || obj.idProfileKf=="6" && (obj.idTypeTenantKf>=1 || obj.idTypeTenantKf==null)){
@@ -3870,6 +3876,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                                     $('#UpdateAttendant').modal({backdrop: 'static', keyboard: false});
                                     $('#UpdateAttendant').on('shown.bs.modal', function () {
                                         $('#idTypeAttKf').focus();
+                                        $timeout(function() {
+                                            $scope.fnLoadPhoneMask();
+                                        }, 150);
                                     });
                                 }, 1000);
                                 console.log($scope.attendant.update);
