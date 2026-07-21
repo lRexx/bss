@@ -5114,6 +5114,10 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $('#RegisterAttendant').modal({backdrop: 'static', keyboard: false});
                             $('#RegisterAttendant').on('shown.bs.modal', function () {
                                 $('#idTypeAttKf').focus();
+                                $scope.select.phoneCountryWired.selected = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                                $scope.select.phoneCountryMovil.selected = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                                $scope.attendant.new.phonelocalPrefixNumber = "11"
+                                $scope.attendant.new.phoneMovilPrefixNumber = "11"
                             });
                             console.log($scope.attendant.new);
                         break;
