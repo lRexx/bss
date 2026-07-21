@@ -3734,7 +3734,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.register.guest.emailAddress         = obj.mail;
                             $scope.register.guest.phoneNumber          = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberGuest);
                             console.log($scope.register.guest);
-                            //$scope.sysRegisterGuestFn($scope.register);
+                            $scope.sysRegisterGuestFn($scope.register);
                         break;
                         case "editGuest":
                             $scope.guest          = {'update':{'idGuest':'','idDepartmentKf':'', 'idStatusKf':'', 'fullname':'','dni':'','mail':'','phoneNumber':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberGuest':'','depto':'','address':''}};
