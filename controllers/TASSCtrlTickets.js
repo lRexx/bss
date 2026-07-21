@@ -1191,16 +1191,28 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     switch (opt){
                                         case "dni":
                                             $scope.sysDNIRegistered=true;
-                                            inform.add('La número de documeto ya se encuentra registrado, Verifique por favor los datos en pantalla, si desea asociarlo tambien a este departamento, para completar el proceso haga click en el boton Asociar.',{
+                                            inform.add('La número de documento ya se encuentra registrado, Verifique por favor los datos en pantalla, si desea asociarlo tambien a este departamento, para completar el proceso haga click en el boton Asociar.',{
                                                 ttl:30000, type: 'warning'
                                             });
+                                            let phoneParsedMovil = null;
+                                            let phoneParsedLocal = null;
                                             if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf=="1"){
-                                                $scope.tenant.new.idUser = response.data[0].idUser;
-                                                $scope.tenant.new.fullname = response.data[0].fullNameUser;
-                                                $scope.tenant.new.dni = response.data[0].dni;
-                                                $scope.tenant.new.mail = response.data[0].emailUser;
-                                                $scope.tenant.new.phoneMovilNumberUser = response.data[0].phoneNumberUser;
-                                                $scope.tenant.new.phonelocalNumberUser = response.data[0].phoneLocalNumberUser;
+                                                phoneParsedMovil = $scope.parsePhoneE164(response.data[0].phoneNumberUser, $scope.countryPhoneCodesList);
+                                                phoneParsedLocal = $scope.parsePhoneE164(response.data[0].phoneLocalNumberUser, $scope.countryPhoneCodesList);
+                                                $scope.tenant.new.idUser    = response.data[0].idUser;
+                                                $scope.tenant.new.fullname  = response.data[0].fullNameUser;
+                                                $scope.tenant.new.dni       = response.data[0].dni;
+                                                $scope.tenant.new.mail      = response.data[0].emailUser;
+                                                console.log(phoneParsedMovil);
+                                                console.log(phoneParsedLocal);
+                                                if (phoneParsedMovil || phoneParsedLocal) {
+                                                    $scope.select.phoneCountryMovil.selected    = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
+                                                    $scope.select.phoneCountryWired.selected    = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+                                                    $scope.tenant.new.phoneMovilPrefixNumber    = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
+                                                    $scope.tenant.new.phoneMovilNumberUser      = phoneParsedMovil?phoneParsedMovil.phoneNumber:response.data[0].phoneNumberUser;
+                                                    $scope.tenant.new.phonelocalPrefixNumber    = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
+                                                    $scope.tenant.new.phonelocalNumberUser      = phoneParsedLocal?phoneParsedLocal.phoneNumber:response.data[0].phoneLocalNumberUser;
+                                                }
                                             }else{
                                                 $scope.tenant.new.dni=undefined;
                                             }
