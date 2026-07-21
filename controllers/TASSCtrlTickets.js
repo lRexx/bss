@@ -2135,7 +2135,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                     break;
                 }
             }
-$scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber) {
+            $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber) {
 
                 if (!countryCodeTmp ||
                     !prefixNumber ||
@@ -3640,9 +3640,9 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                     break;
                     case "newTenant":
                         $scope.tenant={
-                        'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
-                        'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':''},
-                        'tmp':{'dni':'','mail':''}};
+                        'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phonelocalPrefixNumber':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
+                        'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phonelocalPrefixNumber':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':''},
+                        'tmp':{'dni':'','mail':''},'blockUserLoginTmp':false};
                         $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
                         $scope.ownerFound=false;
                         $scope.isNewTenant                          = true;
@@ -3668,6 +3668,10 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                         $('#RegisterTenant').modal({backdrop: 'static', keyboard: false});
                         $('#RegisterTenant').on('shown.bs.modal', function () {
                             $('#dniUser').focus();
+                            $scope.select.phoneCountryWired.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                            $scope.select.phoneCountryMovil.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                            $scope.users.new.phonelocalPrefixNumber     = "11"
+                            $scope.users.new.phoneMovilPrefixNumber     = "11"
                         });
                         console.log($scope.ticket);
                         console.log($scope.tenant.new);
@@ -3678,8 +3682,8 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                         $scope.register.user.idSysProfileFk         = obj.idSysProfileFk;
                         $scope.register.user.fullNameUser           = obj.fullname;
                         $scope.register.user.emailUser              = obj.mail;
-                        $scope.register.user.phoneNumberUser        = obj.phoneMovilNumberUser;
-                        $scope.register.user.phoneLocalNumberUser   = obj.phonelocalNumberUser;
+                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                        $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                         $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTyepeAttendantKf:null;
                         $scope.register.user.dni                    = obj.dni;
                         $scope.register.user.isCreateByAdmin        = $scope.sysLoggedUser.idProfileKf==4?1:null;
@@ -3720,17 +3724,19 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                     break;
                     case "edit":
                         $scope.tenant={
-                            'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'', 'depto':''},
-                            'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'', 'depto':''},
-                            'tmp':{'dni':'','mail':''}};
+                            'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phonelocalPrefixNumber':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
+                            'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'phoneMovilPrefixNumber':'', 'phonelocalPrefixNumber':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':''},
+                            'tmp':{'dni':'','mail':''},'blockUserLoginTmp':false};
                         $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
                         $scope.attendant={
-                            'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':'', 'idTypeAttKf':{}},
-                            'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'','depto':'', 'idTypeAttKf':{}},
+                            'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'phonelocalPrefixNumber':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
+                            'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'phonelocalPrefixNumber':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'','depto':''},
                             'tmp':{'dni':'','mail':''}};
                         $scope.att= {'ownerOption':undefined}
                         $scope.ownerFound                                  = false;
                         console.log(obj);
+                        phoneParsedMovil = $scope.parsePhoneE164(obj.phoneNumberUser, $scope.countryPhoneCodesList);
+                        phoneParsedLocal = $scope.parsePhoneE164(obj.phoneLocalNumberUser, $scope.countryPhoneCodesList);
                         //TENANT & OWNERS / ELSE / ATTENANDANTS
                         if (obj.idProfileKf=="3" || obj.idProfileKf=="5"){
                             $scope.isNewTenant=false;
@@ -3741,8 +3747,14 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                             $scope.tenant.update.idProfileKf            = obj.idProfileKf;
                             $scope.tenant.update.dni                    = obj.dni;
                             $scope.tenant.update.fullname               = obj.fullNameUser;
-                            $scope.tenant.update.phoneMovilNumberUser   = obj.phoneNumberUser;
-                            $scope.tenant.update.phonelocalNumberUser   = obj.phoneLocalNumberUser;
+                            if (phoneParsedMovil || phoneParsedLocal) {
+                                $scope.select.phoneCountryMovil.selected     = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
+                                $scope.select.phoneCountryWired.selected     = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+                                $scope.tenant.update.phoneMovilPrefixNumber  = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
+                                $scope.tenant.update.phoneMovilNumberUser    = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
+                                $scope.tenant.update.phonelocalPrefixNumber  = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
+                                $scope.tenant.update.phonelocalNumberUser    = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
+                            }
                             $scope.tenant.update.idTypeTenantKf         = obj.idTypeTenantKf;
                             $scope.tenant.update.idTypeTenantKf_tmp     = obj.idTypeTenantKf;
                             $scope.tenant.update.mail                   = obj.emailUser;
@@ -3769,8 +3781,14 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                             $scope.attendant.update.idProfileKf            = obj.idProfileKf;
                             $scope.attendant.update.dni                    = obj.dni;
                             $scope.attendant.update.fullname               = obj.fullNameUser;
-                            $scope.attendant.update.phoneMovilNumberUser   = obj.phoneNumberUser;
-                            $scope.attendant.update.phonelocalNumberUser   = obj.phoneLocalNumberUser;
+                            if (phoneParsedMovil || phoneParsedLocal) {
+                                $scope.select.phoneCountryMovil.selected        = phoneParsedMovil==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedMovil.countryCodeTmp;
+                                $scope.select.phoneCountryWired.selected        = phoneParsedLocal==null?$scope.countryPhoneCodesList.find(c => c.isoCode === "AR"):phoneParsedLocal.countryCodeTmp;
+                                $scope.attendant.update.phoneMovilPrefixNumber  = phoneParsedMovil==null?"11":phoneParsedMovil.prefixNumber;
+                                $scope.attendant.update.phoneMovilNumberUser    = phoneParsedMovil?phoneParsedMovil.phoneNumber:obj.phoneNumberUser;
+                                $scope.attendant.update.phonelocalPrefixNumber  = phoneParsedLocal==null?"11":phoneParsedLocal.prefixNumber;
+                                $scope.attendant.update.phonelocalNumberUser    = phoneParsedLocal?phoneParsedLocal.phoneNumber:obj.phoneLocalNumberUser;
+                            }
                             $scope.attendant.update.idTypeTenantKf         = obj.idTypeTenantKf;
                             $scope.attendant.update.idTypeTenantKf_tmp     = obj.idTypeTenantKf;
                             $scope.attendant.update.email                  = obj.emailUser;
@@ -3822,8 +3840,8 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                                 $scope.update.user.idTypeTenantKf              = obj.idTypeTenantKf;
                                 $scope.update.user.fullNameUser                = obj.fullname;
                                 $scope.update.user.emailUser                   = obj.mail;
-                                $scope.update.user.phoneLocalNumberUser        = obj.phonelocalNumberUser;
-                                $scope.update.user.phoneNumberUser             = obj.phoneMovilNumberUser;
+                                $scope.update.user.phoneNumberUser             = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                                $scope.update.user.phoneLocalNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                                 $scope.update.user.isEdit                      = 1;
                                 $scope.update.user.idAddresKf                  = ($scope.update.user.idProfileKf==4 || $scope.update.user.idProfileKf==5) && ($scope.update.user.idTypeTenantKf!=null || $scope.update.user.idTypeTenantKf!=0)?obj.idAddresKf:null;
                                 $scope.update.user.idDepartmentKf              = $scope.update.user.idProfileKf==5 && $scope.update.user.idTypeTenantKf==2?$scope.idDeptoKf:null;
@@ -3849,8 +3867,8 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                                 $scope.update.user.idTypeTenantKf              = $scope.att.ownerOption==undefined || $scope.att.ownerOption==null || $scope.att.ownerOption==3 || obj.idTypeAttKf.idTyepeAttendant==1?null:$scope.att.ownerOption;
                                 $scope.update.user.fullNameUser                = obj.fullname;
                                 $scope.update.user.emailUser                   = obj.email;
-                                $scope.update.user.phoneLocalNumberUser        = obj.phonelocalNumberUser;
-                                $scope.update.user.phoneNumberUser             = obj.phoneMovilNumberUser;
+                                $scope.update.user.phoneNumberUser             = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                                $scope.update.user.phoneLocalNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                                 $scope.update.user.idAddresKf                  = (obj.idProfileKf==6) && $scope.att.ownerOption!=null || $scope.att.ownerOption!=0?obj.idAddresKf:null;
                                 $scope.update.user.idDepartmentKf              = $scope.sysSubContent=="departments" && (obj.idProfileKf==6) && $scope.update.user.idTypeTenantKf==2 && $scope.att.ownerOption!=3 && obj.idTypeAttKf.idTyepeAttendant!=1?$scope.idDeptoKf:null;
                                 $scope.update.user.idDeparment_Tmp             = $scope.sysSubContent=="departments" && (obj.idProfileKf==6) && $scope.update.user.idTypeTenantKf==1 && $scope.att.ownerOption!=3 && obj.idTypeAttKf.idTyepeAttendant!=1?$scope.idDeptoKf:null;
@@ -3879,8 +3897,8 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                     break;
                     case "newAttendant":
                         $scope.attendant={
-                            'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
-                            'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilNumberUser':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'','depto':''},
+                            'new':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'phonelocalPrefixNumber':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf':'','depto':''},
+                            'update':{'idProfileKf':'', 'dni':'', 'fullname':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberUser':'', 'phonelocalPrefixNumber':'', 'phonelocalNumberUser':'', 'idAddresKf':'', 'idTypeTenantKf': null, 'mail':'', 'idDepartmentKf2':'','depto':''},
                             'tmp':{'dni':'','mail':''}};
                         $scope.depto={'department':{'idDepartment':null, 'idUserKf':null}};
                         $scope.att= {'ownerOption':undefined}
@@ -3903,6 +3921,10 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                         $('#RegisterAttendant').modal({backdrop: 'static', keyboard: false});
                         $('#RegisterAttendant').on('shown.bs.modal', function () {
                             $('#idTypeAttKf').focus();
+                            $scope.select.phoneCountryWired.selected        = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                            $scope.select.phoneCountryMovil.selected        = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                            $scope.attendant.new.phonelocalPrefixNumber     = "11"
+                            $scope.attendant.new.phoneMovilPrefixNumber     = "11"
                         });
                         console.log($scope.attendant.new);
                     break;
@@ -3912,8 +3934,8 @@ $scope.normalizePhoneE164 = function (countryCodeTmp, prefixNumber, phoneNumber)
                         $scope.register.user.idProfileKf            = obj.idProfileKf;
                         $scope.register.user.fullNameUser           = obj.fullname;
                         $scope.register.user.emailUser              = obj.email;
-                        $scope.register.user.phoneNumberUser        = obj.phoneMovilNumberUser;
-                        $scope.register.user.phoneLocalNumberUser   = obj.phonelocalNumberUser;
+                        $scope.register.user.phoneNumberUser        = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberUser);
+                        $scope.register.user.phoneLocalNumberUser   = $scope.normalizePhoneE164($scope.select.phoneCountryWired.selected,obj.phonelocalPrefixNumber,obj.phonelocalNumberUser);
                         $scope.register.user.idTyepeAttendantKf     = obj.idProfileKf==6?obj.idTypeAttKf.idTyepeAttendant:null;
                         $scope.register.user.dni                    = obj.dni;
                         $scope.register.user.idTypeTenantKf         = $scope.att.ownerOption==undefined || $scope.att.ownerOption==null || $scope.att.ownerOption==3 || obj.idTypeAttKf.idTyepeAttendant==1?null:$scope.att.ownerOption;

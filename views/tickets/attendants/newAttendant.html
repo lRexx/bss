@@ -5,7 +5,7 @@
             <div class="modal-header">
                 <button type="button" class="close" ng-click="modalConfirmation('closeWindow', 0, null)"><span aria-hidden="true"><i alt="Cerrar" class="glyphicon glyphicon-remove-sign"> </i></span><span class="sr-only">Close</span></button>
                 <h3 class="modal-title"><i class="product-success fas fa-user"></i> NUEVO ENCARGADO
-                    <span> 
+                    <span>
                     <span class="badge badge-default font-size-16px text-uppercase">{{attendant.new.idTypeAttKf.nameTypeAttendant}}</span>
                     <span>DE: <span class="badge badge-default font-size-16px">{{attendant.new.building}}</span></span>
                     </span></h3>
@@ -17,9 +17,9 @@
                     <fieldset>
                     <!-- Select Type of Attendant -->
                     <div class="form-group" ng-show="attendant.new.idProfileKf==6" ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             attendant.new.idTypeAttKf.idTyepeAttendant!='' && fNewAtt.idTypeAttKf.$valid,
-                            'has-error':  
+                            'has-error':
                             (attendant.new.idTypeAttKf.idTyepeAttendant=='' || attendant.new.idTypeAttKf.idTyepeAttendant==undefined) && fNewAtt.idTypeAttKf.$touched,
                             'col-md-12':
                             attendant.new.idTypeAttKf.idTyepeAttendant!='1',
@@ -36,9 +36,9 @@
                     </div>
                     <!-- Other Attendant Type Functions -->
                     <div ng-if="attendant.new.idProfileKf==6 && attendant.new.idTypeAttKf.idTyepeAttendant==1" class="form-group col-md-6" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         attendant.new.typeOtherAtt!='' && fNewAtt.typeOtherAtt.$valid,
-                        'has-error':  
+                        'has-error':
                         (attendant.new.typeOtherAtt=='' || attendant.new.typeOtherAtt==undefined) && fNewAtt.typeOtherAtt.$touched,
                     }">
                     <label style="padding-left: 15px;">Funcion</label>
@@ -51,7 +51,7 @@
                     </div>
                     <!-- Other Attendant Function -->
                     <div  ng-if="attendant.new.idTypeAttKf.idTyepeAttendant!=1 && attendant.new.idTypeAttKf.idTyepeAttendant" class="form-group">
-                        <label class="col-md-3 control-label">Seleccione una opcion:</label>  
+                        <label class="col-md-3 control-label">Seleccione una opcion:</label>
                         <div class="col-md-9">
                             <div class="">
                                 <label style="cursor: pointer;" class="col-md-3">
@@ -65,11 +65,11 @@
                                         <code>Habitante</code>
                                 </label>
                             </div>
-                            <div class=""> 
+                            <div class="">
                                 <label style="cursor: pointer;" class="col-md-3">
                                     <input style="cursor: pointer;" type="radio" name="ownerOption" ng-click="attendant.new.idDepartmentKf!='' && attendant.new.idDepartmentKf!=undefined?checkDeptoOwner(attendant.new.idDepartmentKf):'';" value="3" ng-model="att.ownerOption" ng-required="attendant.new.idProfileKf==6 && attendant.new.idTypeAttKf.idTyepeAttendant!=1" autofocus>
                                         <code>Solo encargado</code>
-                                </label> 
+                                </label>
                             </div>
                         </div>
                     </div>
@@ -93,12 +93,12 @@
                     </div>
                     <!-- Form First & Last Name -->
                     <div class="form-group col-md-12" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         attendant.new.fullname!='' && fNewAtt.fullname.$valid,
-                        'has-error':  
+                        'has-error':
                         (attendant.new.fullname=='' || attendant.new.fullname==undefined) && fNewAtt.fullname.$touched,
                     }">
-                    <label style="padding-left: 15px;" >Nombres y Apellidos</label> 
+                    <label style="padding-left: 15px;" >Nombres y Apellidos</label>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
@@ -108,12 +108,12 @@
                     </div>
                     <!-- Text DNI-->
                     <div class="form-group col-md-6" ng-class="
-                    {	'has-success': 
+                    {	'has-success':
                         attendant.new.dni!='' && fNewAtt.dniUser.$valid,
-                            'has-error':  
+                            'has-error':
                         (attendant.new.dni=='' || attendant.new.dni==undefined) && fNewAtt.dniUser.$touched,
                     }">
-                    <label style="padding-left: 15px;">DNI</label>  
+                    <label style="padding-left: 15px;">DNI</label>
                         <div class="col-xs-12">
                             <div class="input-group">
                                 <span class="input-group-addon"><i class="fas fa-id-card"></i></span>
@@ -123,9 +123,9 @@
                     </div>
                     <!-- Text Mail-->
                     <div class="form-group col-md-6" ng-class="
-                        {	'has-success': 
+                        {	'has-success':
                             attendant.new.email!='' && fNewAtt.emailUser.$valid,
-                            'has-error':  
+                            'has-error':
                             (attendant.new.email=='' || attendant.new.email==undefined) && fNewAtt.emailUser.$touched,
                         }">
                         <label style="padding-left: 15px;">E-Mail</label>
@@ -164,6 +164,133 @@
                                 </div>
                             </div>
                         </div>
+                        <div class="col-md-12 n-padding-l n-padding-r">
+                            <!-- Text Phone-->
+                            <div class="form-group col-md-6" ng-class="{
+                            'has-success':
+                                attendant.new.phonelocalNumberUser!='' && attendant.new.phonelocalNumberUser!=null  && fNewAtt.phoneLocal.$valid,
+                            'has-warning':
+                                !attendant.new.phonelocalNumberUser && attendant.new.phoneMovilNumberUser,
+                            'has-error':
+                                !attendant.new.phoneMovilNumberUser && !attendant.new.phonelocalNumberUser && fNewAtt.phoneLocal.$touched,
+                            }">
+                                <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Fijo</label>
+
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <!-- Country Code -->
+                                        <div class="input-group-btn" style="width: 100px;">
+                                            <ui-select
+                                                class="ui-select-bootstrap-phone"
+                                                name="countryCode"
+                                                ng-model="select.phoneCountryWired.selected"
+                                                search-enabled="true">
+                                                <ui-select-match allow-clear="false"><span class="country-flag"><img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{ $select.selected.phoneCode }}</ui-select-match>
+                                                <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
+                                                    <div ng-bind-html="item.phoneCode | highlight: $select.search"></div>
+                                                    <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
+                                                        <img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{item.countryName}}
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                        <!-- Phone Prefix number -->
+                                        <input
+                                            name="phoneLocalPrefix"
+                                            ng-model="attendant.new.phonelocalPrefixNumber"
+                                            type="text"
+                                            class="form-control input-phone-prefix"
+                                            ng-maxlength="4"
+                                            ng-minlength="2"
+                                            ng-keydown="fnLoadPhoneMask();"
+                                            ng-disabled="sysDNIRegistered"
+                                            placeholder="Pref."
+                                            ng-required="attendant.new.phoneMovilNumberUser==''"
+                                            style="width: 28.4% !important;"
+                                        />
+                                        <!-- Phone number -->
+                                        <input
+                                            name="phoneLocal"
+                                            ng-model="attendant.new.phonelocalNumberUser"
+                                            type="text"
+                                            class="form-control input-local"
+                                            ng-minlength="8"
+                                            ng-keydown="fnLoadPhoneMask();"
+                                            ng-disabled="sysDNIRegistered"
+                                            placeholder="Num. de teléfono"
+                                            ng-required="attendant.new.phoneMovilNumberUser==''"
+                                            style="width: 71.6% !important;"
+                                        />
+                                    <!-- Icon on the right -->
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-earphone"></i>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                            <!-- Movil Phone-->
+                            <div class="form-group col-md-6" ng-class="{
+                            'has-success':
+                                attendant.new.phoneMovilNumberUser!='' && attendant.new.phoneMovilNumberUser!=null  && fNewAtt.phoneMovil.$valid,
+                            'has-warning':
+                                !attendant.new.phoneMovilNumberUser && attendant.new.phonelocalNumberUser,
+                            'has-error':
+                                !attendant.new.phoneMovilNumberUser && !attendant.new.phonelocalNumberUser && fNewAtt.phoneMovil.$touched,
+                            }">
+                                <label style="padding-left: 15px;">Cod. Pais&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Prefijo&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Telfono Móvil</label>
+                                <div class="col-xs-12">
+                                    <div class="input-group">
+                                        <!-- Country Code -->
+                                        <div class="input-group-btn" style="width: 100px;">
+                                            <ui-select
+                                                class="ui-select-bootstrap-phone"
+                                                name="countryCode"
+                                                ng-model="select.phoneCountryMovil.selected"
+                                                search-enabled="true">
+                                                <ui-select-match allow-clear="false"><span class="country-flag"><img ng-src="https://flagcdn.com/24x18/{{$select.selected.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{ $select.selected.phoneCode }}</ui-select-match>
+                                                <ui-select-choices repeat="item in countryPhoneCodesList | filter: $select.search">
+                                                    <div ng-bind-html="item.phoneCode | highlight: $select.search"></div>
+                                                    <small  ng-bind-html="item.countryName | highlight: $select.search" class="label label-default">
+                                                        <img ng-src="https://flagcdn.com/24x18/{{item.isoCode | lowercase}}.png" width="18" style="margin-right:5px;"> {{item.countryName}}
+                                                    </small>
+                                                </ui-select-choices>
+                                            </ui-select>
+                                        </div>
+                                        <!-- Phone Prefix number -->
+                                        <input
+                                            name="phoneMovilPrefix"
+                                            ng-model="attendant.new.phoneMovilPrefixNumber"
+                                            type="text"
+                                            class="form-control input-phone-prefix"
+                                            ng-minlength="2"
+                                            ng-maxlength="4"
+                                            ng-keydown="fnLoadPhoneMask();"
+                                            ng-disabled="sysDNIRegistered"
+                                            placeholder="Pref."
+                                            ng-required="attendant.new.phonelocalNumberUser==''"
+                                            style="width: 28.4% !important;"
+                                        />
+                                        <!-- Phone number -->
+                                        <input
+                                            name="phoneMovil"
+                                            ng-model="attendant.new.phoneMovilNumberUser"
+                                            type="text"
+                                            class="form-control input-movil"
+                                            ng-minlength="8"
+                                            ng-keydown="fnLoadPhoneMask();"
+                                            ng-disabled="sysDNIRegistered"
+                                            placeholder="Num. de teléfono"
+                                            ng-required="attendant.new.phonelocalNumberUser==''"
+                                            style="width: 71.6% !important;"
+                                        />
+                                    <!-- Icon on the right -->
+                                    <span class="input-group-addon">
+                                        <i class="glyphicon glyphicon-earphone"></i>
+                                    </span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                         <div class="col-md-12 col-xs-12" style="margin-right: 0.2em; padding: 5px !important;">
                             <div class="alert alert-info" role="alert">
                                 <h4><strong>IMPORTANTE!! </strong>PARA QUE UTILIZA BSS LOS DATOS ?</h4><br>
@@ -173,43 +300,9 @@
                                 <h5>Los datos estan protegidos en los terminos de la <a class="text-warning" href="https://www.argentina.gob.ar/normativa/nacional/ley-25326-64790" target="_blank">LEY DE PROTECCION DE DATOS PERSONALES N° 25.326.</a></h5>
                             </div>
                         </div>
-                    <!-- Text Phone-->
-                    <div class="form-group col-md-6" ng-class="{
-                        'has-success': 
-                            attendant.new.phonelocalNumberUser!='' && attendant.new.phonelocalNumberUser!=null  && fNewAtt.phoneLocal.$valid,
-                        'has-warning':
-                            !attendant.new.phonelocalNumberUser && attendant.new.phoneMovilNumberUser,
-                        'has-error':
-                            !attendant.new.phoneMovilNumberUser && !attendant.new.phonelocalNumberUser && fNewAtt.phoneLocal.$touched,
-                        }">
-                    <label style="padding-left: 15px;">Telefono Fijo</label>  
-                        <div class="col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-earphone"></i></span>
-                                <input name="phoneLocal" ng-minlength="8" class="form-control input--phone" ng-model="attendant.new.phonelocalNumberUser" type="text" autofocus  ng-keydown="fnLoadPhoneMask();" ng-required="attendant.new.phoneMovilNumberUser==''" />
-                            </div>
-                        </div>
-                    </div>
-                    <!-- Text Phone-->
-                    <div class="form-group col-md-6" ng-class="{
-                        'has-success': 
-                            attendant.new.phoneMovilNumberUser!='' && attendant.new.phoneMovilNumberUser!=null  && fNewAtt.phoneMovil.$valid,
-                        'has-warning':
-                            !attendant.new.phoneMovilNumberUser && attendant.new.phonelocalNumberUser,
-                        'has-error':
-                            !attendant.new.phonelocalNumberUser && !attendant.new.phoneMovilNumberUser && fNewAtt.phoneMovil.$touched,
-                        }">
-                    <label style="padding-left: 15px;">Telefono Movil</label>  
-                        <div class="col-xs-12">
-                            <div class="input-group">
-                                <span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
-                                <input name="phoneMovil" ng-minlength="8" class="form-control input--phone" ng-model="attendant.new.phoneMovilNumberUser"  type="text"  ng-keydown="fnLoadPhoneMask();" ng-required="attendant.new.phonelocalNumberUser==''" autofocus />
-                            </div>
-                        </div>
-                    </div>
                     </fieldset>
                 </form>
-                <div class="clearfix"> </div> 
+                <div class="clearfix"> </div>
             </div>
             <!-- Actions Button -->
             <div class="modal-footer">
