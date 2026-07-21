@@ -3728,8 +3728,9 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                         break;
                         case "addGuest":
                             $scope.register={'guest':{}};
-                            $scope.register.guest               = obj;
-                            $scope.register.guest .emailAddress = obj.mail;
+                            $scope.register.guest                       = obj;
+                            $scope.register.guest .emailAddress         = obj.mail;
+                            $scope.register.guest.phoneNumber           = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberGuest);
                             console.log($scope.register.guest);
                             $scope.sysRegisterGuestFn($scope.register);
                         break;
@@ -3741,7 +3742,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.guest.update.idDepartmentKf  = obj.idDepartmentKf;
                             $scope.guest.update.idStatusKf      = obj.idStatusKf;
                             $scope.guest.update.fullname        = obj.names;
-                            //$scope.guest.update.dni             = obj.dni;
+                            $scope.guest.update.dni             = obj.dni;
                             $scope.guest.update.mail            = obj.emailAddress;
                             phoneParsed = $scope.parsePhoneE164(obj.phoneNumber, $scope.countryPhoneCodesList);
                             if (phoneParsed) {
@@ -3773,6 +3774,7 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.update={'guest':{}};
                             $scope.update.guest              = obj;
                             $scope.update.guest.emailAddress = obj.mail;
+                            $scope.update.guest.phoneNumber  = $scope.normalizePhoneE164($scope.select.phoneCountryMovil.selected,obj.phoneMovilPrefixNumber,obj.phoneMovilNumberGuest);
                             console.log($scope.update.guest);
                             $scope.sysUpdateGuestFn($scope.update);
                         break;
