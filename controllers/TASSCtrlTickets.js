@@ -1191,12 +1191,12 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                     switch (opt){
                                         case "dni":
                                             $scope.sysDNIRegistered=true;
-                                            inform.add('La número de documento ya se encuentra registrado, Verifique por favor los datos en pantalla, si desea asociarlo tambien a este departamento, para completar el proceso haga click en el boton Asociar.',{
-                                                ttl:30000, type: 'warning'
-                                            });
                                             let phoneParsedMovil = null;
                                             let phoneParsedLocal = null;
                                             if ($scope.isNewTenant && $scope.tenant.new.idTypeTenantKf=="1"){
+                                                inform.add('La número de documento ya se encuentra registrado, Verifique por favor los datos en pantalla, si desea asociarlo tambien a este departamento, para completar el proceso haga click en el boton Asociar.',{
+                                                    ttl:30000, type: 'warning'
+                                                });
                                                 phoneParsedMovil = $scope.parsePhoneE164(response.data[0].phoneNumberUser, $scope.countryPhoneCodesList);
                                                 phoneParsedLocal = $scope.parsePhoneE164(response.data[0].phoneLocalNumberUser, $scope.countryPhoneCodesList);
                                                 $scope.tenant.new.idUser    = response.data[0].idUser;

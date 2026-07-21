@@ -3719,8 +3719,12 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $('#RegisterGuest').modal({backdrop: 'static', keyboard: false});
                             $('#RegisterGuest').on('shown.bs.modal', function () {
                                 $('#fullname').focus();
+                                $scope.select.phoneCountryWired.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                                $scope.select.phoneCountryMovil.selected    = $scope.countryPhoneCodesList.find(c => c.isoCode === "AR");
+                                $scope.guest.new.phonelocalPrefixNumber    = "11"
+                                $scope.guest.new.phoneMovilPrefixNumber    = "11"
                             });
-                            console.log($scope.tenant.new);
+                            console.log($scope.guest.new);
                         break;
                         case "addGuest":
                             $scope.register={'guest':{}};
@@ -3730,13 +3734,14 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             $scope.sysRegisterGuestFn($scope.register);
                         break;
                         case "editGuest":
-                            $scope.guest          = {'update':{'idGuest':'','idDepartmentKf':'', 'idStatusKf':'', 'fullname':'','dni':'','mail':'','phoneNumber':'','depto':'','address':''}};
+                            $scope.guest          = {'update':{'idGuest':'','idDepartmentKf':'', 'idStatusKf':'', 'fullname':'','dni':'','mail':'','phoneNumber':'', 'phoneMovilPrefixNumber':'', 'phoneMovilNumberGuest':'','depto':'','address':''}};
+                            let phoneParsed = null;
                             //$scope.guest.update   = obj;
                             $scope.guest.update.idGuest         = obj.idGuest;
                             $scope.guest.update.idDepartmentKf  = obj.idDepartmentKf;
                             $scope.guest.update.idStatusKf      = obj.idStatusKf;
                             $scope.guest.update.fullname        = obj.names;
-                            $scope.guest.update.dni             = obj.dni;
+                            //$scope.guest.update.dni             = obj.dni;
                             $scope.guest.update.mail            = obj.emailAddress;
                             phoneParsed = $scope.parsePhoneE164(obj.phoneNumber, $scope.countryPhoneCodesList);
                             if (phoneParsed) {
@@ -3751,8 +3756,14 @@ building.controller('BuildingsCtrl', function($scope, $rootScope, $compile, $loc
                             console.log($scope.departmentSelected);
 
                             $('#UpdateGuest').modal({backdrop: 'static', keyboard: false});
+                            $('.input-movil').unmask();
+                            $('.input-local').unmask();
+                            $('.input-movil').off('input keydown keyup blur focus');
+                            $('.input-local').off('input keydown keyup blur focus');
                             $('#UpdateGuest').on('shown.bs.modal', function () {
-                                $('#fullname').focus();
+                                $timeout(function() {
+                                    $('#fullname').focus();
+                                }, 50);
                                 $timeout(function() {
                                     $scope.fnLoadPhoneMask();
                                 }, 150);
