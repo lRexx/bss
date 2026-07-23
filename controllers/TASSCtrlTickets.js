@@ -5510,6 +5510,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         //$scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"4"});
                                         $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"27"});
                                         $scope.new.ticket.status = 12;
+                                    }else if ($scope.new.ticket.total==0 && obj.idClientDepartament.isAprobatedAdmin!="1"){
+                                        $scope.new.ticket.history.push({'idUserKf': "1", 'descripcion': null, 'idCambiosTicketKf':"3"});
+                                        $scope.new.ticket.status = 2;
                                     }
                                 }else if ((obj.building.autoApproveOwners==null || obj.building.autoApproveOwners=="0") && obj.building.mpPaymentMethod!="1" && (obj.idClientDepartament.isAprobatedAdmin=="1")){
                                     //SET STATUS FOR REQUEST with MercadoPago Payment Method config parameter enable
