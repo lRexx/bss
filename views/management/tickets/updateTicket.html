@@ -413,7 +413,7 @@
                             <div class="panel panel-info">
                               <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyRequestedKeys" ng-click="togglePanel('panelBodyRequestedKeys')" style="cursor: pointer;">
                                   <h3 class="panel-title">
-                                      <i class="product-success fas fa-key"></i> LLAVEROS SOLICITADOS
+                                      <i class="product-success fas fa-key"></i> DISPOSITIVOS SOLICITADOS
                                       <i ng-class="{'fa-chevron-up': !panels.panelBodyRequestedKeys, 'fa-chevron-down': panels.panelBodyRequestedKeys}" class="fas pull-right"></i>
                                   </h3>
                               </div>
@@ -515,7 +515,7 @@
                             <div class="panel panel-success">
                                 <div class="panel-heading" data-toggle="collapse" data-target="#panelBodyExistingKeys" ng-click="togglePanel('panelBodyExistingKeys')" style="cursor: pointer;">
                                     <h3 class="panel-title">
-                                        <i class="product-success fas fa-key"></i> LLAVEROS GESTIONADOS
+                                        <i class="product-success fas fa-key"></i> DISPOSITIVOS GESTIONADOS
                                         <i ng-class="{'fa-chevron-up': !panels.panelBodyExistingKeys, 'fa-chevron-down': panels.panelBodyExistingKeys}" class="fas pull-right"></i>
                                     </h3>
                                 </div>
@@ -586,7 +586,7 @@
                         <a ng-if="tkupdate.idStatusTicketKf!=5 && tkupdate.idStatusTicketKf!=6" data-dismiss="modal" type="button" ng-click="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested ? null : openTicketFn(tkupdate, 2);"  class="btn btn-labeled btn-danger" ng-disabled="(tkupdate.idStatusTicketKf>=5 && tkupdate.idStatusTicketKf<=6) || tkupdate.idStatusTicketKf==1 || tkupdate.idUserCancelTicket || tkupdate.isCancelRequested || tkupdate.isChangeDeliverylRequested">
                             <span class="btn-label" ><i class="fas fa-ban"></i></span>Cancelar</a>
                     </div>-->
-                     <div class="btn-group-left d-flex flex-wrap" style="gap: 10px;">
+                    <div class="btn-group-left d-flex flex-wrap" style="gap: 10px;">
                         <button ng-if="sysLoggedUser.idProfileKf=='1' && tkupdate.idTypePaymentKf=='2' && (tkupdate.billingReceiptDetails==undefined || tkupdate.billingReceiptDetails==null) && (tkupdate.isBillingUploaded==undefined || tkupdate.isBillingUploaded==null || tkupdate.isBillingUploaded=='0') && (tkupdate.idStatusTicketKf==1 || tkupdate.idStatusTicketKf==13 || tkupdate.idStatusTicketKf==4 || tkupdate.idStatusTicketKf==5 || tkupdate.idStatusTicketKf==8) && tkupdate.idStatusTicketKf!=6 && tkupdate.isCancelRequested!='1'" for="uploadTicketBillingFile" class="btn btn-labeled btn-file btn-warning"><span class="btn-label"><i class="fas fa-file-invoice"></i></span>Subir Factura
                           <input id="uploadTicketBillingFile" name="uploadTicketBillingFile" type="file" class="form-control" accept="*/*" onchange="angular.element(this).scope().loadPDFFilesFn(this)" ng-model="filesInput" />
                         </button>
