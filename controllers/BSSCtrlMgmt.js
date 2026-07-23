@@ -6782,7 +6782,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
                     });
                     $timeout(function() {
                       if (ticket.idTypePaymentKf=="2" && ticket.idStatusTicketKf!=9 && ticket.idStatusTicketKf!=11){
-                        $scope.mainSwitchFn("linkMP",response.data[0],null);
+                        $scope.mainSwitchFn("linkMP",response.data,null);
                       }
                       $scope.mainSwitchFn('search', null);
                   }, 2500);
@@ -6790,7 +6790,7 @@ mgmt.controller('MgmtCtrl', function($scope, $rootScope, $http, $location, $rout
 
                         //$('.circle-loader').toggleClass('load-complete');
                         //$('.checkmark').toggle();
-                        $scope.ticketRegistered = response.data[0];
+                        $scope.ticketRegistered = response.data;
                         $scope.openTicketFn($scope.ticketRegistered.idTicket);
                         //$scope.filters.ticketStatus.idStatus = $scope.ticketRegistered.idStatusTicketKf;
                         $scope.mainSwitchFn('search', null);
