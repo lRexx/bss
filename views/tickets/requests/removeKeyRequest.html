@@ -200,31 +200,31 @@
 										<div class="form-check form-check-inline">
 												<div class="col-md-12 n-padding-l n-padding-r">
 													<div ng-class="{'col-md-4 col-xs-4 col-md-offset-1': sysLoggedUser.idProfileKf=='4','col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='1'}">
-														<input id="typeOption1" type="radio" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" name="typeOption" value="1" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<input id="typeOption1" type="radio" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', ticket.building, null)" name="typeOption" value="1" ng-model="ticket.radioButtonBuilding" required autofocus>
 														<label for="typeOption1" class="radio-custom-label">
 															<span >Personal del Edificio</span>
 														</label>
 													</div>
 													<div ng-class="{'col-md-4 col-xs-4': sysLoggedUser.idProfileKf=='4','col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='1'}">
-														<input id="typeOption2" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="2" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<input id="typeOption2" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', ticket.administration, null)" type="radio" name="typeOption" value="2" ng-model="ticket.radioButtonBuilding" required autofocus>
 														<label for="typeOption2" class="radio-custom-label">
 															<span>Administración del consorcio</span>
 														</label>
 													</div>
 													<div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-2">
-														<input id="typeOption4" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="4" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<input id="typeOption4" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', ticket.building, null)" type="radio" name="typeOption" value="4" ng-model="ticket.radioButtonBuilding" required autofocus>
 														<label for="typeOption4" class="radio-custom-label">
 															<span>Stock</span>
 														</label>
 													</div>
 													<div ng-class="{'col-md-3 col-xs-3': sysLoggedUser.idProfileKf=='4','col-md-2 col-xs-2': sysLoggedUser.idProfileKf=='1'}">
-														<input id="typeOption3" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="3" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<input id="typeOption3" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', ticket.building, null)" type="radio" name="typeOption" value="3" ng-model="ticket.radioButtonBuilding" required autofocus>
 														<label for="typeOption3" class="radio-custom-label">
 															<span>Reserva</span>
 														</label>
 													</div>
 													<div ng-if="sysLoggedUser.idProfileKf=='1'" class="col-md-2 col-xs-2">
-														<input id="typeOption5" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', null, null)" type="radio" name="typeOption" value="5" ng-model="ticket.radioButtonBuilding" required autofocus>
+														<input id="typeOption5" class="radio-custom" ng-click="enabledNextBtn();mainSwitchFn('autoSelectDoors', null, null);mainSwitchFn('switchKeyCategory', ticket.building, null)" type="radio" name="typeOption" value="5" ng-model="ticket.radioButtonBuilding" required autofocus>
 														<label for="typeOption5" class="radio-custom-label">
 															<span>Apertura</span>
 														</label>
