@@ -2506,8 +2506,11 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             }
                                 $scope.enabledNextBtn();
                                 $scope.mainSwitchFn('autoSelectDoors', null, null)
-                                $scope.getAttendantListFn(obj.idClient);
-                                $scope.getKeyListByBuildingIdFn(obj.idClient);
+                                $scope.getAttendantListFn($scope.ticket.building.idClient);
+                                $scope.getKeyListByBuildingIdFn($scope.ticket.building.idClient);
+                                if ($scope.ticket.radioButtonBuilding=="2"){
+                                    $scope.getUsersByCompanyClientIdFn(obj.idClient);
+                                }
                         }
                         if (($scope.ticket.radioButtonBuilding=="1"||$scope.ticket.radioButtonBuilding=="2") && !$scope.ticket.deviceSelected && $scope.ticket.isHasMutiplesDevicesTypes){
                             $scope.mainSwitchFn('selectDeviceType', null, null);
