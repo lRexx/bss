@@ -2,7 +2,7 @@
 
 class Department_model extends CI_Model
 {
-	
+
 	public function __construct()
 	{
         parent::__construct();
@@ -90,11 +90,11 @@ class Department_model extends CI_Model
         $rs = null;
 
         // SI RECIBIMOS EL ID DE EL USUARIO //
-        if (!is_null($id)) 
+        if (!is_null($id))
         {
 
             $this->db->select("*")->from("tb_department");
-            $this->db->join('tb_addres', 'tb_addres.idAdress = tb_department.idAdressKf', 'left');            
+            $this->db->join('tb_addres', 'tb_addres.idAdress = tb_department.idAdressKf', 'left');
             $this->db->where("tb_department.idStatusKf !=", -1);
             $quuery = $this->db->where("tb_department.idDepartment = ", $id)->get();
 
@@ -103,9 +103,9 @@ class Department_model extends CI_Model
                 $rs =  $quuery->row_array();
                 return $rs;
             }
-        } 
+        }
         else
-         { 
+         {
 
             $this->db->select("*")->from("tb_department");
             $this->db->where("tb_department.idStatusKf !=", -1);
@@ -113,20 +113,20 @@ class Department_model extends CI_Model
 
 
             /* Busqueda por filtro */
-            if (!is_null($searchFilter['searchFilter'])) 
+            if (!is_null($searchFilter['searchFilter']))
             {
             	$this->db->like('tb_department.departmentAddress', $searchFilter['searchFilter']);
                 $this->db->or_like('tb_department.departmentFloor', $searchFilter['searchFilter']);
                 $this->db->or_like('tb_department.deparmentNumber', $searchFilter['searchFilter']);
                 $this->db->or_like('tb_department.deparmentDescription', $searchFilter['searchFilter']);
-                
+
             }
 
 
             // Si recibimos un limite //
             if ($searchFilter['topFilter'] > 0) {
                 $this->db->limit($searchFilter['topFilter']);
-            } 
+            }
 
             $quuery = $this->db->order_by("tb_department.idDepartment", "DESC")->get();
 
@@ -163,10 +163,16 @@ class Department_model extends CI_Model
 
 		if ($idStatus == 1) { // si le mandas 1 te retorna los APROBADOS
 			$this->db->where("tb_client_departament.isAprobatedAdmin =", 1);
+            $this->db->where("tb_client_departament.idStatusFk=", 1);
+            $this->db->group_start();
+            $this->db->where("tb_client_departament.idStatusFk=", 1);
             $this->db->where("tb_client_departament.idUserKf =", NULL);
             $this->db->or_where("tb_client_departament.idUserKf !=", NULL);
+            $this->db->where("tb_client_departament.idStatusFk=", 1);
+            $this->db->group_end();
 		} else if ($idStatus == 0) {// SI LE MANDAS 0 LOS NO APROBADOS
             $this->db->where("tb_client_departament.idUserKf =", NULL);
+            $this->db->where("tb_client_departament.idStatusFk=", 1);
             $this->db->group_start();
             $this->db->where("tb_client_departament.isAprobatedAdmin =", 0);
             $this->db->or_where("tb_client_departament.isAprobatedAdmin =", null);
@@ -188,7 +194,7 @@ class Department_model extends CI_Model
         $quuery = null;
         $rs = null;
 
-        
+
             $this->db->select("*")->from("tb_company_type_keychains");
             $this->db->where("tb_company_type_keychains.idAddressKf =", $id);
             $quuery = $this->db->order_by("tb_company_type_keychains.idKey", "asc")->get();
@@ -197,7 +203,7 @@ class Department_model extends CI_Model
                 return $quuery->result_array();
             }
             return null;
-        
+
     }
     public function getAllDepartment ()
 	{
@@ -255,7 +261,7 @@ class Department_model extends CI_Model
 
         }
 		if ($quuery->num_rows() > 0) {
-            
+
 			return $quuery->result_array();
 		}
 		return null;
@@ -321,17 +327,17 @@ class Department_model extends CI_Model
                         $title = "Alta Departamento";
                         $subject="Alta Departamento ".$building['Depto'];
                         $body='<tr width="100%" bgcolor="#ffffff">';
-                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                        $body.='</tr>';	
+                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>';
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Alta de Usuario en el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b>, ha sido <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffff !important; border-radius: 10px; padding: 3px 7px;">Aprobado</span> satisfactoriamente.</td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%">Ya puede utilizar nuestros servicios de Alta de llaves. &nbsp;</td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffff;">Entrar</a></span></td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffff;">Entrar</a></span>
                         $this->mail_model->sendMail($title, $to, $body, $subject);
                     }
@@ -366,7 +372,7 @@ class Department_model extends CI_Model
              $queryUser = $this->db->where("idUser =", $user['idUser'])->get();
              if ($queryUser->num_rows() > 0) {
                  $userRs = $queryUser->row_array();
-                 
+
                 if ($userRs['isDepartmentApproved'] == 1) {
                     //print_r($user);
                     #$currentURL = $this->get_the_current_url(); //for simple URL
@@ -384,17 +390,17 @@ class Department_model extends CI_Model
                         $title = "Departamento Asociado";
                         $subject="Alta Departamento ".$building['Depto'];
                         $body='<tr width="100%" bgcolor="#ffffff">';
-                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$userRs['fullNameUser'].'</b>,</td>'; 
-                        $body.='</tr>';	
+                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$userRs['fullNameUser'].'</b>,</td>';
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Alta de Usuario en el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b>, ha sido <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffff !important; border-radius: 10px; padding: 3px 7px;">Aprobado</span> satisfactoriamente.</td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%">Ya puede utilizar nuestros servicios de Alta de llaves. &nbsp;</td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
                         //print_r($subject);
                         $rs = $this->mail_model->sendMail($title, $to, $body, $subject);
@@ -442,7 +448,7 @@ class Department_model extends CI_Model
                                 $body.='</tbody>';
                                 $body.='</table>';
                                 $body.='</td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
                                 $this->mail_model->sendMail($title, $to, $body, $subject);
                             }
@@ -480,7 +486,7 @@ class Department_model extends CI_Model
              $queryUser = $this->db->where("idUser =", $id)->get();
              if ($queryUser->num_rows() > 0) {
                  $user = $queryUser->row_array();
-                 
+
                 if ($user['isDepartmentApproved'] == 1) {
                     //print_r($user);
                     #$currentURL = $this->get_the_current_url(); //for simple URL
@@ -498,17 +504,17 @@ class Department_model extends CI_Model
                         $title = "Departamento Asociado";
                         $subject="Alta Departamento ".$building['Depto'];
                         $body='<tr width="100%" bgcolor="#ffffff">';
-                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                        $body.='</tr>';	
+                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>';
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Alta de Usuario en el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b>, ha sido <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffff !important; border-radius: 10px; padding: 3px 7px;">Aprobado</span> satisfactoriamente.</td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%">Ya puede utilizar nuestros servicios de Alta de llaves. &nbsp;</td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
                         //print_r($subject);
                         $rs = $this->mail_model->sendMail($title, $to, $body, $subject);
@@ -528,14 +534,14 @@ class Department_model extends CI_Model
                                 $title = "Alta de Departamento";
                                 $subject="Alta de Departamento :: ".$building['Depto'];
                                 $body='<tr width="100%" bgcolor="#ffffff">';
-                                $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                                $body.='</tr>';	
+                                $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>';
+                                $body.='</tr>';
                                 $body.='<tr width="100%" bgcolor="#ffffff">';
                                 $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha sido dado de Alta en el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 $body.='<tr width="100%" bgcolor="#ffffff">';
                                 $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:3%;">Estado: <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">Aprobado</span></td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
                                 $this->mail_model->sendMail($title, $to, $body, $subject);
                             }
@@ -591,7 +597,7 @@ class Department_model extends CI_Model
             $queryBuilding = $this->db->where("tb_client_departament.idClientDepartament = ", $id)->get();
             if ($queryBuilding->num_rows() > 0) {
                 $building = $queryBuilding->row_array();
-                
+
                 if ($building['idUserKf'] != null) {
                     //GET USER
                     $this->db->select("*")->from("tb_user");
@@ -607,17 +613,17 @@ class Department_model extends CI_Model
                         $title = "Baja de Departamento";
                         $subject="Baja Departamento :: ".$building['Depto'];
                         $body='<tr width="100%" bgcolor="#ffffff">';
-                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                        $body.='</tr>';	
+                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>';
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado la Baja del Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
                         $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Pendiente de aprobación</span></td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffffff;">Entrar</a></span></td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
                         $rs = $this->mail_model->sendMail($title, $to, $body, $subject);
                         if ($rs == "Enviado"){
@@ -637,17 +643,17 @@ class Department_model extends CI_Model
                                 $title = "Baja de Departamento";
                                 $subject="Baja de Departamento :: ".$building['Depto'];
                                 $body='<tr width="100%" bgcolor="#ffffff">';
-                                $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                                $body.='</tr>';	
+                                $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>';
+                                $body.='</tr>';
                                 $body.='<tr width="100%" bgcolor="#ffffff">';
                                 $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado la Baja del Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 $body.='<tr width="100%" bgcolor="#ffffff">';
                                 $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Pendiente de aprobación</span></td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 $body.='<tr width="100%" bgcolor="#ffffff">';
                                 $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#d9534f;border-color: #d43f3a !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Confirmar</a></span></td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
                                 $this->mail_model->sendMail($title, $to, $body, $subject);
                             }
@@ -701,17 +707,17 @@ class Department_model extends CI_Model
                         $title = "Baja de Departamento";
                         $subject="Baja Departamento :: ".$building['Depto'];
                         $body='<tr width="100%" bgcolor="#ffffff">';
-                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                        $body.='</tr>';	
+                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>';
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado la Baja del Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
                         $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Pendiente de aprobación</span></td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffffff;">Entrar</a></span></td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
                         $rs = $this->mail_model->sendMail($title, $to, $body, $subject);
                         if ($rs == "Enviado"){
@@ -731,24 +737,24 @@ class Department_model extends CI_Model
                                 $title = "Baja de Departamento";
                                 $subject="Baja de Departamento :: ".$building['Depto'];
                                 $body='<tr width="100%" bgcolor="#ffffff">';
-                                $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                                $body.='</tr>';	
+                                $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>';
+                                $body.='</tr>';
                                 $body.='<tr width="100%" bgcolor="#ffffff">';
                                 $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado la Baja del Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 $body.='<tr width="100%" bgcolor="#ffffff">';
                                 $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Pendiente de aprobación</span></td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 $body.='<tr width="100%" bgcolor="#ffffff">';
                                 $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#d9534f;border-color: #d43f3a !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Confirmar</a></span></td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
                                 $this->mail_model->sendMail($title, $to, $body, $subject);
                             }
                         }
                     }
                 }
-                
+
             }
 
 			return true;
@@ -756,7 +762,7 @@ class Department_model extends CI_Model
 			return false;
 		}
 	}
-	
+
     /* AGREGRA NUEVO USUARIO EMPRESA */
     public function add($department) {
 
@@ -808,7 +814,7 @@ class Department_model extends CI_Model
             $queryBuilding = $this->db->where("tb_client_departament.idClientDepartament = ", $department['idDepartment'])->get();
             if ($queryBuilding->num_rows() > 0) {
                 $building = $queryBuilding->row_array();
-                
+
                 if ($building['idUserKf'] != null) {
                     //GET USER
                     $this->db->select("*")->from("tb_user");
@@ -824,14 +830,14 @@ class Department_model extends CI_Model
                         $title = "Alta de Departamento";
                         $subject="Alta Departamento :: ".$building['Depto'];
                         $body='<tr width="100%" bgcolor="#ffffff">';
-                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                        $body.='</tr>';	
+                        $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>';
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta en el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
                         $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Pendiente de aprobación</span></td>';
-                        $body.='</tr>';	
+                        $body.='</tr>';
                         $body.='<tr width="100%" bgcolor="#ffffff">';
                         $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #ffffff;">Entrar</a></span></td>';
                         $body.='</tr>';
@@ -853,17 +859,17 @@ class Department_model extends CI_Model
                                 $title = "Alta de Departamento";
                                 $subject="Alta de Departamento :: ".$building['Depto'];
                                 $body='<tr width="100%" bgcolor="#ffffff">';
-                                $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                                $body.='</tr>';	
+                                $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>';
+                                $body.='</tr>';
                                 $body.='<tr width="100%" bgcolor="#ffffff">';
                                 $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Ha solicitado el Alta en el Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 $body.='<tr width="100%" bgcolor="#ffffff">';
                                 $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Estado: <span style="background-color:#ffc107;border-color: #ffc107 !important;color: #000 !important; border-radius: 10px; padding: 3px 7px;">Pendiente de aprobación</span></td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 $body.='<tr width="100%" bgcolor="#ffffff">';
                                 $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif;padding-left:4%;padding-right:4%;padding-bottom:3%;"><span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px; cursor:pointer;"><a href="'.$approval_url.'" target="_blank" title="Aprobar" style="text-decoration: none; color: #ffffff;">Aprobar</a></span></td>';
-                                $body.='</tr>';	
+                                $body.='</tr>';
                                 //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
                                 $this->mail_model->sendMail($title, $to, $body, $subject);
                             }
@@ -927,14 +933,14 @@ class Department_model extends CI_Model
                             $title = "Baja de Departamento";
                             $subject="Baja Departamento ".$building['Depto'];
                             $body='<tr width="100%" bgcolor="#ffffff">';
-                            $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                            $body.='</tr>';	
+                            $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>';
+                            $body.='</tr>';
                             $body.='<tr width="100%" bgcolor="#ffffff">';
                             $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La Baja del Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
-                            $body.='</tr>';	
+                            $body.='</tr>';
                             $body.='<tr width="100%" bgcolor="#ffffff">';
                             $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:3%;">Ha sido procesada satisfactoriamente, contacte a la Administración ante cualquier duda. &nbsp;</td>';
-                            $body.='</tr>';	
+                            $body.='</tr>';
                             $rs = $this->mail_model->sendMail($title, $to, $body, $subject);
                             if ($rs == "Enviado"){
                                 $this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
@@ -952,11 +958,11 @@ class Department_model extends CI_Model
                                     $title = "Baja de Departamento";
                                     $subject="Baja de Departamento :: ".$building['Depto'];
                                     $body='<tr width="100%" bgcolor="#ffffff">';
-                                    $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                                    $body.='</tr>';	
+                                    $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>';
+                                    $body.='</tr>';
                                     $body.='<tr width="100%" bgcolor="#ffffff">';
                                     $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:3%;">Se ha dado de Baja del Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
-                                    $body.='</tr>';	
+                                    $body.='</tr>';
                                     //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
                                     $this->mail_model->sendMail($title, $to, $body, $subject);
                                 }
@@ -1039,14 +1045,14 @@ class Department_model extends CI_Model
                             $title = "Baja de Departamento";
                             $subject="Baja Departamento ".$building['Depto'];
                             $body='<tr width="100%" bgcolor="#ffffff">';
-                            $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                            $body.='</tr>';	
+                            $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">Estimado/a, <b>'.$user['fullNameUser'].'</b>,</td>';
+                            $body.='</tr>';
                             $body.='<tr width="100%" bgcolor="#ffffff">';
                             $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">La Baja del Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
-                            $body.='</tr>';	
+                            $body.='</tr>';
                             $body.='<tr width="100%" bgcolor="#ffffff">';
                             $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:3%;">Ha sido procesada satisfactoriamente, contacte a la Administración ante cualquier duda. &nbsp;</td>';
-                            $body.='</tr>';	
+                            $body.='</tr>';
                             $rs = $this->mail_model->sendMail($title, $to, $body, $subject);
                             if ($rs == "Enviado"){
                                 $this->db->select("tb_client_mails.mailContact")->from("tb_client_mails");
@@ -1064,11 +1070,11 @@ class Department_model extends CI_Model
                                     $title = "Baja de Departamento";
                                     $subject="Baja de Departamento :: ".$building['Depto'];
                                     $body='<tr width="100%" bgcolor="#ffffff">';
-                                    $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>'; 
-                                    $body.='</tr>';	
+                                    $body.= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-top:4%;">El usuario, <b>'.$user['fullNameUser'].'</b>,</td>';
+                                    $body.='</tr>';
                                     $body.='<tr width="100%" bgcolor="#ffffff">';
                                     $body.='<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:3%;">Se ha dado de Baja del Departamento: <span style="background-color:#777777;border-color: #777777 !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">'.$building['Depto'].'</span> del '.$building['ClientType'].'<b> '.$building['name'].'</b></td>';
-                                    $body.='</tr>';	
+                                    $body.='</tr>';
                                     //<span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;">' .$user['statusTenantName']. '</span><br><br> Ya Puede Disfrutar de Nuestros servicios! &nbsp; <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://'.BSS_HOST.'/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span>
                                     $this->mail_model->sendMail($title, $to, $body, $subject);
                                 }
