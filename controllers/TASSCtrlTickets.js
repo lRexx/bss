@@ -3043,7 +3043,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0') ||
                             ($scope.ticket.building!=undefined && $scope.ticket.building.allowOfficePickup!='1')){
                             $scope.whoPickUpList.push({'id': 2, 'fullNameUser': "Encargado", 'type':"Otros"});
-                            if ($scope.ticket.idDeviceTypeKf!="2"){
+                            if ($scope.ticket.idDeviceTypeKf=="1"){
                                 if (($scope.ticket.idClientDepartament!=undefined && $scope.ticket.idClientDepartament!=null && !$scope.ticket.departmentHasTicketsInitialDelivery && $scope.ticket.building.isInitialDeliveryActive)){
                                     if (!$scope.initialLoopExecuted) {
                                         $scope.initialLoopExecuted = true;
@@ -3309,7 +3309,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                                         ttl:5000, type: 'success'
                                     });
                                 }else{
-                                    inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado usuario '+userKeySelected.fullNameUser+' ha sido agregado al pedido.',{
+                                    inform.add('El dispositivo '+productSelected.descriptionProduct+' asociado al usuario '+userKeySelected.fullNameUser+' ha sido agregado al pedido.',{
                                         ttl:5000, type: 'success'
                                     });
                                 }
