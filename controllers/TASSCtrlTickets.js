@@ -3043,26 +3043,28 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             ($scope.ticket.building!=undefined && $scope.ticket.building.isStockInOffice=='0' && $scope.ticket.building.isStockInBuilding=='0') ||
                             ($scope.ticket.building!=undefined && $scope.ticket.building.allowOfficePickup!='1')){
                             $scope.whoPickUpList.push({'id': 2, 'fullNameUser': "Encargado", 'type':"Otros"});
-                            if (($scope.ticket.idClientDepartament!=undefined && $scope.ticket.idClientDepartament!=null && !$scope.ticket.departmentHasTicketsInitialDelivery && $scope.ticket.building.isInitialDeliveryActive)){
-                                if (!$scope.initialLoopExecuted) {
-                                    $scope.initialLoopExecuted = true;
-                                    var initialQtty     = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
-                                    if ($scope.ticket.radioButtonBuilding=='1' && (userSelected==null || userSelected==undefined)){
-                                        console.log("userSelected is null or undefined, assigning selectedUser to userSelected");
-                                        console.log("$scope.selectedUser: " + $scope.selectedUser);
-                                        userSelected    = $scope.selectedUser;
-                                    }else if ($scope.ticket.radioButtonBuilding=='1' && ($scope.selectedUser==null || $scope.selectedUser==undefined)){
-                                        console.log("userSelected is null or undefined, assigning selectedUser to userSelected");
-                                        console.log("$scope.selectedUser: " + $scope.selectedUser);
-                                        $scope.selectedUser = userSelected;
-                                    }
-                                    console.log(initialQtty);
-                                    if (!isNaN(initialQtty)) {
-                                        for (let  vQtty = 0; vQtty < initialQtty; vQtty++) {
-                                            $timeout(function() {
-                                                console.log(`Looping: vQtty=${vQtty}, initialQtty=${initialQtty}`);
-                                                $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
-                                            }, 1000);
+                            if ($scope.ticket.idDeviceTypeKf!="2"){
+                                if (($scope.ticket.idClientDepartament!=undefined && $scope.ticket.idClientDepartament!=null && !$scope.ticket.departmentHasTicketsInitialDelivery && $scope.ticket.building.isInitialDeliveryActive)){
+                                    if (!$scope.initialLoopExecuted) {
+                                        $scope.initialLoopExecuted = true;
+                                        var initialQtty     = parseInt($scope.ticket.building.initial_delivery[0].initial_qtty, 10);
+                                        if ($scope.ticket.radioButtonBuilding=='1' && (userSelected==null || userSelected==undefined)){
+                                            console.log("userSelected is null or undefined, assigning selectedUser to userSelected");
+                                            console.log("$scope.selectedUser: " + $scope.selectedUser);
+                                            userSelected    = $scope.selectedUser;
+                                        }else if ($scope.ticket.radioButtonBuilding=='1' && ($scope.selectedUser==null || $scope.selectedUser==undefined)){
+                                            console.log("userSelected is null or undefined, assigning selectedUser to userSelected");
+                                            console.log("$scope.selectedUser: " + $scope.selectedUser);
+                                            $scope.selectedUser = userSelected;
+                                        }
+                                        console.log(initialQtty);
+                                        if (!isNaN(initialQtty)) {
+                                            for (let  vQtty = 0; vQtty < initialQtty; vQtty++) {
+                                                $timeout(function() {
+                                                    console.log(`Looping: vQtty=${vQtty}, initialQtty=${initialQtty}`);
+                                                    $scope.mainSwitchFn('addKeyFieldsToList', $scope.select.products.selected, $scope.rsCustomerAccessControlDoors);
+                                                }, 1000);
+                                            }
                                         }
                                     }
                                 }
