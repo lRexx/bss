@@ -23,7 +23,7 @@
                         </tr>
                     </thead>
                     <tbody style="overflow: auto;">
-                        <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="item in listTenantByDepto">
+                        <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="item in listTenantByDepto | filter:filterByInitialDelivery" ng-class="{'bg-warning': item.idStatusKf==0, 'bg-success': item.idStatusKf==1}">
                             <td><button ng-click="mainSwitchFn('selectedUser', item);" title="Seleccionar" class="btn btn-sm btn-primary"><i class="fas fa-check-square">&nbsp</i>{{item.idUser}}</button></td>
                             <td ng-click="mainSwitchFn('selectedUser', item);">{{item.dni}}</td>
                             <td ng-click="mainSwitchFn('selectedUser', item);">{{item.fullNameUser}}</td>

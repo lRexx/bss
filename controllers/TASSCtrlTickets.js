@@ -2260,6 +2260,15 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 // Return true if they match, keeping the item in the list
                 return itemValue === filterValue;
             };
+
+            $scope.filterByInitialDelivery = function(item) {
+                //console.log("Filtering item:", item);
+                // If no radio button is selected, show all items (or return false to show none)
+                if (item.idTypeTenant!=1 && $scope.ticket && $scope.ticket.building && $scope.ticket.building.isInitialDeliveryActive && !$scope.ticket.building.expiration_state) {
+                    return item;
+                }
+
+            };
         /**************************************************
         *                                                 *
         *            TICKETS MENU FUNCTION                *
