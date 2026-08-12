@@ -2264,7 +2264,9 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
             $scope.filterByInitialDelivery = function(item) {
                 //console.log("Filtering item:", item);
                 // If no radio button is selected, show all items (or return false to show none)
-                if (item.idTypeTenant!=1 && $scope.ticket && $scope.ticket.building && $scope.ticket.building.isInitialDeliveryActive && !$scope.ticket.building.expiration_state) {
+                if ($scope.ticket.idDeviceTypeKf=="2" && item.idTypeTenant!=1 && $scope.ticket && $scope.ticket.building && $scope.ticket.building.isInitialDeliveryActive && !$scope.ticket.building.expiration_state) {
+                    return item;
+                }else if ($scope.ticket.idDeviceTypeKf=="2" && $scope.ticket && $scope.ticket.building && !$scope.ticket.building.isInitialDeliveryActive && $scope.ticket.building.expiration_state) {
                     return item;
                 }
 
