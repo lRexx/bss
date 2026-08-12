@@ -23,7 +23,7 @@
                         </tr>
                     </thead>
                     <tbody style="overflow: auto;">
-                        <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="item in listTenantByDepto | filter:filterByInitialDelivery" ng-class="{'bg-warning': item.idStatusKf==0, 'bg-success': item.idStatusKf==1}">
+                        <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="item in listTenantByDepto | filter:filterByInitialDelivery">
                             <td><button ng-click="mainSwitchFn('selectedUser', item);" title="Seleccionar" class="btn btn-sm btn-primary"><i class="fas fa-check-square">&nbsp</i>{{item.idUser}}</button></td>
                             <td ng-click="mainSwitchFn('selectedUser', item);">{{item.dni}}</td>
                             <td ng-click="mainSwitchFn('selectedUser', item);">{{item.fullNameUser}}</td>
@@ -37,7 +37,7 @@
                                 <label class="label label-default text-uppercase">{{item.nameProfile}}</label>
                                 <label class="badge badge-warning text-uppercase" style="font-size: 70%!important">{{item.typeTenantName}}</label>
                             </td>
-                            <td ng-click="mainSwitchFn('selectedUser', item);" style="vertical-align: middle;text-align: center;">
+                            <td ng-click="mainSwitchFn('selectedUser', item);" style="vertical-align: middle;text-align: center;" ng-class="{'bg-warning': item.idStatusKf=='0', 'bg-success': item.idStatusKf=='1'}">
                                 <label ng-if="item.idStatusKf==1" class="label label-success text-uppercase">{{item.statusTenantName}}</label>
                                 <label ng-if="item.idStatusKf==0" class="label label-warning text-uppercase">{{item.statusTenantName}}</label>
                             </td>
