@@ -666,7 +666,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             var newDate = currentDate.toDate();
                             console.log("currentDate: "+currentDate);
                             console.log("newDate    : "+newDate);
-                            $scope.customer.update.expirationDate   = currentDate;
+                            $scope.customer.update.expirationDate   = newDate;
                             $scope.customer.update.initial_qtty     = cObj.initial_delivery[0].initial_qtty;
                             $scope.customer.update.initial_price    = cObj.initial_delivery[0].initial_price;
                         }
