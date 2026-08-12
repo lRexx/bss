@@ -661,9 +661,9 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                         if(cObj.initial_delivery.length==1){
                             $scope.customer.update = cObj.initial_delivery[0];
                             // Convertir la cadena a un objeto Date usando Moment-Timezone
-                            var date = moment.tz(cObj.initial_delivery[0].expirationDate, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
-                            var newDate = date.toDate();
-                            $scope.customer.update.expirationDate   = newDate;
+                            var initial_delivery_date = new Date(cObj.initial_delivery[0].expirationDate);
+                            var currentDate = moment.tz(initial_delivery_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+                            $scope.customer.update.expirationDate   = currentDate;
                             $scope.customer.update.initial_qtty     = cObj.initial_delivery[0].initial_qtty;
                             $scope.customer.update.initial_price    = cObj.initial_delivery[0].initial_price;
                         }
@@ -671,20 +671,22 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                     break;
                     case "add_enableInitialKeys":
                         $scope.customer.update.idClientKf           = cObj.idClient;
-                        $scope.customer.update.initial_qtty         = $scope.customer.update.initial_qtty==undefined || $scope.customer.update.initial_qtty==''?0:$scope.customer.update.initial_qtty;
                         $scope.customer.update.created_by_idUserKf  = $scope.sysLoggedUser.idUser;
+                        $scope.customer.update.initial_qtty = $scope.customer.update.initial_qtty==undefined || $scope.customer.update.initial_qtty==''?0:$scope.customer.update.initial_qtty;
                         var date_selected   = $scope.customer.update.expirationDate;
-                        var expirationDate  = new Date(date_selected);
+                        var newDate = moment.tz(date_selected, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+                        var expirationDate  = new Date(newDate);
                         $scope.customer.update.expirationDate       = expirationDate.getFullYear()+"-"+(expirationDate.getMonth()+1)+"-"+expirationDate.getDate()+" " +"23:59:59"
                         console.log($scope.customer.update);
                         $scope.addInitialDeliveryFn($scope.customer.update);
                     break;
                     case "update_enableInitialKeys":
-                        $scope.customer.update.updated_by_idUserKf  = $scope.sysLoggedUser.idUser;
-                        $scope.customer.update.initial_qtty         = $scope.customer.update.initial_qtty==undefined || $scope.customer.update.initial_qtty==''?0:$scope.customer.update.initial_qtty;
+                        $scope.customer.update.updated_by_idUserKf = $scope.sysLoggedUser.idUser;
+                        $scope.customer.update.initial_qtty = $scope.customer.update.initial_qtty==undefined || $scope.customer.update.initial_qtty==''?0:$scope.customer.update.initial_qtty;
                         var date_selected   = $scope.customer.update.expirationDate;
-                        var expirationDate  = new Date(date_selected);
-                        $scope.customer.update.expirationDate       = expirationDate.getFullYear()+"-"+(expirationDate.getMonth()+1)+"-"+expirationDate.getDate()+" " +"23:59:59"
+                        var newDate = moment.tz(date_selected, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+                        var expirationDate  = new Date(newDate);
+                        $scope.customer.update.expirationDate     = expirationDate.getFullYear()+"-"+(expirationDate.getMonth()+1)+"-"+expirationDate.getDate()+" " +"23:59:59"
                         console.log($scope.customer.update);
                         $scope.updateInitialDeliveryFn($scope.customer.update);
                     break;
