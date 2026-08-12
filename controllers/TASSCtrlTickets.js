@@ -2266,14 +2266,14 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                 console.log("$scope.ticket.idDeviceTypeKf                   : ", $scope.ticket.idDeviceTypeKf);
                 console.log("item.idTypeTenant                              : ", item.idTypeTenant);
                 console.log("$scope.ticket.building.isInitialDeliveryActive : ", $scope.ticket.building.isInitialDeliveryActive);
-                console.log("$scope.ticket.building.expiration_state        : ", $scope.ticket.building.expiration_state);
+                console.log("$scope.ticket.building.expiration_state        : ", $scope.ticket.building.initial_delivery.expiration_state);
                 console.log("--------------------------------------------");
                 console.log($scope.ticket ? 'Ticket is defined' : 'Ticket is undefined');
                 console.log($scope.ticket.building ? 'Ticket building is defined' : 'Ticket building is undefined');
                 console.log("--------------------------------------------");
-                if ($scope.ticket.idDeviceTypeKf=="2" && item.idTypeTenant!=1 && $scope.ticket && $scope.ticket.building && $scope.ticket.building.isInitialDeliveryActive && !$scope.ticket.building.expiration_state) {
+                if ($scope.ticket.idDeviceTypeKf=="2" && item.idTypeTenant!=1 && $scope.ticket && $scope.ticket.building && $scope.ticket.building.isInitialDeliveryActive && !$scope.ticket.building.initial_delivery.$expiration_state) {
                     return item;
-                }else if ($scope.ticket.idDeviceTypeKf=="2" && $scope.ticket && $scope.ticket.building && !$scope.ticket.building.isInitialDeliveryActive && $scope.ticket.building.expiration_state) {
+                }else if ($scope.ticket.idDeviceTypeKf=="2" && $scope.ticket && $scope.ticket.building && !$scope.ticket.building.isInitialDeliveryActive && $scope.ticket.building.initial_delivery.expiration_state) {
                     return item;
                 }
 
