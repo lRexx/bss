@@ -664,6 +664,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             var initial_delivery_date = new Date(cObj.initial_delivery[0].expirationDate);
                             var currentDate = moment.tz(initial_delivery_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires")
                             var newDate = currentDate.toDate();
+                            console.log("currentDate: "+currentDate);
+                            console.log("newDate    : "+newDate);
                             $scope.customer.update.expirationDate   = currentDate;
                             $scope.customer.update.initial_qtty     = cObj.initial_delivery[0].initial_qtty;
                             $scope.customer.update.initial_price    = cObj.initial_delivery[0].initial_price;
