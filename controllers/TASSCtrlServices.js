@@ -662,7 +662,8 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                             $scope.customer.update = cObj.initial_delivery[0];
                             // Convertir la cadena a un objeto Date usando Moment-Timezone
                             var initial_delivery_date = new Date(cObj.initial_delivery[0].expirationDate);
-                            var currentDate = moment.tz(initial_delivery_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires");
+                            var currentDate = moment.tz(initial_delivery_date, "YYYY-MM-DD", "America/Argentina/Buenos_Aires")
+                            var newDate = currentDate.toDate();
                             $scope.customer.update.expirationDate   = currentDate;
                             $scope.customer.update.initial_qtty     = cObj.initial_delivery[0].initial_qtty;
                             $scope.customer.update.initial_price    = cObj.initial_delivery[0].initial_price;
