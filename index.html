@@ -154,16 +154,10 @@
 								</ul>-->
 								</a>
 							</li>
-							<li id="m_depto" class="icon-m" ng-class="{ active: getRoute('/buildings')}" ng-if="sysModules.idEdificios">
-								<a href="/buildings">
-								<i class="icon-building icon-4x"></i>
-								<br>Gestion de Edificio
-								</a>
-							</li>
-							<li id="m_product" class="icon-m" ng-class="{ active: getRoute('/products')}" ng-if="sysModules.idProducto">
-								<a  href="/products">
-								<i style="margin-left: -0.5em" class="fas fa-th icon-4x"></i>
-								<br>Productos
+							<li id="m_customers" class="icon-m" ng-class="{ active: getRoute('/customers')}" ng-if="sysModules.idCliente">
+								<a  href="/customers">
+								<i style="margin-left: -0.58em" class="fas fa-user-tie icon-4x"></i>
+								<br>Clientes
 								</a>
 							</li>
 							<li id="m_services" class="icon-m" ng-class="{ active: getRoute('/services')}" ng-if="sysModules.idServices">
@@ -172,22 +166,28 @@
 									<br>Servicios
 								</a>
 							</li>
+							<li id="m_depto" class="icon-m" ng-class="{ active: getRoute('/buildings')}" ng-if="sysModules.idEdificios">
+								<a href="/buildings">
+								<i class="icon-building icon-4x"></i>
+								<br>Gestion de Edificio
+								</a>
+							</li>
 							<li id="m_keys" class="icon-m" ng-class="{ active: getRoute('/keys')}" ng-if="sysModules.idKeys">
 								<a  href="/keys">
 								<i style="margin-left: -0.58em" class="fas fa-key icon-4x"></i>
 								<br>Llaveros
 								</a>
 							</li>
-							<li id="m_customers" class="icon-m" ng-class="{ active: getRoute('/customers')}" ng-if="sysModules.idCliente">
-								<a  href="/customers">
-								<i style="margin-left: -0.58em" class="fas fa-user-tie icon-4x"></i>
-								<br>Clientes
-								</a>
-							</li>
 							<li id="m_users" class="icon-m" ng-class="{ active: getRoute('/users')}" ng-if="sysModules.idUsers">
 								<a  href="/users">
 								<i style="margin-left: -0.7em" class="fas fa-users icon-4x"></i>
 								<br>Usuarios
+								</a>
+							</li>
+							<li id="m_product" class="icon-m" ng-class="{ active: getRoute('/products')}" ng-if="sysModules.idProducto">
+								<a  href="/products">
+								<i style="margin-left: -0.5em" class="fas fa-th icon-4x"></i>
+								<br>Productos
 								</a>
 							</li>
 							<li id="m_tech" class="icon-m" ng-class="{ active: getRoute('/tech')}" ng-if="sysModules.idTechnician">
