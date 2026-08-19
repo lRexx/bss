@@ -1355,16 +1355,16 @@ class Ticket_model extends CI_Model
 			if ($ticket['idTypeTicketKf'] == "2" && count(@$ticket['keys']) > 0) {
 				foreach ($ticket['keys'] as $key) {
 					$keyObj = null;
-					$keyObj['idKeychain'] = $key['keychain']['idKeychain'];
-					$keyObj['idProductKf'] = $key['keychain']['idProductKf'];
-					$keyObj['codExt'] = $key['keychain']['codExt'];
-					$keyObj['codigo'] = $key['keychain']['codigo'];
-					$keyObj['idDepartmenKf'] = $key['keychain']['idDepartmenKf'];
-					$keyObj['idClientKf'] = $key['keychain']['idClientKf'];
-					$keyObj['idUserKf'] = null;
-					$keyObj['idCategoryKf'] = $key['keychain']['idCategoryKf'];
-					$keyObj['isKeyTenantOnly'] = null;
-					$keyObj['idKeychainStatusKf'] = "-1";
+					$keyObj['idKeychain'] 			= $key['keychain']['idKeychain'];
+					$keyObj['idProductKf'] 			= $key['keychain']['idProductKf'];
+					$keyObj['codExt'] 				= $key['keychain']['codExt'];
+					$keyObj['codigo'] 				= $key['keychain']['codigo'];
+					$keyObj['idDepartmenKf'] 		= $key['keychain']['idDepartmenKf'];
+					$keyObj['idClientKf'] 			= $key['keychain']['idClientKf'];
+					$keyObj['idUserKf'] 			= null;
+					$keyObj['idCategoryKf'] 		= $key['keychain']['idCategoryKf'];
+					$keyObj['isKeyTenantOnly'] 		= null;
+					$keyObj['idKeychainStatusKf'] 	= "-1";
 					if (!is_null($key['keychain']['idUserKf'])) {
 						log_message('info', ':::::::::::::::::Removing User Assigned => idUserKf:' . @$key['keychain']['idUserKf']);
 					}
@@ -1441,10 +1441,18 @@ class Ticket_model extends CI_Model
 				$title = $lastTicketUpdatedQuery['statusTicket']['statusName'];
 				if ($lastTicketUpdatedQuery['idDeviceTypeKf'] != "2" || is_null($lastTicketUpdatedQuery['idDeviceTypeKf'])){
 					$subject = "Pedido de Llavero :: " . $building['Depto'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
-				}else{
-					$subject = "Pedido de Dispositivo :: " . $building['Depto'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
 				}
-
+				//GET LICENSE USERS
+				$userFullNames = [];
+				if (!is_null($lastTicketUpdatedQuery['idDeviceTypeKf']) && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2" && count($lastTicketUpdatedQuery['keys']) > 0) {
+					for ($i = 0; $i < count($lastTicketUpdatedQuery['keys']); $i++) {
+						$userLicense = $lastTicketUpdatedQuery['keys'][$i]['user'] ?? null;
+						if (!is_null($userLicense) && isset($userLicense['fullNameUser'])) {
+							$userFullNames[] = $userLicense['fullNameUser'];
+						}
+					}
+					$userLicenseList = implode(', ', $userFullNames);
+				}
 				//GET USER
 				$this->db->select("*")->from("tb_user");
 				$this->db->join('tb_profile', 'tb_profile.idProfile = tb_user.idProfileKf', 'left');
@@ -1458,12 +1466,14 @@ class Ticket_model extends CI_Model
 							#MAIL TO USER
 							$rs = null;
 							$to = $user['emailUser'];
-							$body .= '<tr width="100%" bgcolor="#ffffff">';
-							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>' . $user['fullNameUser'] . '</b>,</td>';
-							$body .= '</tr>';
-							$body .= '<tr width="100%" bgcolor="#ffffff">';
-							$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b>, se encuentra <b>' . $lastTicketUpdatedQuery['statusTicket']['statusName'] . '</b></td>';
-							$body .= '</tr>';
+							if ($lastTicketUpdatedQuery['idStatusTicketKf'] != 13 && $lastTicketUpdatedQuery['idDeviceTypeKf'] != "2"){
+								$body .= '<tr width="100%" bgcolor="#ffffff">';
+								$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>' . $user['fullNameUser'] . '</b>,</td>';
+								$body .= '</tr>';
+								$body .= '<tr width="100%" bgcolor="#ffffff">';
+								$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Su Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b>, se encuentra <b>' . $lastTicketUpdatedQuery['statusTicket']['statusName'] . '</b></td>';
+								$body .= '</tr>';
+							}
 							$deliveryMethod = null;
 							$deliveredDate = null;
 							$deliveredTo = null;
@@ -1471,7 +1481,7 @@ class Ticket_model extends CI_Model
 							$deliveryDate = null;
 							$body .= '<tr width="100%" bgcolor="#ffffff">';
 							if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 1) {
-								if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 1) {
+								if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 1 && $lastTicketUpdatedQuery['idDeviceTypeKf'] != "2") {
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 7) {
 										$deliveryMethod = 'retirar por nuestras oficinas, Dirección: Carlos Calvo 3430 <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://www.google.com/maps?ll=-34.623655,-58.414103&z=16&t=m&hl=es-ES&gl=US&mapclient=embed&q=Carlos+Calvo+3430+C1230ABH+CABA" target="_blank" style="text-decoration: none; color: #ffffff;">Ver en el mapa</a></span>';
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede pasar a ' . $deliveryMethod . '</td>';
@@ -1491,7 +1501,7 @@ class Ticket_model extends CI_Model
 										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
 										$body .= '</tr>';
 									}
-								} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2) {
+								} else if ($lastTicketUpdatedQuery['idTypeDeliveryKf'] == 2 && $lastTicketUpdatedQuery['idDeviceTypeKf'] != "2") {
 									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
 									if ($lastTicketUpdatedQuery['idStatusTicketKf'] == 5) {
@@ -1546,19 +1556,39 @@ class Ticket_model extends CI_Model
 										$body .= '</tr>';
 									}
 
-								} else if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf']) && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13 && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2") {
-										setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
-										date_default_timezone_set('America/Argentina/Buenos_Aires');
-										$deliveredDate = strftime("%A %d de %B del %Y", strtotime($ticket['delivered_at']));
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">El Pedido ha sido completado, el dia ' . $deliveredDate . '</td>';
+								} else if ((is_null($lastTicketUpdatedQuery['idTypeDeliveryKf']) || !is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13 && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2") {
+									$title = "Face ID BSS";
+									$subject = "La licencia Face ID de tu usuario adicional ya está lista";
+									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
+									date_default_timezone_set('America/Argentina/Buenos_Aires');
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>' . $user['fullNameUser'] . '</b>,</td>';
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">¡Buenas noticias! Ya procesamos la licencia de Face ID de BSS que solicitaste para un usuario adicional de tu unidad funcional.</td>';
+									$body .= '</tr>';
+									if (count($lastTicketUpdatedQuery['keys']) >=2){
+										$body .= '<tr width="100%" bgcolor="#ffffff">';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Acabamos de enviarle un correo a cada uno <b>' . $userLicenseList . '</b> con su licencia, a su casilla de email. Para terminar de habilitar su acceso, solo le queda revisar su correo (y, por las dudas, la carpeta de spam o correo no deseado), encontrarlo y completar el registro.</td>';
 										$body .= '</tr>';
 										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Te pedimos que le avises a  a cada uno <b>' . $userLicenseList . '</b> que ya tiene el correo, así puede registrarse cuanto antes. Una vez que lo haga, va a poder ingresar al edificio simplemente mostrando su rostro, sin llaves ni llaveros.</td>';
+										$body .= '</tr>';
+									}else{
+										$body .= '<tr width="100%" bgcolor="#ffffff">';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Acabamos de enviarle un correo a <b>' . $userLicenseList . '</b> con su licencia, a su casilla de email. Para terminar de habilitar su acceso, solo le queda revisar su correo (y, por las dudas, la carpeta de spam o correo no deseado), encontrarlo y completar el registro.</td>';
 										$body .= '</tr>';
 										$body .= '<tr width="100%" bgcolor="#ffffff">';
-										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+										$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Te pedimos que le avises a  <b>' . $userLicenseList . '</b> que ya tiene el correo, así puede registrarse cuanto antes. Una vez que lo haga, va a poder ingresar al edificio simplemente mostrando su rostro, sin llaves ni llaveros.</td>';
 										$body .= '</tr>';
 									}
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Si más adelante necesitás dar de alta otros usuarios para tu unidad, o tenés cualquier duda, comunicate con nosotros por WhatsApp al <a href="https://wa.me/541128079331" style="color: #25D366; text-decoration: none;">+54 11 2807-9331</a></td>';
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Un saludo, <br>Equipo BSS</br></td>';
+									$body .= '</tr>';
+								}
 							} else if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 2) {
 								if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) {
 									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
@@ -1575,10 +1605,59 @@ class Ticket_model extends CI_Model
 							}
 							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
 							if ($rsMail == "Enviado") {
-								log_message('info', 'Notification mail for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
+								log_message('info', 'User Requested Notification mail '.$user['emailUser'].' for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
+									//SEND MAIL TO LICENSE USERS
+									$subject = "Te dieron acceso al Face ID de tu edificio — registrate en pocos pasos";
+									if (!is_null($lastTicketUpdatedQuery['idDeviceTypeKf']) && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2" && count($lastTicketUpdatedQuery['keys']) > 0 && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13) {
+										$title = "Face ID BSS";
+										for ($i = 0; $i < count($lastTicketUpdatedQuery['keys']); $i++) {
+											$userLicense = $lastTicketUpdatedQuery['keys'][$i]['user'] ?? null;
+											if (!is_null($userLicense) && isset($userLicense['fullNameUser']) && isset($userLicense['emailUser'])) {
+												$rs = null;
+												$to = $userLicense['emailUser'];
+												$body = '<tr width="100%" bgcolor="#ffffff">';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Hola <b>' . $userLicense['fullNameUser'] . '</b>,</td>';
+												$body .= '</tr>';
+												$body .= '<tr width="100%" bgcolor="#ffffff">';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">¡Tenemos una gran noticia! El propietario de la cuenta te otorgó acceso para que te registres en el sistema Face ID de BSS, que ya quedó instalado en el edificio de ' . $building['address'] . '</td>';
+												$body .= '</tr>';
+												$body .= '<tr width="100%" bgcolor="#ffffff">';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Para activar tu acceso, revisá tu casilla de email: el sistema Akuvox ya te envió un correo con tu usuario y contraseña para registrarte. Si no lo ves en tu bandeja de entrada, fijate en la carpeta de spam o correo no deseado.</td>';
+												$body .= '</tr>';
+												$body .= '<tr width="100%" bgcolor="#ffffff">';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Para entender cómo configurar la app y tus accesos paso a paso, mirá el video tutorial:</td>';
+												$body .= '</tr>';
+												$body .= '<tr width="100%" bgcolor="#ffffff">';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;"><a href="https://youtu.be/0hqENLD4MX8" style="color: #ff0000; text-decoration: none; font-weight: bold;" target="_blank"><b>LINK AL VIDEO TUTORIAL</b></a></td>';
+												$body .= '</tr>';
+												$body .= '<tr width="100%" bgcolor="#ffffff">';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Una vez que completes el registro, vas a poder entrar al edificio simplemente mostrando tu rostro, sin llaves ni llaveros.</td>';
+												$body .= '</tr>';
+												$body .= '<tr width="100%" bgcolor="#ffffff">';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Si tenés cualquier duda durante el proceso, escribinos y te acompañamos.</td>';
+												$body .= '</tr>';
+												$body .= '<tr width="100%" bgcolor="#ffffff">';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Te damos la bienvenida a una forma más simple y segura de entrar a tu casa.</td>';
+												$body .= '</tr>';
+												$body .= '<tr width="100%" bgcolor="#ffffff">';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Si tenes dudas, comunicate con nosotros por WhatsApp al <a href="https://wa.me/541128079331" style="color: #25D366; text-decoration: none;">+54 11 2807-9331</a></td>';
+												$body .= '</tr>';
+												$body .= '<tr width="100%" bgcolor="#ffffff">';
+												$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Un saludo, <br>Equipo BSS</br></td>';
+												$body .= '</tr>';
+											}
+											$rsLicenseMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+											if ($rsLicenseMail == "Enviado") {
+												log_message('info', 'User License Notification mail '.$userLicense['emailUser'].' for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
+											} else {
+												log_message('info', 'User License Notification mail '.$userLicense['emailUser'].' for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
+											}
+										}
+									}
 							} else {
-								log_message('info', 'Notification mail for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
+								log_message('info', 'Notification mail '.$user['emailUser'].' for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
 							}
+
 						}
 					}
 				}
@@ -1599,7 +1678,11 @@ class Ticket_model extends CI_Model
 						$subject = null;
 						$body = null;
 						$to = null;
-						$subject = "Pedido de Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
+						if ($lastTicketUpdatedQuery['idDeviceTypeKf'] != "2" || is_null($lastTicketUpdatedQuery['idDeviceTypeKf'])){
+							$subject = "Pedido de Llavero :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
+						}else{
+							$subject = "Pedido de Dispositivo :: " . $lastTicketUpdatedQuery['typeRequestFor']['name'] . " :: " . $lastTicketUpdatedQuery['statusTicket']['statusName'];
+						}
 						$title = $lastTicketUpdatedQuery['statusTicket']['statusName'];
 						#MAIL TO THE BUILDING OR ADMINISTRATION // Concatenar en string separado por coma
 						$to = implode(",", $emails);
