@@ -111,7 +111,7 @@
             <span ng-if="item.building.isStockInBuilding!='1' && item.building.isStockInOffice!='1'" class="badge badge-warning">No definido</span>
           </td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;"><span class="badge badge-default">{{item.typeRequestFor.name}}</span>
-          <span ng-if="item.idTypeRequestFor=='1'" class="badge badge-warning">{{item.department.floor}} - {{item.department.departament}}</span></td>
+          <span ng-if="item.idTypeRequestFor=='1'" class="badge badge-warning text-uppercase">{{item.department.floor}} - {{item.department.departament}}</span></td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;"><span class="badge badge-default">{{item.keys.length}}</span></td>
           <td ng-click="mainSwitchFn('openTicket', item, null)" ng-click="switchCustomersFn('details_customer', item, 'show');" ng-trim="true" class="media-middle text-center" style="vertical-align: middle;">
 
