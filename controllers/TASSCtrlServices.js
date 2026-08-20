@@ -3310,7 +3310,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         }
                                         $scope.rsCustomerContractListData            = $scope.rsContractsListByCustomerIdData;
                                         $scope.rsContractItemListData                = $scope.getSelectedServiceByIdContractFn($scope.service.update.idContratoFk, $scope.service.update.idClientTypeServices);
-                                        $scope.service.update.isHasInternetConnect   = $scope.service.update.portNumberRouter!=undefined && $scope.service.update.portHttp!=undefined?true: false;
+                                        $scope.service.update.isHasInternetConnect   = $scope.service.update.addressClient!=undefined && $scope.service.update.portHttp!=undefined && $scope.service.update.useVpn!=undefined && $scope.service.update.passVpn!=undefined?true: false;
                                         console.log("list_batteries: ");
                                         console.log($scope.list_batteries);
                                         console.log("list_open_devices: ");
