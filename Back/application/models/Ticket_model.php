@@ -3281,7 +3281,7 @@ class Ticket_model extends CI_Model
 			}else if (@$data['idDeviceTypeKf'] == '2') {
 				$this->db->where("idDeviceTypeKf = ", @$data['idDeviceTypeKf']);
 			}else{
-				$where = "(idDeviceTypeKf!=null OR ISNULL(idDeviceTypeKf) )";
+				$where = "(idDeviceTypeKf != NULL OR  ISNULL(idDeviceTypeKf) )";
 				$this->db->where($where);
 			}
 			//TICKET TYPE
