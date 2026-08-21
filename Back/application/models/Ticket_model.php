@@ -1557,7 +1557,7 @@ class Ticket_model extends CI_Model
 									}
 
 								} else if ((is_null($lastTicketUpdatedQuery['idTypeDeliveryKf']) || !is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13 && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2") {
-									$title = "Face ID BSS";
+									/*$title = "Face ID BSS";
 									$subject = "La licencia Face ID de tu usuario adicional ya está lista";
 									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
 									date_default_timezone_set('America/Argentina/Buenos_Aires');
@@ -1587,25 +1587,7 @@ class Ticket_model extends CI_Model
 									$body .= '</tr>';
 									$body .= '<tr width="100%" bgcolor="#ffffff">';
 									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Un saludo, <br>Equipo BSS</br></td>';
-									$body .= '</tr>';
-								}
-							} else if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 2) {
-								if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) {
-									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
-									date_default_timezone_set('America/Argentina/Buenos_Aires');
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido de Baja ha sido completado satisfactoriamente.</td>';
-									$body .= '</tr>';
-									$body .= '<tr width="100%" bgcolor="#ffffff">';
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
-									$body .= '</tr>';
-									$body .= '<tr width="100%" bgcolor="#ffffff">';
-									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
-									$body .= '</tr>';
-								}
-							}
-							$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
-							if ($rsMail == "Enviado") {
-								log_message('info', 'User Requested Notification mail '.$user['emailUser'].' for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
+									$body .= '</tr>';*/
 									//SEND MAIL TO LICENSE USERS
 									$subject = "Te dieron acceso al Face ID de tu edificio — registrate en pocos pasos";
 									if (!is_null($lastTicketUpdatedQuery['idDeviceTypeKf']) && $lastTicketUpdatedQuery['idDeviceTypeKf'] == "2" && count($lastTicketUpdatedQuery['keys']) > 0 && $lastTicketUpdatedQuery['idStatusTicketKf'] == 13) {
@@ -1654,6 +1636,26 @@ class Ticket_model extends CI_Model
 											}
 										}
 									}
+								}
+							} else if ($lastTicketUpdatedQuery['idTypeTicketKf'] == 2) {
+								if (is_null($lastTicketUpdatedQuery['idTypeDeliveryKf'])) {
+									setlocale(LC_TIME, 'es_AR.utf8', 'es_AR', 'spanish');
+									date_default_timezone_set('America/Argentina/Buenos_Aires');
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">El Pedido de Baja ha sido completado satisfactoriamente.</td>';
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Cualquier novedad sobre su pedido puede consultar en nuestra web <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #ffffff !important; border-radius: 10px; padding: 3px 7px;"><a href="https://' . BSS_HOST . '/login" target="_blank" title="Ingresar al sistema" style="text-decoration: none; color: #fff;">Entrar</a></span></td>';
+									$body .= '</tr>';
+									$body .= '<tr width="100%" bgcolor="#ffffff">';
+									$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Si presenta algún inconveniente correspondiente, comuniquese con nuestro Nuestro asesor virtual,  <a href="https://wa.me/5491128079331" target="_blank" title="Jano Bot BSS" style="text-decoration: none; color: #fff;"><img src="https://www.bss.com.ar/content/uploads/2023/12/Asistente-virtual-BSS-2-1024x792.png" alt="Jano Bot" style="width: 3vw; height: 3vw;"></a></td>';
+									$body .= '</tr>';
+								}
+							}
+							if ($lastTicketUpdatedQuery['idDeviceTypeKf'] != "2") {
+								$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
+							}
+							if ($rsMail == "Enviado") {
+								log_message('info', 'User Requested Notification mail '.$user['emailUser'].' for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [SENT]');
 							} else {
 								log_message('info', 'Notification mail '.$user['emailUser'].' for ticket ID: ' . $lastTicketUpdatedQuery['idTicket'] . ' ::: [FAILED]');
 							}
@@ -3407,12 +3409,12 @@ class Ticket_model extends CI_Model
 			$start = microtime(true);
 			$query = $this->db->order_by("idTicket", "DESC")->get();
 			$end = microtime(true);
-
+			log_message('debug', 'Query time: ' . round(($end - $start) * 1000, 2) . 'ms');
+			log_message('debug', 'Num rows: ' . $query->num_rows());
+			log_message('debug', 'SQL: ' . $this->db->last_query());
 			if ($query->num_rows() >= 0) {
 				//print_r($quuery->result_array());
-				log_message('debug', 'Query time: ' . round(($end - $start) * 1000, 2) . 'ms');
-				log_message('debug', 'Num rows: ' . $query->num_rows());
-				log_message('debug', 'SQL: ' . $this->db->last_query());
+
 				return $this->buscar_relaciones_ticket($query->result_array());
 			}
 		}
