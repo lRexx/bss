@@ -3312,7 +3312,7 @@ class Ticket_model extends CI_Model
 				if (@$data['idStatusTicketKf'] == '10') {
 					$where = "isCancelRequested = 1 AND idStatusTicketKf = " . @$data['idStatusTicketKf'];
 					$this->db->where($where);
-				} else if (@$data['idDeviceTypeKf'] != '' && @$data['idDeviceTypeKf'] != null && @$data['idDeviceTypeKf'] != '2' && @$data['idStatusTicketKf'] == '8' && @$data['idMgmtMethodKf'] == null && @$data['whereKeysAreEnable'] == null && @$data['isKeysEnable'] == null) {
+				} else if (((@$data['idDeviceTypeKf'] != '' && @$data['idDeviceTypeKf'] != '2') || (@$data['idDeviceTypeKf'] == null)) && @$data['idStatusTicketKf'] == '8' && @$data['idMgmtMethodKf'] == null && @$data['whereKeysAreEnable'] == null && @$data['isKeysEnable'] == null) {
 					$where = "ISNULL(idMgmtMethodKf) AND ISNULL(whereKeysAreEnable) AND ISNULL(isKeysEnable) AND idStatusTicketKf = " . @$data['idStatusTicketKf'];
 					$this->db->where($where);
 				} else {
