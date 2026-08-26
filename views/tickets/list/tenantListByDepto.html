@@ -22,8 +22,8 @@
                             <th class="dpto-th-head " style="text-align: center;"><i class="glyphicon icon-flag"> </i> Status</th>
                         </tr>
                     </thead>
-                    <tbody style="overflow: auto;">
-                        <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="item in listTenantByDepto | filter:filterByInitialDelivery">
+                    <tbody style="overflow: auto;"> <!-- | filter:filterByInitialDelivery 25082026-->
+                        <tr  style="align-content: center; cursor: pointer;" data-ng-repeat="item in listTenantByDepto ">
                             <td><button ng-click="mainSwitchFn('selectedUser', item);" title="Seleccionar" class="btn btn-sm btn-primary"><i class="fas fa-check-square">&nbsp</i>{{item.idUser}}</button></td>
                             <td ng-click="mainSwitchFn('selectedUser', item);">{{item.dni}}</td>
                             <td ng-click="mainSwitchFn('selectedUser', item);">{{item.fullNameUser}}</td>
