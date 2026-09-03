@@ -4299,7 +4299,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                             $scope.customer.select.main.department=$scope.customer.update.idClientDepartamentFk;
                             $timeout(function() {
                               console.log($scope.rsBuildingDepartmentsData[0]);
-                              $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null?$scope.rsBuildingDepartmentsData[0].Building:undefined;
+                              $scope.customerSearch.address = $scope.customer.update.idClientDepartamentFk!=null && $scope.customer.update.idClientDepartamentFk!="" && $scope.customer.update.idClientDepartamentFk!=0?$scope.rsBuildingDepartmentsData[0].Building:undefined;
                               $scope.customer.select.main.address.selected = {};
                               $scope.customer.select.main.address.selected.address=$scope.rsBuildingDepartmentsData[0].Building;
                               $scope.customer.update.nameAddress='';
@@ -4831,7 +4831,7 @@ customer.controller('CustomersCtrl', function($scope, $location, $routeParams, b
                         console.log($scope.customer.select.main.department);
                         if ($scope.customer.update.idTipoInmuebleFk==1 && $scope.customer.update.isNotClient){
                           $scope.customer.update.idClientDepartamentFk                   = $scope.customer.select.main.department;
-                          $scope.customer.update.address                                 = $scope.customer.select.main.address.selected.address;
+                          $scope.customer.update.address                                 = $scope.customer.select.main.address.selected.address.address;
                           $scope.customer.update.idProvinceFk                            = $scope.customer.select.main.address.selected.idProvinceFk==undefined?obj.idProvinceFk:$scope.customer.select.main.address.selected.idProvinceFk;
                           $scope.customer.update.idLocationFk                            = $scope.customer.select.main.address.selected.idLocationFk==undefined?obj.idLocationFk:$scope.customer.select.main.address.selected.idLocationFk;
                           $scope.customer.update.addressLat                              = obj.addressLat;
