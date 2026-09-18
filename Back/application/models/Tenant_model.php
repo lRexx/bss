@@ -204,9 +204,12 @@ class Tenant_model extends CI_Model
         $this->db->join('tb_typetenant', 'tb_typetenant.idTypeTenant = t1.idTypeTenantKf', 'left');
         $this->db->join('tb_type_attendant', 'tb_type_attendant.idTyepeAttendant = t1.idTyepeAttendantKf', 'left');
         $this->db->join('tb_status', 'tb_status.idStatusTenant = t1.idStatusKf', 'left');
+        $start = microtime(true);
         $query = $this->db->where($extrawhere)->get();
-
-
+        $end = microtime(true);
+        log_message('debug', 'Query time: ' . round(($end - $start) * 1000, 2) . 'ms');
+        log_message('debug', 'Num rows: ' . $query->num_rows());
+        log_message('debug', 'SQL: ' . $this->db->last_query());
 
     if($query->num_rows() > 0){
         $tenant = $query->result_array();
