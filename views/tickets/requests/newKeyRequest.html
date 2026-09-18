@@ -385,14 +385,14 @@
 											</div>
 										</div>
 									</div>
-									<button ng-if="ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf=='2'" style="margin-top:2em;" data-toggle="tooltip" data-placement="top" title="Asignar usuario"  ng-click="mainSwitchFn('list_depto_tenant', null)" type="button"
+									<button ng-if="ticket.optionTypeSelected.name=='department' && ticket.deviceSelected && ticket.idDeviceTypeKf!=undefined && ticket.idDeviceTypeKf=='2'" style="margin-top:2em;" data-toggle="tooltip" data-placement="top" title="Asignar usuario"  ng-click="mainSwitchFn('list_depto_tenant', null)" type="button"
 										class="btn btn-labeled btn-sm " ng-class="{'btn-info':selectedUser==undefined, 'btn-warning':selectedUser!=undefined}">
 										<span ng-if="selectedUser==undefined" class="btn-label"><i class="fas fa-user-tag"></i> </span>
 										<span ng-if="selectedUser!=undefined" class="btn-label"><i class="fas fa-check-square"></i> </span>
 										<span ng-if="selectedUser!=undefined">Usuario seleccionado</span>
 										<span ng-if="selectedUser==undefined">Seleccionar Usuario</span>
 									</button>
-									<button ng-if="ticket.radioButtonBuilding=='1'" style="margin-top:2em;" data-toggle="tooltip" data-placement="top" title="Asignar Encargado"  ng-click="mainSwitchFn('list_attendants', null)" type="button"
+									<button ng-if="ticket.optionTypeSelected.name=='building' &&ticket.radioButtonBuilding=='1'" style="margin-top:2em;" data-toggle="tooltip" data-placement="top" title="Asignar Encargado"  ng-click="mainSwitchFn('list_attendants', null)" type="button"
 										class="btn btn-labeled btn-sm " ng-class="{'btn-info':selectedUser==undefined, 'btn-warning':selectedUser!=undefined}">
 										<span ng-if="selectedUser==undefined" class="btn-label"><i class="fas fa-user-tag"></i> </span>
 										<span ng-if="selectedUser!=undefined" class="btn-label"><i class="fas fa-check-square"></i> </span>
