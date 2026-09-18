@@ -773,7 +773,7 @@ tickets.controller('TicketsCtrl', function($scope, $compile, $location, $interva
                             $timeout(function() {
                                 $scope.select.products.selected={'idStatusFk':$scope.rsKeyProductsData[0].idStatusFk,'contractStatus':$scope.rsKeyProductsData[0].contractStatus,'serviceName':$scope.rsKeyProductsData[0].serviceName,'idProduct':$scope.rsKeyProductsData[0].idProduct,'descriptionProduct':$scope.rsKeyProductsData[0].descriptionProduct,'codigoFabric':$scope.rsKeyProductsData[0].codigoFabric,'brand':$scope.rsKeyProductsData[0].brand,'model':$scope.rsKeyProductsData[0].model,'idProductClassificationFk':$scope.rsKeyProductsData[0].idProductClassificationFk,'isNumberSerieFabric':$scope.rsKeyProductsData[0].isNumberSerieFabric,'isNumberSerieInternal':$scope.rsKeyProductsData[0].isNumberSerieInternal,'isDateExpiration':$scope.rsKeyProductsData[0].isDateExpiration,'isControlSchedule':$scope.rsKeyProductsData[0].isControlSchedule,'isRequestNumber':$scope.rsKeyProductsData[0].isRequestNumber, 'isLicenseDevice':$scope.rsKeyProductsData[0].isLicenseDevice,'priceFabric':$scope.rsKeyProductsData[0].priceFabric,'classification':$scope.rsKeyProductsData[0].classification};
                                 console.log($scope.select.products.selected);
-                            }, 1700);
+                            }, 300);
                         }
 
                     }else if (response.status==404){
