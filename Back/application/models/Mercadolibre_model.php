@@ -3,7 +3,6 @@
 
 class Mercadolibre_model extends CI_Model
 {
-
 	public function __construct()
 	{
 		parent::__construct();
@@ -662,7 +661,13 @@ class Mercadolibre_model extends CI_Model
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Se ha generado el siguiente link de MercadoPago para pagar el Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b></td>';
 						$body .= '</tr>';
 						$body .= '<tr width="100%" bgcolor="#ffffff">';
-						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede efectuar el pago haciendo click en <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="' . $link_mp . '" target="_blank" style="text-decoration: none; color: #ffffff;">PAGAR</a></span> </td>';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:1%;">Puede efectuar el pago haciendo click en el siguiente boton:</td>';
+						$body .= '</tr>';
+						$body .= '<tr width="100%" bgcolor="#ffffff">';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;"><a href="' . $link_mp . '" target="_blank" style="background-color:#FFE600; color:#2D3277; border: 2px solid #b5a754; !important; display:inline-block; height:48px; line-height:48px; border-radius:10px; padding:10px 10px; font-family: sans-serif; font-weight:bold; text-decoration:none; text-align:center;"><img src="' . MP_LOGO_BASE64 . '" alt="Mercado Pago" style="height:32px; vertical-align:middle;">&nbsp;mercado pago</a></td>';
+						$body .= '</tr>';
+						$body .= '<tr width="100%" bgcolor="#ffffff">';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:1%;">Ingresando en <a href="https://'.BSS_HOST.'/login" target="_blank" title="ingreso" style="text-decoration: none; color: #fff;">mi.bss.com.ar</a> en MONITOR DE PEDIDOS, podés visualisar el estado de tu pedido en tiempo real</td>';
 						$body .= '</tr>';
 						$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
 						if ($rsMail == "Enviado") {
@@ -711,7 +716,10 @@ class Mercadolibre_model extends CI_Model
 						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;">Se ha generado el siguiente link de MercadoPago para pagar el Pedido N°: <b>' . $lastTicketUpdatedQuery['codTicket'] . '</b></td>';
 						$body .= '</tr>';
 						$body .= '<tr width="100%" bgcolor="#ffffff">';
-						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;">Puede efectuar el pago haciendo click en <span style="background-color:#5cb85c;border-color: #4cae4c !important;color: #fff !important; border-radius: 10px; padding: 3px 7px;"><a href="' . $link_mp . '" target="_blank" style="text-decoration: none; color: #ffffff;">PAGAR</a></span> </td>';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:1%;">Puede efectuar el pago haciendo click en el siguiente boton:</td>';
+						$body .= '</tr>';
+						$body .= '<tr width="100%" bgcolor="#ffffff">';
+						$body .= '<td width="100%" align="left" valign="middle" style="font-size:1vw; font-family: sans-serif; padding-left:4%;padding-right:4%;padding-bottom:4%;"><a href="' . $link_mp . '" target="_blank" style="background-color:#FFE600; color:#2D3277; border: 2px solid #b5a754; !important; display:inline-block; height:48px; line-height:48px; border-radius:10px; padding:10px 10px; font-family: sans-serif; font-weight:bold; text-decoration:none; text-align:center;"><img src="' . MP_LOGO_BASE64 . '" alt="Mercado Pago" style="height:32px; vertical-align:middle;">&nbsp;mercado pago</a></td>';
 						$body .= '</tr>';
 						$rsMail = $this->mail_model->sendMail($title, $to, $body, $subject);
 						if ($rsMail == "Enviado") {
