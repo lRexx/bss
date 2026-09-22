@@ -104,14 +104,13 @@
                             keys.new.products.selected!=undefined && keys.new.products.selected!=''  && fNewKey.products.$valid,
                             'has-error':  
                             (keys.new.products.selected==undefined || keys.new.products.selected=='') && fNewKey.products.$touched
-                        }">
+                        }" style="z-index: 2100 !important;">
                         <label style="padding-left: 15px;">Dispositivos de Apertura</label>  
                         <div class="col-xs-12 selectContainer">
                             <div class="input-group">
                             <span class="input-group-addon"><i class="fas fa-key"></i></span> 
                             <ui-select name="products"  
                                         ng-required="true"
-                                        style="z-index:2100;"
                                         ng-model="keys.new.products.selected" autofocus>
                                 <ui-select-match  allow-clear="true" placeholder="Seleccione una opci&#243n">{{$select.selected.descriptionProduct}}</ui-select-match>
                                     <ui-select-choices repeat="item in rsKeyProductsData | filter: {idProductClassificationFk:19}| filter: $select.search">
