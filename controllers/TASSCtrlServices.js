@@ -3196,7 +3196,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.addNewService.licenses                 = $scope.list_user_licence;
                                         $scope.addNewService.countNewLicense          = $scope.service.numbOfLicenceSet;
                                         $scope.addNewService.idApplicationFk          = $scope.service.idApplicationFk;
-                                        $scope.addNewService.passwordApp              = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
+                                        $scope.addNewService.passwordApp              = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="1"?$scope.service.passwordApp:null;
                                         $scope.addNewService.adicional={};
                                         blockUI.message('Guardando Servicio '+service.serviceName);
                                         }, 1500);
@@ -3773,7 +3773,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                             $scope.list_user_licence_idDepartmentList.Depto       = service.tb_user_license_array[key].Depto;
                                             $scope.list_user_licence_idDepartmentList.idBuilding  = service.tb_user_license_array[key].idBuilding;
                                             $scope.list_user_licence_idDepartmentList.Building    = service.tb_user_license_array[key].Building;
-                                            $scope.list_user_licence_tmp.push({'idDetinationOfLicenseFk':service.tb_user_license_array[key].idDetinationOfLicenseFk, 'idUserFk':service.        tb_user_license_array[key].idUserFk,'fullName':service.tb_user_license_array[key].fullName, 'idDepartmentFk':service.tb_user_license_array[key].        idDepartmentFk,'idDepartmentList': $scope.list_user_licence_idDepartmentList, 'idParticularAddressFk':service.tb_user_license_array[key].       idParticularAddressFk, 'email':service.tb_user_license_array[key].email, 'phone':service.tb_user_license_array[key].phone, 'keyword':service.   tb_user_license_array[key].keyword, 'idOS':service.tb_user_license_array[key].idOS, 'profileUser':service.tb_user_license_array[key].profileUser,        'userNumbPasswd':service.tb_user_license_array[key].numberUserPassword, 'nameProfile':service.tb_user_license_array[key].nameProfile});
+                                            $scope.list_user_licence_tmp.push({'idDetinationOfLicenseFk':service.tb_user_license_array[key].idDetinationOfLicenseFk, 'idUserFk':service.tb_user_license_array[key].idUserFk,'fullName':service.tb_user_license_array[key].fullName, 'idDepartmentFk':service.tb_user_license_array[key].idDepartmentFk,'idDepartmentList': $scope.list_user_licence_idDepartmentList, 'idParticularAddressFk':service.tb_user_license_array[key].idParticularAddressFk, 'email':service.tb_user_license_array[key].email, 'phone':service.tb_user_license_array[key].phone, 'keyword':service.tb_user_license_array[key].keyword, 'idOS':service.tb_user_license_array[key].idOS, 'profileUser':service.tb_user_license_array[key].profileUser,'userNumbPasswd':service.tb_user_license_array[key].numberUserPassword, 'nameProfile':service.tb_user_license_array[key].nameProfile});
                                             //console.log($scope.list_user_licence_tmp);
                                             $scope.processUserLicenceFn($scope.list_user_licence_tmp[key], 'edit');
                                         }
@@ -3990,7 +3990,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         service.sucribeNumber       = service.sucribeNumber   
                                         service.idApplicationFk     = $scope.service.idApplicationFk
                                         service.idCompanyMonitorFK  = $scope.service.idCompanyMonitorFK;
-                                        service.passwordApp         = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
+                                        service.passwordApp         = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="1"?$scope.service.passwordApp:null;
                                         service.adicional           = {};
                                         var rawDate                 = moment(service.dateUp).toDate();
                                         service.dateUp              = moment(rawDate).format('YYYY-MM-DD');
