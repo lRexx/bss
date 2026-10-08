@@ -3749,7 +3749,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.update.MntType             = service.idTypeMaintenanceFk_array[0].typeMaintenance;
                                         $scope.service.idApplicationFk            = service.idApplicationFk_array[0].idApplication;
                                         $scope.service.idCompanyMonitorFK         = service.idCompanyMonitorFK_array[0].idMonitorCompany;
-                                        $scope.service.passwordApp                = service.sucribeNumber;
+                                        $scope.service.passwordApp                = service.passwordApp;
                                         $scope.rsCustomerContractListData         = $scope.rsContractsListByCustomerIdData;
                                         $scope.rsContractItemListData             = $scope.getSelectedServiceByIdContractFn($scope.service.update.idContratoFk, $scope.service.update.      idClientTypeServices);
                                         $scope.service.idClientTypeFk             = $scope.customerFound.idClientTypeFk;
@@ -3987,7 +3987,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         service.name                = service.name;   
                                         service.countNewLicense     = $scope.service.numbOfLicenceSet;
                                         service.observation         = service.observation==null || service.observation==undefined?null:service.observation;
-                                        service.sucribeNumber       = $scope.service.passwordApp   
+                                        service.sucribeNumber       = service.sucribeNumber   
                                         service.idApplicationFk     = $scope.service.idApplicationFk
                                         service.idCompanyMonitorFK  = $scope.service.idCompanyMonitorFK;
                                         service.passwordApp         = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
