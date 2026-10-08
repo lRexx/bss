@@ -3998,7 +3998,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                     }, 1500);
                                     $timeout(function() {
                                         console.log(service);
-                                        //$scope.updateCustomerServiceFn(service);
+                                        $scope.updateCustomerServiceFn(service);
                                     }, 1500);
                                     $('#updateAppMonitorService').modal('hide');
                                     blockUI.stop();
