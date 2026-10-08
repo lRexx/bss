@@ -3749,7 +3749,7 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                         $scope.service.update.MntType             = service.idTypeMaintenanceFk_array[0].typeMaintenance;
                                         $scope.service.idApplicationFk            = service.idApplicationFk_array[0].idApplication;
                                         $scope.service.idCompanyMonitorFK         = service.idCompanyMonitorFK_array[0].idMonitorCompany;
-                                        $scope.service.passwordApp                = service.passwordApp;
+                                        $scope.service.passwordApp                = service.passwdApp;
                                         $scope.rsCustomerContractListData         = $scope.rsContractsListByCustomerIdData;
                                         $scope.rsContractItemListData             = $scope.getSelectedServiceByIdContractFn($scope.service.update.idContratoFk, $scope.service.update.      idClientTypeServices);
                                         $scope.service.idClientTypeFk             = $scope.customerFound.idClientTypeFk;
