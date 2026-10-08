@@ -125,9 +125,9 @@
 						<!-- APP_MONITOR: empresa monitoreo -->
 						<div class="form-group col-md-6 n-padding-l n-padding-r" ng-class="
 									{	'has-success':
-										service.update.idCompanyMonitorFK!='' && fCustomerUpdateService.service_monitorCompany.$valid,
+										service.idCompanyMonitorFK!='' && fCustomerUpdateService.service_monitorCompany.$valid,
 									 	'has-error':
-										(service.update.idCompanyMonitorFK=='' || service.update.idCompanyMonitorFK==undefined) && fCustomerUpdateService.service_monitorCompany.$touched,
+										(service.idCompanyMonitorFK=='' || service.idCompanyMonitorFK==undefined) && fCustomerUpdateService.service_monitorCompany.$touched,
 									}">
 						  <label style="padding-left: 15px;">Empresa de monitoreo</label>
 							  <div class="col-xs-12">
@@ -135,7 +135,7 @@
 									<span class="input-group-addon"><i class="fas fa-broadcast-tower"></i></span>
 									<select name="service_monitorCompany"
 									class="form-control"
-									ng-options="item.idMonitorCompany as item.monitorCompany for item in rsMonitorCompanyListData" ng-model="service.update.idCompanyMonitorFK"
+									ng-options="item.idMonitorCompany as item.monitorCompany for item in rsMonitorCompanyListData" ng-model="service.idCompanyMonitorFK"
 									required="true" autofocus >
 									    <option class="text-uppercase" value="">Selecciona una empresa</option>
 								    </select>
