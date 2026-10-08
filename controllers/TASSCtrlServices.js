@@ -3981,18 +3981,23 @@ services.controller('ServicesCtrl', function($scope, $location, $q, DateService,
                                 break;
                                 case "6": //UPDATE APP MONITOR
                                     $timeout(function() {
-                                        service.licenses          = [];
-                                        service.licenses          = $scope.list_user_licence;
-                                        service.countNewLicense   = $scope.service.numbOfLicenceSet;
-                                        service.passwordApp       = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
-                                        service.adicional         = {};
-                                        var rawDate               = moment(service.dateUp).toDate();
-                                        service.dateUp            = moment(rawDate).format('YYYY-MM-DD');
+                                        service.licenses            = [];
+                                        service.licenses            = $scope.list_user_licence;
+                                        service.name                = service.name;   
+                                        service.countNewLicense     = $scope.service.numbOfLicenceSet;
+                                        service.observation         = service.observation==null || service.observation==undefined?null:service.observation;
+                                        service.sucribeNumber       = service.sucribeNumber;    
+                                        service.idApplicationFk     = service.idApplicationFk;
+                                        service.idCompanyMonitorFK  = service.idCompanyMonitorFK;
+                                        service.passwordApp         = $scope.service.passwordApp!=undefined && $scope.service.passwordApp!=null && $scope.service.idApplicationFk=="2"?$scope.service.passwordApp:null;
+                                        service.adicional           = {};
+                                        var rawDate                 = moment(service.dateUp).toDate();
+                                        service.dateUp              = moment(rawDate).format('YYYY-MM-DD');
                                         blockUI.message('Guardando Servicio '+service.clientTypeServices);
                                     }, 1500);
                                     $timeout(function() {
                                         console.log(service);
-                                        $scope.updateCustomerServiceFn(service);
+                                        //$scope.updateCustomerServiceFn(service);
                                     }, 1500);
                                     $('#updateAppMonitorService').modal('hide');
                                     blockUI.stop();
